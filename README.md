@@ -160,6 +160,79 @@ responsibilities.
   unsafe `implement` Review/commit ordering, Codex compatibility gaps, and
   incomplete evidence/lifecycle parity.
 
+### How to interpret “currently best”
+
+“Best” has an explicit boundary here: it is the risk-adjusted choice among
+Schemes A/B/C for the pinned versions, current Codex environment, and governance
+constraints evaluated in this project. It is not an absolute ranking of every
+industry workflow, future release, or development scenario. Scheme A replaces
+Superpowers completely, Scheme B retains only a minimal subset, and Scheme C
+keeps the existing combination. The primary comparison is the cross-project
+governance lifecycle, not how quickly one skill can be learned or how deeply it
+understands a particular technology stack.
+
+| Evaluation scale | Current combination | `mattpocock/skills` | Current judgment |
+|---|---|---|---|
+| Quick start for one low-risk project | More concepts and gates create a higher initial learning cost | Individual skills are concise, direct, and easier to adopt | Candidate is lighter |
+| Long-term maintenance across projects, services, and stacks | Contract, risk, evidence, Review, and completion rules are centralized; each project supplies its native build and test commands | Raw adoption still needs project-specific authorization, evidence, branch, and lifecycle adapters | Current combination is more stable |
+| Auditability and reproducibility | OpenSpec revisions, Handoff identity, evidence freshness, and final-completion ownership can be checked consistently | TDD, debugging, and Review methods are strong, but no equivalent whole lifecycle contract exists | Current combination is more complete |
+| Stack-specific depth | Does not replace a project's framework, deployment, security, or data toolchain | Also operates at the method layer and does not supply project-specific expertise automatically | Native project tooling decides |
+| Maintenance at scale | More components, but one centralized upgrade can serve many projects and amortize the fixed cost | A single skill is easy to maintain; making it own the full lifecycle can create adapter copies and project drift | Use candidates for isolated capabilities; keep current governance for the combination |
+
+The precise conclusion is therefore: **the current combination is the default
+best choice among the evaluated schemes for cross-project, cross-service, and
+cross-stack engineering governance; `mattpocock/skills` is easier to learn for
+a single low-risk project or isolated capability.** It remains a candidate
+source for TDD, debugging, dual-axis Review, domain clarification, and vertical
+slicing. Adopt or replace capabilities only when a measured gap and complete
+parity evidence justify a new Self-Evolution change.
+
+### Keeping third-party dependencies current
+
+Scheme C does not promise that every dependency is silently upgraded to the
+latest release. Blind upstream tracking would break reproducibility and could
+change triggers, authority, or completion rules without Review. The guarantee
+to pursue is **traceable provenance, detectable staleness, verified upgrades,
+and recoverable rollback**.
+
+The version ledger must record the **tested compatibility baseline, effective
+local version, latest observed upstream version, and version currently
+available through the installation channel** separately. These values can
+differ: a marketplace mirror can lag its source repository, and updating the
+Codex CLI does not update an independent Git clone, symlinked skill, or
+downloaded skill.
+
+| Installation mode | Actual update semantics | Required action |
+|---|---|---|
+| Project-maintained source → runtime copy | The Git repository is authoritative; the runtime copy does not follow it automatically | Synchronize and verify parity with `references/sync-checklist.md` |
+| Git clone + skill symlink | The symlink exposes local checkout changes only; it does not fetch official releases | Compare the upstream SHA explicitly and perform a controlled update after reconciling local commits |
+| Codex marketplace plugin | The plugin manager records an installed version; an upstream release does not by itself prove the local installation changed | Verify with `codex plugin list --json`, refresh through the supported marketplace flow, and validate in a new session |
+| Skill downloaded by `skill-installer` | Installation is a snapshot; the installer stops when the destination already exists and is not an in-place updater | Record the source ref/SHA, back up, replace or reinstall deliberately, and revalidate |
+
+A controlled dependency upgrade closes this loop:
+
+1. Record the installation mode, four version values, upstream source, symlink
+   target, and local patches.
+2. Detect upstream releases read-only and review release notes plus the actual
+   diff. Detection is not automatic approval.
+3. Create a temporary backup and reconcile local patches in an isolated copy or
+   branch.
+4. Run upstream tests plus the Router and Companion validators, unit suites,
+   required-skill inventory/discovery checks, and real-behavior forward
+   scenarios. Existing validator PASS alone does not prove third-party
+   compatibility.
+5. Synchronize to runtime only after Review PASS; start a new session and verify
+   discovery paths and the effective version.
+6. Record the new version, evidence, and rollback point. Restore the previous
+   version and stop promotion on any failure.
+
+An upgrade that changes trigger scope, OpenSpec or Superpowers boundaries,
+evidence gates, or completion rules is Major Self-Evolution and requires an
+approved OpenSpec change first. This repository does not currently claim an
+automatic dependency-freshness checker; until one is implemented, maintenance
+must run these checks explicitly and must not equate “discoverable skill” with
+“latest official version.”
+
 See the [full evaluation](docs/design/2026-07-30-workflow-skill-optimization-evaluation.md)
 and [independent Review](docs/design/reviews/2026-07-30-workflow-skill-optimization-plan-c-archive-review.md).
 Re-evaluation requires the evidence listed in section 14 of the evaluation and,
