@@ -134,6 +134,27 @@ verification 和 Review PASS 前阻断最终完成。
 | 高成本 bug 经验只留在聊天中 | Candidate Card + Project Learning Closeout + 正确持久化产物 + 回归约束。 |
 | 外部 PASS 被误当最终完成 | Codex 保持 control plane；学习、最终验证、最终 Review、归档与同步门继续生效。 |
 
+## 工作流优化决策（2026-07-30）
+
+本轮评估最终选择 **方案 C：继续使用现有组合**。OpenSpec 保持唯一权威变更
+合同，Superpowers 继续提供批准后的工程实施纪律，
+`codex-brief-antigravity-review` 继续承担 standalone 与 Handoff-backed
+Review 职责。
+
+- 未删除任何 Superpowers Skill 或运行时副本。
+- 未安装任何 `mattpocock/skills`；最终依赖闭包为空。
+- 没有任何全局 Skill 满足永久删除条件。
+- `mattpocock/skills` 中的 `tdd`、`diagnosing-bugs`、双轴
+  `code-review`、领域 grilling 与 tracer-bullet Ticket 切分仍作为未来候选。
+- 方案 A/B 仍受阻于 worktree 与 branch-finish 等价能力缺失、
+  `implement` 的 Review/commit 顺序风险、Codex 兼容缺口，以及证据与生命周期
+  门禁尚未达到等价。
+
+详见[完整评估](docs/design/2026-07-30-workflow-skill-optimization-evaluation.md)
+与[独立 Review](docs/design/reviews/2026-07-30-workflow-skill-optimization-plan-c-archive-review.md)。
+重新评估必须满足评估文档第 14 节的证据条件；实施 A/B 还需单独批准 Major
+Self-Evolution change。
+
 ## 请求模式
 
 | 模式 | 适用场景 | 是否改文件 |
@@ -292,6 +313,8 @@ Use Direct Change mode. Confirm this restores intended behavior, make the smalle
 
 ## 维护说明
 
+- 每次发布仓库更新时同步更新 `README.md` 与 `README_cn.md`，确保用户可见
+  行为、决策、验证结果与兼容性说明保持一致。
 - 不得削弱审批门禁、证据门禁或完成声明规则。
 - 不得让 OpenSpec `tasks.md` 替代 Superpowers implementation plan。
 - 不得让 `CONTEXT.md` 替代 OpenSpec proposal 产物。

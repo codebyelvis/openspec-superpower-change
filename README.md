@@ -141,6 +141,30 @@ Review PASS.
 | A hard-won bug lesson remains only in chat | Candidate Card + Project Learning Closeout + correct durable artifact + regression enforcement. |
 | An external PASS is mistaken for completion | Codex remains the control plane; learning, final verification, final Review, archive, and sync gates still apply. |
 
+## Workflow Optimization Decision (2026-07-30)
+
+The evaluated workflow remains on **Scheme C: keep the existing combination**.
+OpenSpec stays the single authoritative change contract, Superpowers continues
+to provide post-approval engineering discipline, and
+`codex-brief-antigravity-review` keeps its standalone and Handoff-backed Review
+responsibilities.
+
+- No Superpowers skill or runtime copy was removed.
+- No `mattpocock/skills` package was installed; the selected dependency closure
+  is empty.
+- No global skill qualified for permanent deletion.
+- Useful ideas from `mattpocock/skills` remain future candidates, including
+  `tdd`, `diagnosing-bugs`, dual-axis `code-review`, domain grilling, and
+  tracer-bullet ticket slicing.
+- Schemes A/B remain blocked by missing worktree and branch-finish equivalents,
+  unsafe `implement` Review/commit ordering, Codex compatibility gaps, and
+  incomplete evidence/lifecycle parity.
+
+See the [full evaluation](docs/design/2026-07-30-workflow-skill-optimization-evaluation.md)
+and [independent Review](docs/design/reviews/2026-07-30-workflow-skill-optimization-plan-c-archive-review.md).
+Re-evaluation requires the evidence listed in section 14 of the evaluation and,
+for an A/B implementation, a separately approved Major Self-Evolution change.
+
 ## Request Modes
 
 | Mode | Use When | File Changes? |
@@ -304,6 +328,9 @@ Use Direct Change mode. Confirm this restores intended behavior, make the smalle
 
 ## Maintenance Notes
 
+- Update both `README.md` and `README_cn.md` for every published repository
+  change, keeping user-visible behavior, decisions, validation, and
+  compatibility notes aligned.
 - Do not weaken approval gates, evidence gates, or completion-claim rules.
 - Do not let OpenSpec `tasks.md` replace a Superpowers implementation plan.
 - Do not let `CONTEXT.md` replace OpenSpec proposal artifacts.
