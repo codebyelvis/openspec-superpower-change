@@ -1,9 +1,12 @@
-- [CCG-001] Codex is the primary orchestrator and the sole owner of routing,
-  approval, canonical state transitions, evidence acceptance, final verification,
-  and final completion.
-- [CCG-002] Antigravity CLI and Grok CLI act only in explicitly assigned
-  executor or reviewer roles; their results remain advisory until Codex audits
-  the evidence and records the authoritative decision.
+- [CCG-001] Canonical authority belongs only to the bound instance whose product
+  is Codex and whose governing assignment binds role `control-plane`, profile
+  `control-plane-high`, instance identity, and contract. That instance is the sole
+  owner of routing, approval, canonical state transitions, evidence acceptance,
+  final verification, and final completion; no product name alone grants authority.
+- [CCG-002] Under schema 6, Codex, Pi, Antigravity CLI, and Grok CLI are equally
+  eligible for explicitly assigned executor or independent-reviewer roles. Their
+  outputs remain bounded evidence under the assigned role, profile, instance, and
+  contract and cannot self-authorize a canonical transition or final completion.
 - [CCG-003] Standard and strict external work separates the executor from the
   independent reviewer; an agent cannot independently review its own work.
 - [CCG-004] Governed work follows Preflight Review -> Implement -> Verify ->
@@ -21,9 +24,11 @@
 - [CCG-009] Capability profiles are stable authority ceilings, not concrete
   model names. Low/Medium ambiguity, security, scope, risk, production, or
   approval changes return `BLOCKED` to the control plane.
-- [CCG-010] Schema-5 evidence separates product, contract-local instance, role,
-  and profile. Standard/strict executor and reviewer instances differ even when
-  their product is the same; active schema-4 contracts drain under schema 4.
+- [CCG-010] New governed external Handoffs use schema 6 to bind Review purpose,
+  product, contract-local instance, role, profile, independence requirement, and
+  result authority. Active schema-4 or schema-5 contracts must drain under their
+  frozen validators before deployment; older complete contracts/evidence remain
+  immutable history and never authorize a schema-6 transition.
 - [CCG-011] Tool/platform, scope/workflow, and business/production authorization
   are independent layers. Platform permission never substitutes for a higher
   gate; only an unchanged scope-bound Confirmation Lease is reusable.
@@ -33,12 +38,24 @@
 - [CCG-013] Standard/strict High Review inspects actual files and the complete
   diff, traces copy/transform/production wiring and claims to mechanisms, reruns
   critical evidence, and adds an independent adversarial or business-chain probe.
-- [CCG-014] Governed state-changing work enters
-  `openspec-superpower-change` phase classification before broad Superpowers
-  metadata selects a sub-skill. Generic create/modify wording alone does not
-  activate a sub-skill; once selected, that sub-skill's full rules remain in force.
+- [CCG-014] Governed state-changing, Git-mutating, or whole-task-completion
+  work enters `openspec-superpower-change` Gate 0 through exactly one applicable
+  Router before broad Superpowers metadata or any user-explicit
+  `$superpowers:*` method proceeds. Generic create/modify wording alone does not
+  activate a sub-skill; a user-explicit method request grants no independent
+  workflow, business, Git, or completion authority; inability to load exactly
+  one applicable Router is `BLOCKED`; once selected, each sub-skill's full rules
+  remain in force.
 - [CCG-015] Governed work conditionally resolves affected project language
   before material-choice routing. Corrections and Review findings enter Project
   Learning Closeout; mandatory or explicitly requested project-local promotion
   blocks final completion until durable non-sensitive knowledge and mechanically
   enforceable regression evidence pass verification and Review.
+- [CCG-016] Every Review request, recommendation, prompt, or governed assignment
+  resolves a non-blank Review purpose and one concrete reviewer product, role,
+  capability profile, instance-independence requirement, and result authority.
+  Codex, Pi, Antigravity CLI, and Grok CLI are equally eligible as assigned
+  executors or independent reviewers; product identity never grants control-plane
+  authority. A missing or blank purpose, unresolved “other agent” destination,
+  product substitution, self-review, or missing required independent instance is
+  fail-closed.

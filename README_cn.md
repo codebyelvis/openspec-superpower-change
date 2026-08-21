@@ -14,14 +14,20 @@
 - 将已批准工作路由到 Superpowers 的计划、TDD、调试和验证流程。
 - 要求在推进或声明完成前输出 Step Evidence Gate 证据。
 - 实施前要求对当前 revision 的 Plan/Brief 执行 Preflight Review。
-- 外部协作使用 schema 5 与 schema 2 证据，分别绑定 Agent 产品、实例、
-  角色、能力 profile、决策来源和 Confirmation Lease。
-- 通过稳定 High/Medium/Low profile 路由能力，不硬编码具体模型名；绑定的
-  Codex control-plane 实例保持唯一决策权威。
+- 当前外部协作使用 schema 6 与 schema 2 证据，绑定完整且不可变的 Reviewer
+  Assignment；冻结的 schema 4/5 仅可做只读 legacy 审计，不能授权当前工作。
+- Codex、Pi、Antigravity CLI 与 Grok CLI 在被指派的 executor/reviewer 角色上
+  资格同等。产品名本身不授予权限；只有绑定的 Codex `control-plane` /
+  `control-plane-high` 实例及合同拥有路由、证据接受、canonical state、归档与
+  完成决策权。
+- 每次 Review 推荐或请求都必须说明 purpose、具体产品、角色、能力 profile、
+  独立性与结果权限。
 - 区分平台权限、工作流范围批准与业务/生产批准；High Review 检查真实 diff、
   wiring、claim-to-mechanism 与独立探针。
-- 提供 allowlist 驱动的 Codex/Antigravity/Grok 运行时同步、版本化 managed
-  governance block 与敏感类别拒绝规则。
+- 提供 allowlist 驱动的 Codex/Pi/Antigravity/Grok 运行时同步、版本化 managed
+  governance block、逐目标恢复、四目标完成门与敏感类别拒绝。Pi 使用
+  `${PI_CODING_AGENT_DIR}/skills`，managed block 位于
+  `${PI_CODING_AGENT_DIR}/APPEND_SYSTEM.md`。
 - 通过条件式 Domain Context Check，让语义清晰的任务保持轻量，只在领域语言或
   边界仍不清楚时进入 `grill-with-docs` 或便携 fallback。
 - 在最终完成前，把高成本纠正与 Review finding 晋升为可发现的项目知识和可执行
@@ -93,6 +99,13 @@ profile -> 被选中 Superpowers 的完整规则 -> 批准或执行 -> Project L
 Closeout -> 最终验证/Review -> 归档 -> 经授权发布 -> 会话蒸馏
 ```
 
+对受治理的状态变更、Git mutation 或整任务完成判定，Router 选择零个或多个
+Superpowers 方法；用户无需逐一显式点名。显式点名方法不授予业务、Git、工作流
+或完成权限，也不能绕过 Gate 0。Codex 上的 `using-superpowers` 仅允许显式调用，
+Router 所需子技能在原生嵌套加载获得证明前仍保留 implicit matching。若没有受支持
+的 Skill-load 路径/hash trace，实际 prompt 是否加载必须记为 `UNKNOWN`，不能从可见
+行为反推。
+
 | 阶段 | 必需行为 |
 |---|---|
 | 入口 / Gate 0 | 读取本地指令和受影响项目知识，分类当前请求，选择证据/能力 profile，并说明是否仍需确认。 |
@@ -100,7 +113,7 @@ Closeout -> 最终验证/Review -> 归档 -> 经授权发布 -> 会话蒸馏
 | Proposal-only | 先检查仓库事实与既有 spec。只允许可逆、显式的有界假设；严格验证 proposal/design/spec/tasks，并停下等待确切 change-id 批准。不能仅因请求含“创建/修改”就加载 planning、TDD 或 implementation Review。 |
 | 实质选择 | 安全、兼容、破坏性迁移、数据生命周期、范围、生产授权与可测试验收仍由用户决定。用户把选择委托给 Agent，也仍需 brainstorming 及其完整 HARD-GATE。 |
 | 已批准实施 | 刷新 Gate 0，创建可执行计划，对当前 revision 执行 Preflight Review，再对完整业务 slice 使用 TDD/调试与 Step Evidence Gate。任何 finding 都返回修复 -> 验证 -> Review。 |
-| 外部 Handoff | companion 执行完整 schema-5 Handoff 生命周期。executor/reviewer 证据在绑定 Codex control plane 校验和晋升前都只是输入。 |
+| 外部 Handoff | companion 执行完整的当前 schema-6 Handoff 生命周期。Codex、Pi、Antigravity CLI 与 Grok CLI 都可承担被指派的 executor/reviewer；证据只有经绑定 Codex control plane 接受后才可推进 canonical state。 |
 | Project Learning Closeout | implementation Review PASS 后审计纠正与 finding。达到自动阈值或用户显式要求归档并蒸馏时，必须晋升确认的项目级知识并建立回归约束。 |
 | 最终化 | 学习晋升后才执行 fresh final verification，随后进行最终 diff/范围/敏感数据 Review、任务对账、OpenSpec 归档及归档后严格验证。 |
 | 发布 | Git staging/commit/push 仍需独立授权。最终会话总结必须引用持久化仓库知识，不能成为唯一记录。 |
@@ -127,7 +140,8 @@ verification 和 Review PASS 前阻断最终完成。
 
 | 担忧 | 机制 |
 |---|---|
-| 宽泛 metadata 带来不必要仪式 | 阶段优先规则 `CCG-014` 在任务分类后才选择子技能。 |
+| 宽泛 metadata 带来不必要仪式 | 阶段优先规则 `CCG-014` 让受治理工作先进入唯一 Router；普通问答旁路 Router 与 Codex `using-superpowers` meta-entry。 |
+| 显式点名 Superpowers 方法看似授予权限 | 它只选择工程纪律；工作流、业务、Git 与完成权限仍属于 Router Gate 0，无法加载唯一 Router 时 fail closed。 |
 | 完全关闭 Superpowers 会丢失保护 | 只自适应选择是否激活；一旦选中，子技能完整规则保持不变。 |
 | Agent 偷偷决定认证/兼容行为 | 用户拥有的实质选择仍必须 brainstorming 并获批准。 |
 | `CONTEXT.md` 只是过期本地文件 | 共享权威 context 不得被故意 ignore，并必须进入 changed-file inventory。 |
@@ -309,8 +323,8 @@ Self-Evolution change。
 - `references/superpowers-adapter.md`：OpenSpec-aware Superpowers 产物、权限和 Preflight 映射。
 - `references/self-evolution-rule.md`：修改本 Skill 的规则。
 - `references/sync-checklist.md`：运行时副本与开源副本同步规则。
-- `references/cross-cli-sync.md`：三端 target、managed-rule parity、discovery、
-  rollback 与完成阻断规则。
+- `references/cross-cli-sync.md`：四端 target、managed-rule parity、discovery、
+  逐目标恢复与完成阻断规则。
 
 ## 安装
 
@@ -331,7 +345,8 @@ PYTHONDONTWRITEBYTECODE=1 python3 /path/to/openspec-superpower-change/scripts/va
 PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s /path/to/openspec-superpower-change/tests -v
 ```
 
-对实际 schema 4 外部状态还需验证引用证据：
+当前受治理状态使用 schema 6，并包含不可变 Reviewer Assignment。使用以下
+命令验证其 schema-2 evidence manifest：
 
 ```bash
 PYTHONDONTWRITEBYTECODE=1 python3 /path/to/openspec-superpower-change/scripts/validate_core_gates.py \
@@ -340,12 +355,23 @@ PYTHONDONTWRITEBYTECODE=1 python3 /path/to/openspec-superpower-change/scripts/va
   --artifact-root /project
 ```
 
-每个引用 artifact 都内嵌 schema 1 manifest，绑定 role、result、change、
-batch、attempt 以及来源 canonical revision/SHA-256。引入新证据的 transition
-应先在项目外生成 proposed status，并加
+每个引用 artifact 都内嵌 schema-2 evidence manifest，绑定
+role/result/change/batch/attempt/source fingerprint，以及被分配的 product、
+instance、role 和 capability profile。引入新证据的 transition 应先在项目外
+生成 proposed status，并加
 `--previous-status /project/docs/agent-collab/<change-id>/status.md` 验证；
 `complete` 强制要求该参数。仅在 PASS 后替换唯一 canonical status，项目内
 不得持久化第二个 marker block。
+
+冻结的 schema-4/schema-5 记录只能作为 legacy audit/drain 输入。必须单独
+盘点，不得交给当前 `--status` 校验，也不得迁移成 schema 6：
+
+```bash
+PYTHONDONTWRITEBYTECODE=1 python3 /path/to/openspec-superpower-change/scripts/validate_core_gates.py \
+  /path/to/openspec-superpower-change \
+  --legacy-inventory-root /project \
+  --legacy-inventory-output /private/tmp/legacy-drain.json
+```
 
 `quick_validate.py` 需要 PyYAML；请通过 `PYTHON_BIN` 选择可用解释器。项目 validator 和测试会覆盖无 PyYAML fallback。
 

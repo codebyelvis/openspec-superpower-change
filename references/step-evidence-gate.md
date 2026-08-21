@@ -1,5 +1,11 @@
 # Step Evidence Gate Reference
 
+For schema 6 Review routing, carry all six concepts without abbreviation:
+Review purpose, reviewer product, role, capability, independence, and authority.
+The normative assignment and product/instance boundary live in
+`references/agent-capability-routing.md`; this reference does not create a
+second authority.
+
 Use this reference when the main skill requires the full 12-part output template
 for a high-risk, multi-step, or contract-changing implementation step.
 

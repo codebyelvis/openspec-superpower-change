@@ -1,0 +1,244 @@
+# Change: Add governed Codex Skill updates
+
+## Why
+
+Scheme C keeps the current OpenSpec, Superpowers, and Companion combination, but
+its third-party dependency maintenance is still procedural. The repository can
+describe how to compare upstream versions, validate a candidate, synchronize a
+runtime, and roll back, yet nothing currently performs or schedules that audit.
+
+The gap is visible in the current Superpowers installation: a Skill symlink
+points at a locally patched Git checkout that is ahead of and behind upstream.
+The symlink never fetches upstream, `codex update` does not update this checkout,
+and a blind pull would risk losing the local patch or importing a Major workflow
+change without approval.
+
+The workflow therefore needs detection automation without mutation automation:
+registered dependencies should be checked regularly and on demand, while every
+actual update remains plan-bound, explicitly approved, validated, reviewable,
+and reversible.
+
+## What Changes
+
+- Add an independently maintained Codex Skill named `codex-skill-update` in a
+  new sibling source tree intended to become its own Git repository.
+- Provide narrow natural-language and deterministic `$codex-skill-update`
+  entrypoints for non-mutating `audit`, `plan`, and `verify`. State-changing
+  apply, initial bootstrap, post-success rollback, registry replacement,
+  schedule installation/removal/replacement, and cleanup return to Router-only
+  internal transactions; do not patch the Codex CLI or claim a native
+  `codex skill update` subcommand exists.
+- Make public and scheduled observation/notification behavior a closed set of
+  reviewed adapters with fixed executable/argv schemas. Registry values remain
+  data and cannot inject a command, fetch, marketplace refresh, shell fragment,
+  or notification program.
+- Add a JSON managed-Skill registry and version ledger that keep tested
+  compatibility baseline, effective local version, latest observed upstream
+  version, and installation-channel available version separate. Bind the exact
+  initial registry bytes/schema/revision, state layout, group closure, and
+  adapter identities into bootstrap approval; any later registry replacement
+  is a separately approved transaction and invalidates the prior schedule
+  execution binding.
+- Support explicit installation semantics for source-to-runtime copies,
+  Git-checkout-plus-symlink installs, Codex marketplace plugins, and installer
+  snapshots.
+- Install a Monday 10:00 local one-shot read-only audit for the current macOS
+  user through a separately planned, approved, backed-up, and verified schedule
+  install/remove/replace transaction bound to the exact label, domain, plist,
+  argv/runtime hashes, cadence, effective loaded configuration, controller state
+  root, registry revision, complete dependency-group closure, closed-adapter
+  executable/code/argv-schema identities, exact content-addressed controller
+  payload/runtime lock and active discovery target, pre-state, and expiry. The
+  LaunchAgent runs that exact payload rather than a movable discovery symlink.
+  Job execution checks the complete binding before any package, network, or
+  notification activity. It may write sanitized controller reports but cannot
+  mutate managed Skills, live Git checkouts, plugin marketplaces, or
+  installation snapshots and cannot chain into apply. It emits a minimal local
+  notification only for update/blocker/audit-failure results.
+- Generate immutable, expiring, hash-bound update plans. Require a
+  Router-recorded action/target/scope/expiry-bound approval artifact for exact
+  apply/bootstrap, post-success rollback, registry, schedule, or cleanup
+  mutations. Automatic compensation after an approved mutation starts uses a
+  durable single-use lease created while that approval is current; expiry or
+  revocation stops forward progress but cannot authorize anything beyond exact
+  pre-state restoration.
+- Record revocation in a closed Router-owned append-only authority channel that
+  does not wait for the transaction-long operation lock. A separate short
+  authority lock linearizes revocation with each forward boundary from the
+  final approval check through durable intent, atomic mutation, fsync, and phase
+  result; no ordinary unlocked file check is treated as revocation evidence.
+- Bind every Major update plan and approval to the exact approved OpenSpec
+  change-id through an immutable authorization manifest containing the raw
+  proposal/design/spec/tasks SHA-256 set and a contract-projection digest that
+  normalizes only checklist markers. Preserve the exact approved artifact bytes
+  in no-overwrite content-addressed snapshots before any later progress tick.
+  Persist an fsync-backed transaction journal before the first target mutation,
+  and require restart recovery or an explicit manual-recovery blocker before
+  any later operation.
+- Bind the one-time task 2.1 source worktree creation to the exact repository/
+  common-Git-dir identity, full ref/worktree/local-config prestate digest,
+  no-follow device/inode parent closure, expected-absent branch/ref-log/path/
+  admin closure, base commit/tree, fixed Git/sandbox executables/profile, and
+  all approved untracked material hashes. Hold an exclusive source-bootstrap
+  lock and parent descriptors, atomically reserve the target directory, and use
+  non-forced `worktree add --no-checkout -b` inside a deny-by-default
+  write-allowlisted, hook/filter/helper/prompt/network-disabled sandbox. Then
+  materialize raw base blobs through fixed plumbing. Verify that only the
+  specified ref and worktree mapping appeared; parent/target exchange, wrong
+  base, ambient executable config, existing targets, extra mutation, or
+  interruption residue blocks without reuse, cleanup, or force. If descriptor
+  continuity or sandboxed no-replace creation cannot be proven, do not launch
+  Git.
+- Persist closeout as a content-addressed canonical evidence chain in the
+  current Major authorization workspace: canonical runtime-Review and
+  Project-Learning PASS prerequisites, a child eligibility record validating
+  their exact parent chain, preliminary final verification whose parent is
+  that eligibility record, a child PASS seal proving raw-trace absence and
+  unchanged governed fingerprints, then a separate independent High Review
+  record. Bind a predicted canonical OpenSpec archive projection before PASS;
+  after Review, only that exact main-spec/change-relocation result may occur
+  and it must produce a strict-validated child archive receipt. Missing,
+  linked, non-canonical, overwritten, same-revision, wrong/stale-parent,
+  projection-drift, or post-seal-drift evidence cannot support completion.
+- Stage and validate candidates outside live targets, create rollback material
+  outside Skill discovery roots, and promote supported directory installs only
+  through immutable version directories plus an atomic discovery-symlink
+  switch. Build updater runtime releases from a repository-only allowlist into
+  a canonical content-addressed lock with exact digest-directory,
+  lock-file, and payload path/type/mode/content/link closure; fail closed on
+  tamper or same-digest collision. Create an expected-absent final child only
+  with atomic no-replace, replace an expected-present child only with atomic
+  exchange that preserves/verifies the displaced object, and remove one only
+  through a journaled exchange-and-tombstone protocol that never unlinks an
+  identity-mismatched object; block if the platform lacks a required primitive
+  or any identity drifts. Validate a global managed-root ownership
+  graph so packages cannot overlap, contain, alias, or disguise the updater as
+  another target except through an exact declared projection. Treat shared
+  manager/OS-owned state, temporary, discovery, and release containers as
+  non-package graph anchors and lease only reviewed exact child
+  entries/subtrees to controller roles, transactions, or packages; no package
+  may claim or mutate the whole shared container. Existing plain-copy layouts
+  remain blocked until a separately approved migration. Verify fresh
+  discovery/version evidence and persist a sanitized receipt.
+- Return `BLOCKED`, `UNKNOWN`, `UNMANAGED`, or `BLOCKED_MAJOR` instead of
+  guessing when provenance, version comparison, local divergence, channel
+  mutation, validation, or rollback is not deterministic.
+- Keep audit fields, sorted reason codes, and the single transaction result
+  separate so layout/collision/self-update/schedule/root/recovery blockers and
+  verified compensation cannot be hidden behind one headline status.
+- Seed a `workflow-core` package group for the Router, Companion, the single
+  Superpowers repository/collection that exposes multiple discovered
+  `superpowers:*` entries, and the updater itself. Keep `mattpocock/skills`
+  uninstalled and outside the active dependency closure.
+- Update both repositories' English and Chinese READMEs and add deterministic
+  contract, transaction, rollback, schedule, and forward-test coverage.
+
+## Non-Goals
+
+- Do not silently or automatically apply any Skill update.
+- Do not run `git pull`, `git reset`, `git clean`, discard local commits, or
+  overwrite a dirty/ahead checkout.
+- Do not refresh a plugin marketplace during audit or treat marketplace refresh,
+  Codex CLI update, symlink discovery, or an upstream release as proof that the
+  effective installed Skill changed.
+- Do not force unsafe remove/reinstall behavior for a channel that lacks a
+  deterministic atomic apply and rollback adapter.
+- Version 1 keeps Codex plugin replacement audit/diagnostic-plan-only with no
+  actionable `plan-id` and returns a channel-mutation blocker. Git-backed
+  plan/apply may materialize only the exact
+  temporary or immutable candidate named by that action inside its bound
+  candidate/release roots; it may not initialize or mutate a sibling source,
+  live checkout, or other user repository.
+- Do not install `mattpocock/skills` or alter Scheme C's selected workflow
+  architecture.
+- Do not make the updater a required Router dependency, add it to the Router
+  portable cross-CLI manifest, or modify Antigravity/Grok runtimes.
+- Version 1 does not implement controller self-apply; it reports
+  `BLOCKED_SELF_UPDATE` and a Router-owned fixed-source deployment resume
+  condition.
+- Do not synchronize credentials, tokens, sessions, history, logs, caches,
+  hooks, settings, binaries, private keys, or other runtime-owned sensitive
+  state.
+- Do not infer authorization for `git init` in a sibling/source/live target,
+  staging, commit, branch/tag/remote mutation, reset, clean, push, PR, release,
+  plugin installation, or publication. A fixed, disclosed Git candidate
+  materialization is authorized only by its plan request or exact apply
+  approval and grants none of those repository/publication operations. The
+  sole repository-reference exception is the exact user-approved task 2.1
+  creation of the disclosed local `add-codex-skill-update` branch and worktree;
+  it grants no staging, commit, remote, push, PR, release, or publication.
+
+## Impact
+
+- New capability spec: `skill-update-governance`.
+- New optional sibling source:
+  `/Users/elvis/file/develop/opensource/codex-skill-update`.
+- Candidate current-repository files:
+  - `CONTEXT.md`;
+  - `README.md` and `README_cn.md`;
+  - `tests/test_workflow_rules.py`;
+  - this OpenSpec change and proposal/review evidence;
+  - post-Review archive output
+    `openspec/specs/skill-update-governance/spec.md`.
+- Candidate sibling files: Skill entry/metadata, update references, JSON
+  registry template, standard-library Python controller and validator, schedule
+  template, tests, fixtures, bilingual READMEs, and implementation evidence.
+- Runtime targets:
+  - immutable payload releases under
+    `${CODEX_HOME}/skill-releases/codex-skill-update/<payload-sha256>/payload/`
+    with sibling canonical `runtime-lock.json`;
+  - `${CODEX_HOME}/skills/codex-skill-update` as the atomic discovery symlink;
+  - `${CODEX_HOME}/skill-update`;
+  - `${CODEX_HOME}/openspec-superpower-change/bootstrap-control/codex-skill-update`
+    as the separately isolated stable governance root, with only its missing
+    fixed manager-owned parent anchors created as needed and one immutable
+    child workspace per Major authorization-manifest hash;
+  - one user-level macOS Monday 10:00 audit registration.
+- Compatibility: the current Router/Superpowers/Companion execution path remains
+  unchanged. The updater supports narrowly scoped natural-language audit
+  discovery plus deterministic `$codex-skill-update`; its public path is
+  non-mutating and cannot grant state-change authority.
+- Evidence profile: strict, because the controller manages global executable
+  workflow content, rollback, symlinks, installation channels, and a scheduled
+  job.
+- Isolation note: the current proposal/context/review files are untracked.
+  After exact approval, their content-addressed approved-byte snapshots,
+  manifest, sandbox profile, and current files must be materialized without staging or
+  committing into the isolated worktree from base commit
+  `92fce4cfea0fbaf0dd1dfbcc7cc320a5aafa7958` / tree
+  `9799a5f6add566977e4e997bce57314fc81f28c4`. The exact approval also binds the
+  fresh source-bootstrap prestate digest, fixed Git/sandbox identities, and
+  sandbox profile/write allowlist. From approval through successful task 2.1
+  post-verification every approved material file remains byte-identical to its
+  approved hash; no checklist marker is changed, and the raw files are materialized once
+  no-overwrite. Checklist-only progress is permitted only afterward while the
+  contract-projection digest stays equal. The unrelated active change is never
+  copied.
+- Risk: Major Self-Evolution. Trigger/approval/update lifecycle behavior cannot
+  be implemented until this exact change-id and scoped contract are approved.
+  That approval authorizes the scoped source implementation, creation of the
+  disclosed restrictive Bootstrap Control Root and its per-manifest governance/
+  closeout evidence workspace, and only its missing fixed manager-owned parent
+  anchors, but not the later first
+  updater runtime/state bootstrap. Bootstrap requires its own fresh immutable
+  plan—binding the external Router identity plus exact initial
+  registry/layout/closure and proof that no running/active/ambiguous updater is
+  installed—and
+  exact Router-recorded `bootstrap-apply` approval after source High Review
+  PASS.
+
+## Approval Status
+
+- On 2026-07-30 the user accepted the latest dependency-maintenance option
+  (`ai-proposed/user-approved`), named **Update Policy U1** in this contract:
+  scheduled read-only audit with every actual update requiring explicit
+  approval. U1 belongs to the retained workflow Scheme C and is not the earlier
+  workflow Scheme A that would replace Superpowers.
+- That direction approval does not approve artifacts that did not yet exist.
+- Strict OpenSpec validation: PASS on 2026-07-30.
+- Independent proposal Review: multiple FAIL attempts on 2026-07-30 produced
+  correction history across authority, recovery, schedule, root isolation,
+  runtime integrity, test, and closeout boundaries. The revised current
+  revision passes strict validation and is awaiting independent re-Review.
+- [x] The exact change-id `add-codex-skill-update` and the current
+  proposal/design/spec/tasks scope are approved for implementation.

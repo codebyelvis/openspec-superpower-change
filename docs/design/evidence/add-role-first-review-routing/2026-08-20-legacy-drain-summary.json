@@ -1,0 +1,12 @@
+{
+  "active_legacy_count": 0,
+  "change_id": "add-role-first-review-routing",
+  "legacy_audit": "pass",
+  "private_artifact": {
+    "mode": "0600",
+    "path": "/private/tmp/add-role-first-review-routing-20260810-FPWT9V/legacy-drain.json",
+    "sha256": "cc1355940bbcaabff01bc242d8dcee62998f9570ca26421b192cdfd6c3a77983"
+  },
+  "records": [],
+  "schema_version": 1
+}

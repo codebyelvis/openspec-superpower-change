@@ -21,12 +21,14 @@ OPENSPEC_SKILL_SOURCE="${OPENSPEC_SKILL_SOURCE:-$PWD}"
 BRIEF_SKILL_SOURCE="${BRIEF_SKILL_SOURCE:-$(dirname "$PWD")/codex-brief-antigravity-review}"
 ANTIGRAVITY_CLI_HOME="${ANTIGRAVITY_CLI_HOME:-$HOME/.gemini/antigravity-cli}"
 GROK_HOME="${GROK_HOME:-$HOME/.grok}"
+PI_CODING_AGENT_DIR="${PI_CODING_AGENT_DIR:-$HOME/.pi/agent}"
 ```
 
 For portable core-skill or shared-governance changes, also read
 `references/cross-cli-sync.md`. The open-source repositories are the canonical
-sources; Codex is the authoritative decision owner. Antigravity CLI and Grok CLI
-are required runtime targets unless the user declares a valid `not-applicable`
+sources; only the bound Codex control-plane instance/contract is the
+authoritative decision owner. Codex, Pi, Antigravity CLI, and Grok CLI are
+required runtime targets unless the user declares a valid `not-applicable`
 decision before synchronization.
 
 ## Pre-change checklist
@@ -64,8 +66,9 @@ git -C "$OPENSPEC_SKILL_SOURCE" status -sb
    - Self-Evolution Patch/Minor/Major classification;
    - backup, validation, forward-test, and no-push-without-approval rules.
 6. When portable manifest content changed, generate and Review a path/hash-only
-   cross-CLI sync plan, then apply and verify Codex, Antigravity CLI, and Grok CLI
-   one target at a time. A failed target is restored and blocks later targets.
+   cross-CLI sync plan, then apply and verify Codex, Pi, Antigravity CLI, and
+   Grok CLI one target at a time. A failed target is restored and blocks later
+   targets.
 7. Update only the versioned managed governance block in each CLI global rule
    file. Preserve all native bytes outside the marker block.
 
@@ -89,8 +92,10 @@ standard-library `unittest` suites with default `python3` to exercise fallback b
 
 For a cross-CLI-triggering change, additionally run
 `scripts/validate_cross_cli_sync.py` in plan, per-target apply/verify, and
-verify-all modes. Confirm Grok discovery with `grok inspect --json`; Antigravity
-uses deterministic manifest/reference closure plus compatible validators.
+verify-all modes. Confirm Grok discovery with `grok inspect --json`; Codex, Pi,
+and Antigravity use deterministic manifest/reference closure plus compatible
+validators. Pi native validation never runs Pi; any optional Pi process probe
+uses the isolated temporary-root contract in `cross-cli-sync.md`.
 
 ## Forward-test checklist
 
@@ -152,11 +157,11 @@ Every sync report must include:
 - residual risks;
 - rollback path.
 
-## Schema-5 Deployment Drain
+## Schema-6 Deployment Drain
 
-Before applying portable schema-5 files, inventory every known canonical
-`docs/agent-collab/*/status.md`. Any active schema-4 contract blocks deployment
-until it reaches its existing terminal state. Never rewrite, silently migrate,
-ignore, or abandon active v4 state. Historical complete v4/schema-1 evidence
-remains immutable. Retain only non-sensitive inventory fields and repeat the
-check immediately before the first runtime apply.
+Before applying portable schema-6 files, inventory every known canonical
+`docs/agent-collab/*/status.md`. Any active schema-4/schema-5 contract blocks
+deployment until it completes under its old runtime. Never rewrite, silently
+migrate, resume after cutover, ignore, or abandon active legacy state. Complete
+legacy contracts/evidence remain immutable. Retain only non-sensitive inventory
+fields and repeat the check immediately before the first runtime apply.

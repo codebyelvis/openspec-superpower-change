@@ -1,0 +1,147 @@
+{
+  "schema_version": 1,
+  "change_id": "tighten-codex-superpowers-invocation-routing",
+  "captured_on": "2026-08-07",
+  "codex_version": "codex-cli 0.147.0",
+  "raw_session_output_persisted": false,
+  "router_matrix": {
+    "status": "PASS",
+    "case_count": 13,
+    "passed": 13,
+    "failed": 0,
+    "case_ids": [
+      "ordinary_question",
+      "diagnose_only",
+      "proposal_only",
+      "material_ambiguity",
+      "direct_change",
+      "ordinary_review",
+      "architecture_review",
+      "high_risk_implementation",
+      "whole_task_completion",
+      "explicit_method_no_git",
+      "missing_router",
+      "duplicate_router",
+      "cyclic_phase"
+    ],
+    "sanitized_summary_path": "/private/tmp/tighten-codex-superpowers-invocation-routing-20260807-c6xd9A/forward/router-green-summary.json",
+    "sanitized_summary_sha256": "d530b28464873696a147c87d9256444f8d5ce5f9e70ba816d86f053fcd846cbc",
+    "event_audit": {
+      "event_count": 52,
+      "agent_message_count": 13,
+      "reasoning_event_count": 0,
+      "tool_event_count": 0
+    },
+    "managed_rule_sha256": "96158069ce5b7287e628d4f02b2d1f313a62f7cf9c50d9b6ebf068bf9829e537",
+    "adapter_sha256": "bf04ff76f57f8826b6ad68394ffff8010d12a3cf7c8c6cb2d7000836d4268a7a",
+    "cases_sha256": "270cf3774ac3a50179d7deacf424d42f3bb3de51203002785d88d03c0e158081",
+    "schema_sha256": "3c31b74cda014504a544426f3bdb1cc0186e3da5824105bb5b64cd5a8b8b2103",
+    "runner_sha256": "52570f985fe4920aba5666e130dde43311cd72e1d1753fd5381513f24ea276e1",
+    "sync_validator_sha256": "7c6248b3f34cf94b8ea2930f65a30c768970d0a38b666268d72fe5f6016acdd0"
+  },
+  "native_nested_loading_control": {
+    "status": "PASS",
+    "child_implicit_marker_present": false,
+    "child_explicit_exact_marker": true,
+    "router_implicit_child_marker_present": false,
+    "router_implicit_success_marker_present": false,
+    "router_explicit_exact_result": "CHILD_LOAD_BLOCKED",
+    "sanitized_audit_path": "/private/tmp/tighten-codex-superpowers-invocation-routing-20260807-c6xd9A/forward/nested-loading-pass-20260807.json",
+    "sanitized_audit_sha256": "b3c8582baf1d8c730ae0f74acb5d94c01ed8ab02dce7eeca1da177d1cbead232",
+    "event_audit": {
+      "event_count": 18,
+      "agent_message_count": 6,
+      "reasoning_event_count": 0,
+      "tool_event_count": 0
+    },
+    "fixture_sha256": {
+      "codex-explicit-child-probe/SKILL.md": "3186e023c68c87e4c58cf03dd58e08613ec9be500fde8ddd9a72815649502766",
+      "codex-explicit-child-probe/agents/openai.yaml": "a1499d95abd8447558c535fe5554adcc3c9b988a0a39264a6283d430effe1e94",
+      "codex-router-probe/SKILL.md": "07c03729540f0d0592bc0ad184ff4a92a835f4bf440b4445a7a85dfcef8ebaff"
+    }
+  },
+  "staged_codex_policy": {
+    "status": "PASS",
+    "ordinary_question_no_observable_meta_workflow": true,
+    "explicit_using_superpowers_body": {
+      "questions_are_tasks": true,
+      "skill_type_priority": ["process skills", "implementation skills"],
+      "skill_check_threshold_percent": 1
+    },
+    "systematic_debugging_body_available": true,
+    "test_driven_development_body_available": true,
+    "sanitized_audit_path": "/private/tmp/tighten-codex-superpowers-invocation-routing-20260807-c6xd9A/forward/staged-policy-pass-20260807.json",
+    "sanitized_audit_sha256": "7f2aaa27184d05d3605565b3877e0f032d1b4df8b52199dcfce5f29d589724ca",
+    "event_audit": {
+      "event_count": 16,
+      "agent_message_count": 4,
+      "reasoning_event_count": 0,
+      "tool_event_count": 0
+    },
+    "superseded_blocked_audit": {
+      "sha256": "0d15c9ca4b18310b492ef23702c41d98396842a1ed8772e9b3e6a2dec08d8f7c",
+      "removed_after_validated_pass": true
+    },
+    "metadata_sha256": "a1499d95abd8447558c535fe5554adcc3c9b988a0a39264a6283d430effe1e94",
+    "codex_readme_sha256": "37bd4b936d13b04815832b7aef41a68176d040e1ea38b91e3d1508c6a5893745",
+    "node_test_sha256": "52264db5788cd57017f440ce77ac70203ea283bb87280d814fca604dc0db2360",
+    "shared_using_superpowers_skill_sha256": "316e29381219adf0cac62190c67aeabf427d6e6e5f2735541d502b3d339be7aa"
+  },
+  "live_codex_policy": {
+    "status": "PASS",
+    "sanitized_audit_path": "/private/tmp/tighten-codex-superpowers-invocation-routing-20260807-c6xd9A/forward/live-policy-pass-20260807.json",
+    "sanitized_audit_sha256": "8648406d7d6037ad7e459b5a386ca0fe38458c8d8f9530731079b359c01fa867",
+    "event_audit": {
+      "event_count": 16,
+      "agent_message_count": 4,
+      "reasoning_event_count": 0,
+      "tool_event_count": 0
+    },
+    "initial_failed_attempts_rolled_back": 2,
+    "classifier_format_correction_preflight": "PASS",
+    "live_hashes": {
+      "docs/README.codex.md": "37bd4b936d13b04815832b7aef41a68176d040e1ea38b91e3d1508c6a5893745",
+      "skills/using-superpowers/SKILL.md": "316e29381219adf0cac62190c67aeabf427d6e6e5f2735541d502b3d339be7aa",
+      "skills/using-superpowers/agents/openai.yaml": "a1499d95abd8447558c535fe5554adcc3c9b988a0a39264a6283d430effe1e94",
+      "tests/codex/using-superpowers-invocation-policy.test.js": "52264db5788cd57017f440ce77ac70203ea283bb87280d814fca604dc0db2360"
+    }
+  },
+  "runtime_sync": {
+    "status": "PASS",
+    "plan_path": "/private/tmp/tighten-codex-superpowers-invocation-routing-20260807-c6xd9A/runtime-sync-plan.json",
+    "plan_sha256": "8ea18aa5aedb013bb9674e4cebc2e485497ae82904d76d5ad429156d273cf87a",
+    "managed_rule_version": 5,
+    "managed_rule_sha256": "96158069ce5b7287e628d4f02b2d1f313a62f7cf9c50d9b6ebf068bf9829e537",
+    "targets": {
+      "codex": {
+        "apply": "PASS",
+        "verify": "PASS",
+        "backup_count": 40,
+        "rule_file_sha256": "8985a13981a72a300430ed56368af288526ef4d88e47a43b25e68bdc56be32f1"
+      },
+      "antigravity-cli": {
+        "apply": "PASS",
+        "verify": "PASS",
+        "backup_count": 40,
+        "rule_file_sha256": "17835ec162117680aeb700ec548b9bf4a05d8a1ae3427babfbe427242d079a4f"
+      },
+      "grok-cli": {
+        "apply": "PASS",
+        "verify": "PASS",
+        "backup_count": 40,
+        "rule_file_sha256": "d8cc710655ea2356b6b3a4bd7356950bfe9edc89cc18ce29c3e77e3029f5efe8"
+      }
+    },
+    "verify_all": "PASS",
+    "runtime_validators": "PASS",
+    "grok_discovery": "PASS_AND_CONSUMED",
+    "sensitive_path_audit": "0_CATEGORIES"
+  },
+  "load_evidence": {
+    "metadata_policy": "allow_implicit_invocation=false",
+    "ordinary_behavior": "PASS",
+    "explicit_body_behavior": "PASS",
+    "prompt_load": "UNKNOWN",
+    "reason": "Codex 0.147.0 exposes no supported Skill-load path/hash trace in this probe."
+  }
+}

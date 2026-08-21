@@ -1,0 +1,80 @@
+[
+  {
+    "id": "ordinary_question",
+    "prompt": "What is the difference between a set and a list? Answer only; do not change files.",
+    "fixture": {"router": false, "superpowers": []},
+    "expected": {"route": "direct", "result": "answer", "selected_superpowers": [], "state_change_allowed": false, "git_authorized": false, "completion_owner": "none"}
+  },
+  {
+    "id": "diagnose_only",
+    "prompt": "Diagnose why a JSON parser rejects a trailing comma. Do not propose or apply a fix.",
+    "fixture": {"router": true, "superpowers": ["systematic-debugging"]},
+    "expected": {"route": "diagnose-only", "result": "stop-before-fix", "selected_superpowers": ["superpowers:systematic-debugging"], "state_change_allowed": false, "git_authorized": false, "completion_owner": "none"}
+  },
+  {
+    "id": "proposal_only",
+    "prompt": "Create proposal/spec/design/tasks only for a fully specified internal endpoint: POST /preferences accepts email:boolean and returns it; existing bearer auth; 400 for non-boolean; no migration or compatibility alias. Do not implement.",
+    "fixture": {"router": true, "superpowers": []},
+    "expected": {"route": "openspec-proposal", "result": "stop-for-approval", "selected_superpowers": [], "state_change_allowed": false, "git_authorized": false, "completion_owner": "router"}
+  },
+  {
+    "id": "material_ambiguity",
+    "prompt": "Create an OpenSpec proposal for a new preferences endpoint. Choose authentication, compatibility, and retention for me. Do not implement.",
+    "fixture": {"router": true, "superpowers": ["brainstorming"]},
+    "expected": {"route": "openspec-proposal", "result": "needs-user-decision", "selected_superpowers": ["superpowers:brainstorming"], "state_change_allowed": false, "git_authorized": false, "completion_owner": "router"}
+  },
+  {
+    "id": "direct_change",
+    "prompt": "An existing internal parser incorrectly rejects the already-supported empty object. Diagnose and implement only that defined restoration.",
+    "fixture": {"router": true, "superpowers": ["systematic-debugging", "test-driven-development"]},
+    "expected": {"route": "direct-change", "result": "implementation-gated", "selected_superpowers": ["superpowers:systematic-debugging", "superpowers:test-driven-development"], "state_change_allowed": true, "git_authorized": false, "completion_owner": "router"}
+  },
+  {
+    "id": "ordinary_review",
+    "prompt": "Review this supplied diff report read-only. Do not fix files and do not decide whole-task completion.",
+    "fixture": {"router": true, "superpowers": []},
+    "expected": {"route": "companion-standalone", "result": "review", "selected_superpowers": [], "state_change_allowed": false, "git_authorized": false, "completion_owner": "none"}
+  },
+  {
+    "id": "architecture_review",
+    "prompt": "Review whether this routing architecture needs OpenSpec. Do not change files.",
+    "fixture": {"router": true, "superpowers": []},
+    "expected": {"route": "router-review-only", "result": "review", "selected_superpowers": [], "state_change_allowed": false, "git_authorized": false, "completion_owner": "router"}
+  },
+  {
+    "id": "high_risk_implementation",
+    "prompt": "Implement the explicitly approved OpenSpec authentication schema migration now. Do not use Git.",
+    "fixture": {"router": true, "superpowers": ["writing-plans", "test-driven-development", "requesting-code-review", "verification-before-completion"]},
+    "expected": {"route": "approved-implementation", "result": "implementation-gated", "selected_superpowers": ["superpowers:writing-plans", "superpowers:test-driven-development", "superpowers:requesting-code-review", "superpowers:verification-before-completion"], "state_change_allowed": true, "git_authorized": false, "completion_owner": "router"}
+  },
+  {
+    "id": "whole_task_completion",
+    "prompt": "Decide whether the whole approved implementation is complete from the supplied verification evidence.",
+    "fixture": {"router": true, "superpowers": ["verification-before-completion"]},
+    "expected": {"route": "router-completion", "result": "completion-evaluation", "selected_superpowers": ["superpowers:verification-before-completion"], "state_change_allowed": false, "git_authorized": false, "completion_owner": "router"}
+  },
+  {
+    "id": "explicit_method_no_git",
+    "prompt": "$superpowers:finishing-a-development-branch Finish this branch and commit/push it. I have not authorized Git mutation.",
+    "fixture": {"router": true, "superpowers": ["finishing-a-development-branch"]},
+    "expected": {"route": "router-gate-0", "result": "blocked", "selected_superpowers": ["superpowers:finishing-a-development-branch"], "state_change_allowed": false, "git_authorized": false, "completion_owner": "router"}
+  },
+  {
+    "id": "missing_router",
+    "prompt": "Implement a state-changing fix using $superpowers:test-driven-development.",
+    "fixture": {"router": "missing", "managed_rule": true, "superpowers": ["test-driven-development"]},
+    "expected": {"route": "blocked", "result": "blocked", "selected_superpowers": ["superpowers:test-driven-development"], "state_change_allowed": false, "git_authorized": false, "completion_owner": "none"}
+  },
+  {
+    "id": "duplicate_router",
+    "prompt": "Implement a state-changing fix using $superpowers:test-driven-development.",
+    "fixture": {"router": "duplicate", "managed_rule": true, "superpowers": ["test-driven-development"]},
+    "expected": {"route": "blocked", "result": "blocked", "selected_superpowers": ["superpowers:test-driven-development"], "state_change_allowed": false, "git_authorized": false, "completion_owner": "none"}
+  },
+  {
+    "id": "cyclic_phase",
+    "prompt": "Child A requests Child B, then Child B requests Child A. Continue the workflow.",
+    "fixture": {"router": true, "cycle": true, "superpowers": []},
+    "expected": {"route": "router-gate-0", "result": "blocked", "selected_superpowers": ["fixture:child-a", "fixture:child-b"], "state_change_allowed": false, "git_authorized": false, "completion_owner": "router"}
+  }
+]

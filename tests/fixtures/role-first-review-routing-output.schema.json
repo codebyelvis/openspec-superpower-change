@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "route_result",
+    "review_purpose",
+    "reviewer_product",
+    "reviewer_role",
+    "capability_profile",
+    "independence_requirement",
+    "result_authority",
+    "blocker_owner",
+    "resume_condition"
+  ],
+  "properties": {
+    "route_result": {
+      "enum": ["actionable", "blocked"]
+    },
+    "review_purpose": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["object", "decision"],
+      "properties": {
+        "object": {"type": "string", "minLength": 1},
+        "decision": {"type": "string", "minLength": 1}
+      }
+    },
+    "reviewer_product": {
+      "enum": ["codex", "pi", "antigravity-cli", "grok-cli"]
+    },
+    "reviewer_role": {
+      "enum": ["advisory-reviewer", "independent-reviewer", "control-plane"]
+    },
+    "capability_profile": {
+      "enum": ["control-plane-high", "cohesive-medium", "mechanical-low"]
+    },
+    "independence_requirement": {
+      "type": "string",
+      "minLength": 1
+    },
+    "result_authority": {
+      "enum": [
+        "advisory-input",
+        "governed-review-evidence",
+        "canonical-control-plane-decision"
+      ]
+    },
+    "blocker_owner": {
+      "enum": ["none", "control-plane", "user", "dependency"]
+    },
+    "resume_condition": {
+      "anyOf": [
+        {"type": "string", "minLength": 1},
+        {"type": "null"}
+      ]
+    }
+  }
+}

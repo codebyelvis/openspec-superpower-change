@@ -1,0 +1,5 @@
+{"contract_projection_sha256":"1166f928d72030a3f838dbd0786b79b611060cb775556d77d8a8988c297cf48b","kind":"PREPARED","manifest_sha256":"6875fcd28a616499d13fde256c36977e4bd822dc9275495a58561e9854042f40","prestate_sha256":"ade026b7146ad39dcd665c0268267625df1b4f1cbbe5ccd63a0c9ac058f70454","schema":1}
+{"kind":"TARGET_RESERVED","manifest_sha256":"6875fcd28a616499d13fde256c36977e4bd822dc9275495a58561e9854042f40","schema":1,"target_dev":16777233,"target_ino":169301066}
+{"index_sha256":"d2d98f99a582886e1d42675197587af415914eb7ef9dac7baff8bd5dba828b73","kind":"MATERIALIZED","manifest_sha256":"6875fcd28a616499d13fde256c36977e4bd822dc9275495a58561e9854042f40","schema":1,"untracked_file_count":18}
+{"kind":"REGISTERED","manifest_sha256":"6875fcd28a616499d13fde256c36977e4bd822dc9275495a58561e9854042f40","schema":1}
+{"index_sha256":"d2d98f99a582886e1d42675197587af415914eb7ef9dac7baff8bd5dba828b73","kind":"PASS","manifest_sha256":"6875fcd28a616499d13fde256c36977e4bd822dc9275495a58561e9854042f40","ref":"refs/heads/add-codex-skill-update-v2","schema":1,"worktree_path":"/Users/elvis/.config/superpowers/worktrees/openspec-superpower-change/add-codex-skill-update-v2"}

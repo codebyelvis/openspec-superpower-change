@@ -1,5 +1,11 @@
 # Completion Contract
 
+For schema 6 Review routing, carry all six concepts without abbreviation:
+Review purpose, reviewer product, role, capability, independence, and authority.
+The normative assignment and product/instance boundary live in
+`references/agent-capability-routing.md`; this reference does not create a
+second authority.
+
 This is the Router-owned normative contract for a whole-task completion claim.
 Batch, slice, and route references may add local evidence rules, but they do not
 define a second completion checklist.
@@ -66,9 +72,9 @@ to correction, fresh verification, and Review.
 
 When portable workflow files or managed governance change, synchronize validated
 source to every declared required runtime and verify parity, discovery, and
-target validators. Any required Codex, Antigravity CLI, or Grok CLI target drift
-blocks completion; repository-only documentation/history changes do not create
-that gate.
+target validators. Any required Codex, Pi, Antigravity CLI, or Grok CLI target
+drift blocks completion; repository-only documentation/history changes do not
+create that gate.
 
 ## Git and publication authority
 

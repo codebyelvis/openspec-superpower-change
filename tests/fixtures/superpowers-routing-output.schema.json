@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "route",
+    "result",
+    "selected_superpowers",
+    "state_change_allowed",
+    "git_authorized",
+    "completion_owner"
+  ],
+  "properties": {
+    "route": {
+      "enum": [
+        "direct",
+        "diagnose-only",
+        "openspec-proposal",
+        "direct-change",
+        "companion-standalone",
+        "router-review-only",
+        "approved-implementation",
+        "router-completion",
+        "router-gate-0",
+        "blocked"
+      ]
+    },
+    "result": {
+      "enum": [
+        "answer",
+        "stop-before-fix",
+        "stop-for-approval",
+        "needs-user-decision",
+        "implementation-gated",
+        "review",
+        "completion-evaluation",
+        "blocked"
+      ]
+    },
+    "selected_superpowers": {
+      "type": "array",
+      "uniqueItems": true,
+      "description": "Canonical methods selected or explicitly requested for the bounded route; record a requested method even when authority blocks it.",
+      "items": {
+        "enum": [
+          "superpowers:brainstorming",
+          "superpowers:systematic-debugging",
+          "superpowers:test-driven-development",
+          "superpowers:writing-plans",
+          "superpowers:requesting-code-review",
+          "superpowers:verification-before-completion",
+          "superpowers:finishing-a-development-branch",
+          "fixture:child-a",
+          "fixture:child-b"
+        ]
+      }
+    },
+    "state_change_allowed": {
+      "type": "boolean",
+      "description": "Whether the classified request may enter implementation after its remaining gates."
+    },
+    "git_authorized": {
+      "type": "boolean",
+      "description": "Whether the current user explicitly authorized Git mutation."
+    },
+    "completion_owner": {
+      "enum": ["router", "none"],
+      "description": "router only when exactly one applicable Router owns the route; bypass, zero-Router, and multiple-Router routes use none."
+    }
+  }
+}

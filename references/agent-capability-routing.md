@@ -25,9 +25,43 @@ acceptance, production authority, canonical state, or final completion.
 
 ## Assignment rules
 
-Schema-5 assignments bind `agent_product`, a non-sensitive contract-local
-`agent_instance_id`, `agent_role`, and `capability_profile`. Standard and strict
-work bind different executor and independent-reviewer instance IDs. They may use
-the same product; product equality never permits self-review. The control-plane
-owner is a Codex instance with `control-plane-high` and remains the only owner of
-routing, evidence acceptance, promotion, archive, and completion decisions.
+Schema 6 products are exactly `codex`, `pi`, `antigravity-cli`, and `grok-cli`.
+All four are equally eligible for an assigned `executor` or
+`independent-reviewer` role. Standard and strict work bind different executor
+and reviewer instance IDs even when the product is the same; product equality
+never permits self-review.
+
+Only a bound `codex` product with role `control-plane` and profile
+`control-plane-high`, plus the matching contract-local instance and canonical
+contract, owns routing, evidence acceptance, canonical transitions, archive,
+and completion decisions. Product or model name alone grants no authority.
+
+Every Review request, recommendation, or instruction resolves six concepts:
+Review purpose, reviewer product, role, capability, independence, and authority.
+Apply an existing canonical assignment first; otherwise preserve a product
+explicitly selected by the user; otherwise recommend one concrete eligible
+product. If no eligible independent instance exists, return `BLOCKED`.
+
+<!-- ROLE_FIRST_REVIEW_CLASSIFICATION_START -->
+Use this exact classification before selecting a product:
+
+- A Review that decides whether implementation, execution, runtime planning,
+  promotion, archive, or completion may proceed is gate-bearing: use role
+  `independent-reviewer`, profile `control-plane-high`, distinct-instance
+  independence, and authority `governed-review-evidence`.
+- A standalone Review that explicitly does not decide a gate is advisory:
+  preserve any eligible user-selected product, use role `advisory-reviewer`,
+  profile `control-plane-high`, advisory-not-gate-bearing independence, and
+  authority `advisory-input`.
+- `cohesive-medium` and `mechanical-low` are executor/evidence-collection
+  profiles, not Review profiles.
+- For standalone prompt or recommendation wording, a request to open or name a
+  new distinct reviewer instance remains actionable after all six assignment
+  concepts are resolved; do not infer unavailability merely because a concrete
+  instance ID or open window is not yet supplied.
+- Return `BLOCKED` only when the request explicitly says no eligible distinct
+  instance exists or insists on reusing an implementation instance.
+- When a required distinct reviewer instance is unavailable because the user
+  must open or provide one, return `BLOCKED` with `blocker_owner: user` and a
+  non-blank resume condition.
+<!-- ROLE_FIRST_REVIEW_CLASSIFICATION_END -->

@@ -1,0 +1,66 @@
+{
+  "case_count": 6,
+  "results": [
+    {
+      "blocker_owner": "none",
+      "capability_profile": "control-plane-high",
+      "case_id": "generic_review_destination",
+      "independence_category": "instance-separated",
+      "result": "PASS",
+      "result_authority": "governed-review-evidence",
+      "reviewer_product": "codex",
+      "reviewer_role": "independent-reviewer"
+    },
+    {
+      "blocker_owner": "none",
+      "capability_profile": "control-plane-high",
+      "case_id": "user_selected_pi",
+      "independence_category": "advisory-not-gate-bearing",
+      "result": "PASS",
+      "result_authority": "advisory-input",
+      "reviewer_product": "pi",
+      "reviewer_role": "advisory-reviewer"
+    },
+    {
+      "blocker_owner": "none",
+      "capability_profile": "control-plane-high",
+      "case_id": "new_window_codex",
+      "independence_category": "instance-separated",
+      "result": "PASS",
+      "result_authority": "governed-review-evidence",
+      "reviewer_product": "codex",
+      "reviewer_role": "independent-reviewer"
+    },
+    {
+      "blocker_owner": "none",
+      "capability_profile": "control-plane-high",
+      "case_id": "advisory_review",
+      "independence_category": "advisory-not-gate-bearing",
+      "result": "PASS",
+      "result_authority": "advisory-input",
+      "reviewer_product": "codex",
+      "reviewer_role": "advisory-reviewer"
+    },
+    {
+      "blocker_owner": "user",
+      "capability_profile": "control-plane-high",
+      "case_id": "same_pi_session",
+      "independence_category": "required-instance-unavailable",
+      "result": "PASS",
+      "result_authority": "governed-review-evidence",
+      "reviewer_product": "pi",
+      "reviewer_role": "independent-reviewer"
+    },
+    {
+      "blocker_owner": "user",
+      "capability_profile": "control-plane-high",
+      "case_id": "required_reviewer_unavailable",
+      "independence_category": "required-instance-unavailable",
+      "result": "PASS",
+      "result_authority": "governed-review-evidence",
+      "reviewer_product": "codex",
+      "reviewer_role": "independent-reviewer"
+    }
+  ],
+  "schema_version": 1
+}

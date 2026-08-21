@@ -10,6 +10,41 @@
 5. For standalone prompt wording or ordinary diff/Report review, route to
    `codex-brief-antigravity-review` instead of creating change-gate artifacts.
 
+For schema 6, every Review request states Review purpose, reviewer product,
+role, capability, independence, and authority. Resolve the destination in this
+order: existing canonical assignment; a product explicitly selected by the user
+when eligible; one concrete eligible product recommended by the control plane;
+otherwise `BLOCKED`. The phrases “another agent”, “independent agent”, and
+“another model” are unresolved when they are the only destination.
+
+<!-- ROLE_FIRST_REVIEW_CLASSIFICATION_START -->
+Use this exact classification before selecting a product:
+
+- A Review that decides whether implementation, execution, runtime planning,
+  promotion, archive, or completion may proceed is gate-bearing: use role
+  `independent-reviewer`, profile `control-plane-high`, distinct-instance
+  independence, and authority `governed-review-evidence`.
+- A standalone Review that explicitly does not decide a gate is advisory:
+  preserve any eligible user-selected product, use role `advisory-reviewer`,
+  profile `control-plane-high`, advisory-not-gate-bearing independence, and
+  authority `advisory-input`.
+- `cohesive-medium` and `mechanical-low` are executor/evidence-collection
+  profiles, not Review profiles.
+- For standalone prompt or recommendation wording, a request to open or name a
+  new distinct reviewer instance remains actionable after all six assignment
+  concepts are resolved; do not infer unavailability merely because a concrete
+  instance ID or open window is not yet supplied.
+- Return `BLOCKED` only when the request explicitly says no eligible distinct
+  instance exists or insists on reusing an implementation instance.
+- When a required distinct reviewer instance is unavailable because the user
+  must open or provide one, return `BLOCKED` with `blocker_owner: user` and a
+  non-blank resume condition.
+<!-- ROLE_FIRST_REVIEW_CLASSIFICATION_END -->
+
+Valid concise example:
+
+Review purpose: inspect the current implementation plan and decide PASS or BLOCKED; reviewer product: codex; role: independent-reviewer; capability: control-plane-high; independence: a user-opened new-window instance distinct from the plan author and executor; authority: governed Review evidence only.
+
 ## Discovery-first requests
 
 1. State that Phase 0 discovery is needed and why.

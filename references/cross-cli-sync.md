@@ -6,10 +6,12 @@ global governance block.
 
 ## Authority and roles
 
-- Codex owns routing, approval, canonical state, evidence acceptance, final
-  verification, and completion.
-- Antigravity CLI and Grok CLI may act as assigned executor or independent
-  reviewer. Their result is advisory until Codex validates it.
+- Canonical authority belongs only to the bound Codex `control-plane` /
+  `control-plane-high` instance and contract; a product name alone grants no
+  authority.
+- Codex, Pi, Antigravity CLI, and Grok CLI are equally eligible for assigned
+  executor or independent-reviewer roles. Their results are governed evidence
+  until the bound control plane accepts them.
 - Standard/strict external work uses different executor and reviewer identities.
   If the second auxiliary CLI is unavailable, Codex performs the distinct Review;
   if no distinct reviewer is available, the batch is `BLOCKED`.
@@ -29,6 +31,7 @@ remain inside their declared roots:
 | Target | Skill root | Global rule file |
 |---|---|---|
 | Codex | `${CODEX_HOME:-$HOME/.codex}/skills` | `${CODEX_HOME:-$HOME/.codex}/AGENTS.md` |
+| Pi | `${PI_CODING_AGENT_DIR:-$HOME/.pi/agent}/skills` | `${PI_CODING_AGENT_DIR:-$HOME/.pi/agent}/APPEND_SYSTEM.md` |
 | Antigravity CLI | `${ANTIGRAVITY_CLI_HOME:-$HOME/.gemini/antigravity-cli}/skills` | `$HOME/.gemini/GEMINI.md` |
 | Grok CLI | `${GROK_HOME:-$HOME/.grok}/skills` | `${GROK_HOME:-$HOME/.grok}/AGENTS.md` |
 
@@ -58,10 +61,12 @@ validated source + Review PASS
 -> final Review
 ```
 
-Failure restores the current target from its secure backup, verifies restoration,
-and stops before later targets. Rule backups are mode `0600`, remain outside any
-skill discovery root, never have their contents logged, and are removed after
-successful closeout.
+Each target uses a durable receipt installed before mutation and remains
+uncommitted through content and discovery verification. Failure restores only
+the current target from its verified secure backup, verifies the reviewed
+preimage, and stops before later targets. Recovery-blocked evidence is retained
+for manual disposition. Rule backups and receipts are mode `0600`, remain
+outside every Skill discovery root, and never have their contents logged.
 
 ## Portable and forbidden content
 
@@ -77,11 +82,18 @@ key material. Diagnostics report only path and category, never matching values.
 
 - All targets: portable path/SHA-256 parity, managed-block parity, quick validator,
   and repository-specific validator.
+- Pi: deterministic root and portable closure validation never invokes Pi. An
+  explicitly requested process probe must use a fresh temporary HOME and
+  `PI_CODING_AGENT_DIR`, deny native-root reads/writes and network, disable
+  sessions/context/Skills, and expose read-only tools only; otherwise it is
+  `BLOCKED`.
 - Antigravity CLI: deterministic root, linked-file closure, and validators;
   an optional non-mutating prompt cannot replace these checks.
 - Grok CLI: deterministic checks plus `grok inspect --json` path verification.
   Inspect output is mode `0600`, read only for required skill paths, not echoed,
   and removed after verification.
 
-Do not claim global skill optimization complete until every required target and
-the final Codex Review pass.
+Before schema-6 deployment, active schema-4/schema-5 contracts drain under their
+frozen runtime. Complete legacy history remains immutable and never authorizes a
+schema-6 transition. Do not claim global Skill optimization complete until all
+four required targets and the final bound-control-plane Review pass.

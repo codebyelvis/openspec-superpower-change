@@ -98,7 +98,7 @@ for the explicitly approved target skill edit.
 10. Run forward-test for Minor changes when practical and for all Major changes after approval.
 11. Run profile-appropriate Review; findings return to edit, validation, forward-test, and Review.
 12. If portable core-skill files or the shared governance block changed, run
-    `references/cross-cli-sync.md` for every declared required Codex,
+    `references/cross-cli-sync.md` for every declared required Codex, Pi,
     Antigravity CLI, and Grok CLI target. Any stale/failed target is `BLOCKED`.
 13. Report changed files, validation results, Review/forward-test results,
     cross-CLI target results, backup cleanup result, residual risks, and rollback path.

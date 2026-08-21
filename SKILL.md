@@ -79,13 +79,43 @@ batch profiles, Handoff creation, and final completion. The brief skill owns
 Brief/Report/Review attempts only after handoff and returns the final batch to
 this router.
 
-Codex is the authoritative collaboration owner. Codex, Antigravity CLI, or Grok
-CLI instances may be assigned as bounded executors or independent reviewers, but
-their results remain evidence inputs until the bound Codex control-plane instance
-validates them and records the canonical transition. Standard/strict external
-batches require different executor/reviewer instance IDs even when their product
-is the same; compact work may remain inline. Concrete model names never grant
-authority. Route assignments through `references/agent-capability-routing.md`.
+Under schema 6, `codex`, `pi`, `antigravity-cli`, and `grok-cli` are equally
+eligible for assigned executor or independent-reviewer roles. Their results are
+evidence inputs. Only a bound `codex` product with role `control-plane`, profile
+`control-plane-high`, matching instance, and canonical contract may accept that
+evidence or record a canonical transition. Product names alone grant no
+authority; standard/strict executor and reviewer instance IDs must differ.
+
+Every Review request or recommendation states Review purpose, reviewer product,
+role, capability, independence, and authority. Preserve an existing canonical
+assignment, then an explicitly user-selected eligible product, then recommend
+one concrete product; if no required independent instance is available, return
+`BLOCKED`. Route the exact contract through
+`references/agent-capability-routing.md`.
+
+<!-- ROLE_FIRST_REVIEW_CLASSIFICATION_START -->
+Use this exact classification before selecting a product:
+
+- A Review that decides whether implementation, execution, runtime planning,
+  promotion, archive, or completion may proceed is gate-bearing: use role
+  `independent-reviewer`, profile `control-plane-high`, distinct-instance
+  independence, and authority `governed-review-evidence`.
+- A standalone Review that explicitly does not decide a gate is advisory:
+  preserve any eligible user-selected product, use role `advisory-reviewer`,
+  profile `control-plane-high`, advisory-not-gate-bearing independence, and
+  authority `advisory-input`.
+- `cohesive-medium` and `mechanical-low` are executor/evidence-collection
+  profiles, not Review profiles.
+- For standalone prompt or recommendation wording, a request to open or name a
+  new distinct reviewer instance remains actionable after all six assignment
+  concepts are resolved; do not infer unavailability merely because a concrete
+  instance ID or open window is not yet supplied.
+- Return `BLOCKED` only when the request explicitly says no eligible distinct
+  instance exists or insists on reusing an implementation instance.
+- When a required distinct reviewer instance is unavailable because the user
+  must open or provide one, return `BLOCKED` with `blocker_owner: user` and a
+  non-blank resume condition.
+<!-- ROLE_FIRST_REVIEW_CLASSIFICATION_END -->
 
 ## Reference Read Matrix
 
@@ -276,16 +306,18 @@ TDD, Review, runtime synchronization, or publication gates.
 - Do not claim completion without fresh verification evidence and Review PASS.
 - Do not accept empty critical commands, blank blocker details, evidence-free
   external PASS, or an atomic final-verification/final-Review completion update.
-- New schema-5 external artifacts carry schema-2 evidence binding product,
-  instance, role, capability profile, result, change, batch, attempt, and source
-  canonical revision/SHA-256. Historical schema-4/schema-1 evidence remains
-  immutable. Runtime `complete` validation requires the actual previous status.
+- New schema-6 external artifacts carry the exact immutable
+  `reviewer_assignment`; schema-2 evidence binds product, instance, role,
+  capability profile, result, change, batch, attempt, and source canonical
+  revision/SHA-256 back to that parent assignment. Historical schema-4/schema-5
+  contracts and their evidence remain immutable legacy history. Runtime
+  `complete` validation requires the actual previous status.
 - The bound Codex control-plane instance is the only decision owner; executor or
   reviewer output cannot self-authorize a transition or final completion.
 - Platform/tool permission never substitutes for OpenSpec, production, archive,
   promotion, release, destructive Git, or another user-owned authorization.
 - Do not claim a portable global skill optimization complete while any declared
-  required Codex, Antigravity CLI, or Grok CLI target is stale or unverified.
+  required Codex, Pi, Antigravity CLI, or Grok CLI target is stale or unverified.
 - Do not duplicate mutable Handoff Contract blocks outside canonical `status.md`.
 - Self-evolution cannot weaken approval, evidence, review, verification, or
   user-control boundaries.

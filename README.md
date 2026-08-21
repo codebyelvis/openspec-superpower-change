@@ -14,14 +14,22 @@ The goal is simple: an AI agent should not move from a request directly to imple
 - Routes approved work into Superpowers planning, TDD, debugging, and verification flows.
 - Requires Step Evidence Gate output before progress or completion claims.
 - Requires current-revision Plan/Brief Preflight Review before execution.
-- Uses schema-5 Handoff state plus schema-2 evidence to separate agent product,
-  instance, role, capability profile, provenance, and Confirmation Lease.
-- Routes stable High/Medium/Low capability profiles without hardcoding model
-  names and keeps the bound Codex control-plane instance authoritative.
+- Uses current schema-6 Handoff state plus schema-2 evidence to bind the full
+  immutable Reviewer Assignment; frozen schema 4/5 records remain read-only
+  legacy audit history and cannot authorize current work.
+- Treats Codex, Pi, Antigravity CLI, and Grok CLI as equally eligible assigned
+  executors/reviewers. Product names grant no authority; only the bound Codex
+  `control-plane` / `control-plane-high` instance and contract own routing,
+  evidence acceptance, canonical state, archive, and completion decisions.
+- Requires every Review recommendation or request to state its purpose, one
+  concrete product, role, capability profile, independence, and result authority.
 - Separates platform, workflow-scope, and business/production authorization;
   High Review audits actual wiring, mechanisms, and an independent probe.
-- Provides allowlisted Codex/Antigravity/Grok runtime synchronization with a
-  versioned managed governance block and sensitive-category denial.
+- Provides allowlisted Codex/Pi/Antigravity/Grok runtime synchronization with a
+  versioned managed governance block, target-local recovery, four-target
+  completion, and sensitive-category denial. Pi uses
+  `${PI_CODING_AGENT_DIR}/skills` and the managed block in
+  `${PI_CODING_AGENT_DIR}/APPEND_SYSTEM.md`.
 - Runs a conditional Domain Context Check so clear tasks stay lean while
   ambiguous project language enters `grill-with-docs` or the portable fallback.
 - Turns costly corrections and Review findings into durable project knowledge
@@ -98,6 +106,15 @@ execution -> Project Learning Closeout -> final verification/Review -> archive -
 authorized publication -> session distillation
 ```
 
+For governed state-changing, Git-mutating, or whole-task-completion work, the
+Router chooses zero or more Superpowers methods; users do not need to name each
+method. Naming a method explicitly grants no business, Git, workflow, or
+completion authority and cannot bypass Gate 0. On Codex, `using-superpowers` is
+explicit-only while Router-required child Skills remain eligible for implicit
+matching until native nested loading is proven. Without a supported Skill-load
+path/hash trace, actual prompt load or non-load is reported as `UNKNOWN` rather
+than inferred from visible behavior.
+
 | Phase | Required behavior |
 |---|---|
 | Entry / Gate 0 | Read local instructions and the affected project knowledge, classify the current request, choose evidence/capability profiles, and state whether confirmation is still required. |
@@ -105,7 +122,7 @@ authorized publication -> session distillation
 | Proposal-only | Inspect repository facts and existing specs. Use only reversible, explicit bounded assumptions; strictly validate proposal/design/spec/tasks and stop for approval of the exact change-id. Do not load planning/TDD/implementation Review merely because the request says create or modify. |
 | Material choice | Security, compatibility, destructive migration, data lifecycle, scope, production authority, and testable acceptance remain user-owned choices. Delegating the choice to the agent still requires brainstorming and its full HARD-GATE. |
 | Approved implementation | Refresh Gate 0, create an executable plan, Preflight Review the current revision, then use TDD/debugging and Step Evidence Gate on complete business slices. Every finding returns to fix -> verify -> Review. |
-| External Handoff | The companion runs the complete schema-5 Handoff lifecycle. Executor/reviewer evidence remains advisory until the bound Codex control plane validates and promotes it. |
+| External Handoff | The companion runs the complete current schema-6 Handoff lifecycle. Codex, Pi, Antigravity CLI, and Grok CLI may fill assigned executor/reviewer roles, but their evidence cannot advance canonical state until the bound Codex control plane accepts it. |
 | Project Learning Closeout | After implementation Review PASS, audit corrections and findings. Automatic thresholds or an explicit request to archive and distill require promotion of confirmed project-local knowledge and regression enforcement. |
 | Finalization | Run fresh final verification only after learning promotion, then final diff/scope/sensitive-data Review, task reconciliation, OpenSpec archive, and strict post-archive validation. |
 | Publication | Git staging/commit/push remain separately authorized. The final session summary points to durable repository knowledge; it is never the only record. |
@@ -134,7 +151,8 @@ Review PASS.
 
 | Concern | Mechanism |
 |---|---|
-| Broad metadata creates unnecessary ceremony | Phase-aware precedence (`CCG-014`) selects sub-skills after task classification. |
+| Broad metadata creates unnecessary ceremony | Phase-aware precedence (`CCG-014`) routes governed work through exactly one Router, while ordinary questions bypass the Router and Codex `using-superpowers` meta-entry. |
+| An explicit Superpowers method appears to grant authority | It chooses discipline only; Router Gate 0 still owns workflow, business, Git, and completion authority and fails closed without exactly one applicable Router. |
 | Disabling Superpowers removes safeguards | Activation is adaptive; once selected, every sub-skill keeps its complete rules. |
 | Agents silently choose auth/compatibility behavior | Material user-owned choices still require brainstorming and approval. |
 | `CONTEXT.md` exists only as a stale local file | Canonical shared context must not be intentionally ignored and must enter the change inventory. |
@@ -339,8 +357,8 @@ OpenSpec may be skipped only for narrow restoration of existing intended behavio
 - `references/superpowers-adapter.md`: OpenSpec-aware Superpowers artifact, permission, and Preflight mapping.
 - `references/self-evolution-rule.md`: rules for changing this skill.
 - `references/sync-checklist.md`: local runtime and open-source copy synchronization.
-- `references/cross-cli-sync.md`: required runtime targets, managed-rule parity,
-  discovery, rollback, and completion blocking.
+- `references/cross-cli-sync.md`: four required runtime targets, managed-rule
+  parity, discovery, target-local recovery, and completion blocking.
 
 ## Installation
 
@@ -361,7 +379,8 @@ PYTHONDONTWRITEBYTECODE=1 python3 /path/to/openspec-superpower-change/scripts/va
 PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s /path/to/openspec-superpower-change/tests -v
 ```
 
-For an actual schema-4 external status, also validate referenced evidence files:
+Current governed status uses schema 6 with an immutable Reviewer Assignment.
+Validate its schema-2 evidence manifests with:
 
 ```bash
 PYTHONDONTWRITEBYTECODE=1 python3 /path/to/openspec-superpower-change/scripts/validate_core_gates.py \
@@ -370,12 +389,24 @@ PYTHONDONTWRITEBYTECODE=1 python3 /path/to/openspec-superpower-change/scripts/va
   --artifact-root /project
 ```
 
-Each referenced artifact embeds a schema-1 manifest that binds role, result,
-change, batch, attempt, and source canonical revision/SHA-256. Before a
-transition introduces new evidence, validate a proposed status from outside the
-project with `--previous-status /project/docs/agent-collab/<change-id>/status.md`;
-this is mandatory for `complete`. Replace the one canonical status only after
-PASS, and do not persist a second marker block in the project.
+Each referenced artifact embeds a schema-2 evidence manifest that binds its
+role/result/change/batch/attempt/source fingerprint plus assigned product,
+instance, role, and capability profile. Before a transition introduces new
+evidence, validate a proposed status from outside the project with
+`--previous-status /project/docs/agent-collab/<change-id>/status.md`; this is
+mandatory for `complete`. Replace the one canonical status only after PASS, and
+do not persist a second marker block in the project.
+
+Frozen schema-4/schema-5 records are legacy audit/drain inputs only. Inventory
+them separately; never pass them to current `--status` validation or migrate
+them into schema 6:
+
+```bash
+PYTHONDONTWRITEBYTECODE=1 python3 /path/to/openspec-superpower-change/scripts/validate_core_gates.py \
+  /path/to/openspec-superpower-change \
+  --legacy-inventory-root /project \
+  --legacy-inventory-output /private/tmp/legacy-drain.json
+```
 
 `quick_validate.py` requires PyYAML; set `PYTHON_BIN` accordingly. The project validator and tests exercise the dependency-free fallback.
 

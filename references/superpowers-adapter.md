@@ -1,5 +1,11 @@
 # Superpowers Adapter
 
+For schema 6 Review routing, carry all six concepts without abbreviation:
+Review purpose, reviewer product, role, capability, independence, and authority.
+The normative assignment and product/instance boundary live in
+`references/agent-capability-routing.md`; this reference does not create a
+second authority.
+
 This adapter maps Superpowers artifact and permission defaults onto the
 project's approved workflow. It does not weaken brainstorming, TDD, systematic
 debugging, Review, worktree safety, or verification discipline.
@@ -12,6 +18,71 @@ selected, follow it completely; selective invocation never weakens its
 HARD-GATE or discipline.
 
 Concrete model identity does not grant authority or choose workflow weight.
+
+## Router-Owned Method Selection
+
+The Router normatively selects zero or more Superpowers methods for governed
+work. A user-explicit `$superpowers:*` request chooses a method only; it grants
+no workflow, business, Git, or completion authority. State-changing, Git, or
+whole-task-completion work completes Gate 0 through exactly one applicable
+Router before the method proceeds. If the workflow cannot load exactly one
+applicable Router, it is `BLOCKED`.
+
+Router-required child Skills remain eligible for native implicit matching as
+defense in depth. Do not make them explicit-only until a supported runtime proves
+native Router-to-child loading without shell/filesystem fallback or user
+`$child` input. This contract is normative routing, not a claim that Codex
+mechanically suppresses every unselected child.
+
+When a selected child requests another phase, return to Router classification.
+Each phase and Skill may be selected at most once for the bounded route;
+unresolved or cyclic selection is `BLOCKED`. Every selected child retains its
+complete rules and HARD-GATE behavior.
+
+| Request | Route |
+|---|---|
+| Ordinary question | Direct answer or matching domain Skill; no Router or Superpowers meta-entry |
+| Diagnose-only | Read-only domain diagnosis or `systematic-debugging`; stop and enter Router before any fix |
+| Fully specified proposal-only | Router Gate 0; Router records Superpowers `none`, validates artifacts, and stops for approval |
+| Material proposal ambiguity | Router selects brainstorming exactly once and preserves its HARD-GATE |
+| Direct Change | Router selects debugging, TDD, and Review from cause and risk |
+| Ordinary diff/Report/evidence Review | Companion Standalone Lightweight |
+| Architecture, OpenSpec, authorization, or completion Review | Router Review-only |
+| High-risk implementation | Router plus approved OpenSpec, plan, TDD, verification, and distinct Review |
+| Whole-task completion | Router Completion Contract; child evidence cannot decide completion |
+| User-explicit `$superpowers:*` | Respect the method request; state-changing/Git/completion scope enters Router first |
+
+### Route Decision Record
+
+Use this normative record when a routing probe or audit needs a stable,
+machine-checkable decision. It does not grant authority beyond the route.
+
+| Class | `route` | `result` | `selected_superpowers` | `state_change_allowed` | `git_authorized` | `completion_owner` |
+|---|---|---|---|---:|---:|---|
+| `ordinary_question` | `direct` | `answer` | `[]` | `false` | `false` | `none` |
+| `diagnose_only` | `diagnose-only` | `stop-before-fix` | `["superpowers:systematic-debugging"]` | `false` | `false` | `none` |
+| `proposal_only` | `openspec-proposal` | `stop-for-approval` | `[]` | `false` | `false` | `router` |
+| `material_ambiguity` | `openspec-proposal` | `needs-user-decision` | `["superpowers:brainstorming"]` | `false` | `false` | `router` |
+| `direct_change` | `direct-change` | `implementation-gated` | `["superpowers:systematic-debugging","superpowers:test-driven-development"]` | `true` | `false` | `router` |
+| `ordinary_review` | `companion-standalone` | `review` | `[]` | `false` | `false` | `none` |
+| `architecture_review` | `router-review-only` | `review` | `[]` | `false` | `false` | `router` |
+| `high_risk_implementation` | `approved-implementation` | `implementation-gated` | `["superpowers:writing-plans","superpowers:test-driven-development","superpowers:requesting-code-review","superpowers:verification-before-completion"]` | `true` | `false` | `router` |
+| `whole_task_completion` | `router-completion` | `completion-evaluation` | `["superpowers:verification-before-completion"]` | `false` | `false` | `router` |
+| `explicit_method_no_git` | `router-gate-0` | `blocked` | `["superpowers:finishing-a-development-branch"]` | `false` | `false` | `router` |
+| `missing_router` | `blocked` | `blocked` | `["superpowers:test-driven-development"]` | `false` | `false` | `none` |
+| `duplicate_router` | `blocked` | `blocked` | `["superpowers:test-driven-development"]` | `false` | `false` | `none` |
+| `cyclic_phase` | `router-gate-0` | `blocked` | `["fixture:child-a","fixture:child-b"]` | `false` | `false` | `router` |
+
+`selected_superpowers` records the exact canonical methods selected or
+explicitly requested for the bounded route, even when authority blocks a
+requested method. Direct Change records its current cause methods only;
+approved high-risk implementation records its required lifecycle set.
+`state_change_allowed` means the request may enter implementation after its
+remaining gates and is true only for Direct Change and explicitly approved
+high-risk implementation. `git_authorized` reflects current explicit Git
+authority. `completion_owner` is `router` only when exactly one applicable
+Router owns the route; bypass and missing/duplicate Router routes use `none`.
+Router Gate 0 owns a cyclic route, but its result is `blocked`.
 
 ## Single OpenSpec Design Contract
 

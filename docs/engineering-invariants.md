@@ -76,3 +76,91 @@ and pins the handling rule in this entry.
 Loading pointer: agents read this file through `AGENTS.md`; task plans may name
 the exact temporary trace and cleanup checkpoint but must not duplicate or
 weaken this invariant.
+
+## Behavioral forward proofs must audit native events
+
+Scope: external CLI behavioral forward tests, Skill-load probes, and any claim
+that a result was produced without shell, filesystem, or tool fallback.
+
+Invariant:
+
+- A behavioral proof must audit the native event stream with a fail-closed
+  allowlist. A read-only sandbox and an unchanged file snapshot prove only that
+  no mutation occurred; they cannot exclude read-only fallback.
+- Any tool, command, file, or MCP event invalidates a no-tool proof even when
+  the final classifier, marker, or schema-constrained object is correct.
+- Unknown event types, invalid JSONL, missing completion, or an unavailable
+  supported event stream fail closed. Persist only sanitized counts and hashes,
+  never raw events or message text.
+
+Counterexample: a probe shell-reads `SKILL.md`, returns a marker-perfect answer,
+and leaves the project snapshot unchanged. A marker-only classifier reports
+PASS even though native Skill loading was never established.
+
+Mechanical enforcement: the routing forward runner rejects non-message and
+non-reasoning JSONL item types, and the project test suite supplies a
+marker-perfect command event that must fail.
+
+Loading pointer: agents read this file through `AGENTS.md`; forward-test plans
+must bind the event-audit mechanism and sanitized evidence before claiming a
+no-tool result.
+
+## Reviewed runtime plan binds destination pre-state
+
+Scope: cross-runtime synchronization, managed global-rule replacement, and
+other reviewed plans that write existing or expected-absent destinations.
+
+Invariant:
+
+- A reviewed runtime plan binds destination pre-state as well as source
+  identity. Source hashes alone cannot authorize overwriting whatever bytes
+  happen to exist when apply begins.
+- Every destination and global rule records its reviewed hash, mode, or absence.
+  Apply checks the complete target immediately before any backup or write; any
+  pre-state drift aborts the target before mutation.
+- Rollback must restore the reviewed hash, mode, or absence and verify that
+  restoration. Later targets remain blocked after a target failure.
+
+Counterexample: a reviewed plan contains only source hashes. Another process
+changes a destination before apply, which then backs up and overwrites the new
+bytes; its rollback restores the apply-time drift rather than the state the
+reviewer authorized.
+
+Mechanical enforcement: the sync planner records per-file and per-rule
+pre-state, apply checks it twice before the transaction, and deterministic tests
+cover existing-file drift, absent-to-created drift, and forced-failure rollback.
+
+Loading pointer: agents read this file through `AGENTS.md`; executable sync
+behavior remains canonical in `scripts/validate_cross_cli_sync.py` and its
+tests.
+
+## Bound cleanup must preserve object identity across namespace transitions
+
+Scope: cross-CLI candidate persistence, quarantine, recovery, and cleanup on
+filesystems without an inode-bound deletion primitive.
+
+Invariant:
+
+- A final ownership check binds an object identity, not a pathname. Every later
+  quarantine, recovery, rewrite, and deletion step must preserve that identity
+  through a retained descriptor or an equivalent exact-owner primitive.
+- A name-based unlink or reopen after the final check is not exact-owner
+  cleanup. If the host cannot provide inode-bound deletion, fail closed: keep
+  visible mode-0600 recovery/blocker evidence, preserve unrelated replacement
+  inodes, and rewrite any retained PASS-shaped evidence through the already
+  validated writable descriptor.
+- A successful-looking recovery must never leave canonical JSON `verdict: PASS`
+  evidence visible after an ownership or deletion uncertainty.
+
+Counterexample: a quarantine name is replaced after its retained inode was
+validated. Name-based deletion removes the unrelated inode, or a Pi retained
+inode remains valid `PASS` evidence while recovery reports only `BLOCKED`.
+
+Mechanical enforcement: `scripts/validate_cross_cli_sync.py` owns the
+descriptor-bound seam and fail-closed fallback; deterministic regressions at
+`tests/test_cross_cli_sync.py:1241-1299` and `:2540-2621` inject final-bind
+replacement and assert unrelated-inode preservation, retained-descriptor
+BLOCKED rewriting, mode-0600 blockers, and no JSON `PASS` residue.
+
+Loading pointer: agents read this file through `AGENTS.md`; the production
+cleanup path and focused regressions are the executable authority.

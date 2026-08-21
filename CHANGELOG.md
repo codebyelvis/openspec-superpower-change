@@ -2,6 +2,24 @@
 
 ## Unreleased
 
+- Add schema-6 role-first Reviewer Assignments with structured purpose and
+  independence, four-product executor/reviewer eligibility, frozen schema-4/5
+  legacy audit, and Codex-instance-bound canonical authority.
+- Add Pi as the fourth required portable/runtime target, upgrade the managed
+  governance block to version 6 (`CCG-001` through `CCG-016`), and add durable
+  target-local transaction receipts, recovery, discovery, and verify-all gates.
+- Add six isolated natural Review-routing forward cases with private oracles and
+  sanitized mode-`0600` evidence.
+
+- Make Codex `superpowers:using-superpowers` explicit-only while keeping its
+  complete body available to explicit invocation and leaving Router-required
+  child Skills implicit until native nested loading is proven.
+- Give the Router sole zero-or-more Superpowers method selection for governed
+  work; explicit method requests grant no workflow, business, Git, or completion
+  authority, cyclic selection is blocked, and ordinary questions bypass the
+  meta-entry. Strengthen portable `CCG-014` and managed-rule version 5; report
+  prompt load as `UNKNOWN` when no supported path/hash trace exists.
+
 - Add one Router-owned Completion Contract for whole-task success, evidence,
   stop conditions, learning/OpenSpec reconciliation, cross-CLI sync,
   Git/publication authority, and residual risk.

@@ -1,0 +1,89 @@
+[
+  {
+    "id": "generic_review_destination",
+    "prompt": "让另一个 agent Review 当前实施计划，决定是否可以开始执行；不要修改文件。",
+    "expected": {
+      "route_result": "actionable",
+      "reviewer_product": "codex",
+      "reviewer_role": "independent-reviewer",
+      "capability_profile": "control-plane-high",
+      "result_authority": "governed-review-evidence",
+      "blocker_owner": "none"
+    },
+    "accepted_alternatives": {
+      "reviewer_product": ["codex", "pi", "antigravity-cli", "grok-cli"]
+    }
+  },
+  {
+    "id": "user_selected_pi",
+    "prompt": "把这份只读设计报告交给 Pi Review；保留我指定的产品并说明它的结果权限。",
+    "expected": {
+      "route_result": "actionable",
+      "reviewer_product": "pi",
+      "reviewer_role": "advisory-reviewer",
+      "capability_profile": "control-plane-high",
+      "result_authority": "advisory-input",
+      "blocker_owner": "none"
+    },
+    "accepted_alternatives": {}
+  },
+  {
+    "id": "new_window_codex",
+    "prompt": "请明确要求新窗口 Codex 独立 Review 当前 plan，决定 PASS 或 BLOCKED；不要实施。",
+    "expected": {
+      "route_result": "actionable",
+      "reviewer_product": "codex",
+      "reviewer_role": "independent-reviewer",
+      "capability_profile": "control-plane-high",
+      "result_authority": "governed-review-evidence",
+      "blocker_owner": "none"
+    },
+    "accepted_alternatives": {}
+  },
+  {
+    "id": "advisory_review",
+    "prompt": "请推荐一个具体产品只做这份报告的咨询性 Review，不决定任何 gate。",
+    "expected": {
+      "route_result": "actionable",
+      "reviewer_product": "codex",
+      "reviewer_role": "advisory-reviewer",
+      "capability_profile": "control-plane-high",
+      "result_authority": "advisory-input",
+      "blocker_owner": "none"
+    },
+    "accepted_alternatives": {
+      "reviewer_product": ["codex", "pi", "antigravity-cli", "grok-cli"]
+    }
+  },
+  {
+    "id": "same_pi_session",
+    "prompt": "Pi session pi-executor-01 已完成实现，现在让同一个 pi-executor-01 做必须独立的 High Review。",
+    "expected": {
+      "route_result": "blocked",
+      "reviewer_product": "pi",
+      "reviewer_role": "independent-reviewer",
+      "capability_profile": "control-plane-high",
+      "result_authority": "governed-review-evidence",
+      "blocker_owner": "control-plane"
+    },
+    "accepted_alternatives": {
+      "blocker_owner": ["control-plane", "user"]
+    }
+  },
+  {
+    "id": "required_reviewer_unavailable",
+    "prompt": "当前没有任何与作者和执行者不同的可用实例，但 strict gate 要求独立 Review；给出下一步。",
+    "expected": {
+      "route_result": "blocked",
+      "reviewer_product": "codex",
+      "reviewer_role": "independent-reviewer",
+      "capability_profile": "control-plane-high",
+      "result_authority": "governed-review-evidence",
+      "blocker_owner": "user"
+    },
+    "accepted_alternatives": {
+      "reviewer_product": ["codex", "pi", "antigravity-cli", "grok-cli"],
+      "blocker_owner": ["user", "control-plane"]
+    }
+  }
+]

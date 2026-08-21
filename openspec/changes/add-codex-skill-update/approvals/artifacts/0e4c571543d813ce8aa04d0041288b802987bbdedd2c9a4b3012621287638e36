@@ -1,0 +1,1474 @@
+# Design: add-codex-skill-update
+
+## Context
+
+The Scheme C archive chose reproducible, reviewed dependency updates over silent
+latest-version tracking. Its README maintenance procedure already distinguishes
+source/runtime copies, Git+symlink checkouts, marketplace plugins, and installer
+snapshots. What is missing is the executable control plane that turns those
+rules into regular detection, a reviewable plan, an approval boundary, and
+transactional evidence.
+
+The current environment demonstrates why a generic updater is unsafe:
+
+- Superpowers is exposed through a symlink to a Git checkout;
+- the checkout has a local commit and is also behind upstream;
+- upstream and installation-channel versions may differ;
+- marketplace refresh is not equivalent to installed-plugin replacement;
+- copied Skills retain no automatic connection to their original ref.
+
+The accepted dependency-maintenance direction is named **Update Policy U1** in
+this contract: automate freshness detection, never automate update approval.
+U1 is subordinate to the retained workflow Scheme C and is unrelated to the
+earlier workflow Scheme A that would replace Superpowers.
+
+## Goals / Non-Goals
+
+### Goals
+
+- Give the user one discoverable, explicit maintenance Skill.
+- Detect stale, diverged, lagging, unmanaged, unknown, and Major-blocked states
+  without changing managed targets.
+- Make every version claim traceable to source, timestamp, ref/hash, and
+  installation mode.
+- Bind an update to an immutable current-state/candidate plan and an exact user
+  decision.
+- Validate in isolation, promote atomically where safe, prove fresh discovery,
+  and preserve a verified rollback path.
+- Keep scheduled execution read-only with respect to every managed Skill.
+- Preserve Scheme C, Router ownership, OpenSpec Major gates, and Git/publication
+  authority.
+
+### Non-Goals
+
+- A general package manager for arbitrary files or binaries.
+- A native extension to the `codex` CLI command parser.
+- Automatic conflict resolution or automatic rebasing of local Skill patches.
+- Automatic acceptance of release notes, semantic version labels, or upstream
+  trust.
+- Cross-CLI installation of this optional Codex maintenance Skill.
+- A resident daemon, remote service, credential store, or telemetry service.
+- Updating an unregistered Skill by guessing its source.
+
+## Decisions
+
+### 1. Independent explicit Skill, Router-governed mutation
+
+`codex-skill-update` is a sibling source and runtime Skill with a narrowly scoped
+`allow_implicit_invocation: true` policy so the user-requested natural-language
+audit phrases are discoverable. Its public Skill and CLI provide only
+non-mutating audit, plan, verify, and report inspection. A mutation request
+immediately returns to the Router and cannot call an update transaction from the
+public Skill path. `$codex-skill-update` remains the deterministic explicit
+invocation form.
+
+Read-only `audit`, `plan`, and `verify` run directly through the controller.
+Apply, user-requested post-success rollback, schedule installation, schedule
+removal, and rollback-material cleanup re-enter
+`openspec-superpower-change` because they change global runtime state. A Major
+version or any trigger, routing, authority, evidence, completion, or
+installation-lifecycle change requires an approved OpenSpec contract in
+addition to the exact action approval. Automatic compensation after an approved
+apply failure is part of that apply transaction and needs no second approval.
+
+The Router source, trigger, portable manifest, and cross-CLI runtime copies do
+not change merely to install the optional updater.
+
+### 2. User interface does not impersonate Codex CLI
+
+The user-facing forms are:
+
+| Intent | Conversational form | Script form |
+|---|---|---|
+| Audit group | `Codex Skill 更新巡检` | `codex_skill_update.py audit --group workflow-core` |
+| Audit one | `检查 Superpowers 更新` | `codex_skill_update.py audit --skill superpowers` |
+| Plan | `生成 Superpowers 升级计划` | `codex_skill_update.py plan --skill superpowers` |
+| Apply | `批准应用升级计划 <plan-id>` | Router-only internal transaction; no public mutation CLI |
+| Verify | `验证升级回执 <receipt-id>` | `codex_skill_update.py verify --receipt <receipt-path>` |
+| Roll back | `回滚 Skill 更新 <receipt-id>` | Router-only internal transaction; no public mutation CLI |
+| Plan registry replacement | `生成 Skill registry 替换计划` | Router-only internal non-mutating planner |
+| Replace registry | `批准替换 Skill registry <plan-id>` | Router-only internal transaction |
+| Plan schedule | `生成每周只读巡检变更计划` | `codex_skill_update.py plan --schedule {install,remove,replace}` |
+| Install schedule | `安装每周只读巡检 <schedule-plan-id>` | Router-only internal transaction |
+| Replace schedule | `替换每周只读巡检 <schedule-plan-id>` | Router-only internal transaction |
+| Remove schedule | `移除每周只读巡检 <schedule-plan-id>` | Router-only internal transaction |
+
+An optional shell wrapper may be named `codex-skill-update`; the implementation
+must not shadow `codex`, patch shell completion to invent a native subcommand, or
+document `codex skill update` as an existing CLI capability. The public script
+parser exposes only non-mutating `audit`, `plan`, `verify`, and report/metadata
+inspection. Mutation entrypoints are internal library/adapter calls used only
+after the Router records a bound approval artifact.
+
+### 3. Registry and four-value version ledger
+
+Controller state defaults to `${CODEX_HOME}/skill-update`. A
+`CODEX_SKILL_UPDATE_HOME` override is allowed for isolated tests or an explicitly
+configured runtime only after validation. Before its first write, the controller
+resolves every existing path component without following an untrusted final
+symlink, verifies current-user ownership and `0700` directory/`0600` file
+permissions, and rejects an unsafe state root. After registry load it constructs
+a global managed-root ownership graph across every package's source, runtime,
+release, discovery, projection, candidate, backup, and managed target plus the
+controller state root and Bootstrap Control Root. It compares normalized lexical containment, `lstat`,
+real paths, and device/inode identity for existing objects. The controller
+state root and OS temporary root, plus a manager-owned common discovery
+container or release store, are non-package graph anchors. A reviewed fixed
+layout may contain distinct exact children/subtrees leased to controller roles,
+transactions, or packages, but no package may claim or mutate the whole
+container; ownership and overlap checks operate on those exact leases.
+Controller-state metadata/backup/journal children remain one declared
+controller domain rather than fabricated package roots.
+Except for the two exact declared projections, independent package-owned nodes
+may not overlap, contain, or alias one another. The graph is rebuilt before
+audit, plan, transaction recovery, apply, rollback, schedule mutation, and
+cleanup. The JSON registry is runtime-specific and is never copied into a
+public repository.
+
+The registry separates an updateable **package** from its discovered **Skill
+entries**. A package is one source/install/version/update unit; each Skill entry
+maps a discovered name and path back to exactly one package. One package may
+expose multiple entries. Superpowers is therefore one Git package and one
+collection symlink with many `superpowers:*` entries, never one independent
+update target per discovered sub-Skill.
+
+Each registered package contains:
+
+- canonical name, package kind, user/account/project scope, dependency group,
+  required/optional state, and consumer;
+- authoritative targets and projection targets such as collection symlinks;
+- installation mode and resolved source/runtime roots;
+- upstream locator and pinned/default ref;
+- tested compatibility baseline;
+- effective-local and installation-channel observation adapter IDs from a
+  closed built-in enum; registry values supply data only;
+- candidate validation commands as argv arrays and contained working roots;
+- local patch policy, risk policy, and rollback adapter;
+- README/receipt obligations where applicable.
+
+Each discovered Skill entry contains its public name, package ID, relative
+Skill path, discovery root, required/optional state, and expected metadata hash.
+Duplicate names from different packages or an entry that escapes its package
+root are `MULTIPLE_SOURCES` plus `BLOCKED`.
+
+`manual-local`, Codex system, and manager-owned plugin packages are audit-only
+until their authoritative manager/source and reversible adapter are proven.
+System directories and plugin caches are never generic replacement targets.
+
+Every audit records four independent values:
+
+1. `tested_compatibility_baseline`;
+2. `effective_local_version`;
+3. `latest_observed_upstream`;
+4. `installation_channel_available`.
+
+Each value carries evidence timestamp and source. Missing, stale, incomparable,
+or conflicting evidence is explicit and cannot collapse to `CURRENT`.
+
+The initial `workflow-core` package group contains Router, Companion,
+Superpowers, and the updater. Discovery may report additional `UNMANAGED` Skill
+entries, but only an explicit package plus entry mapping expands the managed
+guarantee.
+
+The initial bootstrap plan binds the canonical registry bytes, schema/revision
+and hash, complete package/entry/projection closure, selected adapter identities
+and schemas, and exact controller-state layout. Bootstrap may install only that
+bound registry. Before planning or destination backup, the external Router
+loads those candidate bytes as data and builds the complete ownership graph
+against every observed pre-state target plus the Bootstrap Control Root; it does
+not require or create a destination registry to perform that check. The
+controller never edits the installed registry implicitly. A later change uses a
+fresh canonical `registry-replace` plan and exact Router action approval,
+journal, conditional final-child mutation, verification, and receipt. Any
+registry hash or closure change invalidates the installed schedule-execution
+binding and requires a separately approved `schedule-replace` before the job
+may resume package/network/notification activity.
+
+### 4. Read-only audit and one-shot scheduling
+
+`audit` is read-only with respect to managed Skills and installation channels.
+Observation and notification select only reviewed built-in adapter IDs. Each
+adapter has a fixed absolute executable and argv schema, rejects unknown flags,
+uses no shell or code interpolation, and treats registry values, refs, package
+names, and notification text as data. Before invocation, external executables
+pass no-follow owner/type/mode checks and match the adapter's reviewed content
+hash or platform code identity. Each adapter also owns a scrubbed fixed
+environment and disables user/system config, hooks, credential/proxy/remote
+helpers, interactive prompts, and mutation-capable protocols unless that exact
+helper/protocol is separately reviewed and bound. Unsupported/private
+observation returns `UNKNOWN/BLOCKED` instead of executing ambient config. The
+registry cannot supply executable paths or raw commands. Audit may:
+
+- inspect filesystem metadata, real paths, symlinks, manifests, Git status and
+  refs;
+- use network read operations such as remote-ref lookup;
+- invoke only the fixed read-only installed-version or remote-ref probes owned
+  by those adapters;
+- write sanitized reports and its own lock/timestamp under the controller state
+  root.
+
+It may not fetch into a live checkout, refresh a marketplace, install/remove a
+plugin, replace a snapshot, edit a registry automatically, or call `apply`.
+Channel-state snapshots around every external probe are verification evidence
+that a read-only adapter did not mutate the checkout, marketplace, plugin set,
+or installer snapshot.
+
+For the current macOS runtime, a Router-governed schedule transaction renders a
+user LaunchAgent that runs one non-interactive audit every Monday at 10:00 local
+time. The job exits after producing its report; it is not a resident daemon.
+Apply/rollback commands are absent from the template. The controller treats a
+missing or older-than-eight-days successful report as stale and refreshes audit
+evidence on demand.
+
+Schedule installation/removal is separate from execution of the scheduled
+audit. The public `plan --schedule` path may create a non-mutating canonical
+schedule plan, but installation, removal, and replacement remain Router-only
+transactions. Every plan binds:
+
+- action `schedule-install`, `schedule-remove`, or `schedule-replace`;
+- label `com.openai.codex.skill-update-audit` and launch domain
+  `gui/<current-uid>`;
+- exact plist path
+  `<current-user-home>/Library/LaunchAgents/com.openai.codex.skill-update-audit.plist`
+  and allowed-path set;
+- exact program argv whose controller script path is inside one
+  content-addressed immutable payload rather than the movable discovery
+  symlink; interpreter/executable identity, payload digest, runtime-lock hash,
+  exact payload closure, and expected active updater discovery-entry
+  `lstat`/`readlink`/resolved-target identity;
+- canonical controller state-root identity, registry schema/revision/hash,
+  dependency-group ID, complete package/entry/projection closure, and every
+  selected observation/notification adapter ID plus executable/code identity
+  and argv-schema hash;
+- `Weekday=1`, `Hour=10`, and `Minute=0` (launchd uses `0` and `7` for
+  Sunday);
+- observed pre-state: absent/present plist hash and mode plus a normalized
+  effective loaded-configuration fingerprint;
+- candidate plist canonical hash for install/replace;
+- creation/expiry timestamps and exact automatic-failure rollback strategy.
+
+The normalized loaded fingerprint covers the label, domain, program, argv,
+calendar, and other controller-owned effective fields used for restore and
+verification. A loaded label whose effective configuration cannot be proven to
+come from the exact observed plist, including a loaded label with no plist, is
+`BLOCKED_SCHEDULE_DRIFT`; the controller does not guess how to restore it.
+Changing an existing registration is `schedule-replace`, never an implicit
+install. After the exact schedule-plan decision, the Router records a matching
+action-bound approval artifact, resolves the exact plist and LaunchAgent label,
+backs up any pre-existing registration outside discovery roots, mutates an
+expected-absent plist only with atomic no-replace or an expected-present plist
+only with the conditional exchange protocol in Section 8, verifies `launchctl`
+state and rendered arguments, and
+automatically restores the prior registration on failure. Its canonical
+schedule receipt binds plan and approval hashes, before/after plist hashes and
+modes, before/after effective loaded fingerprints, schedule-execution binding,
+validation evidence, timestamp, and rollback availability. A post-success
+removal or replacement requires a fresh current plan and approval; a receipt
+alone grants no mutation.
+
+The installed job receives the approved schedule-execution binding and rechecks
+its own exact payload path/digest, canonical runtime lock and exact closure,
+expected active discovery-entry identity, interpreter/executable identity, the
+state-root identity, registry hash, group ID, adapter identities, and complete
+closure before reading any package, contacting any upstream, or emitting a
+notification. A controller runtime/discovery or registry change therefore
+requires a new schedule-replace plan and approval; the old job cannot follow a
+movable symlink into new code.
+Drift writes no ordinary audit result, returns
+`BLOCKED_SCHEDULE_BINDING_DRIFT`, and requires a new schedule-replace plan and
+approval. Tests snapshot managed targets and installation channels before and
+after the already-installed audit job runs; only the bound controller state root
+may change during a successfully bound execution.
+
+When audit finds an update, blocker, unmanaged/unknown required package, or
+audit failure, the job emits one local macOS notification containing only
+package names and headline statuses. `CURRENT` produces no notification.
+Notification text contains no paths, refs, hashes, commands, or error details;
+delivery success/failure is recorded in the sanitized report and cannot convert
+a failed audit into success.
+
+Other platforms retain the portable one-shot command and documented scheduling
+contract; their OS scheduler installation is outside this change.
+
+### 5. Deterministic freshness, observations, eligibility, and result codes
+
+Audit keeps four orthogonal fields instead of forcing simultaneous facts into
+one ambiguous status:
+
+| Field | Values |
+|---|---|
+| `freshness_status` | `CURRENT`, `UPDATE_AVAILABLE`, `UNMANAGED`, `UNKNOWN` |
+| `observations` | zero or more of `DIVERGED`, `CHANNEL_LAG`, `STALE_EVIDENCE`, `MULTIPLE_SOURCES` |
+| `apply_eligibility` | `ELIGIBLE`, `BLOCKED`, `BLOCKED_MAJOR` |
+| `reason_codes` | sorted unique machine-readable blocker/detail codes |
+
+`freshness_status` uses the deterministic precedence
+`UNMANAGED > UNKNOWN > UPDATE_AVAILABLE > CURRENT`.
+`apply_eligibility` uses `BLOCKED_MAJOR > BLOCKED > ELIGIBLE`.
+Observations never disappear merely because a stronger apply blocker exists.
+`BLOCKED_MAJOR` reason codes map to `apply_eligibility=BLOCKED_MAJOR`; specialized
+codes including `BLOCKED_LAYOUT_MIGRATION`, `BLOCKED_RELEASE_COLLISION`,
+`BLOCKED_SELF_UPDATE`, `BLOCKED_CHANNEL_MUTATION`,
+`BLOCKED_SCHEDULE_DRIFT`, `BLOCKED_SCHEDULE_BINDING_DRIFT`,
+`BLOCKED_ROOT_ALIAS`, and `BLOCKED_RECOVERY_REQUIRED` map to
+`apply_eligibility=BLOCKED`. All reason codes remain visible; they do not
+compete in the headline precedence.
+For compact display only, the headline precedence is
+`BLOCKED_MAJOR > BLOCKED > UNMANAGED > UNKNOWN > DIVERGED >
+UPDATE_AVAILABLE > CHANNEL_LAG > CURRENT`; the complete structured fields and
+evidence remain authoritative.
+
+Mutation attempts use a separate single-valued `transaction_result`:
+`SUCCEEDED`, `BLOCKED`, `FAILED_COMPENSATED`, or `RECOVERY_REQUIRED`.
+`FAILED_COMPENSATED` means failure plus verified restoration;
+`RECOVERY_REQUIRED` means no success/restoration claim is allowed and all new
+work stops. A table-driven fixture covers field mapping, reason retention, and
+every valid transaction-result transition.
+
+The known Superpowers checkout therefore reports `DIVERGED` in observations and
+`BLOCKED_MAJOR` for apply eligibility when the candidate crosses the approved
+Major boundary. A table-driven compound fixture covers every precedence pair.
+
+Candidate inspection also produces a capability-surface diff. New or changed
+scripts, executable modes, hooks, MCP servers, apps, tools, implicit-invocation
+policy, trigger scope, or dependency closure cannot be hidden inside a semantic
+version label; they force `BLOCKED_MAJOR` and an updated reviewed contract.
+
+### 6. Immutable plan and approval binding
+
+`plan` stages or retrieves a fixed candidate only in a restrictive
+`mktemp`-created OS temporary directory outside the state, discovery, source,
+runtime, release, and managed target roots. A normal plan is written under the
+validated controller state root. The first-install `bootstrap-apply` plan is
+instead written under the current immutable authorization workspace in the
+restrictive Router-owned Bootstrap Control Root
+`${CODEX_HOME}/openspec-superpower-change/bootstrap-control/codex-skill-update/`,
+which the exact Major source-implementation approval creates outside every
+updater destination before bootstrap planning. That root uses verified
+no-follow current-user `0700` directories/`0600` files and is itself included
+in the global ownership graph. No bootstrap authority record, plan, approval,
+lease, journal, receipt, or closeout evidence is written to the
+not-yet-approved updater state root.
+Any missing fixed ancestor between the already validated `${CODEX_HOME}` and
+the package root is created one component at a time with directory-FD-anchored
+no-replace semantics, restrictive mode, parent fsync, and post-create
+owner/type/mode/device/inode verification. The shared
+`openspec-superpower-change/` and `bootstrap-control/` directories are
+manager-owned graph anchors, not package roots; existing exact safe anchors may
+retain only their separately declared child leases.
+
+The final package root is built as a restrictive same-filesystem sibling
+candidate whose fixed closure initially contains canonical
+`control-root.json`, a verified mode-`0600` single-link `operation.lock`, and
+mode-`0700` `authorizations/`. The stable marker binds only schema, absolute
+target path, package ID, and Router control-plane ID; it does not bind one
+decision, session instance, change-id, or Major manifest. The candidate name is
+bound to the stable marker hash and is a temporary graph lease. Atomic
+no-replace promotion plus parent fsync serializes root creation. A matching
+stranded candidate or target with that exact stable marker and closure is
+resume/reuse-only. An unmarked empty target, mismatched marker, unsafe ancestor,
+undeclared sibling, or foreign/ambiguous content blocks without repair,
+overwrite, deletion, or guessed adoption.
+
+This fixed-root initializer is the sole exception to the rule that an
+entrypoint acquires the controller operation lock first. Before promotion it
+may only verify/create the disclosed parent anchors and candidate/root closure;
+it may not probe updater targets, create a plan, use network/package adapters,
+or write any updater destination. Immediately after promotion/reuse it opens,
+validates, and acquires the embedded operation lock before any other work.
+
+Under that lock, each Major manifest gets one immutable mode-`0700`
+`authorizations/<manifest-sha256>/` workspace. Its canonical marker binds the
+manifest hash, change-id, raw artifact hashes, projection digest, decision
+provenance/time, and control-plane instance. Its fixed child layout contains
+only verified no-overwrite content-addressed copies of the Major manifest/raw
+snapshots, short authority lock and append-only revocations, plans, approvals,
+leases, journals, receipts, and closeout evidence. Creation is same-filesystem
+no-replace plus fsync; an existing
+workspace is reuse-only after exact marker/closure verification. Reapproval
+creates a new manifest-hash workspace, preserves every old workspace and
+receipt, and never edits the stable root marker. A known journal in the selected
+workspace enters recovery; a mismatched or ambiguous workspace blocks. Before
+selecting or creating any workspace, the locked Router enumerates and validates
+the complete declared workspace set. Any incomplete journal in an older
+workspace must finish lease-bound recovery or block all new work; reapproval
+cannot bypass it.
+
+The controller derives `plan-id` from canonical plan bytes and removes the
+temporary candidate after recording its immutable provenance and fingerprint.
+Apply retrieves a fresh isolated candidate and requires the same fingerprint.
+Each adapter defines a canonical complete candidate fingerprint:
+a sorted `lstat` inventory of path, type, mode, regular-file content hash,
+symlink target, and link multiplicity for filesystem material, rejecting
+escapes and undeclared hardlinks; and, for Git, repository/object format,
+commit/tree/ref, submodule identities, plus the same exact checked-out closure.
+A ref name or semantic version alone is insufficient.
+
+The plan binds:
+
+- registry schema and registry revision/hash;
+- canonical package ID, complete expected discovered-entry/projection set, and
+  resolved authoritative and projection targets;
+- current source/runtime fingerprint and symlink metadata;
+- candidate source ref, immutable fingerprint, and provenance;
+- installation adapter and exact allowed mutation paths;
+- validation executable/code identity, argv/cwd, scrubbed environment,
+  network/write-containment policy, fixed adapter/boundary timeouts, and
+  expected evidence;
+- risk classification, OpenSpec requirement, stop conditions, and rollback
+  adapter;
+- for Major eligibility, a `major_authorization` binding with exact change-id,
+  immutable authorization-manifest SHA-256, approved raw
+  proposal/design/spec/tasks SHA-256 set, canonical contract-projection digest,
+  direct-user decision provenance, and decision timestamp;
+- creation/expiry timestamps.
+
+Creating a plan grants no approval. Before apply, the controller recomputes all
+bindings and rejects stale/tampered plans. After the user's exact decision, the
+Router records a canonical approval artifact that binds:
+
+- schema version, decision owner, and control-plane instance;
+- decision provenance `direct-user-confirmation`;
+- action (`apply`, `bootstrap-apply`, `rollback`, `registry-replace`,
+  `schedule-install`, `schedule-remove`, `schedule-replace`, or `cleanup`);
+- target, plan/receipt ID, allowed-path-set hash, and scope hash;
+- the identical Major authorization binding when the plan is Major;
+- creation and expiry timestamps.
+
+The internal transaction entrypoint accepts only a current canonical approval
+artifact whose hash and fields match the requested action. The artifact is
+auditable decision evidence, not cryptographic human authentication; the Router
+remains responsible for observing and accurately recording the user decision.
+The public CLI cannot mint an approval or invoke a mutation. Platform permission
+alone is insufficient. Missing, stale, or hash-mismatched Major evidence remains
+`BLOCKED_MAJOR` even when every other plan field matches.
+
+A later direct user revocation is recorded through an independent Router-owned
+authority channel: `authority/` under the validated normal state root, or under
+the selected Bootstrap authorization workspace. The channel has one
+current-user-owned mode-`0600`, single-link, no-follow `authority.lock` and an
+append-only `revocations/<approval-sha256>.json` namespace. A revocation is
+canonical sorted-key compact UTF-8 JSON containing exactly schema `1`, kind
+`approval-revocation`, approval SHA-256, decision provenance/owner/control-plane
+instance, and UTC RFC 3339 decision time. The Router creates it no-replace,
+fsyncs the file and parents, and reuses an existing path only after exact
+regular-file canonical-content verification. Public paths cannot mint it;
+unsafe links, modes, owners, closure, or collisions block authority use.
+
+The short authority lock never requires or acquires the transaction-long
+operation lock, so the Router can record revocation while an operation is
+running. A forward transaction already holding the operation lock acquires the
+authority lock in that fixed nesting order, validates the complete authority
+closure, and holds the short lock from its expiry/revocation check through the
+durable boundary intent, atomic target mutation, all required fsyncs, and the
+durable boundary result. The journal records the UTC/monotonic authority-check
+time; expiry at or before that instant blocks, while a later expiry is ordered
+after this one bounded boundary and blocks the next. It then releases the
+authority lock before validation or other long non-mutating work. This is the
+linearization point: a revocation
+ordered first blocks the boundary; one ordered after a started boundary blocks
+the next forward boundary and activates only lease-bound restoration once
+intent exists. Terminal success receipt/lease consumption is itself such a
+boundary; a revocation ordered after it is non-retroactive and requires a new
+rollback decision rather than guessed rollback.
+
+Before any checklist marker is changed after approval, the controller stores
+the exact approved bytes of each of the four contract artifacts at
+`openspec/changes/add-codex-skill-update/approvals/artifacts/<artifact-sha256>`
+using verified-parent, no-follow, no-overwrite creation. An existing snapshot
+is reuse-only after an exact regular-file/content match; a collision or unsafe
+ancestor blocks progress. These snapshots make the approved raw hash set
+reproducible after checklist-only progress changes.
+
+Each authorization manifest is written once from its user-approved revision at
+`openspec/changes/add-codex-skill-update/approvals/<manifest-sha256>.json`.
+It is canonical UTF-8 JSON with sorted keys and compact separators using exactly
+these fields: `schema` with integer `1`; `change_id`;
+`artifact_hashes` as a path-to-SHA-256 object for the four contract artifacts;
+`contract_projection_sha256`; `source_bootstrap_prestate_sha256`;
+`source_bootstrap_material_hashes` as the exact path-to-SHA-256 object for the
+complete approved untracked source/supporting inventory; `source_bootstrap_git` containing
+exactly `executable_path`, `executable_sha256`, `version`, `repository_root`,
+`git_common_dir`, `object_format`, `base_commit`, `base_tree`, `branch_ref`,
+`worktree_path`, and `worktree_admin_path`; `source_bootstrap_sandbox`
+containing exactly `executable_path`, `executable_sha256`, `profile_sha256`,
+`write_allowlist_sha256`, `invocation_argv_sha256`, `network_policy` (`DENY`),
+`child_exec_policy` (`HELPER_AND_FIXED_READ_ONLY_GIT_ONLY`), and
+`source_bootstrap_helper` containing exactly `executable_path`,
+`executable_sha256`, `fixed_argv`, `fixed_environment`, and
+`fd_binding_protocol` (which SHALL list every internally retained mutable-parent
+directory and no-follow continuity check required before the first write);
+`decision_provenance` with value
+`direct-user-confirmation`; `decision_timestamp` as a UTC RFC 3339 string; and
+`control_plane_instance`. It contains no transcript or private prompt. Its own
+SHA-256 is both the manifest identity and filename. Reapproval creates new
+content-addressed snapshots as needed plus a new immutable manifest and never
+rewrites prior evidence.
+
+From the user decision through raw snapshots, manifest/profile/journal setup,
+and successful task 2.1 post-verification, all approved material paths are
+byte-frozen. No checklist marker may change and tasks 1.5/2.1 remain visually
+unchecked during that interval. Task 2.1 initially materializes every exact
+approved byte stream once, no-overwrite. Only after that exact copy and
+post-verification may task 1.5/2.1 markers and later checklist progress change
+under the normalized projection rule. Any pre-bootstrap marker or other byte
+drift blocks and requires a newly approved revision; it is never reconciled by
+overwriting the worktree copy.
+
+The contract projection replaces only a line-leading Markdown marker matching
+`- [ ]`, `- [x]`, or `- [X]` in `proposal.md` and `tasks.md` with `- [ ]`;
+`design.md` and the spec bytes are unchanged. It hashes a domain-prefixed,
+sorted-key compact JSON object
+`{"files":[{"path":...,"sha256":...}],"schema":1}` with files sorted by
+UTF-8 bytewise change-root-relative path in this exact order: `design.md`,
+`proposal.md`, `specs/skill-update-governance/spec.md`, and `tasks.md`. The
+exact UTF-8 prefix is
+`openspec-major-contract-projection-v1` followed by one NUL byte. The projection
+does not drop, reorder, or normalize any other bytes. Only after task 2.1 exact
+materialization, later `[ ]`/`[x]` progress changes do not rewrite the manifest.
+Before that boundary every byte is frozen. Any other
+proposal/design/spec/tasks byte change alters the projection digest, invalidates
+Preflight/plan eligibility, and requires a new exact approval and manifest.
+
+### 7. Adapter capability is explicit
+
+All four installation modes support audit and a canonical planning result. A
+mode that cannot obtain and fingerprint an isolated candidate still returns its
+exact blocker and resume condition, but it does not emit an actionable
+`plan-id`; a diagnostic planning result cannot be approved or passed to apply.
+Only an actionable update plan satisfying Section 6 may receive a later Router
+approval. Apply is allowed only when the selected adapter proves:
+
+- exact real target and contained allowed paths;
+- isolated candidate;
+- target-specific validation;
+- atomic promotion on the current filesystem;
+- deterministic fresh discovery/version verification;
+- verified rollback.
+
+`source-runtime` and `installer-snapshot` apply only to an already managed
+versioned layout: immutable release directories outside the discovery entry,
+plus one discovery symlink switched with the same-filesystem conditional
+final-child protocol defined in Section 8.
+The controller never claims to atomically replace an existing non-empty
+directory. An existing plain copied runtime is audit/plan-only and reports
+`BLOCKED_LAYOUT_MIGRATION`; converting it to the managed layout is a separate
+approved lifecycle migration.
+
+`git-symlink` similarly atomically retargets a symlink to a separately validated
+immutable checkout; it never rebases or overwrites an existing divergent
+checkout. A user-requested plan may create only a fixed ephemeral candidate
+object/checkout store under its OS temporary root and removes it after
+fingerprinting. An exact apply approval may create only the bound immutable
+checkout under the allowed release root. Neither action initializes or changes
+a sibling source, live checkout, or other user repository, and neither grants
+staging, commit, branch/tag/remote mutation, reset, clean, push, or publication.
+Both use a closed Git materialization adapter with fixed executable/code
+identity, scrubbed environment, disabled ambient config/hooks/helpers/prompts,
+and bound protocol/ref policy.
+Fault-injection tests cover interruption before release finalization, before
+symlink replacement, immediately after replacement, and during post-promotion
+verification. Version 1 keeps Codex plugin replacement
+`BLOCKED_CHANNEL_MUTATION`; remove/reinstall is not an implicit fallback. A
+future manager mutation requires a new approved contract and action model.
+
+#### Runtime payload integrity
+
+`references/runtime-manifest.json` is a repository-only build allowlist and
+schema declaring exact relative paths and expected normalized modes, not a file
+copied into the discovered payload and not a self-referential hash list. The
+builder resolves it into a canonical `runtime-lock.json` with:
+
+- schema version `1`;
+- sorted POSIX relative paths with no absolute path, empty segment, `.`, `..`,
+  backslash, NUL, or traversal representation;
+- regular-file type only, normalized mode `0644` or `0755`, and SHA-256 content
+  digest for every entry; hard-linked files (`st_nlink != 1`) are rejected;
+- only reviewed runtime top-level paths and no repository-only or sensitive
+  category.
+
+Canonical lock bytes are UTF-8 JSON with sorted keys and compact separators.
+The payload identifier is SHA-256 over a fixed schema/domain prefix plus those
+canonical bytes. A release is
+`<release-store>/<payload-sha256>/payload/` plus sibling
+`runtime-lock.json`; the discovery symlink targets the exact `payload/`
+directory. The stored lock must itself be canonical and recompute to the
+release-directory digest. Payload closure is exact: every lock entry must exist
+with matching type, mode, and digest, every directory must be mode `0755`, and
+no extra entry or symlink is permitted.
+
+The digest directory has exact top-level closure: it is a current-user-owned
+mode-`0755` directory containing only `payload/` and `runtime-lock.json`.
+No-follow checks reject a symlink in any existing release-path component. The
+lock is a current-user-owned, single-link (`st_nlink == 1`) regular file with
+mode `0644`; `lstat`, canonical bytes, and digest recomputation are all required
+before its contents are trusted. A lock symlink, hardlink, extra top-level
+entry, wrong owner/mode, or non-canonical bytes is a collision/blocker even when
+reading it would currently yield expected bytes.
+
+Release finalization uses a restrictive sibling temporary directory on the
+same filesystem, verifies exact closure, seals file/directory modes, and uses a
+platform-proven atomic no-replace rename into the content-addressed destination;
+an adapter without that primitive is `BLOCKED`. If that digest destination
+already exists, the operation is verify-only. An exact match is reused; any
+missing, extra, linked, mode-changed, or content-changed entry is
+`BLOCKED_RELEASE_COLLISION` and is never overwritten. Discovery switching uses
+a sibling temporary symlink plus atomic no-replace when the approved pre-state
+is absent, or atomic exchange when it is present. The displaced entry is
+retained and verified before it can become compensation material; unconditional
+`os.replace` is forbidden. The same verifier runs before plan acceptance,
+promotion, fresh discovery, rollback, and cleanup.
+
+### 8. Transaction, receipt, and rollback
+
+Except for the fixed Bootstrap-root initializer defined in Section 6, every
+public or internal entrypoint first acquires the one controller operation lock
+and holds it through journal detection, bound-state reads, external probes,
+report/plan/receipt writes, verification, and any transaction. The normal lock
+is a current-user-owned mode-`0600`, single-link regular file opened no-follow
+under the validated state root; bootstrap uses the lock embedded in the stable
+Bootstrap Control Root and selects one manifest workspace only after acquiring
+it. The held descriptor's device/inode is revalidated and the lock path is never
+replaced. An unsafe/unavailable lock blocks rather than running concurrently.
+This serialization prevents an audit/scheduled job from observing a mixed
+registry or target state during apply/registry/schedule mutation. The separate
+short authority lock follows the fixed nesting/linearization rule in Section 6
+and does not weaken operation serialization.
+
+Every Router-owned mutation—apply, `bootstrap-apply`, post-success rollback,
+`registry-replace`, schedule install/remove/replace, or retained-material
+cleanup—rechecks its plan and current action-bound approval while holding that
+lock and writes a canonical transaction journal before its first target
+mutation. Normal journals live under the validated controller state root; the
+first bootstrap journal and all of its authority/evidence live only under the
+selected immutable Bootstrap authorization workspace until the bound state root
+is installed. For apply, it also creates restrictive temporary compensation
+material outside every discovery root, validates the candidate, and finalizes
+an immutable release.
+
+While the original approval is still current and before the first
+`MUTATION_INTENT`, the Router prepares and fsyncs a canonical single-use
+compensation lease. The lease binds the transaction/plan/approval hashes, exact
+pre-state, restoration-only path set, compensation hashes, and terminal
+conditions. It becomes active only when the fsynced `MUTATION_INTENT`
+transition rechecks the still-current, unrevoked approval and binds the lease
+hash while holding the authority lock through the first mutation and durable
+boundary result. Every forward mutation and terminal-success boundary repeats
+that linearized check. Expiry or revocation before intent blocks without target
+mutation or active lease; after intent it stops the next forward boundary and
+permits only lease-bound restoration/verification.
+The lease never authorizes a new candidate, forward resume, post-success
+rollback, registry/schedule change, or retained cleanup. A durable success
+receipt or verified restoration consumes it. Missing, corrupt, or ambiguous
+lease evidence is `RECOVERY_REQUIRED`, never guessed authority.
+
+The journal binds the lease hash, pre-state fingerprint, allowed-path set,
+compensation material, and phase. The controller atomically rewrites and
+`fsync`s the journal and its containing directory before and after each mutation
+boundary. Compensation bytes, their hashes, and containing directories are
+durable before the journal authorizes mutation. Each filesystem rename/switch
+also fsyncs the affected parent directory before advancing phase.
+
+Every final-child mutation uses a platform-proven conditional protocol anchored
+to the verified parent. Creation of an expected-absent child uses atomic
+no-replace. Replacement of an expected-present child uses atomic exchange (on
+macOS, `renameatx_np(..., RENAME_SWAP)`) with a sibling candidate so the
+displaced object is preserved. Removal first exchanges the expected child with
+a unique journal-bound tombstone, verifies the displaced object, then uses
+atomic no-replace to relocate that exact tombstone into an absent private
+quarantine slot and verifies its identity, leaving the destination absent. The
+displaced object's type, device/inode, mode, link metadata/target, and content
+hash must match the approved pre-state at every step. A mismatch is exchanged
+or moved back when unambiguous; no mismatched object is unlinked, and concurrent
+ambiguity becomes `RECOVERY_REQUIRED`. The approved removed object remains
+preserved as compensation until a durable receipt/restoration permits its
+transaction-bound cleanup. Terminal unlink is allowed only inside a
+transaction-exclusive current-user-owned private closure whose directory
+descriptor, owner/mode, path identity, entry set, and entry identities remain
+bound through deletion; if an adapter cannot prove that envelope or observes
+drift, it retains the quarantine and returns a cleanup blocker. Unconditional
+`os.replace`, check-then-overwrite, check-then-unlink, and adapters without
+every required primitive are blocked. Apply then conditionally switches the
+discovery symlink and performs:
+
+- target validator/tests;
+- planned hash/ref parity;
+- effective runtime version observation;
+- fresh Skill discovery in a new process/session where practical;
+- dependency-group audit.
+
+Every mutation runs its plan-specific verification, then writes and fsyncs its
+canonical receipt and marks the journal complete. Every entrypoint detects an
+incomplete journal before audit, plan, verify, apply, rollback, schedule, or
+cleanup. Public and scheduled paths return `RECOVERY_REQUIRED` and re-enter the
+Router without target mutation. The Router-owned internal recovery acquires the
+same lock and uses the compensation lease rather than treating an expired
+approval as forward authority. Each target-changing substep first durably
+records its pre-state and `MUTATION_INTENT`; only a `PREPARED` phase with exact
+proof that the target still equals pre-state may remove journal-bound staging
+without restoration. Recovery from `MUTATION_INTENT` or any later incomplete
+phase treats the target as possibly changed, compares current/pre-state and
+expected post-state evidence, and restores and verifies the journal-bound prior
+state unless a durable success receipt already proves completion. Phase alone
+never proves that a mutation did not occur. A hard kill, process restart, or
+machine reboot therefore cannot silently accept an unverified candidate.
+Missing, corrupt, or ambiguous journal/compensation evidence returns
+`RECOVERY_REQUIRED`/`BLOCKED_RECOVERY_REQUIRED`, records owner and resume
+condition, and permits no further mutation. A verified failed transaction
+returns `FAILED_COMPENSATED`, not a generic success or receipt.
+
+Receipt fields include plan/approval/compensation-lease identity and hashes,
+action, before/after fingerprints, validation results, discovery/version evidence, rollback
+availability/hash, timestamps, and sanitized status. They never include
+credentials, environment values, private prompts, raw external traces, or file
+contents.
+
+After success, the current and immediately previous verified immutable releases
+and their receipts are retained outside discovery roots. A user-requested
+post-success rollback is a new receipt-bound mutation and requires its own
+approval artifact. Before switching, rollback recomputes and matches an
+adapter-specific, receipt-bound canonical after-fingerprint. Common fields are
+discovery-entry `lstat` metadata and `readlink` value, resolved target,
+registry revision/hash, and allowed-path-set hash. `source-runtime` and
+`installer-snapshot` also bind the exact payload lock/content/modes.
+`git-symlink` also binds repository identity and Git-dir/worktree real paths,
+object format, HEAD object and tree, symbolic ref or detached state, index
+checksum, remote/ref mapping, submodule state, canonical porcelain status, and
+a path/type/mode/content digest inventory of every tracked and untracked
+worktree entry outside Git internals. Any dirty, untracked, HEAD/tree/ref,
+index, submodule, metadata, or content drift therefore blocks rollback. Other
+adapters must define equally complete after-state fields before rollback can be
+eligible. Drift in any component or later user change blocks automatic rollback
+rather than being overwritten. Cleanup is also separately approved, cannot
+remove the current or only known-good prior release, and records the material
+as removed. If receipt-bound material is missing, corrupt, or already cleaned,
+rollback is `BLOCKED` rather than reconstructed from an unverified source.
+
+Transaction-local staging and compensation are removed under the original
+action only while its approval remains current and only after a durable success
+receipt or durable verified-restoration record makes them unnecessary. If
+expiry/revocation forced lease-only recovery, all leftover local material is
+retained inert and requires a separate cleanup plan/approval. Retained
+post-success, receipt-bound, rollback, or immutable-release material likewise
+requires a separate canonical cleanup plan and `cleanup` approval bound to the
+exact receipt, paths, hashes, and expiry.
+Journal finalization is not authority to delete retained material. Cleanup also
+cannot remove a payload referenced by an installed schedule-execution binding;
+that schedule must first be separately removed/replaced and verified.
+
+### 9. Version 1 blocks self-apply
+
+The controller may audit and plan its own source/runtime parity, but version 1
+has no self-update transaction adapter. Every apply, post-success rollback, or
+cleanup whose resolved target/allowed root aliases the running controller
+executable, payload, discovery entry, or release returns
+`BLOCKED_SELF_UPDATE`, regardless of package ID. The Router owns the resume
+condition: run a separately approved fixed-source deployment outside the live
+updater process, then verify discovery in a new process. No nonexistent
+bootstrap or automatic self-promotion is claimed.
+
+The first controller installation is the distinct action `bootstrap-apply`, not
+self-apply. After source validation and High Review PASS, the Router runs from a
+fixed executor whose resolved code/payload/source identities are disjoint from
+every target. It writes the fresh immutable plan only to the current
+manifest-hash workspace in the Bootstrap Control Root.
+`bootstrap-apply` is eligible only when fresh process/discovery/registry
+evidence proves there is no running or active discovered updater installation;
+exact inactive partial pre-state may be bound for recovery, but an active or
+ambiguous installation cannot be updated through the bootstrap action.
+The plan binds the external Router executable/code/source identity and hashes;
+absent/existing pre-state; updater source/runtime-lock/candidate hashes;
+the exact canonical initial registry bytes/schema/revision/hash; complete
+package/entry/projection closure and adapter identities/schemas; the full
+initial controller-state layout; allowed paths, backup, validation, rollback,
+Major authorization, and expiry. A separate exact `bootstrap-apply` approval is
+recorded in that workspace before any destination backup or mutation.
+
+After approval, the external Router builds and verifies the complete initial
+state tree in a bound same-filesystem sibling, installs the state root with the
+conditional final-child protocol, imports the exact plan/approval/lease and
+later sanitized receipt by hash, and keeps its transaction journal in the
+selected Bootstrap authorization workspace through verified completion.
+Package ID equality alone
+does not make this external transaction self-apply; executor-to-target
+filesystem aliasing does. A live updater process, or any executor aliasing the
+target payload/discovery/release, remains blocked. Approval of this Major
+implementation contract alone does not authorize the bootstrap transaction.
+
+### 10. Security and Git boundaries
+
+- Registry paths are resolved, contained, and checked for symlink escapes.
+- Observation and notification use closed built-in adapters with fixed absolute
+  executables/argv; registry and remote text never select code.
+- Validation uses JSON argv arrays without a shell and runs only in declared
+  candidate roots.
+- Remote/ref text is data, never interpolated into shell source.
+- Reports redact sensitive categories and do not echo environment values.
+- Backup and state roots use restrictive permissions.
+- The global ownership graph makes every package's state, OS-temporary
+  candidate, compensation, backup, discovery, authoritative source, runtime,
+  release, projection, and managed target roots mutually disjoint across
+  packages. It rejects containment and filesystem aliases, not only equal path
+  strings. State writes fail closed on ownership, permission, symlink, or root
+  identity ambiguity.
+- Manager/OS-owned state, temporary, discovery, and release containers are
+  non-package graph anchors. Only reviewed fixed-layout child entries/subtrees
+  may be leased to controller roles, transactions, or packages; a
+  whole-container package claim, cross-domain overlapping lease, or operation
+  addressed to an anchor rather than the bound child is blocked.
+- Filesystem operations use no-follow, directory-FD-anchored traversal or a
+  platform-proven equivalent and bind existing components by device/inode. A
+  not-yet-existing child is anchored to its verified parent. The controller
+  rechecks bound identities immediately before and after mutation, uses atomic
+  no-replace for creation, atomic exchange preserving the displaced object for
+  replacement, and the exchange/tombstone/exclusive-relocation protocol for
+  removal. A component/symlink swap therefore restores or preserves the
+  drifted object and blocks instead of consuming a stale resolved string. No
+  identity-mismatched object is unlinked; an adapter without an equivalent safe
+  primitive is blocked.
+- Two projection relationships are intentionally allowed only when declared by
+  the registry and verified with `lstat`/`readlink`: a discovery symlink may
+  point to its exact immutable release payload, and a collection projection may
+  point to its exact authoritative package root. Their lexical entry paths stay
+  distinct while their resolved targets must equal the declared contained
+  target; chained, escaping, unexpected, or multiply sourced projections are
+  rejected.
+- Audit and execution of an installed schedule never perform target mutation;
+  schedule install/remove/replace follows its own governed transaction.
+- A plan request may materialize only its fixed ephemeral Git candidate, and an
+  exact apply approval may create only its allowed immutable Git checkout.
+  Neither may initialize or mutate sibling/source/live repositories.
+- No plan, receipt, Major contract approval, or managed-Skill action in this
+  workflow grants staging, commit, branch/tag/remote mutation, reset, clean,
+  push, PR, release, plugin installation, or publication authority. The later
+  exact `bootstrap-apply` approval grants only its bound updater deployment
+  paths and no repository/publication operation. The sole exception is the
+  separately explicit exact source-implementation approval for task 2.1, which
+  may create only the disclosed local `add-codex-skill-update-v2` branch ref and
+  replacement isolated worktree; it grants no mutation of the quarantined
+  prior `add-codex-skill-update` ref/worktree/admin path and no staging, commit,
+  remote, push, PR, release, or publication authority.
+
+#### Task 2.1 source-worktree bootstrap
+
+The prior `add-codex-skill-update` ref/worktree/admin path is a quarantined
+failed evidence chain because its current artifact bytes require a newer Major
+manifest and snapshots that are absent there. The replacement bootstrap treats
+that entire prior attempt as immutable observed prestate. It does not add the
+missing files, reuse the worktree, repair Git administration, remove or clean
+the branch/path, or adopt any of its bytes as replacement evidence. Its exact
+ref, HEAD/tree, worktree/admin paths, observed manifest, missing required
+manifest/snapshots, and preserve-only policy are bound in `quarantines`; any
+drift blocks before the replacement target is reserved or any source write runs.
+
+The approved quarantine observation for this recovery revision is:
+
+- branch `refs/heads/add-codex-skill-update`, HEAD
+  `92fce4cfea0fbaf0dd1dfbcc7cc320a5aafa7958`, tree
+  `9799a5f6add566977e4e997bce57314fc81f28c4`;
+- observed manifest
+  `71c9773b0ac52589bb2e738757a42aec9116e7a7eb89f5af52881d4d6a61233d`;
+- missing required manifest
+  `b9f46ca5f253d11b8026131c23692f8e1e11ee72a757d47e0c83d65d4bbcf9e3`;
+- observed proposal/design/tasks/spec hashes `2354ccc1…03d`,
+  `a41f987f…72e`, `d4e9c32a…2b6c9`, and `d482ae3c…a4f9`;
+- missing required raw snapshots `2354ccc1…03d` and `d4e9c32a…2b6c9`.
+
+The exact full hashes, paths, and observed artifact map are serialized without
+abbreviation in the schema-2 prestate; the abbreviated display above is
+descriptive only and cannot be used as evidence input.
+
+That exception is bound by `source_bootstrap_prestate_sha256`. The digest is
+SHA-256 over the exact UTF-8 prefix
+`source-worktree-bootstrap-prestate-v2` plus one NUL and canonical sorted-key
+compact JSON containing exactly `schema` (integer `2`), `repository`,
+`git_executable`, `base_commit`, `base_tree`, `symbolic_head`, `refs`,
+`ref_exclusions`, `worktrees`, `local_config_sha256`, `parent_closure`,
+`target_absence`, and `quarantines`.
+`repository` contains exactly `repository_root`, `repository_root_dev`,
+`repository_root_ino`, `git_common_dir`, `git_common_dir_dev`,
+`git_common_dir_ino`, and `object_format`. `git_executable` contains exactly
+`path`, `sha256`, and `version`. Each `refs` entry contains exactly `name`,
+`object_oid`, and `object_type`, sorted by the UTF-8 bytes of those fields.
+`refs` contains every observed ref except names under an exact bound exclusion.
+`ref_exclusions` contains exactly one entry containing exactly `prefix`
+(`refs/codex/turn-diffs/`) and `policy`
+(`OBSERVE_ALLOW_EXTERNAL_DRIFT_DENY_BOOTSTRAP_WRITE`). This control-plane-owned
+checkpoint namespace is observed for diagnostics but is not content-bound and
+MUST NOT occur in the sandbox write allowlist; no other ref namespace is
+excluded.
+Each `worktrees` entry contains exactly `path`, `head`, and `branch`, where
+`branch` is the full ref or JSON `null` when detached, sorted by path bytes.
+`local_config_sha256` hashes the exact no-follow, single-link common
+`.git/config` bytes with UTF-8 prefix `source-worktree-local-config-v1` plus one
+NUL; the config is strictly parsed before read-only Git inspection or helper execution.
+
+`parent_closure` is path-bytewise sorted. Every entry contains exactly `path`,
+`type` (`directory`), `dev`, `ino`, `uid`, `mode`, and `nlink`. It includes
+every existing component from the filesystem anchors through the repository
+root, common Git directory, `.git/refs/heads`, `.git/logs/refs/heads`,
+`.git/worktrees`, the disclosed worktree parent, the approval directory, and
+the source-bootstrap directory. No component may be a
+symlink or be group/world writable at a mutable manager-owned anchor.
+`target_absence` contains exactly `branch_ref`, `branch_reflog_path`,
+`worktree_path`, and `worktree_admin_path`, each with value `ABSENT`.
+`quarantines` is sorted by `worktree_path`; each entry contains exactly
+`status` (`BLOCKED_SOURCE_WORKTREE_RECOVERY`), `branch_ref`, `worktree_path`,
+`worktree_dev`, `worktree_ino`, `worktree_admin_path`, `worktree_admin_dev`,
+`worktree_admin_ino`, `head`, `tree`, `observed_manifest_sha256`,
+`missing_required_manifest_sha256`, `observed_artifact_hashes` as a sorted
+path-to-SHA-256 object, `missing_required_snapshot_sha256` as a sorted array,
+and `mutation_policy` (`PRESERVE_NO_REUSE_REPAIR_DELETE`).
+Paths, hashes, versions, refs, OIDs, types, and absence values are JSON strings;
+every `*_dev`, `*_ino`, `dev`, `ino`, `uid`, and `nlink` is an integer;
+`mode` is a four-digit lowercase
+octal string. No undeclared key or JSON coercion is accepted.
+The reviewed prestate evidence file stores exactly that canonical compact JSON
+followed by one LF; the digest input is the exact file bytes with that one final
+LF removed, without parsing or reserialization. Any missing/extra line ending or
+other byte drift blocks.
+
+The immutable Major manifest also binds that prestate digest, the exact base
+commit/tree, Git executable identity, and a path-to-SHA-256 map for every
+approved untracked source/supporting file copied into the worktree. Any
+repository/Git-dir identity drift, wrong base, changed non-excluded
+ref/worktree/config inventory, changed exclusion policy, bootstrap write
+authority into the excluded namespace, or a present target component requires
+reapproval; no existing branch,
+worktree, admin directory, or partial residue is reused, repaired, deleted, or
+adopted.
+
+The exact-decision recorder may first create only the four content-addressed raw
+snapshots and one canonical manifest with verified-parent no-follow/no-overwrite
+writes. It does not create replacement source state. The manifest-bound helper
+is then the sole task-2.1 executor: its `--launch` entrypoint revalidates the
+current artifact/snapshot/material/profile/manifest closure without writing,
+then `execve`s the bound `/usr/bin/sandbox-exec` with the exact profile bytes
+inline and the contained helper argv. The manifest's
+`source_bootstrap_sandbox.invocation_argv_sha256` hashes the complete exact
+`execve` vector with UTF-8 prefix `source-worktree-sandbox-exec-vector-v1`, one
+NUL, and canonical compact JSON `{"argv":[...],"schema":1}`. The helper's
+external fixed argv is `-I -S <absolute-approved-helper-path> --launch`; the
+contained argv is fixed by that sandbox vector. Direct `--contained` execution
+must fail its active network/write/unauthorized-exec sandbox self-attestation.
+
+The canonical profile denies network and every process execution except the
+exact helper interpreter and bound Git binary. It denies all writes except
+`/dev/null`, the exact source-bootstrap lock and journal, branch ref/ref-lock,
+branch reflog/log-lock, replacement target subtree, and exact worktree-admin
+subtree. The profile byte stream is content-addressed and compared to the
+helper's exact expected bytes, not merely trusted through a manifest field.
+Only fixed read-only Git calls are present in the bound helper: `rev-parse`,
+`symbolic-ref`, `for-each-ref`, `worktree list`, `ls-tree`, `cat-file`, and
+post-bootstrap `status`, all with scrubbed config/homes, prompts/protocols
+disabled, and `GIT_OPTIONAL_LOCKS=0`.
+
+Inside the sandbox the helper itself opens every filesystem component no-follow
+and retains descriptors for repository root, Git common directory,
+`.git/refs/heads`, `.git/logs/refs/heads`, `.git/worktrees`, worktree parent,
+approval directory, and source-bootstrap directory. Those approval paths and
+all their existing parents are included in `parent_closure`. Before the first
+potentially creating open, and again after journal setup, it re-`fstat`s each
+retained descriptor against schema-2 device/inode/owner/mode/link values and
+reopens every lexical/descriptor-relative chain no-follow to prove the same
+identities. It revalidates the full quarantine bytes/absence evidence and new
+ref/reflog/admin/target absence at that boundary.
+
+Only after that check does the helper open and fsync the current-user-owned,
+single-link mode-`0600` exclusive `approvals/source-bootstrap.lock`, fsync its
+approval parent, create the canonical journal no-replace, and fsync both journal
+and source-bootstrap parent. Under the held worktree-parent descriptor it then
+reserves the exact target directory by atomic `mkdirat` no-replace with mode
+`0700`, records/retains its device/inode, and leaves the ref/reflog/admin child
+absent for later no-replace operations.
+
+Because macOS `/dev/fd/<directory-fd>` is not traversable as a pathname prefix,
+the helper SHALL NOT pass repository or target paths to a mutating Git command.
+Instead it creates the exact loose branch ref and reflog through `.lock`
+no-replace files plus same-directory descriptor-relative hard-link promotion
+that fails if the destination exists, followed by lock unlink, creates the
+exact worktree-admin child and its `commondir`, `gitdir`, `HEAD`, `ORIG_HEAD`,
+and `logs/HEAD` files no-replace, then creates only the target `.git` link file.
+It fsyncs every file and affected retained directory. Interruption leaves
+preserved recovery evidence and blocks this target; no cleanup or reuse is
+authorized.
+
+Before the helper can write replacement state, fixed read-only Git
+`ls-tree`/`cat-file` plumbing preloads and verifies the bound regular-blob base
+closure and independently recomputes each SHA-1
+`blob <length>\0<bytes>` OID under scrubbed
+system/global/inherited config, restrictive empty config homes,
+`GIT_OPTIONAL_LOCKS=0`, and hook/filter/helper/prompt/network denial. The
+descriptor-read local config rejects keys capable of naming executable hooks,
+filters, diff/merge drivers, helpers, aliases, includes, protocol rewrites,
+submodule commands, worktree config, or maintenance. No `worktree add`,
+checkout, switch, reset, clean, fetch, clone, remote, submodule, maintenance,
+credential, or arbitrary Git mutation command is authorized.
+
+Before first write and at post-verification, every retained descriptor is
+revalidated against the expected pre/post `parent_closure` (only the two new
+child-directory parent link counts may increase by one), every lexical component
+is re-opened no-follow and compared to the retained identity, and the reserved
+target/admin paths must still name their retained inodes. The sandbox profile itself is
+stored no-overwrite at
+`approvals/source-bootstrap/profiles/<profile-sha256>.sb`. Its
+`write_allowlist_sha256` hashes the exact UTF-8 prefix
+`source-worktree-write-allowlist-v1`, one NUL, and canonical sorted-key compact
+JSON `{"paths":[{"access":...,"path":...}],"schema":1}`. Entries contain
+exactly `access` (`create-or-write` or `read-write-device`) and one absolute
+path, sorted by path bytes; the only entries are `/dev/null` as
+`read-write-device` plus the source-bootstrap lock/journal, ref and ref lock,
+reflog and log lock, reserved target, and exact admin child as
+`create-or-write`. If the platform
+cannot demonstrate that the exact profile implements this deny-by-default
+allowlist, descriptor-rooted target binding to retained inode, and no-replace
+protection, task 2.1 blocks without launching the helper or writing source state.
+
+Tracked base files are then materialized without checkout through fixed
+`ls-tree`/`cat-file` plumbing that reads raw blobs only. The bound base tree
+contains regular `100644`/`100755` entries only; any other mode blocks.
+Directory-FD-anchored no-follow/no-overwrite writes reproduce exact blob bytes
+and normalized modes and fsync affected parents, so smudge/process filters,
+attributes, and executable config cannot run. The approved untracked material,
+new-revision snapshots, new manifest, and bound new sandbox profile are copied
+by the same contained mechanism. No prior-attempt manifest, snapshot, or
+profile is copied or adopted. The helper then creates a Git index v2 with
+`DIRC`, path-byte-sorted base entries, each held-target-FD stat tuple, bound
+mode/OID/path, eight-byte entry padding, and SHA-1 trailer; it writes the admin
+`index` no-follow/no-overwrite and fsyncs it and its parents. A synthetic
+Git-2.49.0 probe must show tracked-clean status and an unchanged index hash.
+
+Post-verification requires the prestate non-excluded refs/worktrees/config,
+every quarantine entry, exclusion policy, and every parent-closure identity to
+be unchanged except for exactly one new `add-codex-skill-update-v2` branch ref
+at the bound commit and exactly one new replacement worktree/admin mapping at
+the disclosed path with that HEAD/tree. External checkpoint drift is diagnostic
+only, but the bootstrap must have no write capability for that excluded
+namespace. It also verifies the reserved target/admin identities, exact
+ref/reflog/admin bytes, base tree, tracked-clean status, exact approved file and
+directory path set (including owner/mode and no extra empty or ignored
+directory), untracked hashes, and unchanged index bytes across `status`. The complete
+quarantine artifact/manifest/missing-manifest/missing-snapshot evidence is
+re-read after registration, not reduced to inode checks. Any parent swap,
+target replacement/occupancy, extra ref/config/worktree mutation, any bootstrap
+write capability to or self-mutation of the Git object store, wrong mapping,
+existing target, malicious
+config, filter invocation, or interruption residue returns
+`BLOCKED_SOURCE_WORKTREE_RECOVERY`; this approval does not authorize cleanup or
+retry-by-force.
+
+### 11. Canonical final evidence chain
+
+Closeout uses only the current Major workspace's fixed `closeout/` evidence
+plane, outside every governed source/runtime/schedule/registry/rollback/cleanup
+fingerprint. Its directories are current-user-owned mode `0700`; records are
+current-user-owned mode `0600`, single-link regular files. Every component is
+opened no-follow and verified by descriptor identity. Canonical sorted-key
+compact UTF-8 JSON is created no-replace at
+`prerequisites/<record-sha256>.json`,
+`eligibility/<record-sha256>.json`,
+`preliminary/<record-sha256>.json`, `passes/<record-sha256>.json`, or
+`reviews/<record-sha256>.json`; post-Review archive receipts use
+`archives/<record-sha256>.json`. The filename is SHA-256 of the exact bytes.
+File and every affected parent are fsynced. Existing exact records are
+verify-only; a collision, extra mutable alias, unsafe closure, or attempted
+rewrite blocks completion.
+
+Task 6.7 persists one prerequisite containing exactly `schema` (integer `1`),
+`kind` (`runtime-high-review`), `change_id`, `major_manifest_sha256`,
+`reviewer`, `executor`, `started_at`, `completed_at`,
+`changed_file_inventory_sha256`, `governed_fingerprints`,
+`claim_mechanism_coverage_sha256`, `adversarial_probe_sha256`, and `result`
+(`PASS`). Task 7.1 persists a later prerequisite containing exactly `schema`
+(integer `1`), `kind` (`project-learning-closeout-review`), `change_id`,
+`major_manifest_sha256`, `parent_runtime_review_sha256`, `reviewer`, `executor`,
+`started_at`, `completed_at`, `candidate_inventory_sha256`,
+`promoted_artifact_inventory_sha256`, `enforcement_results_sha256`,
+`changed_file_inventory_sha256`, `findings_sha256`, and `result` (`PASS`).
+The runtime record's `governed_fingerprints` contains exactly
+`current_source`, `sibling_source`, `runtime`, `operational_state`, `registry`,
+`schedule`, and `rollback_cleanup`. Each reviewer differs from its executor.
+Both records are canonical
+content-addressed files under `prerequisites/`; the learning record's parent
+must be the exact runtime record, and its start time must not precede runtime
+Review completion.
+
+After validating both prerequisite paths, exact bytes, filename hashes, kinds,
+PASS results, change/manifest identity, distinct identities, parent, and time
+order, task 7.1 creates one record under `eligibility/` containing exactly
+`schema` (integer `1`), `kind` (`final-verification-eligibility`), `change_id`,
+`major_manifest_sha256`, `parent_runtime_review_sha256`,
+`parent_learning_closeout_sha256`, `post_learning_source_fingerprints`,
+`created_at`, and `result` (`READY`). `post_learning_source_fingerprints`
+contains exactly `current_source` and `sibling_source`. Its creation time must
+not precede learning Review completion. The preliminary
+`parent_evidence_sha256` must equal this eligibility record's filename/content
+hash; preliminary creation revalidates the full prerequisite chain and requires
+its source fingerprints to equal the eligibility record. A missing, wrong-kind,
+non-PASS, cross-manifest, parent-mismatched, time-inverted, or source-stale
+record blocks preliminary evidence.
+
+The preliminary record contains exactly the keys `schema` (integer `1`),
+`kind` (`final-verification-preliminary`), `change_id`,
+`major_manifest_sha256`, `parent_evidence_sha256`, `executor`, `started_at`,
+`completed_at`, `result` (`AWAITING_TRACE_REMOVAL`),
+`governed_fingerprints`, `openspec_contract_projection_sha256`,
+`openspec_archive_projection_sha256`, `command_results`, and `raw_traces`.
+`governed_fingerprints` has exactly
+`current_source`, `sibling_source`, `runtime`, `operational_state`, `registry`,
+`schedule`, and `rollback_cleanup`, each the SHA-256 of its canonical exact
+inventory. The plan-bound source inventories exclude Git metadata. They map the
+active or archived OpenSpec change to one logical change-root path, include
+every supporting file exactly, and exclude only the four contract artifacts,
+whose complete behavior-bearing projected bytes are instead bound by
+`openspec_contract_projection_sha256`; operational state excludes this evidence
+plane. Each sorted
+`command_results` entry has exactly `argv`, `cwd_token_sha256`, `started_at`,
+`completed_at`, `freshness_at`, `exit_code`, and
+`sanitized_result_sha256`. Each sorted `raw_traces` entry has exactly
+`logical_id`, `path_token_sha256`, `parent_dev`, `parent_ino`, `size`, and
+`sha256`—never trace bytes, private prompts, credentials, or raw output.
+
+After that preliminary record is durable and every consumer is finished, all
+listed raw traces are removed. The controller revalidates each exact parent,
+proves the logical path absent, and recomputes every governed fingerprint. It
+then creates one PASS record with exactly `schema` (integer `1`), `kind`
+(`final-verification-pass`), `change_id`, `major_manifest_sha256`,
+`parent_preliminary_sha256`, `governed_fingerprints`,
+`openspec_contract_projection_sha256`, `openspec_archive_projection_sha256`,
+`trace_absence`, `sealed_at`, and `result` (`PASS`). Each sorted
+`trace_absence` entry has exactly `logical_id`,
+`path_token_sha256`, `predelete_sha256`, `parent_dev`, `parent_ino`, and
+`verified_absent_at`. The PASS is the atomic seal; it cannot coexist with a
+missing trace, changed fingerprint/projection, `BLOCKED` cleanup, or a
+different parent.
+
+Final High Review is a later record, never a field appended to the PASS. It has
+exactly `schema` (integer `1`), `kind` (`final-high-review`), `change_id`,
+`major_manifest_sha256`, `parent_pass_sha256`, `reviewer`, `executor`,
+`started_at`, `completed_at`, `inspected_artifact_hashes`,
+`changed_file_inventory_sha256`, `critical_reruns`,
+`claim_mechanism_coverage_sha256`, `adversarial_probe`,
+`openspec_archive_projection_sha256`, `findings`, and `result` (`PASS`).
+Reviewer and executor identities must differ. Any non-PASS finding stops
+completion.
+
+Before preliminary creation, the Router computes
+`openspec_archive_projection_sha256` without changing governed source. It
+hashes the exact UTF-8 prefix `openspec-archive-projection-v1` plus one NUL and
+a sorted-key compact canonical inventory binding the exact archive destination,
+logical change-root relocation/absence, checklist-normalized four-artifact
+projection, and every affected main-spec/supporting path with predicted
+post-archive type/mode/content hash. Final Review inspects that projection.
+After Review, archive may perform only this transition. The Router verifies the
+actual normalized inventory and strict post-archive validation, then creates an
+archive receipt with exactly `schema` (integer `1`), `kind`
+(`openspec-archive-receipt`), `change_id`, `major_manifest_sha256`,
+`parent_review_sha256`, `expected_archive_projection_sha256`,
+`actual_archive_inventory_sha256`, `strict_validation`, `archived_at`, and
+`result` (`PASS`). `strict_validation` has exactly `argv`, `exit_code`,
+`sanitized_result_sha256`, and `completed_at`. A mismatch or strict failure
+invalidates PASS/Review and creates no receipt.
+
+Runtime completion verifies the full preliminary/PASS/Review/archive parent
+chain and fresh governed fingerprints. After the PASS seal, only new immutable
+records in this closeout plane, normalized checklist progress, and the exact
+Review-approved archive projection are non-invalidating; every other source/
+runtime/schedule/registry/rollback/cleanup change invalidates PASS and Review.
+
+## Files and responsibilities
+
+### Sibling `codex-skill-update`
+
+| File | Responsibility |
+|---|---|
+| `AGENTS.md` | local update-engine safety and validation rules |
+| `SKILL.md` | discoverable explicit triggers and governance boundary |
+| `agents/openai.yaml` | narrow implicit discovery policy and non-mutating default prompt |
+| `references/update-contract.md` | audit/plan/apply/verify/rollback contract |
+| `references/installation-modes.md` | adapter capabilities and blockers |
+| `references/version-ledger.md` | four-value ledger/status semantics |
+| `scripts/codex_skill_update.py` | standard-library engine and CLI |
+| `scripts/validate_update_contract.py` | artifact-owned static validator |
+| `references/runtime-manifest.json` | repository-only runtime build allowlist/schema |
+| `templates/registry.example.json` | path-neutral schema example |
+| `templates/com.openai.codex.skill-update-audit.plist` | one-shot audit template without mutation verbs |
+| `tests/test_skill_contract.py` | Skill/README/metadata negative contracts |
+| `tests/test_update_engine.py` | transaction, path, stale-plan, rollback, redaction tests |
+| `tests/fixtures/forward-cases.json` | answer-free pressure scenarios |
+| `README.md`, `README_cn.md` | complete bilingual operator documentation |
+
+### Current repository
+
+| File | Responsibility |
+|---|---|
+| `CONTEXT.md` | stable update-controller terms only |
+| `README.md`, `README_cn.md` | Scheme C maintenance integration and explicit trigger |
+| `tests/test_workflow_rules.py` | bilingual integration and non-required-dependency assertions |
+| OpenSpec/review artifacts | single approved cross-repository design contract and evidence |
+| `openspec/specs/skill-update-governance/spec.md` | exact Review-predicted post-archive capability spec |
+
+## Validation and Skill TDD
+
+### RED
+
+Run the same answer-free pressure scenarios without the candidate Skill and
+capture violations. Add deterministic failing tests before implementation for:
+
+- metadata/implicit invocation;
+- public parser has no mutation or approval-minting verbs;
+- audit-to-apply separation and closed observation/notification adapters,
+  including malicious registry commands and installation-channel snapshots;
+- four version values and evidence freshness;
+- missing/failed/exactly-eight-day/older-than-eight-day scheduled-report
+  boundaries;
+- dirty/ahead checkout protection;
+- source-worktree repository/common-Git-dir/Git/sandbox/base/prestate/
+  material-hash mismatch, ref/log/admin/worktree-parent exchange, empty-target
+  takeover/symlink insertion, reservation-inode/profile/write-allowlist drift,
+  force/reuse/reset prohibition, malicious executable config/filter/helper/
+  prompt/network denial, raw-blob closure, exact before/after
+  ref/worktree/config delta, pre-bootstrap marker drift rejection,
+  post-bootstrap normalized marker acceptance, and interruption residue
+  blocking;
+- plugin installed/channel separation;
+- target/path/symlink containment;
+- package/entry duplicate-name, escape, and no-independent-sub-Skill-update
+  enforcement;
+- global root ownership, permissions, cross-package overlap/containment/alias,
+  updater-alias, and symlink rejection;
+- runtime-lock traversal/backslash/symlink rejection, lock-file
+  owner/type/mode/nlink/no-follow checks, digest-directory top-level and payload
+  exact closure, content/mode tamper detection, and same-digest collision;
+- plan tampering, candidate closure, current-state drift, and temporary candidate
+  deletion/residual detection;
+- approval-artifact action/target/scope/expiry mismatch and Major
+  change-id/artifact-hash binding mismatch;
+- stable Bootstrap-root pre-lock initialization, embedded operation lock,
+  per-manifest workspace isolation/reapproval retention, pre-approval
+  destination non-mutation, exact registry/state-layout/group/adapter binding,
+  and external-executor identity distinct from target identity;
+- approval expiry/revocation before intent and at every later journal phase,
+  including Router revocation while the long operation lock is held and
+  authority-root permission/link/canonical/collision checks plus authority-lock
+  races immediately before intent/mutation/terminal success,
+  proving forward progress stops while the single-use compensation lease can
+  restore only exact pre-state;
+- validation argv/no-shell, metacharacter/ref-as-data, cwd containment, and
+  failed-validation compensation;
+- external same-package bootstrap eligibility versus filesystem-alias
+  self-update blocking;
+- deterministic last-check/final-child races for expected-absent no-replace,
+  expected-present replacement exchange, and removal exchange/tombstone/
+  exclusive relocation, including displaced-object mismatch, hard-kill,
+  restoration, and no-primitive blocking without data loss;
+- sensitive-output hygiene;
+- schedule template mutation prohibition;
+- schedule-plan action/label/domain/path/argv/runtime/registry/group-closure/
+  state-root/cadence/pre-state/expiry binding, launchd `Weekday=1` Monday
+  semantics, exact content-addressed scheduled payload/runtime-lock/active
+  discovery binding, loaded-config/plist drift, registry/runtime-triggered
+  schedule-replace semantics, job-time binding drift before
+  network/notification, and receipt verification;
+- adapter-specific rollback after-fingerprint drift, including Git
+  repository/HEAD/tree/ref/index/status/submodule and tracked/untracked content;
+- status/observation/apply-eligibility/reason-code/transaction-result mapping;
+- real subprocess hard-kill before/after atomic symlink switching and
+  restart-recovery/journal corruption;
+- transaction-local versus retained cleanup authority and mismatch rejection,
+  plus required-cleanup/trace-deletion `BLOCKED` stopping closeout;
+- canonical preliminary/PASS/independent-Review record schema, content-addressed
+  no-overwrite persistence, exact runtime-Review/Project-Learning prerequisite
+  and eligibility schemas, missing/wrong/stale prerequisite rejection,
+  parent-chain validation, trace pre-hash/absence proof, same-revision
+  rejection, governed-drift invalidation, predicted/actual OpenSpec archive
+  inventory, strict validation, and child archive receipt;
+- bilingual README parity.
+
+### GREEN
+
+Implement the minimum contract and engine behavior needed to pass. Use Python
+standard library and JSON; only Skill frontmatter validation depends on the
+system quick validator.
+
+### REFACTOR and forward evidence
+
+Run focused and full suites, then rerun the seven baseline scenarios with the
+candidate Skill:
+
+1. read-only audit;
+2. diverged Git+symlink;
+3. marketplace channel/install mismatch;
+4. failing snapshot candidate;
+5. Codex CLI/Skill version separation;
+6. approved source-runtime transaction;
+7. urgent unscoped update request.
+
+RED runs use no candidate Skill. GREEN uses the same prompts with the candidate
+Skill discoverable through an isolated runtime. Fresh agents may not inspect
+expected answers, tests, or design artifacts, and the runner does not read the
+candidate body directly. Durable evidence records sanitized prompt/result
+hashes and artifact inventory, not hidden reasoning or raw sensitive traces.
+After the last rollback/investigation gate that needs them, raw external CLI
+traces are removed from their private temporary directory. Policy-required
+current/previous/schedule-referenced releases are classified
+`RETAINED_BY_POLICY`, not failed cleanup. Any genuinely blocked required
+cleanup or trace deletion records its owner/resume condition and stops
+closeout before final verification.
+
+After runtime Review PASS, closeout ordering is fixed: persist its canonical
+prerequisite; run Project Learning Closeout plus independent learning-artifact
+Review; persist the learning prerequisite and child eligibility record; perform
+any authorized transaction-local/retained cleanup and raw-trace removal after
+its sanitized evidence has been durably persisted, with no remaining
+`BLOCKED`; run one fresh final verification over post-cleanup source/runtime/
+schedule/registry/rollback state; create the canonical preliminary record from
+Section 11 with that eligibility hash as parent before deleting its raw traces;
+verify trace absence and unchanged governed fingerprints; create the child PASS
+seal; then run a distinct final High Review whose parent is that PASS. After the
+PASS seal, only the immutable
+closeout evidence plane, normalized checklist progress, and the exact
+Review-approved archive projection plus child strict receipt may change without
+invalidation. Any later governed-state cleanup/correction or different archive
+result invalidates both final gates and requires them again before completion.
+
+## Migration and installation
+
+After source validation and Review PASS:
+
+1. from fixed reviewed source outside the destination, select/create the exact
+   immutable Major-manifest workspace under the stable Bootstrap Control Root,
+   generate there a fresh `bootstrap-apply` plan binding the exact initial
+   registry/state layout/group/adapter closure, and obtain its separate exact
+   Router-recorded action approval;
+2. create or refresh the plan-bound structured backup of any existing runtime,
+   release-store, and controller-state path;
+3. resolve the reviewed repository-only `references/runtime-manifest.json`
+   allowlist into a canonical content-addressed `runtime-lock.json`; reject
+   unsafe paths/types/modes and exclude repository-only `AGENTS.md`, READMEs,
+   tests, fixtures, OpenSpec, Git metadata, and design evidence;
+4. place the exact immutable payload under
+   `${CODEX_HOME}/skill-releases/codex-skill-update/<payload-sha256>/payload/`
+   with its sibling `runtime-lock.json`, verify or fail closed on an existing
+   same-digest release, and conditionally create/switch
+   `${CODEX_HOME}/skills/codex-skill-update` to the exact `payload/` directory
+   under the Router-owned installation transaction;
+5. validate runtime-lock exact closure, path/type/mode/content parity, and
+   discovery-target parity;
+6. install and verify only the exact plan-bound runtime registry/state layout
+   for `workflow-core`;
+7. run initial audit and record observed Superpowers blocking evidence;
+8. generate the non-mutating canonical schedule-install plan, obtain its later
+   exact action-bound approval, then back up the bound registration pre-state,
+   install/load the Monday 10:00 one-shot LaunchAgent, and verify its receipt;
+9. snapshot managed targets, run the already-installed job once, and verify that
+   only the validated controller state root changes during job execution;
+10. start a fresh Codex session/process and verify natural-language audit routing
+   plus deterministic `$codex-skill-update` discovery;
+11. update both source trees' English and Chinese READMEs after every source or
+    contract-behavior change and rerun parity/accuracy checks;
+12. run a distinct runtime/schedule/registry High Review, fix and reverify every
+    finding, and reach PASS before Project Learning Closeout.
+
+No other third-party Skill update is applied as part of installing the
+controller. Superpowers remains on its current checkout until a separately
+approved Major migration plan passes.
+
+## Bounded assumptions
+
+- The new source tree is created at the sibling path
+  `/Users/elvis/file/develop/opensource/codex-skill-update`.
+- Current-repository implementation uses the global isolated worktree
+  `/Users/elvis/.config/superpowers/worktrees/openspec-superpower-change/add-codex-skill-update-v2`;
+  that replacement path is absent at review time. The exact replacement branch
+  is `refs/heads/add-codex-skill-update-v2`; its exact admin path is
+  `/Users/elvis/file/develop/opensource/openspec-superpower-change/.git/worktrees/add-codex-skill-update-v2`.
+  Exact approval of this assumption authorizes their non-forced creation only;
+  it does not authorize reuse, repair, deletion, staging, commit, push, or
+  publication.
+- The prior `refs/heads/add-codex-skill-update`,
+  `/Users/elvis/.config/superpowers/worktrees/openspec-superpower-change/add-codex-skill-update`,
+  and `.git/worktrees/add-codex-skill-update` remain quarantined. The schema-2
+  prestate records their exact observed closure and evidence mismatch. This
+  recovery revision grants them no mutation and blocks if they drift.
+- The bound repository root is
+  `/Users/elvis/file/develop/opensource/openspec-superpower-change` at
+  device/inode `16777233/159874306`; its common Git directory is
+  `/Users/elvis/file/develop/opensource/openspec-superpower-change/.git` at
+  `16777233/159874335`, object format `sha1`. The exact base commit is
+  `92fce4cfea0fbaf0dd1dfbcc7cc320a5aafa7958`, with tree
+  `9799a5f6add566977e4e997bce57314fc81f28c4`; HEAD is
+  `refs/heads/main`.
+- The bound resolved Git executable is
+  `/opt/homebrew/Cellar/git/2.49.0/bin/git`, version `2.49.0`, byte
+  SHA-256 `03d4a6c5328d4a1ce84eba2765664284b1fb2414d9e657358733056a89a95954`.
+  The bound sandbox executable is `/usr/bin/sandbox-exec`, byte SHA-256
+  `8290e4be7387a0df83cd1559e86afd880464f269450573d012795761fe298f16`;
+  the bound profile SHA-256 is
+  `eb8ddf6e213d3b2388dc7fb681d0f14cf9693335d76c4dc19f2362bc5e5bcce9`
+  and its write-allowlist digest is
+  `2e2830ee21d2247e46e3dd39a5284ca8ff8920c6e6ec45b7b7d4133e84364318`.
+  The exact inline-profile sandbox exec-vector digest is
+  `983f1ff690bea399c2237f1865c5b9552a3bff1cd7673026a4a595a45de643e8`.
+  The helper interpreter is `/opt/anaconda3/bin/python3.11`, byte SHA-256
+  `809bbac201b0d8f556186ae68533f9d40c5ccbe16c8875903590aa840fd67d59`;
+  fixed argv is `-I -S` plus absolute approved helper path
+  `/Users/elvis/file/develop/opensource/openspec-superpower-change/docs/design/evidence/add-codex-skill-update/source-bootstrap-v2-helper.py`
+  plus `--launch`.
+  Its exact fixed environment and fd-binding array are displayed at approval.
+  The canonical schema-2 prestate digest is displayed from the final reviewed
+  schema-2 evidence at approval.
+  Any
+  identity, executable, base, parent-closure, prestate-digest, target-absence,
+  sandbox-profile, or fixed-argv drift blocks task 2.1 and requires a new exact
+  approval.
+- The exact Major source-implementation approval also authorizes creation of
+  `${CODEX_HOME}/openspec-superpower-change/bootstrap-control/codex-skill-update/`
+  plus only its missing fixed manager anchors, stable marker/operation lock, and
+  immutable per-manifest authority/closeout workspace solely as the restrictive
+  Router governance plane described above; it does not authorize any updater
+  destination mutation.
+- Because the approved proposal/context/review artifacts begin untracked, the
+  worktree bootstrap materializes only those task-local paths plus the exact
+  content-addressed approval snapshots, manifest, and sandbox profile using no-follow/no-overwrite
+  copies while every approved source byte remains exact, and verifies the
+  snapshot raw hashes and immutable approval manifest at their exact
+  worktree-relative locations. It reruns strict validation, then permits
+  checklist-only progress under the approved projection; it never copies the
+  unrelated active change and does not stage or commit the artifacts.
+- The current host uses a macOS user LaunchAgent for a Monday 10:00 local
+  one-shot audit.
+- The schedule is fixed to Monday at 10:00 local time for this change; altering
+  cadence later requires a new schedule plan and approval.
+- The source tree is intended to become a Git repository, but Git initialization
+  and publication remain separately authorized.
+
+These assumptions are visible and reversible at approval time. Changing the
+controller's authority, managed dependency group, automatic-mutation boundary,
+or adapter safety acceptance requires a contract revision.
+
+## Rollback
+
+Source and runtime changes use structured backups outside discovery roots.
+Because the sibling path is initially absent, rollback removes it only after
+resolving and verifying the exact newly created path. Existing current-repo
+files are restored from their recorded backup.
+
+Runtime rollback unloads and removes/restores only the exact approved audit
+registration, atomically restores/removes the updater discovery symlink and
+immutable release according to the pre-state, and verifies that
+Router/Superpowers/Companion discovery and hashes remain unchanged.
+
+Automatic compensation during a failed apply is covered by the apply approval.
+A post-success managed Skill rollback requires a new action-bound approval,
+uses its receipt-bound immediately previous verified immutable release, switches
+atomically, reruns target validation and discovery, and writes a rollback
+receipt. Keep the current and immediately previous verified releases until a
+separately approved cleanup; missing or corrupt material makes rollback
+`BLOCKED`. No destructive Git or publication operation is implied.
+
+Transaction-local staging/compensation cleanup stays within the original action
+only after durable success or verified restoration. Retained post-success,
+receipt-bound, rollback, or immutable-release deletion requires a new exact
+cleanup plan and approval. Raw temporary debug traces follow the separate
+sensitive-evidence cleanup rule above.

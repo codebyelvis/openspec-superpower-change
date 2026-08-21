@@ -1,5 +1,23 @@
 # Request Modes
 
+For schema 6 Review routing, carry all six concepts without abbreviation:
+Review purpose, reviewer product, role, capability, independence, and authority.
+The normative assignment and product/instance boundary live in
+`references/agent-capability-routing.md`; this reference does not create a
+second authority.
+
+## Ordinary question
+
+Ordinary questions bypass the Router and the `using-superpowers` meta-entry.
+Answer directly or use a matching domain Skill. Reclassify only if the request
+becomes state-changing, Git-mutating, or a whole-task completion decision.
+
+## Diagnose-only
+
+Diagnose-only work remains read-only. Use domain inspection or
+`superpowers:systematic-debugging`, but stop before any fix or behavior change
+and reclassify the proposed implementation through the Router.
+
 ## Review-only
 
 Use when the user asks this change gate to assess architecture, OpenSpec need,
@@ -73,12 +91,21 @@ Use only after the user approves the specific OpenSpec change-id and scoped
 contract. Create and Preflight Review a Superpowers implementation plan before
 implementation unless the user explicitly says to skip the plan.
 
+A user-explicit `$superpowers:*` method does not bypass Gate 0. State-changing,
+Git-mutating, or whole-task-completion work must load exactly one applicable
+Router before the method proceeds; otherwise the result is `BLOCKED`.
+
 After implementation Review PASS, run `references/project-learning-closeout.md`
 before final verification and OpenSpec reconciliation/archive.
 
 ## Direct Change
 
 Use when OpenSpec is not required: localized bug fix restoring intended behavior, low-impact config tweak, formatting, comment update, typo fix, docs-only change without contract impact, or test-only change for existing behavior.
+
+Direct Change still enters exactly one applicable Router before broad metadata
+or a user-explicit `$superpowers:*` method proceeds. A requested method supplies
+discipline only and grants no implementation, Git, business, or completion
+authority; a missing or duplicate applicable Router is `BLOCKED`.
 
 Direct Change is forbidden when the change touches any of:
 

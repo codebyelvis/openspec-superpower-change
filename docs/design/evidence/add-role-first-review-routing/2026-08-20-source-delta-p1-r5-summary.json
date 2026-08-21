@@ -1,0 +1,549 @@
+{
+  "change_id": "add-role-first-review-routing",
+  "changed_path_count": 60,
+  "schema_version": 1,
+  "source_changes": [
+    {
+      "after_mode": "0644",
+      "after_sha256": "4e66920304b8e9e8890a3d1be3ff6d266e704a4d3cfadee496e84f8681d26317",
+      "before_mode": "0644",
+      "before_sha256": "e41c73eeb630576bfc9182f0bcadba7eada38980b42831781678d93acc87ca74",
+      "path": "CHANGELOG.md",
+      "repository": "router",
+      "status": "modified"
+    },
+    {
+      "after_mode": "0644",
+      "after_sha256": "44314b9c0f128ddcac90154ac5f36f167f70a66ab93aca61a4b46a86646f08ff",
+      "before_mode": "0644",
+      "before_sha256": "8118b8bdb6445f3ac2856cf049e7da8811e21e52ddb77c68fb62ac44dc41fa9e",
+      "path": "README.md",
+      "repository": "router",
+      "status": "modified"
+    },
+    {
+      "after_mode": "0644",
+      "after_sha256": "b973047e8092a9b7550ab62db5e795c6a7a0ba30e51304a2541953d4379fb987",
+      "before_mode": "0644",
+      "before_sha256": "1db809c692c8108877e0ebdf173f6426be9e7f8440b6679ab3b06094eb2dc80d",
+      "path": "README_cn.md",
+      "repository": "router",
+      "status": "modified"
+    },
+    {
+      "after_mode": "0644",
+      "after_sha256": "22173bc1ed9afabae666146a21c936807a8529b9391a0ac1a61d136f8820634e",
+      "before_mode": "0644",
+      "before_sha256": "011f9f7c6cc02204d2c968ff024b949416ebfcca69aee9d4e3a1196fd40e9a91",
+      "path": "SKILL.md",
+      "repository": "router",
+      "status": "modified"
+    },
+    {
+      "after_mode": "0644",
+      "after_sha256": "bbcf2cc726876409aae30b7cac577a198e8341593c04b74f5f4084caeab84f95",
+      "before_mode": "0644",
+      "before_sha256": "5b014fd0178a7c66a3b328657e1ed3d1d681c73272eb3efee22797ff982f96ad",
+      "path": "docs/design/evidence/add-role-first-review-routing/2026-08-10-source-verification.md",
+      "repository": "router",
+      "status": "modified"
+    },
+    {
+      "after_mode": "0644",
+      "after_sha256": "dcc8658bb014a0e7140a5a4e0eda733f921544c2911422e0bc2d8fef183d2903",
+      "before_mode": "0644",
+      "before_sha256": "e4e44681a4b914528edb798bf747d8e395953cf2a96e59de4481b42074e6893d",
+      "path": "docs/design/evidence/add-role-first-review-routing/2026-08-20-evidence-rehydration-r9-inputs.md",
+      "repository": "router",
+      "status": "modified"
+    },
+    {
+      "after_mode": "0644",
+      "after_sha256": "bd31f6fe47ac426961b5830b3dde27d45056c7b0f0928e4aecb5b991ce9f76e7",
+      "before_mode": null,
+      "before_sha256": null,
+      "path": "docs/design/evidence/add-role-first-review-routing/2026-08-20-evidence-rehydration-r9-review-prompt.md",
+      "repository": "router",
+      "status": "added"
+    },
+    {
+      "after_mode": "0644",
+      "after_sha256": "c3dd76b95090459c64251c0797c2842b449693b3241313907a7e5d937638202c",
+      "before_mode": null,
+      "before_sha256": null,
+      "path": "docs/design/evidence/add-role-first-review-routing/2026-08-20-legacy-drain-summary.json",
+      "repository": "router",
+      "status": "added"
+    },
+    {
+      "after_mode": "0644",
+      "after_sha256": "f262cb550bfd0086ac4db07c85b74f1bcf5560f462ca9e8ff7bdca5de5e9f023",
+      "before_mode": null,
+      "before_sha256": null,
+      "path": "docs/design/evidence/add-role-first-review-routing/2026-08-20-runtime-sync-plan-review-inputs.md",
+      "repository": "router",
+      "status": "added"
+    },
+    {
+      "after_mode": "0644",
+      "after_sha256": "8c45a79406b09e5f7fafe0c5230c7ccac6ebcb2ca39dcbdbcb03c22a742f8adf",
+      "before_mode": null,
+      "before_sha256": null,
+      "path": "docs/design/evidence/add-role-first-review-routing/2026-08-20-source-delta-p1-r1-summary.json",
+      "repository": "router",
+      "status": "added"
+    },
+    {
+      "after_mode": "0644",
+      "after_sha256": "7c96f9f5b53ae1ed33e791a126442a261f83d1315d3dd6c8825509e6334a74fa",
+      "before_mode": null,
+      "before_sha256": null,
+      "path": "docs/design/evidence/add-role-first-review-routing/2026-08-20-source-delta-p1-r2-summary.json",
+      "repository": "router",
+      "status": "added"
+    },
+    {
+      "after_mode": "0644",
+      "after_sha256": "6b02a2a5a97155b80d0cff2a02efcdcfd73537719645b5e35a2c9f9095ea447c",
+      "before_mode": null,
+      "before_sha256": null,
+      "path": "docs/design/evidence/add-role-first-review-routing/2026-08-20-source-delta-p1-r3-summary.json",
+      "repository": "router",
+      "status": "added"
+    },
+    {
+      "after_mode": "0644",
+      "after_sha256": "6028f0c3b1d457b516226374fc942adc4e160ac8771d7eb72ce8827c27692127",
+      "before_mode": null,
+      "before_sha256": null,
+      "path": "docs/design/evidence/add-role-first-review-routing/2026-08-20-source-delta-p1-r4-summary.json",
+      "repository": "router",
+      "status": "added"
+    },
+    {
+      "after_mode": "0644",
+      "after_sha256": "55625e1b0c6a5832520e00975e61d1eeba758bd7c15e482a688dd8b4b41da57e",
+      "before_mode": null,
+      "before_sha256": null,
+      "path": "docs/design/evidence/add-role-first-review-routing/2026-08-20-source-delta-r9-summary.json",
+      "repository": "router",
+      "status": "added"
+    },
+    {
+      "after_mode": "0644",
+      "after_sha256": "8a3e5c8148c0af8307aa9547ed077b9512e0d92b9f7a25846a9ccb4d5420f465",
+      "before_mode": null,
+      "before_sha256": null,
+      "path": "docs/design/evidence/add-role-first-review-routing/2026-08-20-source-rereview-p1-r1-inputs.md",
+      "repository": "router",
+      "status": "added"
+    },
+    {
+      "after_mode": "0644",
+      "after_sha256": "9f9a48fdf4afc1890c30d170f5d195f8e059f01acba2606bb3c254b0dd1d2058",
+      "before_mode": null,
+      "before_sha256": null,
+      "path": "docs/design/evidence/add-role-first-review-routing/2026-08-20-source-rereview-p1-r2-inputs.md",
+      "repository": "router",
+      "status": "added"
+    },
+    {
+      "after_mode": "0644",
+      "after_sha256": "2546f8b1a7165498d9334ae0c200fa7379ed284a9af25c1463b01de94b697cf1",
+      "before_mode": null,
+      "before_sha256": null,
+      "path": "docs/design/evidence/add-role-first-review-routing/2026-08-20-source-rereview-p1-r3-inputs.md",
+      "repository": "router",
+      "status": "added"
+    },
+    {
+      "after_mode": "0644",
+      "after_sha256": "09c05c1813681544d73d9f70865a524ab6c2926f65571ccd1a2b39b4f99e7973",
+      "before_mode": null,
+      "before_sha256": null,
+      "path": "docs/design/evidence/add-role-first-review-routing/2026-08-20-source-rereview-p1-r4-inputs.md",
+      "repository": "router",
+      "status": "added"
+    },
+    {
+      "after_mode": "0644",
+      "after_sha256": "35050b3e8766b055f11d3a55018d4a34c1aca87893f574b477bbfe28a9cf6ef1",
+      "before_mode": null,
+      "before_sha256": null,
+      "path": "docs/design/reviews/2026-08-10-add-role-first-review-routing-source-review.md",
+      "repository": "router",
+      "status": "added"
+    },
+    {
+      "after_mode": "0644",
+      "after_sha256": "f533c3b99029e88adc304aa7eb95b17cb8200a375154df1ec5b383c1e595a9c4",
+      "before_mode": null,
+      "before_sha256": null,
+      "path": "docs/design/reviews/2026-08-20-add-role-first-review-routing-evidence-rehydration-r9-review.md",
+      "repository": "router",
+      "status": "added"
+    },
+    {
+      "after_mode": "0644",
+      "after_sha256": "8562b0ed1d4ef17dc34f100e783e72b02ae40138f8888b7516ef2566ecb255a8",
+      "before_mode": null,
+      "before_sha256": null,
+      "path": "docs/design/reviews/2026-08-20-add-role-first-review-routing-runtime-sync-plan-review.md",
+      "repository": "router",
+      "status": "added"
+    },
+    {
+      "after_mode": "0644",
+      "after_sha256": "44138637110b7643585d244721cf710f1f08a899dca874fd81df6ab1898d9719",
+      "before_mode": null,
+      "before_sha256": null,
+      "path": "docs/design/reviews/2026-08-20-add-role-first-review-routing-source-rereview-p1-r1.md",
+      "repository": "router",
+      "status": "added"
+    },
+    {
+      "after_mode": "0644",
+      "after_sha256": "5991be2198f4387bb0e860733352fb98e063e22bfcd694eacd3f4704932429b3",
+      "before_mode": null,
+      "before_sha256": null,
+      "path": "docs/design/reviews/2026-08-20-add-role-first-review-routing-source-rereview-p1-r2.md",
+      "repository": "router",
+      "status": "added"
+    },
+    {
+      "after_mode": "0644",
+      "after_sha256": "c451abf26592caa0630f8d3b2d272e740ddde40d959cccc79f5d672d4b379c47",
+      "before_mode": null,
+      "before_sha256": null,
+      "path": "docs/design/reviews/2026-08-20-add-role-first-review-routing-source-rereview-p1-r3.md",
+      "repository": "router",
+      "status": "added"
+    },
+    {
+      "after_mode": "0644",
+      "after_sha256": "579c4486fadd8574af24ae112e81519b87d266cdecb0621c30b7c176ec0dce70",
+      "before_mode": null,
+      "before_sha256": null,
+      "path": "docs/design/reviews/2026-08-20-add-role-first-review-routing-source-rereview-p1-r4.md",
+      "repository": "router",
+      "status": "added"
+    },
+    {
+      "after_mode": "0644",
+      "after_sha256": "4f62d80a256c5b8022a1cfef55b30299cfbb5586e953455e0fe74a74d331f7e7",
+      "before_mode": "0644",
+      "before_sha256": "daa8bb5d3d8e468289e520420a23430e0d62c0f2914f9ca5c0ee67e9ced00164",
+      "path": "references/agent-capability-routing.md",
+      "repository": "router",
+      "status": "modified"
+    },
+    {
+      "after_mode": "0644",
+      "after_sha256": "746e25bc1c0e9c199e7149e7ad72fe2233d311f9daa5ddba4867892dcb2692b8",
+      "before_mode": "0644",
+      "before_sha256": "1e354d5435942cf487b07a8f757a2a2d03f4d0e436c385cb43cf5d5adbc7c32c",
+      "path": "references/approved-implementation-workflow.md",
+      "repository": "router",
+      "status": "modified"
+    },
+    {
+      "after_mode": "0644",
+      "after_sha256": "ca5c5d2444f24d175a978ce8e9a9bc241a395e9f0aa2ea4257bb58be619a2592",
+      "before_mode": "0644",
+      "before_sha256": "a8da4f27997acd832abe6d936945ea0b6a5c3c164a920a8ca21fded652920f0b",
+      "path": "references/completion-contract.md",
+      "repository": "router",
+      "status": "modified"
+    },
+    {
+      "after_mode": "0644",
+      "after_sha256": "3c24865244034bdb6815c321db4ceaa69c903a6e6f4cb4e7154cd88f01ed7a8d",
+      "before_mode": "0644",
+      "before_sha256": "678467379a148aedc66ef164275f1e51c6ca546a5a6dcbf19fe03f07ac542e69",
+      "path": "references/cross-cli-portable-manifest.json",
+      "repository": "router",
+      "status": "modified"
+    },
+    {
+      "after_mode": "0644",
+      "after_sha256": "5887c8c81fc4bbb9796ba0c2a85c467c5d8d4c17e683120aebc4beeb3e2b8862",
+      "before_mode": "0644",
+      "before_sha256": "153bd6b843b4ec965aa53adf3587a75ce73e2fb2c7c92b4a6cce4fb321ca30f9",
+      "path": "references/cross-cli-sync.md",
+      "repository": "router",
+      "status": "modified"
+    },
+    {
+      "after_mode": "0644",
+      "after_sha256": "6ccf710c2fae025cfd49da8820a9e3ac3df7d2ede61ffd3f4dfd0d4584fcc86f",
+      "before_mode": "0644",
+      "before_sha256": "62dfe033d0c6f8b6e0fde79e32f44c97a4da1efca7913def3378bcd16c5e2340",
+      "path": "references/handoff-contract.md",
+      "repository": "router",
+      "status": "modified"
+    },
+    {
+      "after_mode": "0644",
+      "after_sha256": "06905775d67eb7ff7de2dbe4295d0e15ee24b0288f406ede4c053f659ea9f960",
+      "before_mode": "0644",
+      "before_sha256": "27ae6696e443c165e40646312a0cd6b28f2124d6c52823a5bba886840aa90d99",
+      "path": "references/request-modes.md",
+      "repository": "router",
+      "status": "modified"
+    },
+    {
+      "after_mode": "0644",
+      "after_sha256": "92ce2f4d35c273a654a8606ccdf36c838ec929ed4b39b9834695f2da245e844c",
+      "before_mode": "0644",
+      "before_sha256": "488ad07ad9353f862e9a81141ba7323e4718efd52a4f494cbf4e4eb213c63576",
+      "path": "references/response-patterns.md",
+      "repository": "router",
+      "status": "modified"
+    },
+    {
+      "after_mode": "0644",
+      "after_sha256": "83d590316d2aebd70719ab79b97e9ed250cc9befcef86eddee8172ff2f9ac7d1",
+      "before_mode": "0644",
+      "before_sha256": "db1aa163103d866edbf593f6781d573a91afcd312b926a30f8620141f495e91a",
+      "path": "references/self-evolution-rule.md",
+      "repository": "router",
+      "status": "modified"
+    },
+    {
+      "after_mode": "0644",
+      "after_sha256": "0040153a954ab0a6599e3eb951e8fa6b7715710745616f1f404904bf056c11d2",
+      "before_mode": "0644",
+      "before_sha256": "96158069ce5b7287e628d4f02b2d1f313a62f7cf9c50d9b6ebf068bf9829e537",
+      "path": "references/shared-global-governance.md",
+      "repository": "router",
+      "status": "modified"
+    },
+    {
+      "after_mode": "0644",
+      "after_sha256": "ac17a7c24615d53b3438acc2fe64c0bb28f11eaa0c6957ef1ef3b659a1e99854",
+      "before_mode": "0644",
+      "before_sha256": "4b281f5d53ab675b96a677f96b6049d0e97890a522a6ca8babaf2aa5985e71f4",
+      "path": "references/step-evidence-gate.md",
+      "repository": "router",
+      "status": "modified"
+    },
+    {
+      "after_mode": "0644",
+      "after_sha256": "4755543c82f7a68d3c809b8505166ec8a899afc922258e4e640fe458f4e1b8a2",
+      "before_mode": "0644",
+      "before_sha256": "bf04ff76f57f8826b6ad68394ffff8010d12a3cf7c8c6cb2d7000836d4268a7a",
+      "path": "references/superpowers-adapter.md",
+      "repository": "router",
+      "status": "modified"
+    },
+    {
+      "after_mode": "0644",
+      "after_sha256": "cee0169002b2d60e1f821fbf971794f5f05647eeac04546a985e6828a3e65a03",
+      "before_mode": "0644",
+      "before_sha256": "ece284165dee9e923c59ae152b34f39ba2d4980793c0347b6bd1d105582a4d62",
+      "path": "references/sync-checklist.md",
+      "repository": "router",
+      "status": "modified"
+    },
+    {
+      "after_mode": null,
+      "after_sha256": null,
+      "before_mode": "0644",
+      "before_sha256": "425e7753b96e7cca2ad645d9a5385e52532e83dd19540ecb7d11ba3adb768c66",
+      "path": "scripts/__pycache__/validate_cross_cli_sync.cpython-314.pyc",
+      "repository": "router",
+      "status": "deleted"
+    },
+    {
+      "after_mode": "0755",
+      "after_sha256": "71daaafbb643fdbf875901e9013f026bec77cf7d2f3cbe55c25b402d18e621a6",
+      "before_mode": "0755",
+      "before_sha256": "71839b76491f099c0f178effa90e8d76b95a08f36356286f7000bf600c5e68c8",
+      "path": "scripts/validate_core_gates.py",
+      "repository": "router",
+      "status": "modified"
+    },
+    {
+      "after_mode": "0644",
+      "after_sha256": "332de6171495faa12b3acd6c7c39e8ee35972a9c87eebe216d9581cc3b520044",
+      "before_mode": "0644",
+      "before_sha256": "7c6248b3f34cf94b8ea2930f65a30c768970d0a38b666268d72fe5f6016acdd0",
+      "path": "scripts/validate_cross_cli_sync.py",
+      "repository": "router",
+      "status": "modified"
+    },
+    {
+      "after_mode": "0644",
+      "after_sha256": "02e9d0f81c543f3fbf92eda8e22d1bf5a1931316f010650113bfb68db795551f",
+      "before_mode": null,
+      "before_sha256": null,
+      "path": "tests/fixtures/role-first-review-routing-cases.json",
+      "repository": "router",
+      "status": "added"
+    },
+    {
+      "after_mode": "0644",
+      "after_sha256": "301022febe4141e8afa36d7b525d77f234fa06a9d46ee2ae3816f63eb19d459f",
+      "before_mode": null,
+      "before_sha256": null,
+      "path": "tests/fixtures/role-first-review-routing-output.schema.json",
+      "repository": "router",
+      "status": "added"
+    },
+    {
+      "after_mode": "0644",
+      "after_sha256": "0a4ecc58e2d3996ab8f8d6cecae03a6028b4f85c407dd64fbd373d7bad57edf8",
+      "before_mode": null,
+      "before_sha256": null,
+      "path": "tests/run_role_first_review_forward_tests.py",
+      "repository": "router",
+      "status": "added"
+    },
+    {
+      "after_mode": "0644",
+      "after_sha256": "97d46aec7247ab9e0f93d60b2c017248e22e4b54d2c53f3f01eaa83d0c9b1ed2",
+      "before_mode": "0644",
+      "before_sha256": "4799819c0e1647d4c9b660abf0d75e6e566849cf0a3f9596c670a27518dee2d6",
+      "path": "tests/test_cross_cli_sync.py",
+      "repository": "router",
+      "status": "modified"
+    },
+    {
+      "after_mode": "0644",
+      "after_sha256": "9e8f1d6904b0eb3e397eafb305f0e1743a77dcd9d9c715ac05e510f4e3aa2dc7",
+      "before_mode": "0644",
+      "before_sha256": "c6c120ff5d5237fa54f50bcf28b2c108bde253a246e9bffd60cc334597625916",
+      "path": "tests/test_workflow_rules.py",
+      "repository": "router",
+      "status": "modified"
+    },
+    {
+      "after_mode": "0644",
+      "after_sha256": "9fa6102bb76f75f611fe6cd7801c528e6198c3608cd4ad8093e21b2d75581dcc",
+      "before_mode": "0644",
+      "before_sha256": "b1bef994bcfd43806e2e8a1872f97d4ec29f49e6b7279789f15ec4edae33c663",
+      "path": "CHANGELOG.md",
+      "repository": "companion",
+      "status": "modified"
+    },
+    {
+      "after_mode": "0644",
+      "after_sha256": "f260de8c1e97ca5ce282e39c432278ebed4699745d0cd6c650dc82ece9ffe0b5",
+      "before_mode": "0644",
+      "before_sha256": "36f1acfa26d94734f748c685ac43615eb1455cdcc046a0159c90f0a2cd4f80c3",
+      "path": "README.md",
+      "repository": "companion",
+      "status": "modified"
+    },
+    {
+      "after_mode": "0644",
+      "after_sha256": "d6180a9a0f54fc0d87934bd24efe320d5f9c7b45cb816292f86db5d1ba2b601c",
+      "before_mode": "0644",
+      "before_sha256": "6ce70c219e017d9dfecd8b36001fac1143284fd2e82c4edc8cdd510cce8af20d",
+      "path": "README_cn.md",
+      "repository": "companion",
+      "status": "modified"
+    },
+    {
+      "after_mode": "0644",
+      "after_sha256": "2ca8cb399d62561109fb3042b06a7c0bd2a3d3c619485eec422cc2520a1219d6",
+      "before_mode": "0644",
+      "before_sha256": "fb0c3c2157415674df41147ebc415e701d45f6d894d10c763117dc3253d95e00",
+      "path": "SKILL.md",
+      "repository": "companion",
+      "status": "modified"
+    },
+    {
+      "after_mode": "0644",
+      "after_sha256": "4da5d5101c5e54ea38412021775befc1991e5f5757ce7d2644e214aae78c1364",
+      "before_mode": "0644",
+      "before_sha256": "dbb8718a64e74c782cde3a1ac0ca19c3f52994adebd5481723fb1fcc2a3b782b",
+      "path": "agents/openai.yaml",
+      "repository": "companion",
+      "status": "modified"
+    },
+    {
+      "after_mode": "0644",
+      "after_sha256": "1aa5b2f636676c635f93f8a02fdb7b795c7fa494f60da0c006b5f0f6afa45819",
+      "before_mode": "0644",
+      "before_sha256": "8049e8d4b7b806220f74a9e4d79ec303483c0280e9c78768f54bb109fc078956",
+      "path": "references/agy-dispatch-template.md",
+      "repository": "companion",
+      "status": "modified"
+    },
+    {
+      "after_mode": "0644",
+      "after_sha256": "92525eff7b57c0d08fb2bed8dc79676ac3b7789e64d1e3ae7e1092991d3c8e4a",
+      "before_mode": "0644",
+      "before_sha256": "05222e566e8d436a25b32e0cca1a871469fe5f72ea5511ed878c7a500fb008b0",
+      "path": "references/brief-template.md",
+      "repository": "companion",
+      "status": "modified"
+    },
+    {
+      "after_mode": "0644",
+      "after_sha256": "0931999b997b93da601d443b5bdf7a3486f950ab47ef7d96c31c19a6911fc1fe",
+      "before_mode": "0644",
+      "before_sha256": "3d4d0b25a0312c6f21d682044af2296a5a9541c8a7bade2bb382b4fcc8b02bf7",
+      "path": "references/handed-off-external-execution.md",
+      "repository": "companion",
+      "status": "modified"
+    },
+    {
+      "after_mode": "0644",
+      "after_sha256": "6ccf710c2fae025cfd49da8820a9e3ac3df7d2ede61ffd3f4dfd0d4584fcc86f",
+      "before_mode": "0644",
+      "before_sha256": "62dfe033d0c6f8b6e0fde79e32f44c97a4da1efca7913def3378bcd16c5e2340",
+      "path": "references/handoff-contract.md",
+      "repository": "companion",
+      "status": "modified"
+    },
+    {
+      "after_mode": "0644",
+      "after_sha256": "13af325d55792e166936033e3be75c5fa5fe00b370bf03f1e57b9e8df42de1c7",
+      "before_mode": "0644",
+      "before_sha256": "20ea0d2308c5d108901a4e9e3d772d766baf9a9f8e6a6eb1f8d9623afc40b9b5",
+      "path": "references/report-template.md",
+      "repository": "companion",
+      "status": "modified"
+    },
+    {
+      "after_mode": "0644",
+      "after_sha256": "5e67927047924e46193fd0180982c01f28da2e8291a598ea7dda06d9383bb42b",
+      "before_mode": "0644",
+      "before_sha256": "7a6d6dfd9f339edcf722d3d79590ef982c85ca1a08d17195a86d1f652ab1cea5",
+      "path": "references/review-template.md",
+      "repository": "companion",
+      "status": "modified"
+    },
+    {
+      "after_mode": "0644",
+      "after_sha256": "bf2a6d9b4927c6ae08787aef33388639f0e19fa121813987e639650d11c3ac28",
+      "before_mode": "0644",
+      "before_sha256": "84d5b94226a084467d69c605422f687a55cadb653890055c54563788387b11df",
+      "path": "references/timeout-audit-template.md",
+      "repository": "companion",
+      "status": "modified"
+    },
+    {
+      "after_mode": "0644",
+      "after_sha256": "1fda4ff10571800b9d3b7aba93839208ee7f2ab9144b34e8887a22ad62c65f0b",
+      "before_mode": "0644",
+      "before_sha256": "0f193805ba5d480443e21b5f1ad4e5c9598f0265cf95d58b6ce2805bb4333aa8",
+      "path": "scripts/validate_templates.py",
+      "repository": "companion",
+      "status": "modified"
+    },
+    {
+      "after_mode": "0644",
+      "after_sha256": "65f8e4f2de06dfd050ef74310c94a84d76cec2b54c1955a1fdb66372d5f0b12c",
+      "before_mode": "0644",
+      "before_sha256": "2f93a71f2a4532174b10aa29a8705d996b979f11cf9393e8f5e5530c3c4c18be",
+      "path": "tests/test_workflow_rules.py",
+      "repository": "companion",
+      "status": "modified"
+    }
+  ],
+  "source_delta": "pass",
+  "unexpected_paths": []
+}

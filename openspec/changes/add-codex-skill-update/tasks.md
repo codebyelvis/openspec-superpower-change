@@ -1,0 +1,422 @@
+# Tasks: add-codex-skill-update
+
+## 1. Proposal and exact approval
+
+- [x] 1.1 Capture the observed freshness gap, current Superpowers divergence,
+  accepted Update Policy U1 within workflow Scheme C, exact rule draft, tests,
+  rollback, and the quarantined first source-bootstrap evidence failure in a
+  Major Self-Evolution review draft.
+- [x] 1.2 Create proposal, design, tasks, glossary, and governance spec delta.
+- [x] 1.3 Run strict OpenSpec validation and correct every finding.
+- [x] 1.4 After every proposal/design/spec/tasks correction, run strict
+  validation, freeze and display all four SHA-256 values, and run an independent
+  proposal Review covering source boundary, update authority, scheduler
+  mutation, adapters, recovery, rollback, tests, and Git/publication authority;
+  correct every finding and repeat strict validation plus Review.
+- [x] 1.5 Present the exact change-id, the complete approved untracked material
+  SHA-256 values, current proposal/design/spec/tasks raw SHA-256 set, the
+  checklist-normalized contract-projection digest, the freshly computed
+  `source_bootstrap_prestate_sha256`, exact Git/sandbox/helper executable,
+  profile/write-allowlist/sandbox-exec-vector/helper-argv/helper-env/
+  helper-fd-binding identities, including the exact APFS
+  `approval-recorded`/`journal-ready`/`post-bootstrap` parent-link delta table,
+  source-bootstrapped fixed-argv and base commit/tree, the exact quarantined
+  prior source-worktree evidence and preserve-only policy, and the exact
+  sibling/replacement-worktree/local-branch/Bootstrap-Control-Root and
+  missing-fixed-parent-anchor/per-manifest-workspace assumptions,
+  record explicit user approval of that exact revision and only those source/
+  governance-root/fixed-parent-anchor mutations, preserve all four exact raw
+  artifact byte streams in verified no-follow/no-overwrite
+  `approvals/artifacts/<artifact-sha256>` snapshots before changing any
+  checklist marker, and write one immutable Major authorization manifest at
+  `openspec/changes/add-codex-skill-update/approvals/<manifest-sha256>.json`;
+  keep all approved paths and tasks 1.5/2.1 markers byte-frozen until task 2.1 exact
+  materialization/post-verification, then allow checklist-only progress without
+  rewriting it; reapproval creates a new manifest.
+
+## 2. Isolation, backups, plan, and Skill RED
+
+- [x] 2.1 Preserve without mutation the quarantined prior
+  `/Users/elvis/.config/superpowers/worktrees/openspec-superpower-change/add-codex-skill-update`
+  worktree, `refs/heads/add-codex-skill-update`, and its admin path, bind their
+  exact HEAD/tree/manifest/snapshot failure evidence into the prestate, then
+  create the explicitly approved replacement isolated worktree at
+  `/Users/elvis/.config/superpowers/worktrees/openspec-superpower-change/add-codex-skill-update-v2`
+  on `refs/heads/add-codex-skill-update-v2` at exact base commit
+  `92fce4cfea0fbaf0dd1dfbcc7cc320a5aafa7958` / tree
+  `9799a5f6add566977e4e997bce57314fc81f28c4`. Revalidate the manifest-bound
+  repository/Git/sandbox executable/security-relevant ref-worktree-local-config
+  plus the sole bound volatile `refs/codex/turn-diffs/` exclusion and quarantine
+  prestate,
+  exact no-follow device/inode closure through repo/common-dir/refs/logs/
+  worktrees/worktree-parent/approval/source-bootstrap directories, and exact
+  ref/reflog/path/admin absence. Run only the fixed manifest-bound helper
+  `--launch` entrypoint; it must revalidate the complete approval closure and
+  `execve` the exact digest-bound inline-profile sandbox vector into its
+  `--contained` entrypoint, which self-attests active sandbox denial. The
+  contained helper must acquire/fsync the exclusive source-bootstrap lock,
+  create/fsync the no-replace journal, retain/revalidate all parent descriptors,
+  atomically reserve the target directory by `mkdirat` no-replace, and remain in the manifest-bound
+  deny-by-default write-allowlisted sandbox with network and every child exec
+  except the exact helper interpreter and fixed read-only Git binary denied.
+  Treat schema-2 parent link counts as the pre-decision baseline and require the
+  closed APFS phase table: only the new manifest at `approval-recorded`, only
+  manifest/lock/journal at `journal-ready`, and only those durable entries plus
+  final ref/reflog/admin/worktree children at `post-bootstrap`; reject every
+  unlisted delta and unknown phase.
+  The helper may write only the lock/journal, exact branch ref/reflog,
+  worktree-admin files, target `.git` link, raw material, and Git index through
+  directory-FD-relative no-replace writes/hard-link promotions.
+  If helper identity, descriptor continuity, fd-rooted target/mutable-parent
+  binding (including descriptor-relative `.git/refs/heads`,
+  `.git/logs/refs/heads`, and `.git/worktrees` write paths), or sandbox/no-replace
+  containment is unproven, do not launch the helper or write source state.
+  Materialize only raw `100644`/`100755` base blobs via fixed read-only
+  `ls-tree`/`cat-file`, independently verify every blob OID, generate a valid
+  path-sorted Git index v2, plus the approved task-local untracked context/proposal/
+  review artifacts, exact content-addressed approval snapshots, manifest, and
+  newly reapproved content-addressed sandbox profile; do not copy or adopt any
+  prior attempt's manifest or snapshot. Permit existing profile bytes only when
+  they independently equal the current helper's exact expected profile, the new
+  manifest rebinds the hash, and the new exact approval includes it; inherit no
+  prior authority and reject the quarantined `892aec1c...` profile. Write every
+  accepted byte stream through directory-FD-anchored no-follow/no-overwrite
+  writes. Verify every parent/reserved-target/admin identity,
+  exact ref/reflog/admin bytes, tracked-clean status, unchanged index across
+  status, no extra empty/ignored file or directory and exact directory
+  owner/mode, the before/after inventory differs only by the named ref and worktree
+  mapping, full old-quarantine evidence still matches, and snapshot/material
+  hashes and manifest integrity; rerun strict validation,
+  exclude
+  `streamline-workflow-prompt-contracts`, record absent sibling/runtime/
+  controller paths, and do not stage or commit. Only after this post-verification
+  may tasks 1.5/2.1 and later checklist markers advance under the unchanged
+  projection. Parent/target exchange, helper identity/argv/environment/fd-protocol
+  mismatch, mutable-parent descriptor exchange or wrong `fstat` continuity,
+  wrong base, quarantine drift, ambient executable config, existing replacement
+  target, extra mutation, or interruption residue is
+  `BLOCKED_SOURCE_WORKTREE_RECOVERY`; do not reuse, force, reset, repair, delete,
+  clean, or adopt either the quarantine or any incomplete replacement under
+  this approval.
+- [x] 2.2 Create a fresh timestamped structured backup outside Skill discovery roots
+  only for current-repository and pre-existing sibling-source files covered by
+  this Major source implementation; record the Bootstrap Control Root pre-state
+  but do not create it before task 5.6, and do not back up, create, or mutate
+  updater runtime/state/release/discovery or schedule destinations before their
+  later exact action approvals.
+- [x] 2.3 Write the executable Superpowers implementation plan with exact files,
+  commands, evidence, rollback, stop conditions, no unauthorized Git steps, and
+  Step Evidence Gate checkpoints for each complete source/engine slice,
+  Bootstrap Control Root/initial deployment, schedule transaction, runtime
+  installation/first audit, cleanup/final-evidence ordering, and closeout risk
+  milestone; explicitly cover closed notification/redaction behavior,
+  `registry-replace` plan/approval/receipt and schedule invalidation,
+  Bootstrap Control Root source RED/GREEN before source High Review, and the
+  task-6.1 runtime backup/allowlist/release/discovery/exclusion/hash-import
+  sequence.
+- [x] 2.4 Run a distinct current-revision Preflight Review; revise and repeat
+  until PASS. A prior plan or PASS tied to the quarantined worktree is
+  superseded and cannot authorize execution.
+- [x] 2.5 Run seven answer-free pressure scenarios without the candidate Skill,
+  preserve the observed RED results, and identify the actual unsafe shortcuts and
+  missing behavior.
+
+## 3. Contract and engine RED/GREEN
+
+- [x] 3.1 Create the sibling Skill skeleton, metadata, references, path-neutral
+  JSON registry template, validator, schedule template, and bilingual README
+  files only after the Skill RED baseline exists.
+- [x] 3.2 Add contract tests that fail unless narrow natural-language audit
+  routing (`allow_implicit_invocation: true`) and explicit
+  `$codex-skill-update` both work while the public parser exposes no mutation or
+  approval-minting verb, every mutation request returns to the Router, and
+  observation/notification accepts only closed reviewed adapters; also cover
+  collapsed version values, absent reason/transaction fields, unsafe scheduler
+  verbs, missing Major authorization binding, weak Git/publication boundaries,
+  or bilingual drift.
+- [x] 3.3 Add engine tests that fail for dirty/ahead overwrite; source-worktree
+  wrong base/repository/Git binary/prestate, existing ref/reflog/path/admin,
+  quarantine manifest/snapshot mismatch or drift, attempted quarantine
+  reuse/repair/delete/adoption, non-distinct replacement target, an undeclared
+  or bootstrap-writable volatile-ref exclusion,
+  helper identity/argv/env/fd-binding or sandbox exec-vector mismatch,
+  direct unsandboxed contained execution, `-B`/force/reset/reuse, malicious
+  hook/filter/process/config/helper/prompt/network execution, repo/common-dir/ref/log/admin
+  /worktree-parent component exchange, empty-target takeover/symlink insertion,
+  mutable-parent exchange (`.git/refs/heads`, `.git/logs/refs/heads`,
+  `.git/worktrees`), required fd-fallback absence, reservation inode drift,
+  sandbox/profile/write-allowlist drift, unexpected ref/worktree/config
+  mutation, first-open prestate `fstat` drift, APFS manifest/lock/journal/ref/
+  reflog/admin/worktree parent-link phase drift or unknown phase, non-regular or OID-mismatched base
+  tree entries, missing/malformed/mutated index or non-clean tracked status,
+  interruption residue, pre-bootstrap
+  checklist drift, or post-bootstrap normalized checklist rejection; plugin
+  installed/channel conflation,
+  path/symlink escape, plan tampering/staleness,
+  adapter-specific candidate-closure mismatch or temporary candidate residue,
+  diagnostic blocked planning results that incorrectly expose an actionable
+  `plan-id` or reach approval/apply,
+  stale/failed/exactly-eight-day/older-than-eight-day report boundaries,
+  global root ownership/permission/overlap/containment/device-inode alias and
+  check/use component or symlink swaps, declared controller-state children and
+  distinct package/transaction siblings under one manager/OS-owned anchor being
+  allowed while whole-container claims, anchor-addressed mutation, and
+  cross-domain overlapping child leases are blocked, updater alias under
+  another package ID, approval-artifact or Major
+  change-id/manifest/raw-artifact-set/contract-projection mismatch including
+  non-canonical/private manifest content, snapshot absence/tamper/collision,
+  canonical projection path order, and allowed checklist-only progress versus
+  any contract byte change, ambiguous
+  freshness/observation/eligibility/reason/transaction result, real subprocess
+  hard-kill before/after symlink switching and schedule load/unload including
+  after durable mutation intent but before post-mutation phase advancement,
+  final-child drift after the last precheck with expected-absent no-replace,
+  expected-present replacement exchange/back, and removal exchange/tombstone/
+  exclusive-relocation recovery preserving every mismatched object, plus
+  terminal-unlink private-closure drift/blocking; absent platform primitives,
+  corrupt journal, missing compensation/
+  parent-directory fsync, approval expiry/revocation before intent and at every
+  recovery phase, revocation while the transaction-long operation lock is held,
+  authority-channel owner/mode/nlink/no-follow/closure/canonical/no-overwrite
+  collision and authority-lock ordering immediately before intent/atomic
+  mutation/terminal success in both normal and bootstrap authority roots, or
+  failed restart recovery, failed-validation
+  non-compensation,
+  post-success after-fingerprint
+  content/mode/link/target/registry/path-set drift plus Git
+  identity/HEAD/tree/ref/index/status/submodule/tracked-or-untracked-content
+  drift, hidden capability-surface expansion, allowed exact projection versus
+  chained/escaping projection, package/entry duplicate names or escape,
+  independent Superpowers sub-Skill update, runtime-lock unsafe
+  paths/types/modes/content/hardlinks, lock owner/mode/nlink/no-follow or
+  digest-top-level/payload non-exact closure, atomic no-replace finalization,
+  same-digest release collision, malicious registry observation/notification
+  commands, swapped/unreviewed adapter executable/code identity, and
+  observation/materialization through ambient Git/user config, hook,
+  credential/proxy/remote helper, prompt, protocol, or channel-state mutation;
+  validation executable/code identity, argv/no-shell/metacharacter/ref-as-data,
+  environment, network/write-policy, cwd containment, or fixed adapter/boundary
+  timeout escape;
+  Bootstrap Control Root parent-by-parent creation plus stable-marker atomic
+  promotion/isolation/permissions/fixed closure, the sole pre-operation-lock
+  initializer, per-manifest immutable workspace creation/reapproval retention,
+  old-workspace incomplete-journal precedence, and foreign, empty, mismatched-
+  workspace, or incomplete content;
+  pre-approval destination non-mutation,
+  candidate-registry-driven pre-bootstrap ownership graph, exact initial
+  registry/state-layout/group/adapter binding, absent-state hard-kill recovery,
+  and external same-package executor versus
+  executor-to-target self-alias;
+  no-follow owner/mode/nlink controller-lock validation and serialized
+  scheduled/on-demand audit versus apply/registry/schedule/rollback/cleanup;
+  schedule-plan/receipt registry/group/state-root/adapter-identity/
+  exact content-addressed controller-payload/runtime-lock/active-discovery/
+  loaded-config field mismatch across present/absent plist × loaded/unloaded
+  state, registry/runtime-triggered schedule-replace, schedule job binding drift before
+  package/network/notification, schedule-install-versus-replace confusion,
+  transaction-local versus receipt-bound cleanup mismatch, required cleanup or
+  raw-trace deletion blocked while final verification incorrectly advances,
+  canonical preliminary/PASS/final-Review evidence schema/path/parent/hash/
+  no-follow/no-overwrite/fsync mismatch, exact runtime-Review/Project-Learning
+  prerequisite and eligibility schemas, missing/wrong-kind/non-PASS/
+  cross-manifest/parent-mismatched/time-inverted/source-stale eligibility,
+  missing trace pre-hash or post-delete absence, same-revision PASS+Review,
+  post-seal governed drift versus permitted append-only evidence/checklist
+  progress, predicted-versus-actual OpenSpec archive relocation/main-spec
+  inventory mismatch or missing strict child receipt, sensitive output, and
+  live self-update.
+- [x] 3.4 Implement package-to-discovered-Skill registry mapping, read-only
+  inventory/audit through closed adapters, global managed-root ownership graph,
+  evidence freshness, deterministic freshness/observations/apply-eligibility/
+  reason-code classification and transaction results, canonical JSON report,
+  immutable initial registry binding plus separately approved
+  `registry-replace` with schedule invalidation, and immutable package-bound
+  plan containing complete adapter-specific
+  candidate fingerprints, Major authorization binding, and expected
+  discovered-entry/projection set.
+- [ ] 3.5 Implement contained candidate staging, immutable version directories,
+  same-filesystem conditional no-replace/exchange discovery-symlink switching,
+  exchange-and-tombstone removal, preserved displaced-object verification,
+  explicit adapter
+  capability, fixed Git candidate materialization, Router-recorded approval
+  recheck, append-only revocation channel and short authority-lock
+  linearization at every forward boundary, single-use compensation lease,
+  operation lock, fsync-backed transaction journal and restart recovery,
+  automatic failure compensation, post-success rollback/verify, separately
+  approved retained-material cleanup, receipt, and redaction behavior for
+  supported adapters; keep plain-copy migration, plugin apply, and alias-based
+  controller self-apply blocked in version 1.
+- [ ] 3.6 Run focused GREEN tests after each behavior slice and refactor only
+  while the full focused suite remains GREEN; after every source or
+  contract-behavior change, synchronize both source trees' `README.md` and
+  `README_cn.md` and rerun bilingual parity/accuracy checks.
+
+## 4. Schedule, integration, and documentation
+
+- [ ] 4.1 Implement a Monday 10:00 local macOS one-shot audit template plus
+  separately governed schedule plan/install/replace/verify/remove transactions,
+  explicit replace semantics, exact label/domain/plist/argv/runtime-lock/
+  state-root/registry/group-closure/cadence/plist/effective-loaded-config/
+  expiry binding, exact content-addressed scheduled controller payload/
+  runtime-lock/active-discovery verification, with real launchd
+  `Weekday=1`/`Hour=10`/`Minute=0` semantic validation, fail-closed
+  loaded/plist and job-time binding drift,
+  action-bound approvals, canonical receipts, pre-state backup, automatic
+  failure restoration, and closed-adapter minimal
+  update/blocker/failure-only local notifications with redaction tests.
+- [ ] 4.2 Add initial `workflow-core` package and discovered-Skill mappings for
+  Router, Companion, the single Superpowers package/multi-Skill collection, and
+  updater using runtime-specific paths outside public source.
+- [ ] 4.3 Keep sibling `README.md` and `README_cn.md` current with triggers, commands,
+  four version values, statuses, install modes, schedule, approval, verification,
+  limitations, and rollback.
+- [ ] 4.4 Keep current `README.md` and `README_cn.md` current on every source or
+  contract-behavior change in this feature, replacing the “no automatic checker
+  exists” gap with an accurate optional-controller contract and preserving
+  Scheme C boundaries.
+- [ ] 4.5 Add focused current-repository assertions that the bilingual
+  integration remains aligned and the optional updater is not a Router or
+  cross-CLI runtime dependency.
+
+## 5. Source verification and Review
+
+- [ ] 5.1 Run sibling `quick_validate.py`,
+  `scripts/validate_update_contract.py`, and the full dependency-free unittest
+  suite.
+- [ ] 5.2 Run current-repository `quick_validate.py`,
+  `scripts/validate_core_gates.py`, and the full dependency-free unittest suite.
+- [ ] 5.3 Run the seven isolated GREEN forward scenarios without expected-answer
+  leakage and persist only sanitized evidence.
+- [ ] 5.4 Run a distinct High Review over both complete diffs, claim-to-mechanism
+  wiring, target/path safety, journal recovery, scheduler non-mutation,
+  approval binding, rollback, sensitive-data hygiene, and README accuracy before
+  runtime installation.
+- [ ] 5.5 Fix every actionable finding and repeat affected validation,
+  forward-tests, and Review until PASS.
+- [ ] 5.6 Create/verify only the disclosed restrictive Bootstrap Control Root
+  under this Major source authorization by conditionally creating only missing
+  fixed manager-owned parent anchors and atomically promoting a same-filesystem
+  candidate with the stable canonical control-root marker and embedded
+  operation lock; this is the sole pre-lock initializer and performs no target
+  probe or write. Acquire that lock, create/reuse only the exact immutable
+  `authorizations/<major-manifest-sha256>/` workspace with its manifest-bound
+  marker, exact no-overwrite Major manifest/raw-snapshot copies, and authority/
+  closeout layout while retaining older workspaces, then
+  from fixed reviewed source outside every destination generate there a fresh
+  immutable initial-controller
+  `bootstrap-apply` plan binding absent/existing pre-state, exact
+  external-Router executable/code/source identity and hashes, exact updater
+  source/candidate/runtime-lock hashes, canonical initial registry
+  bytes/schema/revision/hash, full state layout, package/entry/projection and
+  adapter closure, allowed paths, validation, backup, rollback, Major
+  authorization, expiry, and fresh proof that no running/active/ambiguous
+  updater is installed; obtain a separate exact Router-recorded action
+  approval before any updater destination backup or mutation.
+
+## 6. Codex runtime installation and first audit
+
+- [ ] 6.1 Execute only the exactly approved task 5.6 bootstrap plan, refresh its
+  plan-bound pre-state backup, and resolve the repository-only runtime allowlist
+  into a canonical
+  content-addressed runtime lock; reject unsafe paths/types/modes, exact-closure
+  violations, unsafe lock owner/type/mode/nlink/ancestors, digest-directory
+  top-level extras, and same-digest collisions; place only the verified payload under
+  `${CODEX_HOME}/skill-releases/codex-skill-update/<payload-sha256>/payload/`
+  with sibling `runtime-lock.json`, conditionally install
+  `${CODEX_HOME}/skills/codex-skill-update` as a symlink to exact `payload/`,
+  conditionally install the exact plan-bound initial state root/registry,
+  retain the fsynced bootstrap authority records/journal/lease in the exact
+  per-manifest Bootstrap Control Root workspace,
+  import bound evidence by hash, and validate path/type/mode/content parity;
+  exclude repository-only
+  instructions, READMEs, tests, fixtures, OpenSpec, Git metadata, and design
+  evidence.
+- [ ] 6.2 Verify the installed runtime registry/state root has the exact
+  plan-bound canonical bytes, layout, restrictive permissions, and complete
+  group/adapter closure; validate the global managed-root ownership graph, run
+  `workflow-core` audit
+  through closed read-only adapters, and verify that the known Superpowers
+  checkout is not silently considered current or safe to apply.
+- [ ] 6.3 Generate the canonical non-mutating schedule-install plan, obtain its
+  later exact Router-recorded action approval bound to state-root/registry/group
+  closure, exact content-addressed controller payload/runtime lock/active
+  discovery, and effective loaded pre-state; only then back up the registration,
+  conditionally install/load it, and verify the weekly one-shot audit receipt;
+  then snapshot managed targets and installation
+  channels, execute the already installed job once, and prove that only the
+  bound controller state root changes during job execution.
+- [ ] 6.4 Verify the updater in a fresh Codex process/session, verify all four
+  managed packages and every mapped discovered entry/projection, and retain a
+  tested rollback instruction.
+- [ ] 6.5 Do not apply a Superpowers, Companion, Router, plugin, snapshot, or
+  candidate dependency update merely because the controller was installed.
+- [ ] 6.6 Run a distinct runtime/schedule/registry High Review over the installed
+  payload/lock closure, stable Bootstrap Control Root plus exact per-manifest
+  workspace marker/authority/plan/approval/lease/journal/receipt closure, exact
+  initial registry/state layout, fresh discovery,
+  schedule exact-payload binding and effective loaded configuration, generated
+  registry/report, managed/channel mutation snapshots, journal recovery,
+  rollback proof, and README claims.
+- [ ] 6.7 Fix every runtime Review finding and repeat affected runtime,
+  schedule, registry, rollback, source, and documentation verification plus
+  High Review until PASS; persist its exact canonical content-addressed
+  `runtime-high-review` prerequisite in the current Major workspace, and only
+  then enter Project Learning Closeout.
+
+## 7. Closeout
+
+- [ ] 7.1 Run Project Learning Closeout for confirmed correction/Review history;
+  promote and mechanically enforce every mandatory project-local invariant
+  after task 6.7 Review PASS; run distinct learning-artifact Review, persist its
+  canonical `project-learning-closeout-review` prerequisite whose parent is the
+  task 6.7 record, then create the canonical `final-verification-eligibility`
+  child binding both PASS prerequisites, the Major manifest, exact time order,
+  and post-learning current/sibling source fingerprints.
+- [ ] 7.2 Remove transaction-local staging/compensation under the original
+  action only while its approval remains current and after durable success or
+  verified restoration; generate and obtain an exact `cleanup` approval before
+  deleting any expiry/revocation-retained transaction material or retained
+  post-success, receipt-bound, rollback, or immutable-release material; retain the current and
+  immediately previous verified release plus receipt and every payload still
+  referenced by an installed schedule as explicit `RETAINED_BY_POLICY`, not
+  failed cleanup; persist sanitized evidence before removing all raw external
+  CLI traces after their last consumer and verify cleanup. If any required
+  cleanup or trace deletion is `BLOCKED`, record owner/resume condition and
+  rollback availability/hash, stop at task 7.2, and do not form final evidence.
+- [ ] 7.3 After all learning and cleanup changes, run fresh final
+  source/runtime/schedule/registry/rollback verification with no `BLOCKED`
+  cleanup; under the current Major workspace write one canonical,
+  content-addressed, no-follow/no-overwrite/fsynced preliminary record binding
+  `parent_evidence_sha256` to the exact task 7.1 eligibility filename/content
+  hash after revalidating both prerequisite paths/kinds/PASS results/manifest/
+  parent/time order and unchanged post-learning source fingerprints; bind the
+  Major manifest, exact governed fingerprints,
+  checklist-normalized OpenSpec contract projection, exact predicted archive
+  destination/change relocation/main-spec/supporting inventory projection,
+  sanitized command/result/freshness records, and each raw trace's logical ID/
+  size/SHA-256 before deletion. Remove those traces, verify their exact parent
+  identities and absence plus unchanged governed fingerprints, then atomically
+  create the child PASS seal binding the preliminary hash, absence proof, and
+  archive projection; do not change governed source/runtime/schedule/registry/
+  rollback/cleanup state afterward.
+- [ ] 7.4 In a distinct later content-addressed evidence record whose parent is
+  task 7.3 PASS, run independent final High Review over the canonical task 7.3
+  chain, both source trees, runtime discovery, scheduled report freshness,
+  rollback/cleanup state, complete changed-file inventory, public claims,
+  critical reruns, and an adversarial probe. Bind reviewer identity, inspected
+  hashes, findings, result, and time; same-revision verification/Review is
+  invalid. After task 7.3 only append-only evidence and normalized checklist
+  progress may change before archive without invalidation. Review the exact
+  predicted archive projection; any later governed-state cleanup/correction or
+  different archive result invalidates tasks 7.3/7.4 and requires both again.
+- [ ] 7.5 Reconcile all tasks, archive the OpenSpec change when repository
+  semantics permit only through the exact task 7.3/7.4 projection, run strict
+  post-archive validation, verify the actual normalized relocation and affected
+  main-spec/supporting inventory, and append one canonical no-overwrite/fsynced
+  archive receipt whose parent is task 7.4 Review; mismatch or strict failure
+  invalidates the final gates and cannot produce a PASS receipt.
+- [ ] 7.6 Report Git status separately. Do not run `git init`, `git add`,
+  commit, branch/tag/remote mutation, reset, clean, push, PR, release, plugin
+  installation, or publication against sibling/source/live repositories without
+  explicit user authorization; fixed plan/apply candidate materialization
+  remains confined to its separately bound temporary/immutable roots.
