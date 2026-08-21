@@ -1,4 +1,4 @@
-# Final High Review — add-role-first-review-routing
+# Prior Final High Review — add-role-first-review-routing (pre-R17)
 
 ## Assignment and independence
 
@@ -57,3 +57,42 @@ None.
 three outstanding required runtime targets under the existing approved gate,
 then rerun fresh final verification and obtain a new Final High Review. Do not
 claim the external targets are PASS based on this scoped sync.
+
+## R17 renewed Final High Review — 2026-08-21
+
+This renewal reviewed the post-runtime source/evidence revision, R17 plan and
+receipts, the fresh validators/tests, and the isolated Pi adversarial result.
+The independent reviewer remained `codex` / `independent-reviewer` /
+`control-plane-high`; authority is final-Review evidence only. No source,
+runtime, or Git mutation was performed by the reviewer.
+
+### Fresh evidence
+
+- R17 plan: mode `0600`, SHA-256
+  `d2c17383590ecc417070c381ce7492274b482e9c32cd42a847b1e3d2daf217ca`;
+- all four required receipts: `state: "verified"`, matching the R17 plan;
+- `verify-all`: `PASS` for Codex, Pi, Antigravity CLI, and Grok CLI;
+- fresh source delta: `pass`, `105` records (`91` Router, `14` Companion),
+  `unexpected_paths: []`;
+- fresh Router/Companion validators and tests, OpenSpec strict/all, and
+  sensitive audit: `PASS`;
+- Pi adversarial evidence: mode `0600`, SHA-256
+  `8f6152aa0f9d4061766a18fc135ce8cec1dd36bb5fc4e67fb2b153b8d234b85f`,
+  `verdict: "BLOCKED"`, P1 `probe-isolation-or-output`.
+
+### Finding
+
+The required Pi adversarial Review could not produce mechanically acceptable
+evidence because the mandated fresh isolated HOME has no API key. The probe
+cannot copy credentials, enable network, or read the native Pi root. This is a
+governed fail-closed blocker, not a runtime parity failure; the four target
+receipts themselves are verified.
+
+### Renewed verdict
+
+P0: none. P1: isolated Pi reviewer capability/evidence unavailable. P2: none.
+
+**BLOCKED for whole-task completion, archive, and backup cleanup.** A valid
+isolated Pi reviewer capability or a governed external Pi Review satisfying the
+exact assignment is required before another fresh final verification and Final
+High Review can pass.

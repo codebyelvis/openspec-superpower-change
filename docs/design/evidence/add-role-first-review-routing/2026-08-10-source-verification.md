@@ -2002,3 +2002,60 @@ and `14` Companion modifications, with `unexpected_paths: []`:
 The two newly bound source records are the Learning Review artifact and the
 reconciled OpenSpec task ledger; the two allowlist-only historical records
 remain unchanged and no unallowlisted path exists.
+
+## R17 runtime synchronization closeout — 2026-08-21
+
+The fresh reviewed runtime plan was regenerated after the prior plan became
+stale. Independent Sync-plan Review returned `PASS`; the plan is private,
+mode-`0600`, SHA-256
+`d2c17383590ecc417070c381ce7492274b482e9c32cd42a847b1e3d2daf217ca`, with
+manifest/managed-rule v6 bindings unchanged. The immediately pre-apply legacy
+drain returned `legacy_audit: "pass"`, `active_legacy_count: 0`, `records: []`;
+its private mode-`0600` SHA-256 is
+`cc1355940bbcaabff01bc242d8dcee62998f9570ca26421b192cdfd6c3a77983`.
+
+All four required targets were applied one at a time in the required order and
+each reached `verified` only after content verification and deterministic (or
+Grok inspect) discovery:
+
+- Codex: apply/verify/discovery/commit `PASS`; receipt SHA-256
+  `71c0e01780226ebd0df00a6d59b46a3cb65f62438b5369cfd57eabe8879eeb35`;
+- Pi: apply/verify/discovery/commit `PASS`; receipt SHA-256
+  `155308ffff67d28208927c6e164bdb1a54fef9bbf36cd6bbc49e7ed0f31eb170`;
+- Antigravity CLI: apply/verify/discovery/commit `PASS`; receipt SHA-256
+  `50ce6050ea5cb8cf5768919a30423ee0a6d9027f788f698bd2509b99b88dd98d`;
+- Grok CLI: apply/verify/Grok `inspect --json` discovery/commit `PASS`; receipt
+  SHA-256 `c0bd19a5944baba956076d0860806a2dee952cc4a51c6ca057fd0f96ad94a530`.
+
+`verify-all` then returned `PASS` for all four targets. Backups and transaction
+roots remain private mode-`0700`, with receipt/manifest/backup files mode-`0600`.
+The fresh full source/Companion validators, tests, OpenSpec strict validation,
+and sensitive audit all passed.
+
+The required Pi adversarial Review was attempted through the mandated isolated
+probe. It returned `BLOCKED` (P1 `probe-isolation-or-output`) because the fresh
+isolated HOME has no API key; the probe cannot copy native credentials, enable
+network, or read the native Pi root. Private evidence:
+
+- Pi result mode-`0600`, SHA-256
+  `8f6152aa0f9d4061766a18fc135ce8cec1dd36bb5fc4e67fb2b153b8d234b85f`;
+- the probe returned exit code `1` and preserved fail-closed `BLOCKED` evidence.
+
+Therefore Tasks 7.4, 7.5, and 8.2 have fresh positive runtime evidence, but
+Task 7.6 and whole-task completion remain `BLOCKED` pending a valid isolated
+Pi adversarial Review. Archive and backup cleanup remain disallowed until that
+gate and the renewed Final High Review pass.
+
+The fresh no-Git source rebind after this closeout append reported `105` records
+(`91` Router, `14` Companion), `source_delta: "pass"`, and
+`unexpected_paths: []`; private result mode-`0600`, SHA-256
+`7f88eb884fc53046a9b1a64a561be3a5c0afbd52b28509322fec1c947c729911`, compare
+root mode `0700`:
+`/private/tmp/add-role-first-review-routing-runtime-sync-r17-20260821-luna/source-compare-final-r17`.
+
+After the renewed Final High Review and task-ledger reconciliation, a final
+read-only source rebind remained `105` records (`91` Router, `14` Companion),
+`source_delta: "pass"`, and `unexpected_paths: []`; the private result and
+compare root remain mode-`0600`/`0700` at:
+`/private/tmp/add-role-first-review-routing-runtime-sync-r17-20260821-luna/evidence/source-delta-closure-r17.json` and
+`/private/tmp/add-role-first-review-routing-runtime-sync-r17-20260821-luna/source-compare-closure-r17`.

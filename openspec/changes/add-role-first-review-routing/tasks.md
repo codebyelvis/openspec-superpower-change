@@ -130,9 +130,9 @@
   conditions, product `codex`, role `independent-reviewer`, profile
   `control-plane-high`, an instance distinct from plan author/target executor,
   and sync-plan-evidence-only authority.
-- [ ] 7.4 Apply and verify Codex, Pi, Antigravity CLI, and Grok CLI one target at
+- [x] 7.4 Apply and verify Codex, Pi, Antigravity CLI, and Grok CLI one target at
   a time; restore only the current failed target and stop later targets.
-- [ ] 7.5 Prove all four targets have portable file parity, managed block
+- [x] 7.5 Prove all four targets have portable file parity, managed block
   v6/`CCG-001`–`CCG-016` parity, target-compatible validation, and discovery.
 - [ ] 7.6 Obtain the Pi adversarial Review assignment defined in `design.md` after
   candidate Pi validation admits it; bind non-blank purpose, product `pi`, role
@@ -145,7 +145,7 @@
 - [x] 8.1 Run Project Learning Closeout after implementation Review PASS,
   promote only confirmed non-sensitive durable invariants, and obtain the
   Learning Review assignment defined in `design.md` before final verification.
-- [ ] 8.2 Run fresh final verification after the last source, learning, or
+- [x] 8.2 Run fresh final verification after the last source, learning, or
   runtime mutation; persist complete four-target and assignment evidence.
 - [x] 8.3 Obtain the Final High Review assignment defined in `design.md`: purpose
   covering the complete final source/runtime/evidence revision and completion
@@ -161,15 +161,17 @@
 - [x] 8.7 Keep Git staging, commit, push, publication, and every destructive
   cleanup action under separate explicit user authorization.
 
-### Current closeout boundary — 2026-08-21
+### Current closeout boundary — 2026-08-21 R17
 
-The requested source promotion and Codex-local Router/Companion sync are
-verified. Tasks 7.4–7.6 and 8.2 remain intentionally open: the approved
-manifest still requires Pi, Antigravity CLI, and Grok CLI apply/parity/discovery,
-but Task 10 is an approved external limitation and those targets were not
-executed. Final High Review is persisted as `BLOCKED` for whole-task completion
-and `PASS` only for the requested source plus two local Codex skill updates.
-Resume condition: complete the three external targets under the approved gate,
-rerun fresh final verification, and obtain a new Final High Review. Tasks 8.5
-and 8.6 remain open because archive and backup cleanup are not permitted while
-that rollback/runtime boundary remains outstanding.
+Fresh R17 execution completed Tasks 7.4 and 7.5 for all four required targets;
+the four receipts and `verify-all` are `PASS`, and Task 8.2 fresh source/runtime
+verification is `PASS`. The isolated Pi adversarial Review required by Task 7.6
+returned fail-closed `BLOCKED` because the mandated fresh HOME has no API key;
+credentials/network/native-root access cannot be added to bypass isolation.
+The renewed independent Final High Review records this Pi blocker; 8.3 and 8.4
+are now reconciled and complete as evidence steps, but not as a completion
+claim. Whole-task completion is `BLOCKED`; archive (8.5) and backup
+cleanup (8.6) are not permitted until Task 7.6 and the renewed Final Review
+pass. Resume condition: provide a valid isolated Pi reviewer capability (or a
+governed user-approved external Pi Review artifact satisfying the exact
+assignment), then rerun final verification and Final High Review.
