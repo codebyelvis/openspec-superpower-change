@@ -24,6 +24,11 @@
   独立性与结果权限。
 - 区分平台权限、工作流范围批准与业务/生产批准；High Review 检查真实 diff、
   wiring、claim-to-mechanism 与独立探针。
+- 增加只读 `backend-architecture-review` 专项路由，面向明确的后端方案/设计
+  Review，以有界 finding 让 Review/Fix 收敛到最小且符合项目模式的修正。
+- 提供轻量 Authorized Execution Continuity，支持长任务在 compaction、恢复或
+  Agent 切换后从 canonical Plan/Status/Handoff 继续已批准工作，只在真实阻塞或
+  完成时停止。
 - 提供 allowlist 驱动的 Codex/Pi/Antigravity/Grok 运行时同步、版本化 managed
   governance block、逐目标恢复、四目标完成门与敏感类别拒绝。Pi 使用
   `${PI_CODING_AGENT_DIR}/skills`，managed block 位于
@@ -65,6 +70,8 @@ AI Coding Agent 很有用，但在生产级仓库里常见的失败模式也很�
 | Superpowers | 实施计划、TDD、调试、验证纪律 | Superpowers skills |
 | Step Evidence Gate | 推进或声明完成前所需证据 | `references/step-evidence-gate.md` |
 | Prompt / 外部批次 Review | 独立 prompt/diff Review 与 Handoff-backed Brief/Report/Review attempt | `codex-brief-antigravity-review` |
+| 后端架构 Review | 面向明确后端方案/设计的只读专项证据，覆盖边界、合同、调用链、事务、性能、稳定性和过度设计 | `backend-architecture-review` |
+| Authorized Execution Continuity | 基于 canonical Plan/Status/Handoff 的轻量长任务续跑，覆盖 compaction、恢复和 Agent 切换 | `references/approved-implementation-workflow.md` |
 | openspec-superpower-change | 路由、风险分类、审批门禁、自我演进边界 | 本 Skill |
 
 ## 核心工作流
@@ -88,6 +95,21 @@ AI Coding Agent 很有用，但在生产级仓库里常见的失败模式也很�
 -> 经授权的 Git 发布
 -> 引用持久化项目产物的会话归档/蒸馏总结
 ```
+
+## 长任务连续执行与 Review 收敛
+
+- **Authorized Execution Continuity** 复用未变化且范围绑定的 canonical
+  Plan/Status/Handoff 或等价状态。`continue` 只续跑下一项已批准任务，不重启已
+  完成工作，也不创建第二套任务台账。
+- Continuity 不授予新范围、凭证、生产权限或实质性的产品/业务/架构决策权。
+  出现阻塞、新决策、范围扩张、资源缺失、显式暂停/取消或完成时停止；适用时记录
+  owner 与 resume condition。
+- **Backend architecture Review** 是明确后端方案/设计判断的专项路由，检查服务
+  边界、合同、调用链、事务、性能/稳定性与过度设计。它只产生只读专项证据，不实施
+  修复，也不决定 canonical Completion。
+- Review 保持比例性：最多 3 个 material finding；每个都绑定 evidence、trigger、
+  impact 与最小项目一致修正。可行动 finding 返回 `Fix -> Verify -> Review`；重复
+  扩大范围或不收敛时返回 `BLOCKED`，不继续堆叠方案。
 
 ## 详细决策流程
 
@@ -230,6 +252,7 @@ Self-Evolution change。
 | 模式 | 适用场景 | 是否改文件 |
 |---|---|---:|
 | Review-only | 用户要求本总入口评审架构、实施授权、风险或完成证据。 | 否 |
+| 后端架构 Review | 用户明确要求评审后端方案/设计，覆盖边界、合同、调用链、事务、性能/稳定性或过度设计。 | 否 |
 | Discovery First | 术语、参与者、生命周期或边界不清。 | 通常只改 glossary / context |
 | OpenSpec proposal | 需要新增能力、行为合同、架构、安全、持久化、API 或工作流变更。 | 只改 proposal 产物 |
 | Approved implementation | OpenSpec-backed proposal 已明确获批。 | 是，需先有计划 |
@@ -391,6 +414,14 @@ Use openspec-superpower-change as the entry gate. Decide whether this requires D
 
 ```text
 Use Direct Change mode. Confirm this restores intended behavior, make the smallest fix, run verification, and report evidence before claiming completion.
+```
+
+```text
+Use backend-architecture-review for a read-only Review of this backend proposal. Inspect the actual project code and report only material boundary, contract, transaction, performance, stability, or over-design findings.
+```
+
+```text
+Continue the approved task from its canonical Plan/Status/Handoff state. Do not restart completed work, create a second ledger, or expand scope without a new decision.
 ```
 
 ## 维护说明

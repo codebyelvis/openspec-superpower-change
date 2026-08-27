@@ -25,6 +25,12 @@ The goal is simple: an AI agent should not move from a request directly to imple
   concrete product, role, capability profile, independence, and result authority.
 - Separates platform, workflow-scope, and business/production authorization;
   High Review audits actual wiring, mechanisms, and an independent probe.
+- Adds a read-only `backend-architecture-review` specialist for explicit backend
+  proposal/design reviews, with bounded findings that keep Review/Fix work
+  convergent toward the smallest project-consistent correction.
+- Provides lightweight Authorized Execution Continuity for long tasks: resume
+  approved work from canonical Plan/Status/Handoff state after compaction,
+  recovery, or agent switches, and stop only at real blockers or completion.
 - Provides allowlisted Codex/Pi/Antigravity/Grok runtime synchronization with a
   versioned managed governance block, target-local recovery, four-target
   completion, and sensitive-category denial. Pi uses
@@ -71,6 +77,8 @@ This skill turns those risks into explicit gates, references, and validation che
 | Step Evidence Gate | Evidence required before advancing or claiming completion | `references/step-evidence-gate.md` |
 | Completion Contract | Single Router-owned whole-task success, stop, evidence, reconciliation, sync, and authority contract | `references/completion-contract.md` |
 | Prompt / external batch review | Standalone prompt/diff review and Handoff-backed Brief/Report/Review attempts | `codex-brief-antigravity-review` |
+| Backend architecture Review | Read-only specialist evidence for explicit backend proposal/design reviews covering boundaries, contracts, call chains, transactions, performance, stability, or over-design | `backend-architecture-review` |
+| Authorized execution continuity | Lightweight continuation of approved work from canonical Plan/Status/Handoff state across long tasks, compaction, recovery, or agent switches | `references/approved-implementation-workflow.md` |
 | openspec-superpower-change | Routing, risk classification, approval gate, self-evolution boundary | This skill |
 
 ## Core Workflow
@@ -94,6 +102,24 @@ Read local rules
 -> authorized Git publication
 -> session archive/distillation summary that references durable project artifacts
 ```
+
+## Long-Task Continuity and Review Convergence
+
+- **Authorized Execution Continuity** reuses unchanged, scope-bound canonical
+  Plan/Status/Handoff or equivalent state. `continue` resumes the next approved
+  task instead of restarting completed work or inventing a second task ledger.
+- Continuity never grants new scope, credentials, production permission, or
+  material product/business/architecture decisions. A blocker, new decision,
+  scope expansion, missing resource, explicit pause/cancel, or completion stops
+  the continuation path with an owner and resume condition where applicable.
+- **Backend architecture Review** is the explicit route for proposal/design
+  judgment about service boundaries, contracts, call chains, transactions,
+  performance/stability, and over-design. It is read-only specialist evidence;
+  it does not implement fixes or decide canonical Completion.
+- Review output stays proportional: at most three material findings, each tied
+  to evidence, trigger, impact, and the smallest project-consistent adjustment.
+  Actionable findings return to `Fix -> Verify -> Review`; repeated widening or
+  non-convergence stops as `BLOCKED` instead of expanding the solution.
 
 ## Detailed Decision Flow
 
@@ -261,6 +287,7 @@ for an A/B implementation, a separately approved Major Self-Evolution change.
 | Mode | Use When | File Changes? |
 |---|---|---:|
 | Review-only | The user asks this change gate to review architecture, authorization, risk, or completion evidence. | No |
+| Backend architecture Review | The user explicitly asks for backend architecture/design Review covering boundaries, contracts, calls, transactions, performance/stability, or over-design. | No |
 | Discovery First | Terms, actors, lifecycle, or boundaries are unclear. | Usually glossary / context only |
 | OpenSpec proposal | New capability, behavior contract, architecture, security, persistence, API, or workflow changes are needed. | Proposal artifacts only |
 | Approved implementation | An OpenSpec-backed proposal has been explicitly approved. | Yes, after plan |
@@ -428,6 +455,14 @@ Use openspec-superpower-change as the entry gate. Decide whether this requires D
 
 ```text
 Use Direct Change mode. Confirm this restores intended behavior, make the smallest fix, run verification, and report evidence before claiming completion.
+```
+
+```text
+Use backend-architecture-review for a read-only Review of this backend proposal. Inspect the actual project code and report only material boundary, contract, transaction, performance, stability, or over-design findings.
+```
+
+```text
+Continue the approved task from its canonical Plan/Status/Handoff state. Do not restart completed work, create a second ledger, or expand scope without a new decision.
 ```
 
 ## Maintenance Notes
