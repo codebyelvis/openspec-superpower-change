@@ -61,18 +61,31 @@ task heavy. Inspection-only reads are allowed before Gate 0 to classify work.
 | Request | Primary skill / mode |
 |---|---|
 | Modify, fix, implement, change behavior, change workflow/template files, or dispatch without a valid Handoff | This skill |
-| Review architecture, OpenSpec need, implementation authorization, or whole-task completion evidence | This skill / Review-only |
+| Review-and-fix, including explicit backend architecture Review plus a fix | This skill / state-changing Router route; specialist output is bounded evidence only |
+| Explicit backend architecture Review of a proposal/design, without a fix, including architecture/design, performance/stability, service/module boundaries, API/call chain/transaction boundaries, or over-design | `backend-architecture-review` / read-only bounded evidence |
+| Other architecture Review, OpenSpec need, implementation authorization, or whole-task completion evidence | This skill / Review-only |
 | Write or refine a task prompt, Brief, or checklist without changing files | `codex-brief-antigravity-review` / standalone |
 | Read-only review of a diff, Report, or evidence without fixing it | `codex-brief-antigravity-review` / standalone |
 | Execute, resume, or review a batch with a valid Handoff Contract | `codex-brief-antigravity-review` / handed-off |
 
-“Review and fix” is implementation, not Review-only. A Direct Change that uses
+“Review and fix” is implementation, not Review-only. Review-and-fix remains
+state-changing Router work and does not select the specialist by itself. A Direct
+Change that uses
 an external agent still enters here first; create a profile-appropriate Handoff
 Contract before handing execution to the governor. Only work that remains
 low-risk may default to `compact`.
 
 When a valid Handoff already exists, its dispatch/resume/review route takes
 priority and goes directly to `codex-brief-antigravity-review`.
+
+Only explicit backend architecture Review selects
+`backend-architecture-review`; generic Bugfix/Diff/Plan/acceptance Review,
+including `Review 一下这个 Bugfix 的 Diff` and `Review 当前 Plan`, does not
+select the specialist. The specialist returns read-only specialist
+evidence as bounded evidence only and cannot mutate or decide Router canonical
+state. The existing route remains unchanged; ordinary Review remains unchanged.
+Gate, OpenSpec, Handoff, Evidence,
+PASS/FAIL/BLOCKED, Completion, and authority remain with this Router.
 
 This skill owns request classification, OpenSpec approval, risk/evidence and
 batch profiles, Handoff creation, and final completion. The brief skill owns
@@ -190,6 +203,11 @@ Review FAIL -> Fix same scope -> Verify -> Review again
 Review BLOCKED -> Resolve/decide -> refresh evidence -> Review again
 Review PASS -> next slice, or final verification when no slice remains
 ```
+
+Non-converging Review/Fix retries are not an unlimited automatic fix loop. When
+repeated evidence shows widening scope or complexity instead of convergence,
+follow `references/approved-implementation-workflow.md`: stop the widening retry
+and return through existing `BLOCKED` / `control-plane-high` handling.
 
 After implementation Review PASS, whole-task closure leaves this entry workflow
 and follows `references/completion-contract.md`. That canonical contract owns

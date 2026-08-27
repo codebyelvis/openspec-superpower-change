@@ -72,6 +72,30 @@ git -C "$OPENSPEC_SKILL_SOURCE" status -sb
 7. Update only the versioned managed governance block in each CLI global rule
    file. Preserve all native bytes outside the marker block.
 
+### Scoped plan verification
+
+- No selector keeps legacy sync-plan schema v1 and its complete mutation closure.
+- Use repeatable `--select-file <skill-name>:<portable-relative-path>` and,
+  only when approved, `--select-managed-rule` for schema-v2 scoped plans.
+- Require managed-rule version 6, exact four-target coverage, normalized
+  manifest-order selectors, and at least one selected operation.
+- Verify v2 `files` contains mutation operations only and `assertions` contains
+  every unselected manifest file exactly once. The managed rule is a separate
+  conditional operation and is `selected: false` by default.
+- Before planning/apply, require parity for every assertion and every
+  unselected rule. Prestate drift blocks before backup or receipt creation.
+- Review the path/hash-only plan before apply. Backups, receipts, restore, and
+  recovery consume selected operations only; content verification, discovery,
+  digest, commit, and `verify-all` cover the full selected-plus-asserted closure.
+- Bind v2 `managed_rule.destination` to the target-specific canonical runtime
+  path derived from the absolute `skills_root`: Codex/Pi/Grok use the parent
+  root (`AGENTS.md`/`APPEND_SYSTEM.md`/`AGENTS.md`), while Antigravity uses the
+  grandparent `.gemini` root (`GEMINI.md`). Reject destination/pre-state
+  retargeting before candidate, backup, or apply.
+- Reject empty, duplicate, unknown, unsafe, sensitive, target-incomplete, and
+  non-v6 selections before writing a plan. Never infer scope from Git status or
+  use a manual-copy path.
+
 ## Validation checklist
 
 Run for both local and open-source copies when present:

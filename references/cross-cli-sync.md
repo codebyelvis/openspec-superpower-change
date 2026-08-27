@@ -23,6 +23,45 @@ Run this gate when a path declared in
 `references/shared-global-governance.md` changes. A README, changelog, test,
 design-history, or archived OpenSpec-only change does not trigger runtime sync.
 
+## Scope-bound plan mode
+
+The `plan` command keeps legacy no-selector behavior as sync-plan schema v1:
+it contains the complete manifest mutation set and the managed rule operation.
+Passing one or more explicit selectors switches to schema v2:
+
+```text
+--select-file <skill-name>:<portable-relative-path>   # repeatable
+--select-managed-rule
+```
+
+Scoped mode is valid only for managed-rule version 6 and the exact target order
+`codex`, `pi`, `antigravity-cli`, `grok-cli`. Selectors are normalized into
+manifest order; duplicate, unknown, unsafe, sensitive, empty, or
+not-target-complete selections are rejected before a plan is written. At least
+one file or the managed rule must be selected.
+
+Each v2 target partitions the complete manifest into `files` (mutation
+operations) and `assertions` (read-only parity/prestate closure). The selected
+managed rule is represented separately and defaults to `selected: false`.
+Unselected files and an unselected rule must already be at canonical parity when
+the plan is generated and are rechecked before apply. They are never backed up,
+replaced, or included as transaction candidates. Verification, discovery,
+digest, commit, and `verify-all` still cover the complete selected-plus-asserted
+closure. The reviewed plan hash binds the selection, partition, source hashes,
+and every destination pre-state.
+
+### Canonical managed-rule destination binding
+
+A schema-v2 `managed_rule.destination` is not an independently trusted path. It
+must equal the target-specific canonical path derived from that target's
+validated absolute `skills_root` (which must end in `/skills`): Codex, Pi, and
+Grok use the parent runtime root with `AGENTS.md`, `APPEND_SYSTEM.md`, and
+`AGENTS.md` respectively; Antigravity uses the grandparent `.gemini` root with
+`GEMINI.md`. Plan generation and plan loading enforce this exact binding before
+pre-state acceptance. Coherent edits to `destination` and its `pre_state` are
+rejected before candidate, backup, or apply work, and downstream operations
+consume only the validated binding.
+
 ## Runtime surfaces
 
 Defaults may be overridden by environment variables, but all resolved paths must

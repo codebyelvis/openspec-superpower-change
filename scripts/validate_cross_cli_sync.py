@@ -26,6 +26,12 @@ MANAGED_BLOCK_START = "<!-- CROSS_CLI_GOVERNANCE_BEGIN version={version} -->"
 MANAGED_BLOCK_END = "<!-- CROSS_CLI_GOVERNANCE_END version={version} -->"
 TARGET_ORDER = ("codex", "pi", "antigravity-cli", "grok-cli")
 TARGET_IDS = set(TARGET_ORDER)
+TARGET_RULE_LAYOUT = {
+    "codex": (1, "AGENTS.md"),
+    "pi": (1, "APPEND_SYSTEM.md"),
+    "antigravity-cli": (2, "GEMINI.md"),
+    "grok-cli": (1, "AGENTS.md"),
+}
 LEGACY_TARGET_ORDER = ("codex", "antigravity-cli", "grok-cli")
 LEGACY_TARGET_IDS = set(LEGACY_TARGET_ORDER)
 PORTABLE_TOP_LEVEL = {"SKILL.md", "references", "scripts", "templates", "agents"}
@@ -2718,15 +2724,18 @@ def _target_candidate_entries(plan: dict, target_id: str) -> list[dict]:
                 "sensitive": False,
             }
         )
+    rule_binding, rule_selected = _target_rule_binding(plan, target_id)
+    if not rule_selected:
+        return entries
     rule = plan["managed_rules"]
     rule_source = validate_relative_path(
         Path(plan["sources"][rule["source_alias"]]), rule["path"]
     )
     if _sha256(rule_source) != rule["sha256"]:
         raise ValueError("managed-rule source SHA-256 drift")
-    rule_file = Path(target["rule_file"])
+    rule_file = Path(rule_binding["destination"])
     pre_state = _validate_prestate_shape(
-        target["rule_pre_state"], f"{target_id}:global-rule"
+        rule_binding["pre_state"], f"{target_id}:global-rule"
     )
     if pre_state["kind"] != "file":
         raise ValueError("global rule pre-state must be a file")
@@ -3505,18 +3514,18 @@ def validate_deterministic_discovery(runtime_root, expected_skills, file_records
 
 
 def _current_target_digest(plan: dict, target_id: str) -> str:
-    target = plan["targets"][target_id]
     records = [
         {
             "path": item["destination"],
             "state": capture_destination_prestate(Path(item["destination"])),
         }
-        for item in target["files"]
+        for item in _target_verification_items(plan, target_id)
     ]
+    rule, _ = _target_rule_binding(plan, target_id)
     records.append(
         {
-            "path": target["rule_file"],
-            "state": capture_destination_prestate(Path(target["rule_file"])),
+            "path": rule["destination"],
+            "state": capture_destination_prestate(Path(rule["destination"])),
         }
     )
     return _value_sha256(records)
@@ -4159,6 +4168,26 @@ def generate_source_delta(args) -> dict:
 
 def _absolute_without_symlink_resolution(path: Path) -> Path:
     return Path(os.path.abspath(os.fspath(path)))
+
+
+def _canonical_rule_destination(target_id: str, skills_root: Path) -> Path:
+    try:
+        parent_levels, filename = TARGET_RULE_LAYOUT[target_id]
+    except KeyError as exc:
+        raise ValueError(f"unknown target: {target_id}") from exc
+    root = Path(skills_root)
+    if not root.is_absolute() or root.name != "skills":
+        raise ValueError(f"target skill root is not canonical: {target_id}")
+    try:
+        resolved_root = root.resolve(strict=True)
+    except OSError as exc:
+        raise ValueError(f"target skill root is not canonical: {target_id}") from exc
+    if resolved_root != root:
+        raise ValueError(f"target skill root is not canonical: {target_id}")
+    runtime_root = resolved_root
+    for _ in range(parent_levels):
+        runtime_root = runtime_root.parent
+    return runtime_root / filename
 
 
 def _contained(root: Path, candidate: Path, label: str) -> Path:
@@ -5810,10 +5839,69 @@ def execute_pi_probe(args) -> tuple[dict, bool]:
     return result, success
 
 
+def _safe_scoped_path(relative_path) -> str:
+    try:
+        return _require_portable_path(relative_path)
+    except ValueError:
+        raise ValueError("scoped file path is invalid or denied") from None
+
+
+def _parse_scoped_selection(manifest: dict, raw_selectors, managed_rule) -> tuple[set[tuple[str, str]], list[dict]]:
+    if manifest["managed_rules"]["version"] != 6:
+        raise ValueError("scoped selection requires managed-rule version 6")
+    if type(managed_rule) is not bool:
+        raise ValueError("managed-rule selector must be boolean")
+    if not isinstance(raw_selectors, list):
+        raise ValueError("file selectors must be a list")
+    known: list[tuple[str, str]] = []
+    target_by_pair: dict[tuple[str, str], list[str]] = {}
+    for skill in manifest["skills"]:
+        for item in skill["files"]:
+            pair = (skill["name"], item["path"])
+            known.append(pair)
+            target_by_pair[pair] = item["targets"]
+    known_set = set(known)
+    selected: set[tuple[str, str]] = set()
+    for raw in raw_selectors:
+        if not isinstance(raw, str) or ":" not in raw:
+            raise ValueError("file selector must use skill:path syntax")
+        skill_name, relative_path = raw.split(":", 1)
+        if not _nonblank(skill_name):
+            raise ValueError("file selector skill must be non-blank")
+        relative_path = _safe_scoped_path(relative_path)
+        pair = (skill_name, relative_path)
+        if pair not in known_set:
+            raise ValueError("selected file is not declared by the manifest")
+        if pair in selected:
+            raise ValueError("duplicate selected file")
+        if target_by_pair[pair] != list(TARGET_ORDER):
+            raise ValueError("selected file must target every schema-6 runtime")
+        selected.add(pair)
+    if not selected and not managed_rule:
+        raise ValueError("scoped selection must select a file or managed rule")
+    normalized = [
+        {"skill": skill_name, "path": relative_path}
+        for skill_name, relative_path in known
+        if (skill_name, relative_path) in selected
+    ]
+    return selected, normalized
+
+
 def generate_plan(args) -> dict:
     manifest_path = args.manifest.resolve(strict=True)
     manifest = _load_json(manifest_path)
     validate_manifest(manifest)
+    raw_selectors = getattr(args, "select_file", None)
+    managed_rule_selected = getattr(args, "select_managed_rule", False)
+    if raw_selectors is None:
+        raw_selectors = []
+    scoped = bool(raw_selectors) or bool(managed_rule_selected)
+    selected_pairs: set[tuple[str, str]] = set()
+    normalized_selection: list[dict] = []
+    if scoped:
+        selected_pairs, normalized_selection = _parse_scoped_selection(
+            manifest, raw_selectors, managed_rule_selected
+        )
     sources = {
         "openspec": args.openspec_source.resolve(strict=True),
         "brief": args.brief_source.resolve(strict=True),
@@ -5829,6 +5917,9 @@ def generate_plan(args) -> dict:
         rule_file = Path(paths["rule_file"])
         if not skills_root.is_dir() or skills_root.is_symlink():
             raise ValueError(f"invalid target skill root: {target_id}")
+        canonical_rule = _canonical_rule_destination(target_id, skills_root)
+        if rule_file != canonical_rule:
+            raise ValueError(f"{target_id} global rule destination is not canonical")
         _regular_file(rule_file, f"{target_id} global rule file")
         targets[target_id] = {
             **target_states[target_id],
@@ -5836,44 +5927,99 @@ def generate_plan(args) -> dict:
             "rule_pre_state": capture_destination_prestate(rule_file),
             "files": [],
         }
+        if scoped:
+            targets[target_id]["assertions"] = []
     for skill in manifest["skills"]:
         source_root = sources[skill["source_alias"]]
         for item in skill["files"]:
             source = validate_relative_path(source_root, item["path"])
             digest = _sha256(source)
+            pair = (skill["name"], item["path"])
             for target_id in item["targets"]:
                 skills_root = Path(targets[target_id]["skills_root"])
                 destination = skills_root / skill["name"] / Path(item["path"])
                 _contained(skills_root, destination, "skill destination")
-                targets[target_id]["files"].append(
-                    {
-                        "skill": skill["name"],
-                        "source_alias": skill["source_alias"],
-                        "path": item["path"],
-                        "sha256": digest,
-                        "destination": str(destination),
-                        "pre_state": capture_destination_prestate(destination),
-                    }
-                )
+                record = {
+                    "skill": skill["name"],
+                    "source_alias": skill["source_alias"],
+                    "path": item["path"],
+                    "sha256": digest,
+                    "destination": str(destination),
+                    "pre_state": capture_destination_prestate(destination),
+                }
+                if scoped and pair not in selected_pairs:
+                    targets[target_id]["assertions"].append(record)
+                else:
+                    targets[target_id]["files"].append(record)
     rules = manifest["managed_rules"]
     rule_source = validate_relative_path(sources["openspec"], rules["source"])
+    managed_rules = {
+        "version": rules["version"],
+        "source_alias": "openspec",
+        "path": rules["source"],
+        "sha256": _sha256(rule_source),
+        "invariant_ids": rules["invariant_ids"],
+    }
+    if not scoped:
+        return {
+            "schema_version": 1,
+            "manifest_path": str(manifest_path),
+            "manifest_sha256": _sha256(manifest_path),
+            "sources": {alias: str(root) for alias, root in sources.items()},
+            "managed_rules": managed_rules,
+            "targets": targets,
+        }
+
+    canonical_rule = rule_source.read_text(encoding="utf-8")
+    for target_id, target in targets.items():
+        skills_root = Path(target["skills_root"])
+        assertion_groups: dict[str, list[dict]] = {}
+        for item in target["assertions"]:
+            assertion_groups.setdefault(item["skill"], []).append(item)
+        for skill_name, records in assertion_groups.items():
+            source_alias = records[0]["source_alias"]
+            validate_portable_parity(
+                Path(sources[source_alias]),
+                skills_root / skill_name,
+                [{"path": item["path"], "sha256": item["sha256"]} for item in records],
+            )
+        if not managed_rule_selected:
+            validate_managed_rule_parity(
+                canonical_rule,
+                Path(target["rule_file"]).read_text(encoding="utf-8"),
+                version=rules["version"],
+                invariant_ids=rules["invariant_ids"],
+            )
+
+    scoped_targets = {}
+    for target_id, target in targets.items():
+        state = {key: target[key] for key in target_states[target_id]}
+        scoped_targets[target_id] = {
+            **state,
+            "skills_root": target["skills_root"],
+            "files": target["files"],
+            "assertions": target["assertions"],
+            "managed_rule": {
+                "selected": managed_rule_selected,
+                "destination": target["rule_file"],
+                "pre_state": target["rule_pre_state"],
+            },
+        }
     return {
-        "schema_version": 1,
+        "schema_version": 2,
         "manifest_path": str(manifest_path),
         "manifest_sha256": _sha256(manifest_path),
         "sources": {alias: str(root) for alias, root in sources.items()},
-        "managed_rules": {
-            "version": rules["version"],
-            "source_alias": "openspec",
-            "path": rules["source"],
-            "sha256": _sha256(rule_source),
-            "invariant_ids": rules["invariant_ids"],
+        "selection": {
+            "files": normalized_selection,
+            "managed_rule": managed_rule_selected,
         },
-        "targets": targets,
+        "managed_rules": managed_rules,
+        "targets": scoped_targets,
     }
 
 
-def _validate_plan(plan: dict) -> dict:
+def _validate_v1_plan(plan: dict) -> dict:
     required = {"schema_version", "manifest_path", "manifest_sha256", "sources", "managed_rules", "targets"}
     if not isinstance(plan, dict) or set(plan) != required or plan["schema_version"] != 1:
         raise ValueError("sync plan fields or schema are invalid")
@@ -5912,6 +6058,9 @@ def _validate_plan(plan: dict) -> dict:
         skills_root = Path(target["skills_root"])
         if not skills_root.is_dir() or skills_root.is_symlink():
             raise ValueError(f"invalid target skill root in plan: {target_id}")
+        canonical_rule = _canonical_rule_destination(target_id, skills_root)
+        if Path(target["rule_file"]) != canonical_rule:
+            raise ValueError(f"sync plan global rule destination is stale or tampered: {target_id}")
         _regular_file(Path(target["rule_file"]), f"{target_id} global rule file")
         rule_pre_state = _validate_prestate_shape(
             target["rule_pre_state"], f"{target_id} global rule file"
@@ -5952,13 +6101,205 @@ def _validate_plan(plan: dict) -> dict:
     return plan
 
 
+def _validate_scoped_plan(plan: dict) -> dict:
+    required = {
+        "schema_version", "manifest_path", "manifest_sha256", "sources",
+        "selection", "managed_rules", "targets",
+    }
+    if (
+        not isinstance(plan, dict)
+        or set(plan) != required
+        or plan["schema_version"] != 2
+    ):
+        raise ValueError("scoped sync plan fields or schema are invalid")
+    manifest_path = Path(plan["manifest_path"])
+    if _sha256(validate_relative_path(manifest_path.parent, manifest_path.name)) != plan["manifest_sha256"]:
+        raise ValueError("sync plan manifest SHA-256 drift")
+    manifest = _load_json(manifest_path)
+    validate_manifest(manifest)
+    if manifest["managed_rules"]["version"] != 6:
+        raise ValueError("scoped sync plan requires managed-rule version 6")
+    if set(plan["sources"]) != {"openspec", "brief"} or set(plan["targets"]) != TARGET_IDS:
+        raise ValueError("scoped sync plan sources or targets are invalid")
+    source_roots = {alias: Path(root) for alias, root in plan["sources"].items()}
+    for root in source_roots.values():
+        if not root.is_dir() or root.is_symlink():
+            raise ValueError(f"invalid source root in plan: {root}")
+
+    rules = manifest["managed_rules"]
+    rule_source = validate_relative_path(source_roots["openspec"], rules["source"])
+    expected_rules = {
+        "version": rules["version"],
+        "source_alias": "openspec",
+        "path": rules["source"],
+        "sha256": _sha256(rule_source),
+        "invariant_ids": rules["invariant_ids"],
+    }
+    if plan["managed_rules"] != expected_rules:
+        raise ValueError("scoped sync plan managed-rule binding is stale or tampered")
+
+    selection = plan["selection"]
+    if not isinstance(selection, dict) or set(selection) != {"files", "managed_rule"}:
+        raise ValueError("scoped selection fields are invalid")
+    if type(selection["managed_rule"]) is not bool or not isinstance(selection["files"], list):
+        raise ValueError("scoped selection values are invalid")
+    all_entries = []
+    known: set[tuple[str, str]] = set()
+    target_by_pair: dict[tuple[str, str], list[str]] = {}
+    for skill in manifest["skills"]:
+        for item in skill["files"]:
+            pair = (skill["name"], item["path"])
+            known.add(pair)
+            target_by_pair[pair] = item["targets"]
+            source = validate_relative_path(source_roots[skill["source_alias"]], item["path"])
+            all_entries.append(
+                {
+                    "skill": skill["name"],
+                    "source_alias": skill["source_alias"],
+                    "path": item["path"],
+                    "sha256": _sha256(source),
+                    "targets": item["targets"],
+                }
+            )
+    selected: set[tuple[str, str]] = set()
+    for item in selection["files"]:
+        if not isinstance(item, dict) or set(item) != {"skill", "path"}:
+            raise ValueError("scoped selection file fields are invalid")
+        skill_name = item["skill"]
+        relative_path = _safe_scoped_path(item["path"])
+        pair = (skill_name, relative_path)
+        if pair not in known:
+            raise ValueError("scoped selection contains an unknown file")
+        if pair in selected:
+            raise ValueError("scoped selection contains a duplicate file")
+        if target_by_pair[pair] != list(TARGET_ORDER):
+            raise ValueError("scoped selection file is not target-complete")
+        selected.add(pair)
+    expected_selection = [
+        {"skill": entry["skill"], "path": entry["path"]}
+        for entry in all_entries
+        if (entry["skill"], entry["path"]) in selected
+    ]
+    if selection["files"] != expected_selection:
+        raise ValueError("scoped selection order or closure is stale or tampered")
+    if not selected and not selection["managed_rule"]:
+        raise ValueError("scoped selection has no mutation operation")
+
+    manifest_targets = {item["id"]: item for item in manifest["targets"]}
+    state_fields = set(next(iter(manifest_targets.values())))
+
+    def validate_file_records(planned, expected, target_id, category):
+        if not isinstance(planned, list) or len(planned) != len(expected):
+            raise ValueError(f"scoped {category} closure is stale or tampered: {target_id}")
+        for record, expected_entry in zip(planned, expected):
+            expected_fields = {
+                key: expected_entry[key]
+                for key in ("skill", "source_alias", "path", "sha256")
+            }
+            if not isinstance(record, dict) or set(record) != set(expected_fields) | {
+                "destination", "pre_state"
+            }:
+                raise ValueError(f"scoped {category} fields are invalid: {target_id}")
+            if {key: record[key] for key in expected_fields} != expected_fields:
+                raise ValueError(f"scoped {category} binding is stale or tampered: {target_id}")
+            skills_root = Path(plan["targets"][target_id]["skills_root"])
+            expected_destination = str(
+                skills_root / record["skill"] / Path(record["path"])
+            )
+            if record["destination"] != expected_destination:
+                raise ValueError(f"scoped destination is stale or tampered: {target_id}")
+            _contained(skills_root, Path(record["destination"]), "skill destination")
+            _validate_prestate_shape(
+                record["pre_state"],
+                f"{target_id}:{record['skill']}/{record['path']}",
+            )
+
+    for target_id, target in plan["targets"].items():
+        expected_target_fields = state_fields | {
+            "skills_root", "files", "assertions", "managed_rule"
+        }
+        if not isinstance(target, dict) or set(target) != expected_target_fields:
+            raise ValueError(f"scoped target fields are invalid: {target_id}")
+        if {key: target[key] for key in state_fields} != manifest_targets[target_id]:
+            raise ValueError(f"scoped target state is stale or tampered: {target_id}")
+        skills_root = Path(target["skills_root"])
+        if not skills_root.is_dir() or skills_root.is_symlink():
+            raise ValueError(f"invalid target skill root in plan: {target_id}")
+        canonical_rule = _canonical_rule_destination(target_id, skills_root)
+        selected_entries = [
+            entry
+            for entry in all_entries
+            if target_id in entry["targets"]
+            and (entry["skill"], entry["path"]) in selected
+        ]
+        assertion_entries = [
+            entry
+            for entry in all_entries
+            if target_id in entry["targets"]
+            and (entry["skill"], entry["path"]) not in selected
+        ]
+        validate_file_records(target["files"], selected_entries, target_id, "operation")
+        validate_file_records(target["assertions"], assertion_entries, target_id, "assertion")
+        managed = target["managed_rule"]
+        if not isinstance(managed, dict) or set(managed) != {
+            "selected", "destination", "pre_state"
+        }:
+            raise ValueError(f"scoped managed-rule fields are invalid: {target_id}")
+        if managed["selected"] != selection["managed_rule"]:
+            raise ValueError(f"scoped managed-rule selection is stale or tampered: {target_id}")
+        if Path(managed["destination"]) != canonical_rule:
+            raise ValueError(f"scoped global rule destination is stale or tampered: {target_id}")
+        _regular_file(Path(managed["destination"]), f"{target_id} global rule file")
+        rule_pre_state = _validate_prestate_shape(
+            managed["pre_state"], f"{target_id} global rule file"
+        )
+        if rule_pre_state["kind"] != "file":
+            raise ValueError(f"global rule pre-state must be a file: {target_id}")
+    return plan
+
+
+def _validate_plan(plan: dict) -> dict:
+    if not isinstance(plan, dict):
+        raise ValueError("sync plan fields or schema are invalid")
+    if plan.get("schema_version") == 1:
+        return _validate_v1_plan(plan)
+    if plan.get("schema_version") == 2:
+        return _validate_scoped_plan(plan)
+    raise ValueError("sync plan fields or schema are invalid")
+
+
 def _read_plan(path: Path) -> dict:
     return _validate_plan(_load_json(path.resolve(strict=True)))
 
 
+def _target_verification_items(plan: dict, target_id: str) -> list[dict]:
+    target = plan["targets"][target_id]
+    if plan["schema_version"] == 2:
+        return [*target["files"], *target["assertions"]]
+    return list(target["files"])
+
+
+def _target_rule_binding(plan: dict, target_id: str) -> tuple[dict, bool]:
+    target = plan["targets"][target_id]
+    canonical_rule = _canonical_rule_destination(
+        target_id, Path(target["skills_root"])
+    )
+    if plan["schema_version"] == 2:
+        managed = target["managed_rule"]
+        if Path(managed["destination"]) != canonical_rule:
+            raise ValueError(f"global rule destination is stale or tampered: {target_id}")
+        return managed, managed["selected"]
+    if Path(target["rule_file"]) != canonical_rule:
+        raise ValueError(f"global rule destination is stale or tampered: {target_id}")
+    return {
+        "destination": target["rule_file"],
+        "pre_state": target["rule_pre_state"],
+    }, True
+
+
 def _target_records(plan: dict, target_id: str) -> dict[str, list[dict]]:
     records: dict[str, list[dict]] = {}
-    for item in plan["targets"][target_id]["files"]:
+    for item in _target_verification_items(plan, target_id):
         records.setdefault(item["skill"], []).append(
             {"path": item["path"], "sha256": item["sha256"]}
         )
@@ -5966,16 +6307,16 @@ def _target_records(plan: dict, target_id: str) -> dict[str, list[dict]]:
 
 
 def _assert_target_prestate(plan: dict, target_id: str) -> bool:
-    target = plan["targets"][target_id]
-    for item in target["files"]:
+    for item in _target_verification_items(plan, target_id):
         assert_destination_prestate(
             Path(item["destination"]),
             item["pre_state"],
             f"{target_id}:{item['skill']}/{item['path']}",
         )
+    rule, _ = _target_rule_binding(plan, target_id)
     assert_destination_prestate(
-        Path(target["rule_file"]),
-        target["rule_pre_state"],
+        Path(rule["destination"]),
+        rule["pre_state"],
         f"{target_id}:global-rule",
     )
     return True
@@ -6004,11 +6345,13 @@ def _legacy_apply_target_without_receipt(
     rule_source = validate_relative_path(Path(plan["sources"][rule["source_alias"]]), rule["path"])
     if _sha256(rule_source) != rule["sha256"]:
         raise ValueError("managed-rule source SHA-256 drift")
-    rule_file = Path(target["rule_file"])
+    rule_binding, rule_selected = _target_rule_binding(plan, target_id)
     _assert_target_prestate(plan, target_id)
-    original = rule_file.read_text(encoding="utf-8")
-    updated = install_managed_block(original, rule_source.read_text(encoding="utf-8"), version=rule["version"])
-    operations.append({"path": rule_file, "content": updated.encode("utf-8"), "sensitive": True})
+    if rule_selected:
+        rule_file = Path(rule_binding["destination"])
+        original = rule_file.read_text(encoding="utf-8")
+        updated = install_managed_block(original, rule_source.read_text(encoding="utf-8"), version=rule["version"])
+        operations.append({"path": rule_file, "content": updated.encode("utf-8"), "sensitive": True})
     _assert_target_prestate(plan, target_id)
     return apply_sync_transaction(
         operations,
@@ -6022,14 +6365,20 @@ def verify_target(plan: dict, target_id: str) -> bool:
         raise ValueError(f"unknown target: {target_id}")
     target = plan["targets"][target_id]
     skills_root = Path(target["skills_root"])
+    verification_items = _target_verification_items(plan, target_id)
     for skill, records in _target_records(plan, target_id).items():
-        source_alias = next(item["source_alias"] for item in target["files"] if item["skill"] == skill)
+        source_alias = next(
+            item["source_alias"]
+            for item in verification_items
+            if item["skill"] == skill
+        )
         validate_portable_parity(
             Path(plan["sources"][source_alias]), skills_root / skill, records
         )
     rule = plan["managed_rules"]
     canonical = validate_relative_path(Path(plan["sources"][rule["source_alias"]]), rule["path"]).read_text(encoding="utf-8")
-    rule_text = Path(target["rule_file"]).read_text(encoding="utf-8")
+    rule_binding, _ = _target_rule_binding(plan, target_id)
+    rule_text = Path(rule_binding["destination"]).read_text(encoding="utf-8")
     validate_managed_rule_parity(
         canonical,
         rule_text,
@@ -6072,6 +6421,18 @@ def build_parser() -> argparse.ArgumentParser:
     for prefix in ("codex", "pi", "antigravity", "grok"):
         plan.add_argument(f"--{prefix}-skills-root", type=Path, required=True)
         plan.add_argument(f"--{prefix}-rule-file", type=Path, required=True)
+    plan.add_argument(
+        "--select-file",
+        action="append",
+        default=None,
+        metavar="SKILL:PATH",
+        help="select one manifest file for scoped schema-v2 planning (repeatable)",
+    )
+    plan.add_argument(
+        "--select-managed-rule",
+        action="store_true",
+        help="select the managed global rule for scoped schema-v2 planning",
+    )
     plan.add_argument("--output", type=Path, required=True)
 
     for name in ("apply", "verify"):

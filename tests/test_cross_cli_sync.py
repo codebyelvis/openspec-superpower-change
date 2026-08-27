@@ -162,7 +162,17 @@ def create_v6_sync_fixture(root: Path) -> dict:
         runtime = root / target_id
         skills = runtime / "skills"
         skills.mkdir(parents=True)
-        rule = runtime / "RULES.md"
+        rule_name = {
+            "codex": "AGENTS.md",
+            "pi": "APPEND_SYSTEM.md",
+            "antigravity-cli": None,
+            "grok-cli": "AGENTS.md",
+        }[target_id]
+        rule = (
+            root / "GEMINI.md"
+            if target_id == "antigravity-cli"
+            else runtime / rule_name
+        )
         rule.write_text(f"native-{target_id}\n", encoding="utf-8")
         target_values[f"{prefix}_skills_root"] = skills
         target_values[f"{prefix}_rule_file"] = rule
@@ -185,6 +195,169 @@ def create_v6_sync_fixture(root: Path) -> dict:
         "backup_root": root / "backups",
         "transaction_root": transaction_root,
     }
+
+
+def _scoped_args(fixture: dict, selected_files, *, select_managed_rule=False):
+    root = fixture["plan_path"].parent
+    return SimpleNamespace(
+        manifest=root / "manifest.json",
+        openspec_source=root / "openspec",
+        brief_source=root / "brief",
+        codex_skills_root=root / "codex" / "skills",
+        codex_rule_file=root / "codex" / "AGENTS.md",
+        pi_skills_root=root / "pi" / "skills",
+        pi_rule_file=root / "pi" / "APPEND_SYSTEM.md",
+        antigravity_skills_root=root / "antigravity-cli" / "skills",
+        antigravity_rule_file=root / "GEMINI.md",
+        grok_skills_root=root / "grok-cli" / "skills",
+        grok_rule_file=root / "grok-cli" / "AGENTS.md",
+        select_file=list(selected_files),
+        select_managed_rule=select_managed_rule,
+    )
+
+
+def create_scoped_v6_sync_fixture(root: Path, selected_files) -> dict:
+    root.mkdir(parents=True, exist_ok=True)
+    fixture = create_v6_sync_fixture(root)
+    selected = set(selected_files)
+    manifest = portable_manifest_v6()
+    source_roots = {"openspec": root / "openspec", "brief": root / "brief"}
+    managed_source = source_roots["openspec"] / "references" / "shared-global-governance.md"
+    managed_text = managed_source.read_text(encoding="utf-8")
+    for target_id in sync.TARGET_ORDER:
+        target = fixture["plan"]["targets"][target_id]
+        rule = Path(target["rule_file"])
+        rule.write_text(
+            sync.install_managed_block(
+                f"native-{target_id}\n", managed_text, version=6
+            ),
+            encoding="utf-8",
+        )
+        skills_root = Path(target["skills_root"])
+        for skill in manifest["skills"]:
+            source_root = source_roots[skill["source_alias"]]
+            for item in skill["files"]:
+                key = f"{skill['name']}:{item['path']}"
+                if key in selected:
+                    continue
+                source = source_root / item["path"]
+                destination = skills_root / skill["name"] / item["path"]
+                destination.parent.mkdir(parents=True, exist_ok=True)
+                destination.write_bytes(source.read_bytes())
+    return fixture
+
+
+def write_plan_file(fixture: dict, plan: dict) -> Path:
+    path = fixture["plan_path"].parent / "scoped-plan.json"
+    path.write_text(json.dumps(plan, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    path.chmod(0o600)
+    return path
+
+
+def _legacy_plan_to_v2(plan: dict, selected_files, *, select_managed_rule=False) -> dict:
+    selected = {
+        tuple(value.split(":", 1)) if isinstance(value, str) else tuple(value)
+        for value in selected_files
+    }
+    ordered = [
+        {"skill": item["skill"], "path": item["path"]}
+        for item in plan["targets"]["codex"]["files"]
+        if (item["skill"], item["path"]) in selected
+    ]
+    targets = {}
+    for target_id, target in plan["targets"].items():
+        state = {
+            key: value
+            for key, value in target.items()
+            if key not in {"skills_root", "rule_file", "rule_pre_state", "files"}
+        }
+        files = [
+            dict(item)
+            for item in target["files"]
+            if (item["skill"], item["path"]) in selected
+        ]
+        assertions = [
+            dict(item)
+            for item in target["files"]
+            if (item["skill"], item["path"]) not in selected
+        ]
+        targets[target_id] = {
+            **state,
+            "skills_root": target["skills_root"],
+            "files": files,
+            "assertions": assertions,
+            "managed_rule": {
+                "selected": select_managed_rule,
+                "destination": target["rule_file"],
+                "pre_state": target["rule_pre_state"],
+            },
+        }
+    return {
+        "schema_version": 2,
+        "manifest_path": plan["manifest_path"],
+        "manifest_sha256": plan["manifest_sha256"],
+        "sources": dict(plan["sources"]),
+        "selection": {
+            "files": ordered,
+            "managed_rule": select_managed_rule,
+        },
+        "managed_rules": dict(plan["managed_rules"]),
+        "targets": targets,
+    }
+
+
+def make_scoped_plan(fixture: dict, selected_files, *, select_managed_rule=False) -> dict:
+    plan = sync.generate_plan(
+        _scoped_args(
+            fixture,
+            selected_files,
+            select_managed_rule=select_managed_rule,
+        )
+    )
+    if plan.get("schema_version") == 1:
+        plan = _legacy_plan_to_v2(
+            plan,
+            selected_files,
+            select_managed_rule=select_managed_rule,
+        )
+    return plan
+
+
+def scoped_plan_cli_command(fixture: dict, output: Path, selectors, *, managed_rule=False):
+    root = fixture["plan_path"].parent
+    command = [
+        sys.executable,
+        str(Path(sync.__file__)),
+        "plan",
+        "--manifest",
+        str(root / "manifest.json"),
+        "--openspec-source",
+        str(root / "openspec"),
+        "--brief-source",
+        str(root / "brief"),
+        "--codex-skills-root",
+        str(root / "codex" / "skills"),
+        "--codex-rule-file",
+        str(root / "codex" / "AGENTS.md"),
+        "--pi-skills-root",
+        str(root / "pi" / "skills"),
+        "--pi-rule-file",
+        str(root / "pi" / "APPEND_SYSTEM.md"),
+        "--antigravity-skills-root",
+        str(root / "antigravity-cli" / "skills"),
+        "--antigravity-rule-file",
+        str(root / "GEMINI.md"),
+        "--grok-skills-root",
+        str(root / "grok-cli" / "skills"),
+        "--grok-rule-file",
+        str(root / "grok-cli" / "AGENTS.md"),
+    ]
+    for selector in selectors:
+        command.extend(["--select-file", selector])
+    if managed_rule:
+        command.append("--select-managed-rule")
+    command.extend(["--output", str(output)])
+    return command
 
 
 class ManifestAndTriggerTests(unittest.TestCase):
@@ -1589,7 +1762,17 @@ class CliContractTests(unittest.TestCase):
                 runtime = root / cli
                 skills = runtime / "skills"
                 skills.mkdir(parents=True)
-                rule = runtime / "RULES.md"
+                rule_name = {
+                    "codex": "AGENTS.md",
+                    "pi": "APPEND_SYSTEM.md",
+                    "antigravity": None,
+                    "grok": "AGENTS.md",
+                }[cli]
+                rule = (
+                    root / "GEMINI.md"
+                    if cli == "antigravity"
+                    else runtime / rule_name
+                )
                 rule.write_text(f"native-{cli}\n", encoding="utf-8")
                 target_args.extend(
                     [f"--{cli}-skills-root", str(skills), f"--{cli}-rule-file", str(rule)]
@@ -1799,6 +1982,673 @@ class CliContractTests(unittest.TestCase):
             )
             self.assertNotEqual(rejected.returncode, 0)
             self.assertIn("plan", rejected.stderr.lower())
+
+
+class ScopedPlanSelectionTests(unittest.TestCase):
+    SELECTED_TWO = (
+        "openspec-superpower-change:references/cross-cli-sync.md",
+        "openspec-superpower-change:SKILL.md",
+    )
+
+    def test_cli_exposes_scoped_selector_options(self):
+        result = subprocess.run(
+            [sys.executable, str(Path(sync.__file__)), "plan", "--help"],
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn("--select-file", result.stdout)
+        self.assertIn("--select-managed-rule", result.stdout)
+
+    def test_cli_generates_v2_and_rejects_invalid_selection_before_output(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            fixture = create_scoped_v6_sync_fixture(Path(tmp), self.SELECTED_TWO)
+            output = Path(tmp) / "cli-scoped.json"
+            result = subprocess.run(
+                scoped_plan_cli_command(
+                    fixture,
+                    output,
+                    reversed(self.SELECTED_TWO),
+                ),
+                capture_output=True,
+                text=True,
+                check=False,
+            )
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertTrue(output.is_file())
+            self.assertEqual(stat.S_IMODE(output.stat().st_mode), 0o600)
+            planned = json.loads(output.read_text(encoding="utf-8"))
+            self.assertEqual(planned["schema_version"], 2)
+            bad_output = Path(tmp) / "cli-invalid.json"
+            bad_result = subprocess.run(
+                scoped_plan_cli_command(
+                    fixture,
+                    bad_output,
+                    ("openspec-superpower-change:unknown.md",),
+                ),
+                capture_output=True,
+                text=True,
+                check=False,
+            )
+            self.assertNotEqual(bad_result.returncode, 0)
+            self.assertFalse(bad_output.exists())
+
+    def test_cli_rejects_unsafe_selector_without_echoing_raw_value(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            fixture = create_scoped_v6_sync_fixture(Path(tmp), self.SELECTED_TWO)
+            sentinel = "PRIVATE-SELECTOR-SENTINEL-9f1e"
+            selector = f"openspec-superpower-change:https://{sentinel}.invalid"
+            output = Path(tmp) / "unsafe-selector.json"
+            result = subprocess.run(
+                scoped_plan_cli_command(fixture, output, (selector,)),
+                capture_output=True,
+                text=True,
+                check=False,
+            )
+            self.assertNotEqual(result.returncode, 0)
+            self.assertFalse(output.exists())
+            self.assertNotIn(sentinel, result.stderr)
+            self.assertNotIn(selector, result.stderr)
+
+    def test_two_selected_files_become_operations_and_rest_assertions(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            fixture = create_scoped_v6_sync_fixture(
+                Path(tmp), self.SELECTED_TWO
+            )
+            plan = sync.generate_plan(
+                _scoped_args(fixture, self.SELECTED_TWO)
+            )
+            self.assertEqual(plan["schema_version"], 2)
+            self.assertEqual(
+                set(plan),
+                {
+                    "schema_version",
+                    "manifest_path",
+                    "manifest_sha256",
+                    "sources",
+                    "selection",
+                    "managed_rules",
+                    "targets",
+                },
+            )
+            expected_selected = [
+                ("openspec-superpower-change", "SKILL.md"),
+                ("openspec-superpower-change", "references/cross-cli-sync.md"),
+            ]
+            expected_assertions = [
+                ("openspec-superpower-change", "scripts/validate_core_gates.py"),
+                ("codex-brief-antigravity-review", "SKILL.md"),
+            ]
+            self.assertEqual(
+                plan["selection"],
+                {
+                    "files": [
+                        {"skill": skill, "path": path}
+                        for skill, path in expected_selected
+                    ],
+                    "managed_rule": False,
+                },
+            )
+            for target_id in sync.TARGET_ORDER:
+                target = plan["targets"][target_id]
+                self.assertEqual(
+                    [(item["skill"], item["path"]) for item in target["files"]],
+                    expected_selected,
+                )
+                self.assertEqual(
+                    [(item["skill"], item["path"]) for item in target["assertions"]],
+                    expected_assertions,
+                )
+                self.assertEqual(len(target["files"]), 2)
+                self.assertEqual(len(target["assertions"]), 2)
+                self.assertNotIn("rule_file", target)
+                self.assertNotIn("rule_pre_state", target)
+                self.assertEqual(
+                    set(target["managed_rule"]),
+                    {"selected", "destination", "pre_state"},
+                )
+                self.assertFalse(target["managed_rule"]["selected"])
+            candidate_entries = sync._target_candidate_entries(plan, "codex")
+            self.assertEqual(
+                [entry["label"] for entry in candidate_entries],
+                [
+                    "openspec-superpower-change/SKILL.md",
+                    "openspec-superpower-change/references/cross-cli-sync.md",
+                ],
+            )
+
+    def test_managed_rule_is_selected_only_when_explicitly_requested(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            selected = ("openspec-superpower-change:SKILL.md",)
+            fixture = create_scoped_v6_sync_fixture(Path(tmp), selected)
+            plan = sync.generate_plan(
+                _scoped_args(
+                    fixture,
+                    selected,
+                    select_managed_rule=True,
+                )
+            )
+            self.assertEqual(plan["schema_version"], 2)
+            self.assertEqual(
+                plan["selection"],
+                {
+                    "files": [
+                        {
+                            "skill": "openspec-superpower-change",
+                            "path": "SKILL.md",
+                        }
+                    ],
+                    "managed_rule": True,
+                },
+            )
+            for target in plan["targets"].values():
+                self.assertEqual(len(target["files"]), 1)
+                self.assertEqual(len(target["assertions"]), 3)
+                self.assertTrue(target["managed_rule"]["selected"])
+            candidate_entries = sync._target_candidate_entries(plan, "codex")
+            self.assertEqual(
+                [entry["label"] for entry in candidate_entries],
+                ["openspec-superpower-change/SKILL.md", "global-rule"],
+            )
+
+    def test_invalid_scoped_selectors_fail_before_plan_creation(self):
+        invalid = (
+            ("",),
+            ("openspec-superpower-change:SKILL.md", "openspec-superpower-change:SKILL.md"),
+            ("unknown-skill:SKILL.md",),
+            ("openspec-superpower-change:../SKILL.md",),
+            ("openspec-superpower-change:auth/token.json",),
+            ("openspec-superpower-change:not-in-manifest.md",),
+        )
+        with tempfile.TemporaryDirectory() as tmp:
+            fixture = create_scoped_v6_sync_fixture(Path(tmp), self.SELECTED_TWO)
+            for selectors in invalid:
+                with self.subTest(selectors=selectors):
+                    with self.assertRaises(ValueError):
+                        sync.generate_plan(_scoped_args(fixture, selectors))
+
+    def test_non_v6_or_target_incomplete_manifest_is_rejected_for_scoped_mode(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            fixture = create_scoped_v6_sync_fixture(Path(tmp), self.SELECTED_TWO)
+            manifest_path = fixture["plan_path"].parent / "manifest.json"
+            for label, manifest in (
+                ("non-v6", portable_manifest()),
+                ("target-incomplete", portable_manifest_v6()),
+            ):
+                with self.subTest(label=label):
+                    if label == "target-incomplete":
+                        manifest["skills"][0]["files"][0]["targets"] = list(
+                            sync.TARGET_ORDER[:-1]
+                        )
+                    manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
+                    with self.assertRaises(ValueError):
+                        sync.generate_plan(
+                            _scoped_args(
+                                fixture,
+                                ("openspec-superpower-change:SKILL.md",),
+                            )
+                        )
+
+    def test_generation_rejects_stale_unselected_assertion_before_output(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            fixture = create_scoped_v6_sync_fixture(Path(tmp), self.SELECTED_TWO)
+            plan = fixture["plan"]
+            assertion = next(
+                item
+                for item in plan["targets"]["codex"]["files"]
+                if item["path"] == "scripts/validate_core_gates.py"
+            )
+            destination = Path(assertion["destination"])
+            destination.write_bytes(b"generation-assertion-drift\n")
+            output = Path(tmp) / "stale-assertion-plan.json"
+            result = subprocess.run(
+                scoped_plan_cli_command(fixture, output, self.SELECTED_TWO),
+                capture_output=True,
+                text=True,
+                check=False,
+            )
+            self.assertNotEqual(result.returncode, 0)
+            self.assertFalse(output.exists())
+            self.assertEqual(destination.read_bytes(), b"generation-assertion-drift\n")
+
+    def test_generation_rejects_stale_unselected_rule_before_output(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            fixture = create_scoped_v6_sync_fixture(Path(tmp), self.SELECTED_TWO)
+            rule = Path(fixture["plan"]["targets"]["codex"]["rule_file"])
+            rule.write_bytes(b"generation-rule-drift\n")
+            output = Path(tmp) / "stale-rule-plan.json"
+            result = subprocess.run(
+                scoped_plan_cli_command(fixture, output, self.SELECTED_TWO),
+                capture_output=True,
+                text=True,
+                check=False,
+            )
+            self.assertNotEqual(result.returncode, 0)
+            self.assertFalse(output.exists())
+            self.assertEqual(rule.read_bytes(), b"generation-rule-drift\n")
+
+    def test_generation_rejects_noncanonical_managed_rule_destination(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            selected = ("openspec-superpower-change:SKILL.md",)
+            fixture = create_scoped_v6_sync_fixture(root, selected)
+            replacement = root / "codex" / "ordinary.txt"
+            replacement.write_bytes(b"ordinary-file\n")
+            args = _scoped_args(
+                fixture, selected, select_managed_rule=True
+            )
+            args.codex_rule_file = replacement
+            with self.assertRaisesRegex(ValueError, "global rule destination"):
+                sync.generate_plan(args)
+            self.assertEqual(replacement.read_bytes(), b"ordinary-file\n")
+
+
+class ScopedPlanTamperTests(unittest.TestCase):
+    SELECTED = (
+        "openspec-superpower-change:SKILL.md",
+        "openspec-superpower-change:references/cross-cli-sync.md",
+    )
+
+    def _validated_plan(self, root: Path) -> dict:
+        fixture = create_scoped_v6_sync_fixture(root, self.SELECTED)
+        plan = make_scoped_plan(fixture, self.SELECTED)
+        self.assertEqual(plan["schema_version"], 2)
+        try:
+            validated = sync._validate_plan(plan)
+        except ValueError as exc:
+            self.fail(f"scoped v2 baseline is not accepted: {exc}")
+        self.assertEqual(validated, plan)
+        return plan
+
+    def _assert_tamper_rejected(self, plan: dict, mutate) -> None:
+        tampered = json.loads(json.dumps(plan))
+        mutate(tampered)
+        with self.assertRaises(ValueError):
+            sync._validate_plan(tampered)
+
+    def test_selection_partition_destination_hash_and_prestate_tamper_fail_closed(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            mutations = {
+                "selection": lambda plan: plan["selection"]["files"].append(
+                    {
+                        "skill": "openspec-superpower-change",
+                        "path": "scripts/validate_core_gates.py",
+                    }
+                ),
+                "partition": lambda plan: plan["targets"]["codex"]["files"].append(
+                    plan["targets"]["codex"]["assertions"].pop()
+                ),
+                "destination": lambda plan: plan["targets"]["codex"]["files"][0].update(
+                    {"destination": "/tmp/not-a-skill-destination"}
+                ),
+                "hash": lambda plan: plan["targets"]["codex"]["files"][0].update(
+                    {"sha256": "0" * 64}
+                ),
+                "prestate": lambda plan: plan["targets"]["codex"]["files"][0].update(
+                    {
+                        "pre_state": {
+                            "kind": "file",
+                            "sha256": "not-a-sha256",
+                            "mode": 0o644,
+                        }
+                    }
+                ),
+            }
+            for label, mutation in mutations.items():
+                with self.subTest(label=label):
+                    plan = self._validated_plan(root / label)
+                    self._assert_tamper_rejected(plan, mutation)
+
+    def test_managed_rule_selection_tamper_fails_closed(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            plan = self._validated_plan(Path(tmp))
+            self._assert_tamper_rejected(
+                plan,
+                lambda value: value["targets"]["codex"]["managed_rule"].update(
+                    {"selected": True}
+                ),
+            )
+
+    def test_managed_rule_destination_and_prestate_tamper_fail_closed(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            selected = ("openspec-superpower-change:SKILL.md",)
+            fixture = create_scoped_v6_sync_fixture(root, selected)
+            plan = make_scoped_plan(
+                fixture, selected, select_managed_rule=True
+            )
+            resolved_root = root.resolve()
+            expected_rules = {
+                "codex": resolved_root / "codex" / "AGENTS.md",
+                "pi": resolved_root / "pi" / "APPEND_SYSTEM.md",
+                "antigravity-cli": resolved_root / "GEMINI.md",
+                "grok-cli": resolved_root / "grok-cli" / "AGENTS.md",
+            }
+            for target_id, expected in expected_rules.items():
+                target = plan["targets"][target_id]
+                skills_root = Path(target["skills_root"])
+                self.assertEqual(
+                    Path(target["managed_rule"]["destination"]), expected
+                )
+                self.assertEqual(
+                    sync._canonical_rule_destination(target_id, skills_root),
+                    expected,
+                )
+            replacement = root / "codex" / "ordinary.txt"
+            replacement.write_bytes(b"ordinary-file\\n")
+            target = plan["targets"]["codex"]
+            target["managed_rule"]["destination"] = str(replacement)
+            target["managed_rule"]["pre_state"] = sync.capture_destination_prestate(
+                replacement
+            )
+            with self.assertRaises(ValueError):
+                sync._validate_plan(plan)
+            with self.assertRaises(ValueError):
+                sync._target_candidate_entries(plan, "codex")
+            transaction_root = root / "transactions"
+            transaction_root.mkdir(mode=0o700, exist_ok=True)
+            receipt = transaction_root / "codex.json"
+            with self.assertRaises(ValueError):
+                sync.apply_target(
+                    plan,
+                    "codex",
+                    root / "backups",
+                    receipt,
+                    plan_sha256="0" * 64,
+                )
+            self.assertFalse(receipt.exists())
+            self.assertFalse((root / "backups").exists())
+            self.assertEqual(replacement.read_bytes(), b"ordinary-file\\n")
+
+
+class ScopedTransactionTests(unittest.TestCase):
+    SELECTED = (
+        "openspec-superpower-change:SKILL.md",
+        "openspec-superpower-change:references/cross-cli-sync.md",
+    )
+
+    def _runtime_fixture(self, root: Path):
+        fixture = create_scoped_v6_sync_fixture(root, self.SELECTED)
+        plan = make_scoped_plan(fixture, self.SELECTED)
+        self.assertEqual(plan["schema_version"], 2)
+        try:
+            validated = sync._validate_plan(plan)
+        except ValueError as exc:
+            self.fail(f"scoped v2 baseline is not accepted: {exc}")
+        self.assertEqual(validated, plan)
+        plan_path = write_plan_file(fixture, plan)
+        return fixture, plan, plan_path
+
+    def test_selected_prestate_drift_blocks_before_backup_or_receipt(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            fixture, plan, plan_path = self._runtime_fixture(Path(tmp))
+            target = plan["targets"]["codex"]
+            selected_destination = Path(target["files"][0]["destination"])
+            selected_destination.parent.mkdir(parents=True, exist_ok=True)
+            selected_destination.write_text("selected-prestate-drift\n", encoding="utf-8")
+            backup_root = Path(tmp) / "backups"
+            receipt = Path(tmp) / "transactions" / "codex.json"
+            with self.assertRaisesRegex(ValueError, "pre-state drift"):
+                sync.apply_target(
+                    plan,
+                    "codex",
+                    backup_root,
+                    receipt,
+                    plan_sha256=sync._sha256(plan_path),
+                )
+            self.assertFalse(receipt.exists())
+            self.assertFalse(backup_root.exists())
+            self.assertEqual(
+                selected_destination.read_text(encoding="utf-8"),
+                "selected-prestate-drift\n",
+            )
+
+    def test_unselected_assertion_drift_blocks_and_preserves_bytes(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            fixture, plan, plan_path = self._runtime_fixture(Path(tmp))
+            target = plan["targets"]["codex"]
+            assertion = target["assertions"][0]
+            destination = Path(assertion["destination"])
+            original = destination.read_bytes()
+            destination.write_bytes(b"assertion-drift\n")
+            backup_root = Path(tmp) / "backups"
+            receipt = Path(tmp) / "transactions" / "codex.json"
+            with self.assertRaisesRegex(ValueError, "pre-state drift"):
+                sync.apply_target(
+                    plan,
+                    "codex",
+                    backup_root,
+                    receipt,
+                    plan_sha256=sync._sha256(plan_path),
+                )
+            self.assertFalse(receipt.exists())
+            self.assertFalse(backup_root.exists())
+            self.assertNotEqual(destination.read_bytes(), original)
+            self.assertEqual(destination.read_bytes(), b"assertion-drift\n")
+
+    def test_unselected_managed_rule_drift_blocks_and_preserves_bytes(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            fixture, plan, plan_path = self._runtime_fixture(Path(tmp))
+            target = plan["targets"]["codex"]
+            destination = Path(target["managed_rule"]["destination"])
+            original = destination.read_bytes()
+            destination.write_bytes(b"rule-drift\n")
+            backup_root = Path(tmp) / "backups"
+            receipt = Path(tmp) / "transactions" / "codex.json"
+            with self.assertRaisesRegex(ValueError, "pre-state drift"):
+                sync.apply_target(
+                    plan,
+                    "codex",
+                    backup_root,
+                    receipt,
+                    plan_sha256=sync._sha256(plan_path),
+                )
+            self.assertFalse(receipt.exists())
+            self.assertFalse(backup_root.exists())
+            self.assertNotEqual(destination.read_bytes(), original)
+            self.assertEqual(destination.read_bytes(), b"rule-drift\n")
+
+    def test_scoped_round_trip_verifies_full_closure_and_preserves_unselected_bytes(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            fixture, plan, plan_path = self._runtime_fixture(Path(tmp))
+            root = Path(tmp)
+            transaction_root = root / "transactions"
+            backup_root = root / "backups"
+            plan_sha256 = sync._sha256(plan_path)
+            snapshots = {}
+            for target_id in sync.TARGET_ORDER:
+                target = plan["targets"][target_id]
+                snapshots[target_id] = {
+                    "assertions": {
+                        item["path"]: Path(item["destination"]).read_bytes()
+                        for item in target["assertions"]
+                    },
+                    "rule": Path(target["managed_rule"]["destination"]).read_bytes(),
+                }
+            for target_id in sync.TARGET_ORDER:
+                receipt = transaction_root / f"{target_id}.json"
+                applied = sync.apply_target(
+                    plan,
+                    target_id,
+                    backup_root,
+                    receipt,
+                    plan_sha256=plan_sha256,
+                )
+                self.assertEqual(applied["state"], "applied-uncommitted")
+                self.assertEqual(
+                    sync.verify_target_with_receipt(
+                        plan,
+                        target_id,
+                        receipt,
+                        plan_sha256=plan_sha256,
+                    ),
+                    {"verify": "pass", "target": target_id},
+                )
+                if target_id == "grok-cli":
+                    inspect_json = transaction_root / "grok-inspect.json"
+                    inspect_json.write_text(
+                        json.dumps(
+                            {
+                                "skills": [
+                                    {
+                                        "name": name,
+                                        "source": {
+                                            "type": "user",
+                                            "path": f"{plan['targets'][target_id]['skills_root']}/{name}/SKILL.md",
+                                        },
+                                    }
+                                    for name in SKILLS
+                                ]
+                            }
+                        ),
+                        encoding="utf-8",
+                    )
+                    inspect_json.chmod(0o600)
+                    discovery = sync.verify_discovery_with_receipt(
+                        plan,
+                        target_id,
+                        receipt,
+                        plan_sha256=plan_sha256,
+                        inspect_json=inspect_json,
+                        consume=True,
+                    )
+                    self.assertFalse(inspect_json.exists())
+                else:
+                    discovery = sync.verify_discovery_with_receipt(
+                        plan,
+                        target_id,
+                        receipt,
+                        plan_sha256=plan_sha256,
+                    )
+                self.assertEqual(discovery, {"discovery": "pass", "target": target_id, "consumed": target_id == "grok-cli"})
+                self.assertEqual(
+                    sync.commit_target(
+                        plan,
+                        target_id,
+                        receipt,
+                        plan_sha256=plan_sha256,
+                    ),
+                    {"commit": "pass", "target": target_id},
+                )
+                backup_manifest = json.loads(
+                    (backup_root / target_id / "manifest.json").read_text(encoding="utf-8")
+                )
+                self.assertEqual(len(backup_manifest["entries"]), 2)
+                self.assertTrue(
+                    all(entry["label"] != "global-rule" for entry in backup_manifest["entries"])
+                )
+            self.assertEqual(
+                sync.verify_all_receipts(
+                    plan,
+                    transaction_root,
+                    plan_sha256=plan_sha256,
+                ),
+                {"verify_all": "pass", "targets": list(sync.TARGET_ORDER)},
+            )
+            for target_id, snapshot in snapshots.items():
+                target = plan["targets"][target_id]
+                for item in target["assertions"]:
+                    self.assertEqual(
+                        Path(item["destination"]).read_bytes(),
+                        snapshot["assertions"][item["path"]],
+                    )
+                self.assertEqual(
+                    Path(target["managed_rule"]["destination"]).read_bytes(),
+                    snapshot["rule"],
+                )
+
+    def test_restore_restores_selected_only_and_blocks_later_targets(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            fixture, plan, plan_path = self._runtime_fixture(Path(tmp))
+            root = Path(tmp)
+            transaction_root = root / "transactions"
+            backup_root = root / "backups"
+            plan_sha256 = sync._sha256(plan_path)
+            target = plan["targets"]["codex"]
+            assertions = {
+                item["path"]: Path(item["destination"]).read_bytes()
+                for item in target["assertions"]
+            }
+            rule_path = Path(target["managed_rule"]["destination"])
+            rule_bytes = rule_path.read_bytes()
+            receipt = transaction_root / "codex.json"
+            sync.apply_target(plan, "codex", backup_root, receipt, plan_sha256=plan_sha256)
+            restored = sync.restore_target(
+                plan,
+                "codex",
+                backup_root,
+                receipt,
+                plan_sha256=plan_sha256,
+            )
+            self.assertEqual(
+                restored,
+                {
+                    "restore": "pass",
+                    "target": "codex",
+                    "restored": True,
+                    "later_targets_started": False,
+                },
+            )
+            for item in target["files"]:
+                self.assertFalse(Path(item["destination"]).exists())
+            for item in target["assertions"]:
+                self.assertEqual(Path(item["destination"]).read_bytes(), assertions[item["path"]])
+            self.assertEqual(rule_path.read_bytes(), rule_bytes)
+            with self.assertRaisesRegex(ValueError, "prior target is not verified"):
+                sync.apply_target(
+                    plan,
+                    "pi",
+                    backup_root,
+                    transaction_root / "pi.json",
+                    plan_sha256=plan_sha256,
+                )
+
+    def test_recover_pending_restores_selected_only_and_blocks_later_targets(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            fixture, plan, plan_path = self._runtime_fixture(Path(tmp))
+            root = Path(tmp)
+            transaction_root = root / "transactions"
+            backup_root = root / "backups"
+            plan_sha256 = sync._sha256(plan_path)
+            target = plan["targets"]["codex"]
+            assertions = {
+                item["path"]: Path(item["destination"]).read_bytes()
+                for item in target["assertions"]
+            }
+            rule_path = Path(target["managed_rule"]["destination"])
+            rule_bytes = rule_path.read_bytes()
+            receipt = transaction_root / "codex.json"
+            sync.apply_target(plan, "codex", backup_root, receipt, plan_sha256=plan_sha256)
+            recovered = sync.recover_pending(
+                plan,
+                backup_root,
+                transaction_root,
+                plan_sha256=plan_sha256,
+            )
+            self.assertEqual(
+                recovered,
+                {
+                    "recovery": "pass",
+                    "target": "codex",
+                    "restored": True,
+                    "later_targets_started": False,
+                },
+            )
+            for item in target["files"]:
+                self.assertFalse(Path(item["destination"]).exists())
+            for item in target["assertions"]:
+                self.assertEqual(Path(item["destination"]).read_bytes(), assertions[item["path"]])
+            self.assertEqual(rule_path.read_bytes(), rule_bytes)
+            with self.assertRaisesRegex(ValueError, "prior target is not verified"):
+                sync.apply_target(
+                    plan,
+                    "pi",
+                    backup_root,
+                    transaction_root / "pi.json",
+                    plan_sha256=plan_sha256,
+                )
 
 
 class RoleFirstV6CrossCliRedTests(unittest.TestCase):

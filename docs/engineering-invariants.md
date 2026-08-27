@@ -115,6 +115,10 @@ Invariant:
 - A reviewed runtime plan binds destination pre-state as well as source
   identity. Source hashes alone cannot authorize overwriting whatever bytes
   happen to exist when apply begins.
+- A schema-v2 managed global rule also binds its destination to the
+  target-specific canonical runtime root derived from the validated `skills_root`;
+  the serialized destination cannot redefine that root. Coherent destination and
+  pre-state retargeting must fail before candidate or backup creation.
 - Every destination and global rule records its reviewed hash, mode, or absence.
   Apply checks the complete target immediately before any backup or write; any
   pre-state drift aborts the target before mutation.
@@ -127,8 +131,10 @@ bytes; its rollback restores the apply-time drift rather than the state the
 reviewer authorized.
 
 Mechanical enforcement: the sync planner records per-file and per-rule
-pre-state, apply checks it twice before the transaction, and deterministic tests
-cover existing-file drift, absent-to-created drift, and forced-failure rollback.
+pre-state, derives and validates the canonical managed-rule destination for
+schema-v2 plans, apply checks it twice before the transaction, and deterministic
+tests cover existing-file drift, absent-to-created drift, forced-failure rollback,
+and coherent managed-rule destination/pre-state tampering.
 
 Loading pointer: agents read this file through `AGENTS.md`; executable sync
 behavior remains canonical in `scripts/validate_cross_cli_sync.py` and its

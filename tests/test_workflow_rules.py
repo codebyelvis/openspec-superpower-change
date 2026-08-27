@@ -1439,6 +1439,146 @@ class WorkflowRulesTest(unittest.TestCase):
         self.assertIn("Review and fix", self.request_modes)
         self.assertIn("not Review-only", self.request_modes)
 
+    def test_backend_architecture_review_route_is_explicit_and_narrow(self):
+        normalized = " ".join(self.skill.split())
+        for phrase in (
+            "`backend-architecture-review`",
+            "explicit backend architecture Review",
+            "architecture/design, performance/stability, service/module boundaries, "
+            "API/call chain/transaction boundaries, or over-design",
+            "Review 一下这个 Bugfix 的 Diff",
+            "Review 当前 Plan",
+            "does not select the specialist",
+            "read-only specialist evidence",
+            "ordinary Review remains unchanged",
+            "Gate, OpenSpec, Handoff, Evidence, PASS/FAIL/BLOCKED, Completion, "
+            "and authority remain with this Router",
+        ):
+            self.assertIn(phrase, normalized)
+
+    def test_non_backend_architecture_review_stays_router_review_only(self):
+        normalized = " ".join(self.skill.split())
+        for phrase in (
+            "Other architecture Review",
+            "Other architecture Review, OpenSpec need, implementation authorization, "
+            "or whole-task completion evidence | This skill / Review-only",
+            "Review-and-fix remains state-changing Router work",
+        ):
+            self.assertIn(phrase, normalized)
+        self.assertNotIn(
+            "Other architecture Review, OpenSpec need, implementation authorization, "
+            "or whole-task completion evidence | `backend-architecture-review`",
+            normalized,
+        )
+
+    def test_authorized_execution_continuity_reuses_canonical_state(self):
+        normalized = " ".join(self.approved.split())
+        for phrase in (
+            "## Authorized Execution Continuity",
+            "approved tasks remain Pending, no Blocker exists, and no new human "
+            "decision is required",
+            "continue with the next approved task",
+            "Completing a subtask is not a stop condition",
+            "must not trigger a continue prompt",
+            "all approved tasks are complete",
+            "state is `BLOCKED`",
+            "new product, business, or architecture decision",
+            "permission, credentials, or required resources",
+            "high-risk, irreversible, or outside the approved scope",
+            "user explicitly pauses or cancels",
+            "Context Compaction, session recovery, a model or agent switch, or `继续`",
+            "canonical Plan, Status, Handoff, or equivalent state",
+            "goal, current task, Pending tasks, Blocker, Acceptance, and Verification",
+            "Do not infer the next action from the previous chat response",
+            "Do not create `.agent/goal.md`, a Task Manager, or a second state system",
+            "at least one task-related action",
+            "A summary, recommendation, or future plan alone is not progress",
+            "Code written is progress, not Done",
+            "Acceptance, Test, Build, Verification, and Evidence",
+            "references/completion-contract.md",
+            "OpenSpec-backed work uses `openspec/changes/<change-id>/tasks.md` to "
+            "track contract progress",
+            "Direct Change reuses existing scoped Plan/Status/Handoff/equivalent "
+            "state for continuity",
+            "does not require OpenSpec tasks.md",
+            "Continuity must not create a new OpenSpec change or second ledger",
+            "No global rule requires every work item to have OpenSpec tasks.md",
+            "Plan checkboxes are static execution steps only",
+            "never canonical task state",
+        ):
+            self.assertIn(phrase, normalized)
+
+    def test_plan_checkboxes_are_static_and_tasks_are_canonical(self):
+        plan = (
+            ROOT / "docs" / "superpowers" / "plans" /
+            "2026-08-25-backend-architecture-review-continuity.md"
+        ).read_text(encoding="utf-8")
+        normalized = " ".join(plan.split())
+        self.assertIn("Checkboxes are static executable steps only.", normalized)
+        self.assertIn(
+            "For this change, canonical progress is read only from active "
+            "OpenSpec tasks.md.",
+            normalized,
+        )
+        self.assertIn(
+            "Never infer pending work from an unchecked Plan step.",
+            normalized,
+        )
+        self.assertNotIn("for tracking", normalized.lower())
+
+    def test_material_complexity_checkpoint_is_conditional_and_ordered(self):
+        normalized = " ".join(self.approved.split())
+        heading = "## Conditional Minimal Implementation"
+        self.assertIn(heading, normalized)
+        trigger = (
+            "only when a proposed implementation or Review fix would materially "
+            "add an abstraction, component, layer, dependency, or wider scope"
+        )
+        self.assertIn(trigger, normalized)
+        order = (
+            "Need",
+            "Repository Reuse",
+            "Stdlib",
+            "Platform Native",
+            "Existing Dependency",
+            "Small Local Implementation",
+            "New Abstraction",
+        )
+        positions = [normalized.index(item, normalized.index(heading)) for item in order]
+        self.assertEqual(positions, sorted(positions))
+        for phrase in (
+            "choose the first adequate option",
+            "does not run for every ordinary Bugfix",
+            "no mandatory checklist, artifact, gate, or output",
+            "does not automatically select `backend-architecture-review`",
+        ):
+            self.assertIn(phrase, normalized)
+
+    def test_review_fix_nonconvergence_blocks_scope_growth(self):
+        approved = " ".join(self.approved.split())
+        skill = " ".join(self.skill.split())
+        for phrase in (
+            "## Review/Fix Convergence",
+            "same finding recurs after a verified fix",
+            "fix-induced regression recurs",
+            "multiple Review rounds do not converge",
+            "reviewers materially conflict on the core approach",
+            "architecture or requirements boundary",
+            "fix scope keeps expanding",
+            "abstraction, layer, component, or dependency",
+            "stop before another widening fix",
+            "return `BLOCKED` to `control-plane-high`",
+            "blocker owner and resume condition",
+            "Do not create an `ESCALATED` state",
+            "Ordinary first-pass findings continue through the existing same-scope loop",
+        ):
+            self.assertIn(phrase, approved)
+        self.assertIn(
+            "Non-converging Review/Fix retries are not an unlimited automatic fix loop",
+            skill,
+        )
+        self.assertIn("Review FAIL -> Fix same scope -> Verify -> Review again", skill)
+
     def test_direct_change_uses_risk_appropriate_evidence_profile_everywhere(self):
         direct = (ROOT / "references" / "direct-change-rule.md").read_text(encoding="utf-8")
         responses = (ROOT / "references" / "response-patterns.md").read_text(encoding="utf-8")

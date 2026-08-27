@@ -16,7 +16,13 @@ classified and authorized an implementation that will use an external agent.
    does not require a duplicate `docs/superpowers/specs/` artifact or approval.
 3. After approval, invoke `superpowers:writing-plans` for multi-step work and
    save the executable plan under the project-preferred path.
-4. OpenSpec `tasks.md` tracks contract progress; it does not replace the plan.
+4. OpenSpec-backed work uses
+   `openspec/changes/<change-id>/tasks.md` to track contract progress for that
+   change. Direct Change reuses existing scoped Plan/Status/Handoff/equivalent
+   state for continuity and does not require OpenSpec tasks.md. Continuity must
+   not create a new OpenSpec change or second ledger. No global rule requires
+   every work item to have OpenSpec tasks.md. Plan checkboxes are static
+   execution steps only and never canonical task state.
 5. A compact Direct Change needs no large plan unless complexity justifies it.
 
 Follow `references/superpowers-adapter.md`; a generated plan does not grant Git
@@ -49,6 +55,74 @@ profile, rollback/stop conditions, branch/worktree choice, and Git authority.
 - Preflight `PASS` authorizes execution only; it is not design re-approval,
   implementation Review, or completion evidence.
 - Rerun only when the artifact revision changes.
+
+## Authorized Execution Continuity
+
+During already authorized implementation, when approved tasks remain Pending, no
+Blocker exists, and no new human decision is required, continue with the next
+approved task. Completing a subtask is not a stop condition and must not trigger
+a continue prompt. An advancing turn with executable pending work performs at
+least one task-related action: read/search required code, edit, test/build,
+verify, collect evidence, or update existing canonical state. A summary,
+recommendation, or future plan alone is not progress.
+
+Stop only when all approved tasks are complete, state is `BLOCKED`, a new
+product, business, or architecture decision is required, permission,
+credentials, or required resources are missing, the next operation is
+high-risk, irreversible, or outside the approved scope, or the user explicitly
+pauses or cancels.
+
+After Context Compaction, session recovery, a model or agent switch, or `继续`,
+recover from the canonical Plan, Status, Handoff, or equivalent state: goal,
+current task, Pending tasks, Blocker, Acceptance, and Verification. Do not infer
+the next action from the previous chat response. Do not create `.agent/goal.md`,
+a Task Manager, or a second state system. Code written is progress, not Done.
+Existing Acceptance, Test, Build, Verification, and Evidence rules, together
+with `references/completion-contract.md`, remain the only Done criteria.
+
+## Conditional Minimal Implementation
+
+Use this lightweight judgment only when a proposed implementation or Review fix
+would materially add an abstraction, component, layer, dependency, or wider
+scope. Establish the approved Need, then choose the first adequate option:
+
+```text
+Need
+-> Repository Reuse
+-> Stdlib
+-> Platform Native
+-> Existing Dependency
+-> Small Local Implementation
+-> New Abstraction
+```
+
+An earlier project-consistent option wins when it satisfies the approved need.
+This does not run for every ordinary Bugfix and creates no mandatory checklist,
+artifact, gate, or output. It does not automatically select
+`backend-architecture-review`; that Skill remains explicit-intent-only.
+
+## Review/Fix Convergence
+
+Keep the existing `Review FAIL -> Fix -> Verify -> Review` loop. Ordinary
+first-pass findings continue through the existing same-scope loop. Before
+another retry, treat the loop as non-converging when evidence shows that:
+
+- the same finding recurs after a verified fix;
+- a fix-induced regression recurs;
+- multiple Review rounds do not converge;
+- reviewers materially conflict on the core approach;
+- the root problem may be an architecture or requirements boundary;
+- fix scope keeps expanding; or
+- a small need keeps accumulating an abstraction, layer, component, or dependency.
+
+When a signal applies, stop before another widening fix and return `BLOCKED` to
+`control-plane-high` through the existing Review/control-plane mechanism. Record
+the blocker owner and resume condition, then re-evaluate the original approved
+need, boundary, and smallest adequate correction. Resume the normal same-scope
+loop only after that boundary decision resolves the blocker.
+
+Do not create an `ESCALATED` state, Finding lifecycle, Quality Gate, Task
+Contract, second state system, new multi-agent flow, or new final authority.
 
 ## Inline Implementation
 
