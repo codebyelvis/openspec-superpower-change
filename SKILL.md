@@ -78,6 +78,16 @@ low-risk may default to `compact`.
 When a valid Handoff already exists, its dispatch/resume/review route takes
 priority and goes directly to `codex-brief-antigravity-review`.
 
+For already authorized implementation, the complete closed-loop continuation
+rule is owned by `references/approved-implementation-workflow.md`. Its four
+continuation phrases permit only safe, reversible, same-scope progress; a status
+report is progress rather than a confirmation request. This entry reference
+points to that owner and does not create a competing approval rule.
+
+For proportional implementation decisions, read `references/approved-implementation-workflow.md`.
+Reuse existing mechanisms first; apply current-task TDD and do not widen tests
+or machinery without a gate or demonstrated blast radius.
+
 Only explicit backend architecture Review selects
 `backend-architecture-review`; generic Bugfix/Diff/Plan/acceptance Review,
 including `Review 一下这个 Bugfix 的 Diff` and `Review 当前 Plan`, does not

@@ -15,6 +15,44 @@ A profile recommends capability and limits authority; it never grants authority
 because a concrete model happens to be powerful. Optional model metadata is
 observational only and MUST NOT influence validation, routing, or approval.
 
+## Non-authoritative runtime advice
+
+| Work | Default suggestion |
+|---|---|
+| Ordinary OpenSpec revision, `writing-plans`, routine read-only Review | Codex, high |
+| Cross-Track work, complex security boundary, difficult Plan Preflight, final gate-bearing Review | Codex, xhigh |
+| Closed contract and clear-scope cohesive implementation | Luna Max, recommended reasoning strength chosen by the current runtime |
+| Small mechanical modification | Current capable lower-cost model |
+
+Model/reasoning metadata never changes `agent_product`, capability profile,
+evidence, approval, authority, or PASS. Luna Max is advice only and never a
+schema-6 `agent_product` value. If the current model is sufficient, no runtime advice is emitted. No block is required when no switch occurs.
+
+An actual switch event is one approved execution-boundary transition in which the
+effective model or reasoning target changes and the return target is known;
+merely considering a model is not a switch event. “Once” is scoped to one
+control-plane response/dispatch chain for that one approved transition. For one
+switch event, the control plane authors one complete block once:
+
+```text
+运行环境建议：
+- 目标 Session：
+- 推荐模型：
+- 推理强度：
+- 切换原因：
+- 可复制任务提示词：
+- 完成后切回：
+```
+
+The block is optional and human-readable. It is emitted only for an actual
+switch; when the current runtime is sufficient, omit it. An associated Brief or
+dispatch may copy the existing block verbatim. The downstream surface must not regenerate or ask for a second notice. After compaction, a new window, an agent/model switch, or
+“继续”, recovery copies an already-present non-canonical block when one is
+available and otherwise emits none; it does not infer a new switch from chat
+history. A later independent effective environment transition is a new event.
+The block is never a capability assignment or approval and is not appended to
+canonical `status.md`.
+
 ## Mandatory escalation
 
 `mechanical-low` and `cohesive-medium` return `BLOCKED` without changing scope

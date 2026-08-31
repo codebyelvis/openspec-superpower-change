@@ -23,7 +23,9 @@ classified and authorized an implementation that will use an external agent.
    not create a new OpenSpec change or second ledger. No global rule requires
    every work item to have OpenSpec tasks.md. Plan checkboxes are static
    execution steps only and never canonical task state.
-5. A compact Direct Change needs no large plan unless complexity justifies it.
+5. Compact Direct Change does not require a large plan by default and does not
+   create a Handoff or OpenSpec change solely because closed-loop or model-advice
+   wording exists.
 
 Follow `references/superpowers-adapter.md`; a generated plan does not grant Git
 permission and must not create a second design approval.
@@ -66,21 +68,64 @@ least one task-related action: read/search required code, edit, test/build,
 verify, collect evidence, or update existing canonical state. A summary,
 recommendation, or future plan alone is not progress.
 
-Stop only when all approved tasks are complete, state is `BLOCKED`, a new
-product, business, or architecture decision is required, permission,
-credentials, or required resources are missing, the next operation is
-high-risk, irreversible, or outside the approved scope, or the user explicitly
-pauses or cancels.
+Closed-loop continuation intent includes “闭环推进”, “继续闭环”, “按推荐方案推进”,
+and “完成后统一 Review”. It means continue within the already approved scope
+and current canonical Plan/Status/Handoff: safe, reversible reads, edits, tests,
+verification, same-scope Review/Fix, and existing-state updates. It does not
+expand scope or authorize database writes, production operations, external
+messages, publication, deployment, destructive actions, or Git writes.
+
+After an accepted recommendation, continue without confirming the same option or
+asking whether to start the next approved safe step again. A material choice is
+presented once as one focused question and is not reopened after selection unless
+scope or risk changes. A status report is a status update and is
+non-confirmation progress, not a confirmation request. Continue to the next
+approved pending task while no blocker or new human decision exists.
+
+When several options differ only in implementation detail and an obvious minimal
+recommendation satisfies the approved need, adopt that recommendation directly;
+do not ask the user to choose among formal A/B/C options. Ask one focused
+question, or enter `brainstorming`/`grill-with-docs`, only when the choice would
+materially change the business, product, architecture, security, compatibility,
+acceptance, or an approved contract. Once the solution and terminology are
+closed, a long task does not re-enter `grill-with-docs`; only a new material
+decision does.
+
+Stop only when all approved tasks are complete; when a new human decision is
+required because scope, risk, acceptance, product, business, architecture,
+security, credentials, resources, compatibility, or another contract choice
+changes. This includes a new product, business, or architecture decision;
+missing permission, credentials, or required resources; and any high-risk,
+irreversible, or outside the approved scope step. Stop also when the next step
+requires production writes or deletion, database writes, production
+operations, external effects/messages, release, publication, deployment,
+destructive actions, destructive Git, or any other Git authority; when the
+contract is contradictory, recovery is not reversible, scope would expand,
+canonical state is `BLOCKED`, or the user explicitly pauses or cancels.
 
 After Context Compaction, session recovery, a model or agent switch, or `继续`,
-recover from the canonical Plan, Status, Handoff, or equivalent state: goal,
-current task, Pending tasks, Blocker, Acceptance, and Verification. Do not infer
-the next action from the previous chat response. Do not create `.agent/goal.md`,
-a Task Manager, or a second state system. Code written is progress, not Done.
-Existing Acceptance, Test, Build, Verification, and Evidence rules, together
-with `references/completion-contract.md`, remain the only Done criteria.
+including a new window, recover from the canonical Plan, Status, Handoff, or
+equivalent state: goal,
+current task, Pending tasks, Blocker, Acceptance, and Verification. Do not infer the next action from the previous chat response. Do not create `.agent/goal.md`,
+a Task Manager, or a second state system. Code written is progress,
+not Done. Existing Acceptance, Test, Build, Verification, and Evidence rules,
+together with `references/completion-contract.md`, remain the only Done criteria.
+
+“完成后统一 Review” retains the normal Plan Preflight, Step Evidence,
+implementation Review, final verification, Final Review, and Completion Contract;
+it never skips or defers a required gate.
 
 ## Conditional Minimal Implementation
+
+### Proportional Implementation
+
+For the current task, use the smallest adequate design and artifact set: reuse
+existing rules, templates, validators, and tests first. Do not add a framework,
+schema, registry, runner, or ledger when direct mechanisms work. For the current
+task, TDD covers changed acceptance, changed contracts, and credible regressions.
+Do not create or run unrelated tests without an existing gate or demonstrated
+blast radius; broader relevant gates remain mandatory. If support machinery
+exceeds the change itself, simplify.
 
 Use this lightweight judgment only when a proposed implementation or Review fix
 would materially add an abstraction, component, layer, dependency, or wider

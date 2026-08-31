@@ -4110,5 +4110,94 @@ class WorkflowRulesTest(unittest.TestCase):
             self.assertEqual(stat.S_IMODE(output.stat().st_mode), 0o600)
 
 
+class ClosedLoopRuntimeRoutingTests(unittest.TestCase):
+    def test_closed_loop_runtime_routing_fixture(self):
+        approved = (ROOT / "references" / "approved-implementation-workflow.md").read_text(encoding="utf-8")
+        skill = (ROOT / "SKILL.md").read_text(encoding="utf-8")
+        combined = "\n".join((approved, skill))
+        for phrase in ("闭环推进", "继续闭环", "按推荐方案推进", "完成后统一 Review"):
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, combined)
+        self.assertIn(
+            "After an accepted recommendation, continue without confirming the same option",
+            approved,
+        )
+        self.assertIn("asking whether to start the next approved safe step again", approved)
+        self.assertNotIn("confirm A again", approved)
+        self.assertIn("implementation detail", approved)
+        self.assertIn("obvious minimal", approved)
+        self.assertIn("formal A/B/C options", approved)
+
+    def test_runtime_advice_is_non_authoritative_and_non_marker(self):
+        routing = (ROOT / "references" / "agent-capability-routing.md").read_text(encoding="utf-8")
+        handoff = (ROOT / "references" / "handoff-contract.md").read_text(encoding="utf-8")
+        normalized = " ".join(routing.split())
+        for row in (
+            "Ordinary OpenSpec revision, `writing-plans`, routine read-only Review | Codex, high",
+            "Cross-Track work, complex security boundary, difficult Plan Preflight, final gate-bearing Review | Codex, xhigh",
+            "Closed contract and clear-scope cohesive implementation | Luna Max, recommended reasoning strength chosen by the current runtime",
+            "Small mechanical modification | Current capable lower-cost model",
+        ):
+            with self.subTest(row=row):
+                self.assertIn(" ".join(row.split()), normalized)
+        self.assertEqual(routing.count("运行环境建议："), 1)
+        advice_block = routing.split("运行环境建议：", 1)[1].split("```", 1)[0]
+        for field in (
+            "目标 Session：",
+            "推荐模型：",
+            "推理强度：",
+            "切换原因：",
+            "可复制任务提示词：",
+            "完成后切回：",
+        ):
+            with self.subTest(field=field):
+                self.assertEqual(advice_block.count(field), 1)
+        for phrase in (
+            "If the current model is sufficient, no runtime advice is emitted",
+            "No block is required when no switch occurs",
+            "Model/reasoning metadata never changes",
+            "Luna Max is advice only",
+            "approval",
+            "authority",
+            "PASS",
+        ):
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, routing)
+        marker_start = "<!-- COOP_HANDOFF_CONTRACT_START -->"
+        marker_end = "<!-- COOP_HANDOFF_CONTRACT_END -->"
+        self.assertIn(marker_start, handoff)
+        self.assertIn(marker_end, handoff)
+        marker = handoff.split(marker_start, 1)[1].split(marker_end, 1)[0]
+        self.assertNotIn("运行环境建议：", marker)
+        self.assertIn("schema_version: 6", marker)
+        self.assertIn("An old schema-6 Handoff without this optional block remains valid.", handoff)
+
+    def test_closed_loop_preserves_existing_gates(self):
+        approved = (ROOT / "references" / "approved-implementation-workflow.md").read_text(encoding="utf-8")
+        skill = (ROOT / "SKILL.md").read_text(encoding="utf-8")
+        normalized = " ".join(approved.split())
+        for phrase in (
+            "Plan Preflight",
+            "Step Evidence",
+            "implementation Review",
+            "final verification",
+            "Final Review",
+            "Completion Contract",
+            "smallest adequate design and artifact set",
+            "reuse existing rules, templates, validators, and tests first",
+            "Do not add a framework, schema, registry, runner, or ledger when direct mechanisms work",
+            "For the current task, TDD covers changed acceptance, changed contracts, and credible regressions",
+            "Do not create or run unrelated tests without an existing gate or demonstrated blast radius",
+            "broader relevant gates remain mandatory",
+            "If support machinery exceeds the change itself, simplify",
+        ):
+            with self.subTest(phrase=phrase):
+                self.assertIn(" ".join(phrase.split()), normalized)
+        self.assertIn(
+            "For proportional implementation decisions, read `references/approved-implementation-workflow.md`.",
+            skill,
+        )
+
+
 if __name__ == "__main__":
     unittest.main()

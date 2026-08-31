@@ -38,6 +38,11 @@ A valid unchanged lease is reusable for read-only inspection, safe tests, diff
 checks, and the same finding's fix -> verify -> Review loop. Reuse records the
 new evidence result but does not repeat confirmation.
 
+Closed-loop continuation reuses this same matrix for approved safe work; it does
+not create a per-continue Lease or require a new Lease for each safe step. The
+complete continuation rule and its stop boundaries live in
+`references/approved-implementation-workflow.md`.
+
 The lease expires when revision/hash, scope, acceptance, risk, production impact,
 credentials, external side effects, destructive Git need, evidence assumptions,
 or the user's decision changes. `deferred` and `revoked` provenance cannot
