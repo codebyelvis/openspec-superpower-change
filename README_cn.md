@@ -37,6 +37,9 @@
   边界仍不清楚时进入 `grill-with-docs` 或便携 fallback。
 - 在最终完成前，把高成本纠正与 Review finding 晋升为可发现的项目知识和可执行
   回归约束。
+- 通过 Claim-to-Test Relevance Gate，将每条测试命令绑定到当前 acceptance 与已证明
+  的 blast radius；无关的 frozen baseline 失败登记为
+  `OUT_OF_SCOPE_PREEXISTING_DEBT`，不扩大任务范围。
 
 ## 治理精简模式
 

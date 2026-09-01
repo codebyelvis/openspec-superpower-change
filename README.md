@@ -40,6 +40,10 @@ The goal is simple: an AI agent should not move from a request directly to imple
   ambiguous project language enters `grill-with-docs` or the portable fallback.
 - Turns costly corrections and Review findings into durable project knowledge
   and regression enforcement before final completion.
+- Applies a Claim-to-Test Relevance Gate: each test command must map to the
+  current acceptance and demonstrated blast radius; unrelated frozen-baseline
+  failures are recorded as `OUT_OF_SCOPE_PREEXISTING_DEBT` without widening the
+  task.
 
 ## Governed Caveman Lite
 

@@ -148,6 +148,30 @@ artifact, gate, or output. It does not automatically select
 
 ## Review/Fix Convergence
 
+### Finding scope triage
+
+When a Review finding arrives, before reproducing or fixing it, judge it in
+this order:
+
+```text
+1. finding 是否由当前变更引入？
+2. 是否验证当前 acceptance？
+3. 是否推翻当前证据声明？
+4. 是否位于批准的 blast radius 或精确测试范围？
+5. 修复是否仍在当前授权范围？
+```
+
+Findings related to the current task enter the normal `Fix -> Verify -> Review`
+loop. A failure belonging to a frozen baseline or accepted preimage that does
+not meet the current-task conditions is recorded as
+`OUT_OF_SCOPE_PREEXISTING_DEBT` with its fact, impact, and owner. If a Reviewer
+expands the requested test or fix scope, explicitly reject that expansion; do
+not take over unrelated problems merely to make Review PASS.
+
+Do not replay every command from a Review before performing this scope triage.
+"Read or classify all test files" does not mean "execute all test files." An
+accepted upstream preimage does not approve or validate the entire upstream release.
+
 Keep the existing `Review FAIL -> Fix -> Verify -> Review` loop. Ordinary
 first-pass findings continue through the existing same-scope loop. Before
 another retry, treat the loop as non-converging when evidence shows that:

@@ -62,6 +62,68 @@ This gate records slice evidence only; the whole-task decision is deferred to
 - Review result and artifact/inline evidence:
 - Whole-task decision: deferred to `references/completion-contract.md`
 
+## Claim-to-Test Relevance Gate
+
+Before executing tests, establish this mapping for each command:
+
+```text
+current change / acceptance claim
+-> demonstrated blast radius
+-> exact test command
+```
+
+A test enters the execution scope only when at least one of these is true:
+
+- The current task changes the code, configuration, contract, or behavior that
+  the test covers.
+- The test directly verifies the current acceptance claim.
+- The current Plan or Brief explicitly lists that exact command.
+- Concrete evidence demonstrates that the current change may affect the test's
+  covered scope.
+
+None of these, by itself, authorizes a test: a file classified as `TEST`, a
+shared business directory, a larger upstream diff, a Reviewer's suggestion to
+"run something more complete," or a test name that merely looks related.
+
+For a frozen baseline, accepted preimage, or historical upstream failure, when
+the failure was not introduced by the current task, does not overturn the
+current acceptance, does not invalidate the current evidence claim, and does
+not affect the current slice's safety or evidence integrity, mark it
+`OUT_OF_SCOPE_PREEXISTING_DEBT`. Record only the fact, impact, and owner; do not
+fix it, expand the test scope, or block the current gate. An accepted upstream preimage is not upstream release validation; it does not approve or validate the entire upstream release.
+
+An existing failure may block the current task only when the current change
+introduced or amplified it, it directly violates the current acceptance, it
+proves a Report/Plan/Brief pass claim false, or it breaks the current slice's
+safety, evidence integrity, or runtime contract.
+
+Keep environment evidence separate from assertion failures. Missing
+dependencies, directory layout, credentials, network, or same-workspace
+component problems are not automatically product regressions and do not by
+themselves authorize broader tests or fixes.
+
+When a Reviewer proposes a test not listed in the current Plan or Brief, first
+state its corresponding acceptance, concrete call-chain or file relationship
+to the current change, demonstrated blast radius, and why existing verification
+is insufficient. If those points cannot be stated, do not execute the test.
+
+### Generic counterexample
+
+```text
+某集成任务接受 frozen upstream revision 作为 preimage。
+upstream diff 中包含多个历史测试文件。
+Reviewer 发现其中一个与本次集成无关的既有断言失败。
+
+错误处理：
+因为文件分类为 TEST，就运行整个目录并阻断集成。
+
+正确处理：
+先检查该失败是否由本次集成引入、是否验证当前 acceptance、
+是否推翻当前 evidence claim。
+若均否，则登记 OUT_OF_SCOPE_PREEXISTING_DEBT，
+不修复、不扩展测试、不阻断当前集成。
+```
+
 ## Review Gate
 
 - `compact`: focused diff/self-review may be recorded inline.
