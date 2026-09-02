@@ -14,6 +14,89 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 
 
+PREFLIGHT_BOUNDARIES = (
+    "scope", "contract/spec", "acceptance", "risk/evidence profile",
+    "authority", "assignments", "allowed/forbidden files", "branch/worktree",
+    "database/production", "Git/publication/deployment",
+)
+
+
+def _bound_regular_ref_bytes(root: Path, ref: dict[str, str]) -> bytes | None:
+    path = ref.get("path")
+    digest = ref.get("sha256")
+    if not isinstance(path, str) or not re.fullmatch(r"[A-Za-z0-9._/-]+", path):
+        return None
+    logical = Path(path)
+    if logical.is_absolute() or ".." in logical.parts or "\\" in path:
+        return None
+    directory_fds = []
+    try:
+        directory_flags = (
+            os.O_RDONLY | getattr(os, "O_DIRECTORY", 0)
+            | getattr(os, "O_NOFOLLOW", 0) | getattr(os, "O_CLOEXEC", 0)
+        )
+        current_fd = os.open(root, directory_flags)
+        directory_fds.append(current_fd)
+        for component in logical.parts[:-1]:
+            current_fd = os.open(component, directory_flags, dir_fd=current_fd)
+            directory_fds.append(current_fd)
+        file_fd = os.open(
+            logical.parts[-1],
+            os.O_RDONLY | getattr(os, "O_NOFOLLOW", 0)
+            | getattr(os, "O_CLOEXEC", 0),
+            dir_fd=current_fd,
+        )
+        with os.fdopen(file_fd, "rb") as stream:
+            if not stat.S_ISREG(os.fstat(stream.fileno()).st_mode):
+                return None
+            payload = stream.read()
+    except (OSError, IndexError):
+        return None
+    finally:
+        for directory_fd in reversed(directory_fds):
+            os.close(directory_fd)
+    if not isinstance(digest, str) or hashlib.sha256(payload).hexdigest() != digest:
+        return None
+    return payload
+
+
+def _safe_regular_ref(root: Path, ref: dict[str, str]) -> bool:
+    return _bound_regular_ref_bytes(root, ref) is not None
+
+
+def _focused_preflight_fixture_eligible(
+    root: Path, record: dict, author_id: str, executor_id: str,
+) -> bool:
+    reviewer = record.get("reviewer_identity", {})
+    root_revision = record.get("lineage_root_revision", {})
+    current_revision = record.get("reviewed_revision", {})
+    parent_ref = record.get("parent_review", {})
+    parent_bytes = _bound_regular_ref_bytes(root, parent_ref)
+    if parent_bytes is None:
+        return False
+    try:
+        parent = json.loads(parent_bytes)
+    except (UnicodeError, json.JSONDecodeError):
+        return False
+    parent_reviewer = parent.get("reviewer_identity", {})
+    return all((
+        record.get("review_mode") == "FOCUSED_RECHECK",
+        record.get("attempt") in (2, "terminal"),
+        record.get("same_reviewer_instance") is True,
+        reviewer == parent_reviewer,
+        reviewer.get("agent_instance_id") not in {author_id, executor_id, None},
+        root_revision.get("path") == current_revision.get("path"),
+        parent.get("lineage_root_revision") == root_revision,
+        _safe_regular_ref(root, current_revision),
+        parent.get("finding_completeness") is True,
+        record.get("mechanical_self_check") is True,
+        record.get("diff_within_declared_corrections") is True,
+        bool(record.get("declared_correction_set")),
+        record.get("protected_boundaries")
+        == {boundary: "unchanged" for boundary in PREFLIGHT_BOUNDARIES},
+    ))
+
+
 def resolve_brief_root() -> Path:
     configured = os.environ.get("BRIEF_SKILL_SOURCE")
     if configured:
@@ -2050,6 +2133,22 @@ class WorkflowRulesTest(unittest.TestCase):
         self.assertIn("entry-discoverable and artifact-bound", normalized)
         self.assertIn("deterministic negative regression", normalized)
 
+    def test_hashed_review_lineage_parses_exact_verified_bytes(self):
+        invariants = (ROOT / "docs" / "engineering-invariants.md").read_text(
+            encoding="utf-8"
+        )
+        normalized = " ".join(invariants.split()).lower()
+        for required in (
+            "hashed review lineage must parse the exact verified artifact bytes",
+            "exact bytes whose whole-file sha-256 was verified",
+            "replacement between checks",
+            "intermediate-directory escape",
+            "single-descriptor hash/parse binding",
+            "reviewer replacement or identity reuse",
+        ):
+            with self.subTest(required=required):
+                self.assertIn(required, normalized)
+
     def test_external_cli_debug_traces_are_temporary_and_not_durable(self):
         invariants = (ROOT / "docs" / "engineering-invariants.md").read_text(
             encoding="utf-8"
@@ -3628,6 +3727,199 @@ class WorkflowRulesTest(unittest.TestCase):
         self.assertIn("artifact revision", adapter)
         self.assertIn("Preflight uses only `PASS` or `BLOCKED`", adapter)
         self.assertNotIn("Preflight `FAIL`", adapter + self.approved)
+
+    def test_bounded_plan_preflight_convergence_contract_is_complete(self):
+        evidence = (ROOT / "references" / "step-evidence-gate.md").read_text(encoding="utf-8")
+        combined = "\n".join((self.skill, self.approved, self.superpowers_adapter, evidence))
+
+        for required in (
+            "FULL_PREFLIGHT", "FOCUSED_RECHECK", "CONTROL_PLANE_ADJUDICATION",
+            "finding_completeness", "lineage_root_revision", "reviewed_revision",
+            "parent_review", "same_reviewer_instance", "protected_boundaries",
+            "declared_correction_set", "mechanical_self_check",
+            "non_blocking_recommendations", "accepted_residual_risks",
+        ):
+            self.assertIn(required, combined)
+        for boundary in (
+            "scope", "contract/spec", "acceptance", "risk/evidence profile",
+            "authority", "assignments", "allowed/forbidden files",
+            "branch/worktree", "database/production", "Git/publication/deployment",
+        ):
+            self.assertIn(boundary, self.approved)
+        for safety in (
+            "P0/P1", "security", "integrity/data loss", "false evidence",
+            "PASS", "BLOCKED",
+        ):
+            self.assertIn(safety, self.approved)
+        self.assertIn("same reviewer instance", self.approved)
+        self.assertIn("whole regular-file bytes", self.approved)
+        self.assertIn("non-symlink", self.approved)
+        self.assertIn("Missing legacy fields", self.approved)
+        self.assertIn("two blocked Review results", self.approved)
+        self.assertIn("one terminal focused recheck", self.approved)
+        self.assertIn("Implementation Review", combined)
+        self.assertIn("Final Review", combined)
+        self.assertIn("references/completion-contract.md", combined)
+        self.assertNotIn("Preflight `FAIL`", combined)
+
+    def test_focused_preflight_semantic_fixture_fails_closed(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            plan = root / "docs" / "plan.md"
+            review = root / "reviews" / "root.md"
+            plan.parent.mkdir()
+            review.parent.mkdir()
+            plan.write_bytes(b"corrected plan revision\n")
+            reviewer = {
+                "agent_product": "codex",
+                "agent_instance_id": "codex-reviewer-01",
+                "agent_role": "independent-reviewer",
+                "capability_profile": "control-plane-high",
+            }
+            historical_root = {
+                "path": "docs/plan.md",
+                "sha256": hashlib.sha256(b"original plan revision\n").hexdigest(),
+            }
+            parent = {
+                "lineage_root_revision": historical_root,
+                "reviewer_identity": reviewer,
+                "finding_completeness": True,
+            }
+            review.write_text(
+                json.dumps(parent, sort_keys=True), encoding="utf-8"
+            )
+            valid = {
+                "review_mode": "FOCUSED_RECHECK",
+                "attempt": 2,
+                "same_reviewer_instance": True,
+                "reviewer_identity": reviewer,
+                "lineage_root_revision": historical_root,
+                "reviewed_revision": {
+                    "path": "docs/plan.md",
+                    "sha256": hashlib.sha256(plan.read_bytes()).hexdigest(),
+                },
+                "parent_review": {
+                    "path": "reviews/root.md",
+                    "sha256": hashlib.sha256(review.read_bytes()).hexdigest(),
+                },
+                "mechanical_self_check": True,
+                "diff_within_declared_corrections": True,
+                "declared_correction_set": ["F-1:Plan section 2"],
+                "protected_boundaries": {
+                    boundary: "unchanged" for boundary in PREFLIGHT_BOUNDARIES
+                },
+            }
+            self.assertTrue(
+                _focused_preflight_fixture_eligible(
+                    root, valid, "codex-author-01", "codex-executor-01"
+                )
+            )
+            forged_review = review.with_name("forged.md")
+            forged_parent = copy.deepcopy(parent)
+            forged_parent["reviewer_identity"]["agent_instance_id"] = "attacker-reviewer"
+            forged_review.write_text(
+                json.dumps(forged_parent, sort_keys=True), encoding="utf-8"
+            )
+            real_open = os.open
+            parent_leaf_opens = 0
+
+            def replace_after_parent_open(path, flags, *args, **kwargs):
+                nonlocal parent_leaf_opens
+                descriptor = real_open(path, flags, *args, **kwargs)
+                if path == review.name:
+                    parent_leaf_opens += 1
+                    if parent_leaf_opens == 1:
+                        os.replace(forged_review, review)
+                return descriptor
+
+            with mock.patch("os.open", side_effect=replace_after_parent_open):
+                self.assertTrue(
+                    _focused_preflight_fixture_eligible(
+                        root, valid, "codex-author-01", "codex-executor-01"
+                    )
+                )
+            self.assertEqual(1, parent_leaf_opens)
+            review.write_text(json.dumps(parent, sort_keys=True), encoding="utf-8")
+
+            mutations = (
+                ("current SHA", lambda r: r["reviewed_revision"].update(sha256="0" * 64)),
+                ("path drift", lambda r: r["reviewed_revision"].update(path="docs/other.md")),
+                ("parent SHA", lambda r: r["parent_review"].update(sha256="0" * 64)),
+                ("reviewer replacement", lambda r: r["reviewer_identity"].update(agent_instance_id="codex-reviewer-02")),
+                ("author reuse", lambda r: r["reviewer_identity"].update(agent_instance_id="codex-author-01")),
+                ("boundary change", lambda r: r["protected_boundaries"].update(scope="changed")),
+                ("undeclared diff", lambda r: r.update(diff_within_declared_corrections=False)),
+                ("missing legacy metadata", lambda r: r.pop("parent_review")),
+                ("invalid retry", lambda r: r.update(attempt=3)),
+            )
+            for label, mutate in mutations:
+                candidate = copy.deepcopy(valid)
+                mutate(candidate)
+                with self.subTest(label=label):
+                    self.assertFalse(
+                        _focused_preflight_fixture_eligible(
+                            root, candidate, "codex-author-01", "codex-executor-01",
+                        )
+                    )
+
+            for label, mutate_parent in (
+                ("parent root metadata", lambda p: p["lineage_root_revision"].update(sha256="f" * 64)),
+                ("parent reviewer metadata", lambda p: p["reviewer_identity"].update(agent_instance_id="codex-reviewer-02")),
+                ("incomplete full review", lambda p: p.update(finding_completeness=False)),
+            ):
+                forged_parent = copy.deepcopy(parent)
+                mutate_parent(forged_parent)
+                review.write_text(json.dumps(forged_parent, sort_keys=True), encoding="utf-8")
+                candidate = copy.deepcopy(valid)
+                candidate["parent_review"]["sha256"] = hashlib.sha256(review.read_bytes()).hexdigest()
+                with self.subTest(label=label):
+                    self.assertFalse(
+                        _focused_preflight_fixture_eligible(
+                            root, candidate, "codex-author-01", "codex-executor-01",
+                        )
+                    )
+            review.write_text(json.dumps(parent, sort_keys=True), encoding="utf-8")
+
+            link = root / "docs" / "linked.md"
+            link.symlink_to(plan)
+            symlinked = copy.deepcopy(valid)
+            symlinked["lineage_root_revision"]["path"] = "docs/linked.md"
+            symlinked["reviewed_revision"]["path"] = "docs/linked.md"
+            self.assertFalse(
+                _focused_preflight_fixture_eligible(
+                    root, symlinked, "codex-author-01", "codex-executor-01",
+                )
+            )
+
+            outside = root / "outside"
+            outside.mkdir()
+            (outside / "plan.md").write_bytes(plan.read_bytes())
+            (root / "linked-parent").symlink_to(outside, target_is_directory=True)
+            escaped = copy.deepcopy(valid)
+            escaped["lineage_root_revision"]["path"] = "linked-parent/plan.md"
+            escaped["reviewed_revision"]["path"] = "linked-parent/plan.md"
+            escaped_parent = copy.deepcopy(parent)
+            escaped_parent["lineage_root_revision"] = escaped["lineage_root_revision"]
+            review.write_text(json.dumps(escaped_parent, sort_keys=True), encoding="utf-8")
+            escaped["parent_review"]["sha256"] = hashlib.sha256(review.read_bytes()).hexdigest()
+            self.assertFalse(
+                _focused_preflight_fixture_eligible(
+                    root, escaped, "codex-author-01", "codex-executor-01",
+                )
+            )
+
+    def test_preflight_profiles_and_effect_based_risk_remain_proportionate(self):
+        combined = "\n".join((self.approved, self.superpowers_adapter, (
+            ROOT / "references" / "step-evidence-gate.md"
+        ).read_text(encoding="utf-8")))
+        for profile in ("compact", "standard", "strict"):
+            self.assertIn(f"`{profile}`", combined)
+        self.assertIn("existing private read-only", combined)
+        self.assertIn("changed effects", combined)
+        self.assertIn("Any profile change", combined)
+        self.assertIn("real evidence", combined)
+        self.assertIn("mocks", combined)
+        self.assertIn("platform permission", combined)
 
     def test_brief_trigger_excludes_state_changing_and_final_completion(self):
         if not (BRIEF_ROOT / "SKILL.md").is_file():

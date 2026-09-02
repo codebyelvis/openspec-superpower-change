@@ -27,6 +27,37 @@ Loading pointer: agents read this file through `AGENTS.md`; executable policy
 and completion order remain canonical in `SKILL.md` and
 `references/project-learning-closeout.md`.
 
+## Hashed Review lineage must parse the exact verified artifact bytes
+
+Scope: Plan/Brief Preflight lineage, parent Review evidence, and semantic
+regression fixtures.
+
+Invariant:
+
+- A historical revision may be anchored by an immutable parent Review instead
+  of requiring old bytes to remain at a mutated current path.
+- The parent Review's root revision and reviewer identity must be parsed from the
+  exact bytes whose whole-file SHA-256 was verified. Hashing one path read and
+  parsing a later read permits replacement between checks and is a false PASS.
+- Every project-relative reference must be opened beneath the bound project root
+  without following symlinks in any directory or leaf component. A final-leaf
+  `O_NOFOLLOW` check alone does not prevent an intermediate-directory escape.
+- Current reviewer identity must exactly match the parent Review and remain
+  distinct from author and executor identities.
+
+Counterexample: validation hashes `reviews/root.md`, another process replaces it,
+and the checker reopens the path to parse attacker-chosen root/reviewer fields.
+A second counterexample routes `reviews/` through a symlink outside project root
+while only the final file is checked as regular.
+
+Mechanical enforcement: the focused Preflight semantic fixture performs
+single-descriptor hash/parse binding, descriptor-relative no-follow traversal,
+and negative tests for parent-content drift, leaf/intermediate symlinks, and
+reviewer replacement or identity reuse.
+
+Loading pointer: agents read this file through `AGENTS.md`; the normative Review
+contract remains in `references/approved-implementation-workflow.md`.
+
 ## Validation fixtures must be valid in every supported parser mode
 
 Scope: YAML-backed workflow contracts and tests for the dependency-free parser

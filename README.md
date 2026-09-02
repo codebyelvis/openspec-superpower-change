@@ -336,7 +336,27 @@ OpenSpec may be skipped only for narrow restoration of existing intended behavio
 |---|---|
 | compact | Low-risk docs, formatting, config, or localized direct changes. |
 | standard | Default multi-step implementation, review, and verification. |
-| strict | Security, auth, public API/schema, persistence, migration, deployment, rollback, or cross-tenant work. |
+| strict | Security, auth, public API/schema, persistence semantics, migration/write paths, deployment/rollback, deletion/recovery, cross-tenant behavior, or production authority. |
+
+## Bounded Plan Preflight
+
+The first Plan/Brief Review in a revision lineage is a complete
+`FULL_PREFLIGHT`. A correction-only revision may use `FOCUSED_RECHECK` only
+when exact reviewer identity matches the immutable parent Review and remains
+distinct from author/executor, protected boundaries remain unchanged, the
+current whole-file path/SHA and parent-anchored historical bindings are valid, and
+mechanical checks pass. Two blocked rounds, reviewer conflict, scope growth, or
+an unauthorized boundary change route to bounded
+`CONTROL_PLANE_ADJUDICATION`; this is not a third Review mode or lifecycle
+state. P0/P1, security, integrity, authority, scope/contract/risk/acceptance,
+false-evidence, and non-executable-Plan findings always block. Optional
+recommendations and accepted residual risks remain separate.
+
+Evidence remains proportional: compact work stays concise, standard work keeps
+distinct Review and critical evidence, and strict work keeps real evidence and
+human business gates. Risk follows changed effects; merely using an existing
+private read-only persistence boundary does not by itself change persistence
+semantics.
 
 ## Repository Structure
 

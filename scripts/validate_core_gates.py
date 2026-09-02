@@ -2454,6 +2454,30 @@ def main(argv: list[str] | None = None) -> int:
     ):
         require(adapter, needle, "superpowers-adapter.md")
 
+    bounded_preflight = "\n".join((skill, approved, adapter, evidence))
+    for needle in (
+        "FULL_PREFLIGHT", "FOCUSED_RECHECK", "CONTROL_PLANE_ADJUDICATION",
+        "finding_completeness", "lineage_root_revision", "reviewed_revision",
+        "parent_review", "reviewer_identity", "same_reviewer_instance",
+        "protected_boundaries",
+        "declared_correction_set", "mechanical_self_check",
+        "non_blocking_recommendations", "accepted_residual_risks",
+        "whole regular-file bytes", "regular non-symlink file",
+        "immutable `parent_review`", "author/executor identity",
+        "two blocked Review results", "one terminal focused recheck",
+        "existing private read-only", "changed effects", "Any profile change",
+    ):
+        require(bounded_preflight, needle, "bounded Plan Preflight convergence")
+    for needle in (
+        "scope", "contract/spec", "acceptance", "risk/evidence profile",
+        "authority", "assignments", "allowed/forbidden files",
+        "branch/worktree", "database/production", "Git/publication/deployment",
+        "P0/P1", "security", "integrity/data loss", "false evidence",
+    ):
+        require(approved, needle, "approved-implementation-workflow.md bounded preflight")
+    if "Preflight `FAIL`" in bounded_preflight:
+        raise AssertionError("bounded Plan Preflight convergence: FAIL result is forbidden")
+
     for needle in (
         "control-plane-high", "cohesive-medium", "mechanical-low",
         "model names", "BLOCKED",

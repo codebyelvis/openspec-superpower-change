@@ -195,8 +195,12 @@ Do not implement OpenSpec-required work before approval.
 - A Handoff-backed external Review is the batch code-review gate; do not add a
   duplicate review for the same batch.
 - Before implementation or dispatch, run a current-revision Plan/Brief
-  **Preflight Review**. Any finding revises the artifact and restarts preflight.
-  Preflight authorizes execution only; it is not implementation Review.
+  **Preflight Review** under the bounded convergence contract in
+  `references/approved-implementation-workflow.md`. First lineage Review is
+  `FULL_PREFLIGHT`; only same-reviewer, unchanged-boundary, declared mechanical
+  corrections may use `FOCUSED_RECHECK`. Non-convergence returns through
+  `CONTROL_PLANE_ADJUDICATION`, not a new state. Preflight authorizes execution
+  only; it is not Implementation Review or completion evidence.
 - Separate tool/platform permission, scope/workflow authorization, and
   business/production authorization. Reuse an unchanged Confirmation Lease for
   safe commands and same-finding loops; never treat platform permission as a

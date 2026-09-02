@@ -1,0 +1,42 @@
+# Tasks: optimize-plan-preflight-convergence
+
+## 1. Contract and approval
+
+- [ ] 1.1 Strictly validate proposal/design/spec/tasks.
+- [ ] 1.2 Obtain independent Proposal Review PASS.
+- [ ] 1.3 Record explicit approval of this exact change-id and scoped revision.
+
+## 2. Pre-change safety and RED
+
+- [ ] 2.1 Inventory source/runtime prestates and create structured temporary backups.
+- [ ] 2.2 Add focused workflow tests for Review-record ownership, current whole-file SHA/path/symlink rules, immutable parent anchoring of historical root SHA and exact reviewer identity, mode selection, authorized/unauthorized protected-boundary changes, replacement or author/executor-reused reviewer, legacy missing metadata, revision/parent binding, undeclared diffs, safety blocking, finding completeness, retry adjudication, recommendations, separately classified accepted residual risks with evidence/impact/owner-or-decision, Plan proportionality, and lifecycle preservation.
+- [ ] 2.3 Run focused tests and record expected RED caused by missing convergence rules.
+
+## 3. Minimal implementation
+
+- [ ] 3.1 Add the normative convergence contract to `references/approved-implementation-workflow.md`.
+- [ ] 3.2 Update `SKILL.md` and `references/superpowers-adapter.md` to route revision changes through that contract.
+- [ ] 3.3 Update `references/step-evidence-gate.md` with blocking/recommendation and effect-based risk rules.
+- [ ] 3.4 Extend `scripts/validate_core_gates.py` only with direct semantic assertions needed by this change.
+- [ ] 3.5 Update `README.md` and `README_cn.md` with the user-visible behavior.
+
+## 4. Source verification and Review
+
+- [ ] 4.1 Run focused GREEN.
+- [ ] 4.2 Run quick validation, core validation, full unittest, strict OpenSpec validation, and `git diff --check`.
+- [ ] 4.3 Obtain independent implementation High Review PASS over actual files and complete diff.
+
+## 5. Runtime synchronization
+
+- [ ] 5.1 Generate and Review a scoped path/hash-only cross-CLI plan for changed portable files.
+- [ ] 5.2 Apply and verify Codex, Pi, Antigravity CLI, and Grok CLI in manifest order.
+- [ ] 5.3 Verify full portable parity, discovery, validators, and sensitive-category exclusion.
+
+## 6. Completion and publication
+
+- [ ] 6.1 Run Project Learning Closeout and promote only confirmed reusable invariants.
+- [ ] 6.2 Run fresh final verification after the last source/runtime/learning change.
+- [ ] 6.3 Obtain independent final Review PASS.
+- [ ] 6.4 Reconcile tasks and archive the OpenSpec change with strict post-archive validation when repository semantics permit.
+- [ ] 6.5 Remove temporary backups after rollback is no longer needed.
+- [ ] 6.6 Commit and push the verified source changes under the user's explicit Git publication authorization.

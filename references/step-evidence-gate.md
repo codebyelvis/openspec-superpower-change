@@ -26,7 +26,16 @@ Evidence profiles:
 
 - `compact`: focused verification for low-risk direct, docs, formatting, config, or existing-behavior test work.
 - `standard`: run `step_critical` for each batch; review reruns critical plus one independent behavior check; run `final_critical` once at the final batch unless later code changes invalidate it.
-- `strict`: security, auth, public API/schema, persistence, migration, deployment, rollback, deletion/recovery, or cross-tenant work; real acceptance cannot be replaced by mocks or unit tests.
+- `strict`: security/auth, public API/schema, persistence semantics, migration,
+  write paths, deployment/rollback, deletion/recovery, cross-tenant behavior, or
+  production authority; real evidence and explicit human business gates cannot
+  be replaced by mocks, unit tests, or platform permission.
+
+Classify risk by changed effects, not substrate names. Reading persistence
+through an existing private read-only boundary does not alone change persistence
+semantics, but required real read-only probes remain mandatory. Any profile
+change is a protected-boundary change: focused eligibility ends and full
+Preflight Review is required.
 
 ### Gate 0: Before action
 
@@ -134,8 +143,14 @@ Reviewer 发现其中一个与本次集成无关的既有断言失败。
 - External Handoff-backed Review is the batch review gate and must not be
   duplicated merely for ceremony.
 - Every actionable finding, regardless of severity label, returns to the same
-  scope for fix -> verification -> Review. A non-actionable observation is
-  recorded separately as an accepted residual risk with an owner or decision.
+  scope for fix -> verification -> Review. P0/P1, security, integrity/data loss,
+  authority, scope/contract/risk/acceptance, forbidden effect, false evidence,
+  and non-executable Plan findings remain blocking in every Preflight mode.
+- A non-blocking recommendation is optional and cannot affect acceptance,
+  safety, authority, evidence integrity, or deterministic execution.
+- A non-actionable observation with actual risk is recorded separately in
+  `accepted_residual_risks` with evidence, impact, and owner or decision; it is
+  neither a recommendation nor an unresolved actionable finding.
 - `BLOCKED` records owner and resume condition; after recovery, refresh evidence
   and Review the same scope again.
 - No completion claim is allowed without Review PASS.

@@ -47,16 +47,97 @@ Before inline implementation or external dispatch, Review the current Plan or
 Brief revision for contract coverage, placeholders, allowed scope, production
 wiring where applicable, acceptance, exact verification commands, evidence
 profile, rollback/stop conditions, branch/worktree choice, and Git authority.
+Preflight uses only `PASS` or `BLOCKED`; reserve `FAIL` for implementation or
+post-implementation Review. Preflight PASS authorizes execution only and never
+replaces Implementation Review, Final Review, or
+`references/completion-contract.md`.
 
-- `compact` may use a focused inline Preflight Review.
-- `standard` and `strict` require a distinct critical pass.
-- Preflight uses only `PASS` or `BLOCKED`. Any actionable finding is
-  `BLOCKED`; revise the artifact and Review it again. Reserve `FAIL` for
-  implementation or post-implementation Review, where executed behavior can
-  actually be wrong.
-- Preflight `PASS` authorizes execution only; it is not design re-approval,
-  implementation Review, or completion evidence.
-- Rerun only when the artifact revision changes.
+### Bounded convergence
+
+`FULL_PREFLIGHT` and `FOCUSED_RECHECK` are Review modes.
+`CONTROL_PLANE_ADJUDICATION` is an existing control-plane route outside Review,
+not a third mode, schema, ledger, Handoff field, or canonical state.
+
+Use `FULL_PREFLIGHT` for the first Review in a lineage, a legacy Review missing
+convergence fields, a replacement reviewer, or any protected-boundary change.
+It covers the complete matrix and an independent adversarial probe. The
+reviewer reports all reasonably discoverable findings together and records
+`finding_completeness: true`; ordinary findings must not be intentionally
+staged across rounds.
+
+A revised artifact may use `FOCUSED_RECHECK` only when the same reviewer instance
+remains independent from author and executor, mechanical self-check
+passes, the correction diff closes only declared findings plus necessary
+adjacent edits, and every protected boundary is verified unchanged:
+
+- scope, contract/spec, acceptance, and risk/evidence profile;
+- authority and executor/reviewer assignments;
+- allowed/forbidden files and branch/worktree;
+- database/production and Git/publication/deployment.
+
+The existing Preflight Review artifact records:
+
+- `review_mode: FULL_PREFLIGHT | FOCUSED_RECHECK`;
+- `lineage_root_revision` and `reviewed_revision`, each containing the identical
+  safe project-relative POSIX Plan/Brief path and its whole-file SHA-256;
+- `parent_review`, containing a safe project-relative path and whole-file
+  SHA-256, or `null` at the full root;
+- `attempt: 1 | 2 | terminal`, exact `reviewer_identity` product/contract-local
+  instance ID/role/capability profile, and `same_reviewer_instance` derived by
+  exact comparison with immutable parent Review identity;
+- `protected_boundaries`, `declared_correction_set`,
+  `mechanical_self_check`, and `finding_completeness`;
+- `blocking_findings`, `non_blocking_recommendations`, and
+  `accepted_residual_risks`; every accepted residual risk records evidence,
+  impact, and owner or decision.
+
+Hash whole regular-file bytes exactly as stored without newline normalization.
+Root/current paths are the same safe logical path. Verify current SHA against the
+current regular non-symlink file. At the full root, root and current SHA values
+match. After correction, verify the immutable `parent_review` file and use its
+bound root SHA and reviewer identity to anchor history; do not require historical
+root bytes to remain at the mutated current path. Every evidence reference must
+resolve within project root to a regular non-symlink file. Path drift, same-hash
+substitution at another path, invalid revision or parent binding, reviewer
+identity mismatch or reuse of author/executor identity, or undeclared diff
+prevents focused eligibility. Missing legacy fields select `FULL_PREFLIGHT`. The
+protected-boundary checklist is
+human-auditable evidence checked against the actual diff and referenced
+contract/authority artifacts; it is not a machine-trusted digest.
+
+Any actionable finding is `BLOCKED`. P0/P1, security, integrity/data loss,
+authority, scope/contract/risk/acceptance, forbidden effect, false evidence,
+non-executable Plan, and missing required rollback/stop behavior remain blocking
+in every mode. A non-blocking recommendation is optional and cannot affect
+acceptance, safety, authority, evidence integrity, or deterministic execution.
+A non-actionable observation with actual risk remains separately classified in
+`accepted_residual_risks`, not relabeled as advice or an unresolved finding.
+
+After two blocked Review results in one lineage, reviewer conflict, expanding
+correction scope, an unauthorized protected-boundary change, or a late ordinary
+finding discoverable during full Review, route to
+`CONTROL_PLANE_ADJUDICATION`. An authorized boundary change starts a new full
+lineage; an unauthorized change remains BLOCKED until adjudicated. Adjudication
+may permit one terminal focused recheck after one consolidated correction
+bundle. Terminal failure does not reopen an unlimited loop. A late P0/P1 or
+safety finding always blocks regardless of completeness or retry limits.
+
+Before human Review, reuse deterministic project validators to check applicable
+placeholders, undefined references, allowed/forbidden files, command and module
+origins, unauthorized Git, branch/worktree, schema/formula examples, checksums,
+and forbidden database, production, publication, or deployment operations.
+Project-specific checks remain exact Plan commands; this contract adds no
+universal parser.
+
+Evidence stays proportionate: `compact` low-risk deterministic work may remain
+inline with focused verification and concise Review; `standard` multi-step work
+keeps required critical evidence and a distinct Review; `strict` effects keep
+real evidence and explicit human business gates. Mocks or platform permission
+cannot replace strict evidence or authorization. Risk follows changed effects:
+reading persistence through an existing private read-only boundary does not by
+itself change persistence semantics, but its required real read-only probes
+remain mandatory. Any profile change ends focused eligibility and requires full
+Review.
 
 ## Authorized Execution Continuity
 

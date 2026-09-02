@@ -107,12 +107,17 @@ current artifact revision:
 - exact verification commands, evidence profile, rollback, and stop conditions;
 - branch/worktree decision and unauthorized Git or duplicate-design steps.
 
-Preflight uses only `PASS` or `BLOCKED`. Any finding is `BLOCKED`, returns
-the Plan/Brief to its author, and does not authorize execution. Fix the artifact
-and Review again. Preflight `PASS`
-authorizes execution only; it is not implementation Review or completion
-evidence. Do not repeat ceremony when the artifact revision is unchanged;
-rerun Preflight Review whenever that artifact revision changes.
+Preflight uses only `PASS` or `BLOCKED`. Apply the bounded convergence contract
+in `references/approved-implementation-workflow.md`: first lineage Review uses
+`FULL_PREFLIGHT`; an unchanged-boundary correction may use `FOCUSED_RECHECK`
+only with exact reviewer identity matching the immutable parent Review and
+remaining distinct from author/executor, valid current whole-file and
+parent-anchored historical revision bindings, mechanical self-check, and a declared correction-only
+diff. Non-convergence routes outside Review through
+`CONTROL_PLANE_ADJUDICATION`; it does not add a mode or state. Any actionable
+finding is `BLOCKED` and does not authorize execution. Preflight PASS authorizes
+execution only; it is not Implementation Review, Final Review, or completion
+evidence. An unchanged artifact revision does not repeat ceremony.
 
 Use `superpowers:subagent-driven-development` for suitable independent tasks in
 the current session, or `superpowers:executing-plans` for a separate execution

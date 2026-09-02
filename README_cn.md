@@ -298,7 +298,23 @@ Self-Evolution change。
 |---|---|
 | compact | 低风险文档、格式、配置或局部直接变更。 |
 | standard | 默认的多步骤实现、评审和验证。 |
-| strict | 安全、认证、公开 API/schema、持久化、迁移、部署、回滚或跨租户工作。 |
+| strict | 安全、认证、公开 API/schema、持久化语义、迁移/写路径、部署/回滚、删除/恢复、跨租户行为或生产权限。 |
+
+## 有界 Plan Preflight
+
+一个 revision lineage 的首次 Plan/Brief Review 使用完整
+`FULL_PREFLIGHT`。只有 reviewer identity 与不可变 parent Review 精确匹配且
+不同于 author/executor、所有受保护边界不变、当前 whole-file path/SHA 与
+parent-anchored 历史绑定有效且机械检查通过时，纯纠错 revision
+才可使用 `FOCUSED_RECHECK`。同一 lineage 两轮 BLOCKED、reviewer 冲突、范围
+扩张或未授权边界变化，进入有界 `CONTROL_PLANE_ADJUDICATION`；它不是第三种
+Review mode 或生命周期状态。P0/P1、安全、完整性、权限、
+scope/contract/risk/acceptance、虚假证据和不可执行 Plan finding 始终阻断。
+可选建议与已接受残余风险必须分开记录。
+
+证据强度保持比例化：compact 简洁验证，standard 保留独立 Review 与关键证据，
+strict 保留真实证据和人工业务门禁。风险按 changed effects 判断；仅通过既有私有
+只读持久化边界读取，不自动代表持久化语义发生变化。
 
 ## 仓库结构
 
