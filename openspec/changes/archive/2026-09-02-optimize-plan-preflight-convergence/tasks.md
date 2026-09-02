@@ -39,4 +39,4 @@
 - [x] 6.3 Obtain independent final Review PASS.
 - [x] 6.4 Reconcile tasks and archive the OpenSpec change with strict post-archive validation when repository semantics permit.
 - [x] 6.5 Remove temporary backups after rollback is no longer needed.
-- [ ] 6.6 Commit and push the verified source changes under the user's explicit Git publication authorization.
+- [x] 6.6 Commit and push the verified source changes under the user's explicit Git publication authorization.
