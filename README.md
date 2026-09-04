@@ -420,6 +420,12 @@ mkdir -p "${CODEX_HOME:-$HOME/.codex}/skills"
 cp -R openspec-superpower-change "${CODEX_HOME:-$HOME/.codex}/skills/openspec-superpower-change"
 ```
 
+## Distribution
+
+The repository root is the canonical Agent Skill source. See
+[Distribution and installation](docs/distribution.md) for the supported
+Agent Skills/GitHub, skills.sh, SkillsMP, Pi/npm, and Codex plugin paths.
+
 ## Validation
 
 Run validation after editing the skill:

@@ -1,0 +1,36 @@
+{
+  "name": "openspec-superpower-change",
+  "version": "0.1.0",
+  "description": "A governed change gate for AI-assisted engineering work.",
+  "author": {
+    "name": "openspec-superpower-change contributors",
+    "url": "https://github.com/codebyelvis/openspec-superpower-change"
+  },
+  "homepage": "https://github.com/codebyelvis/openspec-superpower-change#readme",
+  "repository": "https://github.com/codebyelvis/openspec-superpower-change",
+  "license": "MIT",
+  "keywords": [
+    "pi-package",
+    "agent-skill",
+    "agent-skills",
+    "codex",
+    "pi",
+    "openspec",
+    "superpowers"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "OpenSpec Superpower Change",
+    "shortDescription": "Governed change gate for AI-assisted engineering",
+    "longDescription": "Routes material AI-assisted engineering changes through local rules, OpenSpec contracts, disciplined implementation, and evidence.",
+    "developerName": "openspec-superpower-change contributors",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Interactive",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Use the governed change gate for this engineering task."
+    ]
+  }
+}

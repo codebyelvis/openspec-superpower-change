@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Add Pi/npm package metadata, skills.sh and SkillsMP discovery guidance, and
+  a generated skill-only Codex plugin adapter with package-boundary and source
+  parity validation.
 - Add schema-6 role-first Reviewer Assignments with structured purpose and
   independence, four-product executor/reviewer eligibility, frozen schema-4/5
   legacy audit, and Codex-instance-bound canonical authority.

@@ -377,6 +377,12 @@ mkdir -p "${CODEX_HOME:-$HOME/.codex}/skills"
 cp -R openspec-superpower-change "${CODEX_HOME:-$HOME/.codex}/skills/openspec-superpower-change"
 ```
 
+## 分发
+
+仓库根目录是唯一的 Agent Skill 真源。支持 Agent Skills/GitHub、skills.sh、
+SkillsMP、Pi/npm 和 Codex 插件；具体安装、发现、依赖与发布前检查见
+[分发与安装说明](docs/distribution.md)。
+
 ## 验证
 
 修改 Skill 后运行：

@@ -108,6 +108,37 @@ Loading pointer: agents read this file through `AGENTS.md`; task plans may name
 the exact temporary trace and cleanup checkpoint but must not duplicate or
 weaken this invariant.
 
+## Public distribution paths must remain symlink-bound
+
+Scope: npm package allowlists, generated Codex adapters, and local release
+artifacts derived from this repository.
+
+Invariant:
+
+- Every public distribution source and allowlist entry must be a regular file
+  below its bound root without following symlinks in an intermediate directory
+  or leaf component.
+- A generated adapter output must remain below the repository root, reject
+  symlinks anywhere in an existing generated tree, and bind the existing
+  output directory identity again immediately before replacement.
+- The npm dry-run file set must equal the explicit public allowlist expansion;
+  a validator PASS cannot rely on `exists()` or `is_file()` following a symlink
+  that npm silently omits.
+
+Counterexample: `references/` or `distribution/codex-plugin/.codex-plugin/` is replaced by
+a symlink to an outside directory. A final-file check follows it, copies or
+deletes outside content, and reports a successful package or adapter build.
+
+Mechanical enforcement: `scripts/build_codex_plugin.py` reuses
+`validate_cross_cli_sync.validate_relative_path`, rejects output-parent and
+existing-tree symlinks, and rechecks the output inode before replacement.
+`scripts/validate_distribution.py` expands allowlists without following
+symlinks and compares `npm pack --dry-run --json` with the expected file set;
+`tests/test_distribution.py` contains negative regressions for each boundary.
+
+Loading pointer: this guidance is loaded through `AGENTS.md`; the executable
+details remain in the named builder, validator, and tests.
+
 ## Behavioral forward proofs must audit native events
 
 Scope: external CLI behavioral forward tests, Skill-load probes, and any claim
