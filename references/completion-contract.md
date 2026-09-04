@@ -43,6 +43,15 @@ information, temporary files, and unrelated changes; and include the
 risk-appropriate adversarial or business-chain probe. Invoke
 `superpowers:verification-before-completion` before any success claim.
 
+For compact or standard single-slice work with no strict, external,
+multi-slice, or protected-boundary effects, one post-verification complete-diff
+Review may satisfy both Implementation Review and Final Review. This combined
+path is valid only when the learning audit produces no later state-changing
+promotion. Strict, external, multi-slice, and protected-boundary work retains
+separate Implementation Review and Final Review gates. In particular, security,
+recovery, integrity/data-loss, authority, and false-PASS risk never uses the
+combined shortcut.
+
 ## Stop conditions
 
 Any verification or Review `FAIL` returns to the same scope for correction,
@@ -54,7 +63,10 @@ incompatible active lifecycle also stop the claim.
 ## Learning and reconciliation
 
 Run Project Learning Closeout after implementation Review PASS and before fresh
-final verification or OpenSpec reconciliation/archive. The audit may determine
+final verification or OpenSpec reconciliation/archive. On the eligible combined
+single-slice path, run the learning audit after implementation verification and
+before the combined final verification/Review; any durable promotion ends
+combined eligibility and requires the normal separate Reviews. The audit may determine
 that no durable promotion is required, but mandatory project-local promotion or
 an explicit user request to archive and distill blocks completion until durable
 artifacts and any mechanically enforceable regression test or validator pass

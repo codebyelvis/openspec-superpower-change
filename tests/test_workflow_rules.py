@@ -1677,6 +1677,52 @@ class WorkflowRulesTest(unittest.TestCase):
         self.assertIn("single design approval", self.approved)
         self.assertIn("does not require a duplicate", self.approved)
 
+    def test_compact_direct_change_uses_inline_fast_path(self):
+        owners = {
+            "direct": " ".join((ROOT / "references" / "direct-change-rule.md").read_text(encoding="utf-8").split()),
+            "evidence": " ".join((ROOT / "references" / "step-evidence-gate.md").read_text(encoding="utf-8").split()),
+            "skill": " ".join(self.skill.split()),
+            "approved": " ".join(self.approved.split()),
+            "requests": " ".join(self.request_modes.split()),
+        }
+        for phrase in (
+            "inline readiness check",
+            "does not create a standalone Brief, Plan, or Preflight artifact",
+        ):
+            self.assertIn(phrase, owners["direct"])
+        self.assertIn("one short Plan, no duplicate Brief, and one initial Preflight", owners["skill"])
+        self.assertIn("one `FULL_PREFLIGHT` plus at most one terminal `FOCUSED_RECHECK`", owners["approved"])
+        self.assertIn("must not reopen Preflight", owners["approved"])
+        self.assertIn("test-spec and test-quality concerns", owners["approved"])
+        self.assertIn("one post-verification complete-diff Review may satisfy both Implementation Review and Final Review", owners["evidence"])
+        self.assertIn("one regression per distinct changed behavior or failure mechanism", owners["skill"])
+        self.assertIn("strong reasoning capability makes inline execution preferable", owners["skill"])
+        self.assertIn("one initial Preflight", owners["requests"])
+        self.assertIn("Only compact low-risk Direct Change may keep readiness inline", owners["requests"])
+        self.assertNotIn("Do not create OpenSpec artifacts or Superpowers plans unless", owners["direct"])
+        self.assertNotIn("Adjudication may permit one terminal focused recheck", owners["approved"])
+
+    def test_strict_security_recovery_preserves_full_gates(self):
+        completion = " ".join(self.completion.split())
+        self_evolution = " ".join(
+            (ROOT / "references" / "self-evolution-rule.md")
+            .read_text(encoding="utf-8")
+            .split()
+        )
+        for phrase in (
+            "strict, external, multi-slice, and protected-boundary work",
+            "separate Implementation Review and Final Review",
+            "security, recovery, integrity/data-loss, authority, and false-PASS",
+        ):
+            self.assertIn(phrase, self_evolution)
+            self.assertIn(phrase.lower(), completion.lower())
+        self.assertIn("OpenSpec approval", self_evolution)
+        self.assertIn("verification-before-completion", completion)
+        self.assertIn("learning audit after implementation verification", completion)
+        self.assertIn("combined eligibility and requires the normal separate Reviews", completion)
+        self.assertIn("learning audit after implementation verification", " ".join(self.skill.split()))
+        self.assertIn("learning audit after implementation verification", " ".join(self.request_modes.split()))
+
     def test_evidence_gate_operates_on_slices_not_micro_steps(self):
         self.assertIn("business slice", self.approved)
         self.assertIn("not every TDD micro-step", self.approved)
@@ -3756,7 +3802,10 @@ class WorkflowRulesTest(unittest.TestCase):
         self.assertIn("non-symlink", self.approved)
         self.assertIn("Missing legacy fields", self.approved)
         self.assertIn("two blocked Review results", self.approved)
-        self.assertIn("one terminal focused recheck", self.approved)
+        self.assertIn(
+            "at most one terminal `FOCUSED_RECHECK`",
+            " ".join(self.approved.split()),
+        )
         self.assertIn("Implementation Review", combined)
         self.assertIn("Final Review", combined)
         self.assertIn("references/completion-contract.md", combined)

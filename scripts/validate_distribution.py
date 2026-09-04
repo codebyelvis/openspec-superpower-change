@@ -8,7 +8,9 @@ import json
 import os
 import re
 import shutil
+import stat
 import subprocess
+from dataclasses import dataclass
 from pathlib import Path, PurePosixPath
 
 try:
@@ -51,6 +53,9 @@ INTERFACE_REQUIRED_KEYS = {
     "defaultPrompt",
 }
 SEMVER = re.compile(r"^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$")
+SKILLSMP_ADAPTER = Path("skills") / builder.SKILL_NAME / "SKILL.md"
+ADAPTER_STAGE_PREFIX = f".{builder.SKILL_NAME}.stage-"
+ADAPTER_RECOVERY_PREFIX = f".{builder.SKILL_NAME}.recovery-"
 
 
 def _load_json(path: Path, label: str, errors: list[str]) -> dict | None:
@@ -209,6 +214,343 @@ def validate_npm_package(root: Path) -> list[str]:
     return errors
 
 
+def _mode_type(mode: int) -> str:
+    if stat.S_ISLNK(mode):
+        return "symlink"
+    if stat.S_ISDIR(mode):
+        return "directory"
+    if stat.S_ISREG(mode):
+        return "regular file"
+    return "special or unsupported entry"
+
+
+def _adapter_entry_type(path: Path) -> str:
+    try:
+        metadata = path.stat(follow_symlinks=False)
+    except FileNotFoundError:
+        return "missing"
+    return _mode_type(metadata.st_mode)
+
+
+def _stat_identity(metadata: os.stat_result) -> tuple[int, int, int]:
+    return metadata.st_dev, metadata.st_ino, metadata.st_mode
+
+
+def _directory_flags() -> int:
+    if not hasattr(os, "O_DIRECTORY") or not hasattr(os, "O_NOFOLLOW"):
+        raise ValueError("descriptor-bound no-follow directory opens are unavailable")
+    return (
+        os.O_RDONLY
+        | os.O_DIRECTORY
+        | os.O_NOFOLLOW
+        | getattr(os, "O_CLOEXEC", 0)
+    )
+
+
+def _regular_flags() -> int:
+    if not hasattr(os, "O_NOFOLLOW"):
+        raise ValueError("descriptor-bound no-follow file opens are unavailable")
+    return os.O_RDONLY | os.O_NOFOLLOW | getattr(os, "O_CLOEXEC", 0)
+
+
+def _stat_at(parent_descriptor: int, name: str, label: str) -> os.stat_result:
+    try:
+        return os.stat(name, dir_fd=parent_descriptor, follow_symlinks=False)
+    except FileNotFoundError as error:
+        raise ValueError(f"{label} is missing") from error
+
+
+def _open_directory_at(parent_descriptor: int, name: str, label: str) -> int:
+    before = _stat_at(parent_descriptor, name, label)
+    entry_type = _mode_type(before.st_mode)
+    if entry_type != "directory":
+        raise ValueError(f"{label} is a {entry_type}, not a regular directory")
+    try:
+        descriptor = os.open(name, _directory_flags(), dir_fd=parent_descriptor)
+    except OSError as error:
+        raise ValueError(f"unable to open bound {label}") from error
+    try:
+        after = os.fstat(descriptor)
+        if _stat_identity(before) != _stat_identity(after):
+            raise ValueError(f"{label} binding changed while opening")
+    except Exception:
+        os.close(descriptor)
+        raise
+    return descriptor
+
+
+@dataclass
+class _BoundAdapterDirectory:
+    root: Path
+    root_descriptor: int
+    skills_descriptor: int
+    adapter_descriptor: int
+    root_identity: tuple[int, int, int]
+    skills_identity: tuple[int, int, int]
+    adapter_identity: tuple[int, int, int]
+
+    def close(self) -> None:
+        _close_descriptors(
+            self.adapter_descriptor,
+            self.skills_descriptor,
+            self.root_descriptor,
+        )
+
+
+def _close_descriptors(*descriptors: int | None) -> None:
+    first_error: OSError | None = None
+    for descriptor in descriptors:
+        if descriptor is None:
+            continue
+        try:
+            os.close(descriptor)
+        except OSError as error:
+            if first_error is None:
+                first_error = error
+    if first_error is not None:
+        raise first_error
+
+
+def _open_adapter_directory(root: Path) -> _BoundAdapterDirectory:
+    """Bind root, skills parent, and adapter directory without following links."""
+    root = Path(os.path.abspath(os.path.expanduser(os.fspath(root))))
+    root_type = _adapter_entry_type(root)
+    if root_type != "directory":
+        raise ValueError(f"repository root is a {root_type}, not a regular directory")
+    root_descriptor = os.open(root, _directory_flags())
+    skills_descriptor: int | None = None
+    adapter_descriptor: int | None = None
+    try:
+        root_identity = _stat_identity(os.fstat(root_descriptor))
+        root_path_identity = _stat_identity(root.stat(follow_symlinks=False))
+        if root_identity != root_path_identity:
+            raise ValueError("repository root binding changed while opening")
+        skills_descriptor = _open_directory_at(
+            root_descriptor, "skills", "SkillsMP adapter skills parent"
+        )
+        adapter_descriptor = _open_directory_at(
+            skills_descriptor,
+            builder.SKILL_NAME,
+            "SkillsMP adapter directory",
+        )
+        return _BoundAdapterDirectory(
+            root=root,
+            root_descriptor=root_descriptor,
+            skills_descriptor=skills_descriptor,
+            adapter_descriptor=adapter_descriptor,
+            root_identity=root_identity,
+            skills_identity=_stat_identity(os.fstat(skills_descriptor)),
+            adapter_identity=_stat_identity(os.fstat(adapter_descriptor)),
+        )
+    except Exception:
+        if adapter_descriptor is not None:
+            os.close(adapter_descriptor)
+        if skills_descriptor is not None:
+            os.close(skills_descriptor)
+        os.close(root_descriptor)
+        raise
+
+
+def _entry_type_at(parent_descriptor: int, name: str) -> str:
+    try:
+        metadata = os.stat(name, dir_fd=parent_descriptor, follow_symlinks=False)
+    except FileNotFoundError:
+        return "missing"
+    return _mode_type(metadata.st_mode)
+
+
+def _read_regular_at(
+    parent_descriptor: int, name: str, label: str
+) -> tuple[bytes, tuple[int, int, int]]:
+    before = _stat_at(parent_descriptor, name, label)
+    entry_type = _mode_type(before.st_mode)
+    if entry_type != "regular file":
+        raise ValueError(f"{label} is a {entry_type}, not a regular file")
+    if before.st_nlink != 1:
+        raise ValueError(f"{label} must be a single-link regular file")
+    try:
+        descriptor = os.open(name, _regular_flags(), dir_fd=parent_descriptor)
+    except OSError as error:
+        raise ValueError(f"unable to open bound {label}") from error
+    try:
+        metadata = os.fstat(descriptor)
+        identity = _stat_identity(metadata)
+        if (
+            identity != _stat_identity(before)
+            or not stat.S_ISREG(metadata.st_mode)
+            or metadata.st_nlink != 1
+        ):
+            raise ValueError(f"{label} binding changed while opening")
+        chunks: list[bytes] = []
+        while True:
+            chunk = os.read(descriptor, 1024 * 1024)
+            if not chunk:
+                break
+            chunks.append(chunk)
+        after = os.fstat(descriptor)
+        if _stat_identity(after) != identity or after.st_nlink != 1:
+            raise ValueError(f"{label} changed while reading")
+        return b"".join(chunks), identity
+    finally:
+        os.close(descriptor)
+
+
+def _builder_residue_names(skills_descriptor: int) -> list[str]:
+    return sorted(
+        name
+        for name in os.listdir(skills_descriptor)
+        if name.startswith((ADAPTER_STAGE_PREFIX, ADAPTER_RECOVERY_PREFIX))
+    )
+
+
+def _verify_live_path_bindings(
+    bound: _BoundAdapterDirectory,
+    source_bytes: bytes,
+    source_identity: tuple[int, int, int],
+    target_bytes: bytes,
+    target_identity: tuple[int, int, int],
+) -> None:
+    """Prove the live pathname still names the retained final descriptors."""
+    live_root = os.open(bound.root, _directory_flags())
+    live_skills: int | None = None
+    live_adapter: int | None = None
+    try:
+        if _stat_identity(os.fstat(live_root)) != bound.root_identity:
+            raise ValueError("repository root live binding changed")
+        live_skills = _open_directory_at(
+            live_root, "skills", "SkillsMP adapter skills parent"
+        )
+        if _stat_identity(os.fstat(live_skills)) != bound.skills_identity:
+            raise ValueError("SkillsMP adapter skills parent live binding changed")
+        live_adapter = _open_directory_at(
+            live_skills, builder.SKILL_NAME, "SkillsMP adapter directory"
+        )
+        if _stat_identity(os.fstat(live_adapter)) != bound.adapter_identity:
+            raise ValueError("SkillsMP adapter directory live binding changed")
+        live_source_bytes, live_source_identity = _read_regular_at(
+            live_root, "SKILL.md", "canonical root SKILL.md"
+        )
+        live_target_bytes, live_target_identity = _read_regular_at(
+            live_adapter, "SKILL.md", "SkillsMP adapter target"
+        )
+        if live_source_identity != source_identity or live_source_bytes != source_bytes:
+            raise ValueError("canonical root SKILL.md live binding changed")
+        if live_target_identity != target_identity or live_target_bytes != target_bytes:
+            raise ValueError("SkillsMP adapter target live binding changed")
+    finally:
+        _close_descriptors(live_adapter, live_skills, live_root)
+
+
+def _recheck_adapter_bindings(
+    bound: _BoundAdapterDirectory,
+    source_bytes: bytes,
+    source_identity: tuple[int, int, int],
+    target_bytes: bytes,
+    target_identity: tuple[int, int, int],
+) -> None:
+    current = _open_adapter_directory(bound.root)
+    try:
+        if current.root_identity != bound.root_identity:
+            raise ValueError("repository root binding changed during validation")
+        if current.skills_identity != bound.skills_identity:
+            raise ValueError("SkillsMP adapter skills parent binding changed")
+        if current.adapter_identity != bound.adapter_identity:
+            raise ValueError("SkillsMP adapter directory binding changed")
+        if _builder_residue_names(current.skills_descriptor):
+            raise ValueError("SkillsMP adapter builder residue appeared")
+        if set(os.listdir(current.adapter_descriptor)) != {"SKILL.md"}:
+            raise ValueError("SkillsMP adapter closure changed")
+        current_source_bytes, current_source_identity = _read_regular_at(
+            current.root_descriptor, "SKILL.md", "canonical root SKILL.md"
+        )
+        current_target_bytes, current_target_identity = _read_regular_at(
+            current.adapter_descriptor, "SKILL.md", "SkillsMP adapter target"
+        )
+        if current_source_identity != source_identity:
+            raise ValueError("canonical root SKILL.md binding changed")
+        if current_target_identity != target_identity:
+            raise ValueError("SkillsMP adapter target binding changed")
+        if current_source_bytes != source_bytes:
+            raise ValueError("canonical root SKILL.md content changed")
+        if current_target_bytes != target_bytes:
+            raise ValueError("SkillsMP adapter target content changed")
+        if current_source_bytes != current_target_bytes:
+            raise ValueError("SkillsMP adapter byte parity changed")
+        _verify_live_path_bindings(
+            current,
+            current_source_bytes,
+            current_source_identity,
+            current_target_bytes,
+            current_target_identity,
+        )
+    finally:
+        current.close()
+
+
+def validate_skillsmp_adapter(root: Path) -> list[str]:
+    """Validate the exact no-follow SkillsMP adapter closure and byte parity."""
+    errors: list[str] = []
+    root = Path(os.path.abspath(os.path.expanduser(os.fspath(root))))
+    target = root / SKILLSMP_ADAPTER
+    try:
+        bound = _open_adapter_directory(root)
+    except (OSError, ValueError) as error:
+        return [f"SkillsMP adapter is invalid: {error}"]
+    try:
+        residue = _builder_residue_names(bound.skills_descriptor)
+        for name in residue:
+            errors.append(f"SkillsMP adapter builder residue is present: {name}")
+
+        names = set(os.listdir(bound.adapter_descriptor))
+        unexpected = sorted(names - {"SKILL.md"})
+        for name in unexpected:
+            errors.append(
+                "SkillsMP adapter contains unexpected "
+                f"{_entry_type_at(bound.adapter_descriptor, name)}: {name}"
+            )
+        if "SKILL.md" not in names:
+            errors.append(f"SkillsMP adapter target is missing: {target}")
+            return errors
+
+        try:
+            source_bytes, source_identity = _read_regular_at(
+                bound.root_descriptor, "SKILL.md", "canonical root SKILL.md"
+            )
+            target_bytes, target_identity = _read_regular_at(
+                bound.adapter_descriptor, "SKILL.md", "SkillsMP adapter target"
+            )
+        except (OSError, ValueError) as error:
+            errors.append(f"unable to compare SkillsMP adapter bytes: {error}")
+            return errors
+        if source_bytes != target_bytes:
+            errors.append("SkillsMP adapter differs from canonical root SKILL.md")
+
+        if not errors:
+            final_residue = _builder_residue_names(bound.skills_descriptor)
+            if final_residue:
+                errors.extend(
+                    f"SkillsMP adapter builder residue is present: {name}"
+                    for name in final_residue
+                )
+            final_names = set(os.listdir(bound.adapter_descriptor))
+            if final_names != {"SKILL.md"}:
+                errors.append("SkillsMP adapter closure changed during validation")
+        if not errors:
+            try:
+                _recheck_adapter_bindings(
+                    bound,
+                    source_bytes,
+                    source_identity,
+                    target_bytes,
+                    target_identity,
+                )
+            except (OSError, ValueError) as error:
+                errors.append(f"SkillsMP adapter pathname binding changed: {error}")
+        return errors
+    finally:
+        bound.close()
+
+
 def _plugin_files(output: Path, errors: list[str]) -> set[str]:
     actual: set[str] = set()
     if output.is_symlink():
@@ -335,7 +677,11 @@ def validate_plugin(root: Path, output: Path) -> list[str]:
 
 
 def validate(root: Path, output: Path, *, check_npm: bool = True) -> list[str]:
-    errors = [*validate_package(root), *validate_plugin(root, output)]
+    errors = [
+        *validate_package(root),
+        *validate_plugin(root, output),
+        *validate_skillsmp_adapter(root),
+    ]
     if check_npm:
         errors.extend(validate_npm_package(root))
     return errors

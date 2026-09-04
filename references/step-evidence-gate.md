@@ -48,6 +48,8 @@ Preflight Review is required.
 - Next action:
 
 Gate 0 must happen before file modification, state-changing command, implementation, or proposal artifact creation.
+For compact low-risk Direct Change, Gate 0 and Gate 1 form the inline readiness
+check; they do not require a standalone Brief, Plan, or Preflight artifact.
 
 ### Gate 1: Before implementation
 
@@ -142,10 +144,19 @@ Reviewer 发现其中一个与本次集成无关的既有断言失败。
   layers.
 - External Handoff-backed Review is the batch review gate and must not be
   duplicated merely for ceremony.
+- By default, test-spec and test-quality concerns are part of the implementation or final
+  Review by default; create a separate Review only for a distinct demonstrated
+  risk or an explicit external contract.
+- For eligible compact or standard single-slice work, one post-verification
+  complete-diff Review may satisfy both Implementation Review and Final Review.
+  Strict, external, multi-slice, and protected-boundary work retains separate
+  Implementation Review and Final Review gates.
 - Every actionable finding, regardless of severity label, returns to the same
   scope for fix -> verification -> Review. P0/P1, security, integrity/data loss,
   authority, scope/contract/risk/acceptance, forbidden effect, false evidence,
   and non-executable Plan findings remain blocking in every Preflight mode.
+- A same-scope implementation or final Review finding must not reopen Preflight;
+  only a protected-boundary change returns to readiness Review.
 - A non-blocking recommendation is optional and cannot affect acceptance,
   safety, authority, evidence integrity, or deterministic execution.
 - A non-actionable observation with actual risk is recorded separately in

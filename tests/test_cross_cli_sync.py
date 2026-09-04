@@ -5156,6 +5156,135 @@ class DurableTargetTransactionTests(unittest.TestCase):
         )
         return receipt
 
+    def test_grok_configured_root_requires_same_plan_verified_parity(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            fixture = create_v6_sync_fixture(Path(tmp))
+            for target_id in ("codex", "pi", "antigravity-cli"):
+                self._advance_target(fixture, target_id)
+
+            grok_receipt = fixture["transaction_root"] / "grok-cli.json"
+            sync.apply_target(
+                fixture["plan"], "grok-cli", fixture["backup_root"], grok_receipt,
+                plan_sha256=fixture["plan_sha256"],
+            )
+            sync.verify_target_with_receipt(
+                fixture["plan"], "grok-cli", grok_receipt,
+                plan_sha256=fixture["plan_sha256"],
+            )
+            inspect_path = fixture["transaction_root"] / "grok-inspect.json"
+            codex_root = fixture["plan"]["targets"]["codex"]["skills_root"]
+            grok_root = fixture["plan"]["targets"]["grok-cli"]["skills_root"]
+
+            def write_inspect(sources):
+                payload = {
+                    "skills": [
+                        {"name": name, "source": source}
+                        for name, source in zip(SKILLS, sources)
+                    ]
+                }
+                inspect_path.write_text(json.dumps(payload), encoding="utf-8")
+                inspect_path.chmod(0o600)
+
+            configured = [
+                {
+                    "type": "configToml",
+                    "path": f"{codex_root}/{name}/SKILL.md",
+                }
+                for name in SKILLS
+            ]
+            invalid_sources = {
+                "missing-skill": configured[:1],
+                "mixed-type": [
+                    configured[0],
+                    {
+                        "type": "user",
+                        "path": f"{grok_root}/{SKILLS[1]}/SKILL.md",
+                    },
+                ],
+                "mixed-root": [
+                    configured[0],
+                    {
+                        "type": "configToml",
+                        "path": f"/unplanned/{SKILLS[1]}/SKILL.md",
+                    },
+                ],
+                "unplanned-root": [
+                    {
+                        "type": "configToml",
+                        "path": f"/unplanned/{name}/SKILL.md",
+                    }
+                    for name in SKILLS
+                ],
+            }
+            for label, sources in invalid_sources.items():
+                with self.subTest(label=label):
+                    write_inspect(sources)
+                    with self.assertRaises(ValueError):
+                        sync.verify_discovery_with_receipt(
+                            fixture["plan"], "grok-cli", grok_receipt,
+                            plan_sha256=fixture["plan_sha256"],
+                            inspect_json=inspect_path,
+                        )
+
+            codex_receipt = fixture["transaction_root"] / "codex.json"
+            original_receipt = codex_receipt.read_bytes()
+            for label, mutation in (
+                ("unverified-receipt", {"state": "applied-uncommitted"}),
+                ("different-plan", {"plan_sha256": "0" * 64}),
+            ):
+                with self.subTest(label=label):
+                    receipt = json.loads(original_receipt)
+                    receipt.update(mutation)
+                    self._rewrite_receipt(codex_receipt, receipt)
+                    write_inspect(configured)
+                    with self.assertRaises(ValueError):
+                        sync.verify_discovery_with_receipt(
+                            fixture["plan"], "grok-cli", grok_receipt,
+                            plan_sha256=fixture["plan_sha256"],
+                            inspect_json=inspect_path,
+                        )
+                    codex_receipt.write_bytes(original_receipt)
+                    codex_receipt.chmod(0o600)
+
+            destination = Path(fixture["plan"]["targets"]["codex"]["files"][0]["destination"])
+            original_content = destination.read_bytes()
+            destination.write_bytes(b"drift\n")
+            write_inspect(configured)
+            with self.assertRaises(ValueError):
+                sync.verify_discovery_with_receipt(
+                    fixture["plan"], "grok-cli", grok_receipt,
+                    plan_sha256=fixture["plan_sha256"], inspect_json=inspect_path,
+                )
+            destination.write_bytes(original_content)
+
+            replacement = fixture["transaction_root"] / "replacement.json"
+            write_inspect(configured)
+            replacement.write_text(inspect_path.read_text(encoding="utf-8"), encoding="utf-8")
+            replacement.chmod(0o600)
+            original_evidence = sync._grok_discovery_evidence
+
+            def replace_after_parse(*args, **kwargs):
+                result = original_evidence(*args, **kwargs)
+                os.replace(replacement, inspect_path)
+                return result
+
+            with mock.patch.object(
+                sync, "_grok_discovery_evidence", side_effect=replace_after_parse
+            ), self.assertRaises(ValueError):
+                sync.verify_discovery_with_receipt(
+                    fixture["plan"], "grok-cli", grok_receipt,
+                    plan_sha256=fixture["plan_sha256"], inspect_json=inspect_path,
+                )
+
+            write_inspect(configured)
+            self.assertEqual(
+                sync.verify_discovery_with_receipt(
+                    fixture["plan"], "grok-cli", grok_receipt,
+                    plan_sha256=fixture["plan_sha256"], inspect_json=inspect_path,
+                ),
+                {"discovery": "pass", "target": "grok-cli", "consumed": False},
+            )
+
     def test_apply_rejects_backup_root_inside_any_discovery_root_before_mutation(self):
         for discovery_target in sync.TARGET_ORDER:
             with self.subTest(discovery_target=discovery_target):

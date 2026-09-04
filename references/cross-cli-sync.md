@@ -129,8 +129,14 @@ key material. Diagnostics report only path and category, never matching values.
 - Antigravity CLI: deterministic root, linked-file closure, and validators;
   an optional non-mutating prompt cannot replace these checks.
 - Grok CLI: deterministic checks plus `grok inspect --json` path verification.
-  Inspect output is mode `0600`, read only for required skill paths, not echoed,
-  and removed after verification.
+  Default `user` discovery must resolve at the planned Grok root. A
+  `configToml` source is accepted only when every required Skill uses one root
+  that uniquely matches an earlier target in the same plan, that target has a
+  verified same-plan receipt, and its full portable closure still matches the
+  canonical source. Discovery evidence binds the source type, root, paths,
+  content digest, and source-receipt digest. The verifier never reads or changes
+  Grok configuration. Inspect output is mode `0600`, never echoed, and removed
+  after verification.
 
 Before schema-6 deployment, active schema-4/schema-5 contracts drain under their
 frozen runtime. Complete legacy history remains immutable and never authorizes a

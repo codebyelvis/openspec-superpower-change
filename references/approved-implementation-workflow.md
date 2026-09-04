@@ -26,6 +26,10 @@ classified and authorized an implementation that will use an external agent.
 5. Compact Direct Change does not require a large plan by default and does not
    create a Handoff or OpenSpec change solely because closed-loop or model-advice
    wording exists.
+6. Compact low-risk Direct Change uses an inline readiness check and does not
+   create a standalone Brief, Plan, or Preflight artifact. Single-slice
+   standard/OpenSpec work uses one short Plan and no duplicate Brief; add a
+   separate Brief only for external handoff or a materially distinct contract.
 
 Follow `references/superpowers-adapter.md`; a generated plan does not grant Git
 permission and must not create a second design approval.
@@ -40,13 +44,21 @@ permission and must not create a second design approval.
 - Use `superpowers:systematic-debugging` before changing unexplained failures.
 - Use `superpowers:test-driven-development` for behavior changes, not for a
   test-only assertion of already-defined behavior.
+- Proportional TDD adds one regression per distinct changed behavior or failure
+  mechanism. Equivalent parameter, platform, timing, or race variants require
+  a separately demonstrated risk; do not create them for ceremony.
 
 ## Plan And Brief Preflight Review
 
-Before inline implementation or external dispatch, Review the current Plan or
-Brief revision for contract coverage, placeholders, allowed scope, production
-wiring where applicable, acceptance, exact verification commands, evidence
-profile, rollback/stop conditions, branch/worktree choice, and Git authority.
+Compact low-risk Direct Change completes the same readiness facts inline and
+does not require standalone Preflight. Single-slice standard/OpenSpec work uses
+its one short Plan as the only planning artifact and runs one initial
+Preflight. All strict, external, multi-slice, or protected-boundary work also
+runs standalone Preflight. Review
+the current Plan or Brief revision for contract coverage, placeholders, allowed
+scope, production wiring where applicable, acceptance, exact verification
+commands, evidence profile, rollback/stop conditions, branch/worktree choice,
+and Git authority.
 Preflight uses only `PASS` or `BLOCKED`; reserve `FAIL` for implementation or
 post-implementation Review. Preflight PASS authorizes execution only and never
 replaces Implementation Review, Final Review, or
@@ -57,6 +69,12 @@ replaces Implementation Review, Final Review, or
 `FULL_PREFLIGHT` and `FOCUSED_RECHECK` are Review modes.
 `CONTROL_PLANE_ADJUDICATION` is an existing control-plane route outside Review,
 not a third mode, schema, ledger, Handoff field, or canonical state.
+
+For one unchanged contract, the hard ceiling is one `FULL_PREFLIGHT` plus at
+most one terminal `FOCUSED_RECHECK`. There is no automatic R3+. The first full
+Review consolidates all reasonably discoverable findings instead of staging
+them across rounds. In plain terms, one terminal focused recheck is the ceiling,
+not a renewable retry.
 
 Use `FULL_PREFLIGHT` for the first Review in a lineage, a legacy Review missing
 convergence fields, a replacement reviewer, or any protected-boundary change.
@@ -117,10 +135,16 @@ After two blocked Review results in one lineage, reviewer conflict, expanding
 correction scope, an unauthorized protected-boundary change, or a late ordinary
 finding discoverable during full Review, route to
 `CONTROL_PLANE_ADJUDICATION`. An authorized boundary change starts a new full
-lineage; an unauthorized change remains BLOCKED until adjudicated. Adjudication
-may permit one terminal focused recheck after one consolidated correction
-bundle. Terminal failure does not reopen an unlimited loop. A late P0/P1 or
-safety finding always blocks regardless of completeness or retry limits.
+lineage; an unauthorized change remains BLOCKED until adjudicated. After a
+blocked terminal recheck, adjudication may stop, resolve the boundary, or start
+a newly authorized full lineage; it never authorizes another unchanged-contract
+Preflight. A late P0/P1 or safety finding always blocks regardless of
+completeness or retry limits.
+
+After implementation begins, same-scope implementation or final Review findings
+go directly through fix -> focused verification -> the same Review stage and
+must not reopen Preflight. Reopen readiness only when a protected boundary
+changes and the corresponding approval remains valid.
 
 Before human Review, reuse deterministic project validators to check applicable
 placeholders, undefined references, allowed/forbidden files, command and module
@@ -192,9 +216,16 @@ a Task Manager, or a second state system. Code written is progress,
 not Done. Existing Acceptance, Test, Build, Verification, and Evidence rules,
 together with `references/completion-contract.md`, remain the only Done criteria.
 
-“完成后统一 Review” retains the normal Plan Preflight, Step Evidence,
+“完成后统一 Review” retains the applicable readiness/Plan Preflight, Step Evidence,
 implementation Review, final verification, Final Review, and Completion Contract;
 it never skips or defers a required gate.
+
+For compact or standard single-slice work that is not strict, external,
+multi-slice, or protected-boundary work, one post-verification complete-diff
+Review may satisfy both Implementation Review and Final Review under
+`references/completion-contract.md`; test-spec and test-quality concerns are
+included in that implementation/final Review by default, not mandatory
+standalone Review gates. The strict and protected paths retain separate gates.
 
 ## Conditional Minimal Implementation
 

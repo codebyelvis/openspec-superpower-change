@@ -185,22 +185,29 @@ Do not implement OpenSpec-required work before approval.
 
 - OpenSpec defines what/why/acceptance; Superpowers defines post-approval
   implementation discipline. Do not create duplicate design approvals.
-- TDD applies to feature, bugfix, refactor, and behavior changes. Test-only
-  coverage of already-defined behavior uses focused verification and must not
-  claim runtime behavior changed.
+- TDD applies proportionately to feature, bugfix, refactor, and behavior
+  changes: add one regression per distinct changed behavior or failure
+  mechanism. Do not multiply equivalent parameter, platform, timing, or race
+  variants without a distinct demonstrated risk. Test-only coverage of
+  already-defined behavior uses focused verification and must not claim runtime
+  behavior changed.
 - Step Evidence Gate signs off complete business slices or risk milestones,
   not every RED/GREEN micro-step.
 - `compact` work requires focused verification and an inline diff/self-review.
 - `standard` and `strict` inline work requires a distinct Review pass.
 - A Handoff-backed external Review is the batch code-review gate; do not add a
   duplicate review for the same batch.
-- Before implementation or dispatch, run a current-revision Plan/Brief
-  **Preflight Review** under the bounded convergence contract in
-  `references/approved-implementation-workflow.md`. First lineage Review is
-  `FULL_PREFLIGHT`; only same-reviewer, unchanged-boundary, declared mechanical
-  corrections may use `FOCUSED_RECHECK`. Non-convergence returns through
-  `CONTROL_PLANE_ADJUDICATION`, not a new state. Preflight authorizes execution
-  only; it is not Implementation Review or completion evidence.
+- Compact low-risk Direct Change uses an inline readiness check and does not
+  create a standalone Brief, Plan, or Preflight artifact. Single-slice
+  standard/OpenSpec work uses one short Plan, no duplicate Brief, and one
+  initial Preflight. Strict, external, multi-slice, or protected-boundary work
+  also runs a current-revision Plan/Brief **Preflight Review** under
+  `references/approved-implementation-workflow.md`.
+- An unchanged Preflight contract permits one `FULL_PREFLIGHT` plus at most one
+  terminal `FOCUSED_RECHECK`; never start R3+. Same-scope implementation Review
+  findings must not reopen Preflight unless a protected boundary changes.
+  Preflight authorizes execution only; it is not implementation or completion
+  evidence.
 - Separate tool/platform permission, scope/workflow authorization, and
   business/production authorization. Reuse an unchanged Confirmation Lease for
   safe commands and same-finding loops; never treat platform permission as a
@@ -209,10 +216,10 @@ Do not implement OpenSpec-required work before approval.
   diff, traces copy/transform/runtime wiring and claims to mechanisms, reruns
   critical evidence, and adds an independent adversarial or business-chain probe.
 
-Every implementation follows:
+The applicable path follows:
 
 ```text
-Plan/Brief Preflight PASS -> Implement -> Verify -> Review
+Inline readiness or Plan/Brief Preflight PASS -> Implement -> Verify -> Review
 Review FAIL -> Fix same scope -> Verify -> Review again
 Review BLOCKED -> Resolve/decide -> refresh evidence -> Review again
 Review PASS -> next slice, or final verification when no slice remains
@@ -223,8 +230,10 @@ repeated evidence shows widening scope or complexity instead of convergence,
 follow `references/approved-implementation-workflow.md`: stop the widening retry
 and return through existing `BLOCKED` / `control-plane-high` handling.
 
-After implementation Review PASS, whole-task closure leaves this entry workflow
-and follows `references/completion-contract.md`. That canonical contract owns
+After implementation Review PASS, whole-task closure normally leaves this entry
+workflow and follows `references/completion-contract.md`. On its eligible
+combined single-slice path, run the learning audit after implementation
+verification and before the combined final verification/Review. That canonical contract owns
 Learning entry and promotion blocking, final evidence, reconciliation, runtime
 sync, and the completion decision; this entry does not restate those rules.
 
@@ -283,6 +292,9 @@ Discovery First fallback when unavailable.
 
 Model identity or version does not grant approval and does not select workflow
 weight. Use task facts and stable capability/evidence profiles.
+When changed effects already permit compact or single-slice execution, strong
+reasoning capability makes inline execution preferable; it never waives a gate
+required by risk, contract, evidence, or authority.
 
 ## Superpowers Mapping
 

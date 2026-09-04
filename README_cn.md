@@ -381,7 +381,10 @@ cp -R openspec-superpower-change "${CODEX_HOME:-$HOME/.codex}/skills/openspec-su
 
 仓库根目录是唯一的 Agent Skill 真源。支持 Agent Skills/GitHub、skills.sh、
 SkillsMP、Pi/npm 和 Codex 插件；具体安装、发现、依赖与发布前检查见
-[分发与安装说明](docs/distribution.md)。
+[分发与安装说明](docs/distribution.md)。嵌套的
+`skills/openspec-superpower-change/SKILL.md` 仅为目录索引兼容而生成；根文件
+变更后运行 `python3 scripts/build_skillsmp_adapter.py .`。第三方搜索刷新是
+异步状态，生成、安装或 npm 发布成功都不保证立即可搜索。
 
 ## 验证
 
