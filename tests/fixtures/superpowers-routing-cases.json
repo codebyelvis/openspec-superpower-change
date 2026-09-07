@@ -25,9 +25,9 @@
   },
   {
     "id": "direct_change",
-    "prompt": "An existing internal parser incorrectly rejects the already-supported empty object. Diagnose and implement only that defined restoration.",
+    "prompt": "Fix a confirmed off-by-one condition in one private pure parser helper restoring its already-supported empty object. Cause and acceptance are established, an adequate regression test exists, and the local reversible fix changes no public contract, API/schema, persistence, security, routing or other protected boundary. Complete this bounded local fix without Git.",
     "fixture": {"router": true, "superpowers": ["systematic-debugging", "test-driven-development"]},
-    "expected": {"route": "direct-change", "result": "implementation-gated", "selected_superpowers": ["superpowers:systematic-debugging", "superpowers:test-driven-development"], "state_change_allowed": true, "git_authorized": false, "completion_owner": "router"}
+    "expected": {"route": "direct-change", "result": "implementation-gated", "selected_superpowers": [], "state_change_allowed": true, "git_authorized": false, "completion_owner": "router"}
   },
   {
     "id": "ordinary_review",

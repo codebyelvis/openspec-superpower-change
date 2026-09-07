@@ -140,9 +140,17 @@ Use fresh subagents or isolated fixtures. Prompts should ask the agent to use th
 
 Recommended self-evolution forward-tests:
 
-1. Review-only request about improving a reference: should not modify files.
-2. Minor self-evolution request in a temporary copy: should backup, edit, validate, and report.
-3. Major self-evolution request: should require OpenSpec approval before implementation.
+1. One representative fast-path scenario for the changed behavior.
+2. One representative strict-path scenario proving safety preservation.
+
+This is the normal maximum: one scenario per distinct changed behavior or
+failure mechanism. Add another only for a separately demonstrated risk, not an
+equivalent prompt, parameter, platform, timing, or race variant. Major
+self-evolution still requires OpenSpec approval, backup, forward proof, and
+profile-appropriate Review. For strict, external, multi-slice, and
+protected-boundary work, retain separate Implementation Review and Final Review;
+security, recovery, integrity/data-loss, authority, and false-PASS boundaries
+never use a combined shortcut.
 
 ## Report format
 

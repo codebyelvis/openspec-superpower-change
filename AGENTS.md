@@ -7,6 +7,12 @@
 ## Required behavior for agents
 
 - Read `SKILL.md` before changing this project.
+- Read only task-relevant code/docs and the references selected for the current
+  phase. Do not require a whole-repository map or all references before an edit.
+- Continue authorized local, reversible reads, minimal edits, relevant/required
+  checks and fixes for failures introduced by this change without stepwise
+  confirmation. Preserve scope and approval boundaries; do not self-approve Major
+  changes or production, credential, destructive, Git or publication authority.
 - Before completion after correction/Review history, or when asked to archive and
   distill a session, read `docs/engineering-invariants.md` and
   `references/project-learning-closeout.md`.
@@ -18,7 +24,13 @@
 
 ## Validation
 
-Run before completion:
+Use acceptance, demonstrated blast radius and change-class required checks.
+Self-evolution retains quick validation and core-gate validation. Routing or
+governance changes require the full existing unittest suite, including this
+Major cleanup. Other edits run affected tests instead of a blanket full suite.
+Explicitly required checks in an active approved contract remain mandatory.
+
+Required commands for routing/governance changes:
 
 ```bash
 "${PYTHON_BIN:-python3}" "${CODEX_HOME:-$HOME/.codex}/skills/.system/skill-creator/scripts/quick_validate.py" .

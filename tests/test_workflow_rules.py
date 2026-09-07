@@ -170,9 +170,8 @@ GOVERNED_CAVEMAN_LITE_PROTECTED_OBLIGATIONS = (
     "every required field and ordering constraint",
 )
 GOVERNED_CAVEMAN_LITE_SKILL_OBLIGATIONS = (
-    GOVERNED_CAVEMAN_LITE_PROFILE_OBLIGATIONS
-    + ("mandatory governance/approval fields",)
-    + GOVERNED_CAVEMAN_LITE_PROTECTED_OBLIGATIONS
+    "governed-caveman-lite", "OpenSpec 精简模式", "OpenSpec 正常模式",
+    "references/response-patterns.md", "no new mode is introduced",
 )
 GOVERNED_CAVEMAN_LITE_RESPONSE_OBLIGATIONS = (
     GOVERNED_CAVEMAN_LITE_PROFILE_OBLIGATIONS
@@ -181,6 +180,7 @@ GOVERNED_CAVEMAN_LITE_RESPONSE_OBLIGATIONS = (
 )
 LEGACY_REQUEST_SCOPED_BREVITY_OBLIGATIONS = (
     "少 token/更短/更精简/像 caveman 说",
+    "caveman 风格摘要",
     "request-scoped compression",
     "current request",
     "does not activate or persist `governed-caveman-lite`",
@@ -804,11 +804,11 @@ class WorkflowRulesTest(unittest.TestCase):
         self.assertIsInstance(frontmatter_data, dict)
         description = frontmatter_data["description"]
         self.assertIsInstance(description, str)
-        for command in ("OpenSpec 精简模式", "OpenSpec 正常模式"):
-            self.assertIn(command, description)
-        self.assertIn("caveman 风格摘要", description)
+        for trigger in ("file/behavior changes", "archive/distillation"):
+            self.assertIn(trigger, description)
+        self.assertNotIn("caveman 风格摘要", description)
 
-        heading = "## Governed Caveman Lite output mode"
+        heading = "## Self-Evolution"
         profile = markdown_owned_section(self.skill, heading)
         normalized_profile = " ".join(profile.split())
         for obligation in GOVERNED_CAVEMAN_LITE_SKILL_OBLIGATIONS:
@@ -822,14 +822,6 @@ class WorkflowRulesTest(unittest.TestCase):
         normalized_response_profile = " ".join(response_profile.split())
         for obligation in GOVERNED_CAVEMAN_LITE_RESPONSE_OBLIGATIONS:
             self.assertIn(obligation, normalized_response_profile)
-
-        legacy_profile = markdown_owned_section(
-            self.skill,
-            "## Legacy request-scoped output compatibility",
-        )
-        normalized_legacy_profile = " ".join(legacy_profile.split())
-        for obligation in LEGACY_REQUEST_SCOPED_BREVITY_OBLIGATIONS:
-            self.assertIn(obligation, normalized_legacy_profile)
 
         legacy_response = markdown_owned_section(
             self.response_patterns,
@@ -866,21 +858,21 @@ class WorkflowRulesTest(unittest.TestCase):
         self.assertIsInstance(description, str)
         for needle, error_label in (
             (
-                "OpenSpec 精简模式",
+                "file/behavior changes",
                 "SKILL.md governed Caveman Lite frontmatter",
             ),
             (
-                "OpenSpec 正常模式",
+                "OpenSpec/Direct Change routing",
                 "SKILL.md governed Caveman Lite frontmatter",
             ),
             (
-                "caveman 风格摘要",
-                "SKILL.md legacy Caveman frontmatter",
+                "archive/distillation",
+                "SKILL.md governed Caveman Lite frontmatter",
             ),
         ):
             with self.subTest(owner="SKILL.md frontmatter", needle=needle):
                 self.assertIn(needle, description)
-                self.assertIn(needle, body)
+                decoy_body = body + f"\nBody decoy: {needle}\n"
                 stripped_description = description.replace(
                     needle,
                     "removed frontmatter description value",
@@ -895,7 +887,7 @@ class WorkflowRulesTest(unittest.TestCase):
                     f'# frontmatter decoy: {needle}\n'
                     f'frontmatter_decoy: "{needle}"\n'
                 )
-                mutated = f"{prefix}---{mutated_frontmatter}---{body}"
+                mutated = f"{prefix}---{mutated_frontmatter}---{decoy_body}"
                 _, mutated_frontmatter_text, mutated_body = mutated.split(
                     "---",
                     2,
@@ -921,7 +913,7 @@ class WorkflowRulesTest(unittest.TestCase):
         for needle in GOVERNED_CAVEMAN_LITE_SKILL_OBLIGATIONS:
             with self.subTest(owner="SKILL.md", needle=needle):
                 mutated = strip_markdown_owned_obligation(
-                    self.skill, "## Governed Caveman Lite output mode", needle
+                    self.skill, "## Self-Evolution", needle
                 )
                 with self.assertRaisesRegex(
                     AssertionError, "SKILL.md governed Caveman Lite"
@@ -946,14 +938,6 @@ class WorkflowRulesTest(unittest.TestCase):
                     )
 
         for owner, text, heading, decoy_heading, sibling_boundary, error_label in (
-            (
-                "SKILL.md",
-                self.skill,
-                "## Legacy request-scoped output compatibility",
-                "## Unrelated legacy output compatibility",
-                "\n## Mandatory Entry Gate",
-                "SKILL.md legacy request-scoped brevity",
-            ),
             (
                 "response-patterns.md",
                 self.response_patterns,
@@ -1032,18 +1016,10 @@ class WorkflowRulesTest(unittest.TestCase):
             (
                 "skill",
                 self.skill,
-                "## Governed Caveman Lite output mode",
+                "## Self-Evolution",
                 "## Renamed governed output mode",
                 "```",
                 "SKILL.md governed Caveman Lite",
-            ),
-            (
-                "skill",
-                self.skill,
-                "## Legacy request-scoped output compatibility",
-                "## Renamed legacy output compatibility",
-                "~~~",
-                "SKILL.md legacy request-scoped brevity",
             ),
             (
                 "response_patterns",
@@ -1126,8 +1102,8 @@ class WorkflowRulesTest(unittest.TestCase):
         prefix, _, body = self.skill.split("---", 2)
         inline_comment_frontmatter = (
             "\nname: openspec-superpower-change\n"
-            "description: ordinary # OpenSpec 精简模式 OpenSpec 正常模式 "
-            "caveman 风格摘要\n"
+            "description: ordinary # file/behavior changes "
+            "OpenSpec/Direct Change routing archive/distillation\n"
         )
         mutated = f"{prefix}---{inline_comment_frontmatter}---{body}"
         original_yaml = self.validator.yaml
@@ -1232,7 +1208,7 @@ class WorkflowRulesTest(unittest.TestCase):
         )
 
     def test_governed_caveman_lite_validator_rejects_fixed_owner_decoys(self):
-        skill_heading = "## Governed Caveman Lite output mode"
+        skill_heading = "## Self-Evolution"
         renamed_skill_heading = "## Renamed governed output mode"
         skill_decoy = (
             "<!--\n"
@@ -1372,16 +1348,9 @@ class WorkflowRulesTest(unittest.TestCase):
             (
                 "skill",
                 self.skill,
-                "## Governed Caveman Lite output mode",
-                "critical commands",
+                "## Self-Evolution",
+                "references/response-patterns.md",
                 "SKILL.md governed Caveman Lite",
-            ),
-            (
-                "skill",
-                self.skill,
-                "## Legacy request-scoped output compatibility",
-                "request-scoped compression",
-                "SKILL.md legacy request-scoped brevity",
             ),
             (
                 "response_patterns",
@@ -1472,7 +1441,7 @@ class WorkflowRulesTest(unittest.TestCase):
             with self.subTest(example=example.splitlines()[0]):
                 mutated = append_owned_fenced_example(
                     self.skill,
-                    "## Governed Caveman Lite output mode",
+                    "## Self-Evolution",
                     example,
                 )
                 self.validator.validate_governed_caveman_lite(
@@ -1494,14 +1463,14 @@ class WorkflowRulesTest(unittest.TestCase):
         for example in examples:
             with self.subTest(example=example.splitlines()[0]):
                 mutated = replace_owned_obligation_with_decoy(
-                    self.skill,
-                    "## Governed Caveman Lite output mode",
+                    self.response_patterns,
+                    "### Governed Caveman Lite",
                     "critical commands",
                     example,
                 )
                 self.validator.validate_governed_caveman_lite(
+                    self.skill,
                     mutated,
-                    self.response_patterns,
                     self.readme,
                     self.readme_cn,
                 )
@@ -1510,13 +1479,14 @@ class WorkflowRulesTest(unittest.TestCase):
         description = self.skill.split("---", 2)[1]
         self.assertNotIn("task or step breakdowns", description)
         self.assertNotIn("external-agent handoff", description)
-        self.assertIn("modify files or behavior", description)
+        self.assertIn("file/behavior changes", description)
+        self.assertIn("Excludes ordinary questions", description)
+        self.assertIn("standalone wording/read-only diff review", description)
 
     def test_description_routes_explicit_archive_and_distill_requests(self):
         description = self.skill.split("---", 2)[1]
-        self.assertIn("archive and distill", description)
-        self.assertIn("Project Learning Closeout", description)
-        self.assertIn("归档并蒸馏", description)
+        self.assertIn("archive/distillation", description)
+        self.assertIn("references/project-learning-closeout.md", self.skill)
 
     def test_review_and_fix_is_not_review_only(self):
         self.assertIn("Review and fix", self.request_modes)
@@ -1526,26 +1496,19 @@ class WorkflowRulesTest(unittest.TestCase):
         normalized = " ".join(self.skill.split())
         for phrase in (
             "`backend-architecture-review`",
-            "explicit backend architecture Review",
-            "architecture/design, performance/stability, service/module boundaries, "
-            "API/call chain/transaction boundaries, or over-design",
-            "Review 一下这个 Bugfix 的 Diff",
-            "Review 当前 Plan",
-            "does not select the specialist",
-            "read-only specialist evidence",
-            "ordinary Review remains unchanged",
-            "Gate, OpenSpec, Handoff, Evidence, PASS/FAIL/BLOCKED, Completion, "
-            "and authority remain with this Router",
+            "Explicit backend architecture Review, without a fix",
+            "read-only bounded evidence",
+            "Bugfix/Diff/Plan/acceptance Review does not select the backend specialist",
+            "Specialists provide bounded evidence, never canonical transitions or completion",
         ):
             self.assertIn(phrase, normalized)
 
     def test_non_backend_architecture_review_stays_router_review_only(self):
         normalized = " ".join(self.skill.split())
         for phrase in (
-            "Other architecture Review",
-            "Other architecture Review, OpenSpec need, implementation authorization, "
-            "or whole-task completion evidence | This skill / Review-only",
-            "Review-and-fix remains state-changing Router work",
+            "Review architecture, OpenSpec need, authority or whole-task completion",
+            "This Router; `references/request-modes.md`",
+            "“Review and fix” is state-changing Router work, not Review-only",
         ):
             self.assertIn(phrase, normalized)
         self.assertNotIn(
@@ -1657,10 +1620,10 @@ class WorkflowRulesTest(unittest.TestCase):
         ):
             self.assertIn(phrase, approved)
         self.assertIn(
-            "Non-converging Review/Fix retries are not an unlimited automatic fix loop",
-            skill,
+            "## Review/Fix Convergence",
+            self.approved,
         )
-        self.assertIn("Review FAIL -> Fix same scope -> Verify -> Review again", skill)
+        self.assertIn("Review FAIL -> Fix -> Verify -> Review", self.approved)
 
     def test_direct_change_uses_risk_appropriate_evidence_profile_everywhere(self):
         direct = (ROOT / "references" / "direct-change-rule.md").read_text(encoding="utf-8")
@@ -1715,12 +1678,14 @@ class WorkflowRulesTest(unittest.TestCase):
         ):
             self.assertIn(obligation, normalized)
         self.assertIn(
-            "Run Project Learning Closeout after implementation Review PASS "
-            "and before fresh final verification",
+            "When correction/Review history or an explicit archive and distill "
+            "request calls for learning, run Project Learning Closeout after "
+            "implementation Review PASS and before fresh final verification",
             normalized,
         )
-        self.assertNotIn(
-            "Run Project Learning Closeout after implementation Review PASS when",
+        self.assertIn(
+            "All mandatory promotion triggers and blocks in "
+            "`references/project-learning-closeout.md` still apply.",
             normalized,
         )
         self.assertIn("references/completion-contract.md", self.skill)
@@ -1755,10 +1720,9 @@ class WorkflowRulesTest(unittest.TestCase):
         normalized_skill = " ".join(self.skill.split())
         normalized_adapter = " ".join(self.superpowers_adapter.split())
         normalized_governance = " ".join(self.shared_governance.split())
-        self.assertIn("Phase-Aware Superpowers Activation", self.skill)
         self.assertIn(
-            "Generic create/modify wording does not activate a Superpowers "
-            "sub-skill by itself.",
+            "Superpowers methods are selected by current phase and actual "
+            "unresolved decisions, not generic create/modify metadata.",
             normalized_skill,
         )
         self.assertIn(
@@ -1858,9 +1822,14 @@ class WorkflowRulesTest(unittest.TestCase):
             selected = json.dumps(
                 expected["selected_superpowers"], separators=(",", ":")
             )
+            selected_cell = f"`{selected}`"
+            if case["id"] == "direct_change":
+                self.assertEqual(expected["selected_superpowers"], [])
+                selected_cell = "Current cause/risk methods; `[]` is valid for the compact local exception"
+                self.assertIn("method set is task-dependent", normalized_adapter)
             record = (
                 f"| `{case['id']}` | `{expected['route']}` | `{expected['result']}` | "
-                f"`{selected}` | `{str(expected['state_change_allowed']).lower()}` | "
+                f"{selected_cell} | `{str(expected['state_change_allowed']).lower()}` | "
                 f"`{str(expected['git_authorized']).lower()}` | "
                 f"`{expected['completion_owner']}` |"
             )
@@ -1973,9 +1942,10 @@ class WorkflowRulesTest(unittest.TestCase):
             normalized,
         )
         self.assertIn(
-            "A request to choose for the user does not resolve a material choice; "
-            "invoke brainstorming and obtain acceptance before artifact finalization.",
-            normalized_skill,
+            "User delegation to choose an excluded boundary does not make it a "
+            "bounded assumption; invoke brainstorming and obtain user acceptance "
+            "before finalizing artifacts.",
+            normalized,
         )
         self.assertIn(
             "User delegation to choose an excluded boundary does not make it a "
@@ -2015,8 +1985,7 @@ class WorkflowRulesTest(unittest.TestCase):
             self.agent_capability_routing.split()
         )
         self.assertIn(
-            "Model identity or version does not grant approval and does not select "
-            "workflow weight.",
+            "Model identity or version grants no authority and selects no process weight.",
             normalized_skill,
         )
         self.assertIn(
@@ -2359,8 +2328,9 @@ class WorkflowRulesTest(unittest.TestCase):
             self.assertIn(phrase, self.response_patterns)
 
     def test_role_first_router_surfaces_bind_six_review_concepts(self):
+        self.assertIn("references/agent-capability-routing.md", self.skill)
         surfaces = (
-            "SKILL.md",
+            "references/agent-capability-routing.md",
             "references/request-modes.md",
             "references/response-patterns.md",
             "references/approved-implementation-workflow.md",
@@ -2382,14 +2352,14 @@ class WorkflowRulesTest(unittest.TestCase):
             with self.subTest(surface=relative):
                 for field in required:
                     self.assertIn(field, normalized)
-                self.assertIn("schema 6", normalized)
+                self.assertIn("schema 6", normalized.lower())
 
     def test_role_first_review_kind_matrix_is_explicit_and_shared(self):
         companion_skill = (
             ROOT.parent / "codex-brief-antigravity-review" / "SKILL.md"
         )
+        self.assertIn("references/agent-capability-routing.md", self.skill)
         surfaces = (
-            ROOT / "SKILL.md",
             ROOT / "references" / "agent-capability-routing.md",
             ROOT / "references" / "response-patterns.md",
             companion_skill,
@@ -2423,8 +2393,9 @@ class WorkflowRulesTest(unittest.TestCase):
                     self.assertIn(phrase, normalized)
 
     def test_current_router_surfaces_reject_legacy_current_wording(self):
+        self.assertIn("references/agent-capability-routing.md", self.skill)
         surfaces = (
-            "SKILL.md",
+            "references/agent-capability-routing.md",
             "references/request-modes.md",
             "references/response-patterns.md",
             "references/approved-implementation-workflow.md",
@@ -4486,7 +4457,7 @@ class ClosedLoopRuntimeRoutingTests(unittest.TestCase):
             with self.subTest(phrase=phrase):
                 self.assertIn(" ".join(phrase.split()), normalized)
         self.assertIn(
-            "For proportional implementation decisions, read `references/approved-implementation-workflow.md`.",
+            "references/approved-implementation-workflow.md",
             skill,
         )
 

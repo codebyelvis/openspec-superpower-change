@@ -6,8 +6,9 @@ The normative assignment and product/instance boundary live in
 `references/agent-capability-routing.md`; this reference does not create a
 second authority.
 
-This adapter maps Superpowers artifact and permission defaults onto the
-project's approved workflow. It does not weaken brainstorming, TDD, systematic
+Read this adapter when selecting a method or resolving a method/workflow conflict,
+not for every edit. It maps Superpowers artifact and permission defaults onto
+the approved workflow. It does not weaken selected brainstorming, TDD, systematic
 debugging, Review, worktree safety, or verification discipline.
 
 ## Phase-Aware Selective Invocation
@@ -45,7 +46,7 @@ complete rules and HARD-GATE behavior.
 | Diagnose-only | Read-only domain diagnosis or `systematic-debugging`; stop and enter Router before any fix |
 | Fully specified proposal-only | Router Gate 0; Router records Superpowers `none`, validates artifacts, and stops for approval |
 | Material proposal ambiguity | Router selects brainstorming exactly once and preserves its HARD-GATE |
-| Direct Change | Router selects debugging, TDD, and Review from cause and risk |
+| Direct Change | Apply the compact local exception in `references/direct-change-rule.md`; otherwise select debugging, TDD, and Review from cause and risk |
 | Ordinary diff/Report/evidence Review | Companion Standalone Lightweight |
 | Architecture, OpenSpec, authorization, or completion Review | Router Review-only |
 | High-risk implementation | Router plus approved OpenSpec, plan, TDD, verification, and distinct Review |
@@ -63,7 +64,7 @@ machine-checkable decision. It does not grant authority beyond the route.
 | `diagnose_only` | `diagnose-only` | `stop-before-fix` | `["superpowers:systematic-debugging"]` | `false` | `false` | `none` |
 | `proposal_only` | `openspec-proposal` | `stop-for-approval` | `[]` | `false` | `false` | `router` |
 | `material_ambiguity` | `openspec-proposal` | `needs-user-decision` | `["superpowers:brainstorming"]` | `false` | `false` | `router` |
-| `direct_change` | `direct-change` | `implementation-gated` | `["superpowers:systematic-debugging","superpowers:test-driven-development"]` | `true` | `false` | `router` |
+| `direct_change` | `direct-change` | `implementation-gated` | Current cause/risk methods; `[]` is valid for the compact local exception | `true` | `false` | `router` |
 | `ordinary_review` | `companion-standalone` | `review` | `[]` | `false` | `false` | `none` |
 | `architecture_review` | `router-review-only` | `review` | `[]` | `false` | `false` | `router` |
 | `high_risk_implementation` | `approved-implementation` | `implementation-gated` | `["superpowers:writing-plans","superpowers:test-driven-development","superpowers:requesting-code-review","superpowers:verification-before-completion"]` | `true` | `false` | `router` |
@@ -77,7 +78,10 @@ machine-checkable decision. It does not grant authority beyond the route.
 explicitly requested for the bounded route, even when authority blocks a
 requested method. Direct Change records its current cause methods only;
 approved high-risk implementation records its required lifecycle set.
-`state_change_allowed` means the request may enter implementation after its
+The method set is task-dependent, not a mandatory debugging/TDD pair. An
+unexplained cause selects debugging; compact local restoration may use focused
+regression verification without selecting full TDD. A selected method retains
+its complete gates. `state_change_allowed` means the request may enter implementation after its
 remaining gates and is true only for Direct Change and explicitly approved
 high-risk implementation. `git_authorized` reflects current explicit Git
 authority. `completion_owner` is `router` only when exactly one applicable
@@ -96,10 +100,22 @@ A scoped Direct Change that restores an already-defined behavior without a
 creative design decision does not need a duplicate brainstorming artifact.
 Ambiguity or a new behavior choice returns to brainstorming/OpenSpec.
 
+Outside the compact local Direct Change exception, preserve these method
+selections when their phase applies:
+
+| Current phase | Required method |
+|---|---|
+| Editing a skill | `superpowers:writing-skills` |
+| Work requiring isolation unless current-branch use is explicitly authorized | `superpowers:using-git-worktrees` |
+| Completing a branch workflow | `superpowers:finishing-a-development-branch` |
+
+These methods do not activate other phases merely because the task continues.
+
 ## Executable Plan And Preflight Review
 
 `superpowers:writing-plans` produces executable steps after approval. Before
-implementation or external dispatch, run **Preflight Review** against the
+implementation or external dispatch outside the compact local Direct Change
+exception, run **Preflight Review** against the
 current artifact revision:
 
 - contract/spec coverage and absence of placeholders;
@@ -119,6 +135,10 @@ finding is `BLOCKED` and does not authorize execution. Preflight PASS authorizes
 execution only; it is not Implementation Review, Final Review, or completion
 evidence. An unchanged artifact revision does not repeat ceremony.
 
+On approved unchanged continuation, reuse the existing plan and its still-valid
+Preflight; do not restart planning or reload completed phases. Outstanding
+required contract checks remain mandatory.
+
 Use `superpowers:subagent-driven-development` for suitable independent tasks in
 the current session, or `superpowers:executing-plans` for a separate execution
 session. An explicitly named external executor instead uses the Handoff-backed
@@ -131,8 +151,10 @@ A Superpowers plan **never grants Git permission**. Remove `git add`,
 steps unless the current user explicitly authorizes those commands for this
 task. Record any removal or authorization in Preflight Review.
 
-Use a worktree when the selected execution skill or repository rules require
-isolation. Never start implementation on `main`/`master` merely because a plan
+Outside the compact local Direct Change exception, use a worktree unless
+current-branch use is explicitly authorized. Also retain isolation required by
+the selected execution skill or repository rules. Never start implementation on
+`main`/`master` merely because a plan
 mentions it; current-branch use requires explicit user consent.
 
 ## Granularity And Completion

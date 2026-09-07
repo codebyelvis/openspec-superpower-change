@@ -1598,9 +1598,8 @@ GOVERNED_CAVEMAN_LITE_PROTECTED_OBLIGATIONS = (
     "every required field and ordering constraint",
 )
 GOVERNED_CAVEMAN_LITE_SKILL_OBLIGATIONS = (
-    GOVERNED_CAVEMAN_LITE_PROFILE_OBLIGATIONS
-    + ("mandatory governance/approval fields",)
-    + GOVERNED_CAVEMAN_LITE_PROTECTED_OBLIGATIONS
+    "governed-caveman-lite", "OpenSpec 精简模式", "OpenSpec 正常模式",
+    "references/response-patterns.md", "no new mode is introduced",
 )
 GOVERNED_CAVEMAN_LITE_RESPONSE_OBLIGATIONS = (
     GOVERNED_CAVEMAN_LITE_PROFILE_OBLIGATIONS
@@ -1609,6 +1608,7 @@ GOVERNED_CAVEMAN_LITE_RESPONSE_OBLIGATIONS = (
 )
 LEGACY_REQUEST_SCOPED_BREVITY_OBLIGATIONS = (
     "少 token/更短/更精简/像 caveman 说",
+    "caveman 风格摘要",
     "request-scoped compression",
     "current request",
     "does not activate or persist `governed-caveman-lite`",
@@ -2084,21 +2084,18 @@ def validate_governed_caveman_lite(
             "SKILL.md governed Caveman Lite frontmatter: "
             "description must be a string"
         )
-    require(
-        description,
-        "caveman 风格摘要",
-        "SKILL.md legacy Caveman frontmatter",
-    )
-    for command in ("OpenSpec 精简模式", "OpenSpec 正常模式"):
+    for trigger in (
+        "file/behavior changes", "OpenSpec/Direct Change routing", "archive/distillation",
+    ):
         require(
             description,
-            command,
+            trigger,
             "SKILL.md governed Caveman Lite frontmatter",
         )
 
     skill_profile, _, _ = _markdown_owned_section(
         skill,
-        "## Governed Caveman Lite output mode",
+        "## Self-Evolution",
         "SKILL.md governed Caveman Lite",
     )
     normalized_skill_profile = " ".join(
@@ -2109,21 +2106,6 @@ def validate_governed_caveman_lite(
             normalized_skill_profile,
             obligation,
             "SKILL.md governed Caveman Lite",
-        )
-
-    legacy_skill_profile, _, _ = _markdown_owned_section(
-        skill,
-        "## Legacy request-scoped output compatibility",
-        "SKILL.md legacy request-scoped brevity",
-    )
-    normalized_legacy_skill_profile = " ".join(
-        _markdown_visible_content(legacy_skill_profile).split()
-    )
-    for obligation in LEGACY_REQUEST_SCOPED_BREVITY_OBLIGATIONS:
-        require(
-            normalized_legacy_skill_profile,
-            obligation,
-            "SKILL.md legacy request-scoped brevity",
         )
 
     _, token_budget_heading_start, token_budget_end = _markdown_owned_section(
@@ -2229,12 +2211,9 @@ def validate_project_learning_gate(
     normalized_closeout = " ".join(learning_closeout.split())
     normalized_template = " ".join(learning_template.split())
 
-    for needle in (
-        "archive and distill",
-        "Project Learning Closeout",
-        "归档并蒸馏",
-    ):
-        require(frontmatter, needle, "SKILL.md frontmatter description")
+    description = _load_governed_frontmatter(frontmatter).get("description", "")
+    require(description, "archive/distillation", "SKILL.md frontmatter description")
+    require(normalized_skill, "references/project-learning-closeout.md", "SKILL.md learning pointer")
 
     require(
         normalized_skill,
@@ -2247,7 +2226,7 @@ def validate_project_learning_gate(
         "approved-implementation-workflow.md",
     )
     for needle in (
-        "Run Project Learning Closeout after implementation Review PASS",
+        "run Project Learning Closeout after implementation Review PASS",
         "before fresh final verification",
         "OpenSpec reconciliation/archive",
         "A chat-only summary is not durable promotion",
@@ -2332,12 +2311,17 @@ def validate_completion_contract(
         require(normalized, needle, "completion-contract.md")
     require(
         normalized,
-        "Run Project Learning Closeout after implementation Review PASS and "
+        "When correction/Review history or an explicit archive and distill "
+        "request calls for learning, run Project Learning Closeout after implementation Review PASS and "
         "before fresh final verification",
         "completion-contract.md",
     )
-    if "Run Project Learning Closeout after implementation Review PASS when" in normalized:
-        raise AssertionError("completion-contract.md: conditional Learning entry weakens closeout")
+    require(
+        normalized,
+        "All mandatory promotion triggers and blocks in "
+        "`references/project-learning-closeout.md` still apply.",
+        "completion-contract.md",
+    )
     for text, label in (
         (skill, "SKILL.md"),
         (response_patterns, "response-patterns.md"),

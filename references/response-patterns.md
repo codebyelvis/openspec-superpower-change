@@ -61,9 +61,10 @@ Review purpose: inspect the current implementation plan and decide PASS or BLOCK
 4. Create or update the required OpenSpec artifacts.
 5. Run strict validation.
 6. Present the proposal summary and wait for user approval.
-7. After approval, create the Superpowers plan before implementation.
+7. After approval, create the required Superpowers plan or reuse the applicable reviewed plan.
 8. Include Step Evidence Gate checkpoints in the implementation plan.
-9. When the plan is saved, provide its path and ask whether to execute inline or with subagents.
+9. Continue using the approved execution choice; use the smallest suitable local
+   method when that choice is an implementation detail. Do not ask at every step.
 
 ## Direct change requests
 
@@ -77,8 +78,11 @@ Review purpose: inspect the current implementation plan and decide PASS or BLOCK
 6. Run focused diff/self-review; findings return to fix and re-verification.
 7. Report changed files, tests, Review result, and verification evidence.
 
-Before Direct Change implementation, Preflight Review the scoped execution
-outline when it is more than a non-behavioral micro edit.
+For obvious compact local changes outside protected boundaries, use
+`references/direct-change-rule.md`: one-line Gate 0, minimum edit, required and
+relevant verification, inline diff/self-review. Other Direct Changes retain
+scoped-outline Preflight. Behavior evidence is required even when full TDD is
+not selected.
 
 ## Token budget control
 
@@ -97,7 +101,7 @@ outline when it is more than a non-behavioral micro edit.
 
 ### Legacy request-scoped brevity
 
-Requests for `少 token/更短/更精简/像 caveman 说` enable request-scoped compression for the current request.
+Requests for `少 token/更短/更精简/像 caveman 说` and `caveman 风格摘要` enable request-scoped compression for the current request.
 This does not activate or persist `governed-caveman-lite`.
 Only `OpenSpec 精简模式` activates the named conversation profile.
 Legacy brevity remains subject to the same protected-surface rules below; it cannot omit governance or safety content.
@@ -136,7 +140,8 @@ Use before any state-changing action:
 4. Required Superpowers: list required sub-skills or state none.
 5. Risk and confirmation: state risk level, next action, and whether user confirmation is required.
 
-For a non-behavioral micro change, combine these fields into one concise line.
+For an obvious compact local change outside protected boundaries, combine these
+fields into one concise line, including when it restores defined internal behavior.
 
 ## Implementation blocked by gate
 

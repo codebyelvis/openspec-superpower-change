@@ -366,8 +366,10 @@ def extract_review_classification(path: Path) -> str:
 
 def load_review_classification(router_root: Path, companion_root: Path) -> str:
     """Require all runtime routing surfaces to publish identical classification."""
+    entry = (router_root / "SKILL.md").read_text(encoding="utf-8")
+    if "references/agent-capability-routing.md" not in entry:
+        raise ProbeFailure("Router Review classification owner is not linked")
     paths = (
-        router_root / "SKILL.md",
         router_root / "references" / "agent-capability-routing.md",
         router_root / "references" / "response-patterns.md",
         companion_root / "SKILL.md",

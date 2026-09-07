@@ -8,13 +8,18 @@ second authority.
 
 Use after an OpenSpec proposal is approved, or after Direct Change has
 classified and authorized an implementation that will use an external agent.
+Compact local Direct Change uses `references/direct-change-rule.md` without
+loading this workflow. On unchanged approved continuation, read current
+canonical state and only the rules needed for the pending phase; reuse completed
+planning, still-valid Preflight and unaffected evidence.
 
 ## OpenSpec And Superpowers Boundary
 
 1. OpenSpec proposal/design/spec deltas are the approved change contract.
 2. For OpenSpec-required work, that approval is the single design approval and
    does not require a duplicate `docs/superpowers/specs/` artifact or approval.
-3. After approval, invoke `superpowers:writing-plans` for multi-step work and
+3. After approval, invoke `superpowers:writing-plans` for multi-step work that
+   does not already have an applicable reviewed plan, and
    save the executable plan under the project-preferred path.
 4. OpenSpec-backed work uses
    `openspec/changes/<change-id>/tasks.md` to track contract progress for that
@@ -43,7 +48,8 @@ permission and must not create a second design approval.
 
 ## Plan And Brief Preflight Review
 
-Before inline implementation or external dispatch, Review the current Plan or
+For work governed by this reference, before inline implementation or external
+dispatch, Review the current Plan or
 Brief revision for contract coverage, placeholders, allowed scope, production
 wiring where applicable, acceptance, exact verification commands, evidence
 profile, rollback/stop conditions, branch/worktree choice, and Git authority.

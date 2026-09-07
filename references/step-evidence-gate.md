@@ -81,12 +81,19 @@ current change / acceptance claim
 -> exact test command
 ```
 
+Run all checks explicitly required by applicable local instructions, the current
+change class or approved contract. Then select additional tests by acceptance
+and demonstrated blast radius. This reference does not require a full suite for
+every task. Re-run affected checks after new edits or relevant failures, not
+after every micro-step. Required broader suites and Major forward-tests remain.
+
 A test enters the execution scope only when at least one of these is true:
 
 - The current task changes the code, configuration, contract, or behavior that
   the test covers.
 - The test directly verifies the current acceptance claim.
 - The current Plan or Brief explicitly lists that exact command.
+- Applicable local instructions or the current change class requires the check.
 - Concrete evidence demonstrates that the current change may affect the test's
   covered scope.
 

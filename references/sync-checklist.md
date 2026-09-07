@@ -121,6 +121,13 @@ and Antigravity use deterministic manifest/reference closure plus compatible
 validators. Pi native validation never runs Pi; any optional Pi process probe
 uses the isolated temporary-root contract in `cross-cli-sync.md`.
 
+When Grok reports `source.type=configToml`, require all expected Skills to share
+one exact root that maps uniquely to an earlier target in the reviewed plan.
+Accept it only after that target's same-plan receipt is `verified` and a fresh
+full-closure parity check passes; bind the reported paths and source receipt
+digest into discovery evidence. Reject mixed or unplanned roots/types, missing
+Skills, stale receipts, or drift. Do not inspect or mutate `config.toml`.
+
 ## Forward-test checklist
 
 Run forward-tests when:

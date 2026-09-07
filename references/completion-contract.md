@@ -7,6 +7,7 @@ The normative assignment and product/instance boundary live in
 second authority.
 
 This is the Router-owned normative contract for a whole-task completion claim.
+Read it when evaluating completion; implementation entry does not require it.
 Batch, slice, and route references may add local evidence rules, but they do not
 define a second completion checklist.
 
@@ -53,8 +54,12 @@ incompatible active lifecycle also stop the claim.
 
 ## Learning and reconciliation
 
-Run Project Learning Closeout after implementation Review PASS and before fresh
-final verification or OpenSpec reconciliation/archive. The audit may determine
+When correction/Review history or an explicit archive and distill request calls
+for learning, run Project Learning Closeout after implementation Review PASS and
+before fresh final verification or OpenSpec reconciliation/archive. A task with
+neither trigger does not start a learning audit solely because files changed.
+All mandatory promotion triggers and blocks in
+`references/project-learning-closeout.md` still apply. The audit may determine
 that no durable promotion is required, but mandatory project-local promotion or
 an explicit user request to archive and distill blocks completion until durable
 artifacts and any mechanically enforceable regression test or validator pass
