@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Add a generated, byte-identical
+  `skills/openspec-superpower-change/SKILL.md` compatibility adapter for nested
+  catalog indexers, with fail-closed generation/validation and explicit
+  asynchronous search-visibility guidance.
 - Add Pi/npm package metadata, skills.sh and SkillsMP discovery guidance, and
   a generated skill-only Codex plugin adapter with package-boundary and source
   parity validation.

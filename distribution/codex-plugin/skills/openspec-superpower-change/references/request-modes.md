@@ -1,5 +1,8 @@
 # Request Modes
 
+Read when request classification or domain language needs clarification.
+Obvious compact local work uses `references/direct-change-rule.md` directly.
+
 For schema 6 Review routing, carry all six concepts without abbreviation:
 Review purpose, reviewer product, role, capability, independence, and authority.
 The normative assignment and product/instance boundary live in
@@ -88,15 +91,21 @@ automatically load implementation planning, TDD, or code Review.
 ## Approved implementation
 
 Use only after the user approves the specific OpenSpec change-id and scoped
-contract. Create and Preflight Review a Superpowers implementation plan before
-implementation unless the user explicitly says to skip the plan.
+contract. Single-slice standard or OpenSpec-backed work uses one short Plan, no
+duplicate Brief, and one initial Preflight.
+Multi-slice, strict, external, or protected-boundary work creates and Preflight
+Reviews the profile-appropriate Superpowers implementation plan before
+implementation. Only compact low-risk Direct Change may keep readiness inline.
+For unchanged continuation, resume existing canonical state and reuse satisfied
+gates; preserve outstanding required checks. Do not ask whether to continue a
+safe approved pending task.
 
 A user-explicit `$superpowers:*` method does not bypass Gate 0. State-changing,
 Git-mutating, or whole-task-completion work must load exactly one applicable
 Router before the method proceeds; otherwise the result is `BLOCKED`.
 
-After implementation Review PASS, run `references/project-learning-closeout.md`
-before final verification and OpenSpec reconciliation/archive.
+At completion, follow `references/completion-contract.md`, including its
+conditional learning entry; do not load closeout merely to resume implementation.
 
 ## Direct Change
 
@@ -128,3 +137,8 @@ this router creates a profile-appropriate Handoff Contract and then delegates
 the batch to `codex-brief-antigravity-review`. Low-risk Direct Change defaults
 to `compact`; an approved public/API restoration remains `strict`. External
 execution does not upgrade the work to OpenSpec by itself.
+
+For compact low-risk Direct Change, perform an inline readiness check and do
+not create a standalone Brief, Plan, or Preflight artifact. If the work becomes
+standard, strict, external, multi-slice, or protected-boundary, use the
+corresponding Plan and Review gates without duplicating equivalent artifacts.

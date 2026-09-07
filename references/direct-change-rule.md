@@ -53,11 +53,15 @@ gate applies, or required evidence/authority is missing. Use
   equivalent project-authoritative contract whose exact path is recorded in
   Gate 0; it must not introduce schema, compatibility, or lifecycle behavior.
 - Provide verification evidence before claiming completion.
-- Do not create OpenSpec artifacts or Superpowers plans unless the user explicitly asks for them.
+- Compact low-risk Direct Change does not create OpenSpec artifacts or a
+  Superpowers plan. Profile-driven escalation may require one short Plan even
+  when the user did not explicitly request it.
 - Always Review before completion: a focused inline diff/self-review is enough
   for `compact`; use a distinct review pass if risk or scope becomes standard.
-- Preflight Review the scoped execution outline before implementation outside
-  the compact local exception above; external dispatch retains its Handoff gates.
+- Compact low-risk Direct Change uses an inline readiness check and does not
+  create a standalone Brief, Plan, or Preflight artifact. Escalate to one short
+  Plan and profile-appropriate Preflight only when standard risk, coordination,
+  external execution, multiple slices, or a protected boundary requires it.
 - If external execution is requested, create a profile-appropriate
   schema-version-3 Handoff Contract and hand the batch to
   `codex-brief-antigravity-review`; only low-risk Direct Change defaults to

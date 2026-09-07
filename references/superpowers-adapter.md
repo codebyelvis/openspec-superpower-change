@@ -1,5 +1,9 @@
 # Superpowers Adapter
 
+When changed effects already permit compact or single-slice execution, strong
+reasoning capability makes inline execution preferable; it never waives a gate
+required by risk, contract, evidence, or authority.
+
 For schema 6 Review routing, carry all six concepts without abbreviation:
 Review purpose, reviewer product, role, capability, independence, and authority.
 The normative assignment and product/instance boundary live in

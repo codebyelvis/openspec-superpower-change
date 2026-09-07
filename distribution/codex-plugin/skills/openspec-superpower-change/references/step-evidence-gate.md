@@ -48,6 +48,8 @@ Preflight Review is required.
 - Next action:
 
 Gate 0 must happen before file modification, state-changing command, implementation, or proposal artifact creation.
+For compact low-risk Direct Change, Gate 0 and Gate 1 form the inline readiness
+check; they do not require a standalone Brief, Plan, or Preflight artifact.
 
 ### Gate 1: Before implementation
 
@@ -81,12 +83,19 @@ current change / acceptance claim
 -> exact test command
 ```
 
+Run all checks explicitly required by applicable local instructions, the current
+change class or approved contract. Then select additional tests by acceptance
+and demonstrated blast radius. This reference does not require a full suite for
+every task. Re-run affected checks after new edits or relevant failures, not
+after every micro-step. Required broader suites and Major forward-tests remain.
+
 A test enters the execution scope only when at least one of these is true:
 
 - The current task changes the code, configuration, contract, or behavior that
   the test covers.
 - The test directly verifies the current acceptance claim.
 - The current Plan or Brief explicitly lists that exact command.
+- Applicable local instructions or the current change class requires the check.
 - Concrete evidence demonstrates that the current change may affect the test's
   covered scope.
 
@@ -142,10 +151,19 @@ Reviewer 发现其中一个与本次集成无关的既有断言失败。
   layers.
 - External Handoff-backed Review is the batch review gate and must not be
   duplicated merely for ceremony.
+- By default, test-spec and test-quality concerns are part of the implementation or final
+  Review by default; create a separate Review only for a distinct demonstrated
+  risk or an explicit external contract.
+- For eligible compact or standard single-slice work, one post-verification
+  complete-diff Review may satisfy both Implementation Review and Final Review.
+  Strict, external, multi-slice, and protected-boundary work retains separate
+  Implementation Review and Final Review gates.
 - Every actionable finding, regardless of severity label, returns to the same
   scope for fix -> verification -> Review. P0/P1, security, integrity/data loss,
   authority, scope/contract/risk/acceptance, forbidden effect, false evidence,
   and non-executable Plan findings remain blocking in every Preflight mode.
+- A same-scope implementation or final Review finding must not reopen Preflight;
+  only a protected-boundary change returns to readiness Review.
 - A non-blocking recommendation is optional and cannot affect acceptance,
   safety, authority, evidence integrity, or deterministic execution.
 - A non-actionable observation with actual risk is recorded separately in

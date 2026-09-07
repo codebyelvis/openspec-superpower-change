@@ -3461,8 +3461,8 @@ def cleanup_success_artifacts(backup_paths, temporary_paths):
     return True
 
 
-def validate_grok_discovery(inspect_output, expected_skills, expected_root):
-    """Validate ``grok inspect --json`` skill names and canonical paths."""
+def _parse_grok_discovery(inspect_output, expected_skills) -> dict:
+    """Return one consistent native Grok source for all expected Skills."""
     try:
         payload = json.loads(inspect_output)
     except (TypeError, json.JSONDecodeError) as exc:
@@ -3470,19 +3470,104 @@ def validate_grok_discovery(inspect_output, expected_skills, expected_root):
     skills = payload.get("skills")
     if not isinstance(skills, list):
         raise ValueError("grok inspect JSON has no skills list")
-    expected_root_text = os.path.normpath(os.fspath(expected_root))
-    found: dict[str, str] = {}
+    expected_names = list(expected_skills)
+    expected = set(expected_names)
+    if len(expected) != len(expected_names):
+        raise ValueError("duplicate expected Grok skill name")
+    found: dict[str, dict[str, str]] = {}
     for skill in skills:
         if not isinstance(skill, dict) or not isinstance(skill.get("source"), dict):
             continue
-        if skill["source"].get("type") != "user":
+        name = skill.get("name")
+        if name not in expected:
             continue
-        found[skill.get("name")] = os.path.normpath(str(skill["source"].get("path", "")))
-    for name in expected_skills:
-        expected = os.path.join(expected_root_text, name, "SKILL.md")
-        if found.get(name) != expected:
+        if name in found:
+            raise ValueError(f"duplicate Grok discovery record: {name}")
+        source_type = skill["source"].get("type")
+        source_path = os.path.normpath(str(skill["source"].get("path", "")))
+        if source_type not in {"user", "configToml"} or not os.path.isabs(source_path):
+            raise ValueError(f"invalid Grok discovery source: {name}")
+        source_root = os.path.dirname(os.path.dirname(source_path))
+        if source_path != os.path.join(source_root, name, "SKILL.md"):
+            raise ValueError(f"grok discovery has invalid skill path: {name}")
+        found[name] = {
+            "type": source_type,
+            "root": source_root,
+            "path": source_path,
+        }
+    for name in sorted(expected):
+        if name not in found:
             raise ValueError(f"grok discovery missing expected skill path: {name}")
+    source_types = {record["type"] for record in found.values()}
+    source_roots = {record["root"] for record in found.values()}
+    if len(source_types) != 1 or len(source_roots) != 1:
+        raise ValueError("Grok discovery mixes source types or roots")
+    return {
+        "source_type": source_types.pop(),
+        "source_root": source_roots.pop(),
+        "source_paths": [
+            {"name": name, "path": found[name]["path"]} for name in sorted(expected)
+        ],
+    }
+
+
+def validate_grok_discovery(inspect_output, expected_skills, expected_root):
+    """Validate default ``grok inspect --json`` user-root discovery."""
+    evidence = _parse_grok_discovery(inspect_output, expected_skills)
+    expected_root_text = os.path.normpath(os.fspath(expected_root))
+    if evidence["source_type"] != "user" or evidence["source_root"] != expected_root_text:
+        raise ValueError("Grok user discovery does not match the planned Grok root")
     return True
+
+
+def _grok_discovery_evidence(
+    inspect_output: str,
+    expected_skills,
+    plan: dict,
+    transaction_root: Path,
+    plan_sha256: str,
+) -> dict:
+    """Bind native Grok discovery to a planned root and durable receipts."""
+    evidence = _parse_grok_discovery(inspect_output, expected_skills)
+    grok_root = os.path.normpath(plan["targets"]["grok-cli"]["skills_root"])
+    if evidence["source_type"] == "user":
+        if evidence["source_root"] != grok_root:
+            raise ValueError("Grok user discovery does not match the planned Grok root")
+        return evidence
+
+    matching_targets = [
+        target_id
+        for target_id in TARGET_ORDER
+        if os.path.normpath(plan["targets"][target_id]["skills_root"])
+        == evidence["source_root"]
+    ]
+    if len(matching_targets) != 1:
+        raise ValueError("Grok configured discovery root is not uniquely planned")
+    source_target = matching_targets[0]
+    if TARGET_ORDER.index(source_target) >= TARGET_ORDER.index("grok-cli"):
+        raise ValueError("Grok configured source target must precede Grok")
+    source_receipt, source_receipt_sha256 = _read_receipt(
+        _receipt_path_for(transaction_root, source_target)
+    )
+    if (
+        source_receipt["target"] != source_target
+        or source_receipt["plan_sha256"] != plan_sha256
+        or source_receipt["state"] != "verified"
+        or "content_verification_sha256" not in source_receipt
+    ):
+        raise ValueError("Grok configured source receipt is not verified for this plan")
+    verify_target(plan, source_target)
+    source_content_sha256 = _current_target_digest(plan, source_target)
+    if source_content_sha256 != source_receipt["content_verification_sha256"]:
+        raise ValueError("Grok configured source content changed after verification")
+    evidence.update(
+        {
+            "source_target": source_target,
+            "source_receipt_sha256": source_receipt_sha256,
+            "source_content_sha256": source_content_sha256,
+        }
+    )
+    return evidence
 
 
 def validate_antigravity_discovery(runtime_root, expected_skills, file_records):
@@ -3586,19 +3671,70 @@ def verify_discovery_with_receipt(
             "skills": sorted(records),
             "content_sha256": receipt["content_verification_sha256"],
         }
+        discovery_advanced = False
         if target_id == "grok-cli":
             if inspect_json is None:
                 raise ValueError("Grok discovery requires --inspect-json")
             inspect_path = _absolute_without_symlink_resolution(inspect_json)
-            metadata = _regular_file(inspect_path, "Grok inspect artifact")
-            if inspect_path.is_symlink() or stat.S_IMODE(metadata.st_mode) != 0o600:
-                raise ValueError("Grok inspect artifact must use mode 0600")
-            validate_grok_discovery(
-                inspect_path.read_text(encoding="utf-8"),
-                sorted(records),
-                plan["targets"][target_id]["skills_root"],
-            )
-            evidence["inspect_sha256"] = _sha256(inspect_path)
+            with _verified_parent(inspect_path, "Grok inspect artifact") as guard:
+                binding = _open_guarded_binding(
+                    guard, inspect_path.name, "Grok inspect artifact"
+                )
+                try:
+                    if binding["mode"] != 0o600:
+                        raise ValueError("Grok inspect artifact must use mode 0600")
+                    os.lseek(binding["fd"], 0, os.SEEK_SET)
+                    chunks = []
+                    while True:
+                        chunk = os.read(binding["fd"], 65536)
+                        if not chunk:
+                            break
+                        chunks.append(chunk)
+                    inspect_bytes = b"".join(chunks)
+                    after = {"fd": binding["fd"], **_descriptor_metadata(os.fstat(binding["fd"]))}
+                    if (
+                        not _binding_identity_matches(after, binding)
+                        or hashlib.sha256(inspect_bytes).hexdigest() != binding["sha256"]
+                    ):
+                        raise ValueError("Grok inspect artifact changed during read")
+                    try:
+                        inspect_text = inspect_bytes.decode("utf-8")
+                    except UnicodeDecodeError as exc:
+                        raise ValueError("invalid grok inspect UTF-8") from exc
+                    evidence["native_source"] = _grok_discovery_evidence(
+                        inspect_text,
+                        sorted(records),
+                        plan,
+                        receipt_path.parent,
+                        plan_sha256,
+                    )
+                    _require_retained_binding(
+                        guard,
+                        inspect_path.name,
+                        binding,
+                        "Grok inspect artifact",
+                        expected=_binding_prestate(binding),
+                    )
+                    evidence["inspect_sha256"] = binding["sha256"]
+                    digest = _value_sha256(evidence)
+                    _advance_receipt(
+                        receipt_path,
+                        "applied-uncommitted",
+                        discovery_verification_sha256=digest,
+                    )
+                    discovery_advanced = True
+                    if consume:
+                        _require_retained_binding(
+                            guard,
+                            inspect_path.name,
+                            binding,
+                            "Grok inspect artifact",
+                            expected=_binding_prestate(binding),
+                        )
+                        _guarded_unlink(guard, inspect_path.name)
+                        os.fsync(guard["fd"])
+                finally:
+                    os.close(binding["fd"])
         else:
             if inspect_json is not None or consume:
                 raise ValueError("inspect JSON is forbidden for deterministic targets")
@@ -3607,15 +3743,13 @@ def verify_discovery_with_receipt(
                 sorted(records),
                 records,
             )
-        digest = _value_sha256(evidence)
-        _advance_receipt(
-            receipt_path,
-            "applied-uncommitted",
-            discovery_verification_sha256=digest,
-        )
-        if target_id == "grok-cli" and consume:
-            Path(inspect_json).unlink()
-            _fsync_directory(Path(inspect_json).parent)
+        if not discovery_advanced:
+            digest = _value_sha256(evidence)
+            _advance_receipt(
+                receipt_path,
+                "applied-uncommitted",
+                discovery_verification_sha256=digest,
+            )
     return {"discovery": "pass", "target": target_id, "consumed": consume}
 
 

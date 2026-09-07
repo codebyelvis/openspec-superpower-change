@@ -424,7 +424,12 @@ cp -R openspec-superpower-change "${CODEX_HOME:-$HOME/.codex}/skills/openspec-su
 
 The repository root is the canonical Agent Skill source. See
 [Distribution and installation](docs/distribution.md) for the supported
-Agent Skills/GitHub, skills.sh, SkillsMP, Pi/npm, and Codex plugin paths.
+Agent Skills/GitHub, skills.sh, SkillsMP, Pi/npm, and Codex plugin paths. The
+nested `skills/openspec-superpower-change/SKILL.md` is generated only for
+catalog compatibility; rebuild it with
+`python3 scripts/build_skillsmp_adapter.py .`. Third-party search refresh is
+asynchronous and is not guaranteed by generation, installation, or npm
+publication.
 
 ## Validation
 

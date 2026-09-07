@@ -34,6 +34,12 @@ regression fixtures.
 
 Invariant:
 
+- Hashed Plan/Brief lineage applies only when the risk profile requires a
+  standalone Preflight artifact. Compact inline readiness creates no synthetic
+  lineage solely for bookkeeping.
+- One unchanged contract has at most one full Preflight and one terminal
+  focused recheck. Same-scope implementation findings do not restart lineage;
+  a protected-boundary change requires a newly authorized full Review.
 - A historical revision may be anchored by an immutable parent Review instead
   of requiring old bytes to remain at a mutated current path.
 - The parent Review's root revision and reviewer identity must be parsed from the
@@ -232,3 +238,33 @@ BLOCKED rewriting, mode-0600 blockers, and no JSON `PASS` residue.
 
 Loading pointer: agents read this file through `AGENTS.md`; the production
 cleanup path and focused regressions are the executable authority.
+
+## Irreversible cleanup commit points have no rejecting tail
+
+Scope: generated-adapter replacement and transactional cleanup which deletes
+the final recoverable link to prior bytes.
+
+Invariant:
+
+- Complete every fallible identity, content, closure, and compensation check
+  before deleting the final prior-state link.
+- The successful deletion of that link is the commit point. Publish committed
+  state immediately; later directory inspection, close, or removal is
+  best-effort and cannot convert the committed operation into a recoverable
+  failure claim.
+- A failure before the commit point must preserve or exactly restore prior
+  bytes. A failure after it must not enter compensation which falsely assumes
+  those bytes still exist.
+
+Counterexample: cleanup unlinks the recovery `SKILL.md`, then rejects because a
+concurrent process inserts another directory entry before `rmdir`. The builder
+reports failure and attempts compensation even though the only exact prior copy
+has already been destroyed.
+
+Mechanical enforcement:
+`tests/test_distribution.py::DistributionTests::test_skillsmp_builder_residue_between_recovery_unlink_and_rmdir_cannot_reject`
+injects that race. `scripts/build_skillsmp_adapter.py` marks the recovery unlink
+as commit and makes its remaining cleanup non-rejecting.
+
+Loading pointer: agents read this file through `AGENTS.md`; the executable
+commit boundary remains in the named builder and regression.
