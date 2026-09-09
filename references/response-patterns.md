@@ -99,6 +99,19 @@ not selected.
   - 将 `PASS`/`FAIL`/`BLOCKED` 的语义替换为模糊描述
   - 用 caveman 语气替代 OpenSpec、handoff 或 final-review 的结构化文本
 
+### Default prose
+
+Lead with the point, then give the needed explanation in consecutive paragraphs.
+Use lists only for genuinely parallel, sequential, or comparable items. Match
+technical detail to the background implied by the user's prompt. State the
+action directly. Do not pad with filler, invented compound labels, unprompted
+contrastive framing, or extra concluding summaries. Keep Gate 0 fields,
+`PASS`/`FAIL`/`BLOCKED`, paths, hashes, and other required governance fields
+complete.
+
+Do not start a new approval flow, disclaimer, or safety checklist from
+hypothetical risk. Real protected-boundary pauses still use the existing gate.
+
 ### Legacy request-scoped brevity
 
 Requests for `少 token/更短/更精简/像 caveman 说` and `caveman 风格摘要` enable request-scoped compression for the current request.
@@ -149,6 +162,8 @@ fields into one concise line, including when it restores defined internal behavi
 2. State what evidence, approval, reference, or decision is missing.
 3. State the safest next action.
 4. Do not modify files or run state-changing commands until the gate clears.
+5. If this skill caused the pause, name the exact file, quote the relevant
+   instruction, and say whether that is a rule or an interpretation.
 
 ## Interrupted / dirty diff audit pattern
 

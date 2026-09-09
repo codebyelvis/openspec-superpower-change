@@ -88,6 +88,9 @@ change class or approved contract. Then select additional tests by acceptance
 and demonstrated blast radius. This reference does not require a full suite for
 every task. Re-run affected checks after new edits or relevant failures, not
 after every micro-step. Required broader suites and Major forward-tests remain.
+Do not add tests that only mirror a reversible low-impact change. After the
+required and relevant checks pass, broaden or repeat testing only when new
+edits, failures, or unresolved concerns justify it.
 
 A test enters the execution scope only when at least one of these is true:
 

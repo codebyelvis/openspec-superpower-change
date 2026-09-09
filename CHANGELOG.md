@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Keep authorized same-scope work moving, name the blocking skill rule when
+  pausing, keep default prose plain, and keep tests proportional to the change.
+  OpenSpec, evidence signoff, and completion gates are unchanged.
+
 - Add a generated, byte-identical
   `skills/openspec-superpower-change/SKILL.md` compatibility adapter for nested
   catalog indexers, with fail-closed generation/validation and explicit

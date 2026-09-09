@@ -73,6 +73,20 @@ checks and focused inline diff/self-review. Behavioral fixes retain regression
 evidence and compact business-slice signoff. A separate Plan, Preflight or full
 TDD cycle is not universally required for this bounded path.
 
+After classification and authorization, infer the current goal from the request
+and prior context, then keep going until that goal is done. Treat "help me",
+"can you", and "I want to" as instructions to do the work. Do not stop at
+acknowledging capability, proposing a plan, or asking whether to continue
+already authorized same-scope work. Ordinary questions and read-only diagnosis
+still do not enter implementation.
+
+Before asking for approval or a clarifying question, finish the already
+authorized work that makes the next step concrete and reviewable. The user
+approves a concrete result. Git writes, production, publication, external
+writes, and destructive actions still stop at existing boundaries. Do not
+invent extra warnings, disclaimers, or approval checklists from hypothetical
+risk.
+
 For approved work, continue safe same-scope reads, edits, relevant local checks
 and fixes for failures introduced by this change without stepwise confirmation.
 Reuse completed Plan/Preflight and unaffected evidence; retain pending required
@@ -137,6 +151,17 @@ remain in `references/response-patterns.md`; no new mode is introduced.
 - Do not duplicate mutable Handoff Contract blocks outside canonical `status.md`.
 - Self-evolution cannot weaken approval, evidence, review, verification, or
   user-control boundaries.
+- The user's explicit current instruction on task goal, scope, prose, whether to
+  continue, and whether to skip extra polite confirmation takes precedence over
+  this skill's presentation defaults. It does not waive OpenSpec boundaries,
+  production, credential, or destructive actions, unauthorized Git writes, the
+  Completion Contract, evidence gates, schema-6 control-plane ownership, or
+  user-control boundaries. When the user asks for a protected change, follow the
+  existing OpenSpec or approval path and name the blocking rule.
+- When this skill requires permission, confirmation, leaving work unfinished, or
+  diverging from the user's intent, name the exact file path, quote the relevant
+  instruction, say whether that is a rule or your interpretation, and state the
+  next step.
 - Never run `git add`, `git commit`, `git reset`, or `git clean` unless the user
   explicitly commands it.
 - Do not push without explicit user approval.

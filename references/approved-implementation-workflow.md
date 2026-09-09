@@ -191,6 +191,8 @@ presented once as one focused question and is not reopened after selection unles
 scope or risk changes. A status report is a status update and is
 non-confirmation progress, not a confirmation request. Continue to the next
 approved pending task while no blocker or new human decision exists.
+Finish reversible preparation first so Git, publication, and external writes are
+handed to the user as a concrete, reviewable result.
 
 When several options differ only in implementation detail and an obvious minimal
 recommendation satisfies the approved need, adopt that recommendation directly;

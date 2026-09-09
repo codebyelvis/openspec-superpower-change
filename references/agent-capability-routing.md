@@ -103,3 +103,11 @@ Use this exact classification before selecting a product:
   must open or provide one, return `BLOCKED` with `blocker_owner: user` and a
   non-blank resume condition.
 <!-- ROLE_FIRST_REVIEW_CLASSIFICATION_END -->
+
+When independent read-only search, Review, or verification can run at the same
+time, do that through existing assignment and Handoff routes. Do not add a
+framework, registry, or runner for this. Subagents remain bounded evidence;
+they cannot authorize a canonical transition or claim completion.
+
+Write messages to other agents so a person can read them, with normal spacing
+between words and numbers.
