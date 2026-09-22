@@ -13,8 +13,10 @@ global governance block.
   executor or independent-reviewer roles. Their results are governed evidence
   until the bound control plane accepts them.
 - Standard/strict external work uses different executor and reviewer identities.
-  If the second auxiliary CLI is unavailable, Codex performs the distinct Review;
-  if no distinct reviewer is available, the batch is `BLOCKED`.
+  If the second auxiliary CLI is unavailable, a distinct Codex reviewer instance
+  (not the control-plane or executor instance) performs the Review; if no
+  distinct reviewer instance is available, the batch is `BLOCKED`. Product name
+  alone never authorizes self-review.
 
 ## Trigger boundary
 

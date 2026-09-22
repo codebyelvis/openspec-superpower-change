@@ -28,7 +28,7 @@ A Confirmation Lease binds exactly:
 
 Compact inline work may record these fields inline. Standard/strict external work
 stores a typed artifact referenced by immutable `confirmation_lease` fields in
-the schema-5 Handoff. The artifact uses one
+the schema-6 Handoff. The artifact uses one
 `COOP_CONFIRMATION_LEASE_START/END` YAML marker and is checked by path and SHA-256
 without logging its contents.
 

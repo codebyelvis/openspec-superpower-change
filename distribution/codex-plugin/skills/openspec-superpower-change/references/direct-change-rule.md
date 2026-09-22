@@ -63,7 +63,7 @@ gate applies, or required evidence/authority is missing. Use
   Plan and profile-appropriate Preflight only when standard risk, coordination,
   external execution, multiple slices, or a protected boundary requires it.
 - If external execution is requested, create a profile-appropriate
-  schema-version-3 Handoff Contract and hand the batch to
+  schema-version-6 Handoff Contract and hand the batch to
   `codex-brief-antigravity-review`; only low-risk Direct Change defaults to
   `compact`, while approved public/API restoration remains `strict`.
 - Any Review finding returns to fix -> verification -> Review on the same

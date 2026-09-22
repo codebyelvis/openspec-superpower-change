@@ -2451,9 +2451,13 @@ class WorkflowRulesTest(unittest.TestCase):
             "references/step-evidence-gate.md",
             "references/superpowers-adapter.md",
             "references/completion-contract.md",
+            "references/direct-change-rule.md",
+            "references/confirmation-lease.md",
+            "references/cross-cli-sync.md",
             "references/agent-capability-routing.md",
         )
         forbidden = (
+            "schema-version-3",
             "schema-version-5",
             "schema-5 Handoff",
             "required Codex, Antigravity CLI, or Grok CLI",
