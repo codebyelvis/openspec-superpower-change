@@ -1,0 +1,97 @@
+{
+  "slice": "S6",
+  "classification": "Minor (quarterly documentary comparison only)",
+  "baseline_commit": "512618cd6065f91f2cbd9bdb57409c9f06a33cc2",
+  "contract": "docs/requirement/openspec-superpower-change-iteration-plan.md §4 S6",
+  "source_file_sha256": {
+    "docs/iteration/upstream-notes.md": "9d934161876cc856df7309844980cfbb65eb9ba4dd3f445dc7c38a35e17210e9"
+  },
+  "upstream_sources": [
+    {
+      "name": "Superpowers",
+      "repo": "obra/superpowers",
+      "revision": "8ca22dba9a94f28898bbce59f2537ff4d87c747d",
+      "path": "skills/using-superpowers/SKILL.md",
+      "sha256": "82c5c8866ad7f5dd4440ce66bd7806ba48a2f13771beae5cf112e53f08fe36ba",
+      "source_check": "PASS"
+    },
+    {
+      "name": "OpenSpec",
+      "repo": "Fission-AI/OpenSpec",
+      "revision": "9111a7654d7800391459431fff4eaf66e33a3d2e",
+      "path": "README.md",
+      "sha256": "14a4fee5fce958d256221869f1a742c63171abb4c117dcdd6d2ad5853c572c42",
+      "source_check": "PASS"
+    },
+    {
+      "name": "Spec Kit",
+      "repo": "github/spec-kit",
+      "revision": "1e933c49fd6d5d5390b28f18faefa5728c95b2e3",
+      "path": "README.md",
+      "sha256": "49d99febbcdea0bac928ed3e7bdc3b70a1f90e8a13d5bfd19760b6f4fc561f4d",
+      "source_check": "PASS"
+    }
+  ],
+  "verification": {
+    "quick_validate": "PASS",
+    "core_gate": "PASS both modes",
+    "affected_unittest": {
+      "fallback": {
+        "tests": 149,
+        "result": "PASS"
+      },
+      "pyyaml": {
+        "tests": 149,
+        "result": "PASS"
+      }
+    },
+    "pinned_raw_sources": "3/3 matching SHA-256; commit-pinned primary links",
+    "note_template_and_boundaries": "PASS: quarterly window, observer elvis, fact/inference split, not-approved, notes are not upgrade approval",
+    "command_templates": [
+      "<PyYAML interpreter> <CODEX_HOME>/skills/.system/skill-creator/scripts/quick_validate.py .",
+      "PYTHONDONTWRITEBYTECODE=1 <interpreter> scripts/validate_core_gates.py .",
+      "PYTHONDONTWRITEBYTECODE=1 <interpreter> -m unittest discover -s tests -p test_workflow_rules.py -v"
+    ]
+  },
+  "cross_cli_sync": {
+    "trigger": false,
+    "targets": [
+      {
+        "target": "codex",
+        "portable_files": 40,
+        "managed_version": 6,
+        "result": "PASS",
+        "runtime_apply": false,
+        "discovery": "Reuse S5 accepted discovery on the unchanged closure"
+      },
+      {
+        "target": "pi",
+        "portable_files": 40,
+        "managed_version": 6,
+        "result": "PASS",
+        "runtime_apply": false,
+        "discovery": "Reuse S5 accepted discovery on the unchanged closure"
+      },
+      {
+        "target": "antigravity-cli",
+        "portable_files": 40,
+        "managed_version": 6,
+        "result": "PASS",
+        "runtime_apply": false,
+        "discovery": "Reuse S5 accepted discovery on the unchanged closure"
+      },
+      {
+        "target": "grok-cli",
+        "portable_files": 40,
+        "managed_version": 6,
+        "result": "PASS",
+        "runtime_apply": false,
+        "discovery": "Reuse S5 accepted discovery on the unchanged closure"
+      }
+    ]
+  },
+  "review": "PASS: actual notes and complete scoped metadata diff; three primary sources, no private data, no dependency/native/portable/managed change, existing unrelated files preserved",
+  "learning_audit": "No new repeated correction signal. Documentary comparisons are not automatic rule promotion or implementation authorization.",
+  "next_review_window": "2027 Q1",
+  "next_step": "S7 Major proposal and state-transition table only; implementation awaits specific approved change-id."
+}

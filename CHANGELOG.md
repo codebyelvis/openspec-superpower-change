@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Add S6 quarterly upstream-entry notes and a reusable observation template
+  with commit-pinned primary sources. Notes do not approve upgrades or rule
+  adoption; no dependency or runtime content changes. Keep the next review
+  window at 2027 Q1.
+
 - Document S5 workspace boundaries: edit the known repository-root source,
   treat distribution and nested catalog adapters as generated output, and
   write installed runtime content through reviewed sync transactions.
