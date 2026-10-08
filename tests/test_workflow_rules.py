@@ -4518,5 +4518,74 @@ class ClosedLoopRuntimeRoutingTests(unittest.TestCase):
         )
 
 
+def _validate_iteration_entry(root: Path) -> None:
+    """Check the bounded iteration entry without changing core gate authority."""
+    skill = (root / "SKILL.md").read_text(encoding="utf-8")
+    load_validator().validate_skill_iteration_entry(
+        skill,
+        (root / "references/skill-iteration-loop.md").read_text(encoding="utf-8"),
+        (root / "references/self-evolution-rule.md").read_text(encoding="utf-8"),
+    )
+    for path in ("AGENTS.md", "references/self-evolution-rule.md"):
+        rule = (root / path).read_text(encoding="utf-8")
+        if "固定迭代口令" not in rule or "本仓库一轮 push 的明确批准" not in rule:
+            raise AssertionError(f"iteration push lease missing: {path}")
+    for name in ("BACKLOG", "CURRENT", "LOG"):
+        if not (root / f"docs/iteration/{name}.md").is_file():
+            raise AssertionError(f"iteration state missing: {name}")
+
+
+class SkillIterationEntryTests(unittest.TestCase):
+    def test_iteration_entry_and_authority(self):
+        _validate_iteration_entry(ROOT)
+
+    def test_core_validator_runs_iteration_check(self):
+        validator = load_validator()
+        with mock.patch.object(
+            validator, "validate_skill_iteration_entry",
+            side_effect=AssertionError("iteration gate reached"),
+        ):
+            with self.assertRaisesRegex(AssertionError, "iteration gate reached"):
+                validator.main(["validate_core_gates.py", str(ROOT)])
+
+    def test_missing_route_is_rejected(self):
+        self._reject_mutation("SKILL.md", "| Skill iteration command |", "| Removed command |", "table route")
+
+    def test_missing_description_trigger_is_rejected(self):
+        self._reject_mutation("SKILL.md", "迭代优化skill", "removed-command", "description route")
+
+    def test_major_without_change_id_cannot_promise_implementation(self):
+        self._reject_mutation(
+            "references/skill-iteration-loop.md",
+            "OpenSpec change draft and review plan only; stop awaiting approval. No implementation.",
+            "Implement immediately and approve later.", "Major implementation guard",
+        )
+
+    def test_push_to_other_repositories_is_rejected(self):
+        self._reject_mutation(
+            "references/skill-iteration-loop.md", "Never push another repository.",
+            "Push any related repository.", "push scope",
+        )
+
+    def _reject_mutation(self, relative, before, after, error):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            for path in (
+                "SKILL.md", "AGENTS.md", "references/self-evolution-rule.md",
+                "references/skill-iteration-loop.md", "docs/iteration/BACKLOG.md",
+                "docs/iteration/CURRENT.md", "docs/iteration/LOG.md",
+            ):
+                target = root / path
+                target.parent.mkdir(parents=True, exist_ok=True)
+                target.write_bytes((ROOT / path).read_bytes())
+            _validate_iteration_entry(root)
+            target = root / relative
+            text = target.read_text(encoding="utf-8")
+            self.assertIn(before, text)
+            target.write_text(text.replace(before, after), encoding="utf-8")
+            with self.assertRaisesRegex(AssertionError, error):
+                _validate_iteration_entry(root)
+
+
 if __name__ == "__main__":
     unittest.main()

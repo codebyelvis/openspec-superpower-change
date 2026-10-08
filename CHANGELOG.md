@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+- Add the bounded S1 skill-iteration entry, persistent backlog/current/log,
+  and one-round repository Git lease. Validate its routing, Major approval
+  guard, and repository-only push scope; synchronize the portable entry to
+  Codex, Pi, Antigravity CLI, and Grok CLI. S2–S8 remain backlog items, with
+  S7/S8 awaiting separate Major proposals and approval.
+
 - Keep authorized same-scope work moving, name the blocking skill rule when
   pausing, keep default prose plain, and keep tests proportional to the change.
   OpenSpec, evidence signoff, and completion gates are unchanged.

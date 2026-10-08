@@ -2349,6 +2349,38 @@ def validate_completion_contract(
     require(evidence, "whole-task decision is deferred", "step-evidence-gate.md")
 
 
+def validate_skill_iteration_entry(skill: str, loop: str, self_rule: str) -> None:
+    """Validate the iteration entry's existing approval and repository scope."""
+    description = skill.split("---", 2)[1]
+    pointer = "references/skill-iteration-loop.md"
+    if "迭代优化skill" not in description or pointer not in description:
+        raise AssertionError("iteration description route missing")
+    route = "| Skill iteration command | `references/skill-iteration-loop.md`; `references/self-evolution-rule.md` |"
+    if route not in skill:
+        raise AssertionError("iteration table route missing")
+    authority = re.search(r"## Authorization\n(.*?)(?=\n## |\Z)", loop, re.S)
+    if authority is None:
+        raise AssertionError("iteration authorization missing")
+    rows = [line.strip() for line in authority[1].splitlines() if line.startswith("| ")]
+    expected = [
+        "| Level / approval | Authorized next action |",
+        "| Patch / Minor | One slice: edit, validate, local sync, commit and push this repository's current branch. |",
+        "| Major without `已批准 <change-id>` | OpenSpec change draft and review plan only; stop awaiting approval. No implementation. |",
+        "| Major with `已批准 <change-id>` | Implement only the specific approved OpenSpec change and scoped contract. |",
+    ]
+    if rows != expected:
+        raise AssertionError("iteration authority or Major implementation guard changed")
+    for phrase in (
+        "Never push another repository.",
+        "No force-push, history rewriting, or remote branch deletion.",
+        "The command does not approve a Major change-id that does not yet exist.",
+    ):
+        if phrase not in authority[1]:
+            raise AssertionError("iteration push scope or approval guard missing")
+    for phrase in ("固定迭代口令", "本仓库一轮 push 的明确批准"):
+        require(self_rule, phrase, "self-evolution-rule.md iteration lease")
+
+
 def parse_args(argv: list[str]) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("root", nargs="?", default=".")
@@ -2396,6 +2428,9 @@ def main(argv: list[str] | None = None) -> int:
 
     validate_frontmatter(skill)
     validate_reference_links(root, skill)
+    validate_skill_iteration_entry(
+        skill, read(root / "references" / "skill-iteration-loop.md"), self_rule
+    )
     validate_governed_caveman_lite(
         skill,
         response_patterns,

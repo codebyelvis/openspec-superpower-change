@@ -105,6 +105,16 @@ for the explicitly approved target skill edit.
 
 ## Hard prohibitions
 
+固定迭代口令是对本仓库一轮 push 的明确批准。按
+`references/skill-iteration-loop.md` 执行时，口令为本 skill 仓库的一个
+Patch / Minor 切片授予编辑、验证、本地运行时同步、提交和当前分支 push
+租约；验证与所需同步通过后才提交、推送，推送成功后删除临时备份。
+Major 仍须具体 OpenSpec change 的严格验证和 `已批准 <change-id>`，
+不得从普通迭代口令推断批准。租约一轮结束即终止，不授权业务仓库、
+其他仓库 push、force-push、改写历史、删除远程分支、发布或上游升级；
+其他路径的 push 禁令不变。Non-negotiables 与原有审批、证据、Review、
+完成权及用户控制边界保持不变。
+
 - Do not self-modify without a backup.
 - Do not delete backups before validation/forward-test and rollback decisions are complete.
 - Do not leave `.bak.*` files or `*.backup*` skill directories after a successful update.

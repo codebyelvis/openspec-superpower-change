@@ -21,6 +21,7 @@
 - Treat trigger scope, OpenSpec boundaries, Superpowers boundaries, Step Evidence Gate signoff conditions, and completion-claim rules as Major self-evolution. Major changes require OpenSpec approval before implementation.
 - Do not weaken Non-negotiables.
 - Do not push without explicit user approval.
+- 固定迭代口令是对本仓库一轮 push 的明确批准；仅适用于 `references/skill-iteration-loop.md` 规定的单轮范围，其他路径的 push 禁令不变。
 
 ## Validation
 

@@ -1,6 +1,6 @@
 ---
 name: openspec-superpower-change
-description: "Use for file/behavior changes, change classification, OpenSpec/Direct Change routing, evidence-based completion, archive/distillation, or skill self-evolution. Excludes ordinary questions, standalone wording/read-only diff review, and valid handed-off batches."
+description: "Use for file/behavior changes, change classification, OpenSpec/Direct Change routing, evidence-based completion, archive/distillation, or skill self-evolution. Excludes ordinary questions, standalone wording/read-only diff review, and valid handed-off batches. 用户说「迭代优化skill」或等价口令时，进入 skill 自身迭代闭环，读取 references/skill-iteration-loop.md。"
 ---
 
 # OpenSpec + Superpowers Change Gate
@@ -38,6 +38,7 @@ Uncertain OpenSpec classification uses `references/openspec-decision-rule.md`.
 | Create an external execution Handoff | `references/approved-implementation-workflow.md`, `references/handoff-contract.md`, `references/agent-capability-routing.md`, `references/confirmation-lease.md` |
 | Assign a reviewer or decide capability/authority | `references/agent-capability-routing.md` |
 | Edit this skill | `references/self-evolution-rule.md`; required behavioral evidence uses `references/step-evidence-gate.md` |
+| Skill iteration command | `references/skill-iteration-loop.md`; `references/self-evolution-rule.md` |
 | Correction/Review history or explicit archive and distill request | `references/project-learning-closeout.md`; candidate classification uses `references/learning-candidate-pipeline.md` |
 | Source/runtime sync | `references/sync-checklist.md`; portable changes also use `references/cross-cli-sync.md` |
 | Requested output mode or response template | `references/response-patterns.md` |
