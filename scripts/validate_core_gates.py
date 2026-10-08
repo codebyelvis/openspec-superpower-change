@@ -7,6 +7,7 @@ import hashlib
 import json
 import os
 import re
+import stat
 import sys
 from pathlib import Path, PurePosixPath
 
@@ -2412,19 +2413,367 @@ def validate_skill_iteration_entry(skill: str, loop: str, self_rule: str) -> Non
     validate_reference_read_budget(skill)
 
 
+RESUME_LOCAL_FIELDS = {
+    "schema_version", "change_id", "mode", "approval_status", "risk_profile",
+    "contract_revision", "lifecycle_state", "control_plane_owner", "blocked_reason",
+    "blocker_owner", "resume_condition", "next_owner", "readonly_fields",
+}
+RESUME_CONTEXT_FIELDS = {
+    "change_id", "record_kind", "mode", "approval_status", "risk_profile",
+    "control_plane_owner", "allowed_actions", "verification_commands", "reviewer_assignment",
+}
+
+
+def _resume_bytes(root: Path, path: str, label: str, *, missing=False) -> bytes | None:
+    """Bind every component and hash/parse the same regular-file bytes."""
+    _validate_artifact_ref({"path": path, "sha256": "0" * 64}, True, "reference", label)
+    descriptors = []
+    try:
+        flags = os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW
+        descriptor = os.open(root.resolve(), flags)
+        descriptors.append(descriptor)
+        parts = path.split("/")
+        for part in parts[:-1]:
+            descriptor = os.open(part, flags, dir_fd=descriptor)
+            descriptors.append(descriptor)
+        leaf = os.open(parts[-1], os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK,
+                       dir_fd=descriptor)
+        with os.fdopen(leaf, "rb") as stream:
+            if not stat.S_ISREG(os.fstat(stream.fileno()).st_mode):
+                raise AssertionError(f"{label}: reference must be a regular file")
+            return stream.read()
+    except FileNotFoundError as exc:
+        if missing:
+            return None
+        raise AssertionError(f"{label}: missing reference") from exc
+    except (OSError, AttributeError) as exc:
+        raise AssertionError(f"{label}: unsafe/symlink reference or unsupported secure reader") from exc
+    finally:
+        for descriptor in reversed(descriptors):
+            os.close(descriptor)
+
+
+def _resume_json(text: str, label: str) -> dict:
+    def unique(pairs):
+        value = {}
+        for key, item in pairs:
+            if key in value:
+                raise AssertionError(f"{label}: duplicate JSON key")
+            value[key] = item
+        return value
+    try:
+        data = json.loads(text, object_pairs_hook=unique)
+    except (ValueError, UnicodeError) as exc:
+        raise AssertionError(f"{label}: invalid JSON record") from exc
+    if not isinstance(data, dict):
+        raise AssertionError(f"{label}: record must be a mapping")
+    return data
+
+
+def _resume_section(text: str, heading: str, label: str) -> dict:
+    body, _, _ = _markdown_owned_section(text, "## " + heading, label)
+    fence = re.fullmatch(r"\s*```json[ \t]*\n(.*?)\n```[ \t]*\s*", body, re.S)
+    if fence is None:
+        raise AssertionError(f"{label}: expected exactly one JSON fence")
+    return _resume_json(fence[1], label)
+
+
+def extract_resume_record(text: str, label: str) -> dict:
+    return _resume_section(text, "Session Resume", label)
+
+
+def _resume_keys(data, keys: set[str], label: str) -> None:
+    if not isinstance(data, dict) or set(data) != keys:
+        raise AssertionError(f"{label}: expected exactly {sorted(keys)}")
+
+
+def _resume_ref(ref, root: Path, label: str) -> bytes:
+    _validate_artifact_ref(ref, True, "reference", label)
+    payload = _resume_bytes(root, ref["path"], label)
+    if not payload or hashlib.sha256(payload).hexdigest() != ref["sha256"]:
+        raise AssertionError(f"{label}: reference sha256 mismatch or empty artifact")
+    return payload
+
+
+def _resume_governance(record: dict, text: str) -> dict:
+    kind = record.get("record_kind")
+    if kind == "external":
+        _resume_keys(record, {"record_kind", "contract_revision", "progress"}, "external resume")
+        data = extract_handoff_contract(text, "external resume")
+        validate_handoff_contract(data, "external resume")
+        if type(record["contract_revision"]) is not int or record["contract_revision"] != data["contract_revision"]:
+            raise AssertionError("external resume: stale contract revision")
+        return data
+    if kind != "local" or START in text or END in text:
+        raise AssertionError("local resume: invalid kind or external marker; no downgrade")
+    _resume_keys(record, {"record_kind", "governance", "progress"}, "local resume")
+    data = record["governance"]
+    _resume_keys(data, RESUME_LOCAL_FIELDS, "local governance")
+    if data["schema_version"] != 6 or type(data["schema_version"]) is not int:
+        raise AssertionError("local governance: schema 6 subset required")
+    if not _is_nonblank(data["change_id"]) or not re.fullmatch(r"[a-z0-9][a-z0-9-]*", data["change_id"]):
+        raise AssertionError("local governance: invalid change_id")
+    for field, choices in (("mode", MODES), ("approval_status", APPROVAL_STATUSES),
+                           ("risk_profile", RISK_PROFILES), ("lifecycle_state", LIFECYCLE_STATES),
+                           ("next_owner", NEXT_OWNERS), ("blocker_owner", BLOCKER_OWNERS)):
+        if not isinstance(data[field], str) or data[field] not in choices:
+            raise AssertionError(f"local governance: invalid {field}")
+    _require_positive_int(data, "contract_revision", "local governance")
+    _validate_assignment(data["control_plane_owner"], "control_plane_owner", "control-plane",
+                         {"control-plane-high"}, {"codex"}, "local governance")
+    immutable = RESUME_LOCAL_FIELDS & SCHEMA6_IMMUTABLE_FIELDS
+    readonly = data["readonly_fields"]
+    if not isinstance(readonly, list) or not all(isinstance(key, str) for key in readonly) or len(readonly) != len(set(readonly)) or set(readonly) != immutable:
+        raise AssertionError("local governance: readonly_fields must match applicable immutable subset")
+    if data["lifecycle_state"] == "blocked":
+        if not all(_is_nonblank(data[k]) for k in ("blocked_reason", "resume_condition")) or data["blocker_owner"] == "none":
+            raise AssertionError("local governance: blocker reason/owner/resume_condition required")
+    elif data["blocked_reason"] is not None or data["resume_condition"] is not None or data["blocker_owner"] != "none":
+        raise AssertionError("local governance: nonblocked state has contradictory blocker")
+    return data
+
+
+def _resume_verification(progress: dict, data: dict, context: dict, root: Path) -> dict | None:
+    verified = progress["verified_revision"]
+    if verified is None:
+        return None
+    _resume_keys(verified, {"revision", "inputs", "fingerprint", "commands"}, "verified_revision")
+    if type(verified["revision"]) is not int or not 1 <= verified["revision"] <= data["contract_revision"]:
+        raise AssertionError("verified_revision: invalid revision")
+    inputs = verified["inputs"]
+    if not isinstance(inputs, dict) or not inputs:
+        raise AssertionError("verified_revision: nonempty scoped inputs required")
+    command_records = verified["commands"]
+    if not isinstance(command_records, list) or not command_records:
+        raise AssertionError("verified_revision: commands required")
+    excluded = {f"docs/agent-collab/{data['change_id']}/status.md"}
+    commands = set()
+    for entry in command_records:
+        _resume_keys(entry, {"command", "result", "evidence"}, "verification command")
+        if not _is_nonblank(entry["command"]) or entry["command"] in commands or entry["result"] != "pass":
+            raise AssertionError("verification: duplicate/invalid command result")
+        commands.add(entry["command"])
+        evidence = _resume_json(_resume_ref(entry["evidence"], root, "verification evidence"), "verification evidence")
+        excluded.add(entry["evidence"]["path"])
+        for key, value in (("evidence_role", "final-verification"), ("evidence_result", "pass"),
+                           ("change_id", data["change_id"]), ("contract_revision", verified["revision"]),
+                           ("source_fingerprint", verified["fingerprint"]),
+                           ("agent_identity", data["control_plane_owner"])):
+            if evidence.get(key) != value:
+                raise AssertionError(f"verification evidence: mismatched {key}")
+        exits = evidence.get("commands")
+        if not isinstance(exits, dict) or type(exits.get(entry["command"])) is not int or exits[entry["command"]] != 0:
+            raise AssertionError("verification evidence: command exit must be 0")
+    if not set(context["verification_commands"]) <= commands:
+        raise AssertionError("verification: missing required command coverage")
+    digest = hashlib.sha256(json.dumps(inputs, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
+    if verified["fingerprint"] != digest:
+        raise AssertionError("verified_revision: fingerprint mismatch")
+    for path, expected in inputs.items():
+        if path in excluded:
+            raise AssertionError("verified_revision: self/evidence input creates hash cycle")
+        if expected is not None and (not isinstance(expected, str) or not re.fullmatch(r"[a-f0-9]{64}", expected)):
+            raise AssertionError("verified_revision: invalid input hash/absence")
+        payload = _resume_bytes(root, path, "verified input", missing=True)
+        actual = hashlib.sha256(payload).hexdigest() if payload is not None else None
+        if actual != expected:
+            raise AssertionError("verified inputs changed: preserve checkpoint/edits; verify current inputs before resume")
+    return verified
+
+
+def _resume_review(refs: list, role: str, data: dict, context: dict, root: Path,
+                   fingerprint: str, previous_text: str | None = None) -> None:
+    found = []
+    for ref in refs:
+        payload = _resume_ref(ref, root, "completed reference")
+        if not payload.lstrip().startswith(b"{"):
+            continue
+        evidence = _resume_json(payload, "local Review")
+        if evidence.get("evidence_role") != role:
+            continue
+        found.append(evidence)
+    if len(found) != 1:
+        raise AssertionError(f"local Review: exactly one {role} PASS required")
+    evidence = found[0]
+    expected = context["reviewer_assignment"]
+    identity = data["control_plane_owner"] if expected is None else {
+        key: expected[key] for key in ("agent_product", "agent_instance_id", "agent_role", "capability_profile")
+    }
+    if evidence.get("reviewer_assignment") != expected or evidence.get("agent_identity") != identity:
+        raise AssertionError("local Review: identity/independent assignment mismatch")
+    if evidence.get("change_id") != data["change_id"] or evidence.get("evidence_result") != "pass" or evidence.get("source_fingerprint") != fingerprint:
+        raise AssertionError("local Review: stale or non-PASS evidence")
+    revision = evidence.get("contract_revision")
+    if type(revision) is not int or not 1 <= revision < data["contract_revision"] or not isinstance(evidence.get("canonical_sha256"), str) or not re.fullmatch(r"[a-f0-9]{64}", evidence["canonical_sha256"]):
+        raise AssertionError("local Review: prior revision and canonical SHA required")
+    if previous_text is not None:
+        previous = _resume_governance(extract_resume_record(previous_text, "previous"), previous_text)
+        if evidence.get("contract_revision") != previous["contract_revision"] or evidence.get("canonical_sha256") != hashlib.sha256(previous_text.encode()).hexdigest():
+            raise AssertionError("local Review: actual previous revision/SHA required")
+
+
+def _resume_loaded(text: str, root: Path, actor: dict | None = None) -> tuple:
+    """Validate recorded facts/references, including read-only terminal inventory."""
+    root = root.resolve()
+    record = extract_resume_record(text, "session resume")
+    data = _resume_governance(record, text)
+    progress = record["progress"]
+    _resume_keys(progress, {"goal", "contract", "plan", "completed", "next_action", "verified_revision"}, "progress/next_action")
+    if not _is_nonblank(progress["goal"]):
+        raise AssertionError("progress: goal required")
+    context = _resume_section(_resume_ref(progress["contract"], root, "contract context").decode(), "Resume Context", "contract context")
+    _resume_keys(context, RESUME_CONTEXT_FIELDS, "contract context")
+    for key in ("change_id", "mode", "approval_status", "risk_profile", "control_plane_owner"):
+        if context[key] != data[key]:
+            raise AssertionError(f"contract context: mismatched {key}")
+    if context["record_kind"] != record["record_kind"]:
+        raise AssertionError("contract context: external/local kind cannot downgrade")
+    _validate_string_list(context["verification_commands"], "verification_commands", "contract context")
+    if len(context["verification_commands"]) != len(set(context["verification_commands"])):
+        raise AssertionError("contract context: duplicate verification command")
+    if not isinstance(context["allowed_actions"], dict) or not context["allowed_actions"] or not all(_is_nonblank(k) and _is_nonblank(v) for k, v in context["allowed_actions"].items()):
+        raise AssertionError("contract context: explicit allowed actions/permissions required")
+    assignment = context["reviewer_assignment"]
+    if record["record_kind"] == "external":
+        if assignment != data["reviewer_assignment"]:
+            raise AssertionError("external contract context: reviewer_assignment must match full Handoff")
+    elif data["risk_profile"] != "compact":
+        _resume_keys(assignment, REVIEWER_ASSIGNMENT_FIELDS, "local independent Review")
+        _validate_review_purpose(assignment["review_purpose"], "local Review")
+        _validate_independence(assignment["independence_requirement"], {"control_plane_owner", "executor_assignment"}, "local Review")
+        identity = {key: assignment[key] for key in ("agent_product", "agent_instance_id", "agent_role", "capability_profile")}
+        _validate_assignment(identity, "reviewer", "independent-reviewer", {"control-plane-high"}, SCHEMA6_AGENT_PRODUCTS, "local Review")
+        if identity["agent_instance_id"] == data["control_plane_owner"]["agent_instance_id"] or assignment["result_authority"] != "governed-review-evidence":
+            raise AssertionError("local Review: independent identity and governed authority required")
+    elif record["record_kind"] == "local" and assignment is not None:
+        raise AssertionError("local compact: use existing inline Review applicability")
+    if progress["plan"] is not None:
+        _resume_ref(progress["plan"], root, "plan")
+    if not isinstance(progress["completed"], list):
+        raise AssertionError("progress: completed references must be a list")
+    for ref in progress["completed"]:
+        payload = _resume_ref(ref, root, "completed")
+        if record["record_kind"] == "local" and (b"COOP_EVIDENCE_MANIFEST_START" in payload or b"COOP_EVIDENCE_MANIFEST_END" in payload or START.encode() in payload or END.encode() in payload):
+            raise AssertionError("local resume: retained external artifact cannot downgrade")
+    action = progress["next_action"]
+    if data["lifecycle_state"] == "complete":
+        if action is not None:
+            raise AssertionError("complete: no pending next_action")
+    else:
+        _resume_keys(action, {"action", "owner", "permission", "inputs"}, "next_action")
+        if not all(_is_nonblank(action[key]) for key in ("action", "owner", "permission")):
+            raise AssertionError("next_action: nonblank action/owner/permission required")
+        if action["owner"] != data["next_owner"] or context["allowed_actions"].get(action["action"]) != action["permission"]:
+            raise AssertionError("next_action: owner/action/permission not authorized by context")
+        if not isinstance(action["inputs"], list):
+            raise AssertionError("next_action: inputs must be hashed references")
+        for ref in action["inputs"]:
+            _resume_ref(ref, root, "next_action input")
+        if data["lifecycle_state"] == "blocked" and action["action"] != "wait":
+            raise AssertionError("blocked: next_action must wait for resume_condition")
+    if data["approval_status"] not in {"approved", "not-required"} and data["lifecycle_state"] != "blocked":
+        raise AssertionError("approval: cannot advance proposed/blocked scope")
+    if actor is not None and actor != data["control_plane_owner"]:
+        raise AssertionError("resume assignment: new actor cannot impersonate owner")
+    verified = _resume_verification(progress, data, context, root)
+    if record["record_kind"] == "local" and data["risk_profile"] != "compact" and data["lifecycle_state"] in {"awaiting-final-verification", "complete"}:
+        if verified is None:
+            raise AssertionError("local Review: verified scoped inputs required")
+        _resume_review(progress["completed"], "implementation-review", data, context, root, verified["fingerprint"])
+    return record, data, progress, context, verified
+
+
+def validate_resume_record(text: str, root: Path, *, previous_text: str | None = None,
+                           actor: dict | None = None) -> dict:
+    """Read/validate facts; never authenticate an actor or grant write/signoff."""
+    root = root.resolve()
+    record, data, progress, context, verified = _resume_loaded(text, root, actor)
+    action = progress["next_action"]
+    previous = None
+    if previous_text is not None:
+        previous_record = extract_resume_record(previous_text, "previous resume")
+        previous = _resume_governance(previous_record, previous_text)
+        if previous_record["record_kind"] != record["record_kind"] or previous_record["progress"]["contract"] != progress["contract"]:
+            raise AssertionError("resume: readonly kind/context cannot change in place")
+        if record["record_kind"] == "local":
+            for key in RESUME_LOCAL_FIELDS & SCHEMA6_IMMUTABLE_FIELDS:
+                if previous[key] != data[key]:
+                    raise AssertionError(f"resume: readonly field changed: {key}")
+            if previous["lifecycle_state"] == "complete" or data["contract_revision"] != previous["contract_revision"] + 1:
+                raise AssertionError("resume: terminal state or invalid revision increment")
+            permitted = set(ALLOWED_TRANSITIONS[previous["lifecycle_state"]]) | {previous["lifecycle_state"]}
+            if data["risk_profile"] == "compact" and previous["lifecycle_state"] == "ready-for-execution":
+                permitted.add("awaiting-final-verification")
+            if data["lifecycle_state"] not in permitted:
+                raise AssertionError("resume: invalid lifecycle transition")
+            if data["lifecycle_state"] == "awaiting-final-verification" and previous["lifecycle_state"] != "awaiting-final-verification":
+                if verified is None:
+                    raise AssertionError("local Review: verified scoped inputs required")
+                if data["risk_profile"] != "compact":
+                    _resume_review(progress["completed"], "implementation-review", data, context, root, verified["fingerprint"], previous_text)
+    if record["record_kind"] == "external":
+        if previous is not None:
+            validate_evidence_artifacts(previous, root, "previous external")
+        validate_evidence_artifacts(data, root, "external resume", previous,
+                                    hashlib.sha256(previous_text.encode()).hexdigest() if previous_text is not None else None)
+    elif data["lifecycle_state"] == "complete":
+        if previous is None or previous["lifecycle_state"] != "awaiting-final-verification":
+            raise AssertionError("complete: actual previous persisted final-verification snapshot required")
+        old_verified = previous_record["progress"]["verified_revision"]
+        if verified is None or old_verified != verified or verified["revision"] != previous["contract_revision"]:
+            raise AssertionError("complete: verification must already be persisted at previous revision")
+        _resume_review(progress["completed"], "final-review", data, context, root, verified["fingerprint"], previous_text)
+    return {"change_id": data["change_id"], "record_kind": record["record_kind"],
+            "state": data["lifecycle_state"], "next_action": action,
+            "verified_revision": verified["revision"] if verified else None,
+            "authority_granted": False}
+
+
+def recover_project_session(root: Path, *, change_id: str | None = None,
+                            actor: dict | None = None) -> dict:
+    root = root.resolve()
+    base = root / "docs/agent-collab"
+    for parent in (root / "docs", base):
+        if parent.is_symlink():
+            raise AssertionError("resume inventory: unsafe symlink directory")
+    candidates = []
+    for path in sorted(base.glob("*/status.md")):
+        relative = path.relative_to(root).as_posix()
+        text = _resume_bytes(root, relative, "canonical status").decode()
+        record = extract_resume_record(text, "canonical status")
+        governance = _resume_governance(record, text)
+        if governance["change_id"] != path.parent.name:
+            raise AssertionError("canonical status: directory/change_id mismatch")
+        if governance["lifecycle_state"] != "complete":
+            candidates.append((governance["change_id"], text))
+        elif governance["change_id"] == change_id:
+            _resume_loaded(text, root, actor)
+            return {"change_id": change_id, "state": "recorded-complete", "next_action": None, "authority_granted": False}
+    selected = [(key, text) for key, text in candidates if change_id is None or key == change_id]
+    if len(selected) != 1:
+        raise AssertionError("resume: select one of multiple unfinished changes, or no resumable state exists")
+    return validate_resume_record(selected[0][1], root, actor=actor)
+
+
 def parse_args(argv: list[str]) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("root", nargs="?", default=".")
     parser.add_argument("--status", type=Path)
+    parser.add_argument("--resume-status", type=Path)
+    parser.add_argument("--resume-actor")
     parser.add_argument("--artifact-root", type=Path)
     parser.add_argument("--previous-status", type=Path)
     parser.add_argument("--legacy-inventory-root", action="append", type=Path, default=[])
     parser.add_argument("--legacy-inventory-output", type=Path)
     args = parser.parse_args(argv[1:])
-    if bool(args.status) != bool(args.artifact_root):
-        parser.error("--status and --artifact-root must be provided together")
-    if args.previous_status and not args.status:
-        parser.error("--previous-status requires --status and --artifact-root")
+    if args.status and args.resume_status:
+        parser.error("--status and --resume-status are mutually exclusive")
+    if bool(args.status or args.resume_status) != bool(args.artifact_root):
+        parser.error("--status/--resume-status and --artifact-root must be provided together")
+    if args.previous_status and not (args.status or args.resume_status):
+        parser.error("--previous-status requires a status and --artifact-root")
+    if args.resume_actor and not args.resume_status:
+        parser.error("--resume-actor requires --resume-status; it grants no identity")
     if bool(args.legacy_inventory_root) != bool(args.legacy_inventory_output):
         parser.error(
             "--legacy-inventory-root and --legacy-inventory-output are required together"
@@ -2584,6 +2933,32 @@ def main(argv: list[str] | None = None) -> int:
         print(json.dumps(payload, sort_keys=True, separators=(",", ":")))
         if active:
             raise AssertionError("active schema-4/schema-5 Handoff blocks schema-6 deployment")
+    if args.resume_status:
+        project_root = args.artifact_root.resolve()
+        status_path = Path(os.path.abspath(args.resume_status))
+        previous_text = None
+        if args.previous_status:
+            previous_path = Path(os.path.abspath(args.previous_status))
+            try:
+                previous_relative = previous_path.relative_to(project_root).as_posix()
+            except ValueError as exc:
+                raise AssertionError("resume: previous status must be canonical beneath project root") from exc
+            previous_text = _resume_bytes(project_root, previous_relative, "previous status").decode()
+        try:
+            relative = status_path.relative_to(project_root).as_posix()
+            text = _resume_bytes(project_root, relative, "resume status").decode()
+        except ValueError as exc:
+            if previous_text is None:
+                raise AssertionError("resume: proposed status outside project requires actual previous status") from exc
+            text = _resume_bytes(status_path.parent, status_path.name, "proposed resume status").decode()
+        record = extract_resume_record(text, "resume status")
+        data = _resume_governance(record, text)
+        canonical = f"docs/agent-collab/{data['change_id']}/status.md"
+        if (previous_text is None and relative != canonical) or (previous_text is not None and previous_relative != canonical):
+            raise AssertionError("resume: canonical directory/change_id mismatch")
+        if args.resume_actor is not None and args.resume_actor != data["control_plane_owner"]["agent_instance_id"]:
+            raise AssertionError("resume: actor diagnostic does not match assignment")
+        print(json.dumps(validate_resume_record(text, project_root, previous_text=previous_text), sort_keys=True))
     if args.status:
         status_path = args.status.resolve()
         status = extract_handoff_contract(read(status_path), str(args.status))

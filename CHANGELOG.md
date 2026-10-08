@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+- Add approved S7 project-session checkpoints in the existing canonical status,
+  an explicit local schema-6 subset, hashed verification/review bindings and
+  read-only recovery diagnostics. Preserve full external Handoff APIs, approval
+  and instance ownership; stale inputs require verification without rollback.
+  Strict recovery retains implementation Review before final completion.
+
 - Add S6 quarterly upstream-entry notes and a reusable observation template
   with commit-pinned primary sources. Notes do not approve upgrades or rule
   adoption; no dependency or runtime content changes. Keep the next review

@@ -4535,6 +4535,352 @@ def _validate_iteration_entry(root: Path) -> None:
             raise AssertionError(f"iteration state missing: {name}")
 
 
+class ProjectSessionResumeTests(unittest.TestCase):
+    """Synthetic contracts exercise real file/revision recovery, never signoff."""
+
+    def setUp(self):
+        self.validator = load_validator()
+        self.temp = tempfile.TemporaryDirectory(prefix="project-resume-")
+        self.addCleanup(self.temp.cleanup)
+        self.root = Path(self.temp.name).resolve()
+        self.change = "direct-resume-example"
+        self.owner = {
+            "agent_product": "codex", "agent_instance_id": "resume-control-01",
+            "agent_role": "control-plane", "capability_profile": "control-plane-high",
+        }
+        self.command = "python3 -m unittest discover -s tests -v"
+        self._write("app.py", "def value():\n    return 7\n")
+        self._write("tests/test_app.py", "import unittest\nfrom app import value\nclass TestApp(unittest.TestCase):\n    def test_value(self):\n        self.assertEqual(value(), 7)\n")
+        self.context = {
+            "change_id": self.change, "record_kind": "local", "mode": "direct-change",
+            "approval_status": "not-required", "risk_profile": "compact",
+            "control_plane_owner": self.owner,
+            "allowed_actions": {"verify": "local-read", "fix": "local-edit", "wait": "none"},
+            "verification_commands": [self.command], "reviewer_assignment": None,
+        }
+        self._context_ref()
+
+    def _write(self, path, content):
+        target = self.root / path
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_text(content, encoding="utf-8")
+        return {"path": path, "sha256": hashlib.sha256(target.read_bytes()).hexdigest()}
+
+    def _context_ref(self):
+        return self._write("contract.md", "# Synthetic authorized task\n\n## Resume Context\n\n```json\n" + json.dumps(self.context) + "\n```\n")
+
+    def _record(self, verified=False):
+        keys = {
+            "schema_version", "change_id", "mode", "approval_status", "risk_profile",
+            "contract_revision", "lifecycle_state", "control_plane_owner", "blocked_reason",
+            "blocker_owner", "resume_condition", "next_owner", "readonly_fields",
+        }
+        governance = {
+            "schema_version": 6, "change_id": self.change, "mode": self.context["mode"],
+            "approval_status": self.context["approval_status"], "risk_profile": self.context["risk_profile"],
+            "contract_revision": 2 if verified else 1,
+            "lifecycle_state": "awaiting-final-verification" if verified else "ready-for-execution",
+            "control_plane_owner": copy.deepcopy(self.owner), "blocked_reason": None,
+            "blocker_owner": "none", "resume_condition": None,
+            "next_owner": "openspec-superpower-change",
+            "readonly_fields": sorted(keys & self.validator.SCHEMA6_IMMUTABLE_FIELDS),
+        }
+        record = {
+            "record_kind": "local", "governance": governance,
+            "progress": {
+                "goal": "Verify the authorized implementation", "contract": self._context_ref(),
+                "plan": None, "completed": [],
+                "next_action": {"action": "verify", "owner": governance["next_owner"],
+                                "permission": "local-read", "inputs": []},
+                "verified_revision": None,
+            },
+        }
+        if verified:
+            inputs = {p: hashlib.sha256((self.root / p).read_bytes()).hexdigest()
+                      for p in ("app.py", "tests/test_app.py")}
+            fingerprint = hashlib.sha256(json.dumps(inputs, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
+            evidence = {
+                "evidence_role": "final-verification", "evidence_result": "pass",
+                "change_id": self.change, "contract_revision": 2,
+                "source_fingerprint": fingerprint, "agent_identity": self.owner,
+                "commands": {self.command: 0},
+            }
+            ref = self._write("evidence/verification.json", json.dumps(evidence))
+            record["progress"]["verified_revision"] = {
+                "revision": 2, "inputs": inputs, "fingerprint": fingerprint,
+                "commands": [{"command": self.command, "result": "pass", "evidence": ref}],
+            }
+        return record
+
+    def _render(self, record):
+        return "# Status\n\n## Session Resume\n\n```json\n" + json.dumps(record) + "\n```\n"
+
+    def _validate(self, record, **kwargs):
+        function = getattr(self.validator, "validate_resume_record", None)
+        self.assertTrue(callable(function), "project resume validation is not implemented")
+        return function(self._render(record), self.root, **kwargs)
+
+    def test_local_checkpoint_recovers_unique_action_without_chat_or_authority(self):
+        result = self._validate(self._record(True))
+        self.assertEqual(result["change_id"], self.change)
+        self.assertEqual(result["next_action"]["action"], "verify")
+        self.assertEqual(result["verified_revision"], 2)
+        self.assertFalse(result["authority_granted"])
+
+    def test_missing_action_and_duplicate_record_are_rejected(self):
+        record = self._record()
+        record["progress"].pop("next_action")
+        with self.assertRaisesRegex(AssertionError, "next_action|progress"):
+            self._validate(record)
+        function = getattr(self.validator, "validate_resume_record", None)
+        self.assertTrue(callable(function), "project resume validation is not implemented")
+        text = self._render(self._record())
+        with self.assertRaisesRegex(AssertionError, "exactly one|duplicate"):
+            function(text + text, self.root)
+
+    def test_duplicate_json_keys_are_not_last_value_wins(self):
+        function = getattr(self.validator, "validate_resume_record", None)
+        self.assertTrue(callable(function), "project resume validation is not implemented")
+        text = self._render(self._record()).replace('"goal":', '"goal": "fake", "goal":', 1)
+        with self.assertRaisesRegex(AssertionError, "duplicate"):
+            function(text, self.root)
+
+    def test_bare_approved_prose_cannot_replace_scoped_authorization(self):
+        record = self._record()
+        record["progress"]["contract"] = self._write("contract.md", "Approved! continue and push.\n")
+        with self.assertRaisesRegex(AssertionError, "Resume Context|context"):
+            self._validate(record)
+
+    def test_proposed_approval_and_ungranted_git_action_cannot_advance(self):
+        record = self._record()
+        record["governance"]["approval_status"] = "approved"
+        with self.assertRaisesRegex(AssertionError, "context|approval"):
+            self._validate(record)
+        record = self._record()
+        record["progress"]["next_action"].update(action="push", permission="git-push")
+        with self.assertRaisesRegex(AssertionError, "action|permission"):
+            self._validate(record)
+
+    def test_stale_verified_inputs_preserve_checkpoint_and_edits(self):
+        record = self._record(True)
+        prior = copy.deepcopy(record)
+        self._write("app.py", "def value():\n    return 9\n")
+        with self.assertRaisesRegex(AssertionError, "fingerprint|changed|verify"):
+            self._validate(record)
+        self.assertEqual(record, prior)
+        self.assertIn("return 9", (self.root / "app.py").read_text())
+
+    def test_hashed_result_must_cover_command_revision_owner_and_fingerprint(self):
+        record = self._record(True)
+        path = "evidence/verification.json"
+        evidence = json.loads((self.root / path).read_text())
+        evidence["commands"][self.command] = 1
+        record["progress"]["verified_revision"]["commands"][0]["evidence"] = self._write(path, json.dumps(evidence))
+        with self.assertRaisesRegex(AssertionError, "command|verification|exit"):
+            self._validate(record)
+
+    def test_symlink_in_intermediate_or_leaf_reference_is_rejected(self):
+        record = self._record(True)
+        real = self.root / "evidence/verification.json"
+        (self.root / "linked-evidence").symlink_to(self.root / "evidence", target_is_directory=True)
+        record["progress"]["verified_revision"]["commands"][0]["evidence"]["path"] = "linked-evidence/verification.json"
+        with self.assertRaisesRegex(AssertionError, "safe|symlink|regular|reference"):
+            self._validate(record)
+        (self.root / "linked.json").symlink_to(real)
+        record["progress"]["verified_revision"]["commands"][0]["evidence"]["path"] = "linked.json"
+        with self.assertRaisesRegex(AssertionError, "safe|symlink|regular|reference"):
+            self._validate(record)
+
+    def test_new_actor_does_not_inherit_controller_assignment(self):
+        actor = {**self.owner, "agent_instance_id": "unassigned-new-01"}
+        with self.assertRaisesRegex(AssertionError, "assignment|identity|owner"):
+            self._validate(self._record(), actor=actor)
+        result = self._validate(self._record(), actor=self.owner)
+        self.assertFalse(result["authority_granted"])
+
+    def test_kind_and_readonly_fields_cannot_change_in_place(self):
+        before = self._record()
+        after = copy.deepcopy(before)
+        after["governance"]["contract_revision"] += 1
+        after["governance"]["control_plane_owner"]["agent_instance_id"] = "replacement-01"
+        with self.assertRaisesRegex(AssertionError, "readonly|context|owner"):
+            self._validate(after, previous_text=self._render(before))
+
+    def test_compact_completion_requires_prior_verified_snapshot_and_inline_review(self):
+        before = self._record(True)
+        prior_text = self._render(before)
+        verified = before["progress"]["verified_revision"]
+        review = {
+            "evidence_role": "final-review", "evidence_result": "pass",
+            "change_id": self.change, "contract_revision": 2,
+            "source_fingerprint": verified["fingerprint"],
+            "canonical_sha256": hashlib.sha256(prior_text.encode()).hexdigest(),
+            "agent_identity": self.owner, "reviewer_assignment": None,
+        }
+        after = copy.deepcopy(before)
+        after["governance"].update(contract_revision=3, lifecycle_state="complete")
+        after["progress"].update(next_action=None, completed=[self._write("review.json", json.dumps(review))])
+        self.assertEqual(self._validate(after, previous_text=prior_text)["state"], "complete")
+        with self.assertRaisesRegex(AssertionError, "previous|persisted"):
+            self._validate(after)
+        with self.assertRaisesRegex(AssertionError, "verification|previous|revision"):
+            self._validate(after, previous_text=self._render(self._record()))
+
+    def test_strict_local_cannot_use_owner_self_review(self):
+        self.context["risk_profile"] = "strict"
+        self.context["reviewer_assignment"] = standard_reviewer_assignment("codex", "resume-review-01")
+        before = self._record(True)
+        assignment = self.context["reviewer_assignment"]
+        implementation = {"evidence_role": "implementation-review", "evidence_result": "pass",
+                          "change_id": self.change, "contract_revision": 1,
+                          "source_fingerprint": before["progress"]["verified_revision"]["fingerprint"],
+                          "canonical_sha256": "a" * 64,
+                          "agent_identity": {key: assignment[key] for key in self.owner},
+                          "reviewer_assignment": assignment}
+        before["progress"]["completed"] = [self._write("implementation-review.json", json.dumps(implementation))]
+        self.assertEqual(self._validate(before)["state"], "awaiting-final-verification")
+        after = copy.deepcopy(before)
+        after["governance"].update(contract_revision=3, lifecycle_state="complete")
+        after["progress"]["next_action"] = None
+        review = {"evidence_role": "final-review", "evidence_result": "pass",
+                  "change_id": self.change, "contract_revision": 2,
+                  "source_fingerprint": before["progress"]["verified_revision"]["fingerprint"],
+                  "canonical_sha256": hashlib.sha256(self._render(before).encode()).hexdigest(),
+                  "agent_identity": self.owner, "reviewer_assignment": self.context["reviewer_assignment"]}
+        after["progress"]["completed"].append(self._write("review.json", json.dumps(review)))
+        with self.assertRaisesRegex(AssertionError, "review|independent|identity"):
+            self._validate(after, previous_text=self._render(before))
+
+    def test_multiple_unfinished_changes_require_selection_and_actual_canonical_files(self):
+        function = getattr(self.validator, "recover_project_session", None)
+        self.assertTrue(callable(function), "project resume recovery is not implemented")
+        record = self._record()
+        path = f"docs/agent-collab/{self.change}/status.md"
+        self._write(path, self._render(record))
+        self.assertEqual(function(self.root)["change_id"], self.change)
+        other = copy.deepcopy(record)
+        self.context["change_id"] = "direct-other-example"
+        other["governance"]["change_id"] = self.context["change_id"]
+        other["progress"]["contract"] = self._write("other-contract.md", "## Resume Context\n\n```json\n" + json.dumps(self.context) + "\n```\n")
+        self._write("docs/agent-collab/direct-other-example/status.md", self._render(other))
+        with self.assertRaisesRegex(AssertionError, "select|multiple"):
+            function(self.root)
+        self.assertEqual(function(self.root, change_id=self.change)["change_id"], self.change)
+
+    def test_external_record_keeps_full_handoff_and_missing_fields_cannot_downgrade(self):
+        handoff = (ROOT / "references/handoff-contract.md").read_text()
+        data = compact_schema6_contract(self.validator, handoff)
+        self.change = data["change_id"]
+        self.owner = data["control_plane_owner"]
+        self.context.update(change_id=self.change, record_kind="external", mode=data["mode"],
+                            approval_status=data["approval_status"], risk_profile=data["risk_profile"],
+                            control_plane_owner=self.owner, reviewer_assignment=data["reviewer_assignment"])
+        lease_text = WorkflowRulesTest._lease_artifact_text(self, risk_profile="compact")
+        data["confirmation_lease"]["sha256"] = self._write(data["confirmation_lease"]["path"], lease_text)["sha256"]
+        local = self._record()
+        local["progress"]["next_action"]["owner"] = data["next_owner"]
+        record = {"record_kind": "external", "contract_revision": data["contract_revision"], "progress": local["progress"]}
+        function = getattr(self.validator, "validate_resume_record", None)
+        self.assertTrue(callable(function), "project resume validation is not implemented")
+        text = render_handoff_contract(self.validator, data) + self._render(record)
+        self.assertEqual(function(text, self.root)["record_kind"], "external")
+        correct = copy.deepcopy(self.context["reviewer_assignment"])
+        for mismatch in (None, "unassigned-attacker-reviewer", {**correct, "agent_instance_id": "replacement"}):
+            self.context["reviewer_assignment"] = mismatch
+            record["progress"]["contract"] = self._context_ref()
+            with self.assertRaisesRegex(AssertionError, "assignment|context"):
+                function(render_handoff_contract(self.validator, data) + self._render(record), self.root)
+        self.context["reviewer_assignment"] = correct
+        record["progress"]["contract"] = self._context_ref()
+        broken = copy.deepcopy(data); broken.pop("reviewer_assignment")
+        with self.assertRaisesRegex(AssertionError, "missing|contract"):
+            function(render_handoff_contract(self.validator, broken) + self._render(record), self.root)
+        with self.assertRaisesRegex(AssertionError, "external|context|marker"):
+            self._validate(local)
+        with self.assertRaisesRegex(AssertionError, "missing|contract"):
+            self.validator.validate_handoff_contract(local["governance"], "thin-handoff")
+
+    def test_explicit_resume_cli_and_proposed_file_previous_binding(self):
+        function = getattr(self.validator, "validate_resume_record", None)
+        self.assertTrue(callable(function), "project resume validation is not implemented")
+        record = self._record()
+        status = self.root / f"docs/agent-collab/{self.change}/status.md"
+        self._write(str(status.relative_to(self.root)), self._render(record))
+        args = self.validator.parse_args(["validator", str(ROOT), "--resume-status", str(status),
+                                          "--artifact-root", str(self.root)])
+        self.assertEqual(args.resume_status, status)
+        with mock.patch("sys.stdout"):
+            self.assertEqual(self.validator.main(["validator", str(ROOT), "--resume-status", str(status),
+                                                  "--artifact-root", str(self.root)]), 0)
+
+    def test_malformed_reference_and_enum_fail_with_bounded_validation_errors(self):
+        record = self._record(True)
+        record["progress"]["verified_revision"]["commands"][0]["evidence"] = None
+        with self.assertRaises(AssertionError):
+            self._validate(record)
+        record = self._record()
+        record["governance"]["mode"] = []
+        with self.assertRaises(AssertionError):
+            self._validate(record)
+
+    def test_entering_final_verification_requires_verified_scoped_inputs(self):
+        before = self._record()
+        after = copy.deepcopy(before)
+        after["governance"].update(contract_revision=2, lifecycle_state="awaiting-final-verification")
+        with self.assertRaisesRegex(AssertionError, "verified|verification"):
+            self._validate(after, previous_text=self._render(before))
+
+    def test_strict_checkpoint_requires_implementation_review_on_recovery(self):
+        self.context["risk_profile"] = "strict"
+        self.context["reviewer_assignment"] = standard_reviewer_assignment("codex", "resume-review-01")
+        with self.assertRaisesRegex(AssertionError, "implementation-review"):
+            self._validate(self._record(True))
+
+    def test_strict_separate_implementation_and_final_review_positive(self):
+        self.context["risk_profile"] = "strict"
+        assignment = standard_reviewer_assignment("codex", "resume-review-01")
+        self.context["reviewer_assignment"] = assignment
+        identity = {key: assignment[key] for key in self.owner}
+        ready = self._record()
+        ready["governance"]["lifecycle_state"] = "ready-for-review"
+        verified = self._record(True)
+        review = {"evidence_role": "implementation-review", "evidence_result": "pass",
+                  "change_id": self.change, "contract_revision": 1,
+                  "source_fingerprint": verified["progress"]["verified_revision"]["fingerprint"],
+                  "canonical_sha256": hashlib.sha256(self._render(ready).encode()).hexdigest(),
+                  "agent_identity": identity, "reviewer_assignment": assignment}
+        verified["progress"]["completed"] = [self._write("implementation-review.json", json.dumps(review))]
+        self.assertEqual(self._validate(verified, previous_text=self._render(ready))["state"], "awaiting-final-verification")
+        self.assertEqual(self._validate(verified)["verified_revision"], 2)
+        final = copy.deepcopy(verified)
+        review.update(evidence_role="final-review", contract_revision=2,
+                      canonical_sha256=hashlib.sha256(self._render(verified).encode()).hexdigest())
+        final["governance"].update(contract_revision=3, lifecycle_state="complete")
+        final["progress"]["next_action"] = None
+        final["progress"]["completed"].append(self._write("final-review.json", json.dumps(review)))
+        self.assertEqual(self._validate(final, previous_text=self._render(verified))["state"], "complete")
+
+    def test_malformed_action_uses_bounded_validation_error(self):
+        record = self._record()
+        record["progress"]["next_action"]["action"] = []
+        with self.assertRaises(AssertionError):
+            self._validate(record)
+
+    def test_terminal_inventory_rejects_malformed_progress(self):
+        record = self._record(True)
+        record["governance"].update(contract_revision=3, lifecycle_state="complete")
+        record["progress"] = None
+        self._write(f"docs/agent-collab/{self.change}/status.md", self._render(record))
+        with self.assertRaisesRegex(AssertionError, "progress"):
+            self.validator.recover_project_session(self.root, change_id=self.change)
+
+    def test_local_cannot_retain_external_evidence_manifest(self):
+        record = self._record()
+        record["progress"]["completed"] = [self._write("external-report.md", "<!-- COOP_EVIDENCE_MANIFEST_START -->\nevidence_role: attempt-report\n<!-- COOP_EVIDENCE_MANIFEST_END -->\n")]
+        with self.assertRaisesRegex(AssertionError, "external|downgrade"):
+            self._validate(record)
+
+
 class SkillIterationEntryTests(unittest.TestCase):
     def test_iteration_entry_and_authority(self):
         _validate_iteration_entry(ROOT)

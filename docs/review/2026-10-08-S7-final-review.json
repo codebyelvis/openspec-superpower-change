@@ -1,0 +1,44 @@
+{
+  "gate": "final-review",
+  "result": "fail",
+  "snapshot": "Pre-FR-F1 correction",
+  "reviewer_identity": {
+    "agent_product": "codex",
+    "agent_instance_id": "s7-final-01",
+    "agent_role": "independent-reviewer",
+    "capability_profile": "control-plane-high"
+  },
+  "tool_instance": "/root/s7_final",
+  "result_authority": "governed-review-evidence",
+  "findings": [
+    {
+      "id": "S7-FR-F1",
+      "severity": "medium",
+      "finding": "External Resume Context accepted malformed reviewer_assignment independently of full Handoff assignment.",
+      "probe": "Temporary real-file valid full Handoff with context assignment unassigned-attacker-reviewer incorrectly accepted ready-for-brief, no authority granted."
+    }
+  ],
+  "independent_checks": {
+    "focused_both": 22,
+    "core_both": "pass",
+    "quick": "pass",
+    "strict_openspec": "pass",
+    "diff_check": "pass",
+    "verify_all_targets": 4,
+    "full_logs_both": 450,
+    "companion": 91,
+    "unrelated_hashes_unchanged": 44
+  },
+  "independent_adversarial_probe": "Ordinary absent input accepted; absence behind intermediate symlink rejected.",
+  "validator_sha256": "f3725b59812f8616510a3e184de04cebc39116f975c6061ef7f143568e386968",
+  "tests_sha256": "dbb8d0007f8cca5ede07021c606bcccf41f22bf36a011920518da62c9255b04b",
+  "evidence_hashes": {
+    "final-verification": "233e72b43de4ddc55fb4d71e0668d48c6c544eea62806b79c2ad78a531bc95be",
+    "native": "058f084a713d398d12a8cebc35b9a93bee6e1d5735c1a0659cdb03438ef84f8f",
+    "runtime": "fadebf17847591a73e917e9189392d6926fa3239d19fc370e56f845d118997ad"
+  },
+  "limits": [
+    "Historical pre-correction FAIL; same Final Review recheck required.",
+    "Full Handoff authority was not bypassed."
+  ]
+}

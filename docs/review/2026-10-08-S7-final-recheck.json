@@ -1,0 +1,70 @@
+{
+  "gate": "final-review",
+  "result": "pass",
+  "stage": "same-stage correction recheck",
+  "reviewer_identity": {
+    "agent_product": "codex",
+    "agent_instance_id": "s7-final-01",
+    "agent_role": "independent-reviewer",
+    "capability_profile": "control-plane-high"
+  },
+  "tool_instance": "/root/s7_final",
+  "result_authority": "governed-review-evidence",
+  "independent_from": [
+    "s7-control-01",
+    "s7-preflight-01",
+    "s7-review-01"
+  ],
+  "parent_review": {
+    "path": "docs/review/2026-10-08-S7-final-review.json",
+    "sha256": "d5a780ef4704c24de4de1bc12f1883b19a9dfc507e9499c5a6d8b084d2556a6c"
+  },
+  "closed_findings": [
+    "S7-FR-F1"
+  ],
+  "unresolved_findings": [],
+  "independent_checks": {
+    "focused_both": 22,
+    "core_both": "pass",
+    "quick": "pass",
+    "strict_openspec": "pass",
+    "diff": "pass",
+    "verify_all_targets": 4,
+    "selected_files_per_target": 4,
+    "assertions_per_target": 36,
+    "unrelated_files_unchanged": 44,
+    "full_both_after_last_source_change": 450
+  },
+  "independent_probe": "External compact and standard exact assignment accepts; malformed string/null/nested Review-purpose tampering rejects.",
+  "native_audit": {
+    "cases": 3,
+    "completed_commands": [
+      2,
+      1,
+      2
+    ],
+    "validator_exits": [
+      0,
+      1,
+      1
+    ],
+    "event_allowlist": "pass",
+    "exact_source": "match",
+    "raw_permissions": "0600"
+  },
+  "runtime_plan_sha256": "1e1bdbab4db270de752dff15f238457dbd6e86f71a782a94378579041a696ccc",
+  "limits": [
+    "Final Review gate only; operational closeout remains.",
+    "Native agents observe, parent persists.",
+    "Input coverage requires Review; flags do not authenticate."
+  ],
+  "reviewed_hashes": {
+    "scripts/validate_core_gates.py": "8c0844c1ede850109965ead76831b5bceaea434482342739f53a4186198d7959",
+    "tests/test_workflow_rules.py": "88633546a316f5e76a512bdd6918acc1554bd7ac738a401dab231282c4fd2791",
+    "docs/iteration/evidence/S7-final-verification.json": "2aca1b0a3ef820a23fbc8f97199c381fc605c05a0f0ab19032ccd16157d59332",
+    "docs/iteration/evidence/S7-source-validation.json": "5b7d06db8d71350e3577ca7405cc5429c06f12fbc6ae5dfe5b3a9a7ac8f06552",
+    "docs/iteration/evidence/S7-project-session-resume.json": "c07a338e0bb89619be51073702b3ce7c006e6ee0472d81b33a7b6a648e608d42",
+    "docs/iteration/evidence/S7-runtime-sync.json": "4a778b8aca15f16d08602e8882d7d6a7d9be1a8fcd56afcc06257a79ebacceeb",
+    "docs/review/2026-10-08-S7-learning-closeout.md": "8a210279cc301115bf16293960f27b6f19caa1b4b923a403454d4d13d5ef1223"
+  }
+}

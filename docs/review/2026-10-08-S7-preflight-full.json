@@ -1,0 +1,81 @@
+{
+  "review_mode": "FULL_PREFLIGHT",
+  "attempt": 1,
+  "result": "BLOCKED",
+  "lineage_root_revision": {
+    "path": "docs/review/2026-10-08-S7-implementation-plan.md",
+    "sha256": "30c372268f80b1703fe4ed9ff45dabf1c7cfec8d80d4b38e8489ae5a1e517ca3"
+  },
+  "reviewed_revision": {
+    "path": "docs/review/2026-10-08-S7-implementation-plan.md",
+    "sha256": "30c372268f80b1703fe4ed9ff45dabf1c7cfec8d80d4b38e8489ae5a1e517ca3"
+  },
+  "parent_review": null,
+  "reviewer_identity": {
+    "agent_product": "codex",
+    "agent_instance_id": "s7-preflight-01",
+    "agent_role": "independent-reviewer",
+    "capability_profile": "control-plane-high"
+  },
+  "tool_instance": "/root/s7_preflight",
+  "review_purpose": {
+    "object": "complete S7 implementation Plan against approved draft-v1",
+    "decision": "PASS/BLOCKED execution readiness"
+  },
+  "independence_requirement": {
+    "kind": "distinct-contract-instance",
+    "distinct_from": [
+      "control_plane_owner",
+      "executor_assignment"
+    ]
+  },
+  "result_authority": "governed-review-evidence",
+  "same_reviewer_instance": null,
+  "protected_boundaries": {
+    "scope": "unchanged",
+    "contract/spec": "unchanged",
+    "acceptance": "unchanged",
+    "risk/evidence profile": "unchanged",
+    "authority": "unchanged",
+    "assignments": "unchanged",
+    "allowed/forbidden files": "unchanged",
+    "branch/worktree": "unchanged",
+    "database/production": "unchanged",
+    "Git/publication/deployment": "unchanged"
+  },
+  "declared_correction_set": [],
+  "mechanical_self_check": false,
+  "finding_completeness": true,
+  "blocking_findings": [
+    {
+      "id": "F1",
+      "finding": "Specify executable existing-contract context and local evidence/identity/phase/fingerprint/hash/command coverage; no new approval/evidence authority."
+    },
+    {
+      "id": "F2",
+      "finding": "Provide exact source/runtime/dual-parser/strict/sync/discovery/archive/rollback commands and bounded scope checks."
+    },
+    {
+      "id": "F3",
+      "finding": "Specify native isolation, event audit, actual file checks, fixed model/high, read/write and identity limits, baseline RED/GREEN mechanism."
+    },
+    {
+      "id": "F4",
+      "finding": "Four portable selectors only; fifth implementation source is a non-portable test file."
+    }
+  ],
+  "independent_checks": [
+    "strict OpenSpec PASS",
+    "core default/forced fallback PASS",
+    "regular-file Plan SHA stable",
+    "invalid fifth portable selector rejected"
+  ],
+  "non_blocking_recommendations": [],
+  "accepted_residual_risks": [
+    {
+      "evidence": "openspec/changes/add-project-session-resume/design.md",
+      "impact": "No cryptographic authentication of prior state/contract/evidence; input coverage reviewed; arbitrary new identities read only.",
+      "owner_or_decision": "draft-v1 explicit user approval"
+    }
+  ]
+}

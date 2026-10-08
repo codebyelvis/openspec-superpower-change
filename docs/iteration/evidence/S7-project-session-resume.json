@@ -1,0 +1,106 @@
+{
+  "slice": "S7",
+  "change_id": "add-project-session-resume",
+  "model": "gpt-6.1-sol",
+  "reasoning": "high",
+  "baseline_head": "95e6a51c1d6a405e54049262693b5ab95f2f45d7",
+  "baseline_resume_cli": "RED: absent interface, exit 2",
+  "parent_actual_verification": {
+    "command": "python3 -m unittest discover -s tests -v",
+    "exit_code": 0
+  },
+  "parent_persistence": {
+    "previous_revision": 1,
+    "persisted_revision": 2,
+    "transition_validator_exit": 0,
+    "prior_sha256": "12cec9d0a4e0d3a1ebc0f36f2cda768bad8964c2713784103f039a0ec8e51211",
+    "persisted_sha256": "e28c146eaaa8c4f91abc8d07f7f9ecb0aaf994bf7cf047ea1ff7b8b2db9929e3",
+    "atomic_replace": true
+  },
+  "native_cases": [
+    {
+      "case": "positive",
+      "result": "pass",
+      "validator_exit": 0,
+      "event_counts": {
+        "thread.started": 1,
+        "turn.started": 1,
+        "item.completed": 4,
+        "item.started": 2,
+        "turn.completed": 1
+      },
+      "completed_commands": 2,
+      "events_sha256": "461c3f00808ebe4abc82eb77d09b6509c7cc23ede40971406b2f1d22a12d129a",
+      "project_unchanged": true,
+      "readout": {
+        "change_id": "direct-resume-example",
+        "state": "awaiting-final-verification",
+        "next_action": "verify",
+        "verified_revision": 2,
+        "authority_granted": false,
+        "reason": "verified-checkpoint"
+      },
+      "source_validator_sha256": "8c0844c1ede850109965ead76831b5bceaea434482342739f53a4186198d7959"
+    },
+    {
+      "case": "stale",
+      "result": "pass",
+      "validator_exit": 1,
+      "event_counts": {
+        "thread.started": 1,
+        "turn.started": 1,
+        "item.completed": 3,
+        "item.started": 1,
+        "turn.completed": 1
+      },
+      "completed_commands": 1,
+      "events_sha256": "1c2b8aea940a6ecd81a9e608b8a186d933ff137ef9739cb47ca50273212b5a36",
+      "project_unchanged": true,
+      "readout": {
+        "change_id": "direct-resume-example",
+        "state": "blocked",
+        "next_action": "verify",
+        "verified_revision": null,
+        "authority_granted": false,
+        "reason": "stale-inputs"
+      },
+      "source_validator_sha256": "8c0844c1ede850109965ead76831b5bceaea434482342739f53a4186198d7959"
+    },
+    {
+      "case": "wrong-actor",
+      "result": "pass",
+      "validator_exit": 1,
+      "event_counts": {
+        "thread.started": 1,
+        "turn.started": 1,
+        "item.completed": 4,
+        "item.started": 2,
+        "turn.completed": 1
+      },
+      "completed_commands": 2,
+      "events_sha256": "56656e79685032b70fd7a7ead3a642cebeced903f9987e6e979f7554e9e50d05",
+      "project_unchanged": true,
+      "readout": {
+        "change_id": "direct-resume-example",
+        "state": "blocked",
+        "next_action": "wait",
+        "verified_revision": null,
+        "authority_granted": false,
+        "reason": "assignment-mismatch"
+      },
+      "source_validator_sha256": "8c0844c1ede850109965ead76831b5bceaea434482342739f53a4186198d7959"
+    }
+  ],
+  "limits": [
+    "Native instances only observe; parent persists.",
+    "Actual input coverage is reviewed, not transitively discovered.",
+    "CLI identity flags do not authenticate."
+  ],
+  "source_hashes": {
+    "SKILL.md": "84b061abd5326d842d9b74edef52307738a1d14605e25e113d6ecd7416499e78",
+    "references/approved-implementation-workflow.md": "a93475a946d7c392ef3b9b36441bcadc4a6b6991887ae41d2c1043ceb094f3b3",
+    "references/direct-change-rule.md": "0aae205d1cb8db56d6cfd04746d84fe0b9c9b59820ce87ef30cf82c9b8be8dae",
+    "scripts/validate_core_gates.py": "8c0844c1ede850109965ead76831b5bceaea434482342739f53a4186198d7959"
+  },
+  "raw_evidence": "Temporary private mode-0600 files; removed after final published closure."
+}

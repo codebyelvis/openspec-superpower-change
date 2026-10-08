@@ -28,7 +28,7 @@ Uncertain OpenSpec classification uses `references/openspec-decision-rule.md`.
 | Clear typo, formatting, comment, non-contractual docs or localized internal restoration | `references/direct-change-rule.md` |
 | Behavioral slice evidence | `references/step-evidence-gate.md` |
 | OpenSpec boundary or uncertain contract impact | `references/openspec-decision-rule.md`; when required, `references/proposal-workflow.md` |
-| Approved implementation, including unchanged continuation | Existing canonical Plan/Status and `references/approved-implementation-workflow.md` |
+| Approved implementation, including unchanged continuation or project session recovery | Existing canonical Plan/Status and `references/approved-implementation-workflow.md` (Project Session Resume) |
 | Select implementation methods for the current phase | `references/superpowers-adapter.md` |
 | Unclear request mode or domain language | `references/request-modes.md`; affected local/domain instructions use `references/local-instruction-checkpoint.md` |
 | Review architecture, OpenSpec need, authority or whole-task completion | This Router; `references/request-modes.md` |

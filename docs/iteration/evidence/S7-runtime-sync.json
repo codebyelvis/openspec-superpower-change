@@ -1,0 +1,207 @@
+{
+  "slice": "S7",
+  "result": "pass",
+  "plan_sha256": "1e1bdbab4db270de752dff15f238457dbd6e86f71a782a94378579041a696ccc",
+  "selected_files": [
+    "SKILL.md",
+    "references/approved-implementation-workflow.md",
+    "references/direct-change-rule.md",
+    "scripts/validate_core_gates.py"
+  ],
+  "assertions_per_target": 36,
+  "managed_rule_version": 6,
+  "managed_rule_changed": false,
+  "targets": {
+    "codex": {
+      "state": "verified",
+      "receipt_sha256": "2e039dfee17b53cb77e99705cf6ed37e9eb615ad35cbcee702f569960317c98b",
+      "discovery": "01973f441e1cca1f8a1fa6ca222423fb9a8dd6922263783ffce83890af2fd248",
+      "content": "27100e332fdb364056527414c7067874812c4ef1727abf629ccc18da6ae28cb5"
+    },
+    "pi": {
+      "state": "verified",
+      "receipt_sha256": "0975684b9a43b0c4e6573d86fca87590340fedd69bd1e7b40ec7b6b66546b22a",
+      "discovery": "25aa56ba837d6df2dc82bff7b1d0775671015dfd49bc6ed1ff470cef0b132e77",
+      "content": "d1e101683c11e7f9d6e2062871fe527e9190d411ba2c2420b8ab17270ea02185"
+    },
+    "antigravity-cli": {
+      "state": "verified",
+      "receipt_sha256": "e9ca3d728ead432588556ba909bea908e5663335020e739aa4e6872de29b9c9c",
+      "discovery": "567eb187a408bf4b79c088275cba19521eb8c4c1f0c95f677f3d94cc434ea104",
+      "content": "ce3408b56a48282fe787307c3513e804882d893f35ab23d98daa48dddbf3c45e"
+    },
+    "grok-cli": {
+      "state": "verified",
+      "receipt_sha256": "efce015ca663f45c167e08166e411e63faafd09ff89957d2ed401f0c2e1e5f31",
+      "discovery": "56c226f7a82fc5f43db40d30dcc6cbcb3a82b39f52d84b79f171532c03650287",
+      "content": "a873c785e3a1dcd74d3cd0db0af12f00130283d65d885999f8efb568c46cccd0"
+    }
+  },
+  "checks": [
+    {
+      "check": "codex-apply",
+      "exit_code": 0
+    },
+    {
+      "check": "codex-openspec-superpower-change-quick",
+      "exit_code": 0
+    },
+    {
+      "check": "codex-openspec-superpower-change-fallback",
+      "exit_code": 0
+    },
+    {
+      "check": "codex-openspec-superpower-change-pyyaml",
+      "exit_code": 0
+    },
+    {
+      "check": "codex-codex-brief-antigravity-review-quick",
+      "exit_code": 0
+    },
+    {
+      "check": "codex-codex-brief-antigravity-review-fallback",
+      "exit_code": 0
+    },
+    {
+      "check": "codex-codex-brief-antigravity-review-pyyaml",
+      "exit_code": 0
+    },
+    {
+      "check": "codex-verify",
+      "exit_code": 0
+    },
+    {
+      "check": "codex-discovery",
+      "exit_code": 0
+    },
+    {
+      "check": "codex-commit",
+      "exit_code": 0
+    },
+    {
+      "check": "pi-apply",
+      "exit_code": 0
+    },
+    {
+      "check": "pi-openspec-superpower-change-quick",
+      "exit_code": 0
+    },
+    {
+      "check": "pi-openspec-superpower-change-fallback",
+      "exit_code": 0
+    },
+    {
+      "check": "pi-openspec-superpower-change-pyyaml",
+      "exit_code": 0
+    },
+    {
+      "check": "pi-codex-brief-antigravity-review-quick",
+      "exit_code": 0
+    },
+    {
+      "check": "pi-codex-brief-antigravity-review-fallback",
+      "exit_code": 0
+    },
+    {
+      "check": "pi-codex-brief-antigravity-review-pyyaml",
+      "exit_code": 0
+    },
+    {
+      "check": "pi-verify",
+      "exit_code": 0
+    },
+    {
+      "check": "pi-discovery",
+      "exit_code": 0
+    },
+    {
+      "check": "pi-commit",
+      "exit_code": 0
+    },
+    {
+      "check": "antigravity-cli-apply",
+      "exit_code": 0
+    },
+    {
+      "check": "antigravity-cli-openspec-superpower-change-quick",
+      "exit_code": 0
+    },
+    {
+      "check": "antigravity-cli-openspec-superpower-change-fallback",
+      "exit_code": 0
+    },
+    {
+      "check": "antigravity-cli-openspec-superpower-change-pyyaml",
+      "exit_code": 0
+    },
+    {
+      "check": "antigravity-cli-codex-brief-antigravity-review-quick",
+      "exit_code": 0
+    },
+    {
+      "check": "antigravity-cli-codex-brief-antigravity-review-fallback",
+      "exit_code": 0
+    },
+    {
+      "check": "antigravity-cli-codex-brief-antigravity-review-pyyaml",
+      "exit_code": 0
+    },
+    {
+      "check": "antigravity-cli-verify",
+      "exit_code": 0
+    },
+    {
+      "check": "antigravity-cli-discovery",
+      "exit_code": 0
+    },
+    {
+      "check": "antigravity-cli-commit",
+      "exit_code": 0
+    },
+    {
+      "check": "grok-cli-apply",
+      "exit_code": 0
+    },
+    {
+      "check": "grok-cli-openspec-superpower-change-quick",
+      "exit_code": 0
+    },
+    {
+      "check": "grok-cli-openspec-superpower-change-fallback",
+      "exit_code": 0
+    },
+    {
+      "check": "grok-cli-openspec-superpower-change-pyyaml",
+      "exit_code": 0
+    },
+    {
+      "check": "grok-cli-codex-brief-antigravity-review-quick",
+      "exit_code": 0
+    },
+    {
+      "check": "grok-cli-codex-brief-antigravity-review-fallback",
+      "exit_code": 0
+    },
+    {
+      "check": "grok-cli-codex-brief-antigravity-review-pyyaml",
+      "exit_code": 0
+    },
+    {
+      "check": "grok-cli-verify",
+      "exit_code": 0
+    },
+    {
+      "check": "grok-cli-discovery",
+      "exit_code": 0
+    },
+    {
+      "check": "grok-cli-commit",
+      "exit_code": 0
+    },
+    {
+      "check": "verify-all",
+      "exit_code": 0
+    }
+  ],
+  "legacy_audit": []
+}

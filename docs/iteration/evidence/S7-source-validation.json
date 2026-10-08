@@ -1,0 +1,84 @@
+{
+  "change_id": "add-project-session-resume",
+  "result": "pass",
+  "commands": [
+    {
+      "command": [
+        "/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S7-implementation-3x8hv7nk/validation-venv/bin/python",
+        "/Users/elvis/.codex/skills/.system/skill-creator/scripts/quick_validate.py",
+        "."
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "python3",
+        "scripts/validate_core_gates.py",
+        "."
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S7-implementation-3x8hv7nk/validation-venv/bin/python",
+        "scripts/validate_core_gates.py",
+        "."
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-v"
+      ],
+      "exit_code": 0,
+      "tests": 450
+    },
+    {
+      "command": [
+        "/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S7-implementation-3x8hv7nk/validation-venv/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-v"
+      ],
+      "exit_code": 0,
+      "tests": 450
+    },
+    {
+      "command": [
+        "openspec",
+        "validate",
+        "add-project-session-resume",
+        "--strict",
+        "--no-interactive"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exit_code": 0
+    }
+  ],
+  "source_hashes": {
+    "SKILL.md": "84b061abd5326d842d9b74edef52307738a1d14605e25e113d6ecd7416499e78",
+    "references/approved-implementation-workflow.md": "a93475a946d7c392ef3b9b36441bcadc4a6b6991887ae41d2c1043ceb094f3b3",
+    "references/direct-change-rule.md": "0aae205d1cb8db56d6cfd04746d84fe0b9c9b59820ce87ef30cf82c9b8be8dae",
+    "scripts/validate_core_gates.py": "8c0844c1ede850109965ead76831b5bceaea434482342739f53a4186198d7959",
+    "tests/test_workflow_rules.py": "88633546a316f5e76a512bdd6918acc1554bd7ac738a401dab231282c4fd2791"
+  },
+  "fallback_full": 450,
+  "pyyaml_full": 450,
+  "companion_fallback": 91
+}

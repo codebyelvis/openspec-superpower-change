@@ -1,0 +1,19 @@
+{
+  "gate": "implementation-review",
+  "result": "fail",
+  "snapshot": "pre-correction: 17 focused tests and 445 full tests",
+  "reviewer_identity": {"agent_product":"codex","agent_instance_id":"s7-review-01","agent_role":"independent-reviewer","capability_profile":"control-plane-high"},
+  "tool_instance": "/root/s7_review",
+  "result_authority": "governed-review-evidence",
+  "independent_from": ["s7-control-01","s7-preflight-01"],
+  "findings": [
+    {"id":"S7-IR-F1","severity":"high","finding":"Strict standalone final phase and complete accepted final-review-only evidence, omitting Implementation Review.","probe":"Temporary real-file strict checkpoint and final transition; both incorrectly PASS."},
+    {"id":"S7-IR-F2","severity":"medium","finding":"Terminal inventory accepted progress:null before validating structure/context/references.","probe":"Canonical complete status with null progress returned recorded-complete."},
+    {"id":"S7-IR-F3","severity":"medium","finding":"Local completed refs retained full external evidence marker/identity/batch artifact.","probe":"Hashed schema-2 attempt-report marker file accepted."},
+    {"id":"S7-IR-F4","severity":"low","finding":"next_action.action:[] raised TypeError instead of bounded validation error.","probe":"Malformed action list caused dictionary lookup exception."}
+  ],
+  "checks": {"focused_fallback":17,"focused_pyyaml":17,"core_both":"pass","full_both":445,"shared_functions_byte_identical":46},
+  "native_evidence": "pending at this review",
+  "limitations": ["Historical pre-correction FAIL; later root corrections not yet independently rechecked.","No runtime or whole-task completion signoff."],
+  "scope": "Approved add-project-session-resume only; readonly review."
+}
