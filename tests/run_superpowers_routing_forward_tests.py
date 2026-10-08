@@ -281,8 +281,14 @@ def file_snapshot(root: Path) -> dict[str, str]:
 
 
 def validate_observed(observed: object, schema: dict) -> dict:
-    if not isinstance(observed, dict) or set(observed) != OUTPUT_KEYS:
-        raise ProbeFailure("schema mismatch: exact six output fields required")
+    required = set(schema.get("required", []))
+    audit = required == OUTPUT_KEYS | {"selection_evidence"}
+    if audit and isinstance(observed, dict) and "selection_evidence" not in observed:
+        raise ProbeFailure("schema mismatch: selection evidence record required")
+    if required != OUTPUT_KEYS and not audit:
+        raise ProbeFailure("schema mismatch: unsupported output fields")
+    if not isinstance(observed, dict) or set(observed) != required:
+        raise ProbeFailure("schema mismatch: exact output fields required")
     properties = schema.get("properties", {})
     for key in ("route", "result", "completion_owner"):
         allowed = properties.get(key, {}).get("enum", [])
@@ -299,6 +305,17 @@ def validate_observed(observed: object, schema: dict) -> dict:
     for key in ("state_change_allowed", "git_authorized"):
         if type(observed[key]) is not bool:
             raise ProbeFailure(f"schema mismatch: {key} must be boolean")
+    if audit:
+        record = observed["selection_evidence"]
+        if not isinstance(record, dict) or set(record) != {"record_kind", "reason"}:
+            raise ProbeFailure("schema mismatch: invalid selection evidence fields")
+        record_schema = properties["selection_evidence"]["properties"]
+        for key in ("record_kind", "reason"):
+            if not isinstance(record[key], str) or record[key] not in record_schema[key]["enum"]:
+                raise ProbeFailure("schema mismatch: invalid selection evidence value")
+        kind = "bypass" if observed["route"] == "direct" else "gate-0"
+        if record["record_kind"] != kind:
+            raise ProbeFailure("selection evidence contradicts the observed route")
     return observed
 
 
@@ -326,9 +343,12 @@ def build_runtime_schema(canonical: dict, destination: Path) -> Path:
 
 def compare_expected(expected: dict, observed: dict) -> list[str]:
     mismatches: list[str] = []
-    if set(expected) != OUTPUT_KEYS:
-        return ["fixture expected object does not contain exact six fields"]
-    for key in OUTPUT_KEYS - {"selected_superpowers"}:
+    fields = set(expected)
+    if fields != OUTPUT_KEYS and fields != OUTPUT_KEYS | {"selection_evidence"}:
+        return ["fixture expected object does not contain supported output fields"]
+    if set(observed) != fields:
+        return ["output fields mismatch"]
+    for key in fields - {"selected_superpowers"}:
         if expected[key] != observed[key]:
             mismatches.append(f"{key} mismatch")
     if set(expected["selected_superpowers"]) != set(observed["selected_superpowers"]):
@@ -402,6 +422,7 @@ def run_case(
     temp_parent: Path,
 ) -> dict:
     case_public = {key: value for key, value in case.items() if key != "expected"}
+    case_public.pop("expected_selection_evidence", None)
     case_id = case_public.get("id")
     if not isinstance(case_id, str) or not case_id:
         raise ProbeFailure("case without a valid id")
@@ -436,6 +457,7 @@ def run_case(
         os.chmod(result_path, 0o600)
 
         ordinary = case_id == "ordinary_question"
+        audit_selection = "selection_evidence" in schema.get("required", [])
         if ordinary:
             prompt = case_public["prompt"]
         else:
@@ -448,9 +470,16 @@ def run_case(
                 "Do not modify files or execute the requested work. Return only the "
                 "output-schema fields."
             )
+            if audit_selection:
+                prompt += (
+                    " Include selection_evidence as this probe's inline Gate 0 method "
+                    "selection record: identify why methods were selected or unnecessary "
+                    "using the output schema's bounded reason codes. The record is "
+                    "evidence only and grants no additional authority."
+                )
         command = [
             "codex", "exec", "--json", "--ephemeral", "--ignore-user-config", "--ignore-rules",
-            "-c", 'model_reasoning_effort="low"',
+            "--model", "gpt-6.1-sol", "-c", 'model_reasoning_effort="high"',
             "--sandbox", "read-only", "--skip-git-repo-check", "-C", str(project),
         ]
         if not ordinary:
@@ -514,6 +543,11 @@ def run_case(
                 "git_authorized": False,
                 "completion_owner": "none",
             }
+            if audit_selection:
+                # Classifier evidence for the factual answer, never a fabricated Gate 0.
+                observed["selection_evidence"] = {
+                    "record_kind": "bypass", "reason": "ordinary-answer-no-workflow",
+                }
         else:
             try:
                 observed = validate_observed(json.loads(raw_result), schema)
@@ -521,6 +555,8 @@ def run_case(
                 raise ProbeFailure(f"{case_id}: last message is not valid JSON") from None
 
         expected = case["expected"]
+        if audit_selection:
+            expected = {**expected, "selection_evidence": case["expected_selection_evidence"]}
         mismatches = compare_expected(expected, observed)
         return {
             "id": case_id,
@@ -577,6 +613,16 @@ def validated_remove_run_root(run_root: Path, parent: Path) -> None:
     shutil.rmtree(resolved_root)
 
 
+def select_cases(cases: list[dict], requested_ids: list[str] | None) -> list[dict]:
+    if not requested_ids:
+        return cases
+    if len(requested_ids) != len(set(requested_ids)):
+        raise ProbeFailure("duplicate requested case id")
+    if set(requested_ids) - {case["id"] for case in cases}:
+        raise ProbeFailure("unknown requested case id")
+    return [case for case in cases if case["id"] in requested_ids]
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument("--router-source", required=True)
@@ -586,6 +632,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--schema", required=True)
     parser.add_argument("--codex-home", required=True)
     parser.add_argument("--sanitized-summary", required=True)
+    parser.add_argument("--case-id", action="append", help="Run only these existing cases (repeatable)")
     return parser.parse_args()
 
 
@@ -606,8 +653,12 @@ def main() -> int:
         schema = json.loads(schema_path.read_text(encoding="utf-8"))
         if not isinstance(cases, list) or len(cases) != 13:
             raise ProbeFailure("case fixture must contain exactly 13 cases")
-        if set(schema.get("required", [])) != OUTPUT_KEYS:
-            raise ProbeFailure("schema must require the exact six output fields")
+        cases = select_cases(cases, args.case_id)
+        fields = set(schema.get("required", []))
+        if fields != OUTPUT_KEYS and fields != OUTPUT_KEYS | {"selection_evidence"}:
+            raise ProbeFailure("schema must require route fields with optional selection evidence")
+        if "selection_evidence" in fields and any("expected_selection_evidence" not in case for case in cases):
+            raise ProbeFailure("selection evidence requires an auditable case fixture")
 
         summary_path = Path(args.sanitized_summary).expanduser().absolute()
         summary_path.parent.mkdir(parents=True, exist_ok=True, mode=0o700)
@@ -696,6 +747,9 @@ def main() -> int:
         failed = sum(result["status"] != "PASS" for result in results)
         payload = {
             "schema_version": 1,
+            "model": "gpt-6.1-sol",
+            "reasoning_effort": "high",
+            "selection_evidence": "selection_evidence" in fields,
             "router_source": str(router_source),
             "managed_rule_sha256": sha256(managed_rule_source),
             "superpowers_source": str(superpowers_source),

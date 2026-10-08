@@ -13,5 +13,6 @@
 - 阻塞原因：无
 - 恢复动作：无；下一轮按指定切片或 backlog 选择，Major 未批准不实现
 
-上一轮 S1 的证据与提交定位见 `docs/iteration/LOG.md`。
-下一句口令：`迭代优化skill：收敛 Superpowers 选择证据`。
+上一轮 S2 的证据与提交定位见 `docs/iteration/LOG.md` 和
+`docs/iteration/evidence/S2-superpowers-selection.json`。
+下一句口令：`迭代优化skill：迭代候选进入 backlog 的窄管道`。

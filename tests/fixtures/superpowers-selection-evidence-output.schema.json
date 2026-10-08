@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "route",
+    "result",
+    "selected_superpowers",
+    "state_change_allowed",
+    "git_authorized",
+    "completion_owner",
+    "selection_evidence"
+  ],
+  "properties": {
+    "route": {
+      "enum": [
+        "direct",
+        "diagnose-only",
+        "openspec-proposal",
+        "direct-change",
+        "companion-standalone",
+        "router-review-only",
+        "approved-implementation",
+        "router-completion",
+        "router-gate-0",
+        "blocked"
+      ]
+    },
+    "result": {
+      "enum": [
+        "answer",
+        "stop-before-fix",
+        "stop-for-approval",
+        "needs-user-decision",
+        "implementation-gated",
+        "review",
+        "completion-evaluation",
+        "blocked"
+      ]
+    },
+    "selected_superpowers": {
+      "type": "array",
+      "uniqueItems": true,
+      "description": "Canonical methods selected or explicitly requested for the bounded route; record a requested method even when authority blocks it.",
+      "items": {
+        "enum": [
+          "superpowers:brainstorming",
+          "superpowers:systematic-debugging",
+          "superpowers:test-driven-development",
+          "superpowers:writing-plans",
+          "superpowers:requesting-code-review",
+          "superpowers:verification-before-completion",
+          "superpowers:finishing-a-development-branch",
+          "fixture:child-a",
+          "fixture:child-b"
+        ]
+      }
+    },
+    "state_change_allowed": {
+      "type": "boolean",
+      "description": "Whether the classified request may enter implementation after its remaining gates."
+    },
+    "git_authorized": {
+      "type": "boolean",
+      "description": "Whether the current user explicitly authorized Git mutation."
+    },
+    "completion_owner": {
+      "enum": [
+        "router",
+        "none"
+      ],
+      "description": "router only when exactly one applicable Router owns the route; bypass, zero-Router, and multiple-Router routes use none."
+    },
+    "selection_evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "record_kind",
+        "reason"
+      ],
+      "description": "Probe-only inline method-selection evidence; never a new workflow or authority contract. Bypass records are classifier observations, not Gate 0 signoff.",
+      "properties": {
+        "record_kind": {
+          "enum": [
+            "gate-0",
+            "bypass"
+          ]
+        },
+        "reason": {
+          "enum": [
+            "ordinary-answer-no-workflow",
+            "fully-specified-proposal-no-implementation-phase",
+            "compact-restoration-existing-cause-and-regression",
+            "explicit-method-request-no-authority"
+          ],
+          "description": "Record the observed phase/cause for choosing no methods or respecting a method-only request. No reason grants Git, implementation or completion authority."
+        }
+      }
+    }
+  }
+}

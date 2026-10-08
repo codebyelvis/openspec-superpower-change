@@ -1,0 +1,202 @@
+{
+  "canonical_baseline": "dc2cab2c614cfe91c03eee589c686e6fdaabb987",
+  "commands": {
+    "legacy": "PYTHONDONTWRITEBYTECODE=1 python3 tests/run_superpowers_routing_forward_tests.py --router-source <isolated-portable-source> --managed-rule-source <isolated-portable-source>/references/shared-global-governance.md --superpowers-source <installed-Superpowers-source> --cases tests/fixtures/superpowers-routing-cases.json --codex-home <account-a-auth-root> --sanitized-summary <private-summary> --case-id ordinary_question --case-id proposal_only --case-id direct_change --case-id explicit_method_no_git --schema tests/fixtures/superpowers-routing-output.schema.json",
+    "selection": "PYTHONDONTWRITEBYTECODE=1 python3 tests/run_superpowers_routing_forward_tests.py --router-source <isolated-portable-source> --managed-rule-source <isolated-portable-source>/references/shared-global-governance.md --superpowers-source <installed-Superpowers-source> --cases tests/fixtures/superpowers-routing-cases.json --codex-home <account-a-auth-root> --sanitized-summary <private-summary> --case-id ordinary_question --case-id proposal_only --case-id direct_change --case-id explicit_method_no_git --schema tests/fixtures/superpowers-selection-evidence-output.schema.json",
+    "unit": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s tests -v (once with dependency-free python3 and once with PyYAML)"
+  },
+  "date": "2026-10-08",
+  "fixture_setup": "Copy only the manifest-declared openspec-superpower-change portable files into the isolated source; verify equality with canonical bytes before running the existing probe. Each case gets a private HOME, read-only sandbox and ephemeral session; native events are audited and raw messages are removed.",
+  "green": {
+    "case_count": 4,
+    "failed": 0,
+    "results": [
+      {
+        "adapter_sha256": null,
+        "event_audit": {
+          "agent_message_count": 1,
+          "event_count": 4,
+          "reasoning_event_count": 0,
+          "tool_event_count": 0
+        },
+        "id": "ordinary_question",
+        "managed_rule_sha256": null,
+        "mismatches": [],
+        "observed": {
+          "completion_owner": "none",
+          "git_authorized": false,
+          "result": "answer",
+          "route": "direct",
+          "selected_superpowers": [],
+          "selection_evidence": {
+            "reason": "ordinary-answer-no-workflow",
+            "record_kind": "bypass"
+          },
+          "state_change_allowed": false
+        },
+        "router_inventory_count": 0,
+        "status": "PASS"
+      },
+      {
+        "adapter_sha256": "f164c56a8b1fa0960a421112b1ede73a98dbc981de7afcf03700dd081382e3c2",
+        "event_audit": {
+          "agent_message_count": 1,
+          "event_count": 4,
+          "reasoning_event_count": 0,
+          "tool_event_count": 0
+        },
+        "id": "proposal_only",
+        "managed_rule_sha256": null,
+        "mismatches": [],
+        "observed": {
+          "completion_owner": "router",
+          "git_authorized": false,
+          "result": "stop-for-approval",
+          "route": "openspec-proposal",
+          "selected_superpowers": [],
+          "selection_evidence": {
+            "reason": "fully-specified-proposal-no-implementation-phase",
+            "record_kind": "gate-0"
+          },
+          "state_change_allowed": false
+        },
+        "router_inventory_count": 1,
+        "status": "PASS"
+      },
+      {
+        "adapter_sha256": "f164c56a8b1fa0960a421112b1ede73a98dbc981de7afcf03700dd081382e3c2",
+        "event_audit": {
+          "agent_message_count": 1,
+          "event_count": 4,
+          "reasoning_event_count": 0,
+          "tool_event_count": 0
+        },
+        "id": "direct_change",
+        "managed_rule_sha256": null,
+        "mismatches": [],
+        "observed": {
+          "completion_owner": "router",
+          "git_authorized": false,
+          "result": "implementation-gated",
+          "route": "direct-change",
+          "selected_superpowers": [],
+          "selection_evidence": {
+            "reason": "compact-restoration-existing-cause-and-regression",
+            "record_kind": "gate-0"
+          },
+          "state_change_allowed": true
+        },
+        "router_inventory_count": 1,
+        "status": "PASS"
+      },
+      {
+        "adapter_sha256": "f164c56a8b1fa0960a421112b1ede73a98dbc981de7afcf03700dd081382e3c2",
+        "event_audit": {
+          "agent_message_count": 1,
+          "event_count": 4,
+          "reasoning_event_count": 0,
+          "tool_event_count": 0
+        },
+        "id": "explicit_method_no_git",
+        "managed_rule_sha256": null,
+        "mismatches": [],
+        "observed": {
+          "completion_owner": "router",
+          "git_authorized": false,
+          "result": "blocked",
+          "route": "router-gate-0",
+          "selected_superpowers": [
+            "superpowers:finishing-a-development-branch"
+          ],
+          "selection_evidence": {
+            "reason": "explicit-method-request-no-authority",
+            "record_kind": "gate-0"
+          },
+          "state_change_allowed": false
+        },
+        "router_inventory_count": 1,
+        "status": "PASS"
+      }
+    ]
+  },
+  "managed_rule_sha256": "0040153a954ab0a6599e3eb951e8fa6b7715710745616f1f404904bf056c11d2",
+  "model": "gpt-6.1-sol",
+  "ordinary_question_evidence_origin": "Factual-answer classifier plus native event audit; bypass record is generated by the probe, never a claimed Gate 0.",
+  "portable_source_sha256": "c03ec32920d908dd25c120c2237d2b0c554c4e6e7e9c4e82f92616ba5867a6de",
+  "reasoning_effort": "high",
+  "red": {
+    "baseline_routes": "4 PASS",
+    "results": [
+      {
+        "id": "ordinary_question",
+        "reason": "missing-selection-evidence",
+        "status": "FAIL"
+      },
+      {
+        "id": "proposal_only",
+        "reason": "missing-selection-evidence",
+        "status": "FAIL"
+      },
+      {
+        "id": "direct_change",
+        "reason": "missing-selection-evidence",
+        "status": "FAIL"
+      },
+      {
+        "id": "explicit_method_no_git",
+        "reason": "missing-selection-evidence",
+        "status": "FAIL"
+      }
+    ],
+    "selection_audit": "4 FAIL"
+  },
+  "review": "PASS: Router, OpenSpec, Superpowers selection authority, evidence gates and completion ownership unchanged; reason grammar lives only in tests; expected selection oracle excluded from public fixture.",
+  "runtime_sync": {
+    "targets": [
+      {
+        "managed_rule_parity": "PASS",
+        "portable_parity": "PASS",
+        "runtime_apply": "not-triggered",
+        "target": "codex"
+      },
+      {
+        "managed_rule_parity": "PASS",
+        "portable_parity": "PASS",
+        "runtime_apply": "not-triggered",
+        "target": "pi"
+      },
+      {
+        "managed_rule_parity": "PASS",
+        "portable_parity": "PASS",
+        "runtime_apply": "not-triggered",
+        "target": "antigravity-cli"
+      },
+      {
+        "managed_rule_parity": "PASS",
+        "portable_parity": "PASS",
+        "runtime_apply": "not-triggered",
+        "target": "grok-cli"
+      }
+    ],
+    "trigger": false
+  },
+  "scope": "Isolated native route-classification probes with inline selection records; no implementation, workflow signoff, completion authority or mechanically suppressed child-loading claim.",
+  "slice": "S2",
+  "tested_files_sha256": {
+    "tests/fixtures/superpowers-routing-cases.json": "35eb06f7915fcf8ef17b80508f7997f79011da6d72981d2e1e5e73fcca78ad9f",
+    "tests/fixtures/superpowers-routing-output.schema.json": "3c31b74cda014504a544426f3bdb1cc0186e3da5824105bb5b64cd5a8b8b2103",
+    "tests/fixtures/superpowers-selection-evidence-output.schema.json": "e38f1f564012002b6335b246116bd4938bed73e59cb8104e820fb13aa4d283fe",
+    "tests/run_superpowers_routing_forward_tests.py": "8ecd72b43f9edd475728cd1e3339277ad697b9f89979d5702d0a555675d6a401",
+    "tests/test_superpowers_selection_evidence.py": "6ea4a3f51e7d066a0fbc222910ad08b2d884be613985c53a7a9e7a7db517318c"
+  },
+  "unittest": {
+    "fallback": {
+      "passed": 424,
+      "seconds": 25.632
+    },
+    "pyyaml": {
+      "passed": 424,
+      "seconds": 25.909
+    }
+  }
+}

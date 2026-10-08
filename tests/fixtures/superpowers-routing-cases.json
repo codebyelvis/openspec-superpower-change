@@ -1,6 +1,7 @@
 [
   {
     "id": "ordinary_question",
+    "expected_selection_evidence": {"record_kind": "bypass", "reason": "ordinary-answer-no-workflow"},
     "prompt": "What is the difference between a set and a list? Answer only; do not change files.",
     "fixture": {"router": false, "superpowers": []},
     "expected": {"route": "direct", "result": "answer", "selected_superpowers": [], "state_change_allowed": false, "git_authorized": false, "completion_owner": "none"}
@@ -13,6 +14,7 @@
   },
   {
     "id": "proposal_only",
+    "expected_selection_evidence": {"record_kind": "gate-0", "reason": "fully-specified-proposal-no-implementation-phase"},
     "prompt": "Create proposal/spec/design/tasks only for a fully specified internal endpoint: POST /preferences accepts email:boolean and returns it; existing bearer auth; 400 for non-boolean; no migration or compatibility alias. Do not implement.",
     "fixture": {"router": true, "superpowers": []},
     "expected": {"route": "openspec-proposal", "result": "stop-for-approval", "selected_superpowers": [], "state_change_allowed": false, "git_authorized": false, "completion_owner": "router"}
@@ -25,6 +27,7 @@
   },
   {
     "id": "direct_change",
+    "expected_selection_evidence": {"record_kind": "gate-0", "reason": "compact-restoration-existing-cause-and-regression"},
     "prompt": "Fix a confirmed off-by-one condition in one private pure parser helper restoring its already-supported empty object. Cause and acceptance are established, an adequate regression test exists, and the local reversible fix changes no public contract, API/schema, persistence, security, routing or other protected boundary. Complete this bounded local fix without Git.",
     "fixture": {"router": true, "superpowers": ["systematic-debugging", "test-driven-development"]},
     "expected": {"route": "direct-change", "result": "implementation-gated", "selected_superpowers": [], "state_change_allowed": true, "git_authorized": false, "completion_owner": "router"}
@@ -55,6 +58,7 @@
   },
   {
     "id": "explicit_method_no_git",
+    "expected_selection_evidence": {"record_kind": "gate-0", "reason": "explicit-method-request-no-authority"},
     "prompt": "$superpowers:finishing-a-development-branch Finish this branch and commit/push it. I have not authorized Git mutation.",
     "fixture": {"router": true, "superpowers": ["finishing-a-development-branch"]},
     "expected": {"route": "router-gate-0", "result": "blocked", "selected_superpowers": ["superpowers:finishing-a-development-branch"], "state_change_allowed": false, "git_authorized": false, "completion_owner": "router"}

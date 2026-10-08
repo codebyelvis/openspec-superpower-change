@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+- Add S2 selection evidence to four existing isolated Superpowers routing
+  probes: ordinary-question bypass, proposal-only, compact Direct Change,
+  and explicit method requests without Git or completion authority. Record
+  bounded selection reasons, reject missing/mismatched records, and preserve
+  the legacy six-field route schema. Probes use gpt-6.1-sol/high; Router rules
+  and default-loaded Skill bodies are unchanged.
+
 - Add the bounded S1 skill-iteration entry, persistent backlog/current/log,
   and one-round repository Git lease. Validate its routing, Major approval
   guard, and repository-only push scope; synchronize the portable entry to

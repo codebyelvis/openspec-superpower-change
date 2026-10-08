@@ -8,7 +8,7 @@
 |---|---|---|---|---|---|
 | S1 迭代入口本身（落地迭代入口） | 1 | Minor；触发边界变化升 Major | 合同 §3、§4 S1；补充 §7 仅收录 | 固定口令进 description 与路由；协议与三份状态文件存在；S2–S6 入队，S7 为待提案；验证覆盖路由、Major 批准及 push 范围；本地 SKILL 一致；本仓库提交推送；报告下一口令 | done |
 | S7 项目实施也能关窗接力 | 1.5（S1 之后、S2 之前） | Major | 用户指定合同补充 §7 | 后续独立一轮先产出 OpenSpec 提案与状态迁移表；单 agent 与外部 handoff 共用 docs/agent-collab/<change-id>/，瘦状态为 schema 6 子集；停手前记录状态、已完成、唯一 next_action、阻塞与 resume_condition，新会话按持久状态续跑；最佳状态绑定最近验证通过且已落盘的 revision；继续闭环／闭环推进不授予 Git push、生产写入或新批准；多个未完成 change 时询问用户，不自动挑选；无已批准 change-id 不实现 | 待提案；未批准，不能自动取去实现；S1 只收录，不是 S1 下一刀 |
-| S2 收敛 Superpowers 选择证据 | 2 | Minor；Router 选择权边界变化升 Major | 合同 §4 S2，Unreleased Router 选择规则 | 用已有 forward-test 与缺失 fixture 覆盖普通问答不进 meta-entry、proposal-only 不加载 TDD/planning、点名方法不授予 Git/完成权、低风险 Direct Change 方法集为空；失败先红后绿；不增加默认加载的 skill 正文 | pending |
+| S2 收敛 Superpowers 选择证据 | 2 | Minor；Router 选择权边界变化升 Major | 合同 §4 S2，Unreleased Router 选择规则 | 用已有 forward-test 与缺失 fixture 覆盖普通问答不进 meta-entry、proposal-only 不加载 TDD/planning、点名方法不授予 Git/完成权、低风险 Direct Change 方法集为空；失败先红后绿；不增加默认加载的 skill 正文 | done |
 | S3 迭代候选进入 backlog 的窄管道 | 3 | Minor | 合同 §4 S3，Project Learning Closeout | 同类 Self-Evolution/Review 修正信号两次以上时只追加候选；用现有 learning-candidate-template 字段子集；有规则与示例；无新自动改写器，不自动合入 SKILL | pending |
 | S4 过触发成本的静态预算 | 4 | Minor | 合同 §4 S4，按行读取约束 | 协议中增加本轮允许阅读表；轻量 validator 拒绝入口要求先读完全部 references；不改业务证据门禁 | pending |
 | S5 skill 自改的工作区隔离说明 | 5 | Patch 或 Minor | 合同 §4 S5，真源/生成物/运行时区分 | 协议说明仓库根是真源，distribution 与嵌套 SKILL 是生成物；起轮确认真源，运行时仅 sync apply 写入；不引入新的 worktree 强制命令 | pending |
