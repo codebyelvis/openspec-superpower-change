@@ -4567,6 +4567,54 @@ class SkillIterationEntryTests(unittest.TestCase):
             "Push any related repository.", "push scope",
         )
 
+    def test_entry_rejects_whole_reference_preload_in_visible_instructions(self):
+        validator = load_validator()
+        skill = (ROOT / "SKILL.md").read_text()
+        loop = (ROOT / "references/skill-iteration-loop.md").read_text()
+        rule = (ROOT / "references/self-evolution-rule.md").read_text()
+        for instruction in (
+            "Before editing, read all references.",
+            "Before editing, load the entire references directory.",
+            "First read every file under references/ before classification.",
+            "Before Gate 0, read references in full.",
+            "先读完全部 references，再开始修改。",
+            "必须阅读所有参考文档，然后分类。",
+        ):
+            with self.subTest(instruction=instruction):
+                mutated = skill.replace(
+                    "## OpenSpec Boundary", instruction + "\n\n## OpenSpec Boundary"
+                )
+                with self.assertRaisesRegex(AssertionError, "reference reading budget"):
+                    validator.validate_skill_iteration_entry(mutated, loop, rule)
+
+    def test_entry_requires_visible_phase_selected_reading_guard(self):
+        self._reject_mutation(
+            "SKILL.md", "Read the matching rows only when their decisions arise;",
+            "Use every workflow bundle for every request;", "reference reading budget",
+        )
+
+    def test_reading_guard_in_code_only_cannot_satisfy_the_budget(self):
+        self._reject_mutation(
+            "SKILL.md", "Read the matching rows only when their decisions arise;",
+            "```text\nRead the matching rows only when their decisions arise;\n```",
+            "reference reading budget",
+        )
+
+    def test_reference_budget_accepts_negative_and_scoped_instructions(self):
+        validator = load_validator()
+        skill = (ROOT / "SKILL.md").read_text()
+        extra = (
+            "Do not read all references. Never load the entire references directory.\n"
+            "不要先读完全部 references。\n"
+            "Read all references selected for the current phase.\n"
+            "```text\nBefore editing, read all references.\n```\n"
+        )
+        validator.validate_skill_iteration_entry(
+            skill.replace("## OpenSpec Boundary", extra + "\n## OpenSpec Boundary"),
+            (ROOT / "references/skill-iteration-loop.md").read_text(),
+            (ROOT / "references/self-evolution-rule.md").read_text(),
+        )
+
     def _reject_mutation(self, relative, before, after, error):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

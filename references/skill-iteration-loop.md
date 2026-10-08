@@ -66,6 +66,25 @@ Git 租约仅覆盖本切片的 add、commit 和本仓库当前分支 push，一
     下一句口令。成功后下一句可为 `迭代优化skill：收敛 Superpowers 选择证据`；
     未完成时下一句恢复当前切片。
 
+## Reading budget for one round
+
+复用已读且未变的 SKILL.md 与本地 AGENTS 指令；入口参考正文只加载本协议、
+`self-evolution-rule.md` 和 BACKLOG，CURRENT 作为恢复状态读取。
+下面是按当前决策取行的阅读预算，不是起轮时要通读的文件清单。
+
+| 当前决策 | 本轮允许阅读 | 加载条件 |
+|---|---|---|
+| 起轮或恢复 | 本协议、self-evolution-rule、BACKLOG、CURRENT | 建立当前切片、类别及已有状态，不预加载其余 references |
+| 分类与实现 | 当前切片的合同、受影响文件及 SKILL 路由中匹配的参考行 | 仅为当前未解决决策；不是全仓库或全 references 扫描 |
+| 收录学习候选 | learning-candidate-pipeline、现有 Candidate Card 模板 | 实际出现修正信号；保留原有项目学习晋升门禁 |
+| 便携同步 | sync-checklist、cross-cli-sync、portable manifest 与本轮选中内容 | portable 或治理块变化，仍覆盖全部 required 目标的验证 |
+| 评估完成 | completion-contract；有学习触发时再读 project-learning-closeout 和项目已有工程经验 | 保留必需完成与学习门禁，不因预算跳过 required 检查 |
+
+`scripts/validate_core_gates.py` 对入口做轻量静态检查：路由须保留
+按当前决策取行的可见阅读规则，肯定式全量 references 预加载指令会失败。
+反例文本放在代码示例中不构成入口指令；静态检查不证明模型实际加载量，
+也不设置虚构 token 阈值或改变业务证据门禁。
+
 ## Persistent state
 
 - BACKLOG：每项记录 id、优先级、Patch/Minor/Major、来源、完成定义与状态。

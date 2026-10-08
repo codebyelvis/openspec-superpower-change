@@ -1,0 +1,84 @@
+{
+  "slice": "S4",
+  "classification": "Minor",
+  "baseline_commit": "a2784dad1dec17c6ecdd71536e5aed5bf2c7cc4d",
+  "contract": "docs/requirement/openspec-superpower-change-iteration-plan.md §4 S4",
+  "source_file_sha256": {
+    "references/skill-iteration-loop.md": "eeb1341c0832b174095ad283613fca1d886fb65c19549a5572cf5ded39732026",
+    "scripts/validate_core_gates.py": "52cdb2fc98ac4ac8e22a453cf4a604cc45ed90abe0987c6f8a117a8026256236",
+    "tests/test_workflow_rules.py": "c1aa9e4704a3f5995870d68b5c80233285a3fcbceb34ee55175ce4a6dafe6583"
+  },
+  "verification": {
+    "quick_validate": "PASS",
+    "core_gate": "PASS fallback and PyYAML",
+    "commands": [
+      "<PyYAML interpreter> <CODEX_HOME>/skills/.system/skill-creator/scripts/quick_validate.py .",
+      "PYTHONDONTWRITEBYTECODE=1 python3 scripts/validate_core_gates.py .",
+      "PYTHONDONTWRITEBYTECODE=1 <PyYAML interpreter> scripts/validate_core_gates.py .",
+      "PYTHONDONTWRITEBYTECODE=1 <interpreter> -m unittest discover -s tests -v"
+    ],
+    "unittest": {
+      "fallback": {
+        "tests": 428,
+        "result": "PASS"
+      },
+      "pyyaml": {
+        "tests": 428,
+        "result": "PASS"
+      }
+    },
+    "static_forward_red": "8 expected assertion failures among 10 entry tests before implementation",
+    "static_forward_green": "10 entry tests PASS; six affirmative whole-reference variants, missing visible guard and guard hidden in code are rejected; scoped/negative/fenced examples accepted"
+  },
+  "cross_cli_sync": {
+    "plan_sha256": "b6d58c308889c3509939ac82bb4b7371824b51632ac052cf7d15f08af4893646",
+    "selected_files": [
+      "references/skill-iteration-loop.md",
+      "scripts/validate_core_gates.py"
+    ],
+    "managed_rule_selected": false,
+    "targets": [
+      {
+        "target": "codex",
+        "result": "PASS",
+        "portable_operations": 2,
+        "assertions": 38,
+        "validators": "PASS both modes",
+        "discovery": "PASS",
+        "receipt_sha256": "1691efa1a89726a2a80c90062b0cf6bf6d521daf89f6a23a8f51a04d98e0d220"
+      },
+      {
+        "target": "pi",
+        "result": "PASS",
+        "portable_operations": 2,
+        "assertions": 38,
+        "validators": "PASS both modes",
+        "discovery": "PASS",
+        "receipt_sha256": "a344549c4e4fee8746881e1cc8d034ed8a70101dfee7d6b6a57a703b0b88b390"
+      },
+      {
+        "target": "antigravity-cli",
+        "result": "PASS",
+        "portable_operations": 2,
+        "assertions": 38,
+        "validators": "PASS both modes",
+        "discovery": "PASS",
+        "receipt_sha256": "df2fdd3ea2877297346e5a51099453ef50593e08182168f45339d8c73da57064"
+      },
+      {
+        "target": "grok-cli",
+        "result": "PASS",
+        "portable_operations": 2,
+        "assertions": 38,
+        "validators": "PASS both modes",
+        "discovery": "PASS",
+        "receipt_sha256": "c7d4e5093fdf926b51c60e591753aae4ea4b08fe7dc0e13ed9fa6c6f65703beb"
+      }
+    ],
+    "verify_all": "PASS"
+  },
+  "review": "PASS: actual complete scoped diff, deterministic negative probes and required target validators/discovery; no protected gate change",
+  "learning_audit": "Current user correction changes this session continuation preference; no second independent same-mechanism source justifies a global rule rewrite. No mandatory promotion is replaced.",
+  "limits": "Lexical static entry lint; does not prove native prompt-load/token counts or recognize every linguistic paraphrase. No new runtime framework, routing, evidence signoff or completion authority.",
+  "next_step": "Continue S5 under the current explicit session instruction; no repeated user command required."
+}

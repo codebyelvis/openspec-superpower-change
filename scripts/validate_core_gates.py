@@ -2349,6 +2349,36 @@ def validate_completion_contract(
     require(evidence, "whole-task decision is deferred", "step-evidence-gate.md")
 
 
+def validate_reference_read_budget(skill: str) -> None:
+    """Lint the entry's visible phase-selected reading rule, not model behavior."""
+    routing, _, _ = _markdown_owned_section(
+        skill, "## Routing Boundary", "reference reading budget"
+    )
+    visible_routing = " ".join(_markdown_visible_content(routing).split())
+    require(
+        visible_routing,
+        "Read the matching rows only when their decisions arise;",
+        "reference reading budget",
+    )
+    visible = _markdown_visible_content(skill)
+    preload = re.compile(
+        r"\b(?:read|load|scan|review)\s+(?:the\s+)?(?:all|every|entire|whole)\s+"
+        r"(?:references?\b|(?:files?|documents?)\s+(?:under|in)\s+references\b)"
+        r"|\b(?:read|load)\s+references\s+in\s+full\b"
+        r"|(?:先)?(?:读|阅读|读取|加载)(?:完|遍)?\s*(?:全部|所有|整个)\s*"
+        r"(?:references\b|参考(?:文件|文档|资料))",
+        re.I,
+    )
+    for match in preload.finditer(visible):
+        prefix = visible[max(0, match.start() - 25):match.start()]
+        if re.search(r"(?:do not|don't|never|avoid)\s*$|(?:不要|不得|禁止)\s*$", prefix, re.I):
+            continue
+        suffix = visible[match.end():]
+        if re.match(r"\s+selected\s+for\s+(?:the\s+)?current\s+phase\b", suffix, re.I):
+            continue
+        raise AssertionError("reference reading budget: whole-reference preload instruction")
+
+
 def validate_skill_iteration_entry(skill: str, loop: str, self_rule: str) -> None:
     """Validate the iteration entry's existing approval and repository scope."""
     description = skill.split("---", 2)[1]
@@ -2379,6 +2409,7 @@ def validate_skill_iteration_entry(skill: str, loop: str, self_rule: str) -> Non
             raise AssertionError("iteration push scope or approval guard missing")
     for phrase in ("固定迭代口令", "本仓库一轮 push 的明确批准"):
         require(self_rule, phrase, "self-evolution-rule.md iteration lease")
+    validate_reference_read_budget(skill)
 
 
 def parse_args(argv: list[str]) -> argparse.Namespace:

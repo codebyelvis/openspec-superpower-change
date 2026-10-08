@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Add S4 phase-selected reading budgets and a lightweight entry lint that
+  rejects affirmative whole-reference preloading while preserving scoped,
+  negative, and fenced example text. Static evidence does not claim native
+  prompt-load measurements or change business evidence gates.
+
 - Add S3's narrow iteration-candidate capture rule and a fictional backlog/Card
   example: two independent same-mechanism corrections record a future candidate,
   repeated reminders do not count, duplicates retain their scope and priority,
