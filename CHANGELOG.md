@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+- Add S3's narrow iteration-candidate capture rule and a fictional backlog/Card
+  example: two independent same-mechanism corrections record a future candidate,
+  repeated reminders do not count, duplicates retain their scope and priority,
+  and capture grants no implementation or publication authority. Reuse the
+  existing learning template without an automatic rule rewriter; required
+  project-learning promotion and Major approval remain intact.
+
 - Add S2 selection evidence to four existing isolated Superpowers routing
   probes: ordinary-question bypass, proposal-only, compact Direct Change,
   and explicit method requests without Git or completion authority. Record

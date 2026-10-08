@@ -1,0 +1,243 @@
+{
+  "slice": "S3",
+  "level": "Minor",
+  "date": "2026-10-08",
+  "baseline_commit": "997e3b40d76f32b6ed3fcfdf84304ff74c235c72",
+  "contract": "docs/requirement/openspec-superpower-change-iteration-plan.md §3.2 and §4 S3",
+  "source_file_sha256": {
+    "references/skill-iteration-loop.md": "0c2763250e849b1c5723c4b2841cfbfcb513be19c3dfeeddd26bbefcccae770a",
+    "references/self-evolution-rule.md": "b2662a04256903d509ae6cf0ec0fb462a03c0e85457293bf5629dc86f824e090",
+    "tests/fixtures/iteration-candidate-cases.json": "fa6db74d5dc76661649ce71780d085bad59b6f9c5ea4aa3f324cb0df6876493a"
+  },
+  "gate_0": {
+    "mode": "Self-Evolution",
+    "openspec_required": false,
+    "reason": "Contract-authorized candidate capture rule and fictional example only; no protected Router, evidence-signoff, completion or workflow transition change.",
+    "risk_profile": "compact source slice; governed four-target deployment",
+    "selected_methods": [
+      "superpowers:verification-before-completion",
+      "superpowers:systematic-debugging (temporary probe-oracle investigation)"
+    ],
+    "confirmation_required": false
+  },
+  "verification": {
+    "quick_validate": "PASS",
+    "core_gate_fallback": "PASS",
+    "core_gate_pyyaml": "PASS",
+    "unittest": {
+      "fallback": {
+        "tests": 424,
+        "seconds": 22.582,
+        "result": "PASS"
+      },
+      "pyyaml": {
+        "tests": 424,
+        "seconds": 23.509,
+        "result": "PASS"
+      }
+    },
+    "example_card": "PASS: existing template field subset in both YAML modes; explicitly fictional provenance",
+    "diff_check": "PASS",
+    "command_templates": [
+      "<PyYAML interpreter> <CODEX_HOME>/skills/.system/skill-creator/scripts/quick_validate.py .",
+      "PYTHONDONTWRITEBYTECODE=1 python3 scripts/validate_core_gates.py .",
+      "PYTHONDONTWRITEBYTECODE=1 <PyYAML interpreter> scripts/validate_core_gates.py .",
+      "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s tests -v",
+      "PYTHONDONTWRITEBYTECODE=1 <PyYAML interpreter> -m unittest discover -s tests -v",
+      "python3 scripts/validate_cross_cli_sync.py verify-all --plan <reviewed schema-v2 plan> --transaction-root <private committed receipts>"
+    ]
+  },
+  "forward_probe": {
+    "model": "gpt-6.1-sol",
+    "reasoning_effort": "high",
+    "fixture": "tests/fixtures/iteration-candidate-cases.json",
+    "instruction_files": [
+      "references/skill-iteration-loop.md",
+      "references/self-evolution-rule.md",
+      "references/learning-candidate-pipeline.md",
+      "templates/learning-candidate-template.md"
+    ],
+    "command_template": [
+      "codex",
+      "exec",
+      "--json",
+      "--ephemeral",
+      "--ignore-user-config",
+      "--ignore-rules",
+      "--model",
+      "gpt-6.1-sol",
+      "-c",
+      "model_reasoning_effort=\"high\"",
+      "--sandbox",
+      "read-only",
+      "--skip-git-repo-check",
+      "-C",
+      "<isolated-project>",
+      "--output-schema",
+      "<temporary-strict-schema>",
+      "--output-last-message",
+      "<private-result>",
+      "<case.scenario plus read-only decision-only instruction>"
+    ],
+    "oracle_correction": "Backlog row uses full pending status; Candidate Card uses candidate. Evidence summaries retain exact project-relative source paths.",
+    "cases": [
+      {
+        "event_audit": {
+          "agent_message_count": 1,
+          "event_count": 4,
+          "reasoning_event_count": 0,
+          "tool_event_count": 0
+        },
+        "id": "independent-corrections-capture-only",
+        "mismatches": [],
+        "observed": {
+          "action": "append-candidate",
+          "backlog_id": "S9",
+          "candidate_card": {
+            "correction_or_evidence": [
+              "tests/fixtures/example-a/review.md：合成 fixture 来源；Self-Evolution 验证发现并修正示例 A 的相对导航断链。",
+              "tests/fixtures/example-b/review.md：合成 fixture 来源；独立 Review 发现并修正示例 B 的同类断链。"
+            ],
+            "decision_owner": "codex",
+            "decision_provenance": "依据用户提供的隔离 fixture 事实，仅在已授权 BACKLOG 范围收录后续候选。当前 S3 保持 active；必需项目学习 closeout 已满足。后续须由用户选片并按既有 Self-Evolution 流程执行。",
+            "duplicate_or_conflict_result": "依据用户提供的事实，现有 backlog 无示例导航回归覆盖项，且与现有规则无冲突。",
+            "event_kind": "correction",
+            "generalized_invariant": "示例中的相对导航应从各自目录解析到有效目标，并由确定性回归检查覆盖。",
+            "independence_rationale": "Self-Evolution 验证与独立 Review 分别在不同示例中发现同一机制；不是同一 finding 的转述、提醒或重跑。",
+            "independent_reproductions": 2,
+            "mechanical_enforcement": "required",
+            "review_result": "pending",
+            "scope": "project-local",
+            "severity": "low",
+            "status": "candidate",
+            "symptom": "示例 A 与示例 B 分别出现相同机制的相对导航断链，局部修正均已完成。",
+            "target_artifacts": [
+              "docs/iteration/BACKLOG.md"
+            ]
+          },
+          "candidate_status": "candidate／待用户选片；暂不实现",
+          "category": "Minor",
+          "current_changed": false,
+          "git_authorized_by_capture": false,
+          "implementation_allowed": false,
+          "independent_reproductions": 2,
+          "planned_paths": [
+            "docs/iteration/BACKLOG.md"
+          ],
+          "priority": 8,
+          "required_promotion_replaced": false,
+          "skill_rules_changed": false,
+          "sync_authorized_by_capture": false
+        },
+        "read_only_fixture_unchanged": true,
+        "status": "PASS"
+      },
+      {
+        "event_audit": {
+          "agent_message_count": 1,
+          "event_count": 4,
+          "reasoning_event_count": 0,
+          "tool_event_count": 0
+        },
+        "id": "repeated-single-source-no-escalation",
+        "mismatches": [],
+        "observed": {
+          "action": "retain-review-evidence",
+          "backlog_id": null,
+          "candidate_card": null,
+          "candidate_status": null,
+          "category": null,
+          "current_changed": false,
+          "git_authorized_by_capture": false,
+          "implementation_allowed": false,
+          "independent_reproductions": 1,
+          "planned_paths": [],
+          "priority": null,
+          "required_promotion_replaced": false,
+          "skill_rules_changed": false,
+          "sync_authorized_by_capture": false
+        },
+        "read_only_fixture_unchanged": true,
+        "status": "PASS"
+      }
+    ],
+    "claim_limit": "Two real native read-only candidate-decision probes, not native file-writing or a new runtime candidate rewriter. Test-only disposable backlog rendering preserved existing rows; the actual repository gained no synthetic candidate. Raw CLI events/messages remain temporary and are not durable evidence.",
+    "instruction_file_sha256": {
+      "references/skill-iteration-loop.md": "0c2763250e849b1c5723c4b2841cfbfcb513be19c3dfeeddd26bbefcccae770a",
+      "references/self-evolution-rule.md": "b2662a04256903d509ae6cf0ec0fb462a03c0e85457293bf5629dc86f824e090",
+      "references/learning-candidate-pipeline.md": "65c16f267802874d397aabae3cb8f43224a3a1a60f76935c3a672e27ee4afdd8",
+      "templates/learning-candidate-template.md": "6463a45a9f46f2869e0dc2f0136c669cfb13e83e4df5c04cd315389cd3d612ef"
+    },
+    "output_schema_sha256": "86e6a39d7463e714d95fe059bc0de48b9833c4e6f130fb556c804b020a8b7dc5"
+  },
+  "cross_cli_sync": {
+    "trigger": true,
+    "plan_sha256": "c3c0eb347992a6c033f3a4d072c816ebb6a17ffde195010c0c83239d0d6afbbb",
+    "targets": [
+      {
+        "target": "codex",
+        "result": "PASS",
+        "portable_operations": 2,
+        "assertions": 38,
+        "quick_validate": "PASS",
+        "fallback_validator": "PASS",
+        "pyyaml_validator": "PASS",
+        "discovery": "PASS",
+        "receipt_sha256": "4036ede43e4b825f949285b47f6804707d1258d1b68de6a1b0afd0586530478d"
+      },
+      {
+        "target": "pi",
+        "result": "PASS",
+        "portable_operations": 2,
+        "assertions": 38,
+        "quick_validate": "PASS",
+        "fallback_validator": "PASS",
+        "pyyaml_validator": "PASS",
+        "discovery": "PASS",
+        "receipt_sha256": "ee149e2788919e51bda64a5e53cd98cecb93307edffb4bc78882e8a99429d67b"
+      },
+      {
+        "target": "antigravity-cli",
+        "result": "PASS",
+        "portable_operations": 2,
+        "assertions": 38,
+        "quick_validate": "PASS",
+        "fallback_validator": "PASS",
+        "pyyaml_validator": "PASS",
+        "discovery": "PASS",
+        "receipt_sha256": "b216c34b1cb7a9dc455b56d1acab773dc2f7a4372ae5641cc6abffec33ed9714"
+      },
+      {
+        "target": "grok-cli",
+        "result": "PASS",
+        "portable_operations": 2,
+        "assertions": 38,
+        "quick_validate": "PASS",
+        "fallback_validator": "PASS",
+        "pyyaml_validator": "PASS",
+        "discovery": "PASS",
+        "receipt_sha256": "b2f78c8f94340e65a41e94c59cfed362dd13d7bc54e07411cdf39970eacd3314"
+      }
+    ],
+    "verify_all": "PASS",
+    "plan_schema_version": 2,
+    "selected_files": [
+      "references/self-evolution-rule.md",
+      "references/skill-iteration-loop.md"
+    ],
+    "managed_rule_selected": false,
+    "managed_rule_version": 6,
+    "managed_rule_body_sha256": "0040153a954ab0a6599e3eb951e8fa6b7715710745616f1f404904bf056c11d2",
+    "source_backup_and_receipts": "temporary outside discovery; remove after successful repository push"
+  },
+  "review": {
+    "implementation_review": "PASS: actual two-reference diff and source acceptance; no protected-boundary change",
+    "learning_audit": "No new qualifying project/global candidate. The probe-oracle correction is one task-local finding; fictional source signals are not real learning evidence. Existing mandatory promotion remains intact.",
+    "final_review": "PASS: complete scoped diff, candidate/no-escalation probes, preserved preexisting changes and backlog, no raw traces or sensitive content"
+  },
+  "scope_preservation": [
+    "No SKILL.md, runtime framework, manifest, target list or managed-rule change",
+    "S1/S2 retained; S4-S6 remain pending; S7/S8 remain Major awaiting proposal",
+    "Current slice is not expanded by candidates; no unrelated source files changed"
+  ]
+}
