@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Document S5 workspace boundaries: edit the known repository-root source,
+  treat distribution and nested catalog adapters as generated output, and
+  write installed runtime content through reviewed sync transactions.
+  No new mandatory worktree flow or synchronization target is introduced.
+
 - Add S4 phase-selected reading budgets and a lightweight entry lint that
   rejects affirmative whole-reference preloading while preserving scoped,
   negative, and fenced example text. Static evidence does not claim native

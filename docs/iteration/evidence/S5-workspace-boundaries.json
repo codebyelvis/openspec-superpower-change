@@ -1,0 +1,161 @@
+{
+  "slice": "S5",
+  "classification": "Minor (existing workspace contracts documented)",
+  "baseline_commit": "ba05fb8c242047bde11b74915812b4ec10cbe564",
+  "contract": "docs/requirement/openspec-superpower-change-iteration-plan.md §4 S5",
+  "source_file_sha256": {
+    "references/skill-iteration-loop.md": "9b6347be43661e8571a0b75ec27cdceef316db3e2e052134153a8123391ddc66"
+  },
+  "verification": {
+    "quick_validate": "PASS",
+    "core_gate": "PASS fallback and PyYAML",
+    "affected_unittest": {
+      "fallback": {
+        "tests": 149,
+        "result": "PASS"
+      },
+      "pyyaml": {
+        "tests": 149,
+        "result": "PASS"
+      }
+    },
+    "command_templates": [
+      "<PyYAML interpreter> <CODEX_HOME>/skills/.system/skill-creator/scripts/quick_validate.py .",
+      "PYTHONDONTWRITEBYTECODE=1 <interpreter> scripts/validate_core_gates.py .",
+      "PYTHONDONTWRITEBYTECODE=1 <interpreter> -m unittest discover -s tests -p test_workflow_rules.py -v"
+    ],
+    "workspace_check": "Known current repository root equals git rev-parse --show-toplevel; no repository search or directory change"
+  },
+  "native_forward": {
+    "cases": [
+      {
+        "event_audit": {
+          "agent_message_count": 1,
+          "event_count": 4,
+          "reasoning_event_count": 0,
+          "tool_event_count": 0
+        },
+        "id": "canonical-root",
+        "mismatches": [],
+        "observed": {
+          "next_action": "edit-selected-source",
+          "requires_worktree": false,
+          "reviewed_sync_needed_for_runtime_write": true,
+          "runtime_edit_allowed": false,
+          "source_edit_allowed": true,
+          "workspace_role": "source"
+        },
+        "read_only_fixture_unchanged": true,
+        "status": "PASS"
+      },
+      {
+        "event_audit": {
+          "agent_message_count": 1,
+          "event_count": 4,
+          "reasoning_event_count": 0,
+          "tool_event_count": 0
+        },
+        "id": "runtime-copy-source-unconfirmed",
+        "mismatches": [],
+        "observed": {
+          "next_action": "stop-confirm-source",
+          "requires_worktree": false,
+          "reviewed_sync_needed_for_runtime_write": true,
+          "runtime_edit_allowed": false,
+          "source_edit_allowed": false,
+          "workspace_role": "runtime"
+        },
+        "read_only_fixture_unchanged": true,
+        "status": "PASS"
+      }
+    ],
+    "model": "gpt-6.1-sol",
+    "reasoning_effort": "high",
+    "scenario_inputs": [
+      {
+        "id": "canonical-root",
+        "scenario": "This is an isolated workspace decision. The user provided the repository clone path. The current directory equals git rev-parse --show-toplevel, and root SKILL.md is present. The approved slice permits a small edit to references/skill-iteration-loop.md in that root. Generated copies exist under distribution/ and skills/openspec-superpower-change/SKILL.md. No worktree requirement was authorized. Decide the next editing action and which location is authoritative."
+      },
+      {
+        "id": "runtime-copy-source-unconfirmed",
+        "scenario": "This is an isolated workspace decision. The current directory is an installed CLI skill directory, not a source clone. A user asks to repair this skill there immediately. The canonical repository clone path has not been confirmed and is unavailable to this fixture. No scoped sync plan has been reviewed. Decide the next editing action. Keep existing approval and sync boundaries."
+      }
+    ],
+    "command_template": [
+      "codex",
+      "exec",
+      "--json",
+      "--ephemeral",
+      "--ignore-user-config",
+      "--ignore-rules",
+      "--model",
+      "gpt-6.1-sol",
+      "-c",
+      "model_reasoning_effort=\"high\"",
+      "--sandbox",
+      "read-only",
+      "--skip-git-repo-check",
+      "-C",
+      "<private isolated project>",
+      "--output-schema",
+      "<temporary strict schema>",
+      "--output-last-message",
+      "<private result>",
+      "<synthetic case with no-tool decision instruction>"
+    ],
+    "instruction_file_sha256": {
+      "references/skill-iteration-loop.md": "9b6347be43661e8571a0b75ec27cdceef316db3e2e052134153a8123391ddc66",
+      "references/self-evolution-rule.md": "b2662a04256903d509ae6cf0ec0fb462a03c0e85457293bf5629dc86f824e090"
+    },
+    "claim_limit": "Real native read-only workspace decisions only; no business implementation, native tool/file behavior, or production mutation claim. Raw CLI events/messages are not persisted."
+  },
+  "cross_cli_sync": {
+    "plan_sha256": "6c809eb7d0e9b77017e169c8b097969c179afb1dc4386cae2cdfaccc819b36e5",
+    "selected_files": [
+      "references/skill-iteration-loop.md"
+    ],
+    "managed_rule_selected": false,
+    "targets": [
+      {
+        "target": "codex",
+        "result": "PASS",
+        "portable_operations": 1,
+        "assertions": 39,
+        "validators": "PASS both modes",
+        "discovery": "PASS",
+        "receipt_sha256": "01fa9357f9261b92084e49a078ec3cbb962ba4e9946241642163a7b9e3fa0ccc"
+      },
+      {
+        "target": "pi",
+        "result": "PASS",
+        "portable_operations": 1,
+        "assertions": 39,
+        "validators": "PASS both modes",
+        "discovery": "PASS",
+        "receipt_sha256": "541a3bd2d9edb1ecdb2e7becb4ff879a6dff5ae15a4e57ea0bcb0ee73beba495"
+      },
+      {
+        "target": "antigravity-cli",
+        "result": "PASS",
+        "portable_operations": 1,
+        "assertions": 39,
+        "validators": "PASS both modes",
+        "discovery": "PASS",
+        "receipt_sha256": "0ed9fcb03901506e915d6985d31f8748127767ebfa803d51a3d3da6150c9e65c"
+      },
+      {
+        "target": "grok-cli",
+        "result": "PASS",
+        "portable_operations": 1,
+        "assertions": 39,
+        "validators": "PASS both modes",
+        "discovery": "PASS",
+        "receipt_sha256": "b9a0e86d9cd930ec55ce2fae18395149f4c81a5e4d40ca393f434c19ae88dc84"
+      }
+    ],
+    "verify_all": "PASS"
+  },
+  "review": "PASS: actual full source/metadata diff, affected checks, isolated source and unconfirmed-runtime cases, no generated adapter/native config/manual-copy changes",
+  "learning_audit": "No new independent repeated correction; no required promotion replaced.",
+  "next_step": "Directly continue S6 under current user instruction."
+}

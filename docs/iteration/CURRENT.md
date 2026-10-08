@@ -13,7 +13,7 @@
 - 阻塞原因：无
 - 恢复动作：无；下一轮按指定切片或 backlog 选择，Major 未批准不实现
 
-上一轮 S4 的证据与提交定位见 `docs/iteration/LOG.md` 和
-`docs/iteration/evidence/S4-reference-budget.json`。
-下一步：本会话按用户连续推进授权直接进入 S5，不需要用户重复口令。
-独立恢复口令：`迭代优化skill：skill 自改的工作区隔离说明`。
+上一轮 S5 的证据与提交定位见 `docs/iteration/LOG.md` 和
+`docs/iteration/evidence/S5-workspace-boundaries.json`。
+下一步：本会话按用户连续推进授权直接进入 S6，不需要用户重复口令。
+独立恢复口令：`迭代优化skill：上游对照节奏，而不是自动升级`。

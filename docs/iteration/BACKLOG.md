@@ -11,7 +11,7 @@
 | S2 收敛 Superpowers 选择证据 | 2 | Minor；Router 选择权边界变化升 Major | 合同 §4 S2，Unreleased Router 选择规则 | 用已有 forward-test 与缺失 fixture 覆盖普通问答不进 meta-entry、proposal-only 不加载 TDD/planning、点名方法不授予 Git/完成权、低风险 Direct Change 方法集为空；失败先红后绿；不增加默认加载的 skill 正文 | done |
 | S3 迭代候选进入 backlog 的窄管道 | 3 | Minor | 合同 §4 S3，Project Learning Closeout | 同类 Self-Evolution/Review 修正信号两次以上时只追加候选；用现有 learning-candidate-template 字段子集；有规则与示例；无新自动改写器，不自动合入 SKILL | done |
 | S4 过触发成本的静态预算 | 4 | Minor | 合同 §4 S4，按行读取约束 | 协议中增加本轮允许阅读表；轻量 validator 拒绝入口要求先读完全部 references；不改业务证据门禁 | done |
-| S5 skill 自改的工作区隔离说明 | 5 | Patch 或 Minor | 合同 §4 S5，真源/生成物/运行时区分 | 协议说明仓库根是真源，distribution 与嵌套 SKILL 是生成物；起轮确认真源，运行时仅 sync apply 写入；不引入新的 worktree 强制命令 | pending |
+| S5 skill 自改的工作区隔离说明 | 5 | Patch 或 Minor | 合同 §4 S5，真源/生成物/运行时区分 | 协议说明仓库根是真源，distribution 与嵌套 SKILL 是生成物；起轮确认真源，运行时仅 sync apply 写入；不引入新的 worktree 强制命令 | done |
 | S6 上游对照节奏，而不是自动升级 | 6（季度） | Minor | 合同 §4 S6，sync-checklist 上游边界 | 对照 Superpowers/OpenSpec/Spec Kit 入口形状，仅更新 docs/iteration/upstream-notes.md，提供笔记模板与“笔记不是升级批准”规则；可采纳项另开切片，不改依赖 | pending |
 | S8 项目文档归属治理能力 | 7（候选，排在既有项之后；待用户下一步指令） | Major | 用户补充优化项：项目文档归属治理能力 | 见下方 S8 候选详情；独立切片完成提案审批、隔离行为验证、链接检查、审查及必要同步 | Major／待提案，暂不实现 |
 

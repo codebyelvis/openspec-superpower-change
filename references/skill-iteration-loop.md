@@ -66,6 +66,24 @@ Git 租约仅覆盖本切片的 add、commit 和本仓库当前分支 push，一
     下一句口令。成功后下一句可为 `迭代优化skill：收敛 Superpowers 选择证据`；
     未完成时下一句恢复当前切片。
 
+## Source, generated adapters and runtime workspaces
+
+起轮先核对已给定工作目录是真源克隆的仓库根：当前目录应与
+`git rev-parse --show-toplevel` 一致，根目录 SKILL.md 是编辑入口。
+复用已确认的真源路径，不为自改重新搜索仓库或跳到运行时目录。
+
+| 位置 | 角色 | 本轮编辑约束 |
+|---|---|---|
+| 仓库根 SKILL.md 及其 references/scripts/templates | 真源 | 仅改当前合同允许的文件；本仓库历史管理长期版本 |
+| distribution/ 与 skills/openspec-superpower-change/SKILL.md | 生成的分发／兼容适配器 | 不是第二真源；按既有生成与校验流程更新，不手工改生成物来替代真源编辑 |
+| 已声明 CLI 的安装 skill 目录 | 运行时副本 | 只通过已审查的 sync apply 事务写入；回滚仍使用该事务的既有恢复路径，不绕过 plan 手工复制 |
+
+若入口落在生成物或运行时副本，先回到用户给定的真源路径再编辑；
+若真源无法确认，记录阻塞与需要恢复的路径，不在错误副本继续修改。
+临时备份和 forward-test 仍放在发现目录之外，测试副本不能成为同步源。
+本说明不新增 worktree 强制命令；已有隔离能力按当前实际需要使用，
+不改变 Git、Major 审批或跨 CLI 同步的授权边界。
+
 ## Reading budget for one round
 
 复用已读且未变的 SKILL.md 与本地 AGENTS 指令；入口参考正文只加载本协议、
