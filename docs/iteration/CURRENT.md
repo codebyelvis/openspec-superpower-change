@@ -1,24 +1,14 @@
 # Current Skill Iteration
 
-- 状态：closing（S7 实施／归档已通过，仅授权 Git 与临时清理收尾）
-- 日期：2026-10-08
-- 切片 id：S7
-- change-id：add-project-session-resume
-- 合同：docs/requirement/openspec-superpower-change-iteration-plan (1).md §7；不替换原 §0–6 或 S8
-- 批准记录：2026-10-08，用户回复“批准”，指向已报告的 add-project-session-resume / draft-v1 具体范围与设计；已核对五份草稿与原批准摘要一致后记录批准
-- Gate 0：Self-Evolution / approved-implementation；Major；OpenSpec draft-v1 已批准；strict；Superpowers writing-plans、executing-plans、test-driven-development、requesting-code-review、verification-before-completion；失败时 systematic-debugging；方法不扩大范围或签发完成权
-- 已完成：具体批准；独立 FULL_PREFLIGHT 四项 finding 修正后终结 FOCUSED_RECHECK PASS；新接口 RED 15 / GREEN 15；两项附加反例 RED 后修复；规范导航已落地
-- 审查草稿：docs/review/2026-10-08-S7-project-session-resume-draft.md
-- 提案：openspec/changes/archive/2026-10-08-add-project-session-resume/proposal.md；design.md 为 draft-v1 的具体兼容选择与迁移表
-- draft-v1 工件摘要 SHA-256：f2bc3a933484129d9164722df1cda262a73f66a3f8be511fbd38fbc8a2d0c3ba；按五份草稿路径／内容 SHA-256 排序的 JSON 计算，批准后先核对工件未变
-- 备份路径：/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S7-implementation-3x8hv7nk；源／运行时与批准前草稿已备份；原 proposal-o5bog58m 备份保留至本轮闭环
-- 验证命令与结果：openspec validate add-project-session-resume --strict --no-interactive PASS（5 条新增 requirement、11 个 scenario）；quick_validate PASS；源 core-gate fallback/PyYAML 均 PASS；草稿字段、状态枚举、范围及引用检查 PASS；git diff --check PASS
-- 验证限制：双解析全套各 450 PASS，原生三个场景 PASS，独立实现复核 PASS，四端 validator/discovery/verify-all PASS；distinct Final Review、归档与推送尚待完成
-- 范围验证记录：备份目录内 proposal-validation.json；SHA-256 8c695bc3e46bfda50397f701df8d56f74e48b90ee5e1361928fbe6e102371269；不保存原始会话或 CLI trace
-- 同步计划哈希：1e1bdbab4db270de752dff15f238457dbd6e86f71a782a94378579041a696ccc；源验证与实现 Review PASS，计划及目标 pre-state 已审查
-- 同步范围：四个已批准既有 portable 文件（SKILL、approved-implementation、direct-change、core validator）；第五个源实施文件是仓库测试；四目标不变，manifest／共享治理正文无修改权限
-- commit：pending；具体 S7 批准后沿原合同 §3.2 完成单轮本仓库当前分支 add/commit/push；不扩大到其他仓库或操作
-- 阻塞原因：无；FR-F1 已修复并同阶段复核 PASS，归档严格校验 PASS
-- next_action：按原合同租约仅 stage 本轮文件，commit/push 当前 main，清理自有临时备份并记录闭环
-- resume_condition：出现同范围 finding 时修复验证，保留已通过 Preflight 与具体批准
-- 恢复动作：读取本 CURRENT、已批准提案与本轮 Plan／Review／证据，推进唯一待办；S8 保持候选
+- 状态：idle
+- 当前切片：无
+- 上轮：S7 / add-project-session-resume，具体批准后实施并闭环
+- 主提交：45bb789eaf4492c5ab1426f222972b9bd4a9e48e（main 已推送）
+- 验证：quick/core、双解析全套各 450 项、原生三场景、独立实现与 distinct Final Review、归档 exact-byte strict 均 PASS
+- 同步：Codex/Pi/Antigravity/Grok validator/discovery/verify-all PASS；四份 scoped 文件、36 项只读断言；治理 v6 未改
+- 同步计划哈希：1e1bdbab4db270de752dff15f238457dbd6e86f71a782a94378579041a696ccc
+- 备份与 trace：本轮自有 implementation/proposal 临时备份及原始 trace 已在主提交推送后清理；仅保留脱敏证据
+- 归档：openspec/changes/archive/2026-10-08-add-project-session-resume；按批准 Plan --skip-specs，未改既有 dirty main spec
+- 阻塞原因：无
+- backlog 下一项：S8 项目文档归属治理能力，Major／待提案，暂不实现；当前只有候选收录授权
+- 恢复动作：本轮不重做；S8 等待新的具体指令和提案批准。S6 下季度对照窗口为 2027 Q1

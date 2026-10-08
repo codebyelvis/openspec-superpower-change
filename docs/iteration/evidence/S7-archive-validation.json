@@ -6,11 +6,12 @@
   "strict_isolated_command": "openspec validate add-project-session-resume --strict --no-interactive",
   "strict_exit": 0,
   "exact_archived_hashes": {
-    "tasks.md": "ad7c05ad24a78310f0a2ee2717c5d65f1afb4a343b9e0b70a3d4d798447ad754",
+    "tasks.md": "d99a756173d57c8d093f69e0572d6b8ebf8223642c30af229d540b5743274dd6",
     "design.md": "c50a4942f9c66310152beba3a574ba30adbc2348622bcc25bf937c9043bd41da",
     "proposal.md": "d11d2035fab94f973cad37c1b0863c29fd81cf06a6d525a8490ab1e1a532bb90",
     "specs/skill-workflow-governance/spec.md": "9bb4b2ebe13ba94e543a38f6b400e0a12211042d86b01553d0e46c48e4313696"
   },
-  "operational_pending": "Task3.5 only repository publication and cleanup remain; explained in archived tasks",
-  "unrelated_files_unchanged": 44
+  "operational_pending": "none: source push and owned cleanup complete; final metadata publication follows",
+  "unrelated_files_unchanged": 44,
+  "strict_final_tasks_exit": 0
 }

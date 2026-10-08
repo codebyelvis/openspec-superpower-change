@@ -31,10 +31,11 @@ This is contract progress, not a Superpowers executable implementation plan.
   existing transactions and verify Codex/Pi/Antigravity/Grok, including discovery.
 - [x] 3.4 Persist fresh final verification, then obtain distinct-instance final
   Review of actual source/runtime diff and acceptance evidence.
-- [ ] 3.5 Reconcile/archive only after existing gates pass; complete iteration
+- [x] 3.5 Reconcile/archive only after existing gates pass; complete iteration
   bookkeeping and any expressly leased Git closeout; remove owned temporary
   backups only after the applicable published/synced closure succeeds.
 
-Operational closeout note: implementation, required gates and all runtime targets
-are accepted. Item 3.5 remains explicitly pending archive validation, the already
-leased repository push and owned temporary cleanup; it is not unexplained scope.
+Operational closeout: all required gates and runtime targets passed; source
+commit 45bb789eaf4492c5ab1426f222972b9bd4a9e48e was pushed to main. Owned
+implementation/proposal backups and raw traces were removed after that push.
+This metadata records actual completed operations; S8 remains candidate only.
