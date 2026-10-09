@@ -76,8 +76,21 @@
     "authority_granted": false
   },
   "publication_scope": "S9-only; entire active S8 graph/newcontext/status and44 unrelated local files excluded",
-  "metadata_publication": "pending; only owned bookkeeping, no implementation changes",
-  "cleanup": "pending until required metadata publication; S9 implementation/proposal/private traces only; preserve two S8 backups",
+  "metadata_publication": {
+    "commit": "62b816244980be82512a3fc9c1d72f0373e656e0",
+    "push_exit_code": 0,
+    "remote_tip_verified": "62b816244980be82512a3fc9c1d72f0373e656e0",
+    "scope": "only six owned metadata files; no implementation/S8/unrelated files"
+  },
+  "cleanup": {
+    "result": "pass",
+    "evidence": {
+      "path": "docs/review/2026-10-09-S9-temporary-cleanup.json",
+      "sha256": "873a707c3a3e79599111774032c42daf5ec3ee4da69b9b95573c83b526898917"
+    },
+    "S9_owned_roots_removed": 2,
+    "S8_unfinished_roots_retained_unchanged": 2
+  },
   "authority_granted": false,
   "fresh_owned_metadata_checks": {
     "exact_archived_files": {

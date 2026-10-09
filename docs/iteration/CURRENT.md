@@ -16,7 +16,7 @@
 - S9 源提交：605a09937df3f8acb7762ba2277a97d2203e5e59，main 已推送并核对远端；28 个 owned 文件，44 个无关文件和整个活动 S8 图不 staged。
 - S9 归档：openspec/changes/archive/2026-10-09-support-stage-specific-resume-review，--yes --skip-specs；主 spec 未合并，只有移动后的 owned 相对链接及额外 EOF 空行做机械修正。
 - S9 历史同步计划哈希：3aefd51f077d607ab88d6e248b78e833eed8340a76fa23c2f9f9a2c1495d3827；不复用为 S8 新计划。
-- S9 收尾：元数据推送及成功后的 S9 implementation/proposal/private trace 清理仍待；两份 S8 备份继续保留。
+- S9 收尾：元数据 62b816244980be82512a3fc9c1d72f0373e656e0 已推送并核对远端；成功后两份 S9 implementation/proposal 根及其 private trace/receipt/fixture 已清理且核对不存在，清理记录为 docs/review/2026-10-09-S9-temporary-cleanup.json；两份 S8 备份字节／mode 不变并保留。
 - 源工作区：继续用户指定真源 main，不 cd/找仓库；保留全部无关 dirty work。S6 下次对照仍为 2027 Q1，其他切片不启动。
 
 ## 保留的 S8 前置处理前状态（历史快照，实际状态以其 canonical 为准）

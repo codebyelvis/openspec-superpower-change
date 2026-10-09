@@ -50,7 +50,7 @@ Author: elvis. Status: proposal only; all approval/implementation/closure gates 
 - [x] 5.4 Reconcile/archive/strict-validate S9 only, update CHANGELOG and iteration
   state, then scoped source commit/current-branch push using the specific lease;
   preserve all S8/unrelated dirty work outside this approved amendment.
-- [ ] 5.5 After push clean S9 temporary rollback/trace artifacts, retain S8 backups
+- [x] 5.5 After push clean S9 temporary rollback/trace artifacts, retain S8 backups
   while S8 remains unfinished, report the five contract fields and next resume action.
 
 Draft validation does not check any item above. In particular no approval,

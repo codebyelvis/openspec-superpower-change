@@ -1,0 +1,124 @@
+{
+  "author": "elvis",
+  "evidence_role": "owned-temporary-cleanup",
+  "change_id": "support-stage-specific-resume-review",
+  "evidence_result": "pass",
+  "root_actor": "/root",
+  "source_commit": "605a09937df3f8acb7762ba2277a97d2203e5e59",
+  "metadata_commit": "62b816244980be82512a3fc9c1d72f0373e656e0",
+  "remote_metadata_tip_verified": "62b816244980be82512a3fc9c1d72f0373e656e0",
+  "durable_full_final_sha256": "f3d11ee9c80dffd5aa9705051a88a06460270ed3398cfed1dd0ed8f24997b9fa",
+  "durable_prior_verified_snapshot_sha256": "e582db0b26ac54dc130d24fecb4a0565da272f63073ffab5ac98d56ec879f3c3",
+  "owned_roots": [
+    {
+      "path": "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn",
+      "resolved_path": "/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn",
+      "manifest_sha256": "603676aaeee1d29e74b71aae3a324eab54a1aa93dcfd7da4fc35426e3e45dbd1",
+      "before_inventory": {
+        "digest": "e2aff27a1da7fdc83c5fce01bfa8b100e0cb1981579cfb550c9f584c04feadd8",
+        "regular_files": 657
+      },
+      "owned_change_id": "support-stage-specific-resume-review",
+      "root_non_symlink": true,
+      "contained_in_os_temporary_root": true
+    },
+    {
+      "path": "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-proposal-m7fgte0p",
+      "resolved_path": "/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-proposal-m7fgte0p",
+      "manifest_sha256": "18506158ad042d55930cd8c3bcd7e6498ed7f0b5920b9c118f87e655aa14a10f",
+      "before_inventory": {
+        "digest": "470b5b2ac27d2a661e1a23c2ab4f3b9fb854339d91f574fc69371bd0bf583048",
+        "regular_files": 364
+      },
+      "owned_change_id": "support-stage-specific-resume-review",
+      "root_non_symlink": true,
+      "contained_in_os_temporary_root": true
+    }
+  ],
+  "retained_s8_backups": {
+    "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S8-implementation-68h7vzmq": {
+      "digest": "006ce1a84484a4b08e8e4bb1644df65fbe8bd604b153fdcd9000ca0a1badcc4b",
+      "regular_files": 317
+    },
+    "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S8-proposal-4xkas497": {
+      "digest": "01521f64964e76761292eaec75197d46890619855a9f2f8296f58d9177c175a4",
+      "regular_files": 300
+    }
+  },
+  "last_pre_cleanup_verify_all": {
+    "command": "python3 scripts/validate_cross_cli_sync.py verify-all --plan /var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn/sync-plan.json --transaction-root /var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn/transactions",
+    "exit_code": 0,
+    "output_sha256": "7bfeb8743a334e9117a9003128d812d0f4a581e38bf8125af26bc6b19608f34e",
+    "plan_sha256": "3aefd51f077d607ab88d6e248b78e833eed8340a76fa23c2f9f9a2c1495d3827"
+  },
+  "unrelated_files_preserved": 44,
+  "original_s8_files_preserved": 11,
+  "stable_inputs_preserved": 15,
+  "no_source_runtime_or_S8_deletion": true,
+  "authority_granted": false,
+  "cleanup_timestamp_utc": "2026-10-09T04:23:55.635736+00:00",
+  "owned_roots_absent_after_cleanup": true,
+  "retained_s8_backups_byte_and_mode_unchanged": true,
+  "temporary_raw_traces_fixtures_receipts_and_rollback_backups": "deleted inside only the two S9-owned roots; final exact archive validation temporary root also removed",
+  "fresh_final_bookkeeping_checks": {
+    "all16_tasks_checked": true,
+    "four_approved_contracts_preserved_except_checkboxes_and_moved_navigation": true,
+    "exact_final_archive_hashes": {
+      "proposal.md": "833851ce05cfc18ea88f4b6eae577523b0887f66be3a4b19f0d3ce1c7195a89e",
+      "design.md": "e2206d3f0bef80a635c4102eee94a3bcd86af80894a2d8fdd69f525664f472bb",
+      "tasks.md": "fdabe6c4660818ba3d1fb816cf401ffe043d3f976b484952cc2f7c46968c07c2",
+      "specs/skill-workflow-governance/spec.md": "4151536cbdd3cb668bfc1b2a5af2b6e00a11a197890db1694f27b3c13b9ac1f0"
+    },
+    "resolved_local_links": 13,
+    "stable_verified_inputs_unchanged": 15,
+    "S1_S7_rows_unchanged": true,
+    "readonly_S9_recovery": {
+      "change_id": "support-stage-specific-resume-review",
+      "state": "recorded-complete",
+      "next_action": null,
+      "authority_granted": false
+    },
+    "readonly_S8_recovery": {
+      "change_id": "add-project-document-ownership",
+      "record_kind": "local",
+      "state": "blocked",
+      "next_action": {
+        "action": "wait",
+        "owner": "openspec-superpower-change",
+        "permission": "none",
+        "inputs": [
+          {
+            "path": "docs/review/2026-10-09-S9-stage-review-binding-draft.md",
+            "sha256": "cd91309ccb8161ce0139baead004ad7284fb3fc78b016338849d95034f964c08"
+          }
+        ]
+      },
+      "verified_revision": null,
+      "authority_granted": false
+    },
+    "results": [
+      {
+        "command": "OPENSPEC_TELEMETRY=0 openspec validate support-stage-specific-resume-review --strict --no-interactive",
+        "input": "four exact final archived files under actual change-id in isolated OpenSpec root",
+        "exit_code": 0,
+        "output_sha256": "f545585d64cd680c1f950fdbe0f9b4db1b88a534571759e957fee28175d2fbf6"
+      },
+      {
+        "command": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/validate_core_gates.py .",
+        "exit_code": 0,
+        "output_sha256": "d0c3710506d14833fcb03a19decc83a24dd1cb9739786182fcbd9496df6a3bc0"
+      },
+      {
+        "command": "PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python3 scripts/validate_core_gates.py .",
+        "exit_code": 0,
+        "output_sha256": "d0c3710506d14833fcb03a19decc83a24dd1cb9739786182fcbd9496df6a3bc0"
+      },
+      {
+        "command": "git diff --check -- docs/iteration docs/review/2026-10-09-S9-publication-closeout.json docs/review/2026-10-09-S9-temporary-cleanup.json openspec/changes/archive/2026-10-09-support-stage-specific-resume-review",
+        "exit_code": 0,
+        "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ],
+    "isolated_exact_archive_check_temporary_root_removed": true
+  }
+}

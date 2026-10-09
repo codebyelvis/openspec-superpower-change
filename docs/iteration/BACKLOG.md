@@ -14,7 +14,7 @@
 | S5 skill 自改的工作区隔离说明 | 5 | Patch 或 Minor | 合同 §4 S5，真源/生成物/运行时区分 | 协议说明仓库根是真源，distribution 与嵌套 SKILL 是生成物；起轮确认真源，运行时仅 sync apply 写入；不引入新的 worktree 强制命令 | done |
 | S6 上游对照节奏，而不是自动升级 | 6（季度） | Minor | 合同 §4 S6，sync-checklist 上游边界 | 对照 Superpowers/OpenSpec/Spec Kit 入口形状，仅更新 docs/iteration/upstream-notes.md，提供笔记模板与“笔记不是升级批准”规则；可采纳项另开切片，不改依赖 | done（2026 Q4；下一对照窗口 2027 Q1） |
 | S8 项目文档归属治理能力 | 7（候选，排在既有项之后；待用户下一步指令） | Major | 用户补充优化项：项目文档归属治理能力 | 见下方 S8 候选详情；独立切片完成提案审批、隔离行为验证、链接检查、审查及必要同步 | Major／draft-v1 已批准；原 Preflight BLOCKED 保留，S9 绑定前置已解决，待下一轮 fresh changed-binding Plan／Preflight readiness，未实现 |
-| S9 续跑证据分阶段审查者绑定 | 8（新增候选，排在既有项之后；待用户选片） | Major | S8 独立 Preflight F1 与控制面隔离复现；见候选证据 | 后续独立提案解决 strict 续跑与分阶段 reviewer 绑定的兼容冲突，保留批准、不可变合同、身份独立及分阶段完成门禁；具体验收须经独立提案批准，不扩入 S8 | done；已批准实施、独立门禁／原生／四端／归档严格校验 PASS；主提交 605a099 已推送，收尾元数据／清理待完成；S8 仍 blocked、未实现 |
+| S9 续跑证据分阶段审查者绑定 | 8（新增候选，排在既有项之后；待用户选片） | Major | S8 独立 Preflight F1 与控制面隔离复现；见候选证据 | 后续独立提案解决 strict 续跑与分阶段 reviewer 绑定的兼容冲突，保留批准、不可变合同、身份独立及分阶段完成门禁；具体验收须经独立提案批准，不扩入 S8 | done；已批准实施、独立门禁／原生／四端／归档严格校验 PASS；主提交 605a099 及收尾元数据 62b8162 已推送，S9 自有备份／trace 已清理；S8 仍 blocked、未实现 |
 
 S2 及以后只排队；不得重开方案 C、变成 session-start always-on、合并
 mattpocock/skills 或 oso、自动发布 npm、把搜索可见性当完成条件或放宽
@@ -138,4 +138,5 @@ S9 canonical complete revision 8 绑定实际 persisted final 7；旧 Review 和
 S8 guarded 修订只建立新分阶段 context 及 blocked revision 5，verified=null；
 原 11 个 S8 工件不变，整个原图及新 context/status 本轮均未提交。CURRENT
 恢复 S8 fresh changed-binding Plan／Preflight 待办；不把 S8 实现夹入 S9。
-本次收尾元数据推送及 S9 自有备份／trace 清理待完成；S8 两份备份保留。
+收尾元数据 `62b816244980be82512a3fc9c1d72f0373e656e0` 已推送并核对远端；
+S9 两份自有备份及其 trace/receipt/fixture 已清理，S8 两份备份字节／mode 不变并保留。
