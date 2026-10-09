@@ -13,7 +13,7 @@
 | S4 过触发成本的静态预算 | 4 | Minor | 合同 §4 S4，按行读取约束 | 协议中增加本轮允许阅读表；轻量 validator 拒绝入口要求先读完全部 references；不改业务证据门禁 | done |
 | S5 skill 自改的工作区隔离说明 | 5 | Patch 或 Minor | 合同 §4 S5，真源/生成物/运行时区分 | 协议说明仓库根是真源，distribution 与嵌套 SKILL 是生成物；起轮确认真源，运行时仅 sync apply 写入；不引入新的 worktree 强制命令 | done |
 | S6 上游对照节奏，而不是自动升级 | 6（季度） | Minor | 合同 §4 S6，sync-checklist 上游边界 | 对照 Superpowers/OpenSpec/Spec Kit 入口形状，仅更新 docs/iteration/upstream-notes.md，提供笔记模板与“笔记不是升级批准”规则；可采纳项另开切片，不改依赖 | done（2026 Q4；下一对照窗口 2027 Q1） |
-| S8 项目文档归属治理能力 | 7（候选，排在既有项之后；待用户下一步指令） | Major | 用户补充优化项：项目文档归属治理能力 | 见下方 S8 候选详情；独立切片完成提案审批、隔离行为验证、链接检查、审查及必要同步 | Major／draft-v1 已批准；独立Preflight／Implementation／最终输入复核／单独Final、源／原生／四端同步／owned归档严格校验均PASS；源发表及收尾清理待 |
+| S8 项目文档归属治理能力 | 7（候选，排在既有项之后；待用户下一步指令） | Major | 用户补充优化项：项目文档归属治理能力 | 见下方 S8 候选详情；独立切片完成提案审批、隔离行为验证、链接检查、审查及必要同步 | done；add-project-document-ownership 已批准，源／原生／四端／独立门禁／owned归档严格校验PASS；源18923f1已推送；本轮元数据发表及推送后自有备份清理待 |
 | S9 续跑证据分阶段审查者绑定 | 8（新增候选，排在既有项之后；待用户选片） | Major | S8 独立 Preflight F1 与控制面隔离复现；见候选证据 | 后续独立提案解决 strict 续跑与分阶段 reviewer 绑定的兼容冲突，保留批准、不可变合同、身份独立及分阶段完成门禁；具体验收须经独立提案批准，不扩入 S8 | done；已批准实施、独立门禁／原生／四端／归档严格校验 PASS；主提交 605a099 及收尾元数据 62b8162 已推送，S9 自有备份／trace 已清理；S8 仍 blocked、未实现 |
 
 S2 及以后只排队；不得重开方案 C、变成 session-start always-on、合并
@@ -140,3 +140,13 @@ S8 guarded 修订只建立新分阶段 context 及 blocked revision 5，verified
 恢复 S8 fresh changed-binding Plan／Preflight 待办；不把 S8 实现夹入 S9。
 收尾元数据 `62b816244980be82512a3fc9c1d72f0373e656e0` 已推送并核对远端；
 S9 两份自有备份及其 trace/receipt/fixture 已清理，S8 两份备份字节／mode 不变并保留。
+
+
+### S8 本轮源发表（2026-10-09；发生在 S9 收尾之后）
+
+S9 上方历史结果所记 S8 blocked／未实现是 S9 关闭时的快照，不改该历史行。
+本轮沿用原具体批准，经新绑定的独立 readiness 后仅实施 S8。源提交
+18923f165a0474bd01110e3e798f20560585a154 已推送并核对 main；独立 Final、
+四端 scoped sync 和 exact-byte archive strict 已通过。canonical 合法 complete17
+保留 actual persisted verified16，原context/path和所有历史Review不变。
+当前仅本轮元数据发表及自有临时证据清理尚待，不开启新切片。

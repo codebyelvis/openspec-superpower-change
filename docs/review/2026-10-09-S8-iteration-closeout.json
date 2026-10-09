@@ -1,0 +1,90 @@
+{
+  "author": "elvis",
+  "change_id": "add-project-document-ownership",
+  "source_commit": "18923f165a0474bd01110e3e798f20560585a154",
+  "source_remote_verified": "18923f165a0474bd01110e3e798f20560585a154",
+  "canonical_transition": {
+    "actual_previous_revision": 16,
+    "actual_previous_sha256": "27d5e53537231e419e5773b0068b4ffe522a942c3108bced392c9e0011a573c8",
+    "complete_revision": 17,
+    "retained_verified_revision": 16,
+    "validated_result": {
+      "change_id": "add-project-document-ownership",
+      "record_kind": "local",
+      "state": "complete",
+      "next_action": null,
+      "verified_revision": 16,
+      "authority_granted": false
+    }
+  },
+  "sync_plan_sha256": "545707a86caa749c65b9dc2d4a0e8e165fe1e0388e81683c4b23e1afb6b82b0e",
+  "archive_integrity": {
+    "author": "elvis",
+    "phase": "archive",
+    "foreign_unchanged": 44,
+    "protected_baseline_unchanged": 58,
+    "scoped_fingerprint": "6262992a9bdb69c917294a19211729dc2b3bc3371418339b423fe4316020ff5f",
+    "all_frozen_inputs_current": true,
+    "original_approval_sha256": "233d318470241a5eb22eea9186bb372d72db6b65bf9556f6ffa818318e924873",
+    "four_contract_prose_unchanged": true,
+    "context_same_original_path_and_hash": true,
+    "markdown_link_checked_files": [
+      "docs/review/2026-10-08-S8-blocked-status.md",
+      "docs/review/2026-10-08-S8-implementation-plan.md",
+      "docs/review/2026-10-08-S8-project-document-ownership-draft.md",
+      "docs/review/2026-10-08-S8-project-document-ownership-proposal-validation.md",
+      "docs/review/2026-10-09-S8-learning-closeout.md",
+      "docs/review/2026-10-09-S8-resumed-implementation-plan.md",
+      "openspec/changes/archive/2026-10-09-add-project-document-ownership/approval.md",
+      "openspec/changes/archive/2026-10-09-add-project-document-ownership/design.md",
+      "openspec/changes/archive/2026-10-09-add-project-document-ownership/proposal.md",
+      "openspec/changes/archive/2026-10-09-add-project-document-ownership/specs/skill-workflow-governance/spec.md",
+      "openspec/changes/archive/2026-10-09-add-project-document-ownership/tasks.md",
+      "templates/learning-candidate-template.md"
+    ],
+    "canonical_recovery": {
+      "change_id": "add-project-document-ownership",
+      "record_kind": "local",
+      "state": "awaiting-final-verification",
+      "next_action": {
+        "action": "review",
+        "owner": "openspec-superpower-change",
+        "permission": "local-read",
+        "inputs": [
+          {
+            "path": "openspec/changes/add-project-document-ownership/resume-contract-v2.md",
+            "sha256": "798ea76ff6b0dd62f59bc7062fd5acd3587bae2d55c43013ed9479a1b20e2a62"
+          },
+          {
+            "path": "docs/review/2026-10-09-S8-resumed-implementation-plan.md",
+            "sha256": "37a657c4393993eddc462f106de22ae927de25202f741050bf2cde7d22fb851d"
+          },
+          {
+            "path": "docs/review/2026-10-09-S8-implementation-review-final-inputs.json",
+            "sha256": "e35404367b203ae2b32752b926354a86ef3bea3d00e86344f01bff153f8b6765"
+          },
+          {
+            "path": "docs/review/2026-10-09-S8-final-verification.json",
+            "sha256": "efb8dc8e0d894668cfda8bd8bed644b34d77dff3052a5e15ab77241ef879ddcc"
+          }
+        ]
+      },
+      "verified_revision": 16,
+      "authority_granted": false
+    },
+    "pass": true
+  },
+  "publication": "Source published; canonical closure metadata publication pending at this capture",
+  "cleanup": {
+    "state": "pending",
+    "owner": "codex/s8-control-01",
+    "declared_owned_roots": [
+      "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S8-resumed-jd5ww5mw",
+      "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S8-implementation-68h7vzmq",
+      "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S8-proposal-4xkas497"
+    ],
+    "resume_condition": "After actual source and closure metadata pushes, delete only these three nonsymlink owned roots and verify final current source/archive/recovery/link/scope state"
+  },
+  "next_backlog": "S6 upstream comparison window2027Q1; no immediate slice",
+  "captured_at": "2026-10-09T06:38:31.096252+00:00"
+}

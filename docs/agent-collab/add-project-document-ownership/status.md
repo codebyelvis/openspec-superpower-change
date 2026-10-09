@@ -1,6 +1,6 @@
 # S8 Implementation Status
 
-Author: elvis. Final inputs independently reviewed; fresh source/runtime verification persisted at revision16. Distinct Final pending.
+Author: elvis. Approved S8 source and gates are complete; source18923f1 published. Verified revision16 and distinct Final are preserved. Iteration backup cleanup is recorded separately after metadata publication.
 
 ## Session Resume
 
@@ -13,8 +13,8 @@ Author: elvis. Final inputs independently reviewed; fresh source/runtime verific
     "mode": "self-evolution",
     "approval_status": "approved",
     "risk_profile": "strict",
-    "contract_revision": 16,
-    "lifecycle_state": "awaiting-final-verification",
+    "contract_revision": 17,
+    "lifecycle_state": "complete",
     "control_plane_owner": {
       "agent_product": "codex",
       "agent_instance_id": "s8-control-01",
@@ -97,31 +97,17 @@ Author: elvis. Final inputs independently reviewed; fresh source/runtime verific
       {
         "path": "docs/review/2026-10-09-S8-implementation-review-final-inputs.json",
         "sha256": "e35404367b203ae2b32752b926354a86ef3bea3d00e86344f01bff153f8b6765"
+      },
+      {
+        "path": "docs/review/2026-10-09-S8-final-review.json",
+        "sha256": "f62f10a0b2cc1527fd803dde8ea3aaf77158c6aa57f429f132e26f6885b23fd5"
+      },
+      {
+        "path": "docs/review/2026-10-09-S8-archive-validation.json",
+        "sha256": "862ecc1fbe1208a5991a6b5654fcc54b27927c3aed64397f3363760718772a58"
       }
     ],
-    "next_action": {
-      "action": "review",
-      "owner": "openspec-superpower-change",
-      "permission": "local-read",
-      "inputs": [
-        {
-          "path": "openspec/changes/add-project-document-ownership/resume-contract-v2.md",
-          "sha256": "798ea76ff6b0dd62f59bc7062fd5acd3587bae2d55c43013ed9479a1b20e2a62"
-        },
-        {
-          "path": "docs/review/2026-10-09-S8-resumed-implementation-plan.md",
-          "sha256": "37a657c4393993eddc462f106de22ae927de25202f741050bf2cde7d22fb851d"
-        },
-        {
-          "path": "docs/review/2026-10-09-S8-implementation-review-final-inputs.json",
-          "sha256": "e35404367b203ae2b32752b926354a86ef3bea3d00e86344f01bff153f8b6765"
-        },
-        {
-          "path": "docs/review/2026-10-09-S8-final-verification.json",
-          "sha256": "efb8dc8e0d894668cfda8bd8bed644b34d77dff3052a5e15ab77241ef879ddcc"
-        }
-      ]
-    },
+    "next_action": null,
     "verified_revision": {
       "revision": 16,
       "inputs": {
