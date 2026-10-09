@@ -1,0 +1,676 @@
+{
+  "author": "elvis",
+  "evidence_role": "implementation-review",
+  "evidence_result": "pass",
+  "change_id": "add-project-document-ownership",
+  "contract_revision": 15,
+  "canonical_sha256": "a62b1a4b79c75c90feff03cf7af71bc4eb57fd6310bc97e5bda8c2f5741101d3",
+  "source_fingerprint": "6262992a9bdb69c917294a19211729dc2b3bc3371418339b423fe4316020ff5f",
+  "inputs": {
+    "SKILL.md": "4bc91eb0eb29973e5dd1ed76b9e7ec4414f04b05f812f00f6a7d0690968181b1",
+    "references/project-learning-closeout.md": "64a2c446445ca88134672677022f854975bee752adf1778ee5dfbfac237f1014",
+    "templates/learning-candidate-template.md": "ead199a25903b29e3fc778d068c9251d00fbb20a59007ab6f913720dd1812d47",
+    "scripts/validate_core_gates.py": "fbb159992658e7df9679ccf99605d697f2550ccc943737bc4a831df5be52cdf6",
+    "tests/test_workflow_rules.py": "0f142f2d9f9dcb74b6a9163f644061afc5665f6f2408826dddbcbcb8692eba98",
+    "CHANGELOG.md": "795af04d8695ab72936e3f9b8683989bb538ebbd62df14b5c5652c5028f333cd",
+    "docs/review/2026-10-09-S8-approval-provenance.json": "2d6b0763def4ac3a5fe2ec491834a70a6654c3bf303c2054cb875e7b7cec5e06",
+    "openspec/changes/add-project-document-ownership/resume-contract-v2.md": "798ea76ff6b0dd62f59bc7062fd5acd3587bae2d55c43013ed9479a1b20e2a62",
+    "docs/review/2026-10-09-S8-resumed-implementation-plan.md": "37a657c4393993eddc462f106de22ae927de25202f741050bf2cde7d22fb851d",
+    "docs/review/2026-10-09-S8-resumed-preflight-full.json": "8651505d62a743d6fdece91d9ed7f347a8409fce8890d218ac3734ac38898372",
+    "docs/review/2026-10-09-S8-resumed-preflight-focused.json": "5444273fb98208068c1baaa2e316efdf522239ecd5b598b037d25f52a387bda4",
+    "docs/review/2026-10-09-S8-red-green.json": "63ee8d251b09bfb651df59baaec1cf0b5e97005ea015b3a5ff4e3163b04024fb",
+    "docs/review/2026-10-09-S8-native-green.json": "0f4b428adfbe75c643030ce0f5e2c9258012c1da2e6644dc69a9de25997739e8",
+    "docs/review/2026-10-09-S8-audit-correction.json": "1396cea0e1cb8d5aadca8869f122a8b98578e9364cd608e9c5bffbe32740f84c",
+    "docs/review/2026-10-09-S8-native-audit-revalidation.json": "b2045caada940f6a4513fea3fc665d3257b3b6702effdb235aefd7d132996829",
+    "docs/review/2026-10-09-S8-implementation-review-full.json": "f3f8ca8c1add2fe797b4db05236cad738911772ef92fe5a7fd4f4855c51099aa",
+    "docs/review/2026-10-09-S8-sync.json": "f6082c2288fccd20bf2da2bd382191135e2b12a6748d931275f76caf017115a5",
+    "docs/review/2026-10-09-S8-native-inferred-conventions.json": "00b1c86563fcd4a294f12622fa1173fc80d8744d7ef15d3ec0fef3829caba600",
+    "docs/review/2026-10-09-S8-learning-closeout.md": "1dab3e5f3ba180f09b7f33d2e8d8e1dd45dbeea8d9af16aeea04cf8dfb69d1d2",
+    "docs/review/2026-10-09-S8-implementation-review-corrected.json": "e385e6f4b5f241202d18f5ce5a393ee9e82f7ad66871f61bb0fc5f2576bfce13"
+  },
+  "agent_identity": {
+    "agent_product": "codex",
+    "agent_instance_id": "s8-review-01",
+    "agent_role": "independent-reviewer",
+    "capability_profile": "control-plane-high"
+  },
+  "reviewer_assignment": {
+    "review_purpose": {
+      "object": "S8 scoped implementation and its bound evidence",
+      "decision": "decide pass, fail or blocked for the independent implementation gate"
+    },
+    "agent_product": "codex",
+    "agent_instance_id": "s8-review-01",
+    "agent_role": "independent-reviewer",
+    "capability_profile": "control-plane-high",
+    "independence_requirement": {
+      "kind": "distinct-contract-instance",
+      "distinct_from": [
+        "control_plane_owner",
+        "executor_assignment"
+      ]
+    },
+    "result_authority": "governed-review-evidence"
+  },
+  "actual_tool_identity": "/root/s8_review",
+  "active_router": {
+    "actual_tool_identity": "/root",
+    "bound_agent_instance_id": "s8-control-01"
+  },
+  "model": "gpt-6.1-sol",
+  "reasoning": "high",
+  "same_reviewer_instance": true,
+  "independent_from_controller_author_executor": true,
+  "reviewed_stage": "consolidated-final-inputs-same-stage-rereview",
+  "parent_review": {
+    "path": "docs/review/2026-10-09-S8-implementation-review-corrected.json",
+    "sha256": "e385e6f4b5f241202d18f5ce5a393ee9e82f7ad66871f61bb0fc5f2576bfce13"
+  },
+  "reviewed_at": "2026-10-09T06:24:20.564636+00:00",
+  "router_governed_variant_read": "/Users/elvis/.agents/skills/superpowers/using-superpowers/references/router-governed.md",
+  "finding_completeness": true,
+  "actual_critical_reruns": {
+    "author": "elvis",
+    "checks": [
+      {
+        "command": "PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python3 /Users/elvis/.codex-account-a/skills/.system/skill-creator/scripts/quick_validate.py .",
+        "exit_code": 0,
+        "test_count": null,
+        "output_sha256": "db349825903d66adffea3ecf1bd8e1803043e8a71cf1a051235dabc5371f5bb0",
+        "cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change"
+      },
+      {
+        "command": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/validate_core_gates.py .",
+        "exit_code": 0,
+        "test_count": null,
+        "output_sha256": "d0c3710506d14833fcb03a19decc83a24dd1cb9739786182fcbd9496df6a3bc0",
+        "cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change"
+      },
+      {
+        "command": "PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python3 scripts/validate_core_gates.py .",
+        "exit_code": 0,
+        "test_count": null,
+        "output_sha256": "d0c3710506d14833fcb03a19decc83a24dd1cb9739786182fcbd9496df6a3bc0",
+        "cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change"
+      },
+      {
+        "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s tests -v",
+        "exit_code": 0,
+        "test_count": 478,
+        "output_sha256": "7c640ac71364e3798523e93d7f394a76e7c40fb06564a8c55cc98942301da158",
+        "cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change"
+      },
+      {
+        "command": "PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python3 -m unittest discover -s tests -v",
+        "exit_code": 0,
+        "test_count": 478,
+        "output_sha256": "7ded1a5f61f0616face8bc5f84e20d5cf6cc46124d4f14f66b402c561aebfb30",
+        "cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change"
+      },
+      {
+        "command": "openspec validate add-project-document-ownership --strict",
+        "exit_code": 0,
+        "test_count": null,
+        "output_sha256": "774f5a01ce2f01fe09f986029e119944e09f92a039ce1bb47fc0911344a40ff0",
+        "cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change"
+      }
+    ],
+    "inputs_unchanged": true,
+    "checked_at": "2026-10-09T06:18:53.351592+00:00"
+  },
+  "scope_and_learning_review": {
+    "author": "elvis",
+    "all_exact_job_hashes_match": true,
+    "actual_canonical_sha256": "a62b1a4b79c75c90feff03cf7af71bc4eb57fd6310bc97e5bda8c2f5741101d3",
+    "actual_revision": 15,
+    "assignment_unchanged": true,
+    "source_six_unchanged_since_corrected_review": true,
+    "full_current_diff_sha256": "3e14da914364c07e0cd735910805f7e83a047562a2fe0b8bfbbeaa4c309f10dd",
+    "foreign44_changed": [],
+    "protected_bytes_unchanged": [
+      "AGENTS.md",
+      "CONTEXT.md",
+      "docs/engineering-invariants.md",
+      "references/shared-global-governance.md",
+      "references/cross-cli-portable-manifest.json",
+      "references/approved-implementation-workflow.md",
+      "references/handoff-contract.md",
+      "references/self-evolution-rule.md"
+    ],
+    "original_approval_sha256": "233d318470241a5eb22eea9186bb372d72db6b65bf9556f6ffa818318e924873",
+    "immutable_context_sha256": "798ea76ff6b0dd62f59bc7062fd5acd3587bae2d55c43013ed9479a1b20e2a62",
+    "learning": {
+      "actual_relative_links_and_fields_checked": true,
+      "project_local_false_pass_high_threshold_applies": true,
+      "targets": [
+        "tests/test_workflow_rules.py",
+        "references/project-learning-closeout.md"
+      ],
+      "provenance_bound_to_previous_accepted_e385_review": true,
+      "current_prose_prior_pending_status_honest": true,
+      "source_guidance_not_duplicated_or_moved": true,
+      "three_actual_mechanical_red_green_regressions_exist": true,
+      "independent_adversarial_verified_current": true
+    },
+    "deferred_cleanup_task_not_claimed": true
+  },
+  "independent_actual_file_adversarial": {
+    "author": "elvis",
+    "actual_files": true,
+    "cases": [
+      {
+        "case": "legal-relocation-and-inbound-closure",
+        "pass": true
+      },
+      {
+        "case": "external-rewrite",
+        "rejected": true
+      },
+      {
+        "case": "different-existing-target",
+        "rejected": true
+      },
+      {
+        "case": "source-ancestor-symlink-external-only",
+        "rejected": true,
+        "no_mutation": true
+      }
+    ],
+    "auditor_sha256": "0f142f2d9f9dcb74b6a9163f644061afc5665f6f2408826dddbcbcb8692eba98"
+  },
+  "actual_sync_review": {
+    "author": "elvis",
+    "plan_sha256": "545707a86caa749c65b9dc2d4a0e8e165fe1e0388e81683c4b23e1afb6b82b0e",
+    "targets": [
+      {
+        "target": "codex",
+        "receipt_sha256": "dae4963ad9b56152acde8f26b91a3956492f40f050ac065b505881dfcd572876",
+        "current_receipt_state": "verified",
+        "history_states": [
+          "prepared",
+          "mutation-intent",
+          "applied-uncommitted",
+          "applied-uncommitted",
+          "applied-uncommitted"
+        ],
+        "chain_sha_verified": true,
+        "selected_files": 4,
+        "assertions": 36,
+        "current_manifest_closure_and_content_digest_verified": true,
+        "deterministic_discovery_independently_checked": true
+      },
+      {
+        "target": "pi",
+        "receipt_sha256": "7cf8a0cc5907b490075fd513a0a57e06c18f440ed8c82b623e02166fdc93d730",
+        "current_receipt_state": "verified",
+        "history_states": [
+          "prepared",
+          "mutation-intent",
+          "applied-uncommitted",
+          "applied-uncommitted",
+          "applied-uncommitted"
+        ],
+        "chain_sha_verified": true,
+        "selected_files": 4,
+        "assertions": 36,
+        "current_manifest_closure_and_content_digest_verified": true,
+        "deterministic_discovery_independently_checked": true
+      },
+      {
+        "target": "antigravity-cli",
+        "receipt_sha256": "77ef1ca1e665ec4d19dc2e0befe95fd2431ec8f07f34783d3370ee4fe5996ed4",
+        "current_receipt_state": "verified",
+        "history_states": [
+          "prepared",
+          "mutation-intent",
+          "applied-uncommitted",
+          "applied-uncommitted",
+          "applied-uncommitted"
+        ],
+        "chain_sha_verified": true,
+        "selected_files": 4,
+        "assertions": 36,
+        "current_manifest_closure_and_content_digest_verified": true,
+        "deterministic_discovery_independently_checked": true
+      },
+      {
+        "target": "grok-cli",
+        "receipt_sha256": "23674e4adea04ce12ac02c7c95f9e3aee38fbe0bb8562115553941ead561e669",
+        "current_receipt_state": "verified",
+        "history_states": [
+          "prepared",
+          "mutation-intent",
+          "applied-uncommitted",
+          "applied-uncommitted",
+          "applied-uncommitted"
+        ],
+        "chain_sha_verified": true,
+        "selected_files": 4,
+        "assertions": 36,
+        "current_manifest_closure_and_content_digest_verified": true,
+        "deterministic_discovery_independently_checked": false
+      }
+    ],
+    "critical_readonly_reruns": [
+      {
+        "target": "codex",
+        "argv": [
+          "/opt/anaconda3/bin/python3",
+          "/Users/elvis/.codex-account-a/skills/.system/skill-creator/scripts/quick_validate.py",
+          "/Users/elvis/.codex/skills/openspec-superpower-change"
+        ],
+        "exit_code": 0,
+        "output_sha256": "db349825903d66adffea3ecf1bd8e1803043e8a71cf1a051235dabc5371f5bb0"
+      },
+      {
+        "target": "codex",
+        "argv": [
+          "/opt/anaconda3/bin/python3",
+          "/Users/elvis/.codex-account-a/skills/.system/skill-creator/scripts/quick_validate.py",
+          "/Users/elvis/.codex/skills/codex-brief-antigravity-review"
+        ],
+        "exit_code": 0,
+        "output_sha256": "db349825903d66adffea3ecf1bd8e1803043e8a71cf1a051235dabc5371f5bb0"
+      },
+      {
+        "target": "codex",
+        "argv": [
+          "python3",
+          "/Users/elvis/.codex/skills/openspec-superpower-change/scripts/validate_core_gates.py",
+          "/Users/elvis/.codex/skills/openspec-superpower-change"
+        ],
+        "exit_code": 0,
+        "output_sha256": "ee476d351f7c7780323780889818bf66dbc22cb184cadfb0dd4ba9716b4457c0"
+      },
+      {
+        "target": "codex",
+        "argv": [
+          "python3",
+          "/Users/elvis/.codex/skills/codex-brief-antigravity-review/scripts/validate_templates.py",
+          "/Users/elvis/.codex/skills/codex-brief-antigravity-review"
+        ],
+        "exit_code": 0,
+        "output_sha256": "d345f275ebc91e1cda2d1d6365cc769809694f4b9b2448daab8f151a1df68d81"
+      },
+      {
+        "target": "codex",
+        "argv": [
+          "/opt/anaconda3/bin/python3",
+          "/Users/elvis/.codex/skills/openspec-superpower-change/scripts/validate_core_gates.py",
+          "/Users/elvis/.codex/skills/openspec-superpower-change"
+        ],
+        "exit_code": 0,
+        "output_sha256": "ee476d351f7c7780323780889818bf66dbc22cb184cadfb0dd4ba9716b4457c0"
+      },
+      {
+        "target": "codex",
+        "argv": [
+          "/opt/anaconda3/bin/python3",
+          "/Users/elvis/.codex/skills/codex-brief-antigravity-review/scripts/validate_templates.py",
+          "/Users/elvis/.codex/skills/codex-brief-antigravity-review"
+        ],
+        "exit_code": 0,
+        "output_sha256": "d345f275ebc91e1cda2d1d6365cc769809694f4b9b2448daab8f151a1df68d81"
+      },
+      {
+        "target": "pi",
+        "argv": [
+          "/opt/anaconda3/bin/python3",
+          "/Users/elvis/.codex-account-a/skills/.system/skill-creator/scripts/quick_validate.py",
+          "/Users/elvis/.pi/agent/skills/openspec-superpower-change"
+        ],
+        "exit_code": 0,
+        "output_sha256": "db349825903d66adffea3ecf1bd8e1803043e8a71cf1a051235dabc5371f5bb0"
+      },
+      {
+        "target": "pi",
+        "argv": [
+          "/opt/anaconda3/bin/python3",
+          "/Users/elvis/.codex-account-a/skills/.system/skill-creator/scripts/quick_validate.py",
+          "/Users/elvis/.pi/agent/skills/codex-brief-antigravity-review"
+        ],
+        "exit_code": 0,
+        "output_sha256": "db349825903d66adffea3ecf1bd8e1803043e8a71cf1a051235dabc5371f5bb0"
+      },
+      {
+        "target": "pi",
+        "argv": [
+          "python3",
+          "/Users/elvis/.pi/agent/skills/openspec-superpower-change/scripts/validate_core_gates.py",
+          "/Users/elvis/.pi/agent/skills/openspec-superpower-change"
+        ],
+        "exit_code": 0,
+        "output_sha256": "a389f7ae9347810796918b173f088232dd6079ac843da4980704f4eb98b5df35"
+      },
+      {
+        "target": "pi",
+        "argv": [
+          "python3",
+          "/Users/elvis/.pi/agent/skills/codex-brief-antigravity-review/scripts/validate_templates.py",
+          "/Users/elvis/.pi/agent/skills/codex-brief-antigravity-review"
+        ],
+        "exit_code": 0,
+        "output_sha256": "e1e0bfab990a6ae6de908db114f28d8ec036f3def14c6b4c093787e4cbdc6a33"
+      },
+      {
+        "target": "pi",
+        "argv": [
+          "/opt/anaconda3/bin/python3",
+          "/Users/elvis/.pi/agent/skills/openspec-superpower-change/scripts/validate_core_gates.py",
+          "/Users/elvis/.pi/agent/skills/openspec-superpower-change"
+        ],
+        "exit_code": 0,
+        "output_sha256": "a389f7ae9347810796918b173f088232dd6079ac843da4980704f4eb98b5df35"
+      },
+      {
+        "target": "pi",
+        "argv": [
+          "/opt/anaconda3/bin/python3",
+          "/Users/elvis/.pi/agent/skills/codex-brief-antigravity-review/scripts/validate_templates.py",
+          "/Users/elvis/.pi/agent/skills/codex-brief-antigravity-review"
+        ],
+        "exit_code": 0,
+        "output_sha256": "e1e0bfab990a6ae6de908db114f28d8ec036f3def14c6b4c093787e4cbdc6a33"
+      },
+      {
+        "target": "antigravity-cli",
+        "argv": [
+          "/opt/anaconda3/bin/python3",
+          "/Users/elvis/.codex-account-a/skills/.system/skill-creator/scripts/quick_validate.py",
+          "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change"
+        ],
+        "exit_code": 0,
+        "output_sha256": "db349825903d66adffea3ecf1bd8e1803043e8a71cf1a051235dabc5371f5bb0"
+      },
+      {
+        "target": "antigravity-cli",
+        "argv": [
+          "/opt/anaconda3/bin/python3",
+          "/Users/elvis/.codex-account-a/skills/.system/skill-creator/scripts/quick_validate.py",
+          "/Users/elvis/.gemini/antigravity-cli/skills/codex-brief-antigravity-review"
+        ],
+        "exit_code": 0,
+        "output_sha256": "db349825903d66adffea3ecf1bd8e1803043e8a71cf1a051235dabc5371f5bb0"
+      },
+      {
+        "target": "antigravity-cli",
+        "argv": [
+          "python3",
+          "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change/scripts/validate_core_gates.py",
+          "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change"
+        ],
+        "exit_code": 0,
+        "output_sha256": "e21a03d3821631569b9dcb71d6c71a743049951d34040189387a381d0062af4f"
+      },
+      {
+        "target": "antigravity-cli",
+        "argv": [
+          "python3",
+          "/Users/elvis/.gemini/antigravity-cli/skills/codex-brief-antigravity-review/scripts/validate_templates.py",
+          "/Users/elvis/.gemini/antigravity-cli/skills/codex-brief-antigravity-review"
+        ],
+        "exit_code": 0,
+        "output_sha256": "cb04c5b7ff03bcb21ac0da0712e7c21910230936e02e44a0d2980bf7571ac1ca"
+      },
+      {
+        "target": "antigravity-cli",
+        "argv": [
+          "/opt/anaconda3/bin/python3",
+          "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change/scripts/validate_core_gates.py",
+          "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change"
+        ],
+        "exit_code": 0,
+        "output_sha256": "e21a03d3821631569b9dcb71d6c71a743049951d34040189387a381d0062af4f"
+      },
+      {
+        "target": "antigravity-cli",
+        "argv": [
+          "/opt/anaconda3/bin/python3",
+          "/Users/elvis/.gemini/antigravity-cli/skills/codex-brief-antigravity-review/scripts/validate_templates.py",
+          "/Users/elvis/.gemini/antigravity-cli/skills/codex-brief-antigravity-review"
+        ],
+        "exit_code": 0,
+        "output_sha256": "cb04c5b7ff03bcb21ac0da0712e7c21910230936e02e44a0d2980bf7571ac1ca"
+      },
+      {
+        "target": "grok-cli",
+        "argv": [
+          "/opt/anaconda3/bin/python3",
+          "/Users/elvis/.codex-account-a/skills/.system/skill-creator/scripts/quick_validate.py",
+          "/Users/elvis/.grok/skills/openspec-superpower-change"
+        ],
+        "exit_code": 0,
+        "output_sha256": "db349825903d66adffea3ecf1bd8e1803043e8a71cf1a051235dabc5371f5bb0"
+      },
+      {
+        "target": "grok-cli",
+        "argv": [
+          "/opt/anaconda3/bin/python3",
+          "/Users/elvis/.codex-account-a/skills/.system/skill-creator/scripts/quick_validate.py",
+          "/Users/elvis/.grok/skills/codex-brief-antigravity-review"
+        ],
+        "exit_code": 0,
+        "output_sha256": "db349825903d66adffea3ecf1bd8e1803043e8a71cf1a051235dabc5371f5bb0"
+      },
+      {
+        "target": "grok-cli",
+        "argv": [
+          "python3",
+          "/Users/elvis/.grok/skills/openspec-superpower-change/scripts/validate_core_gates.py",
+          "/Users/elvis/.grok/skills/openspec-superpower-change"
+        ],
+        "exit_code": 0,
+        "output_sha256": "657d3cc83e444d8c97d2f0cbe280366e1ae808a04a9998bb7ede74a7fb1b3697"
+      },
+      {
+        "target": "grok-cli",
+        "argv": [
+          "python3",
+          "/Users/elvis/.grok/skills/codex-brief-antigravity-review/scripts/validate_templates.py",
+          "/Users/elvis/.grok/skills/codex-brief-antigravity-review"
+        ],
+        "exit_code": 0,
+        "output_sha256": "9ba735d08784d5dcfdd3d18f31f9dc6e880fff1eae13f422536d3956d7800ae1"
+      },
+      {
+        "target": "grok-cli",
+        "argv": [
+          "/opt/anaconda3/bin/python3",
+          "/Users/elvis/.grok/skills/openspec-superpower-change/scripts/validate_core_gates.py",
+          "/Users/elvis/.grok/skills/openspec-superpower-change"
+        ],
+        "exit_code": 0,
+        "output_sha256": "657d3cc83e444d8c97d2f0cbe280366e1ae808a04a9998bb7ede74a7fb1b3697"
+      },
+      {
+        "target": "grok-cli",
+        "argv": [
+          "/opt/anaconda3/bin/python3",
+          "/Users/elvis/.grok/skills/codex-brief-antigravity-review/scripts/validate_templates.py",
+          "/Users/elvis/.grok/skills/codex-brief-antigravity-review"
+        ],
+        "exit_code": 0,
+        "output_sha256": "9ba735d08784d5dcfdd3d18f31f9dc6e880fff1eae13f422536d3956d7800ae1"
+      },
+      {
+        "argv": [
+          "python3",
+          "scripts/validate_cross_cli_sync.py",
+          "verify-all",
+          "--plan",
+          "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S8-resumed-jd5ww5mw/sync/plan.json",
+          "--transaction-root",
+          "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S8-resumed-jd5ww5mw/sync"
+        ],
+        "exit_code": 0,
+        "output_sha256": "7bfeb8743a334e9117a9003128d812d0f4a581e38bf8125af26bc6b19608f34e"
+      }
+    ],
+    "fresh_grok_discovery": {
+      "source_type": "user",
+      "source_root": "/Users/elvis/.grok/skills",
+      "source_paths": [
+        {
+          "name": "codex-brief-antigravity-review",
+          "path": "/Users/elvis/.grok/skills/codex-brief-antigravity-review/SKILL.md"
+        },
+        {
+          "name": "openspec-superpower-change",
+          "path": "/Users/elvis/.grok/skills/openspec-superpower-change/SKILL.md"
+        }
+      ]
+    },
+    "raw_inspect_path_private_only": "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S8-resumed-jd5ww5mw/s8-review/final-inputs-grok-inspect.json",
+    "receipt_bytes_unchanged_by_review": true,
+    "postcommit_rejections": [
+      {
+        "action": "restore-target",
+        "exit": 1,
+        "reason": "committed receipt cannot restore"
+      },
+      {
+        "action": "verify",
+        "exit": 1,
+        "reason": "content verification receipt state is invalid"
+      }
+    ],
+    "postcommit_failures_not_counted_as_pass": true,
+    "pass": true
+  },
+  "supplemental_native_review": {
+    "author": "elvis",
+    "generator_sha256": "5726472d29dac788689d56d9323abd915c59636adfc37dec845956be82737be0",
+    "current_auditor_sha256": "0f142f2d9f9dcb74b6a9163f644061afc5665f6f2408826dddbcbcb8692eba98",
+    "actual_event_sha256": "bf09219d1e97fda609c11784d67ea3a9de67fc2adb96745121be19ebcd1e2566",
+    "actual_read_paths": [
+      "rules.md",
+      "docs/engineering-invariants.md",
+      "docs/ops/rollout.md",
+      "docs/README.md",
+      "docs/ops/README.md",
+      "AGENTS.md",
+      "CONTEXT.md",
+      "docs/ops/AGENTS.md",
+      "docs/AGENTS.md",
+      "docs/ops/restart.md",
+      "docs/engineering-invariants.md",
+      "docs/ops/restart.md"
+    ],
+    "actual_mutation_paths": [
+      "docs/ops/restart.md"
+    ],
+    "no_explicit_deployment_destination_in_agent_instruction": true,
+    "real_scoped_navigation_read_before_choice": true,
+    "empty_alternative_remains_empty": true,
+    "event_counts_match": true,
+    "immutable_output_hashes_match": true,
+    "pass": true
+  },
+  "supplemental_native_actual_file_changes": {
+    "added": [
+      "docs/ops/restart.md"
+    ],
+    "removed": [],
+    "modified": []
+  },
+  "retained_native_effects_hash_audit": [
+    {
+      "scenario": "conventions",
+      "actual_case": "conventions",
+      "unchanged_original_event_and_all_after_hashes": true
+    },
+    {
+      "scenario": "fallback",
+      "actual_case": "fallback",
+      "unchanged_original_event_and_all_after_hashes": true
+    },
+    {
+      "scenario": "migration",
+      "actual_case": "complete",
+      "unchanged_original_event_and_all_after_hashes": true
+    },
+    {
+      "scenario": "migration",
+      "actual_case": "closure",
+      "unchanged_original_event_and_all_after_hashes": true
+    },
+    {
+      "scenario": "migration",
+      "actual_case": "ambiguity",
+      "unchanged_original_event_and_all_after_hashes": true
+    },
+    {
+      "scenario": "migration",
+      "actual_case": "collision",
+      "unchanged_original_event_and_all_after_hashes": true
+    },
+    {
+      "scenario": "migration",
+      "actual_case": "escape",
+      "unchanged_original_event_and_all_after_hashes": true
+    }
+  ],
+  "code_fact_table": [
+    {
+      "fact": "Current source no-symlink/link-identity corrections remain unchanged and fresh negative probes pass",
+      "evidence": "tests/test_workflow_rules.py:792"
+    },
+    {
+      "fact": "External bytes and local target/query/fragment identities retained through selected map",
+      "evidence": "tests/test_workflow_rules.py:838"
+    },
+    {
+      "fact": "Independent existing-convention inference evidence includes actual output and command hashes",
+      "evidence": "docs/review/2026-10-09-S8-native-inferred-conventions.json:1"
+    },
+    {
+      "fact": "Owned learning card records accepted code promotion separately from pending current prose review",
+      "evidence": "docs/review/2026-10-09-S8-learning-closeout.md:4"
+    },
+    {
+      "fact": "Current verify-all checks every terminal verified receipt and its actual closure digest",
+      "evidence": "scripts/validate_cross_cli_sync.py:3861"
+    }
+  ],
+  "closed_findings_reused": {
+    "parent_review": {
+      "path": "docs/review/2026-10-09-S8-implementation-review-corrected.json",
+      "sha256": "e385e6f4b5f241202d18f5ce5a393ee9e82f7ad66871f61bb0fc5f2576bfce13"
+    },
+    "ids": [
+      "S8-IR-LINK-REFERENT-FALSE-PASS",
+      "S8-IR-SOURCE-ANCESTOR-SYMLINK-FALSE-PASS"
+    ],
+    "source_and_regression_hashes_unchanged": true,
+    "fresh_same_mechanism_adversarial_probe_passed": true
+  },
+  "blocking_findings": [],
+  "non_blocking_recommendations": [],
+  "accepted_residual_risks": [
+    {
+      "observation": "Original native conventions/fallback case labels contain README.md due private generator variable shadowing.",
+      "evidence": "docs/review/2026-10-09-S8-native-green.json plus exact executed generation SHA and independent native-audit reconstruction",
+      "impact": "Metadata label cannot alone identify scenario or grant signoff. Actual bound root, files, command events and rule hash were independently verified.",
+      "owner_or_decision": "Retain immutable original labels honestly; use actual_root and scenario to audit. This does not waive the blocking checker findings."
+    }
+  ],
+  "negative_and_integrity_checks": [
+    "Original full FAIL and corrected PASS immutable bytes preserved; exact job inputs, approval233d318,context798 and frozen Plan37a matched. Original four contract prose is unchanged; tasks changes are checkbox progress only.",
+    "Current complete relevant source diff remains exactly the previously independently inspected six-file diff3e14;44foreign and excluded protected source bytes remain unchanged.",
+    "All four receipt chains have exact previous-byte SHA links,mode0600,and terminal verified state.24 runtime validator/quick reruns plus readonly verify-all pass; fresh Grok inspect independently reports the exact planned user root. No receipt transition was reissued.",
+    "Both recorded rejected Codex followups remain exit1 and are not counted as verification PASS. Current receipt and full destination closure match the independently verified committed bytes.",
+    "Inferred native commands are only permitted mechanical I/O;only docs/ops/restart.md is written. All protected/immutable hashes match exact reconstructed preimage, scoped navigation was actually read, and empty deployment alternative remains empty.",
+    "Learning provenance uses project-local high false-PASS threshold and existing deterministic regression targets. Template fields,actual links,target files,independent evidence and accepted prior promotion SHA checked;current artifact is independently reviewed here. It neither duplicates protected guidance nor grants new completion authority."
+  ],
+  "limitations": [
+    "Implementation-stage governed evidence only. Root alone accepts evidence and advances canonical state;fresh persisted verification and a distinct s8-final-01 Final still remain mandatory.",
+    "Source six commands were actually rerun after this final input set existed. Earlier Root source-final run is not relabeled as bound final verification.",
+    "No source/runtime/canonical/Git write,archive,publication,cleanup or whole-task completion by this reviewer. Owned backup cleanup remains pending;archived task3.5 must reflect actual cleanup only.",
+    "Private raw native and Grok inspect artifacts were not echoed or copied to source. They remain only in owned temporary review/implementation roots until authorized applicable cleanup."
+  ],
+  "decision": "PASS for this exact consolidated current input set and actual revision15/FP626299. No actionable findings remain in the reviewed implementation,actual sync/native evidence or exact learning artifact. Router may accept this evidence within existing authority,then persist fresh bound verification and obtain the distinct Final;this review grants no completion.",
+  "whole_task_completion": false,
+  "cleanup_paths": [
+    "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S8-resumed-jd5ww5mw/s8-review"
+  ]
+}

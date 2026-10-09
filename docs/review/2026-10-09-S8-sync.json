@@ -1,0 +1,965 @@
+{
+  "author": "elvis",
+  "change_id": "add-project-document-ownership",
+  "created_at": "2026-10-09T06:15:46.024704+00:00",
+  "plan_sha256": "545707a86caa749c65b9dc2d4a0e8e165fe1e0388e81683c4b23e1afb6b82b0e",
+  "schema_version": 2,
+  "selection": {
+    "files": [
+      {
+        "path": "SKILL.md",
+        "skill": "openspec-superpower-change"
+      },
+      {
+        "path": "references/project-learning-closeout.md",
+        "skill": "openspec-superpower-change"
+      },
+      {
+        "path": "scripts/validate_core_gates.py",
+        "skill": "openspec-superpower-change"
+      },
+      {
+        "path": "templates/learning-candidate-template.md",
+        "skill": "openspec-superpower-change"
+      }
+    ],
+    "managed_rule": false
+  },
+  "governance_version": 6,
+  "managed_rule_unchanged": true,
+  "legacy": [
+    {
+      "phase": "before-plan",
+      "active_legacy_count": 0,
+      "inventory_sha256": "cc1355940bbcaabff01bc242d8dcee62998f9570ca26421b192cdfd6c3a77983",
+      "known_root_existence": [
+        {
+          "path": "/Users/elvis/file/develop/opensource/openspec-superpower-change/docs/agent-collab",
+          "exists": true
+        },
+        {
+          "path": "/Users/elvis/file/develop/opensource/codex-brief-antigravity-review/docs/agent-collab",
+          "exists": false
+        },
+        {
+          "path": "/Users/elvis/.codex/skills/openspec-superpower-change/docs/agent-collab",
+          "exists": false
+        },
+        {
+          "path": "/Users/elvis/.codex/skills/codex-brief-antigravity-review/docs/agent-collab",
+          "exists": false
+        },
+        {
+          "path": "/Users/elvis/.pi/agent/skills/openspec-superpower-change/docs/agent-collab",
+          "exists": false
+        },
+        {
+          "path": "/Users/elvis/.pi/agent/skills/codex-brief-antigravity-review/docs/agent-collab",
+          "exists": false
+        },
+        {
+          "path": "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change/docs/agent-collab",
+          "exists": false
+        },
+        {
+          "path": "/Users/elvis/.gemini/antigravity-cli/skills/codex-brief-antigravity-review/docs/agent-collab",
+          "exists": false
+        },
+        {
+          "path": "/Users/elvis/.grok/skills/openspec-superpower-change/docs/agent-collab",
+          "exists": false
+        },
+        {
+          "path": "/Users/elvis/.grok/skills/codex-brief-antigravity-review/docs/agent-collab",
+          "exists": false
+        }
+      ]
+    },
+    {
+      "phase": "immediately-before-apply",
+      "active_legacy_count": 0,
+      "inventory_sha256": "cc1355940bbcaabff01bc242d8dcee62998f9570ca26421b192cdfd6c3a77983",
+      "known_root_existence": [
+        {
+          "path": "/Users/elvis/file/develop/opensource/openspec-superpower-change/docs/agent-collab",
+          "exists": true
+        },
+        {
+          "path": "/Users/elvis/file/develop/opensource/codex-brief-antigravity-review/docs/agent-collab",
+          "exists": false
+        },
+        {
+          "path": "/Users/elvis/.codex/skills/openspec-superpower-change/docs/agent-collab",
+          "exists": false
+        },
+        {
+          "path": "/Users/elvis/.codex/skills/codex-brief-antigravity-review/docs/agent-collab",
+          "exists": false
+        },
+        {
+          "path": "/Users/elvis/.pi/agent/skills/openspec-superpower-change/docs/agent-collab",
+          "exists": false
+        },
+        {
+          "path": "/Users/elvis/.pi/agent/skills/codex-brief-antigravity-review/docs/agent-collab",
+          "exists": false
+        },
+        {
+          "path": "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change/docs/agent-collab",
+          "exists": false
+        },
+        {
+          "path": "/Users/elvis/.gemini/antigravity-cli/skills/codex-brief-antigravity-review/docs/agent-collab",
+          "exists": false
+        },
+        {
+          "path": "/Users/elvis/.grok/skills/openspec-superpower-change/docs/agent-collab",
+          "exists": false
+        },
+        {
+          "path": "/Users/elvis/.grok/skills/codex-brief-antigravity-review/docs/agent-collab",
+          "exists": false
+        }
+      ]
+    }
+  ],
+  "immediate_prestate_commands": [
+    {
+      "argv": [
+        "python3",
+        "scripts/validate_core_gates.py",
+        ".",
+        "--legacy-inventory-root",
+        "/Users/elvis/file/develop/opensource/openspec-superpower-change/docs/agent-collab",
+        "--legacy-inventory-output",
+        "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S8-resumed-jd5ww5mw/sync/legacy-immediately-before-apply.json"
+      ],
+      "cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change",
+      "started_at": "2026-10-09T06:13:43.216990+00:00",
+      "finished_at": "2026-10-09T06:13:43.343769+00:00",
+      "exit": 0,
+      "log_sha256": "128abab2088f0ea4c0a6f01c391cbebe8040ac04b4a2ab9c22e9b58e10c30a54"
+    },
+    {
+      "argv": [
+        "python3",
+        "scripts/validate_cross_cli_sync.py",
+        "verify-prestate",
+        "--target",
+        "all",
+        "--plan",
+        "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S8-resumed-jd5ww5mw/sync/plan.json"
+      ],
+      "cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change",
+      "started_at": "2026-10-09T06:13:43.344270+00:00",
+      "finished_at": "2026-10-09T06:13:43.523637+00:00",
+      "exit": 0,
+      "log_sha256": "30785d2e2471530fe731d1ce5e4ddc0544ccf2dbd0f27410d635c1ccb0ab9717"
+    }
+  ],
+  "read_only_companion_fresh_commands": [
+    {
+      "argv": [
+        "/opt/anaconda3/bin/python3",
+        "/Users/elvis/.codex-account-a/skills/.system/skill-creator/scripts/quick_validate.py",
+        "/Users/elvis/file/develop/opensource/codex-brief-antigravity-review"
+      ],
+      "cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change",
+      "exit": 0,
+      "started_at": "2026-10-09T06:15:10.125099+00:00",
+      "log_sha256": "db349825903d66adffea3ecf1bd8e1803043e8a71cf1a051235dabc5371f5bb0"
+    },
+    {
+      "argv": [
+        "python3",
+        "/Users/elvis/file/develop/opensource/codex-brief-antigravity-review/scripts/validate_templates.py",
+        "/Users/elvis/file/develop/opensource/codex-brief-antigravity-review"
+      ],
+      "cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change",
+      "exit": 0,
+      "started_at": "2026-10-09T06:15:10.155799+00:00",
+      "log_sha256": "7d982cd9096326757cf8f6e7763814733df940ac27e28659ea5a0ad4fe2aa588"
+    },
+    {
+      "argv": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "/Users/elvis/file/develop/opensource/codex-brief-antigravity-review/tests",
+        "-v"
+      ],
+      "cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change",
+      "exit": 0,
+      "started_at": "2026-10-09T06:15:10.207536+00:00",
+      "log_sha256": "e253ca447195ea372a314bcedec1bf4b47cd88e0258c3eec11490790c122e4c8"
+    }
+  ],
+  "required_target_order": [
+    "codex",
+    "pi",
+    "antigravity-cli",
+    "grok-cli"
+  ],
+  "targets": [
+    {
+      "target": "codex",
+      "skills_root": "/Users/elvis/.codex/skills",
+      "selected_count": 4,
+      "asserted_count": 36,
+      "managed_rule_selected": false,
+      "receipt_sha256": "dae4963ad9b56152acde8f26b91a3956492f40f050ac065b505881dfcd572876",
+      "receipt": {
+        "backup_manifest_sha256": "02ec9c0cfdce8e3249baa54cfd0e99be27c1c1ed150ad427e310e72e932625a9",
+        "candidate_sha256": "a05b26f9dbb37d12dee8fe2bac3462add26c3e9d8ef15968264d73a9f96e5172",
+        "content_verification_sha256": "dce9a346416bfb7c2002e3b19a6bd7eef73c73e42d2ef73626c2834510fcf66a",
+        "destination_preimage_sha256": "7a0188458eff054faec84df5c5a39fbdce1ec5df268e7633b25a736bf492b904",
+        "discovery_verification_sha256": "8e96fb4d2ab45b069b3d18def7c4d761d5a33205019ad06e38237d43d69d2b64",
+        "plan_sha256": "545707a86caa749c65b9dc2d4a0e8e165fe1e0388e81683c4b23e1afb6b82b0e",
+        "previous_receipt_sha256": "b130e56d177b88e2c19c2c4606630a773a0118a6cf3d459bfdfedb6048389cee",
+        "revision": 6,
+        "schema_version": 1,
+        "state": "verified",
+        "target": "codex",
+        "transaction_id": "df7c516f682049efa37a86b511a27f8e"
+      },
+      "required_commands": [
+        {
+          "argv": [
+            "python3",
+            "scripts/validate_cross_cli_sync.py",
+            "apply",
+            "--target",
+            "codex",
+            "--plan",
+            "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S8-resumed-jd5ww5mw/sync/plan.json",
+            "--transaction-receipt",
+            "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S8-resumed-jd5ww5mw/sync/codex.json",
+            "--backup-root",
+            "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S8-resumed-jd5ww5mw/sync/backups"
+          ],
+          "cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change",
+          "started_at": "2026-10-09T06:13:46.451687+00:00",
+          "finished_at": "2026-10-09T06:13:46.582902+00:00",
+          "exit": 0,
+          "log_sha256": "0b9ce81a8a9bf36893ff3e5b3437cbb0108bf37b644dd151f3f69ea15ef98f54"
+        },
+        {
+          "argv": [
+            "python3",
+            "scripts/validate_cross_cli_sync.py",
+            "verify",
+            "--target",
+            "codex",
+            "--plan",
+            "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S8-resumed-jd5ww5mw/sync/plan.json",
+            "--transaction-receipt",
+            "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S8-resumed-jd5ww5mw/sync/codex.json"
+          ],
+          "cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change",
+          "started_at": "2026-10-09T06:13:46.587432+00:00",
+          "finished_at": "2026-10-09T06:13:46.710696+00:00",
+          "exit": 0,
+          "log_sha256": "dfd2dbe0bbd8565e1aebd6ab22000fa806d68cea63639c831405fe71b2160faf"
+        },
+        {
+          "argv": [
+            "/opt/anaconda3/bin/python3",
+            "/Users/elvis/.codex-account-a/skills/.system/skill-creator/scripts/quick_validate.py",
+            "/Users/elvis/.codex/skills/openspec-superpower-change"
+          ],
+          "cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change",
+          "started_at": "2026-10-09T06:13:46.710988+00:00",
+          "finished_at": "2026-10-09T06:13:46.751221+00:00",
+          "exit": 0,
+          "log_sha256": "db349825903d66adffea3ecf1bd8e1803043e8a71cf1a051235dabc5371f5bb0"
+        },
+        {
+          "argv": [
+            "/opt/anaconda3/bin/python3",
+            "/Users/elvis/.codex-account-a/skills/.system/skill-creator/scripts/quick_validate.py",
+            "/Users/elvis/.codex/skills/codex-brief-antigravity-review"
+          ],
+          "cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change",
+          "started_at": "2026-10-09T06:13:46.751513+00:00",
+          "finished_at": "2026-10-09T06:13:46.789560+00:00",
+          "exit": 0,
+          "log_sha256": "db349825903d66adffea3ecf1bd8e1803043e8a71cf1a051235dabc5371f5bb0"
+        },
+        {
+          "argv": [
+            "python3",
+            "/Users/elvis/.codex/skills/openspec-superpower-change/scripts/validate_core_gates.py",
+            "/Users/elvis/.codex/skills/openspec-superpower-change"
+          ],
+          "cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change",
+          "started_at": "2026-10-09T06:13:46.789876+00:00",
+          "finished_at": "2026-10-09T06:13:46.861883+00:00",
+          "exit": 0,
+          "log_sha256": "ee476d351f7c7780323780889818bf66dbc22cb184cadfb0dd4ba9716b4457c0"
+        },
+        {
+          "argv": [
+            "python3",
+            "/Users/elvis/.codex/skills/codex-brief-antigravity-review/scripts/validate_templates.py",
+            "/Users/elvis/.codex/skills/codex-brief-antigravity-review"
+          ],
+          "cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change",
+          "started_at": "2026-10-09T06:13:46.862188+00:00",
+          "finished_at": "2026-10-09T06:13:46.936232+00:00",
+          "exit": 0,
+          "log_sha256": "d345f275ebc91e1cda2d1d6365cc769809694f4b9b2448daab8f151a1df68d81"
+        },
+        {
+          "argv": [
+            "/opt/anaconda3/bin/python3",
+            "/Users/elvis/.codex/skills/openspec-superpower-change/scripts/validate_core_gates.py",
+            "/Users/elvis/.codex/skills/openspec-superpower-change"
+          ],
+          "cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change",
+          "started_at": "2026-10-09T06:13:46.936547+00:00",
+          "finished_at": "2026-10-09T06:13:47.007887+00:00",
+          "exit": 0,
+          "log_sha256": "ee476d351f7c7780323780889818bf66dbc22cb184cadfb0dd4ba9716b4457c0"
+        },
+        {
+          "argv": [
+            "/opt/anaconda3/bin/python3",
+            "/Users/elvis/.codex/skills/codex-brief-antigravity-review/scripts/validate_templates.py",
+            "/Users/elvis/.codex/skills/codex-brief-antigravity-review"
+          ],
+          "cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change",
+          "started_at": "2026-10-09T06:13:47.008250+00:00",
+          "finished_at": "2026-10-09T06:13:47.085071+00:00",
+          "exit": 0,
+          "log_sha256": "d345f275ebc91e1cda2d1d6365cc769809694f4b9b2448daab8f151a1df68d81"
+        },
+        {
+          "argv": [
+            "python3",
+            "scripts/validate_cross_cli_sync.py",
+            "verify-discovery",
+            "--target",
+            "codex",
+            "--plan",
+            "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S8-resumed-jd5ww5mw/sync/plan.json",
+            "--transaction-receipt",
+            "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S8-resumed-jd5ww5mw/sync/codex.json"
+          ],
+          "cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change",
+          "started_at": "2026-10-09T06:13:47.085437+00:00",
+          "finished_at": "2026-10-09T06:13:47.212703+00:00",
+          "exit": 0,
+          "log_sha256": "4d3490dd2d46e9a1478ffc6e4777ef82cfbf864cfabe2c2b8ad7780e4f779a0c"
+        },
+        {
+          "argv": [
+            "python3",
+            "scripts/validate_cross_cli_sync.py",
+            "commit-target",
+            "--target",
+            "codex",
+            "--plan",
+            "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S8-resumed-jd5ww5mw/sync/plan.json",
+            "--transaction-receipt",
+            "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S8-resumed-jd5ww5mw/sync/codex.json"
+          ],
+          "cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change",
+          "started_at": "2026-10-09T06:13:47.213169+00:00",
+          "finished_at": "2026-10-09T06:13:47.336833+00:00",
+          "exit": 0,
+          "log_sha256": "0b5297f1053dfa27435dd70cf24d064ffc14264addf6d3694c18c6c993ca0ebb"
+        }
+      ],
+      "selected_destination_sha256": {
+        "/Users/elvis/.codex/skills/openspec-superpower-change/SKILL.md": "4bc91eb0eb29973e5dd1ed76b9e7ec4414f04b05f812f00f6a7d0690968181b1",
+        "/Users/elvis/.codex/skills/openspec-superpower-change/references/project-learning-closeout.md": "64a2c446445ca88134672677022f854975bee752adf1778ee5dfbfac237f1014",
+        "/Users/elvis/.codex/skills/openspec-superpower-change/scripts/validate_core_gates.py": "fbb159992658e7df9679ccf99605d697f2550ccc943737bc4a831df5be52cdf6",
+        "/Users/elvis/.codex/skills/openspec-superpower-change/templates/learning-candidate-template.md": "ead199a25903b29e3fc778d068c9251d00fbb20a59007ab6f913720dd1812d47"
+      },
+      "wrapper_disposition": "Private wrapper read status instead of existing receipt state after actual successful commit-target. All ten required target commands exited 0; actual receipt was verified. Later targets had not started. Attempted restore was refused for committed receipt. Attempted post-commit verify was also refused: content verification accepts applied rather than committed state. Both rejected calls changed no target. Actual verified receipt accepted; final verify-all will independently check current closure. Private wrapper corrected to state.",
+      "rejected_followups": [
+        {
+          "action": "restore-target",
+          "exit": 1,
+          "reason": "committed receipt cannot restore"
+        },
+        {
+          "action": "verify",
+          "exit": 1,
+          "reason": "content verification receipt state is invalid"
+        }
+      ]
+    },
+    {
+      "target": "pi",
+      "skills_root": "/Users/elvis/.pi/agent/skills",
+      "selected_count": 4,
+      "asserted_count": 36,
+      "managed_rule_selected": false,
+      "receipt_sha256": "7cf8a0cc5907b490075fd513a0a57e06c18f440ed8c82b623e02166fdc93d730",
+      "receipt": {
+        "backup_manifest_sha256": "06b7350dcdf46daac397566e6efd64ea426e7a0bcae8ee0e238e546c8b8c1e59",
+        "candidate_sha256": "bd0bd8aeaa595ec4bdbd905bceadaea0a976c7cb5190916571567fa19240c207",
+        "content_verification_sha256": "927840e8f37d809df98129a299023483a5f16045af295332f04e4008358d4bb8",
+        "destination_preimage_sha256": "51be0eb6b8cc4bab9b0c5e6f3d71bc0c523cccfc43c0a5b852d0a79b5fcb7925",
+        "discovery_verification_sha256": "2314e0a19c01487302ffcaace864151ac53d387068d63f1ab846738314a53423",
+        "plan_sha256": "545707a86caa749c65b9dc2d4a0e8e165fe1e0388e81683c4b23e1afb6b82b0e",
+        "previous_receipt_sha256": "b141fc6f61d3170e7f2de5d4bef0aa13d2e9d44bf73eeb4436d524741ec86bf7",
+        "revision": 6,
+        "schema_version": 1,
+        "state": "verified",
+        "target": "pi",
+        "transaction_id": "399ee52ff3264bcca26ca6fc30d3ca3e"
+      },
+      "required_commands": [
+        {
+          "argv": [
+            "python3",
+            "scripts/validate_cross_cli_sync.py",
+            "apply",
+            "--target",
+            "pi",
+            "--plan",
+            "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S8-resumed-jd5ww5mw/sync/plan.json",
+            "--transaction-receipt",
+            "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S8-resumed-jd5ww5mw/sync/pi.json",
+            "--backup-root",
+            "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S8-resumed-jd5ww5mw/sync/backups"
+          ],
+          "cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change",
+          "started_at": "2026-10-09T06:14:09.375584+00:00",
+          "finished_at": "2026-10-09T06:14:09.503622+00:00",
+          "exit": 0,
+          "log_sha256": "d0dc4106ca5f385e68b46c626e11f8e28629dc4979d995bb782d0963ab84a035"
+        },
+        {
+          "argv": [
+            "python3",
+            "scripts/validate_cross_cli_sync.py",
+            "verify",
+            "--target",
+            "pi",
+            "--plan",
+            "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S8-resumed-jd5ww5mw/sync/plan.json",
+            "--transaction-receipt",
+            "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S8-resumed-jd5ww5mw/sync/pi.json"
+          ],
+          "cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change",
+          "started_at": "2026-10-09T06:14:09.503976+00:00",
+          "finished_at": "2026-10-09T06:14:09.630935+00:00",
+          "exit": 0,
+          "log_sha256": "c3c2cd2bebe798217c3839756c95146ca9bcab9275c53a3dd14180b973197a11"
+        },
+        {
+          "argv": [
+            "/opt/anaconda3/bin/python3",
+            "/Users/elvis/.codex-account-a/skills/.system/skill-creator/scripts/quick_validate.py",
+            "/Users/elvis/.pi/agent/skills/openspec-superpower-change"
+          ],
+          "cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change",
+          "started_at": "2026-10-09T06:14:09.631342+00:00",
+          "finished_at": "2026-10-09T06:14:09.669965+00:00",
+          "exit": 0,
+          "log_sha256": "db349825903d66adffea3ecf1bd8e1803043e8a71cf1a051235dabc5371f5bb0"
+        },
+        {
+          "argv": [
+            "/opt/anaconda3/bin/python3",
+            "/Users/elvis/.codex-account-a/skills/.system/skill-creator/scripts/quick_validate.py",
+            "/Users/elvis/.pi/agent/skills/codex-brief-antigravity-review"
+          ],
+          "cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change",
+          "started_at": "2026-10-09T06:14:09.670397+00:00",
+          "finished_at": "2026-10-09T06:14:09.710092+00:00",
+          "exit": 0,
+          "log_sha256": "db349825903d66adffea3ecf1bd8e1803043e8a71cf1a051235dabc5371f5bb0"
+        },
+        {
+          "argv": [
+            "python3",
+            "/Users/elvis/.pi/agent/skills/openspec-superpower-change/scripts/validate_core_gates.py",
+            "/Users/elvis/.pi/agent/skills/openspec-superpower-change"
+          ],
+          "cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change",
+          "started_at": "2026-10-09T06:14:09.710595+00:00",
+          "finished_at": "2026-10-09T06:14:09.785789+00:00",
+          "exit": 0,
+          "log_sha256": "a389f7ae9347810796918b173f088232dd6079ac843da4980704f4eb98b5df35"
+        },
+        {
+          "argv": [
+            "python3",
+            "/Users/elvis/.pi/agent/skills/codex-brief-antigravity-review/scripts/validate_templates.py",
+            "/Users/elvis/.pi/agent/skills/codex-brief-antigravity-review"
+          ],
+          "cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change",
+          "started_at": "2026-10-09T06:14:09.786332+00:00",
+          "finished_at": "2026-10-09T06:14:09.862373+00:00",
+          "exit": 0,
+          "log_sha256": "e1e0bfab990a6ae6de908db114f28d8ec036f3def14c6b4c093787e4cbdc6a33"
+        },
+        {
+          "argv": [
+            "/opt/anaconda3/bin/python3",
+            "/Users/elvis/.pi/agent/skills/openspec-superpower-change/scripts/validate_core_gates.py",
+            "/Users/elvis/.pi/agent/skills/openspec-superpower-change"
+          ],
+          "cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change",
+          "started_at": "2026-10-09T06:14:09.862808+00:00",
+          "finished_at": "2026-10-09T06:14:09.934562+00:00",
+          "exit": 0,
+          "log_sha256": "a389f7ae9347810796918b173f088232dd6079ac843da4980704f4eb98b5df35"
+        },
+        {
+          "argv": [
+            "/opt/anaconda3/bin/python3",
+            "/Users/elvis/.pi/agent/skills/codex-brief-antigravity-review/scripts/validate_templates.py",
+            "/Users/elvis/.pi/agent/skills/codex-brief-antigravity-review"
+          ],
+          "cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change",
+          "started_at": "2026-10-09T06:14:09.935075+00:00",
+          "finished_at": "2026-10-09T06:14:10.009548+00:00",
+          "exit": 0,
+          "log_sha256": "e1e0bfab990a6ae6de908db114f28d8ec036f3def14c6b4c093787e4cbdc6a33"
+        },
+        {
+          "argv": [
+            "python3",
+            "scripts/validate_cross_cli_sync.py",
+            "verify-discovery",
+            "--target",
+            "pi",
+            "--plan",
+            "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S8-resumed-jd5ww5mw/sync/plan.json",
+            "--transaction-receipt",
+            "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S8-resumed-jd5ww5mw/sync/pi.json"
+          ],
+          "cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change",
+          "started_at": "2026-10-09T06:14:10.009948+00:00",
+          "finished_at": "2026-10-09T06:14:10.140032+00:00",
+          "exit": 0,
+          "log_sha256": "d86e0e839b9358c5fe1a972a444a1156272a456127806548d568eed1e40a4454"
+        },
+        {
+          "argv": [
+            "python3",
+            "scripts/validate_cross_cli_sync.py",
+            "commit-target",
+            "--target",
+            "pi",
+            "--plan",
+            "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S8-resumed-jd5ww5mw/sync/plan.json",
+            "--transaction-receipt",
+            "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S8-resumed-jd5ww5mw/sync/pi.json"
+          ],
+          "cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change",
+          "started_at": "2026-10-09T06:14:10.140448+00:00",
+          "finished_at": "2026-10-09T06:14:10.270829+00:00",
+          "exit": 0,
+          "log_sha256": "cfda3d536b7864adad1c782823f0ebf105905651cb6ef9fb8432fc388eb7ca66"
+        }
+      ],
+      "selected_destination_sha256": {
+        "/Users/elvis/.pi/agent/skills/openspec-superpower-change/SKILL.md": "4bc91eb0eb29973e5dd1ed76b9e7ec4414f04b05f812f00f6a7d0690968181b1",
+        "/Users/elvis/.pi/agent/skills/openspec-superpower-change/references/project-learning-closeout.md": "64a2c446445ca88134672677022f854975bee752adf1778ee5dfbfac237f1014",
+        "/Users/elvis/.pi/agent/skills/openspec-superpower-change/scripts/validate_core_gates.py": "fbb159992658e7df9679ccf99605d697f2550ccc943737bc4a831df5be52cdf6",
+        "/Users/elvis/.pi/agent/skills/openspec-superpower-change/templates/learning-candidate-template.md": "ead199a25903b29e3fc778d068c9251d00fbb20a59007ab6f913720dd1812d47"
+      }
+    },
+    {
+      "target": "antigravity-cli",
+      "skills_root": "/Users/elvis/.gemini/antigravity-cli/skills",
+      "selected_count": 4,
+      "asserted_count": 36,
+      "managed_rule_selected": false,
+      "receipt_sha256": "77ef1ca1e665ec4d19dc2e0befe95fd2431ec8f07f34783d3370ee4fe5996ed4",
+      "receipt": {
+        "backup_manifest_sha256": "1329c51e0580ac65924b0f5273efb68b6a73d657211a754f2b51e65ef58dbf8d",
+        "candidate_sha256": "aa1e3d9273bd7f79bc471a029045020bc7c700700c77ff6aef4aa4464c57a324",
+        "content_verification_sha256": "32bf301a26f7d2a815f8159666cd13a60404bdd641f30a9f938863ad76f31633",
+        "destination_preimage_sha256": "c38874a8c770241b2cc943ae980d69fc52279b961d11ec2a9d2f87ee9ccaade8",
+        "discovery_verification_sha256": "c0dbaa4369521eead0a671c8cc9fecac5fccfb407aadb2695bd6383bd2aa0044",
+        "plan_sha256": "545707a86caa749c65b9dc2d4a0e8e165fe1e0388e81683c4b23e1afb6b82b0e",
+        "previous_receipt_sha256": "1f0a3e027bf4f1e85f3e3bfa52ffeeb7eff9cd2a616bed2733dd886a50b0dcdf",
+        "revision": 6,
+        "schema_version": 1,
+        "state": "verified",
+        "target": "antigravity-cli",
+        "transaction_id": "4043b46b47df41acbd163783da436305"
+      },
+      "required_commands": [
+        {
+          "argv": [
+            "python3",
+            "scripts/validate_cross_cli_sync.py",
+            "apply",
+            "--target",
+            "antigravity-cli",
+            "--plan",
+            "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S8-resumed-jd5ww5mw/sync/plan.json",
+            "--transaction-receipt",
+            "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S8-resumed-jd5ww5mw/sync/antigravity-cli.json",
+            "--backup-root",
+            "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S8-resumed-jd5ww5mw/sync/backups"
+          ],
+          "cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change",
+          "started_at": "2026-10-09T06:14:21.822716+00:00",
+          "finished_at": "2026-10-09T06:14:21.951853+00:00",
+          "exit": 0,
+          "log_sha256": "256f219ea2852fba23fdc0e6ffe7c9fd2bfeb02387378f3286e7c36f29083d68"
+        },
+        {
+          "argv": [
+            "python3",
+            "scripts/validate_cross_cli_sync.py",
+            "verify",
+            "--target",
+            "antigravity-cli",
+            "--plan",
+            "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S8-resumed-jd5ww5mw/sync/plan.json",
+            "--transaction-receipt",
+            "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S8-resumed-jd5ww5mw/sync/antigravity-cli.json"
+          ],
+          "cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change",
+          "started_at": "2026-10-09T06:14:21.952218+00:00",
+          "finished_at": "2026-10-09T06:14:22.082654+00:00",
+          "exit": 0,
+          "log_sha256": "5928145ca5e61e786c4563539507785f5eba33af976f2b5c4c7c1f3713b7e483"
+        },
+        {
+          "argv": [
+            "/opt/anaconda3/bin/python3",
+            "/Users/elvis/.codex-account-a/skills/.system/skill-creator/scripts/quick_validate.py",
+            "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change"
+          ],
+          "cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change",
+          "started_at": "2026-10-09T06:14:22.083076+00:00",
+          "finished_at": "2026-10-09T06:14:22.119583+00:00",
+          "exit": 0,
+          "log_sha256": "db349825903d66adffea3ecf1bd8e1803043e8a71cf1a051235dabc5371f5bb0"
+        },
+        {
+          "argv": [
+            "/opt/anaconda3/bin/python3",
+            "/Users/elvis/.codex-account-a/skills/.system/skill-creator/scripts/quick_validate.py",
+            "/Users/elvis/.gemini/antigravity-cli/skills/codex-brief-antigravity-review"
+          ],
+          "cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change",
+          "started_at": "2026-10-09T06:14:22.119900+00:00",
+          "finished_at": "2026-10-09T06:14:22.154742+00:00",
+          "exit": 0,
+          "log_sha256": "db349825903d66adffea3ecf1bd8e1803043e8a71cf1a051235dabc5371f5bb0"
+        },
+        {
+          "argv": [
+            "python3",
+            "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change/scripts/validate_core_gates.py",
+            "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change"
+          ],
+          "cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change",
+          "started_at": "2026-10-09T06:14:22.155103+00:00",
+          "finished_at": "2026-10-09T06:14:22.231234+00:00",
+          "exit": 0,
+          "log_sha256": "e21a03d3821631569b9dcb71d6c71a743049951d34040189387a381d0062af4f"
+        },
+        {
+          "argv": [
+            "python3",
+            "/Users/elvis/.gemini/antigravity-cli/skills/codex-brief-antigravity-review/scripts/validate_templates.py",
+            "/Users/elvis/.gemini/antigravity-cli/skills/codex-brief-antigravity-review"
+          ],
+          "cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change",
+          "started_at": "2026-10-09T06:14:22.231707+00:00",
+          "finished_at": "2026-10-09T06:14:22.308134+00:00",
+          "exit": 0,
+          "log_sha256": "cb04c5b7ff03bcb21ac0da0712e7c21910230936e02e44a0d2980bf7571ac1ca"
+        },
+        {
+          "argv": [
+            "/opt/anaconda3/bin/python3",
+            "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change/scripts/validate_core_gates.py",
+            "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change"
+          ],
+          "cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change",
+          "started_at": "2026-10-09T06:14:22.308514+00:00",
+          "finished_at": "2026-10-09T06:14:22.383466+00:00",
+          "exit": 0,
+          "log_sha256": "e21a03d3821631569b9dcb71d6c71a743049951d34040189387a381d0062af4f"
+        },
+        {
+          "argv": [
+            "/opt/anaconda3/bin/python3",
+            "/Users/elvis/.gemini/antigravity-cli/skills/codex-brief-antigravity-review/scripts/validate_templates.py",
+            "/Users/elvis/.gemini/antigravity-cli/skills/codex-brief-antigravity-review"
+          ],
+          "cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change",
+          "started_at": "2026-10-09T06:14:22.383839+00:00",
+          "finished_at": "2026-10-09T06:14:22.457998+00:00",
+          "exit": 0,
+          "log_sha256": "cb04c5b7ff03bcb21ac0da0712e7c21910230936e02e44a0d2980bf7571ac1ca"
+        },
+        {
+          "argv": [
+            "python3",
+            "scripts/validate_cross_cli_sync.py",
+            "verify-discovery",
+            "--target",
+            "antigravity-cli",
+            "--plan",
+            "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S8-resumed-jd5ww5mw/sync/plan.json",
+            "--transaction-receipt",
+            "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S8-resumed-jd5ww5mw/sync/antigravity-cli.json"
+          ],
+          "cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change",
+          "started_at": "2026-10-09T06:14:22.458551+00:00",
+          "finished_at": "2026-10-09T06:14:22.585988+00:00",
+          "exit": 0,
+          "log_sha256": "20bf95ded509358f26dd2ba0b187b5bce44955ebed59b4ca77ece20c8066747e"
+        },
+        {
+          "argv": [
+            "python3",
+            "scripts/validate_cross_cli_sync.py",
+            "commit-target",
+            "--target",
+            "antigravity-cli",
+            "--plan",
+            "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S8-resumed-jd5ww5mw/sync/plan.json",
+            "--transaction-receipt",
+            "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S8-resumed-jd5ww5mw/sync/antigravity-cli.json"
+          ],
+          "cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change",
+          "started_at": "2026-10-09T06:14:22.586365+00:00",
+          "finished_at": "2026-10-09T06:14:22.716105+00:00",
+          "exit": 0,
+          "log_sha256": "eb89e7965bc4e441fdb5e2ef1ca75edf326c70732607d58270efdfff092f46b5"
+        }
+      ],
+      "selected_destination_sha256": {
+        "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change/SKILL.md": "4bc91eb0eb29973e5dd1ed76b9e7ec4414f04b05f812f00f6a7d0690968181b1",
+        "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change/references/project-learning-closeout.md": "64a2c446445ca88134672677022f854975bee752adf1778ee5dfbfac237f1014",
+        "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change/scripts/validate_core_gates.py": "fbb159992658e7df9679ccf99605d697f2550ccc943737bc4a831df5be52cdf6",
+        "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change/templates/learning-candidate-template.md": "ead199a25903b29e3fc778d068c9251d00fbb20a59007ab6f913720dd1812d47"
+      }
+    },
+    {
+      "target": "grok-cli",
+      "skills_root": "/Users/elvis/.grok/skills",
+      "selected_count": 4,
+      "asserted_count": 36,
+      "managed_rule_selected": false,
+      "receipt_sha256": "23674e4adea04ce12ac02c7c95f9e3aee38fbe0bb8562115553941ead561e669",
+      "receipt": {
+        "backup_manifest_sha256": "71cdec6a6435f30ad56e49e1b5e4ea977f03a3f48e966f28ee4601c028b13401",
+        "candidate_sha256": "7a728fac0e445ac339c329d458a9bca0b3df026c1211ce5c91c00e7a3f457562",
+        "content_verification_sha256": "e6e71f3b8a6887f0c793fd3ff16d735f0f1fb6d6a4958822f00c1a54afad599a",
+        "destination_preimage_sha256": "a1bab514df3c70918ef8ee3d8b207e55d47638804cc805a142cb350d12e0bc2b",
+        "discovery_verification_sha256": "2fea9155ed20bb5972b3f1a079dbda4caaf282960b801d5934be13f06f2c9a5e",
+        "plan_sha256": "545707a86caa749c65b9dc2d4a0e8e165fe1e0388e81683c4b23e1afb6b82b0e",
+        "previous_receipt_sha256": "c9d513b1966c89ec443ea21a28484ccfa8eab2d640c1d50c40ea501fb10ff707",
+        "revision": 6,
+        "schema_version": 1,
+        "state": "verified",
+        "target": "grok-cli",
+        "transaction_id": "9a0e6f7a106c41d08048bc63c2879f60"
+      },
+      "required_commands": [
+        {
+          "argv": [
+            "python3",
+            "scripts/validate_cross_cli_sync.py",
+            "apply",
+            "--target",
+            "grok-cli",
+            "--plan",
+            "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S8-resumed-jd5ww5mw/sync/plan.json",
+            "--transaction-receipt",
+            "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S8-resumed-jd5ww5mw/sync/grok-cli.json",
+            "--backup-root",
+            "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S8-resumed-jd5ww5mw/sync/backups"
+          ],
+          "cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change",
+          "started_at": "2026-10-09T06:14:30.441276+00:00",
+          "finished_at": "2026-10-09T06:14:30.573394+00:00",
+          "exit": 0,
+          "log_sha256": "0b2c20619e986c8aaa88d0e64d656d3efa3272671e6c67b45bb7edaedccc014e"
+        },
+        {
+          "argv": [
+            "python3",
+            "scripts/validate_cross_cli_sync.py",
+            "verify",
+            "--target",
+            "grok-cli",
+            "--plan",
+            "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S8-resumed-jd5ww5mw/sync/plan.json",
+            "--transaction-receipt",
+            "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S8-resumed-jd5ww5mw/sync/grok-cli.json"
+          ],
+          "cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change",
+          "started_at": "2026-10-09T06:14:30.573752+00:00",
+          "finished_at": "2026-10-09T06:14:30.701621+00:00",
+          "exit": 0,
+          "log_sha256": "cd05070c328068455f3e1edba17784693ce36eda1e3c8bdab1defcaa3c85ea00"
+        },
+        {
+          "argv": [
+            "/opt/anaconda3/bin/python3",
+            "/Users/elvis/.codex-account-a/skills/.system/skill-creator/scripts/quick_validate.py",
+            "/Users/elvis/.grok/skills/openspec-superpower-change"
+          ],
+          "cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change",
+          "started_at": "2026-10-09T06:14:30.701981+00:00",
+          "finished_at": "2026-10-09T06:14:30.739712+00:00",
+          "exit": 0,
+          "log_sha256": "db349825903d66adffea3ecf1bd8e1803043e8a71cf1a051235dabc5371f5bb0"
+        },
+        {
+          "argv": [
+            "/opt/anaconda3/bin/python3",
+            "/Users/elvis/.codex-account-a/skills/.system/skill-creator/scripts/quick_validate.py",
+            "/Users/elvis/.grok/skills/codex-brief-antigravity-review"
+          ],
+          "cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change",
+          "started_at": "2026-10-09T06:14:30.740048+00:00",
+          "finished_at": "2026-10-09T06:14:30.776588+00:00",
+          "exit": 0,
+          "log_sha256": "db349825903d66adffea3ecf1bd8e1803043e8a71cf1a051235dabc5371f5bb0"
+        },
+        {
+          "argv": [
+            "python3",
+            "/Users/elvis/.grok/skills/openspec-superpower-change/scripts/validate_core_gates.py",
+            "/Users/elvis/.grok/skills/openspec-superpower-change"
+          ],
+          "cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change",
+          "started_at": "2026-10-09T06:14:30.777007+00:00",
+          "finished_at": "2026-10-09T06:14:30.848598+00:00",
+          "exit": 0,
+          "log_sha256": "657d3cc83e444d8c97d2f0cbe280366e1ae808a04a9998bb7ede74a7fb1b3697"
+        },
+        {
+          "argv": [
+            "python3",
+            "/Users/elvis/.grok/skills/codex-brief-antigravity-review/scripts/validate_templates.py",
+            "/Users/elvis/.grok/skills/codex-brief-antigravity-review"
+          ],
+          "cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change",
+          "started_at": "2026-10-09T06:14:30.849084+00:00",
+          "finished_at": "2026-10-09T06:14:30.923484+00:00",
+          "exit": 0,
+          "log_sha256": "9ba735d08784d5dcfdd3d18f31f9dc6e880fff1eae13f422536d3956d7800ae1"
+        },
+        {
+          "argv": [
+            "/opt/anaconda3/bin/python3",
+            "/Users/elvis/.grok/skills/openspec-superpower-change/scripts/validate_core_gates.py",
+            "/Users/elvis/.grok/skills/openspec-superpower-change"
+          ],
+          "cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change",
+          "started_at": "2026-10-09T06:14:30.923935+00:00",
+          "finished_at": "2026-10-09T06:14:30.994691+00:00",
+          "exit": 0,
+          "log_sha256": "657d3cc83e444d8c97d2f0cbe280366e1ae808a04a9998bb7ede74a7fb1b3697"
+        },
+        {
+          "argv": [
+            "/opt/anaconda3/bin/python3",
+            "/Users/elvis/.grok/skills/codex-brief-antigravity-review/scripts/validate_templates.py",
+            "/Users/elvis/.grok/skills/codex-brief-antigravity-review"
+          ],
+          "cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change",
+          "started_at": "2026-10-09T06:14:30.995163+00:00",
+          "finished_at": "2026-10-09T06:14:31.070654+00:00",
+          "exit": 0,
+          "log_sha256": "9ba735d08784d5dcfdd3d18f31f9dc6e880fff1eae13f422536d3956d7800ae1"
+        },
+        {
+          "argv": [
+            "grok",
+            "inspect",
+            "--json"
+          ],
+          "cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change",
+          "started_at": "2026-10-09T06:14:31.071108+00:00",
+          "finished_at": "2026-10-09T06:14:31.307397+00:00",
+          "exit": 0,
+          "log_sha256": "c0d0e92e20f5412bf03bab4f97bab457d157016f3ef8ad3d8b227215586af2bd"
+        },
+        {
+          "argv": [
+            "python3",
+            "scripts/validate_cross_cli_sync.py",
+            "verify-discovery",
+            "--target",
+            "grok-cli",
+            "--plan",
+            "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S8-resumed-jd5ww5mw/sync/plan.json",
+            "--transaction-receipt",
+            "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S8-resumed-jd5ww5mw/sync/grok-cli.json",
+            "--inspect-json",
+            "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S8-resumed-jd5ww5mw/sync/grok-inspect.json",
+            "--consume"
+          ],
+          "cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change",
+          "started_at": "2026-10-09T06:14:31.307816+00:00",
+          "finished_at": "2026-10-09T06:14:31.438165+00:00",
+          "exit": 0,
+          "log_sha256": "60877a4de40ad8cc68cb823d6a8d9723f40921a1f222e4e75c59cea9344f7254"
+        },
+        {
+          "argv": [
+            "python3",
+            "scripts/validate_cross_cli_sync.py",
+            "commit-target",
+            "--target",
+            "grok-cli",
+            "--plan",
+            "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S8-resumed-jd5ww5mw/sync/plan.json",
+            "--transaction-receipt",
+            "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S8-resumed-jd5ww5mw/sync/grok-cli.json"
+          ],
+          "cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change",
+          "started_at": "2026-10-09T06:14:31.438573+00:00",
+          "finished_at": "2026-10-09T06:14:31.564358+00:00",
+          "exit": 0,
+          "log_sha256": "ad7bc584ff597fe27f43e3a3704935b9ee4bbb6b69beb802246d09e84c66c2c7"
+        }
+      ],
+      "selected_destination_sha256": {
+        "/Users/elvis/.grok/skills/openspec-superpower-change/SKILL.md": "4bc91eb0eb29973e5dd1ed76b9e7ec4414f04b05f812f00f6a7d0690968181b1",
+        "/Users/elvis/.grok/skills/openspec-superpower-change/references/project-learning-closeout.md": "64a2c446445ca88134672677022f854975bee752adf1778ee5dfbfac237f1014",
+        "/Users/elvis/.grok/skills/openspec-superpower-change/scripts/validate_core_gates.py": "fbb159992658e7df9679ccf99605d697f2550ccc943737bc4a831df5be52cdf6",
+        "/Users/elvis/.grok/skills/openspec-superpower-change/templates/learning-candidate-template.md": "ead199a25903b29e3fc778d068c9251d00fbb20a59007ab6f913720dd1812d47"
+      }
+    }
+  ],
+  "verify_all": {
+    "author": "elvis",
+    "pass": true,
+    "results": [
+      {
+        "argv": [
+          "python3",
+          "scripts/validate_cross_cli_sync.py",
+          "verify-all",
+          "--plan",
+          "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S8-resumed-jd5ww5mw/sync/plan.json",
+          "--transaction-root",
+          "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S8-resumed-jd5ww5mw/sync"
+        ],
+        "cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change",
+        "started_at": "2026-10-09T06:14:50.176671+00:00",
+        "finished_at": "2026-10-09T06:14:50.358740+00:00",
+        "exit": 0,
+        "log_sha256": "7bfeb8743a334e9117a9003128d812d0f4a581e38bf8125af26bc6b19608f34e"
+      }
+    ]
+  },
+  "raw_inspect_consumed": true,
+  "source_or_companion_git_actions": false,
+  "pass": true,
+  "limitations": "Scoped synchronization only; no approval, canonical transition or whole-task completion granted. Exact receipts and secure rollback images stay privately owned until actual closure. Rejected post-commit wrapper followups are recorded separately and are not verification PASS."
+}

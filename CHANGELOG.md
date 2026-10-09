@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- S8: resolve ordinary document placement from explicit project contracts and
+  established conventions before purpose-directory fallbacks. Centralize the
+  ownership rule and engineering learning target; preserve protected artifact
+  locations and require authorized reference closure for document moves.
+
 - S9: add strict-local stage-specific resume reviewer binding and an explicit,
   approved blocked-context amendment check; preserve legacy and external gates.
 

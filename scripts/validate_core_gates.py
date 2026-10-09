@@ -2195,6 +2195,62 @@ def validate_governed_caveman_lite(
             )
 
 
+def validate_project_document_ownership(skill: str, closeout: str, template: str) -> None:
+    label = "project-learning-closeout.md document ownership"
+    owner, _, _ = _markdown_owned_section(closeout, "## Project Document Ownership", label)
+    owner = " ".join(_markdown_visible_content(owner).split())
+    for needle in (
+        "Reading ownership alone does not trigger learning promotion",
+        "explicit user/project path contracts first",
+        "Reuse established purpose/domain conventions",
+        "Directory existence alone is not evidence",
+        "With no applicable contract or convention",
+        "Reserve the docs root for index entry points and explicitly contracted files",
+        "equally plausible destinations", "resolved before writes",
+        "docs/engineering-invariants.md", "AGENTS.md", "CONTEXT.md", "CONTEXT-MAP.md",
+        "OpenSpec artifacts", "docs/agent-collab/<change-id>/status.md", "docs/iteration/",
+        "exact path/hash bindings", "owner, authorization, revision and evidence rules",
+        "Creation authority is not blanket migration authority",
+        "inbound/outbound references", "AGENTS navigation", "before any mutation",
+        "destination collision", "bound-project paths", "symlinks", "unresolved links",
+        "Preserve substantive content except necessary link edits",
+        "before/after file inventories, content and link resolution",
+        "unrelated historical documents",
+    ):
+        require(owner, needle, label)
+
+    resolver, _, _ = _markdown_owned_section(closeout, "## Target resolver", label)
+    rows = [line for line in _markdown_visible_content(resolver).splitlines()
+            if line.startswith("| Easy-to-miss implementation or agent operating invariant |")]
+    if len(rows) != 1:
+        raise AssertionError(f"{label}: exactly one engineering resolver row required")
+    target = rows[0].split("|")[2]
+    require(target, "contracted or established guidance under Project Document Ownership", label)
+    require(target, "otherwise `docs/engineering/engineering-invariants.md`", label)
+    if "docs/engineering-invariants.md" in target:
+        raise AssertionError(f"{label}: old root fallback in engineering resolver")
+
+    routing, _, _ = _markdown_owned_section(skill, "## Routing Boundary", "SKILL.md placement pointer")
+    rows = [line for line in _markdown_visible_content(routing).splitlines()
+            if line.startswith("| Create or move ordinary project documents |")]
+    if len(rows) != 1:
+        raise AssertionError("SKILL.md placement pointer: exactly one conditional navigation row required")
+    require(rows[0], "references/project-learning-closeout.md", "SKILL.md placement pointer")
+    require(rows[0], "Project Document Ownership only; placement does not trigger promotion", "SKILL.md placement pointer")
+    if "## Project Document Ownership" in _markdown_visible_content(skill):
+        raise AssertionError("SKILL.md placement pointer: copied ownership policy")
+
+    rules, _, _ = _markdown_owned_section(template, "## Rules", "learning-candidate-template.md resolver pointer")
+    require(_markdown_visible_content(rules),
+            "[Target resolver](../references/project-learning-closeout.md#target-resolver)",
+            "learning-candidate-template.md resolver pointer")
+    if any(path in _markdown_visible_content(template) for path in (
+        "docs/engineering-invariants.md", "docs/engineering/engineering-invariants.md",
+        "## Project Document Ownership",
+    )):
+        raise AssertionError("learning-candidate-template.md: copied ownership/default instead of resolver pointer")
+
+
 def validate_project_learning_gate(
     skill: str,
     approved: str,
@@ -2202,6 +2258,7 @@ def validate_project_learning_gate(
     learning_closeout: str,
     learning_template: str,
 ) -> None:
+    validate_project_document_ownership(skill, learning_closeout, learning_template)
     try:
         frontmatter = skill.split("---", 2)[1]
     except IndexError as exc:

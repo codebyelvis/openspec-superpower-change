@@ -1,0 +1,18 @@
+{
+  "purpose": "diagnostic-only synthetic fixture; no S8 signoff",
+  "implementation_reviewer": "s8-review-01",
+  "final_reviewer": "s8-final-01",
+  "implementation_entry_control": "pass",
+  "distinct_final_reviewer": "rejected",
+  "distinct_final_error": "local Review: identity/independent assignment mismatch",
+  "same_final_reviewer_control": "accepted by existing validator; violates S8 distinct-instance contract",
+  "context_swap": "rejected",
+  "context_swap_error": "resume: readonly kind/context cannot change in place",
+  "source_validator_sha256": "8c0844c1ede850109965ead76831b5bceaea434482342739f53a4186198d7959",
+  "author": "elvis",
+  "change_id": "add-project-document-ownership",
+  "classification": "Major protected prerequisite; no implementation permitted",
+  "independent_review": "docs/review/2026-10-08-S8-preflight-full.json",
+  "candidate": "S9; capture only, not proposed or approved",
+  "disposition": "Preserve approved S8 scope; do not modify excluded S7/evidence/assignment rules."
+}

@@ -1,0 +1,80 @@
+{
+  "author": "elvis",
+  "change_id": "add-project-document-ownership",
+  "purpose": "Supplementary actual native existing-convention inference without an explicit deployment destination instruction. Empty alternative directory does not override docs README and ops index/navigation.",
+  "model": "gpt-6.1-sol",
+  "reasoning": "high",
+  "actual_fixture": "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S8-resumed-jd5ww5mw/native-current-conventions-inferred/conventions",
+  "private_probe_sha256": "5726472d29dac788689d56d9323abd915c59636adfc37dec845956be82737be0",
+  "audit_source_sha256": "0f142f2d9f9dcb74b6a9163f644061afc5665f6f2408826dddbcbcb8692eba98",
+  "summary": {
+    "author": "elvis",
+    "stage": "current",
+    "case": "conventions",
+    "model": "gpt-6.1-sol",
+    "reasoning": "high",
+    "native_exit": 0,
+    "rule_sha256": "64a2c446445ca88134672677022f854975bee752adf1778ee5dfbfac237f1014",
+    "events_sha256": "bf09219d1e97fda609c11784d67ea3a9de67fc2adb96745121be19ebcd1e2566",
+    "home_and_codex_home_unchanged": true,
+    "unknown_events": [],
+    "command_allowlist_pass": true,
+    "completed_commands": 13,
+    "cases": [
+      {
+        "case": "conventions",
+        "mutation_commands": 1,
+        "actual_file_audit": {
+          "added": [
+            "docs/ops/restart.md"
+          ],
+          "removed": [],
+          "modified": [],
+          "file_sha256": {
+            ".fixture-policy.json": "14f70966a7836043aae508176cdfbe7e814c67d5135bbc04d1992d8cb229431a",
+            "AGENTS.md": "6dfdc69c8e05f98ef804493e61bd29a61ac144ff80dbdcea335ae895beee4193",
+            "CONTEXT.md": "62e1b393f5e64025d32da7c495f7e0c44ecdcc4cac6cbd7891fe9232ecfdd957",
+            "docs/README.md": "22214c96c2019e2025eca80b61f020d9e961944bdd70a6c3bd26b2848c197d56",
+            "docs/agent-collab/approved/status.md": "4d6790f96ebef8b1fdf6c57cd2ec37487370987fd3b68624506d266b1e7060a0",
+            "docs/engineering-invariants.md": "cc44e4d2560ddd853aa518d0888916c825653843646f3aa4d09e189d57bb8171",
+            "docs/history/old.md": "ccaeb13ed21b8e9da4ef2ce8c908bbc6258cf371878d4fc580dd1885220b1150",
+            "docs/iteration/CURRENT.md": "58ce7b5f8f4509d276d358b2022ae7c0234e0eea9ee455915995b652535735ab",
+            "docs/ops/README.md": "609554e2cf99850808f8cb502b54103905b0c1e02d8517b45af7ad7cd75137ae",
+            "docs/ops/restart.md": "71d68ccc912861f4de0d4c325523750c71fb5a372ff510f62ea27fe22cbd445d",
+            "docs/ops/rollout.md": "6f9881a799287cf600ebf647644337ef7989dbb42a3ddff520769faf01734d6b",
+            "openspec/changes/approved/proposal.md": "5553607d369d5ea173236c0f9d624669c64eeb67a8d49bb1f13cf7d25654a0de",
+            "rules.md": "64a2c446445ca88134672677022f854975bee752adf1778ee5dfbfac237f1014"
+          }
+        },
+        "pass": true,
+        "observed_paths": [
+          ".fixture-policy.json",
+          "AGENTS.md",
+          "CONTEXT.md",
+          "docs/README.md",
+          "docs/agent-collab/approved/status.md",
+          "docs/engineering-invariants.md",
+          "docs/history/old.md",
+          "docs/iteration/CURRENT.md",
+          "docs/ops/README.md",
+          "docs/ops/restart.md",
+          "docs/ops/rollout.md",
+          "openspec/changes/approved/proposal.md",
+          "rules.md"
+        ]
+      }
+    ],
+    "event_counts": {
+      "thread.started": 1,
+      "turn.started": 1,
+      "item.completed:agent_message": 2,
+      "item.started:command_execution": 13,
+      "item.completed:command_execution": 13,
+      "turn.completed": 1
+    },
+    "pass": true
+  },
+  "input_contract": "Synthetic AGENTS preserves explicit root engineering guidance only; docs README links deployment notes to ops README and existing rollout. No deployment target is given in AGENTS.",
+  "pass": true,
+  "authority": "Behavior evidence only; raw prompts/traces remain private and no production file was a writable fixture."
+}

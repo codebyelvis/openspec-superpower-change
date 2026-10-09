@@ -1,0 +1,122 @@
+{
+  "author": "elvis",
+  "change_id": "add-project-document-ownership",
+  "focused_RED": {
+    "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s tests -p test_workflow_rules.py -k ProjectDocumentOwnershipTests -v",
+    "exit_code": 1,
+    "tests": 14,
+    "failures": 8,
+    "reason": "Old engineering fallback and missing artifact-owned placement/navigation reject; actual file/link audit controls pass.",
+    "output_sha256": "9a6e22e9a902d8a30931b0589110db7aa87218a9cb2a7d7c104e7e2d35eb4bad"
+  },
+  "native_RED": {
+    "author": "elvis",
+    "stage": "baseline",
+    "case": "fallback",
+    "model": "gpt-6.1-sol",
+    "reasoning": "high",
+    "native_exit": 0,
+    "rule_sha256": "8ebd52104fb1f57998583bdd8d295c594c83e50333f86b21cc54c64a143ea073",
+    "events_sha256": "facef4ba598b9aea5a107a4f124c2c51e8a18345cc08d9db1aafbd3ce6910131",
+    "home_and_codex_home_unchanged": true,
+    "unknown_events": [],
+    "command_allowlist_pass": true,
+    "completed_commands": 14,
+    "cases": [
+      {
+        "case": "fallback",
+        "mutation_commands": 2,
+        "pass": false,
+        "failure": "unauthorized or missing document added: ['docs/engineering-invariants.md', 'restart.md']",
+        "observed_paths": [
+          ".fixture-policy.json",
+          "AGENTS.md",
+          "CONTEXT.md",
+          "docs/agent-collab/approved/status.md",
+          "docs/engineering-invariants.md",
+          "docs/history/old.md",
+          "docs/iteration/CURRENT.md",
+          "openspec/changes/approved/proposal.md",
+          "restart.md",
+          "rules.md"
+        ]
+      }
+    ],
+    "event_counts": {
+      "thread.started": 1,
+      "turn.started": 1,
+      "item.completed:agent_message": 2,
+      "item.started:command_execution": 14,
+      "item.completed:command_execution": 14,
+      "turn.completed": 1
+    },
+    "pass": false
+  },
+  "native_RED_reason": "Successful bounded native writes created docs/engineering-invariants.md and restart.md; required new purpose-default paths absent.",
+  "GREEN_source_checks": {
+    "author": "elvis",
+    "phase": "source-initial",
+    "cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change",
+    "started_at": "2026-10-09T05:43:52.353153+00:00",
+    "source_sha256": {
+      "SKILL.md": "4bc91eb0eb29973e5dd1ed76b9e7ec4414f04b05f812f00f6a7d0690968181b1",
+      "references/project-learning-closeout.md": "64a2c446445ca88134672677022f854975bee752adf1778ee5dfbfac237f1014",
+      "templates/learning-candidate-template.md": "ead199a25903b29e3fc778d068c9251d00fbb20a59007ab6f913720dd1812d47",
+      "scripts/validate_core_gates.py": "fbb159992658e7df9679ccf99605d697f2550ccc943737bc4a831df5be52cdf6",
+      "tests/test_workflow_rules.py": "0462915a0ccb9c6dbc0718c46c7bb44224186316a16bdbfcc1c506de1221fcee",
+      "CHANGELOG.md": "795af04d8695ab72936e3f9b8683989bb538ebbd62df14b5c5652c5028f333cd"
+    },
+    "commands": {
+      "PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python3 /Users/elvis/.codex-account-a/skills/.system/skill-creator/scripts/quick_validate.py .": 0,
+      "PYTHONDONTWRITEBYTECODE=1 python3 scripts/validate_core_gates.py .": 0,
+      "PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python3 scripts/validate_core_gates.py .": 0,
+      "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s tests -v": 0,
+      "PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python3 -m unittest discover -s tests -v": 0,
+      "openspec validate add-project-document-ownership --strict": 0
+    },
+    "details": [
+      {
+        "command": "PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python3 /Users/elvis/.codex-account-a/skills/.system/skill-creator/scripts/quick_validate.py .",
+        "exit_code": 0,
+        "cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change",
+        "output_sha256": "db349825903d66adffea3ecf1bd8e1803043e8a71cf1a051235dabc5371f5bb0"
+      },
+      {
+        "command": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/validate_core_gates.py .",
+        "exit_code": 0,
+        "cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change",
+        "output_sha256": "d0c3710506d14833fcb03a19decc83a24dd1cb9739786182fcbd9496df6a3bc0"
+      },
+      {
+        "command": "PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python3 scripts/validate_core_gates.py .",
+        "exit_code": 0,
+        "cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change",
+        "output_sha256": "d0c3710506d14833fcb03a19decc83a24dd1cb9739786182fcbd9496df6a3bc0"
+      },
+      {
+        "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s tests -v",
+        "exit_code": 0,
+        "cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change",
+        "output_sha256": "9da0cb42e5a30849dc64dfac992a620dd2a7e0a8e6bb4913a5e3a780fa8ab1c9",
+        "test_count": 475
+      },
+      {
+        "command": "PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python3 -m unittest discover -s tests -v",
+        "exit_code": 0,
+        "cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change",
+        "output_sha256": "2d6d3dade48e7347a9115340ddb99a5ccc6bc59a8dffe4ac96c8f4188f49e6f9",
+        "test_count": 475
+      },
+      {
+        "command": "openspec validate add-project-document-ownership --strict",
+        "exit_code": 0,
+        "cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change",
+        "output_sha256": "774f5a01ce2f01fe09f986029e119944e09f92a039ce1bb47fc0911344a40ff0"
+      }
+    ],
+    "finished_at": "2026-10-09T05:44:44.000544+00:00",
+    "unchanged_during_checks": true,
+    "pass": true
+  },
+  "harness_failures_excluded": "Initial absent-read permission failures were invalid behavioral trials; recorded privately and excluded. No rule edit preceded the successful old-default RED."
+}

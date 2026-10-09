@@ -1,0 +1,454 @@
+{
+  "author": "elvis",
+  "change_id": "add-project-document-ownership",
+  "source_sha256": {
+    "SKILL.md": "4bc91eb0eb29973e5dd1ed76b9e7ec4414f04b05f812f00f6a7d0690968181b1",
+    "references/project-learning-closeout.md": "64a2c446445ca88134672677022f854975bee752adf1778ee5dfbfac237f1014",
+    "templates/learning-candidate-template.md": "ead199a25903b29e3fc778d068c9251d00fbb20a59007ab6f913720dd1812d47",
+    "scripts/validate_core_gates.py": "fbb159992658e7df9679ccf99605d697f2550ccc943737bc4a831df5be52cdf6",
+    "tests/test_workflow_rules.py": "0462915a0ccb9c6dbc0718c46c7bb44224186316a16bdbfcc1c506de1221fcee",
+    "CHANGELOG.md": "795af04d8695ab72936e3f9b8683989bb538ebbd62df14b5c5652c5028f333cd"
+  },
+  "rule_sha256": "64a2c446445ca88134672677022f854975bee752adf1778ee5dfbfac237f1014",
+  "model": "gpt-6.1-sol",
+  "reasoning": "high",
+  "cases": [
+    {
+      "scenario": "conventions",
+      "actual_bound_reads": {
+        "conventions": [
+          "AGENTS.md",
+          "CONTEXT.md",
+          "README.md",
+          "docs/engineering-invariants.md",
+          "docs/ops/README.md",
+          "docs/ops/restart.md",
+          "docs/ops/rollout.md",
+          "rules.md"
+        ]
+      },
+      "original_native_summary": {
+        "author": "elvis",
+        "stage": "current",
+        "case": "conventions",
+        "model": "gpt-6.1-sol",
+        "reasoning": "high",
+        "native_exit": 0,
+        "rule_sha256": "64a2c446445ca88134672677022f854975bee752adf1778ee5dfbfac237f1014",
+        "events_sha256": "675ce4aa42b69c582180f9f14857cfb40d3ecc529bd8d806f1323d389b85ba12",
+        "home_and_codex_home_unchanged": true,
+        "unknown_events": [],
+        "command_allowlist_pass": true,
+        "completed_commands": 11,
+        "cases": [
+          {
+            "case": "README.md",
+            "mutation_commands": 1,
+            "actual_file_audit": {
+              "added": [
+                "docs/ops/restart.md"
+              ],
+              "removed": [],
+              "modified": [],
+              "file_sha256": {
+                ".fixture-policy.json": "14f70966a7836043aae508176cdfbe7e814c67d5135bbc04d1992d8cb229431a",
+                "AGENTS.md": "99d9c1342d01f4c58982175823f396957a7f1cd6404fc2016d2391f8a8f89d70",
+                "CONTEXT.md": "62e1b393f5e64025d32da7c495f7e0c44ecdcc4cac6cbd7891fe9232ecfdd957",
+                "docs/agent-collab/approved/status.md": "4d6790f96ebef8b1fdf6c57cd2ec37487370987fd3b68624506d266b1e7060a0",
+                "docs/engineering-invariants.md": "cc44e4d2560ddd853aa518d0888916c825653843646f3aa4d09e189d57bb8171",
+                "docs/history/old.md": "ccaeb13ed21b8e9da4ef2ce8c908bbc6258cf371878d4fc580dd1885220b1150",
+                "docs/iteration/CURRENT.md": "58ce7b5f8f4509d276d358b2022ae7c0234e0eea9ee455915995b652535735ab",
+                "docs/ops/README.md": "609554e2cf99850808f8cb502b54103905b0c1e02d8517b45af7ad7cd75137ae",
+                "docs/ops/restart.md": "2424b109fdf53d51e8240dbb61098e1d18aefdc4d391f606bc3139efeef9a91d",
+                "docs/ops/rollout.md": "6f9881a799287cf600ebf647644337ef7989dbb42a3ddff520769faf01734d6b",
+                "openspec/changes/approved/proposal.md": "5553607d369d5ea173236c0f9d624669c64eeb67a8d49bb1f13cf7d25654a0de",
+                "rules.md": "64a2c446445ca88134672677022f854975bee752adf1778ee5dfbfac237f1014"
+              }
+            },
+            "pass": true,
+            "observed_paths": [
+              ".fixture-policy.json",
+              "AGENTS.md",
+              "CONTEXT.md",
+              "docs/agent-collab/approved/status.md",
+              "docs/engineering-invariants.md",
+              "docs/history/old.md",
+              "docs/iteration/CURRENT.md",
+              "docs/ops/README.md",
+              "docs/ops/restart.md",
+              "docs/ops/rollout.md",
+              "openspec/changes/approved/proposal.md",
+              "rules.md"
+            ]
+          }
+        ],
+        "event_counts": {
+          "thread.started": 1,
+          "turn.started": 1,
+          "item.completed:agent_message": 2,
+          "item.started:command_execution": 11,
+          "item.completed:command_execution": 11,
+          "turn.completed": 1
+        },
+        "pass": true
+      },
+      "executed_probe_generation_sha256": "36451a2d4833f50ed4e2cde4bfb4ffd295c34980d1114f2f23baffa7ea210572"
+    },
+    {
+      "scenario": "fallback",
+      "actual_bound_reads": {
+        "fallback": [
+          "AGENTS.md",
+          "CONTEXT-MAP.md",
+          "CONTEXT.md",
+          "README.md",
+          "docs/AGENTS.md",
+          "docs/README.md",
+          "docs/agent-collab/approved/status.md",
+          "docs/deployment/AGENTS.md",
+          "docs/deployment/README.md",
+          "docs/deployment/restart.md",
+          "docs/engineering-invariants.md",
+          "docs/engineering/AGENTS.md",
+          "docs/engineering/README.md",
+          "docs/engineering/engineering-invariants.md",
+          "docs/history/old.md",
+          "docs/iteration/CURRENT.md",
+          "docs/restart.md",
+          "openspec/changes/approved/proposal.md",
+          "restart.md",
+          "rules.md"
+        ]
+      },
+      "original_native_summary": {
+        "author": "elvis",
+        "stage": "current",
+        "case": "fallback",
+        "model": "gpt-6.1-sol",
+        "reasoning": "high",
+        "native_exit": 0,
+        "rule_sha256": "64a2c446445ca88134672677022f854975bee752adf1778ee5dfbfac237f1014",
+        "events_sha256": "bf0c42c75bd74efb7c98acb66cf0876586cb318d0b68cecc1c06f603ef4d8a1a",
+        "home_and_codex_home_unchanged": true,
+        "unknown_events": [],
+        "command_allowlist_pass": true,
+        "completed_commands": 24,
+        "cases": [
+          {
+            "case": "README.md",
+            "mutation_commands": 2,
+            "actual_file_audit": {
+              "added": [
+                "docs/deployment/restart.md",
+                "docs/engineering/engineering-invariants.md"
+              ],
+              "removed": [],
+              "modified": [],
+              "file_sha256": {
+                ".fixture-policy.json": "ebb82e3120177cf3d31de7da1f50963f146062d455477f4224e4d587ddf187f3",
+                "AGENTS.md": "e88ee493d16abad9c3e88bdee191e76a6a839750554ee20ca6344d4b840de321",
+                "CONTEXT.md": "62e1b393f5e64025d32da7c495f7e0c44ecdcc4cac6cbd7891fe9232ecfdd957",
+                "docs/agent-collab/approved/status.md": "4d6790f96ebef8b1fdf6c57cd2ec37487370987fd3b68624506d266b1e7060a0",
+                "docs/deployment/restart.md": "c83ad3d1414c8f36acef3e929e6a40adeb810d741ca9b222e12d5a528f4eddbb",
+                "docs/engineering/engineering-invariants.md": "fe1099232ce732a8b4049fe8e8210f61d5fe500a2ef1a191be08b05e9df000ee",
+                "docs/history/old.md": "ccaeb13ed21b8e9da4ef2ce8c908bbc6258cf371878d4fc580dd1885220b1150",
+                "docs/iteration/CURRENT.md": "58ce7b5f8f4509d276d358b2022ae7c0234e0eea9ee455915995b652535735ab",
+                "openspec/changes/approved/proposal.md": "5553607d369d5ea173236c0f9d624669c64eeb67a8d49bb1f13cf7d25654a0de",
+                "rules.md": "64a2c446445ca88134672677022f854975bee752adf1778ee5dfbfac237f1014"
+              }
+            },
+            "pass": true,
+            "observed_paths": [
+              ".fixture-policy.json",
+              "AGENTS.md",
+              "CONTEXT.md",
+              "docs/agent-collab/approved/status.md",
+              "docs/deployment/restart.md",
+              "docs/engineering/engineering-invariants.md",
+              "docs/history/old.md",
+              "docs/iteration/CURRENT.md",
+              "openspec/changes/approved/proposal.md",
+              "rules.md"
+            ]
+          }
+        ],
+        "event_counts": {
+          "thread.started": 1,
+          "turn.started": 1,
+          "item.completed:agent_message": 2,
+          "item.started:command_execution": 24,
+          "item.completed:command_execution": 24,
+          "turn.completed": 1
+        },
+        "pass": true
+      },
+      "executed_probe_generation_sha256": "36451a2d4833f50ed4e2cde4bfb4ffd295c34980d1114f2f23baffa7ea210572"
+    },
+    {
+      "scenario": "migration",
+      "actual_bound_reads": {
+        "complete": [
+          "AGENTS.md",
+          "CONTEXT.md",
+          "docs/README.md",
+          "docs/agent-collab/approved/status.md",
+          "docs/deployment/restart.md",
+          "docs/history/old.md",
+          "docs/iteration/CURRENT.md",
+          "docs/restart.md",
+          "openspec/changes/approved/proposal.md",
+          "rules.md",
+          "runbooks/rollback.md"
+        ],
+        "closure": [
+          "AGENTS.md",
+          "CONTEXT.md",
+          "docs/README.md",
+          "docs/history/referrer.md",
+          "docs/restart.md",
+          "rules.md"
+        ],
+        "ambiguity": [
+          "AGENTS.md",
+          "CONTEXT.md",
+          "docs/README.md",
+          "docs/deployment/README.md",
+          "docs/ops/README.md",
+          "rules.md"
+        ],
+        "collision": [
+          "AGENTS.md",
+          "CONTEXT.md",
+          "docs/README.md",
+          "docs/deployment/restart.md",
+          "docs/restart.md",
+          "rules.md"
+        ],
+        "escape": [
+          "AGENTS.md",
+          "CONTEXT.md",
+          "docs/README.md",
+          "docs/restart.md",
+          "rules.md"
+        ]
+      },
+      "original_native_summary": {
+        "author": "elvis",
+        "stage": "current",
+        "case": "migration",
+        "model": "gpt-6.1-sol",
+        "reasoning": "high",
+        "native_exit": 0,
+        "rule_sha256": "64a2c446445ca88134672677022f854975bee752adf1778ee5dfbfac237f1014",
+        "events_sha256": "562a8a64c8ea14d49b453dc44cb61fa25cf99d0a54e783145778cf4ac4ab4fd5",
+        "home_and_codex_home_unchanged": true,
+        "unknown_events": [],
+        "command_allowlist_pass": true,
+        "completed_commands": 50,
+        "cases": [
+          {
+            "case": "complete",
+            "mutation_commands": 4,
+            "actual_file_audit": {
+              "added": [
+                "docs/deployment/restart.md"
+              ],
+              "removed": [
+                "docs/restart.md"
+              ],
+              "modified": [
+                "AGENTS.md",
+                "docs/README.md"
+              ],
+              "file_sha256": {
+                ".fixture-policy.json": "657918f1b4c9bb62b82b8cad371a4c4dbd523b053126c30678d58b8157981a26",
+                "AGENTS.md": "d899a8b51b5f655d011d7782ee60127f6be66e9248a1320aef9d8de5adf509a1",
+                "CONTEXT.md": "62e1b393f5e64025d32da7c495f7e0c44ecdcc4cac6cbd7891fe9232ecfdd957",
+                "docs/README.md": "a4e76c7a4f27c04a132becbe1729f85cb6bd72efe91958987fd5cd9f7d0d3bb2",
+                "docs/agent-collab/approved/status.md": "4d6790f96ebef8b1fdf6c57cd2ec37487370987fd3b68624506d266b1e7060a0",
+                "docs/deployment/restart.md": "3c53c9897b8696c3482c1490e417c9c009c58456050421cb8e946300eac9012e",
+                "docs/history/old.md": "ccaeb13ed21b8e9da4ef2ce8c908bbc6258cf371878d4fc580dd1885220b1150",
+                "docs/iteration/CURRENT.md": "58ce7b5f8f4509d276d358b2022ae7c0234e0eea9ee455915995b652535735ab",
+                "openspec/changes/approved/proposal.md": "5553607d369d5ea173236c0f9d624669c64eeb67a8d49bb1f13cf7d25654a0de",
+                "rules.md": "64a2c446445ca88134672677022f854975bee752adf1778ee5dfbfac237f1014",
+                "runbooks/rollback.md": "8943ed93e4a2cd1dbed6d12667741995d248f2e8aa8b386c563e737d0c556b74"
+              }
+            },
+            "pass": true,
+            "observed_paths": [
+              ".fixture-policy.json",
+              "AGENTS.md",
+              "CONTEXT.md",
+              "docs/README.md",
+              "docs/agent-collab/approved/status.md",
+              "docs/deployment/restart.md",
+              "docs/history/old.md",
+              "docs/iteration/CURRENT.md",
+              "openspec/changes/approved/proposal.md",
+              "rules.md",
+              "runbooks/rollback.md"
+            ]
+          },
+          {
+            "case": "closure",
+            "mutation_commands": 0,
+            "actual_file_audit": {
+              "added": [],
+              "removed": [],
+              "modified": [],
+              "file_sha256": {
+                ".fixture-policy.json": "e4185ac1dfb80d719a39f18381e0410e6a9517e1c804e150bce82115e4d02474",
+                "AGENTS.md": "9e1f4709ef159dfdad126c355a1d6478eecb9bf557bd9bc4988c9f92f154ae84",
+                "CONTEXT.md": "62e1b393f5e64025d32da7c495f7e0c44ecdcc4cac6cbd7891fe9232ecfdd957",
+                "docs/README.md": "56df8a17144b471eb68c4a91befa0c963ab132c93b571289a7c6cc2f6da07505",
+                "docs/agent-collab/approved/status.md": "4d6790f96ebef8b1fdf6c57cd2ec37487370987fd3b68624506d266b1e7060a0",
+                "docs/history/old.md": "ccaeb13ed21b8e9da4ef2ce8c908bbc6258cf371878d4fc580dd1885220b1150",
+                "docs/history/referrer.md": "234cc2334320677f3a40a268790955d31f23727e089f9904a71acface77febfe",
+                "docs/iteration/CURRENT.md": "58ce7b5f8f4509d276d358b2022ae7c0234e0eea9ee455915995b652535735ab",
+                "docs/restart.md": "50665808c79fe52a3fd122a5b203d422bd95150db0580b9f0000ef3fc4d4ca46",
+                "openspec/changes/approved/proposal.md": "5553607d369d5ea173236c0f9d624669c64eeb67a8d49bb1f13cf7d25654a0de",
+                "rules.md": "64a2c446445ca88134672677022f854975bee752adf1778ee5dfbfac237f1014",
+                "runbooks/rollback.md": "8943ed93e4a2cd1dbed6d12667741995d248f2e8aa8b386c563e737d0c556b74"
+              }
+            },
+            "pass": true,
+            "observed_paths": [
+              ".fixture-policy.json",
+              "AGENTS.md",
+              "CONTEXT.md",
+              "docs/README.md",
+              "docs/agent-collab/approved/status.md",
+              "docs/history/old.md",
+              "docs/history/referrer.md",
+              "docs/iteration/CURRENT.md",
+              "docs/restart.md",
+              "openspec/changes/approved/proposal.md",
+              "rules.md",
+              "runbooks/rollback.md"
+            ]
+          },
+          {
+            "case": "ambiguity",
+            "mutation_commands": 0,
+            "actual_file_audit": {
+              "added": [],
+              "removed": [],
+              "modified": [],
+              "file_sha256": {
+                ".fixture-policy.json": "f53b2ebbd8b1e2c2a4db6089ec94d9b462a26b7c54f5e3f4504ee0f695c48fd3",
+                "AGENTS.md": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "CONTEXT.md": "62e1b393f5e64025d32da7c495f7e0c44ecdcc4cac6cbd7891fe9232ecfdd957",
+                "docs/agent-collab/approved/status.md": "4d6790f96ebef8b1fdf6c57cd2ec37487370987fd3b68624506d266b1e7060a0",
+                "docs/deployment/README.md": "0091a18936147e3837b31e28bfc08690e684d11428b34d727b7ea4bb40bc0a78",
+                "docs/history/old.md": "ccaeb13ed21b8e9da4ef2ce8c908bbc6258cf371878d4fc580dd1885220b1150",
+                "docs/iteration/CURRENT.md": "58ce7b5f8f4509d276d358b2022ae7c0234e0eea9ee455915995b652535735ab",
+                "docs/ops/README.md": "0091a18936147e3837b31e28bfc08690e684d11428b34d727b7ea4bb40bc0a78",
+                "openspec/changes/approved/proposal.md": "5553607d369d5ea173236c0f9d624669c64eeb67a8d49bb1f13cf7d25654a0de",
+                "rules.md": "64a2c446445ca88134672677022f854975bee752adf1778ee5dfbfac237f1014"
+              }
+            },
+            "pass": true,
+            "observed_paths": [
+              ".fixture-policy.json",
+              "AGENTS.md",
+              "CONTEXT.md",
+              "docs/agent-collab/approved/status.md",
+              "docs/deployment/README.md",
+              "docs/history/old.md",
+              "docs/iteration/CURRENT.md",
+              "docs/ops/README.md",
+              "openspec/changes/approved/proposal.md",
+              "rules.md"
+            ]
+          },
+          {
+            "case": "collision",
+            "mutation_commands": 0,
+            "actual_file_audit": {
+              "added": [],
+              "removed": [],
+              "modified": [],
+              "file_sha256": {
+                ".fixture-policy.json": "96ca7bc21d43a84428a93ab9394fc70f1cff882d1ef26c7fcc9f226b9789cadf",
+                "AGENTS.md": "9e1f4709ef159dfdad126c355a1d6478eecb9bf557bd9bc4988c9f92f154ae84",
+                "CONTEXT.md": "62e1b393f5e64025d32da7c495f7e0c44ecdcc4cac6cbd7891fe9232ecfdd957",
+                "docs/README.md": "56df8a17144b471eb68c4a91befa0c963ab132c93b571289a7c6cc2f6da07505",
+                "docs/agent-collab/approved/status.md": "4d6790f96ebef8b1fdf6c57cd2ec37487370987fd3b68624506d266b1e7060a0",
+                "docs/deployment/restart.md": "413f81c23d30a094a224b2141b449d16adc57928d671ae4736db1717754aa391",
+                "docs/history/old.md": "ccaeb13ed21b8e9da4ef2ce8c908bbc6258cf371878d4fc580dd1885220b1150",
+                "docs/iteration/CURRENT.md": "58ce7b5f8f4509d276d358b2022ae7c0234e0eea9ee455915995b652535735ab",
+                "docs/restart.md": "50665808c79fe52a3fd122a5b203d422bd95150db0580b9f0000ef3fc4d4ca46",
+                "openspec/changes/approved/proposal.md": "5553607d369d5ea173236c0f9d624669c64eeb67a8d49bb1f13cf7d25654a0de",
+                "rules.md": "64a2c446445ca88134672677022f854975bee752adf1778ee5dfbfac237f1014",
+                "runbooks/rollback.md": "8943ed93e4a2cd1dbed6d12667741995d248f2e8aa8b386c563e737d0c556b74"
+              }
+            },
+            "pass": true,
+            "observed_paths": [
+              ".fixture-policy.json",
+              "AGENTS.md",
+              "CONTEXT.md",
+              "docs/README.md",
+              "docs/agent-collab/approved/status.md",
+              "docs/deployment/restart.md",
+              "docs/history/old.md",
+              "docs/iteration/CURRENT.md",
+              "docs/restart.md",
+              "openspec/changes/approved/proposal.md",
+              "rules.md",
+              "runbooks/rollback.md"
+            ]
+          },
+          {
+            "case": "escape",
+            "mutation_commands": 0,
+            "actual_file_audit": {
+              "added": [],
+              "removed": [],
+              "modified": [],
+              "file_sha256": {
+                ".fixture-policy.json": "96ca7bc21d43a84428a93ab9394fc70f1cff882d1ef26c7fcc9f226b9789cadf",
+                "AGENTS.md": "9e1f4709ef159dfdad126c355a1d6478eecb9bf557bd9bc4988c9f92f154ae84",
+                "CONTEXT.md": "62e1b393f5e64025d32da7c495f7e0c44ecdcc4cac6cbd7891fe9232ecfdd957",
+                "docs/README.md": "56df8a17144b471eb68c4a91befa0c963ab132c93b571289a7c6cc2f6da07505",
+                "docs/agent-collab/approved/status.md": "4d6790f96ebef8b1fdf6c57cd2ec37487370987fd3b68624506d266b1e7060a0",
+                "docs/history/old.md": "ccaeb13ed21b8e9da4ef2ce8c908bbc6258cf371878d4fc580dd1885220b1150",
+                "docs/iteration/CURRENT.md": "58ce7b5f8f4509d276d358b2022ae7c0234e0eea9ee455915995b652535735ab",
+                "docs/restart.md": "50665808c79fe52a3fd122a5b203d422bd95150db0580b9f0000ef3fc4d4ca46",
+                "openspec/changes/approved/proposal.md": "5553607d369d5ea173236c0f9d624669c64eeb67a8d49bb1f13cf7d25654a0de",
+                "rules.md": "64a2c446445ca88134672677022f854975bee752adf1778ee5dfbfac237f1014",
+                "runbooks/rollback.md": "8943ed93e4a2cd1dbed6d12667741995d248f2e8aa8b386c563e737d0c556b74"
+              }
+            },
+            "pass": true,
+            "observed_paths": [
+              ".fixture-policy.json",
+              "AGENTS.md",
+              "CONTEXT.md",
+              "docs/README.md",
+              "docs/agent-collab/approved/status.md",
+              "docs/history/old.md",
+              "docs/iteration/CURRENT.md",
+              "docs/restart.md",
+              "openspec/changes/approved/proposal.md",
+              "rules.md",
+              "runbooks/rollback.md"
+            ]
+          }
+        ],
+        "event_counts": {
+          "thread.started": 1,
+          "turn.started": 1,
+          "item.completed:agent_message": 3,
+          "item.started:command_execution": 50,
+          "item.completed:command_execution": 50,
+          "turn.completed": 1
+        },
+        "pass": true
+      },
+      "executed_probe_generation_sha256": "6ae46f623f7690577208bdeaebfe2f5bd7311487edf702e10ce28cfb48100c2d"
+    }
+  ],
+  "metadata_note": "Conventions/fallback generation-v2 accidentally labeled inner cases README.md; recorded original labels below. Actual bound root, task, paths/content/links, native tools and outer case IDs prove the intended scenarios. Corrected future private generator variable only; no source/rule/effect changed. Labels grant no authority.",
+  "pass": true
+}

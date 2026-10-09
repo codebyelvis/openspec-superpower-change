@@ -1,0 +1,220 @@
+{
+  "author": "elvis",
+  "change_id": "add-project-document-ownership",
+  "purpose": "Re-audit the unchanged actual native outputs with corrected link identity and source no-symlink checks",
+  "current_auditor_sha256": "0f142f2d9f9dcb74b6a9163f644061afc5665f6f2408826dddbcbcb8692eba98",
+  "rule_sha256": "64a2c446445ca88134672677022f854975bee752adf1778ee5dfbfac237f1014",
+  "original_native_evidence": {
+    "path": "docs/review/2026-10-09-S8-native-green.json",
+    "sha256": "0f4b428adfbe75c643030ce0f5e2c9258012c1da2e6644dc69a9de25997739e8"
+  },
+  "actual_audits": [
+    {
+      "scenario": "conventions",
+      "bound_case": "conventions",
+      "recorded_native_case_label": "README.md",
+      "native_events_sha256": "675ce4aa42b69c582180f9f14857cfb40d3ecc529bd8d806f1323d389b85ba12",
+      "reconstructed_original_byte_provenance": "Actual first successful bounded native read responses for removed/modified files; no newline changes in these ASCII/LF fixtures. All immutable current bytes equal the originally recorded whole-file hashes.",
+      "before_changed_file_sha256": {},
+      "result": {
+        "added": [
+          "docs/ops/restart.md"
+        ],
+        "removed": [],
+        "modified": [],
+        "file_sha256": {
+          ".fixture-policy.json": "14f70966a7836043aae508176cdfbe7e814c67d5135bbc04d1992d8cb229431a",
+          "AGENTS.md": "99d9c1342d01f4c58982175823f396957a7f1cd6404fc2016d2391f8a8f89d70",
+          "CONTEXT.md": "62e1b393f5e64025d32da7c495f7e0c44ecdcc4cac6cbd7891fe9232ecfdd957",
+          "docs/agent-collab/approved/status.md": "4d6790f96ebef8b1fdf6c57cd2ec37487370987fd3b68624506d266b1e7060a0",
+          "docs/engineering-invariants.md": "cc44e4d2560ddd853aa518d0888916c825653843646f3aa4d09e189d57bb8171",
+          "docs/history/old.md": "ccaeb13ed21b8e9da4ef2ce8c908bbc6258cf371878d4fc580dd1885220b1150",
+          "docs/iteration/CURRENT.md": "58ce7b5f8f4509d276d358b2022ae7c0234e0eea9ee455915995b652535735ab",
+          "docs/ops/README.md": "609554e2cf99850808f8cb502b54103905b0c1e02d8517b45af7ad7cd75137ae",
+          "docs/ops/restart.md": "2424b109fdf53d51e8240dbb61098e1d18aefdc4d391f606bc3139efeef9a91d",
+          "docs/ops/rollout.md": "6f9881a799287cf600ebf647644337ef7989dbb42a3ddff520769faf01734d6b",
+          "openspec/changes/approved/proposal.md": "5553607d369d5ea173236c0f9d624669c64eeb67a8d49bb1f13cf7d25654a0de",
+          "rules.md": "64a2c446445ca88134672677022f854975bee752adf1778ee5dfbfac237f1014"
+        }
+      },
+      "pass": true
+    },
+    {
+      "scenario": "fallback",
+      "bound_case": "fallback",
+      "recorded_native_case_label": "README.md",
+      "native_events_sha256": "bf0c42c75bd74efb7c98acb66cf0876586cb318d0b68cecc1c06f603ef4d8a1a",
+      "reconstructed_original_byte_provenance": "Actual first successful bounded native read responses for removed/modified files; no newline changes in these ASCII/LF fixtures. All immutable current bytes equal the originally recorded whole-file hashes.",
+      "before_changed_file_sha256": {},
+      "result": {
+        "added": [
+          "docs/deployment/restart.md",
+          "docs/engineering/engineering-invariants.md"
+        ],
+        "removed": [],
+        "modified": [],
+        "file_sha256": {
+          ".fixture-policy.json": "ebb82e3120177cf3d31de7da1f50963f146062d455477f4224e4d587ddf187f3",
+          "AGENTS.md": "e88ee493d16abad9c3e88bdee191e76a6a839750554ee20ca6344d4b840de321",
+          "CONTEXT.md": "62e1b393f5e64025d32da7c495f7e0c44ecdcc4cac6cbd7891fe9232ecfdd957",
+          "docs/agent-collab/approved/status.md": "4d6790f96ebef8b1fdf6c57cd2ec37487370987fd3b68624506d266b1e7060a0",
+          "docs/deployment/restart.md": "c83ad3d1414c8f36acef3e929e6a40adeb810d741ca9b222e12d5a528f4eddbb",
+          "docs/engineering/engineering-invariants.md": "fe1099232ce732a8b4049fe8e8210f61d5fe500a2ef1a191be08b05e9df000ee",
+          "docs/history/old.md": "ccaeb13ed21b8e9da4ef2ce8c908bbc6258cf371878d4fc580dd1885220b1150",
+          "docs/iteration/CURRENT.md": "58ce7b5f8f4509d276d358b2022ae7c0234e0eea9ee455915995b652535735ab",
+          "openspec/changes/approved/proposal.md": "5553607d369d5ea173236c0f9d624669c64eeb67a8d49bb1f13cf7d25654a0de",
+          "rules.md": "64a2c446445ca88134672677022f854975bee752adf1778ee5dfbfac237f1014"
+        }
+      },
+      "pass": true
+    },
+    {
+      "scenario": "migration",
+      "bound_case": "complete",
+      "recorded_native_case_label": "complete",
+      "native_events_sha256": "562a8a64c8ea14d49b453dc44cb61fa25cf99d0a54e783145778cf4ac4ab4fd5",
+      "reconstructed_original_byte_provenance": "Actual first successful bounded native read responses for removed/modified files; no newline changes in these ASCII/LF fixtures. All immutable current bytes equal the originally recorded whole-file hashes.",
+      "before_changed_file_sha256": {
+        "docs/restart.md": "50665808c79fe52a3fd122a5b203d422bd95150db0580b9f0000ef3fc4d4ca46",
+        "AGENTS.md": "9e1f4709ef159dfdad126c355a1d6478eecb9bf557bd9bc4988c9f92f154ae84",
+        "docs/README.md": "56df8a17144b471eb68c4a91befa0c963ab132c93b571289a7c6cc2f6da07505"
+      },
+      "result": {
+        "added": [
+          "docs/deployment/restart.md"
+        ],
+        "removed": [
+          "docs/restart.md"
+        ],
+        "modified": [
+          "AGENTS.md",
+          "docs/README.md"
+        ],
+        "file_sha256": {
+          ".fixture-policy.json": "657918f1b4c9bb62b82b8cad371a4c4dbd523b053126c30678d58b8157981a26",
+          "AGENTS.md": "d899a8b51b5f655d011d7782ee60127f6be66e9248a1320aef9d8de5adf509a1",
+          "CONTEXT.md": "62e1b393f5e64025d32da7c495f7e0c44ecdcc4cac6cbd7891fe9232ecfdd957",
+          "docs/README.md": "a4e76c7a4f27c04a132becbe1729f85cb6bd72efe91958987fd5cd9f7d0d3bb2",
+          "docs/agent-collab/approved/status.md": "4d6790f96ebef8b1fdf6c57cd2ec37487370987fd3b68624506d266b1e7060a0",
+          "docs/deployment/restart.md": "3c53c9897b8696c3482c1490e417c9c009c58456050421cb8e946300eac9012e",
+          "docs/history/old.md": "ccaeb13ed21b8e9da4ef2ce8c908bbc6258cf371878d4fc580dd1885220b1150",
+          "docs/iteration/CURRENT.md": "58ce7b5f8f4509d276d358b2022ae7c0234e0eea9ee455915995b652535735ab",
+          "openspec/changes/approved/proposal.md": "5553607d369d5ea173236c0f9d624669c64eeb67a8d49bb1f13cf7d25654a0de",
+          "rules.md": "64a2c446445ca88134672677022f854975bee752adf1778ee5dfbfac237f1014",
+          "runbooks/rollback.md": "8943ed93e4a2cd1dbed6d12667741995d248f2e8aa8b386c563e737d0c556b74"
+        }
+      },
+      "pass": true
+    },
+    {
+      "scenario": "migration",
+      "bound_case": "closure",
+      "recorded_native_case_label": "closure",
+      "native_events_sha256": "562a8a64c8ea14d49b453dc44cb61fa25cf99d0a54e783145778cf4ac4ab4fd5",
+      "reconstructed_original_byte_provenance": "Actual first successful bounded native read responses for removed/modified files; no newline changes in these ASCII/LF fixtures. All immutable current bytes equal the originally recorded whole-file hashes.",
+      "before_changed_file_sha256": {},
+      "result": {
+        "added": [],
+        "removed": [],
+        "modified": [],
+        "file_sha256": {
+          ".fixture-policy.json": "e4185ac1dfb80d719a39f18381e0410e6a9517e1c804e150bce82115e4d02474",
+          "AGENTS.md": "9e1f4709ef159dfdad126c355a1d6478eecb9bf557bd9bc4988c9f92f154ae84",
+          "CONTEXT.md": "62e1b393f5e64025d32da7c495f7e0c44ecdcc4cac6cbd7891fe9232ecfdd957",
+          "docs/README.md": "56df8a17144b471eb68c4a91befa0c963ab132c93b571289a7c6cc2f6da07505",
+          "docs/agent-collab/approved/status.md": "4d6790f96ebef8b1fdf6c57cd2ec37487370987fd3b68624506d266b1e7060a0",
+          "docs/history/old.md": "ccaeb13ed21b8e9da4ef2ce8c908bbc6258cf371878d4fc580dd1885220b1150",
+          "docs/history/referrer.md": "234cc2334320677f3a40a268790955d31f23727e089f9904a71acface77febfe",
+          "docs/iteration/CURRENT.md": "58ce7b5f8f4509d276d358b2022ae7c0234e0eea9ee455915995b652535735ab",
+          "docs/restart.md": "50665808c79fe52a3fd122a5b203d422bd95150db0580b9f0000ef3fc4d4ca46",
+          "openspec/changes/approved/proposal.md": "5553607d369d5ea173236c0f9d624669c64eeb67a8d49bb1f13cf7d25654a0de",
+          "rules.md": "64a2c446445ca88134672677022f854975bee752adf1778ee5dfbfac237f1014",
+          "runbooks/rollback.md": "8943ed93e4a2cd1dbed6d12667741995d248f2e8aa8b386c563e737d0c556b74"
+        }
+      },
+      "pass": true
+    },
+    {
+      "scenario": "migration",
+      "bound_case": "ambiguity",
+      "recorded_native_case_label": "ambiguity",
+      "native_events_sha256": "562a8a64c8ea14d49b453dc44cb61fa25cf99d0a54e783145778cf4ac4ab4fd5",
+      "reconstructed_original_byte_provenance": "Actual first successful bounded native read responses for removed/modified files; no newline changes in these ASCII/LF fixtures. All immutable current bytes equal the originally recorded whole-file hashes.",
+      "before_changed_file_sha256": {},
+      "result": {
+        "added": [],
+        "removed": [],
+        "modified": [],
+        "file_sha256": {
+          ".fixture-policy.json": "f53b2ebbd8b1e2c2a4db6089ec94d9b462a26b7c54f5e3f4504ee0f695c48fd3",
+          "AGENTS.md": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "CONTEXT.md": "62e1b393f5e64025d32da7c495f7e0c44ecdcc4cac6cbd7891fe9232ecfdd957",
+          "docs/agent-collab/approved/status.md": "4d6790f96ebef8b1fdf6c57cd2ec37487370987fd3b68624506d266b1e7060a0",
+          "docs/deployment/README.md": "0091a18936147e3837b31e28bfc08690e684d11428b34d727b7ea4bb40bc0a78",
+          "docs/history/old.md": "ccaeb13ed21b8e9da4ef2ce8c908bbc6258cf371878d4fc580dd1885220b1150",
+          "docs/iteration/CURRENT.md": "58ce7b5f8f4509d276d358b2022ae7c0234e0eea9ee455915995b652535735ab",
+          "docs/ops/README.md": "0091a18936147e3837b31e28bfc08690e684d11428b34d727b7ea4bb40bc0a78",
+          "openspec/changes/approved/proposal.md": "5553607d369d5ea173236c0f9d624669c64eeb67a8d49bb1f13cf7d25654a0de",
+          "rules.md": "64a2c446445ca88134672677022f854975bee752adf1778ee5dfbfac237f1014"
+        }
+      },
+      "pass": true
+    },
+    {
+      "scenario": "migration",
+      "bound_case": "collision",
+      "recorded_native_case_label": "collision",
+      "native_events_sha256": "562a8a64c8ea14d49b453dc44cb61fa25cf99d0a54e783145778cf4ac4ab4fd5",
+      "reconstructed_original_byte_provenance": "Actual first successful bounded native read responses for removed/modified files; no newline changes in these ASCII/LF fixtures. All immutable current bytes equal the originally recorded whole-file hashes.",
+      "before_changed_file_sha256": {},
+      "result": {
+        "added": [],
+        "removed": [],
+        "modified": [],
+        "file_sha256": {
+          ".fixture-policy.json": "96ca7bc21d43a84428a93ab9394fc70f1cff882d1ef26c7fcc9f226b9789cadf",
+          "AGENTS.md": "9e1f4709ef159dfdad126c355a1d6478eecb9bf557bd9bc4988c9f92f154ae84",
+          "CONTEXT.md": "62e1b393f5e64025d32da7c495f7e0c44ecdcc4cac6cbd7891fe9232ecfdd957",
+          "docs/README.md": "56df8a17144b471eb68c4a91befa0c963ab132c93b571289a7c6cc2f6da07505",
+          "docs/agent-collab/approved/status.md": "4d6790f96ebef8b1fdf6c57cd2ec37487370987fd3b68624506d266b1e7060a0",
+          "docs/deployment/restart.md": "413f81c23d30a094a224b2141b449d16adc57928d671ae4736db1717754aa391",
+          "docs/history/old.md": "ccaeb13ed21b8e9da4ef2ce8c908bbc6258cf371878d4fc580dd1885220b1150",
+          "docs/iteration/CURRENT.md": "58ce7b5f8f4509d276d358b2022ae7c0234e0eea9ee455915995b652535735ab",
+          "docs/restart.md": "50665808c79fe52a3fd122a5b203d422bd95150db0580b9f0000ef3fc4d4ca46",
+          "openspec/changes/approved/proposal.md": "5553607d369d5ea173236c0f9d624669c64eeb67a8d49bb1f13cf7d25654a0de",
+          "rules.md": "64a2c446445ca88134672677022f854975bee752adf1778ee5dfbfac237f1014",
+          "runbooks/rollback.md": "8943ed93e4a2cd1dbed6d12667741995d248f2e8aa8b386c563e737d0c556b74"
+        }
+      },
+      "pass": true
+    },
+    {
+      "scenario": "migration",
+      "bound_case": "escape",
+      "recorded_native_case_label": "escape",
+      "native_events_sha256": "562a8a64c8ea14d49b453dc44cb61fa25cf99d0a54e783145778cf4ac4ab4fd5",
+      "reconstructed_original_byte_provenance": "Actual first successful bounded native read responses for removed/modified files; no newline changes in these ASCII/LF fixtures. All immutable current bytes equal the originally recorded whole-file hashes.",
+      "before_changed_file_sha256": {},
+      "result": {
+        "added": [],
+        "removed": [],
+        "modified": [],
+        "file_sha256": {
+          ".fixture-policy.json": "96ca7bc21d43a84428a93ab9394fc70f1cff882d1ef26c7fcc9f226b9789cadf",
+          "AGENTS.md": "9e1f4709ef159dfdad126c355a1d6478eecb9bf557bd9bc4988c9f92f154ae84",
+          "CONTEXT.md": "62e1b393f5e64025d32da7c495f7e0c44ecdcc4cac6cbd7891fe9232ecfdd957",
+          "docs/README.md": "56df8a17144b471eb68c4a91befa0c963ab132c93b571289a7c6cc2f6da07505",
+          "docs/agent-collab/approved/status.md": "4d6790f96ebef8b1fdf6c57cd2ec37487370987fd3b68624506d266b1e7060a0",
+          "docs/history/old.md": "ccaeb13ed21b8e9da4ef2ce8c908bbc6258cf371878d4fc580dd1885220b1150",
+          "docs/iteration/CURRENT.md": "58ce7b5f8f4509d276d358b2022ae7c0234e0eea9ee455915995b652535735ab",
+          "docs/restart.md": "50665808c79fe52a3fd122a5b203d422bd95150db0580b9f0000ef3fc4d4ca46",
+          "openspec/changes/approved/proposal.md": "5553607d369d5ea173236c0f9d624669c64eeb67a8d49bb1f13cf7d25654a0de",
+          "rules.md": "64a2c446445ca88134672677022f854975bee752adf1778ee5dfbfac237f1014",
+          "runbooks/rollback.md": "8943ed93e4a2cd1dbed6d12667741995d248f2e8aa8b386c563e737d0c556b74"
+        }
+      },
+      "pass": true
+    }
+  ],
+  "pass": true
+}

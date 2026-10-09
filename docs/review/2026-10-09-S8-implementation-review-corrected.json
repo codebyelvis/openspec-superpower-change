@@ -1,0 +1,516 @@
+{
+  "author": "elvis",
+  "review_kind": "independent-full-same-stage-implementation-rereview",
+  "evidence_role": "implementation-review",
+  "change_id": "add-project-document-ownership",
+  "agent_identity": {
+    "agent_product": "codex",
+    "agent_instance_id": "s8-review-01",
+    "agent_role": "independent-reviewer",
+    "capability_profile": "control-plane-high"
+  },
+  "reviewer_assignment": {
+    "review_purpose": {
+      "object": "S8 scoped implementation and its bound evidence",
+      "decision": "decide pass, fail or blocked for the independent implementation gate"
+    },
+    "agent_product": "codex",
+    "agent_instance_id": "s8-review-01",
+    "agent_role": "independent-reviewer",
+    "capability_profile": "control-plane-high",
+    "independence_requirement": {
+      "kind": "distinct-contract-instance",
+      "distinct_from": [
+        "control_plane_owner",
+        "executor_assignment"
+      ]
+    },
+    "result_authority": "governed-review-evidence"
+  },
+  "actual_tool_identity": "/root/s8_review",
+  "active_router": {
+    "actual_tool_identity": "/root",
+    "bound_identity": "s8-control-01",
+    "authority": "control-plane owner alone accepts evidence and performs canonical transitions"
+  },
+  "model": "gpt-6.1-sol",
+  "reasoning": "high",
+  "reviewer_independent": true,
+  "assignment_selected_from": "openspec/changes/add-project-document-ownership/resume-contract-v2.md reviewer_assignment.implementation-review",
+  "finding_completeness": true,
+  "non_blocking_recommendations": [],
+  "accepted_residual_risks": [
+    {
+      "observation": "Original native conventions/fallback case labels contain README.md due private generator variable shadowing.",
+      "evidence": "docs/review/2026-10-09-S8-native-green.json plus exact executed generation SHA and independent native-audit reconstruction",
+      "impact": "Metadata label cannot alone identify scenario or grant signoff. Actual bound root, files, command events and rule hash were independently verified.",
+      "owner_or_decision": "Retain immutable original labels honestly; use actual_root and scenario to audit. This does not waive the blocking checker findings."
+    }
+  ],
+  "state_changes_by_reviewer": "None to source, runtime, canonical, approved contract or Git. Only owned private reviewer scripts/fixtures/evidence created.",
+  "cleanup_paths": [
+    "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S8-resumed-jd5ww5mw/s8-review"
+  ],
+  "temporary_evidence_disposition": "Keep the owned reviewer directory until Router has accepted/persisted the sanitized review and completed applicable rollback/publication gates.",
+  "evidence_result": "pass",
+  "contract_revision": 13,
+  "canonical_sha256": "d223dee02c85aecc4bf2bf4609926a40b1521b93656ba71239a3a3109e78a52c",
+  "source_fingerprint": "1c0bf6db84cf08701fe3d8348a462bca8333d3fff51462be9e5f64327e68ae92",
+  "inputs": {
+    "SKILL.md": "4bc91eb0eb29973e5dd1ed76b9e7ec4414f04b05f812f00f6a7d0690968181b1",
+    "references/project-learning-closeout.md": "64a2c446445ca88134672677022f854975bee752adf1778ee5dfbfac237f1014",
+    "templates/learning-candidate-template.md": "ead199a25903b29e3fc778d068c9251d00fbb20a59007ab6f913720dd1812d47",
+    "scripts/validate_core_gates.py": "fbb159992658e7df9679ccf99605d697f2550ccc943737bc4a831df5be52cdf6",
+    "tests/test_workflow_rules.py": "0f142f2d9f9dcb74b6a9163f644061afc5665f6f2408826dddbcbcb8692eba98",
+    "CHANGELOG.md": "795af04d8695ab72936e3f9b8683989bb538ebbd62df14b5c5652c5028f333cd",
+    "docs/review/2026-10-09-S8-approval-provenance.json": "2d6b0763def4ac3a5fe2ec491834a70a6654c3bf303c2054cb875e7b7cec5e06",
+    "openspec/changes/add-project-document-ownership/resume-contract-v2.md": "798ea76ff6b0dd62f59bc7062fd5acd3587bae2d55c43013ed9479a1b20e2a62",
+    "docs/review/2026-10-09-S8-resumed-implementation-plan.md": "37a657c4393993eddc462f106de22ae927de25202f741050bf2cde7d22fb851d",
+    "docs/review/2026-10-09-S8-resumed-preflight-full.json": "8651505d62a743d6fdece91d9ed7f347a8409fce8890d218ac3734ac38898372",
+    "docs/review/2026-10-09-S8-resumed-preflight-focused.json": "5444273fb98208068c1baaa2e316efdf522239ecd5b598b037d25f52a387bda4",
+    "docs/review/2026-10-09-S8-red-green.json": "63ee8d251b09bfb651df59baaec1cf0b5e97005ea015b3a5ff4e3163b04024fb",
+    "docs/review/2026-10-09-S8-native-green.json": "0f4b428adfbe75c643030ce0f5e2c9258012c1da2e6644dc69a9de25997739e8",
+    "docs/review/2026-10-09-S8-audit-correction.json": "1396cea0e1cb8d5aadca8869f122a8b98578e9364cd608e9c5bffbe32740f84c",
+    "docs/review/2026-10-09-S8-native-audit-revalidation.json": "b2045caada940f6a4513fea3fc665d3257b3b6702effdb235aefd7d132996829",
+    "docs/review/2026-10-09-S8-implementation-review-full.json": "f3f8ca8c1add2fe797b4db05236cad738911772ef92fe5a7fd4f4855c51099aa"
+  },
+  "parent_review": {
+    "path": "docs/review/2026-10-09-S8-implementation-review-full.json",
+    "sha256": "f3f8ca8c1add2fe797b4db05236cad738911772ef92fe5a7fd4f4855c51099aa"
+  },
+  "reviewed_stage": "same-stage correction / actual ready-for-review revision 13",
+  "reviewed_at": "2026-10-09T06:07:10.537802+00:00",
+  "same_reviewer_instance": true,
+  "new_preflight": false,
+  "actual_checks": {
+    "author": "elvis",
+    "checks": [
+      {
+        "command": "PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python3 /Users/elvis/.codex-account-a/skills/.system/skill-creator/scripts/quick_validate.py .",
+        "exit_code": 0,
+        "test_count": null,
+        "output_sha256": "db349825903d66adffea3ecf1bd8e1803043e8a71cf1a051235dabc5371f5bb0",
+        "cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change"
+      },
+      {
+        "command": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/validate_core_gates.py .",
+        "exit_code": 0,
+        "test_count": null,
+        "output_sha256": "d0c3710506d14833fcb03a19decc83a24dd1cb9739786182fcbd9496df6a3bc0",
+        "cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change"
+      },
+      {
+        "command": "PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python3 scripts/validate_core_gates.py .",
+        "exit_code": 0,
+        "test_count": null,
+        "output_sha256": "d0c3710506d14833fcb03a19decc83a24dd1cb9739786182fcbd9496df6a3bc0",
+        "cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change"
+      },
+      {
+        "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s tests -v",
+        "exit_code": 0,
+        "test_count": 478,
+        "output_sha256": "72bc60bfa7da1dcaeafea24797ce9e966580ae17765856d15ce8500c3c25e2b7",
+        "cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change"
+      },
+      {
+        "command": "PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python3 -m unittest discover -s tests -v",
+        "exit_code": 0,
+        "test_count": 478,
+        "output_sha256": "b61183d0fcaa0d7f8bfb55ad02f58a2bb3eba713bbf357cc8ce51d52bf1850d6",
+        "cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change"
+      },
+      {
+        "command": "openspec validate add-project-document-ownership --strict",
+        "exit_code": 0,
+        "test_count": null,
+        "output_sha256": "774f5a01ce2f01fe09f986029e119944e09f92a039ce1bb47fc0911344a40ff0",
+        "cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change"
+      }
+    ],
+    "inputs_unchanged": true,
+    "checked_at": "2026-10-09T06:04:38.394614+00:00"
+  },
+  "focused_current_tests": [
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s tests -p test_workflow_rules.py -k ProjectDocumentOwnershipTests -v",
+      "exit_code": 0,
+      "test_count": 17
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python3 -m unittest discover -s tests -p test_workflow_rules.py -k ProjectDocumentOwnershipTests -v",
+      "exit_code": 0,
+      "test_count": 17
+    }
+  ],
+  "scope": {
+    "author": "elvis",
+    "source_diff_sha256": "3e14da914364c07e0cd735910805f7e83a047562a2fe0b8bfbbeaa4c309f10dd",
+    "backup_diff_sha256": "b718b4d27c03139a2f3aeb87b3408fb247943222cacd0896a7b815bcaf84f87b",
+    "six_source_paths": [
+      "SKILL.md",
+      "references/project-learning-closeout.md",
+      "templates/learning-candidate-template.md",
+      "scripts/validate_core_gates.py",
+      "tests/test_workflow_rules.py",
+      "CHANGELOG.md"
+    ],
+    "all_input_hashes_match": true,
+    "canonical_sha_match": true,
+    "reviewer_assignment_exact": true,
+    "foreign_count": 44,
+    "foreign_changed": [],
+    "protected_bytes_match": {
+      "AGENTS.md": true,
+      "CONTEXT.md": true,
+      "docs/engineering-invariants.md": true,
+      "references/shared-global-governance.md": true,
+      "references/cross-cli-portable-manifest.json": true,
+      "references/approved-implementation-workflow.md": true,
+      "references/handoff-contract.md": true,
+      "references/self-evolution-rule.md": true
+    },
+    "original_approval_sha256": "233d318470241a5eb22eea9186bb372d72db6b65bf9556f6ffa818318e924873",
+    "roots": [
+      {
+        "path": "/Users/elvis/file/develop/opensource/openspec-superpower-change/docs/agent-collab",
+        "exists": true,
+        "matches_parent": true
+      },
+      {
+        "path": "/Users/elvis/file/develop/opensource/codex-brief-antigravity-review/docs/agent-collab",
+        "exists": false,
+        "matches_parent": true
+      },
+      {
+        "path": "/Users/elvis/.codex/skills/openspec-superpower-change/docs/agent-collab",
+        "exists": false,
+        "matches_parent": true
+      },
+      {
+        "path": "/Users/elvis/.codex/skills/codex-brief-antigravity-review/docs/agent-collab",
+        "exists": false,
+        "matches_parent": true
+      },
+      {
+        "path": "/Users/elvis/.pi/agent/skills/openspec-superpower-change/docs/agent-collab",
+        "exists": false,
+        "matches_parent": true
+      },
+      {
+        "path": "/Users/elvis/.pi/agent/skills/codex-brief-antigravity-review/docs/agent-collab",
+        "exists": false,
+        "matches_parent": true
+      },
+      {
+        "path": "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change/docs/agent-collab",
+        "exists": false,
+        "matches_parent": true
+      },
+      {
+        "path": "/Users/elvis/.gemini/antigravity-cli/skills/codex-brief-antigravity-review/docs/agent-collab",
+        "exists": false,
+        "matches_parent": true
+      },
+      {
+        "path": "/Users/elvis/.grok/skills/openspec-superpower-change/docs/agent-collab",
+        "exists": false,
+        "matches_parent": true
+      },
+      {
+        "path": "/Users/elvis/.grok/skills/codex-brief-antigravity-review/docs/agent-collab",
+        "exists": false,
+        "matches_parent": true
+      }
+    ],
+    "post_fail_source_delta": [
+      "tests/test_workflow_rules.py"
+    ]
+  },
+  "independent_adversarial_probe": {
+    "author": "elvis",
+    "actual_file_effects": true,
+    "helper_selects_or_moves_docs": false,
+    "cases": [
+      {
+        "case": "legal_move_with_inbound_map_relative_path_query_fragment_and_unchanged_external",
+        "pass": true
+      },
+      {
+        "case": "external-url",
+        "rejected": true
+      },
+      {
+        "case": "relative-existing-target",
+        "rejected": true
+      },
+      {
+        "case": "relative-query",
+        "rejected": true
+      },
+      {
+        "case": "source-ancestor-symlink-external",
+        "rejected": true,
+        "no_mutation": true
+      },
+      {
+        "case": "source-ancestor-symlink-no-links",
+        "rejected": true,
+        "no_mutation": true
+      }
+    ],
+    "current_auditor_sha256": "0f142f2d9f9dcb74b6a9163f644061afc5665f6f2408826dddbcbcb8692eba98"
+  },
+  "actual_native_evidence_audit": {
+    "author": "elvis",
+    "current_auditor_sha256": "0f142f2d9f9dcb74b6a9163f644061afc5665f6f2408826dddbcbcb8692eba98",
+    "raw_not_echoed_or_copied": true,
+    "before_provenance": "Independent original executed-generator reconstruction AND actual first successful read before any mutation; ASCII/LF byte equality proven for all removed/modified files. Unchanged fixture whole-file hashes match original evidence.",
+    "scenarios": [
+      {
+        "scenario": "conventions",
+        "original_events_sha256": "675ce4aa42b69c582180f9f14857cfb40d3ecc529bd8d806f1323d389b85ba12",
+        "native_event_allowlist_independently_rechecked": true,
+        "completed_commands": 11,
+        "cases": [
+          {
+            "case": "conventions",
+            "pass": true,
+            "actual_current_audit": {
+              "added": [
+                "docs/ops/restart.md"
+              ],
+              "removed": [],
+              "modified": []
+            },
+            "all_actual_after_hashes_equal_original": true,
+            "before_changed_files_match_generator_and_actual_first_successful_pre_mutation_reads": {},
+            "unchanged_rule_hash": "64a2c446445ca88134672677022f854975bee752adf1778ee5dfbfac237f1014"
+          }
+        ]
+      },
+      {
+        "scenario": "fallback",
+        "original_events_sha256": "bf0c42c75bd74efb7c98acb66cf0876586cb318d0b68cecc1c06f603ef4d8a1a",
+        "native_event_allowlist_independently_rechecked": true,
+        "completed_commands": 24,
+        "cases": [
+          {
+            "case": "fallback",
+            "pass": true,
+            "actual_current_audit": {
+              "added": [
+                "docs/deployment/restart.md",
+                "docs/engineering/engineering-invariants.md"
+              ],
+              "removed": [],
+              "modified": []
+            },
+            "all_actual_after_hashes_equal_original": true,
+            "before_changed_files_match_generator_and_actual_first_successful_pre_mutation_reads": {},
+            "unchanged_rule_hash": "64a2c446445ca88134672677022f854975bee752adf1778ee5dfbfac237f1014"
+          }
+        ]
+      },
+      {
+        "scenario": "migration",
+        "original_events_sha256": "562a8a64c8ea14d49b453dc44cb61fa25cf99d0a54e783145778cf4ac4ab4fd5",
+        "native_event_allowlist_independently_rechecked": true,
+        "completed_commands": 50,
+        "cases": [
+          {
+            "case": "complete",
+            "pass": true,
+            "actual_current_audit": {
+              "added": [
+                "docs/deployment/restart.md"
+              ],
+              "removed": [
+                "docs/restart.md"
+              ],
+              "modified": [
+                "AGENTS.md",
+                "docs/README.md"
+              ]
+            },
+            "all_actual_after_hashes_equal_original": true,
+            "before_changed_files_match_generator_and_actual_first_successful_pre_mutation_reads": {
+              "docs/restart.md": "50665808c79fe52a3fd122a5b203d422bd95150db0580b9f0000ef3fc4d4ca46",
+              "AGENTS.md": "9e1f4709ef159dfdad126c355a1d6478eecb9bf557bd9bc4988c9f92f154ae84",
+              "docs/README.md": "56df8a17144b471eb68c4a91befa0c963ab132c93b571289a7c6cc2f6da07505"
+            },
+            "unchanged_rule_hash": "64a2c446445ca88134672677022f854975bee752adf1778ee5dfbfac237f1014"
+          },
+          {
+            "case": "closure",
+            "pass": true,
+            "actual_current_audit": {
+              "added": [],
+              "removed": [],
+              "modified": []
+            },
+            "all_actual_after_hashes_equal_original": true,
+            "before_changed_files_match_generator_and_actual_first_successful_pre_mutation_reads": {},
+            "unchanged_rule_hash": "64a2c446445ca88134672677022f854975bee752adf1778ee5dfbfac237f1014"
+          },
+          {
+            "case": "ambiguity",
+            "pass": true,
+            "actual_current_audit": {
+              "added": [],
+              "removed": [],
+              "modified": []
+            },
+            "all_actual_after_hashes_equal_original": true,
+            "before_changed_files_match_generator_and_actual_first_successful_pre_mutation_reads": {},
+            "unchanged_rule_hash": "64a2c446445ca88134672677022f854975bee752adf1778ee5dfbfac237f1014"
+          },
+          {
+            "case": "collision",
+            "pass": true,
+            "actual_current_audit": {
+              "added": [],
+              "removed": [],
+              "modified": []
+            },
+            "all_actual_after_hashes_equal_original": true,
+            "before_changed_files_match_generator_and_actual_first_successful_pre_mutation_reads": {},
+            "unchanged_rule_hash": "64a2c446445ca88134672677022f854975bee752adf1778ee5dfbfac237f1014"
+          },
+          {
+            "case": "escape",
+            "pass": true,
+            "actual_current_audit": {
+              "added": [],
+              "removed": [],
+              "modified": []
+            },
+            "all_actual_after_hashes_equal_original": true,
+            "before_changed_files_match_generator_and_actual_first_successful_pre_mutation_reads": {},
+            "unchanged_rule_hash": "64a2c446445ca88134672677022f854975bee752adf1778ee5dfbfac237f1014"
+          }
+        ]
+      }
+    ]
+  },
+  "sync_plan_readonly_review": {
+    "author": "elvis",
+    "plan_sha256": "545707a86caa749c65b9dc2d4a0e8e165fe1e0388e81683c4b23e1afb6b82b0e",
+    "plan_structure": [
+      {
+        "target": "codex",
+        "selected": 4,
+        "asserted": 36,
+        "root": "/Users/elvis/.codex/skills",
+        "source_hashes_and_destination_prestate": true,
+        "managed_rule_selected": false
+      },
+      {
+        "target": "pi",
+        "selected": 4,
+        "asserted": 36,
+        "root": "/Users/elvis/.pi/agent/skills",
+        "source_hashes_and_destination_prestate": true,
+        "managed_rule_selected": false
+      },
+      {
+        "target": "antigravity-cli",
+        "selected": 4,
+        "asserted": 36,
+        "root": "/Users/elvis/.gemini/antigravity-cli/skills",
+        "source_hashes_and_destination_prestate": true,
+        "managed_rule_selected": false
+      },
+      {
+        "target": "grok-cli",
+        "selected": 4,
+        "asserted": 36,
+        "root": "/Users/elvis/.grok/skills",
+        "source_hashes_and_destination_prestate": true,
+        "managed_rule_selected": false
+      }
+    ],
+    "verify_prestate": {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/validate_cross_cli_sync.py verify-prestate --target all --plan /var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S8-resumed-jd5ww5mw/sync/plan.json",
+      "exit_code": 0,
+      "output_sha256": "30785d2e2471530fe731d1ce5e4ddc0544ccf2dbd0f27410d635c1ccb0ab9717"
+    },
+    "legacy_inventory": {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/validate_core_gates.py . --legacy-inventory-root /Users/elvis/file/develop/opensource/openspec-superpower-change/docs/agent-collab --legacy-inventory-output /var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S8-resumed-jd5ww5mw/s8-review/legacy-review.json",
+      "exit_code": 0,
+      "active_legacy_count": 0
+    },
+    "runtime_applied": false,
+    "apply_authority": "Review evidence only: plan scope/prestate eligible for Router acceptance under existing authority; recheck inventory/prestate immediately before actual first apply; no reviewer apply or new authorization.",
+    "portable_four_and_all_assertion_source_hashes_current": true,
+    "ten_inventory_roots_unchanged": true
+  },
+  "blocking_findings": [],
+  "closed_findings": [
+    {
+      "id": "S8-IR-LINK-REFERENT-FALSE-PASS",
+      "evidence": [
+        "tests/test_workflow_rules.py:838",
+        "tests/test_workflow_rules.py:845",
+        "tests/test_workflow_rules.py:1034",
+        "tests/test_workflow_rules.py:1049"
+      ],
+      "correction": "Old relative identities receive only the selected move mapping; current identities are unmapped. Target/query/fragment are preserved and external destinations retain exact original bytes.",
+      "independent_observation": "Actual external URL and alternate-existing-target rewrites reject; changed relative query rejects; legal move and inbound navigation repairs pass."
+    },
+    {
+      "id": "S8-IR-SOURCE-ANCESTOR-SYMLINK-FALSE-PASS",
+      "evidence": [
+        "tests/test_workflow_rules.py:792",
+        "tests/test_workflow_rules.py:1067"
+      ],
+      "correction": "Walk all source ancestors to the bound root before reading, rejecting symlinks; reject absolute/traversal source inputs.",
+      "independent_observation": "Actual directory-symlink source rejects both external-only and no-link content with unchanged snapshot."
+    }
+  ],
+  "code_fact_table": [
+    {
+      "fact": "Only post-FAIL source delta is existing test-side audit and three regressions",
+      "evidence": "tests/test_workflow_rules.py:792"
+    },
+    {
+      "fact": "Link identity preserves external bytes and relative referent/query/fragment through authorized move map",
+      "evidence": "tests/test_workflow_rules.py:838"
+    },
+    {
+      "fact": "Canonical ownership and production validator unchanged since full Review",
+      "evidence": "scripts/validate_core_gates.py:2261"
+    },
+    {
+      "fact": "New deterministic regressions cover both prohibited retargeting modes and ancestor traversal",
+      "evidence": "tests/test_workflow_rules.py:1034"
+    },
+    {
+      "fact": "Protected path and content requirements remain in owning subsection",
+      "evidence": "references/project-learning-closeout.md:53"
+    }
+  ],
+  "positive_checks": [
+    "Complete current six-file diff independently inspected; original full FAIL preserved and exact current job/context/canonical binding verified.",
+    "17 focused current tests pass in both Python environments; all six required source commands independently pass, with 478 tests in each full suite.",
+    "Independent actual-file negative probes close all three prior false-PASS effects while valid move/inbound navigation control remains passing.",
+    "Hardened current auditor independently passes all seven original actual native fixture effects. Actual original after-file hashes and event hashes match immutable native evidence.",
+    "Before removed/modified content is anchored independently in both the exact original generator reconstruction and first successful native read before any mutation; byte equality demonstrated in ASCII/LF fixtures.",
+    "44 foreign paths and protected source bytes remain unchanged. Post-FAIL source change is only test_workflow_rules; approval/context/Plan/assignment/authority remain exact.",
+    "Exact schema-2 sync plan545707 independently retains four selected portable files,36 read-only assertions per target,unchanged four destinations and unselected governance v6. All current selected/assertion source and target prestate hashes match; fresh verify-prestate all exits0;ten known canonical root observations unchanged."
+  ],
+  "negative_search_results": [
+    "All declared actionable full-review findings are closed by independent actual-file checks.",
+    "No new production resolver,mover,registry,CLI,state/evidence schema,protected-rule or authorization changes introduced.",
+    "No unknown native event,off-allowlist command,postnative hash drift,unauthorized native mutation or unresolved link detected in the bound current original fixture effects.",
+    "Old root guidance remains an explicit contracted-path exception,not the unconstrained Target resolver fallback."
+  ],
+  "evidence_limitations": [
+    "PASS applies to S8 implementation and the independently reviewed unchanged sync-plan selection/prestate only. It is governed evidence for Router acceptance,not reviewer-granted approval,state transition or whole-task completion.",
+    "Runtime apply has not occurred. Router must repeat bound legacy inventory,all ten root existence observations and verify-prestate immediately before first apply; runtime target verification/discovery/verify-all and distinct Final remain pending.",
+    "Native evidence reuse is explicitly limited to unchanged owned rule,tool/generation and actual output hashes; new current auditor was actually rerun. Historical source475/native records remain immutable and are not relabeled as current478 runs.",
+    "Future immutable learning/sync inputs require same-stage current-fingerprint re-Review and fresh persisted verification before distinct Final as already contracted."
+  ],
+  "decision": "Return pass governed Implementation Review evidence to Router. Both original audit findings are independently closed. The unchanged bound sync plan has no current selection/prestate finding and is eligible for Router acceptance under existing scope/authority and mandatory immediate-before-apply checks. Reviewer performs no apply,canonical transition,publication or completion.",
+  "whole_task_completion": false
+}

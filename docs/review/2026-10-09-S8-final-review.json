@@ -1,0 +1,478 @@
+{
+  "author": "elvis",
+  "review_kind": "independent-strict-final-review",
+  "evidence_role": "final-review",
+  "evidence_result": "pass",
+  "change_id": "add-project-document-ownership",
+  "contract_revision": 16,
+  "canonical_sha256": "27d5e53537231e419e5773b0068b4ffe522a942c3108bced392c9e0011a573c8",
+  "source_fingerprint": "6262992a9bdb69c917294a19211729dc2b3bc3371418339b423fe4316020ff5f",
+  "inputs": {
+    "SKILL.md": "4bc91eb0eb29973e5dd1ed76b9e7ec4414f04b05f812f00f6a7d0690968181b1",
+    "references/project-learning-closeout.md": "64a2c446445ca88134672677022f854975bee752adf1778ee5dfbfac237f1014",
+    "templates/learning-candidate-template.md": "ead199a25903b29e3fc778d068c9251d00fbb20a59007ab6f913720dd1812d47",
+    "scripts/validate_core_gates.py": "fbb159992658e7df9679ccf99605d697f2550ccc943737bc4a831df5be52cdf6",
+    "tests/test_workflow_rules.py": "0f142f2d9f9dcb74b6a9163f644061afc5665f6f2408826dddbcbcb8692eba98",
+    "CHANGELOG.md": "795af04d8695ab72936e3f9b8683989bb538ebbd62df14b5c5652c5028f333cd",
+    "docs/review/2026-10-09-S8-approval-provenance.json": "2d6b0763def4ac3a5fe2ec491834a70a6654c3bf303c2054cb875e7b7cec5e06",
+    "openspec/changes/add-project-document-ownership/resume-contract-v2.md": "798ea76ff6b0dd62f59bc7062fd5acd3587bae2d55c43013ed9479a1b20e2a62",
+    "docs/review/2026-10-09-S8-resumed-implementation-plan.md": "37a657c4393993eddc462f106de22ae927de25202f741050bf2cde7d22fb851d",
+    "docs/review/2026-10-09-S8-resumed-preflight-full.json": "8651505d62a743d6fdece91d9ed7f347a8409fce8890d218ac3734ac38898372",
+    "docs/review/2026-10-09-S8-resumed-preflight-focused.json": "5444273fb98208068c1baaa2e316efdf522239ecd5b598b037d25f52a387bda4",
+    "docs/review/2026-10-09-S8-red-green.json": "63ee8d251b09bfb651df59baaec1cf0b5e97005ea015b3a5ff4e3163b04024fb",
+    "docs/review/2026-10-09-S8-native-green.json": "0f4b428adfbe75c643030ce0f5e2c9258012c1da2e6644dc69a9de25997739e8",
+    "docs/review/2026-10-09-S8-audit-correction.json": "1396cea0e1cb8d5aadca8869f122a8b98578e9364cd608e9c5bffbe32740f84c",
+    "docs/review/2026-10-09-S8-native-audit-revalidation.json": "b2045caada940f6a4513fea3fc665d3257b3b6702effdb235aefd7d132996829",
+    "docs/review/2026-10-09-S8-implementation-review-full.json": "f3f8ca8c1add2fe797b4db05236cad738911772ef92fe5a7fd4f4855c51099aa",
+    "docs/review/2026-10-09-S8-sync.json": "f6082c2288fccd20bf2da2bd382191135e2b12a6748d931275f76caf017115a5",
+    "docs/review/2026-10-09-S8-native-inferred-conventions.json": "00b1c86563fcd4a294f12622fa1173fc80d8744d7ef15d3ec0fef3829caba600",
+    "docs/review/2026-10-09-S8-learning-closeout.md": "1dab3e5f3ba180f09b7f33d2e8d8e1dd45dbeea8d9af16aeea04cf8dfb69d1d2",
+    "docs/review/2026-10-09-S8-implementation-review-corrected.json": "e385e6f4b5f241202d18f5ce5a393ee9e82f7ad66871f61bb0fc5f2576bfce13"
+  },
+  "agent_identity": {
+    "agent_product": "codex",
+    "agent_instance_id": "s8-final-01",
+    "agent_role": "independent-reviewer",
+    "capability_profile": "control-plane-high"
+  },
+  "reviewer_assignment": {
+    "review_purpose": {
+      "object": "S8 final verification and closure",
+      "decision": "decide pass, fail or blocked for the independent final gate"
+    },
+    "agent_product": "codex",
+    "agent_instance_id": "s8-final-01",
+    "agent_role": "independent-reviewer",
+    "capability_profile": "control-plane-high",
+    "independence_requirement": {
+      "kind": "distinct-contract-instance",
+      "distinct_from": [
+        "control_plane_owner",
+        "executor_assignment",
+        "implementation_reviewer"
+      ]
+    },
+    "result_authority": "governed-review-evidence"
+  },
+  "actual_tool_identity": "/root/s8_final",
+  "active_router": {
+    "actual_tool_identity": "/root",
+    "agent_instance_id": "s8-control-01",
+    "authority": "control-plane owner alone accepts evidence, advances canonical state and decides whole-task completion"
+  },
+  "model": "gpt-6.1-sol",
+  "reasoning": "high",
+  "reviewer_independent": true,
+  "independent_from": [
+    "/root",
+    "/root/s8_review"
+  ],
+  "assignment_selected_from": "openspec/changes/add-project-document-ownership/resume-contract-v2.md reviewer_assignment.final-review",
+  "router_governed_variant_read": "/Users/elvis/.agents/skills/superpowers/using-superpowers/references/router-governed.md",
+  "reviewed_at": "2026-10-09T06:32:21.355467+00:00",
+  "implementation_review": {
+    "path": "docs/review/2026-10-09-S8-implementation-review-final-inputs.json",
+    "sha256": "e35404367b203ae2b32752b926354a86ef3bea3d00e86344f01bff153f8b6765"
+  },
+  "final_verification": {
+    "path": "docs/review/2026-10-09-S8-final-verification.json",
+    "sha256": "efb8dc8e0d894668cfda8bd8bed644b34d77dff3052a5e15ab77241ef879ddcc"
+  },
+  "independent_critical_reruns": {
+    "author": "elvis",
+    "results": [
+      {
+        "command": "PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python3 /Users/elvis/.codex-account-a/skills/.system/skill-creator/scripts/quick_validate.py .",
+        "exit_code": 0,
+        "cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change",
+        "started_at": "2026-10-09T06:26:53.784064+00:00",
+        "finished_at": "2026-10-09T06:26:53.822783+00:00",
+        "output_sha256": "db349825903d66adffea3ecf1bd8e1803043e8a71cf1a051235dabc5371f5bb0",
+        "test_count": null,
+        "failure_or_skip_markers": false
+      },
+      {
+        "command": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/validate_core_gates.py .",
+        "exit_code": 0,
+        "cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change",
+        "started_at": "2026-10-09T06:26:53.822900+00:00",
+        "finished_at": "2026-10-09T06:26:53.891640+00:00",
+        "output_sha256": "d0c3710506d14833fcb03a19decc83a24dd1cb9739786182fcbd9496df6a3bc0",
+        "test_count": null,
+        "failure_or_skip_markers": false
+      },
+      {
+        "command": "PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python3 scripts/validate_core_gates.py .",
+        "exit_code": 0,
+        "cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change",
+        "started_at": "2026-10-09T06:26:53.891703+00:00",
+        "finished_at": "2026-10-09T06:26:53.958350+00:00",
+        "output_sha256": "d0c3710506d14833fcb03a19decc83a24dd1cb9739786182fcbd9496df6a3bc0",
+        "test_count": null,
+        "failure_or_skip_markers": false
+      },
+      {
+        "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s tests -v",
+        "exit_code": 0,
+        "cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change",
+        "started_at": "2026-10-09T06:26:53.958418+00:00",
+        "finished_at": "2026-10-09T06:27:18.521330+00:00",
+        "output_sha256": "56b19f9d8954a50ec98a43d0c93b2b7058d3b9eaa10ada31e2eb055eb82300e3",
+        "test_count": 478,
+        "failure_or_skip_markers": false
+      },
+      {
+        "command": "PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python3 -m unittest discover -s tests -v",
+        "exit_code": 0,
+        "cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change",
+        "started_at": "2026-10-09T06:27:18.521718+00:00",
+        "finished_at": "2026-10-09T06:27:45.054315+00:00",
+        "output_sha256": "1dff1cddaa28c01e49ef7be705ade9601a5c5d4723763a7f2f05d9449de24346",
+        "test_count": 478,
+        "failure_or_skip_markers": false
+      },
+      {
+        "command": "openspec validate add-project-document-ownership --strict",
+        "exit_code": 0,
+        "cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change",
+        "started_at": "2026-10-09T06:27:45.054910+00:00",
+        "finished_at": "2026-10-09T06:27:48.069304+00:00",
+        "output_sha256": "774f5a01ce2f01fe09f986029e119944e09f92a039ce1bb47fc0911344a40ff0",
+        "test_count": null,
+        "failure_or_skip_markers": false
+      },
+      {
+        "command": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/validate_cross_cli_sync.py verify-all --plan /var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S8-resumed-jd5ww5mw/sync/plan.json --transaction-root /var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S8-resumed-jd5ww5mw/sync",
+        "exit_code": 0,
+        "cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change",
+        "started_at": "2026-10-09T06:27:48.069472+00:00",
+        "finished_at": "2026-10-09T06:27:48.271017+00:00",
+        "output_sha256": "7bfeb8743a334e9117a9003128d812d0f4a581e38bf8125af26bc6b19608f34e",
+        "test_count": null,
+        "failure_or_skip_markers": false
+      }
+    ],
+    "all_input_hashes_unchanged": true
+  },
+  "independent_runtime_review": {
+    "plan_sha256": "545707a86caa749c65b9dc2d4a0e8e165fe1e0388e81683c4b23e1afb6b82b0e",
+    "four_original_targets": [
+      {
+        "target": "codex",
+        "receipt_sha256": "dae4963ad9b56152acde8f26b91a3956492f40f050ac065b505881dfcd572876",
+        "current_receipt_state": "verified",
+        "history_states": [
+          "prepared",
+          "mutation-intent",
+          "applied-uncommitted",
+          "applied-uncommitted",
+          "applied-uncommitted"
+        ],
+        "chain_sha_verified": true,
+        "selected_files": 4,
+        "assertions": 36,
+        "current_manifest_closure_and_content_digest_verified": true,
+        "deterministic_discovery_independently_checked": true
+      },
+      {
+        "target": "pi",
+        "receipt_sha256": "7cf8a0cc5907b490075fd513a0a57e06c18f440ed8c82b623e02166fdc93d730",
+        "current_receipt_state": "verified",
+        "history_states": [
+          "prepared",
+          "mutation-intent",
+          "applied-uncommitted",
+          "applied-uncommitted",
+          "applied-uncommitted"
+        ],
+        "chain_sha_verified": true,
+        "selected_files": 4,
+        "assertions": 36,
+        "current_manifest_closure_and_content_digest_verified": true,
+        "deterministic_discovery_independently_checked": true
+      },
+      {
+        "target": "antigravity-cli",
+        "receipt_sha256": "77ef1ca1e665ec4d19dc2e0befe95fd2431ec8f07f34783d3370ee4fe5996ed4",
+        "current_receipt_state": "verified",
+        "history_states": [
+          "prepared",
+          "mutation-intent",
+          "applied-uncommitted",
+          "applied-uncommitted",
+          "applied-uncommitted"
+        ],
+        "chain_sha_verified": true,
+        "selected_files": 4,
+        "assertions": 36,
+        "current_manifest_closure_and_content_digest_verified": true,
+        "deterministic_discovery_independently_checked": true
+      },
+      {
+        "target": "grok-cli",
+        "receipt_sha256": "23674e4adea04ce12ac02c7c95f9e3aee38fbe0bb8562115553941ead561e669",
+        "current_receipt_state": "verified",
+        "history_states": [
+          "prepared",
+          "mutation-intent",
+          "applied-uncommitted",
+          "applied-uncommitted",
+          "applied-uncommitted"
+        ],
+        "chain_sha_verified": true,
+        "selected_files": 4,
+        "assertions": 36,
+        "current_manifest_closure_and_content_digest_verified": true,
+        "deterministic_discovery_independently_checked": false
+      }
+    ],
+    "read_only_commands_rerun": 25,
+    "all_runtime_validator_reruns_exit_zero": true,
+    "current_four_target_verify_all_exit_zero": true,
+    "fresh_grok_discovery": {
+      "source_type": "user",
+      "source_root": "/Users/elvis/.grok/skills",
+      "source_paths": [
+        {
+          "name": "codex-brief-antigravity-review",
+          "path": "/Users/elvis/.grok/skills/codex-brief-antigravity-review/SKILL.md"
+        },
+        {
+          "name": "openspec-superpower-change",
+          "path": "/Users/elvis/.grok/skills/openspec-superpower-change/SKILL.md"
+        }
+      ]
+    },
+    "raw_inspect_consumed_and_deleted": true,
+    "receipt_bytes_unchanged_by_review": true,
+    "schema_two_selected_files_per_target": 4,
+    "assertions_per_target": 36,
+    "managed_governance_six_unselected_and_unchanged": true,
+    "receipt_chains_independently_checked": true,
+    "failure_history_preserved_and_not_counted_as_pass": true
+  },
+  "independent_actual_native_effects": {
+    "evidence": {
+      "path": "docs/review/2026-10-09-S8-native-audit-revalidation.json",
+      "sha256": "b2045caada940f6a4513fea3fc665d3257b3b6702effdb235aefd7d132996829"
+    },
+    "original_files_reconstructed_and_audited": [
+      {
+        "scenario": "native-current-conventions",
+        "events_sha256": "675ce4aa42b69c582180f9f14857cfb40d3ecc529bd8d806f1323d389b85ba12",
+        "generation_sha256": "36451a2d4833f50ed4e2cde4bfb4ffd295c34980d1114f2f23baffa7ea210572",
+        "native_allowlist_complete": true,
+        "completed_commands": 11,
+        "effects": [
+          {
+            "bound_case": "conventions",
+            "native_mutations": 1,
+            "added": [
+              "docs/ops/restart.md"
+            ],
+            "removed": [],
+            "modified": [],
+            "observed_file_count": 12,
+            "pass": true
+          }
+        ],
+        "pass": true
+      },
+      {
+        "scenario": "native-current-fallback",
+        "events_sha256": "bf0c42c75bd74efb7c98acb66cf0876586cb318d0b68cecc1c06f603ef4d8a1a",
+        "generation_sha256": "36451a2d4833f50ed4e2cde4bfb4ffd295c34980d1114f2f23baffa7ea210572",
+        "native_allowlist_complete": true,
+        "completed_commands": 24,
+        "effects": [
+          {
+            "bound_case": "fallback",
+            "native_mutations": 2,
+            "added": [
+              "docs/deployment/restart.md",
+              "docs/engineering/engineering-invariants.md"
+            ],
+            "removed": [],
+            "modified": [],
+            "observed_file_count": 10,
+            "pass": true
+          }
+        ],
+        "pass": true
+      },
+      {
+        "scenario": "native-current-migration",
+        "events_sha256": "562a8a64c8ea14d49b453dc44cb61fa25cf99d0a54e783145778cf4ac4ab4fd5",
+        "generation_sha256": "6ae46f623f7690577208bdeaebfe2f5bd7311487edf702e10ce28cfb48100c2d",
+        "native_allowlist_complete": true,
+        "completed_commands": 50,
+        "effects": [
+          {
+            "bound_case": "complete",
+            "native_mutations": 4,
+            "added": [
+              "docs/deployment/restart.md"
+            ],
+            "removed": [
+              "docs/restart.md"
+            ],
+            "modified": [
+              "AGENTS.md",
+              "docs/README.md"
+            ],
+            "observed_file_count": 11,
+            "pass": true
+          },
+          {
+            "bound_case": "closure",
+            "native_mutations": 0,
+            "added": [],
+            "removed": [],
+            "modified": [],
+            "observed_file_count": 12,
+            "pass": true
+          },
+          {
+            "bound_case": "ambiguity",
+            "native_mutations": 0,
+            "added": [],
+            "removed": [],
+            "modified": [],
+            "observed_file_count": 10,
+            "pass": true
+          },
+          {
+            "bound_case": "collision",
+            "native_mutations": 0,
+            "added": [],
+            "removed": [],
+            "modified": [],
+            "observed_file_count": 12,
+            "pass": true
+          },
+          {
+            "bound_case": "escape",
+            "native_mutations": 0,
+            "added": [],
+            "removed": [],
+            "modified": [],
+            "observed_file_count": 11,
+            "pass": true
+          }
+        ],
+        "pass": true
+      },
+      {
+        "scenario": "native-current-conventions-inferred",
+        "events_sha256": "bf09219d1e97fda609c11784d67ea3a9de67fc2adb96745121be19ebcd1e2566",
+        "generation_sha256": "5726472d29dac788689d56d9323abd915c59636adfc37dec845956be82737be0",
+        "native_allowlist_complete": true,
+        "completed_commands": 13,
+        "effects": [
+          {
+            "bound_case": "conventions",
+            "native_mutations": 1,
+            "added": [
+              "docs/ops/restart.md"
+            ],
+            "removed": [],
+            "modified": [],
+            "observed_file_count": 13,
+            "pass": true
+          }
+        ],
+        "pass": true
+      }
+    ],
+    "all_started_and_completed_commands_allowlisted": true,
+    "raw_event_hashes_checked": true,
+    "blocked_reasons_and_zero_mutation_checked": true,
+    "private_trace_permissions_0600": true,
+    "unchanged_effects_reused_without_new_native_calls": true
+  },
+  "independent_adversarial_probe": {
+    "mechanism": "Valid local anchor retarget during authorized relocation",
+    "legitimate_repair_control_pass": true,
+    "retarget_resolves_but_identity_audit_rejects": true,
+    "actual_private_files": true,
+    "before_snapshot_sha256": "181b96568af9d876df7e4147e51e4c8d2e02774b5ce6fdc440bbe4d14ffddaf9",
+    "final_snapshot_sha256": "ec533c8f96a035be0bb9f393dee8e2c95f8333a4b574f89a30fa9a072b8ab76e"
+  },
+  "scope_and_documentation_review": {
+    "actual_complete_six_file_uncommitted_diff_sha256": "3e14da914364c07e0cd735910805f7e83a047562a2fe0b8bfbbeaa4c309f10dd",
+    "complete_source_files_and_owned_contract_evidence_read": true,
+    "all_twenty_frozen_inputs_current": true,
+    "canonical_actual_awaiting_final_verification_revision_sixteen": true,
+    "foreign_file_count": 44,
+    "foreign_file_changes": [],
+    "protected_baseline_files_unchanged": 58,
+    "original_approval_sha256": "233d318470241a5eb22eea9186bb372d72db6b65bf9556f6ffa818318e924873",
+    "immutable_context_path_and_sha256_preserved": true,
+    "approved_four_contract_prose_unchanged_except_task_checkboxes": true,
+    "thirteen_owned_markdown_files_links_verified": true,
+    "source_main_HEAD_baseline_and_index_empty": true,
+    "controller_fresh_six_source_and_runtime_logs_independently_hash_checked": true,
+    "prior_red_and_three_failure_correction_logs_hash_checked": true,
+    "immediate_before_apply_inventory_and_prestate_proof_checked": true,
+    "ten_known_root_existence_checks_current": true,
+    "companion_fresh_required_three_commands_actual_log_hash_checked": true,
+    "learning_targets_not_ignored": true,
+    "learning_card_exact_bytes_covered_by_consolidated_implementation_review": true,
+    "learning_promotion_has_durable_three_regressions_and_corrected_review": true,
+    "learning_prose_pending_description_is_historical_audit_state": true,
+    "no_AGENTS_CONTEXT_engineering_guidance_migration_or_extra_rule_copy": true
+  },
+  "acceptance_and_claims": {
+    "ordinary_document_destination_precedence_single_owner": true,
+    "conditional_navigation_and_template_pointer": true,
+    "unconstrained_engineering_fallback_and_explicit_root_exception": true,
+    "authorized_reference_closure_content_and_local_external_reference_identity": true,
+    "ambiguity_collision_escape_and_unauthorized_inbound_reference_stop": true,
+    "actual_native_red_green_scoped_files_not_answer_only": true,
+    "required_dual_full_suites_each_478": true,
+    "strict_reviews_separate_and_bound": true,
+    "no_unresolved_actionable_findings": true
+  },
+  "privacy_and_temporary_files": {
+    "raw_native_prompts_traces_and_Grok_output_not_emitted_or_promoted": true,
+    "owned_review_writes_only": "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S8-resumed-jd5ww5mw/s8-final",
+    "fresh_Grok_raw_deleted": true,
+    "retained_original_private_raw_evidence_and_backups_cleanup_owner": "s8-control-01 after applicable publication/rollback gates",
+    "Pi_process_invoked": false,
+    "credentials_or_native_config_modified": false
+  },
+  "finding_completeness": true,
+  "blocking_findings": [],
+  "non_blocking_recommendations": [],
+  "accepted_residual_risks": [
+    {
+      "observation": "Original conventions/fallback native case labels read README.md due private generator shadowing.",
+      "evidence": "Immutable native-green plus exact generation/event hashes and independent actual-root/file reconstruction.",
+      "impact": "Labels alone cannot establish scenario identity; actual roots, files, commands and source rule hashes were verified.",
+      "owner_or_decision": "Router retains honest immutable historical metadata; no acceptance waiver."
+    }
+  ],
+  "closure_arrangement_review": {
+    "approved_plan_scoped_archive_and_provenance_arrangement_consistent": true,
+    "Root_remaining_work": [
+      "Reconcile proven tasks 1.1–3.4; keep 3.5 pending until actual publication and cleanup.",
+      "Archive only S8 with --yes --skip-specs; retain exact immutable context at original path and remove redundant archived copy only.",
+      "Strict-validate exact archived four contract files in private copy and record actual cwd/hashes; source sidecar-only active-ID exit1 is not PASS.",
+      "Compare archived original approval233d318 to stable provenance2d6b0763 and recover unchanged canonical/fingerprint.",
+      "Publish only approved source/archive/evidence on main under existing lease; perform legal canonical complete transition against actual revision16 only after Router acceptance.",
+      "Update owned CURRENT/BACKLOG/one LOG entry, publish metadata and remove only three owned S8 backups/traces after required pushes; final cleanup bookkeeping push."
+    ],
+    "whole_task_completion": false
+  },
+  "limitations": [
+    "This is governed Final Review evidence of the exact actual16 input set; it grants no approval, canonical transition, archive, Git, cleanup or whole-task completion.",
+    "Post-Review archive, publication, canonical completion and cleanup have not occurred and remain Router-owned required closure gates. Any later frozen input or runtime drift invalidates affected evidence.",
+    "Native proofs concern private synthetic project operations under the approved mechanisms, not authorization to migrate a real business project."
+  ],
+  "state_changes_by_reviewer": "Private s8-final scripts, bounded synthetic fixtures and sanitized evidence only; no source/runtime/canonical/approved-contract/Git writes.",
+  "cleanup_paths": [
+    "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S8-resumed-jd5ww5mw/s8-final"
+  ],
+  "temporary_evidence_disposition": "Keep owned private review evidence until Router accepts and persists this sanitized result and applicable rollback/publication gates settle.",
+  "decision": "PASS for the independent S8 final gate at exact actual revision16 and FP626299. No actionable findings remain in reviewed source, owned evidence, learning promotion or current four-target runtime. Router alone may accept this evidence and carry out the already approved closure."
+}

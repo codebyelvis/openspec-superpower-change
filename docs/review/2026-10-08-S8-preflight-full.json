@@ -1,0 +1,260 @@
+{
+  "review_mode": "FULL_PREFLIGHT",
+  "result": "BLOCKED",
+  "change_id": "add-project-document-ownership",
+  "contract_revision": "draft-v1",
+  "lineage_root_revision": {
+    "path": "docs/review/2026-10-08-S8-implementation-plan.md",
+    "sha256": "d07e7388097c83dbc833278df6972ecffe70a624dacdcf6f15b5937a72904a10"
+  },
+  "reviewed_revision": {
+    "path": "docs/review/2026-10-08-S8-implementation-plan.md",
+    "sha256": "d07e7388097c83dbc833278df6972ecffe70a624dacdcf6f15b5937a72904a10"
+  },
+  "parent_review": null,
+  "attempt": 1,
+  "reviewer_identity": {
+    "agent_product": "codex",
+    "agent_instance_id": "s8-preflight-01",
+    "agent_role": "independent-reviewer",
+    "capability_profile": "control-plane-high"
+  },
+  "actual_tool_identity": "/root/s8_preflight",
+  "review_assignment": {
+    "purpose": "Plan Preflight",
+    "product": "codex",
+    "role": "independent-reviewer",
+    "capability": "control-plane-high",
+    "independence": "Actual instance /root/s8_preflight is distinct from controller, Plan author and executor /root, bound as s8-control-01.",
+    "authority": "governed-review-evidence"
+  },
+  "model_metadata": {
+    "model": "gpt-6.1-sol",
+    "reasoning": "high",
+    "authority_effect": "none"
+  },
+  "same_reviewer_instance": null,
+  "same_reviewer_instance_reason": "Root FULL_PREFLIGHT has no parent Review to compare.",
+  "protected_boundaries": {
+    "scope_and_contract": "Checked proposal/design/spec/tasks, approval.md, the complete relevant uncommitted tracked diff and all new S8 proposal/Plan artifacts. Four approved contract hashes match approval.md and the independent approved-byte backup copies.",
+    "acceptance": "Five added requirements and three native scenarios remain the approved acceptance. Missing explicit negative-test coverage is reported as F2.",
+    "risk_and_evidence": "Major Self-Evolution and strict evidence retained. Router-governed reviewer requirements were applied, including independent command execution and an adversarial feasibility probe.",
+    "authority": "Approval record binds the exact user iteration command and existing single-round authority. No reviewer approval, canonical transition, completion, sync or Git-write authority is inferred.",
+    "assignments": "Preflight s8-preflight-01, Implementation s8-review-01 and Final s8-final-01 are recorded. The approved distinct Final requirement conflicts with the existing local resume validator, reported as F1.",
+    "allowed_and_forbidden_files": "All 44 unrelated files match recorded baseline SHA-256 values. The 24 backup source paths other than CURRENT/BACKLOG remain byte-identical. S1-S7 backlog rows remain byte-identical to HEAD. AGENTS, CONTEXT, root engineering guidance, S7 rules, companion/shared governance, manifest and target list remain unchanged.",
+    "branch_and_worktree": "Actual branch main and HEAD 379667f9780a3e718f41021f8a92a82618a286e2 match the assignment, approval record and recorded user-selected source/main workspace. The Plan preserves that isolation decision.",
+    "production_and_credentials": "No production action, business-document migration, credential copying or credential disclosure occurred. Native feasibility used a private synthetic fixture and existing CODEX_HOME authentication.",
+    "git_publication_deployment": "No Git write or publication occurred. The staging area is empty. The Plan's eventual single-round source/main commit/push is bounded by the recorded iteration lease.",
+    "rollback": "Fresh structured source/runtime backup and four exact approved-byte snapshots exist. Source rollback is scoped, and runtime rollback uses the reviewed transaction. No whole-worktree reset is proposed."
+  },
+  "declared_correction_set": [],
+  "mechanical_self_check": {
+    "result": "PASS",
+    "checks": [
+      "Root and current Plan logical paths are identical, safe project-relative paths.",
+      "Current Plan is a regular non-symlink file; whole-file SHA-256 was computed and rechecked unchanged after Review.",
+      "Parent is null and attempt is 1.",
+      "Reviewer identity remains distinct from author/executor.",
+      "Four approved contract hashes and backup snapshots match.",
+      "44 unrelated file hashes, 24 protected source snapshots and S1-S7 backlog rows remain unchanged.",
+      "Scoped git diff --check passes and git diff --cached --quiet exits 0.",
+      "No implementation edits, sync, Git writes or canonical evidence signing were performed."
+    ]
+  },
+  "finding_completeness": true,
+  "blocking_findings": [
+    {
+      "id": "F1",
+      "classification": "protected lifecycle and Review-assignment conflict",
+      "severity": "blocking",
+      "finding": "The Plan has no feasible governed checkpoint/completion path that simultaneously preserves the existing S7 resume rules and S8's approved distinct Implementation and Final reviewers.",
+      "evidence": [
+        {
+          "path": "references/approved-implementation-workflow.md",
+          "line": 237,
+          "observation": "Project Session Resume uses the canonical docs/agent-collab/<change-id>/status.md. Before voluntarily stopping or ending an advancing implementation turn, actual phase, evidence, next action, blocker owner and resume condition must be persisted there. CURRENT is iteration bookkeeping and does not replace this required governed checkpoint."
+        },
+        {
+          "path": "references/approved-implementation-workflow.md",
+          "line": 281,
+          "observation": "The existing approved contract owns an immutable Resume Context with the applicable reviewer_assignment; progress and transitions retain that binding."
+        },
+        {
+          "path": "scripts/validate_core_gates.py",
+          "line": 2584,
+          "observation": "_resume_review obtains the same context['reviewer_assignment'] for both implementation-review and final-review and requires exact evidence assignment and agent_identity equality."
+        },
+        {
+          "path": "scripts/validate_core_gates.py",
+          "line": 2686,
+          "observation": "validate_resume_record rejects an in-place change to progress.contract with 'resume: readonly kind/context cannot change in place'. It invokes the bound implementation-review check when entering awaiting-final-verification and the bound final-review check for complete."
+        },
+        {
+          "path": "openspec/changes/add-project-document-ownership/approval.md",
+          "line": 19,
+          "observation": "Implementation is s8-review-01; Final is s8-final-01 and must be distinct from executor and Implementation Reviewer."
+        },
+        {
+          "path": "docs/review/2026-10-08-S8-implementation-plan.md",
+          "line": 146,
+          "observation": "The Plan retains those distinct gate assignments but supplies no compatible canonical resume binding or transition procedure."
+        }
+      ],
+      "independent_adversarial_probe": {
+        "mechanism": "Imported the unchanged existing validator and invoked _resume_review against actual private, hashed regular-file Review fixtures containing the two approved identities.",
+        "validator_sha256": "8c0844c1ede850109965ead76831b5bceaea434482342739f53a4186198d7959",
+        "results": [
+          {
+            "context_reviewer": "s8-review-01",
+            "evidence_role": "implementation-review",
+            "actual_reviewer": "s8-review-01",
+            "result": "PASS"
+          },
+          {
+            "context_reviewer": "s8-review-01",
+            "evidence_role": "final-review",
+            "actual_reviewer": "s8-final-01",
+            "result": "BLOCKED: local Review: identity/independent assignment mismatch"
+          },
+          {
+            "context_reviewer": "s8-final-01",
+            "evidence_role": "implementation-review",
+            "actual_reviewer": "s8-review-01",
+            "result": "BLOCKED: local Review: identity/independent assignment mismatch"
+          },
+          {
+            "context_reviewer": "s8-final-01",
+            "evidence_role": "final-review",
+            "actual_reviewer": "s8-final-01",
+            "result": "PASS"
+          }
+        ]
+      },
+      "impact": "The strict implementation cannot safely rely on CURRENT alone, promise it will never require a checkpoint, swap immutable contract context between phases, reuse the Implementation Reviewer for Final, or relabel another instance's evidence. Those approaches respectively evade the resume gate or contradict approved evidence/independence contracts.",
+      "required_action": "Keep S8 blocked and return this prerequisite conflict to the existing control-plane/Major approval path. No bounded Plan wording correction resolves the validator's single immutable assignment while preserving the approved distinct Final. Do not modify excluded S7/schema/evidence rules under S8.",
+      "owner": "bound Codex control plane; user owns any required protected-scope approval"
+    },
+    {
+      "id": "F2",
+      "classification": "Plan acceptance coverage",
+      "severity": "blocking",
+      "finding": "Task 1 does not explicitly include all approved focused negative mechanisms: conflicting/equally plausible destinations, destination collision and project escape.",
+      "evidence": [
+        {
+          "path": "openspec/changes/add-project-document-ownership/design.md",
+          "line": 122,
+          "observation": "The approved evidence plan explicitly requires focused negatives for equally plausible destinations, destination collision/project escape, missing closure, mistaken root default and relocated policy text."
+        },
+        {
+          "path": "docs/review/2026-10-08-S8-implementation-plan.md",
+          "line": 76,
+          "observation": "The failing-test step names canonical ownership/default, misplaced policy, navigation, actual-file audit failures and the root exception, but does not explicitly schedule destination ambiguity/collision/escape checks or their before-mutation assertions."
+        }
+      ],
+      "impact": "The Plan's assertion that all acceptance mechanisms are mapped to deterministic checks is incomplete. A root-bound I/O helper rejection alone would not prove that document placement recognizes ambiguity or collision before mutation.",
+      "required_action": "In a later eligible corrected Plan, explicitly schedule these approved negatives and state their observable no-mutation/link/scope outcomes. Use the existing test file and private fixtures; add no destination resolver or production mover.",
+      "owner": "Plan author s8-control-01"
+    },
+    {
+      "id": "F3",
+      "classification": "executable sync and rollback commands",
+      "severity": "blocking",
+      "finding": "Task 3 describes required synchronization and recovery in prose but does not bind executable plan/prestate/apply/verify/verify-all/restore commands, resolved runtime roots or private receipt/backup locations.",
+      "evidence": [
+        {
+          "path": "references/approved-implementation-workflow.md",
+          "line": 42,
+          "observation": "Executable plans include exact verification commands, evidence, rollback and stop conditions."
+        },
+        {
+          "path": "docs/review/2026-10-08-S8-implementation-plan.md",
+          "line": 127,
+          "observation": "The four selectors and target order are described, but Task 3 supplies no actual validate_cross_cli_sync.py command invocations."
+        },
+        {
+          "path": "references/cross-cli-sync.md",
+          "line": 21,
+          "observation": "Scoped synchronization binds exact selectors, full read-only assertions, source hashes and destination pre-state, followed by target transactions and full-closure verification."
+        }
+      ],
+      "independent_readiness_check": "Actual CLI --help, plan --help, apply --help and verify-all --help succeeded. Required plan arguments include manifest, both source roots, all four skill/rule roots and output; apply requires target, plan, transaction-receipt and backup-root; verify-all requires plan and transaction-root.",
+      "impact": "The source and native commands are executable, but the required runtime verification/rollback segment remains insufficiently specified for strict execution.",
+      "required_action": "In a later eligible corrected Plan, bind the existing sync CLI commands and resolved paths, including four exact selectors, prestate verification, per-target apply/verify, failure restore, and verify-all. Preserve the unchanged manifest, targets, governance and companion assertions.",
+      "owner": "Plan author s8-control-01"
+    }
+  ],
+  "non_blocking_recommendations": [],
+  "accepted_residual_risks": [],
+  "independent_verification": [
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/validate_core_gates.py .",
+      "exit_code": 0,
+      "result": "PASS"
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python3 scripts/validate_core_gates.py .",
+      "exit_code": 0,
+      "result": "PASS"
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python3 /Users/elvis/.codex-account-a/skills/.system/skill-creator/scripts/quick_validate.py .",
+      "exit_code": 0,
+      "result": "PASS"
+    },
+    {
+      "command": "openspec validate add-project-document-ownership --strict",
+      "exit_code": 0,
+      "result": "PASS"
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3, unittest heredoc loading the seven named proposal/learning WorkflowRulesTest methods plus SkillIterationEntryTests",
+      "exit_code": 0,
+      "tests": 17,
+      "result": "PASS"
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python3, identical unittest heredoc",
+      "exit_code": 0,
+      "tests": 17,
+      "result": "PASS"
+    },
+    {
+      "command": "codex exec --help",
+      "exit_code": 0,
+      "result": "Required ephemeral, ignore-user-config, ignore-rules, model, sandbox, stdin and JSONL options are supported."
+    },
+    {
+      "command": "codex exec --json --ephemeral --ignore-user-config --ignore-rules --model gpt-6.1-sol -c 'model_reasoning_effort=\"high\"' --sandbox workspace-write --skip-git-repo-check -C <reviewer-private-fixture> --output-last-message <private-result> -",
+      "exit_code": 0,
+      "result": "Native bounded mechanical-write feasibility PASS",
+      "observations": {
+        "actual_output_present": true,
+        "actual_output_bytes_match": true,
+        "completed_command_events": 1,
+        "completed_command_exit_code": 0,
+        "command_output_matches_fixture_confirmation": true,
+        "native_turn_completed": true,
+        "observed_event_types": [
+          "thread.started",
+          "turn.started",
+          "item.completed:agent_message",
+          "item.started:command_execution",
+          "item.completed:command_execution",
+          "turn.completed"
+        ],
+        "native_event_stream_sha256": "124986da49cb3529c370e95674430e14bfefc00d5d8e576a4323a26e3113d56e"
+      },
+      "limit": "This proves the proposed native invocation can produce auditable actual file operations. It is not S8 behavioral acceptance or an implementation GREEN."
+    }
+  ],
+  "read_only_review_limits": {
+    "source_edits": false,
+    "runtime_sync": false,
+    "git_writes": false,
+    "canonical_transitions": false,
+    "completion_claim": false,
+    "private_diagnostics": "Only reviewer-owned temporary fixtures and private native trace/result files were created. Raw native traces were not echoed or placed in repository artifacts; they remain private pending gate disposition and cleanup.",
+    "verification_scope": "Readiness checks and affected existing regressions were rerun. No full post-implementation suite or S8 behavioral PASS is claimed."
+  },
+  "disposition": "Do not execute this Plan. Preserve the approved S8 scope and backup. F1 requires protected prerequisite adjudication/approval outside S8; F2 and F3 are bounded Plan completeness corrections once that prerequisite is resolved. This FULL_PREFLIGHT consolidates all reasonably discoverable findings and does not authorize another full round on an unchanged contract."
+}

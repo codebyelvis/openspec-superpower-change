@@ -763,6 +763,319 @@ def load_routing_runner():
     return module
 
 
+def _document_snapshot(root: Path) -> dict:
+    """Test-only observations; do not select destinations or move files."""
+    result = {}
+    for path in sorted(root.rglob("*")):
+        relative = path.relative_to(root).as_posix()
+        if path.is_symlink():
+            result[relative] = {"symlink": os.readlink(path)}
+        elif path.is_file():
+            payload = path.read_bytes()
+            result[relative] = {
+                "sha256": hashlib.sha256(payload).hexdigest(),
+                "bytes_hex": payload.hex(),
+            }
+    return result
+
+
+def _assert_document_links(root: Path, paths: list[str]) -> None:
+    from urllib.parse import unquote, urlsplit
+
+    root = root.resolve()
+    for relative in paths:
+        source = root / relative
+        if Path(relative).is_absolute() or ".." in Path(relative).parts:
+            raise AssertionError("document source escapes bound project")
+        if not source.resolve().is_relative_to(root) or source.is_symlink():
+            raise AssertionError("document source escapes bound project")
+        cursor = source
+        while cursor != root:
+            if cursor.is_symlink():
+                raise AssertionError("document source follows a symlink")
+            cursor = cursor.parent
+        text = source.read_text(encoding="utf-8")
+        for destination in re.findall(r"!?\[[^\]]*\]\(([^)]+)\)", text):
+            parsed = urlsplit(destination)
+            if parsed.scheme or parsed.netloc:
+                continue
+            target = source.parent / unquote(parsed.path) if parsed.path else source
+            if not target.resolve().is_relative_to(root):
+                raise AssertionError("document link escapes bound project")
+            cursor = target
+            while cursor != root:
+                if cursor.is_symlink():
+                    raise AssertionError("document link follows a symlink")
+                cursor = cursor.parent
+            if not target.is_file():
+                raise AssertionError(f"unresolved document link: {destination}")
+            if parsed.fragment:
+                headings = re.findall(
+                    r"^#{1,6}\s+(.+?)\s*#*\s*$",
+                    target.read_text(encoding="utf-8"), re.MULTILINE,
+                )
+                anchors = {
+                    re.sub(r"[^\w -]", "", heading.lower()).replace(" ", "-")
+                    for heading in headings
+                }
+                if unquote(parsed.fragment) not in anchors:
+                    raise AssertionError(f"unresolved document anchor: {destination}")
+
+
+def _audit_document_fixture(root: Path, before: dict, expectation: dict) -> dict:
+    """Audit observed native effects against the authorized fixture contract."""
+    after = _document_snapshot(root)
+    added = set(after) - set(before)
+    removed = set(before) - set(after)
+    modified = {p for p in set(before) & set(after) if before[p] != after[p]}
+    if expectation.get("blocked"):
+        if after != before:
+            raise AssertionError("blocked ownership must stop before mutation")
+    else:
+        for name, actual in (("added", added), ("removed", removed), ("modified", modified)):
+            if actual != set(expectation.get(name, [])):
+                raise AssertionError(f"unauthorized or missing document {name}: {sorted(actual)}")
+        def link_identity(text, owner, *, prior=False):
+            import posixpath
+            from urllib.parse import unquote, urlsplit
+
+            def project(match):
+                parsed = urlsplit(match.group(2))
+                if parsed.scheme or parsed.netloc:
+                    return match.group(0)  # External URLs must retain exact bytes.
+                target = posixpath.normpath(posixpath.join(
+                    posixpath.dirname(owner), unquote(parsed.path)
+                )) if parsed.path else owner
+                if target.startswith("/") or target == ".." or target.startswith("../"):
+                    raise AssertionError("document link escapes bound project")
+                if prior:
+                    target = expectation.get("moves", {}).get(target, target)
+                identity = json.dumps([target, parsed.query, parsed.fragment])
+                return match.group(1) + "(" + identity + ")"
+
+            return re.sub(r"(!?\[[^\]]*\])\(([^)]+)\)", project, text)
+        for old, new in expectation.get("moves", {}).items():
+            prior = bytes.fromhex(before[old]["bytes_hex"]).decode()
+            current = bytes.fromhex(after[new]["bytes_hex"]).decode()
+            if link_identity(prior, old, prior=True) != link_identity(current, new):
+                raise AssertionError("moved document content changed beyond link repairs")
+        for path in expectation.get("link_edits_only", []):
+            prior = bytes.fromhex(before[path]["bytes_hex"]).decode()
+            current = bytes.fromhex(after[path]["bytes_hex"]).decode()
+            if link_identity(prior, path, prior=True) != link_identity(current, path):
+                raise AssertionError("navigation content changed beyond link repairs")
+        for path, expected in expectation.get("contents", {}).items():
+            if (root / path).read_text(encoding="utf-8") != expected:
+                raise AssertionError(f"document content differs: {path}")
+        _assert_document_links(root, expectation.get("links", []))
+    return {"added": sorted(added), "removed": sorted(removed),
+            "modified": sorted(modified),
+            "file_sha256": {p: data.get("sha256") for p, data in after.items()}}
+
+
+class ProjectDocumentOwnershipTests(unittest.TestCase):
+    def setUp(self):
+        self.validator = load_validator()
+        self.skill = (ROOT / "SKILL.md").read_text()
+        self.closeout = (ROOT / "references/project-learning-closeout.md").read_text()
+        self.template = (ROOT / "templates/learning-candidate-template.md").read_text()
+
+    def gate(self, *, skill=None, closeout=None, template=None):
+        self.validator.validate_project_learning_gate(
+            self.skill if skill is None else skill,
+            (ROOT / "references/approved-implementation-workflow.md").read_text(),
+            (ROOT / "references/completion-contract.md").read_text(),
+            self.closeout if closeout is None else closeout,
+            self.template if template is None else template,
+        )
+
+    def test_ownership_is_a_distinct_owned_subsection(self):
+        self.validator._markdown_owned_section(
+            self.closeout, "## Project Document Ownership", "placement owner"
+        )
+        self.gate()
+
+    def test_engineering_fallback_is_owned_by_target_resolver(self):
+        resolver, _, _ = self.validator._markdown_owned_section(
+            self.closeout, "## Target resolver", "resolver"
+        )
+        row = next(line for line in resolver.splitlines() if "Easy-to-miss" in line)
+        self.assertIn("docs/engineering/engineering-invariants.md", row)
+        self.assertNotIn("default `docs/engineering-invariants.md`", row)
+
+    def test_old_root_default_cannot_be_hidden_by_copy_elsewhere(self):
+        wrong = self.closeout.replace(
+            "docs/engineering/engineering-invariants.md", "docs/engineering-invariants.md"
+        )
+        wrong += "\n## Unrelated example\n`docs/engineering/engineering-invariants.md`\n"
+        with self.assertRaises(AssertionError):
+            self.gate(closeout=wrong)
+
+    def test_ownership_cannot_be_relocated_into_template(self):
+        try:
+            body, start, end = self.validator._markdown_owned_section(
+                self.closeout, "## Project Document Ownership", "owner"
+            )
+            wrong = self.closeout[:start] + self.closeout[end:]
+        except AssertionError:
+            body, wrong = "Project Document Ownership", self.closeout
+        with self.assertRaises(AssertionError):
+            self.gate(closeout=wrong, template=self.template + "\n" + body)
+
+    def test_skill_requires_conditional_placement_navigation(self):
+        wrong = "\n".join(
+            line for line in self.skill.splitlines() if "Create or move ordinary project documents" not in line
+        )
+        with self.assertRaises(AssertionError):
+            self.gate(skill=wrong)
+
+    def test_template_uses_canonical_resolver_without_copied_fallback(self):
+        self.assertIn("../references/project-learning-closeout.md#target-resolver", self.template)
+        self.assertNotIn("docs/engineering/engineering-invariants.md", self.template)
+        self.assertNotIn("default `docs/engineering-invariants.md`", self.template)
+        with self.assertRaises(AssertionError):
+            self.gate(template=self.template + "\nDefault `docs/engineering/engineering-invariants.md`.\n")
+
+    def test_explicit_root_guidance_contract_is_preserved(self):
+        self.assertIn("docs/engineering-invariants.md", (ROOT / "AGENTS.md").read_text())
+        self.assertTrue((ROOT / "docs/engineering-invariants.md").is_file())
+        self.assertIn("explicit", self.closeout.lower())
+
+    def test_fenced_or_duplicate_owner_cannot_supply_policy(self):
+        try:
+            _, start, end = self.validator._markdown_owned_section(
+                self.closeout, "## Project Document Ownership", "owner"
+            )
+            owner = self.closeout[start:end]
+        except AssertionError:
+            start = end = 0
+            owner = "## Project Document Ownership\n"
+        for wrong in (
+            self.closeout[:start] + "```markdown\n" + owner + "```\n" + self.closeout[end:],
+            self.closeout + "\n" + owner,
+        ):
+            with self.subTest(wrong=wrong[:30]), self.assertRaises(AssertionError):
+                self.gate(closeout=wrong)
+
+    def test_actual_move_repairs_links_and_preserves_content(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "docs/deployment").mkdir(parents=True)
+            (root / "runbooks").mkdir()
+            (root / "runbooks/rollback.md").write_text("# Restore\nKeep backup.\n")
+            (root / "docs/restart.md").write_text("# Restart\n[Restore](../runbooks/rollback.md#restore)\n")
+            (root / "docs/README.md").write_text("[Restart](restart.md#restart)\n")
+            before = _document_snapshot(root)
+            (root / "docs/restart.md").rename(root / "docs/deployment/restart.md")
+            (root / "docs/deployment/restart.md").write_text("# Restart\n[Restore](../../runbooks/rollback.md#restore)\n")
+            (root / "docs/README.md").write_text("[Restart](deployment/restart.md#restart)\n")
+            expected = {"added": ["docs/deployment/restart.md"], "removed": ["docs/restart.md"],
+                        "modified": ["docs/README.md"], "moves": {"docs/restart.md": "docs/deployment/restart.md"},
+                        "links": ["docs/README.md", "docs/deployment/restart.md"],
+                        "link_edits_only": ["docs/README.md"]}
+            _audit_document_fixture(root, before, expected)
+            (root / "docs/deployment/restart.md").write_text("# Restart\nLost content.\n")
+            with self.assertRaisesRegex(AssertionError, "content changed"):
+                _audit_document_fixture(root, before, expected)
+
+    def test_broken_relative_link_and_anchor_fail_actual_audit(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "guide.md").write_text("# Restore\n")
+            for destination in ("missing.md", "guide.md#missing"):
+                (root / "index.md").write_text(f"[Guide]({destination})\n")
+                with self.subTest(destination=destination), self.assertRaises(AssertionError):
+                    _assert_document_links(root, ["index.md"])
+
+    def test_ambiguous_destination_requires_no_mutation(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            for name in ("ops", "deployment"):
+                (root / f"docs/{name}").mkdir(parents=True)
+                (root / f"docs/{name}/README.md").write_text("# Deployment notes\n")
+            before = _document_snapshot(root)
+            _audit_document_fixture(root, before, {"blocked": True})
+            (root / "docs/ops/restart.md").write_text("Unresolved choice.\n")
+            with self.assertRaisesRegex(AssertionError, "before mutation"):
+                _audit_document_fixture(root, before, {"blocked": True})
+
+    def test_destination_collision_preserves_existing_content(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "restart.md").write_text("Original.\n")
+            (root / "target.md").write_text("Existing different content.\n")
+            before = _document_snapshot(root)
+            _audit_document_fixture(root, before, {"blocked": True})
+            (root / "target.md").write_text((root / "restart.md").read_text())
+            with self.assertRaises(AssertionError):
+                _audit_document_fixture(root, before, {"blocked": True})
+
+    def test_project_escape_preserves_bound_project(self):
+        with tempfile.TemporaryDirectory() as directory:
+            outer = Path(directory)
+            root = outer / "project"
+            root.mkdir()
+            (outer / "outside.md").write_text("Outside.\n")
+            (root / "index.md").write_text("[Outside](../outside.md)\n")
+            before = _document_snapshot(outer)
+            with self.assertRaisesRegex(AssertionError, "escapes"):
+                _assert_document_links(root, ["index.md"])
+            self.assertEqual(before, _document_snapshot(outer))
+
+    def test_unauthorized_history_mutation_fails_scope_audit(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "history.md").write_text("History.\n")
+            before = _document_snapshot(root)
+            (root / "history.md").write_text("Unexpected edit.\n")
+            with self.assertRaisesRegex(AssertionError, "modified"):
+                _audit_document_fixture(root, before, {})
+
+    def test_move_cannot_change_external_url(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "docs/deployment").mkdir(parents=True)
+            (root / "docs/restart.md").write_text("[Reference](https://example.org/approved)\n")
+            before = _document_snapshot(root)
+            (root / "docs/restart.md").rename(root / "docs/deployment/restart.md")
+            (root / "docs/deployment/restart.md").write_text("[Reference](https://example.org/unapproved)\n")
+            with self.assertRaises(AssertionError):
+                _audit_document_fixture(root, before, {
+                    "added": ["docs/deployment/restart.md"], "removed": ["docs/restart.md"],
+                    "moves": {"docs/restart.md": "docs/deployment/restart.md"},
+                    "links": ["docs/deployment/restart.md"],
+                })
+
+    def test_relative_repair_cannot_switch_to_another_existing_target(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "docs/deployment").mkdir(parents=True)
+            (root / "runbooks").mkdir()
+            for name in ("one", "two"):
+                (root / f"runbooks/{name}.md").write_text("# Restore\n")
+            (root / "docs/restart.md").write_text("[Reference](../runbooks/one.md#restore)\n")
+            before = _document_snapshot(root)
+            (root / "docs/restart.md").rename(root / "docs/deployment/restart.md")
+            (root / "docs/deployment/restart.md").write_text("[Reference](../../runbooks/two.md#restore)\n")
+            with self.assertRaises(AssertionError):
+                _audit_document_fixture(root, before, {
+                    "added": ["docs/deployment/restart.md"], "removed": ["docs/restart.md"],
+                    "moves": {"docs/restart.md": "docs/deployment/restart.md"},
+                    "links": ["docs/deployment/restart.md"],
+                })
+
+    def test_source_intermediate_symlink_is_rejected_without_local_links(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "real").mkdir()
+            (root / "real/guide.md").write_text("[External](https://example.org/approved)\n")
+            (root / "alias").symlink_to(root / "real", target_is_directory=True)
+            before = _document_snapshot(root)
+            with self.assertRaisesRegex(AssertionError, "symlink"):
+                _assert_document_links(root, ["alias/guide.md"])
+            self.assertEqual(before, _document_snapshot(root))
+
+
 class WorkflowRulesTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):

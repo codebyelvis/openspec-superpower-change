@@ -1,23 +1,18 @@
 # Current Skill Iteration
 
-- 状态：S8 draft-v1 已批准，前置 S9 源提交已推送；待恢复 S8 的 fresh changed-binding Plan／Preflight lineage。未实现 S8。
-- 当前切片：S8 项目文档归属治理能力；Major／strict；change-id：add-project-document-ownership。
-- 原批准：用户具体口令“迭代优化skill：已批准 add-project-document-ownership”；原 approval SHA-256 233d318470241a5eb22eea9186bb372d72db6b65bf9556f6ffa818318e924873；原四份合同及授权范围不变。
-- 实际 canonical：docs/agent-collab/add-project-document-ownership/status.md；blocked revision 5、verified_revision=null、wait/none、authority_granted=false。
-- 当前 context：openspec/changes/add-project-document-ownership/resume-contract-v2.md；SHA-256 798ea76ff6b0dd62f59bc7062fd5acd3587bae2d55c43013ed9479a1b20e2a62；s8-review-01 / s8-final-01 分别独立，原批准和原上下文保留。
-- 控制面/作者/执行器：实际 /root，bound codex s8-control-01，control-plane-high；模型固定 gpt-6.1-sol/high。
-- 原执行 Plan：docs/review/2026-10-08-S8-implementation-plan.md，原合同/Plan/tasks/Review 未改。原 FULL_PREFLIGHT BLOCKED 和 F1–F3 历史保留；S9 转换不是 S8 readiness PASS。
-- 阻塞与恢复：S9 绑定前置已解决；S8 仍需其批准范围内的新 changed-binding Plan、有效独立 FULL_PREFLIGHT 及既有后续门禁。不得在原 unchanged-contract lineage 重放 Preflight 冒充新 readiness。
-- next_action：下一轮恢复已批准 add-project-document-ownership，先核对当前绑定和既有授权，形成 fresh readiness；本 S9 单轮不实现 S8，不再要求重复常规步骤确认。
-- S8 备份保留：/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S8-implementation-68h7vzmq；/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S8-proposal-4xkas497。S8 scope/回滚尚未结束，不清理。
-- S8 同步/Git：尚未实施或同步。整个原 S8 图、新 context/status 本轮仅留本地，未纳入 S9 提交；不可将 S9 proof 当 S8 源发表或完成。
-- S9 已完成门禁：source/native RED/GREEN、Implementation 及 amended-input re-Review、持久化 final revision 7、单独 Final Review、四端两文件 sync/receipt/discovery/verify-all、owned archive exact-byte strict 均 PASS；双环境全套各 461 项通过。
-- S9 canonical：docs/agent-collab/support-stage-specific-resume-review/status.md；complete revision 8，保留实际 prior 7 已持久化 verified_revision=7 与完整独立 Final；仅 root 执行合法完成转换。
-- S9 源提交：605a09937df3f8acb7762ba2277a97d2203e5e59，main 已推送并核对远端；28 个 owned 文件，44 个无关文件和整个活动 S8 图不 staged。
-- S9 归档：openspec/changes/archive/2026-10-09-support-stage-specific-resume-review，--yes --skip-specs；主 spec 未合并，只有移动后的 owned 相对链接及额外 EOF 空行做机械修正。
-- S9 历史同步计划哈希：3aefd51f077d607ab88d6e248b78e833eed8340a76fa23c2f9f9a2c1495d3827；不复用为 S8 新计划。
-- S9 收尾：元数据 62b816244980be82512a3fc9c1d72f0373e656e0 已推送并核对远端；成功后两份 S9 implementation/proposal 根及其 private trace/receipt/fixture 已清理且核对不存在，清理记录为 docs/review/2026-10-09-S9-temporary-cleanup.json；两份 S8 备份字节／mode 不变并保留。
-- 源工作区：继续用户指定真源 main，不 cd/找仓库；保留全部无关 dirty work。S6 下次对照仍为 2027 Q1，其他切片不启动。
+- 状态：S8 独立Final PASS；owned归档/exact-byte strict、原context/path、源quick/core/范围核对通过；源/main scoped发表待，完成元数据与备份清理随后。
+- 切片：S8 项目文档归属治理能力；add-project-document-ownership；draft-v1／Major／strict。
+- Gate 0：Self-Evolution／approved-implementation；原四合同及批准233d318、当前 immutable context798ea76核对。选择 writing-plans、writing-skills、TDD、executing-plans（Router-governed）、requesting-code-review；完成时 verification-before-completion／finishing-a-development-branch。无新设计、scope或权限扩张。
+- 真源/main：用户指定当前工作区，HEAD44493026aa3897c243f4ebab9b37bd402170343e；不 cd/找仓库/创建新worktree；模型固定 gpt-6.1-sol/high。
+- 作者/执行/控制：实际 /root，bound s8-control-01/control-plane-high；独立Preflight s8-preflight-01、Implementation s8-review-01、Final s8-final-01 分别实际绑定。
+- 新 canonical Plan：docs/review/2026-10-09-S8-resumed-implementation-plan.md；SHA-256 37a657c4393993eddc462f106de22ae927de25202f741050bf2cde7d22fb851d。原2026-10-08 Plan/Preflight BLOCKED保持immutable历史，S9新绑定构成fresh full lineage。
+- canonical：docs/agent-collab/add-project-document-ownership/status.md；awaiting-final-verification revision16、verified=16、review/local-read；接受新Preflight后才可ready/实施。
+- 新备份：/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S8-resumed-jd5ww5mw；76源文件/运行时/四approved-contract/44无关文件；旧两份S8备份保留到本轮实际发表清理。
+- 源范围：SKILL最小导航、project-learning-closeout单独owner、template resolver pointer、validator/现有tests/CHANGELOG及S8工件/状态；不迁移本仓库文档，不改AGENTS/CONTEXT、S9、main/historical specs、manifest/targets/共享/companion/生产。
+- 验证：当前只核对原合同4、原approval/context、44无关文件和源/index；S8原RED/GREEN与三实际场景通过；原生七case经加严auditor重新audit，双环境各478通过；Implementation原FAIL保留；修复Review PASS，sync/learning新输入集同阶段复核PASS，fresh verification已落盘，distinct Final PASS。备份与Plan不签发行为PASS。
+- 同步：实际四端scoped apply/verify/discovery/verify-all通过；原四目标仅SKILL、closeout、template、validator四文件，36断言，治理v6不变；同步计划SHA545707a86caa749c65b9dc2d4a0e8e165fe1e0388e81683c4b23e1afb6b82b0e。
+- commit：本S8未提交/push；显式本轮租约在门禁与同步通过后用于本仓库当前main。
+- next_action：独立distinct Final Review：实际false-PASS修复，17聚焦、两环境各478、七actualnative case重新audit及新增无部署口令惯例识别通过；sync通过，distinct Final PASS；仅S8归档已完成，发表/合法complete元数据/自有备份清理尚待；无重复用户确认。S6下一窗口2027Q1。
 
 ## 保留的 S8 前置处理前状态（历史快照，实际状态以其 canonical 为准）
 

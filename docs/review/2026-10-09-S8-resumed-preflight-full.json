@@ -1,0 +1,585 @@
+{
+  "author": "elvis",
+  "review_mode": "FULL_PREFLIGHT",
+  "result": "BLOCKED",
+  "change_id": "add-project-document-ownership",
+  "contract_revision": "draft-v1 with separately approved S9 stage-binding metadata amendment",
+  "lineage_root_revision": {
+    "path": "docs/review/2026-10-09-S8-resumed-implementation-plan.md",
+    "sha256": "550d1ca427bd66e0aeb5bcb06ca03b54ace4f0dcefdb7e2bac965484359fb87f"
+  },
+  "reviewed_revision": {
+    "path": "docs/review/2026-10-09-S8-resumed-implementation-plan.md",
+    "sha256": "550d1ca427bd66e0aeb5bcb06ca03b54ace4f0dcefdb7e2bac965484359fb87f"
+  },
+  "parent_review": null,
+  "attempt": 1,
+  "reviewer_identity": {
+    "agent_product": "codex",
+    "agent_instance_id": "s8-preflight-01",
+    "agent_role": "independent-reviewer",
+    "capability_profile": "control-plane-high"
+  },
+  "actual_tool_identity": "/root/s8_preflight",
+  "review_assignment": {
+    "purpose": "Plan Preflight",
+    "product": "codex",
+    "role": "independent-reviewer",
+    "capability": "control-plane-high",
+    "independence": "Actual /root/s8_preflight, bound s8-preflight-01, is distinct from controller/author/executor /root, bound s8-control-01.",
+    "authority": "governed-review-evidence"
+  },
+  "model_metadata": {
+    "model": "gpt-6.1-sol",
+    "reasoning": "high",
+    "authority_effect": "none"
+  },
+  "same_reviewer_instance": null,
+  "same_reviewer_instance_reason": "Root of a new approved changed-binding lineage; no parent Review. Same actual independent instance continues; old BLOCKED history is immutable and not relabeled.",
+  "source_baseline": "44493026aa3897c243f4ebab9b37bd402170343e",
+  "canonical_reviewed_sha256": "a02ac73a9b949f8150e15016487cd21b7cc0b985141cb0b9801cfb9152fd26aa",
+  "current_contract_context": {
+    "path": "openspec/changes/add-project-document-ownership/resume-contract-v2.md",
+    "sha256": "798ea76ff6b0dd62f59bc7062fd5acd3587bae2d55c43013ed9479a1b20e2a62"
+  },
+  "protected_boundaries": {
+    "scope_contract_acceptance": "Original four S8 contract bytes match approval after normalizing only the two approved task checkboxes. Original approval233d318, old Plan d8baab and old Review f68f1b remain unchanged. Five S8 requirements/three native spec scenarios preserved. S9 approval and actual amendment proof support the new exact stage map.",
+    "risk_evidence": "Major/strict retained; all six critical command strings remain exact and unchanged in context. Router-governed actual-files/full-diff/rerun/adversarial rules applied. Diagnostic fixtures are explicitly synthetic and never source signoff.",
+    "assignments_authority": "s8-control-01 retains sole decision/transition authority. Implementation s8-review-01 and Final s8-final-01 remain distinct full assignments. This Review grants only governed-review-evidence.",
+    "files": "44 unrelated file hashes match B manifest;76 source baseline files are unchanged except authorized CURRENT/BACKLOG/canonical readiness metadata. S1-S7 and S9 backlog rows match HEAD. No source implementation edits. AGENTS/CONTEXT/root guidance, S7/S9 implementation, companion/shared governance, manifest/targets/dependencies and main/historical specs are protected.",
+    "branch_git": "Actual main and HEAD44493026 match user-selected source workspace and recorded one-round Git lease. Index empty. No worktree, Git write, publication or remote mutation by reviewer.",
+    "production_credentials": "No production/business-document action, credential copying or config/session editing. Native probe inherits HOME/CODEX_HOME unchanged and writes only owned synthetic fixture.",
+    "rollback": "Fresh post-S9 source/runtime backup is the new rollback baseline. Old S8 backups remain retained rather than being used to roll runtime back before S9. Runtime rollback remains reviewed transaction/receipt based.",
+    "archive_ownership": "Keeping byte-identical sidecar at its exact original approved path and removing only its redundant owned archived copy is a bounded path-preservation implementation detail within S8 closure, not a context migration, new schema, API or authority. Actual no-tasks behavior and exact-archived-byte strict validation were independently reproduced. However, declared fingerprint freshness is not preserved by that operation alone; see blocking finding."
+  },
+  "declared_correction_set": [],
+  "mechanical_self_check": {
+    "result": "PASS",
+    "checks": [
+      "Root/current safe project-relative Plan path and whole-file SHA match550d1ca; rechecked unchanged after probes.",
+      "Parent null and attempt1; new full lineage follows specifically approved protected stage-binding change.",
+      "Actual independent identity matches assignment and remains distinct from author/executor.",
+      "Canonical revision6 SHA a02ac73 and immutable context798ea76 unchanged.",
+      "44 unrelated hashes and76 baseline scope checked; no unexpected source drift; S1-S7/S9 rows preserved.",
+      "Original approval/old Plan/old Review and four S8 contract history preserved.",
+      "All current Resume Context references validated by existing descriptor-bound/no-symlink validator.",
+      "No source/runtime/canonical/Git writes; only reviewer-owned private directory created."
+    ]
+  },
+  "finding_completeness": true,
+  "blocking_findings": [
+    {
+      "id": "S8-PF-ARCHIVE-FRESHNESS",
+      "classification": "required checkpoint freshness and closure ordering",
+      "severity": "blocking",
+      "finding": "The planned post-Final archive and CHANGELOG actions invalidate inputs explicitly included in the final source fingerprint; preserving only the sidecar path cannot preserve the verified checkpoint.",
+      "evidence": [
+        {
+          "path": "docs/review/2026-10-09-S8-resumed-implementation-plan.md",
+          "line": 144,
+          "observation": "Fresh final verification and distinct Final precede the archive and the subsequent CHANGELOG update in Task 3."
+        },
+        {
+          "path": "docs/review/2026-10-09-S8-resumed-implementation-plan.md",
+          "line": 149,
+          "observation": "Task 3 updates CHANGELOG after Final; CHANGELOG is one of the six source files bound by the declared fingerprint."
+        },
+        {
+          "path": "docs/review/2026-10-09-S8-resumed-implementation-plan.md",
+          "line": 315,
+          "observation": "Scoped fingerprints bind the six source files and the stable original approval/context."
+        },
+        {
+          "path": "docs/review/2026-10-09-S8-resumed-implementation-plan.md",
+          "line": 331,
+          "observation": "Archive retains only the sidecar at its original path and archives the original approval. Immediate canonical recovery is required."
+        },
+        {
+          "path": "scripts/validate_core_gates.py",
+          "line": 2613,
+          "observation": "Existing _resume_verification checks each declared input path/hash against current bytes and rejects absent or changed inputs."
+        }
+      ],
+      "independent_actual_file_proof": {
+        "original_approval_relocation": "Actual private openspec archive succeeded; byte-identical sidecar was restored at its original path and redundant archived sidecar removed. Recovery with original approval path in verified.inputs rejected: verified inputs changed: preserve checkpoint/edits; verify current inputs before resume.",
+        "changelog_only_mutation": "With the original approval temporarily restored in the private diagnostic, clean recorded-complete recovery passed; changing only CHANGELOG rejected with the same verified-input error. Both private mutations were restored/disposed afterward.",
+        "stage_form_control": "Before the archive, actual private blocked6→ready7→ready-for-review8→persisted verification9→distinct Final/complete10 and terminal recovery passed."
+      },
+      "impact": "The source push followed by the promised legitimate canonical complete transition can encounter a stale checkpoint even though unchanged sidecar bytes remain available. A general clause about newly added immutable evidence does not schedule the moving approval path and later CHANGELOG byte change.",
+      "required_action": "Make a concrete same-scope Plan correction before execution: finish fingerprinted CHANGELOG/source updates before the corresponding Implementation/fresh verification/Final gates, and bind original approval provenance through a stable immutable S8-owned evidence object or another verified same-scope arrangement. If any declared input changes later, explicitly schedule the legal correction/re-Review/fresh persisted verification/distinct Final path before completion. Preserve exact progress.contract, context, prior-state and gate rules. Stable provenance is evidence of the original approval, never new approval authority.",
+      "owner": "s8-control-01"
+    },
+    {
+      "id": "S8-PF-PRESTATE-ARG",
+      "classification": "non-executable critical sync command",
+      "severity": "blocking",
+      "finding": "The exact verify-prestate command lacks the mandatory --target option.",
+      "evidence": [
+        {
+          "path": "docs/review/2026-10-09-S8-resumed-implementation-plan.md",
+          "line": 186,
+          "observation": "Command contains verify-prestate --plan \"$S8_SYNC/plan.json\" and no --target."
+        },
+        {
+          "path": "scripts/validate_cross_cli_sync.py",
+          "line": 1,
+          "observation": "Actual CLI parser requires verify-prestate --target {codex,pi,antigravity-cli,grok-cli,all}."
+        }
+      ],
+      "independent_actual_command_proof": {
+        "as_planned_exit_code": 2,
+        "as_planned_error": "the following arguments are required: --target",
+        "corrected_probe_option": "--target all",
+        "corrected_probe_exit_code": 0,
+        "corrected_probe_result": "prestate pass for codex, pi, antigravity-cli, grok-cli"
+      },
+      "impact": "The planned mandatory pre-state check stops before runtime apply. It cannot supply the declared exit-0 evidence as written.",
+      "required_action": "Add explicit --target all to the pre-apply full prestate command, or enumerate all four target checks. Keep target coverage and plan binding unchanged.",
+      "owner": "s8-control-01"
+    },
+    {
+      "id": "S8-PF-LEGACY-INVENTORY",
+      "classification": "mandatory sync drain check lacks executable binding",
+      "severity": "blocking",
+      "finding": "The Plan states legacy inventory in prose but does not bind its exact known roots, existing CLI command, sanitized output, active-count assertion, or mandatory repeat immediately before first apply.",
+      "evidence": [
+        {
+          "path": "docs/review/2026-10-09-S8-resumed-implementation-plan.md",
+          "line": 191,
+          "observation": "Only inventory known canonical legacy-status roots before apply is stated."
+        },
+        {
+          "path": "references/sync-checklist.md",
+          "line": 193,
+          "observation": "Before portable schema-6 apply, inventory every known canonical status; active schema4/5 blocks deployment."
+        },
+        {
+          "path": "references/sync-checklist.md",
+          "line": 197,
+          "observation": "Retain non-sensitive inventory fields and repeat the check immediately before the first runtime apply."
+        }
+      ],
+      "independent_readiness_check": {
+        "command": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/validate_core_gates.py . --legacy-inventory-root docs/agent-collab --legacy-inventory-output <reviewer-private-root>/legacy-inventory.json",
+        "exit_code": 0,
+        "active_legacy_count": 0,
+        "records": 0,
+        "known_source_root_exists": true,
+        "companion_docs_agent_collab_root_exists": false
+      },
+      "impact": "Without an explicit root set and repeated zero-active assertion, implementation could treat an incomplete or older inventory as satisfying the required drain boundary.",
+      "required_action": "Bind the existing --legacy-inventory-root/--legacy-inventory-output commands and the current known canonical roots; do not invent absent roots or scan unrelated projects. Record the zero-active result and actual immediately-pre-apply repeat, with any active or invalid record blocking deployment. No new inventory framework or schema.",
+      "owner": "s8-control-01"
+    },
+    {
+      "id": "S8-PF-COMPANION-CHECKS",
+      "classification": "required sync check matrix incomplete",
+      "severity": "blocking",
+      "finding": "The runtime-target companion quick/template validators are listed, but the Plan does not bind the existing required companion source checks and default-python source unittest suite.",
+      "evidence": [
+        {
+          "path": "docs/review/2026-10-09-S8-resumed-implementation-plan.md",
+          "line": 203,
+          "observation": "Per-target quick/core/template commands cover installed runtimes; the source companion check/suite commands are absent."
+        },
+        {
+          "path": "references/sync-checklist.md",
+          "line": 101,
+          "observation": "Run validation for local and open-source copies when present; listed source companion quick_validate and validate_templates checks apply."
+        },
+        {
+          "path": "references/sync-checklist.md",
+          "line": 114,
+          "observation": "Run both repositories standard-library unittest suites with default python3 to exercise fallback behavior."
+        }
+      ],
+      "impact": "Four-target parity and runtime validate_templates PASS do not establish that the required companion source unittest gate ran or that eligible unchanged evidence was explicitly reused.",
+      "required_action": "Include the exact source companion quick/template/default-python unittest commands and their source root in the existing required check matrix, or explicitly bind still-valid reusable evidence with demonstrated unchanged command/source/test identities where the workflow permits reuse. Preserve companion as read-only; do not add unrelated test matrices or modify companion files.",
+      "owner": "s8-control-01"
+    }
+  ],
+  "non_blocking_recommendations": [],
+  "accepted_residual_risks": [
+    {
+      "risk": "The intentionally retained original OpenSpec directory is visible to list as no-tasks and active-ID strict validation finds no deltas.",
+      "evidence": "Actual private native archive/list returned a sole unchanged sidecar and no-tasks; exact archived-byte private validation returned0. New Plan explicitly identifies this immutable metadata anchor and archived addressing.",
+      "impact": "Consumers must distinguish the metadata anchor from an active implementation proposal and record archived validation execution root truthfully. No readiness/completion can be inferred from no-tasks.",
+      "owner_or_decision": "Bound controller s8-control-01 owns the documented S8-only closure choice and its truthful report; no global OpenSpec behavior changes or completion-rule waiver."
+    }
+  ],
+  "historical_findings_status": {
+    "F1": "Separately approved S9 stage form and guarded amendment are present. Independent actual-file lifecycle positive/negative probes demonstrate compatible distinct phases without an S8 governance edit. Old BLOCKED result remains history.",
+    "F2": "New Plan explicitly schedules destination ambiguity/collision/project-escape actual no-mutation checks and native recognition; readiness coverage addressed, behavior still pending implementation.",
+    "F3": "New exact sync bindings address most earlier missing commands; new actual parser/protocol findings above remain actionable. Earlier historical finding is not retroactively signed PASS."
+  },
+  "independent_checks": [
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python3 /Users/elvis/.codex-account-a/skills/.system/skill-creator/scripts/quick_validate.py .",
+      "exit_code": 0,
+      "result": "PASS"
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/validate_core_gates.py .",
+      "exit_code": 0,
+      "result": "PASS"
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python3 scripts/validate_core_gates.py .",
+      "exit_code": 0,
+      "result": "PASS"
+    },
+    {
+      "command": "openspec validate add-project-document-ownership --strict",
+      "execution_root": "source project",
+      "exit_code": 0,
+      "result": "PASS"
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/validate_core_gates.py . --resume-status docs/agent-collab/add-project-document-ownership/status.md --artifact-root .",
+      "exit_code": 0,
+      "result": "blocked revision6 / verified=null / wait-none / authority_granted=false"
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3; unittest heredoc: seven named proposal/learning WorkflowRulesTest methods, SkillIterationEntryTests and ProjectSessionResumeTests",
+      "tests": 50,
+      "exit_code": 0,
+      "result": "PASS",
+      "temporary_files": "reviewer-owned test-tmp only"
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python3; identical unittest heredoc",
+      "tests": 50,
+      "exit_code": 0,
+      "result": "PASS",
+      "temporary_files": "reviewer-owned test-tmp only"
+    },
+    {
+      "command": "Existing validate_cross_cli_sync.py plan command with the Plan four exact selectors/roots; output redirected to reviewer-private prototype-sync-plan.json",
+      "exit_code": 0,
+      "result": "schema2, four selected files and36 read-only assertions per target, governance unselected",
+      "plan_sha256": "76a6428a886481f537624d345c201db4f0a6f6dd25e0d758345c3544189d43ae",
+      "limitation": "Prototype readiness only. No apply, receipts, authorization or future source-sync signoff."
+    },
+    {
+      "command": "Existing verify-prestate --plan <prototype> as written in Plan",
+      "exit_code": 2,
+      "result": "BLOCKED; mandatory --target omitted"
+    },
+    {
+      "command": "Existing verify-prestate --plan <prototype> --target all",
+      "exit_code": 0,
+      "result": "all four current target prestates PASS"
+    },
+    {
+      "command": "Existing core legacy-inventory command for docs/agent-collab with output in reviewer-private root",
+      "exit_code": 0,
+      "result": "legacy audit PASS; active legacy count0"
+    },
+    {
+      "command": "Actual native codex exec invocation with Plan flags, inherited HOME/CODEX_HOME, one private mechanical fixture write",
+      "exit_code": 0,
+      "result": "PASS; one completed allowlisted command; actual bytes/output/scope verified; no unknown events",
+      "event_stream_sha256": "9fa86902422c398ce1c58968f561231189b78589c13421cffc9fa5acc8e7c0b7"
+    },
+    {
+      "command": "Actual private openspec archive add-project-document-ownership --yes --skip-specs",
+      "exit_code": 0,
+      "result": "archive completed"
+    },
+    {
+      "command": "Actual private openspec list --json after sidecar preservation",
+      "exit_code": 0,
+      "result": "original directory contains sole immutable sidecar; CLI reports no-tasks"
+    },
+    {
+      "command": "openspec validate add-project-document-ownership --strict",
+      "execution_root": "private sidecar-only original change directory project",
+      "exit_code": 1,
+      "result": "No deltas found; expected consequence of no-tasks anchor, not a replacement for archived validation"
+    },
+    {
+      "command": "openspec validate add-project-document-ownership --strict",
+      "execution_root": "private exact-archived-byte validation project",
+      "exit_code": 0,
+      "result": "PASS; actual archived file bytes copied identically"
+    },
+    {
+      "command": "git diff --check -- docs/iteration/BACKLOG.md docs/iteration/CURRENT.md",
+      "exit_code": 0,
+      "result": "PASS"
+    },
+    {
+      "command": "git diff --cached --quiet",
+      "exit_code": 0,
+      "result": "index empty"
+    }
+  ],
+  "independent_adversarial_probe": {
+    "author": "elvis",
+    "diagnostic_only": true,
+    "source_signoff": false,
+    "steps": [
+      {
+        "name": "current exact blocked revision 6",
+        "validator_result": {
+          "change_id": "add-project-document-ownership",
+          "record_kind": "local",
+          "state": "blocked",
+          "next_action": {
+            "action": "wait",
+            "owner": "openspec-superpower-change",
+            "permission": "none",
+            "inputs": [
+              {
+                "path": "docs/review/2026-10-09-S8-resumed-implementation-plan.md",
+                "sha256": "550d1ca427bd66e0aeb5bcb06ca03b54ace4f0dcefdb7e2bac965484359fb87f"
+              },
+              {
+                "path": "openspec/changes/add-project-document-ownership/resume-contract-v2.md",
+                "sha256": "798ea76ff6b0dd62f59bc7062fd5acd3587bae2d55c43013ed9479a1b20e2a62"
+              }
+            ]
+          },
+          "verified_revision": null,
+          "authority_granted": false
+        },
+        "expected_rejection": false,
+        "probe_pass": true
+      },
+      {
+        "name": "legal blocked 6 to ready 7",
+        "validator_result": {
+          "change_id": "add-project-document-ownership",
+          "record_kind": "local",
+          "state": "ready-for-execution",
+          "next_action": {
+            "action": "implement",
+            "owner": "openspec-superpower-change",
+            "permission": "local-edit",
+            "inputs": [
+              {
+                "path": "docs/review/2026-10-09-S8-resumed-implementation-plan.md",
+                "sha256": "550d1ca427bd66e0aeb5bcb06ca03b54ace4f0dcefdb7e2bac965484359fb87f"
+              },
+              {
+                "path": "openspec/changes/add-project-document-ownership/resume-contract-v2.md",
+                "sha256": "798ea76ff6b0dd62f59bc7062fd5acd3587bae2d55c43013ed9479a1b20e2a62"
+              }
+            ]
+          },
+          "verified_revision": null,
+          "authority_granted": false
+        },
+        "expected_rejection": false,
+        "probe_pass": true
+      },
+      {
+        "name": "synthetic ready 7 to ready-for-review 8",
+        "validator_result": {
+          "change_id": "add-project-document-ownership",
+          "record_kind": "local",
+          "state": "ready-for-review",
+          "next_action": {
+            "action": "review",
+            "owner": "openspec-superpower-change",
+            "permission": "local-read",
+            "inputs": [
+              {
+                "path": "docs/review/2026-10-09-S8-resumed-implementation-plan.md",
+                "sha256": "550d1ca427bd66e0aeb5bcb06ca03b54ace4f0dcefdb7e2bac965484359fb87f"
+              },
+              {
+                "path": "openspec/changes/add-project-document-ownership/resume-contract-v2.md",
+                "sha256": "798ea76ff6b0dd62f59bc7062fd5acd3587bae2d55c43013ed9479a1b20e2a62"
+              }
+            ]
+          },
+          "verified_revision": null,
+          "authority_granted": false
+        },
+        "expected_rejection": false,
+        "probe_pass": true
+      },
+      {
+        "name": "implementation s8-review-01 enters persisted final verification",
+        "validator_result": {
+          "change_id": "add-project-document-ownership",
+          "record_kind": "local",
+          "state": "awaiting-final-verification",
+          "next_action": {
+            "action": "verify",
+            "owner": "openspec-superpower-change",
+            "permission": "local-read",
+            "inputs": [
+              {
+                "path": "docs/review/2026-10-09-S8-resumed-implementation-plan.md",
+                "sha256": "550d1ca427bd66e0aeb5bcb06ca03b54ace4f0dcefdb7e2bac965484359fb87f"
+              },
+              {
+                "path": "openspec/changes/add-project-document-ownership/resume-contract-v2.md",
+                "sha256": "798ea76ff6b0dd62f59bc7062fd5acd3587bae2d55c43013ed9479a1b20e2a62"
+              }
+            ]
+          },
+          "verified_revision": 9,
+          "authority_granted": false
+        },
+        "expected_rejection": false,
+        "probe_pass": true
+      },
+      {
+        "name": "separate s8-final-01 completes against persisted prior 9",
+        "validator_result": {
+          "change_id": "add-project-document-ownership",
+          "record_kind": "local",
+          "state": "complete",
+          "next_action": null,
+          "verified_revision": 9,
+          "authority_granted": false
+        },
+        "expected_rejection": false,
+        "probe_pass": true
+      },
+      {
+        "name": "atomic verify-review-complete rejects actual review-ready prior",
+        "rejection": "resume: terminal state or invalid revision increment",
+        "expected_rejection": true,
+        "probe_pass": true
+      },
+      {
+        "name": "wrong phase reviewer rejects",
+        "rejection": "local Review: identity/independent assignment mismatch",
+        "expected_rejection": true,
+        "probe_pass": true
+      },
+      {
+        "name": "same-byte context path rotation rejects",
+        "rejection": "resume: readonly kind/context cannot change in place",
+        "expected_rejection": true,
+        "probe_pass": true
+      },
+      {
+        "name": "freshness drift rejects",
+        "rejection": "verified inputs changed: preserve checkpoint/edits; verify current inputs before resume",
+        "expected_rejection": true,
+        "probe_pass": true
+      },
+      {
+        "name": "post-archive original fingerprint recovery",
+        "rejection": "verified inputs changed: preserve checkpoint/edits; verify current inputs before resume",
+        "expected_rejection": true,
+        "probe_pass": true
+      }
+    ],
+    "terminal_recovery_before_archive": {
+      "change_id": "add-project-document-ownership",
+      "state": "recorded-complete",
+      "next_action": null,
+      "authority_granted": false
+    },
+    "archive_anchor": {
+      "original_context_bytes_preserved": true,
+      "redundant_archive_context_removed": true,
+      "original_change_has_only_context": true,
+      "unchanged_sidecar_direct_read_hash": "798ea76ff6b0dd62f59bc7062fd5acd3587bae2d55c43013ed9479a1b20e2a62"
+    },
+    "exact_archived_private_validation": {
+      "exit_code": 0,
+      "output": "Change 'add-project-document-ownership' is valid",
+      "same_archived_files": true
+    },
+    "archive_cli_commands": [
+      {
+        "argv": [
+          "openspec",
+          "archive",
+          "add-project-document-ownership",
+          "--yes",
+          "--skip-specs"
+        ],
+        "exit_code": 0,
+        "stdout": "Task status: ✓ Complete\nSkipping spec updates (--skip-specs flag provided).\nChange 'add-project-document-ownership' archived as '2026-10-09-add-project-document-ownership'.",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "argv": [
+          "openspec",
+          "list",
+          "--json"
+        ],
+        "exit_code": 0,
+        "stdout": "{\n  \"changes\": [\n    {\n      \"name\": \"add-project-document-ownership\",\n      \"completedTasks\": 0,\n      \"totalTasks\": 0,\n      \"lastModified\": \"2026-10-09T05:12:29.922Z\",\n      \"status\": \"no-tasks\"\n    }\n  ],\n  \"root\": {\n    \"path\": \"/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S8-resumed-jd5ww5mw/s8-resumed-preflight/synthetic-project\",\n    \"source\": \"nearest\"\n  }\n}",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "argv": [
+          "openspec",
+          "validate",
+          "add-project-document-ownership",
+          "--strict"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr_sha256": "5c10181b4b8c0b52158c13e5d09f4b9df2a07ff4ce7dbafcaee8094d067ba05a"
+      }
+    ],
+    "synthetic_verification_notice": "PASS-shaped fixture evidence is synthetic and diagnostic only. It proves validator behavior, not execution of six business verification commands or S8 signoff.",
+    "all_expected_diagnostic_steps_pass": true,
+    "post_final_changelog_drift_probe": {
+      "clean_control_recovery": {
+        "change_id": "add-project-document-ownership",
+        "state": "recorded-complete",
+        "next_action": null,
+        "authority_granted": false
+      },
+      "rejection": "verified inputs changed: preserve checkpoint/edits; verify current inputs before resume",
+      "probe_pass": true,
+      "source_signoff": false
+    }
+  },
+  "native_mechanical_probe": {
+    "author": "elvis",
+    "diagnostic_only": true,
+    "source_signoff": false,
+    "exit_code": 0,
+    "model": "gpt-6.1-sol",
+    "reasoning": "high",
+    "home_unchanged": true,
+    "codex_home_unchanged": true,
+    "events_sha256": "9fa86902422c398ce1c58968f561231189b78589c13421cffc9fa5acc8e7c0b7",
+    "event_counts": {
+      "thread.started": 1,
+      "turn.started": 1,
+      "item.completed:agent_message": 2,
+      "item.started:command_execution": 1,
+      "item.completed:command_execution": 1,
+      "turn.completed": 1
+    },
+    "completed_commands": 1,
+    "command_allowlist_pass": true,
+    "unknown_events": [],
+    "actual_output_matches": true,
+    "immutable_fixture_unchanged": true,
+    "only_authorized_added_path": true,
+    "pass": true
+  },
+  "read_only_limits": {
+    "source_edits": false,
+    "runtime_apply": false,
+    "canonical_signing_or_transition": false,
+    "git_writes": false,
+    "whole_task_completion_claim": false,
+    "full_post_implementation_suite_or_S8_GREEN_claim": false
+  },
+  "cleanup": {
+    "owned_private_root": "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S8-resumed-jd5ww5mw/s8-resumed-preflight",
+    "native_raw_files_removed": [
+      "native-events.jsonl",
+      "native-result.txt",
+      "native-stderr.txt"
+    ],
+    "removal_verified": true,
+    "remaining": "Sanitized JSON results, diagnostic scripts and synthetic fixtures retained for bounded terminal focused recheck. Parent may remove only this owned directory after copying accepted evidence and finishing lineage; parent source/runtime backups untouched."
+  },
+  "disposition": "BLOCKED. Correct all declared same-scope ordinary Plan findings together. A same-instance terminal FOCUSED_RECHECK may assess only those corrections and necessary adjacent edits if protected scope/contract/acceptance/risk/authority/assignment/branch/files remain unchanged. Do not execute, sign readiness, or repeat another unchanged-contract FULL_PREFLIGHT."
+}

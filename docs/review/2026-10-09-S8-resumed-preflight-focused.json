@@ -1,0 +1,663 @@
+{
+  "author": "elvis",
+  "review_mode": "FOCUSED_RECHECK",
+  "result": "PASS",
+  "change_id": "add-project-document-ownership",
+  "contract_revision": "draft-v1 with separately approved S9 stage-binding metadata amendment",
+  "lineage_root_revision": {
+    "path": "docs/review/2026-10-09-S8-resumed-implementation-plan.md",
+    "sha256": "550d1ca427bd66e0aeb5bcb06ca03b54ace4f0dcefdb7e2bac965484359fb87f"
+  },
+  "reviewed_revision": {
+    "path": "docs/review/2026-10-09-S8-resumed-implementation-plan.md",
+    "sha256": "37a657c4393993eddc462f106de22ae927de25202f741050bf2cde7d22fb851d"
+  },
+  "parent_review": {
+    "path": "docs/review/2026-10-09-S8-resumed-preflight-full.json",
+    "sha256": "8651505d62a743d6fdece91d9ed7f347a8409fce8890d218ac3734ac38898372"
+  },
+  "attempt": 2,
+  "terminal": true,
+  "reviewer_identity": {
+    "agent_product": "codex",
+    "agent_instance_id": "s8-preflight-01",
+    "agent_role": "independent-reviewer",
+    "capability_profile": "control-plane-high"
+  },
+  "actual_tool_identity": "/root/s8_preflight",
+  "review_assignment": {
+    "purpose": "Plan Preflight",
+    "product": "codex",
+    "role": "independent-reviewer",
+    "capability": "control-plane-high",
+    "independence": "Actual /root/s8_preflight, bound s8-preflight-01, is distinct from controller/author/executor /root, bound s8-control-01.",
+    "authority": "governed-review-evidence"
+  },
+  "model_metadata": {
+    "model": "gpt-6.1-sol",
+    "reasoning": "high",
+    "authority_effect": "none"
+  },
+  "same_reviewer_instance": true,
+  "same_reviewer_instance_reason": "Exact four-field identity comparison with immutable parent8651505 passes; actual independent /root/s8_preflight continues, distinct from /root s8-control-01 author/executor/controller.",
+  "source_baseline": "44493026aa3897c243f4ebab9b37bd402170343e",
+  "canonical_reviewed_sha256": "94a0bffc7e858a5bac0ca4021944ee89a23433976cb706d688b8f5876926d9b9",
+  "canonical_reviewed_revision": 9,
+  "current_contract_context": {
+    "path": "openspec/changes/add-project-document-ownership/resume-contract-v2.md",
+    "sha256": "798ea76ff6b0dd62f59bc7062fd5acd3587bae2d55c43013ed9479a1b20e2a62"
+  },
+  "protected_boundaries": {
+    "scope_contract_acceptance": "Original four S8 contract bytes match approval after normalizing only the two approved task checkboxes. Original approval233d318, old Plan d8baab and old Review f68f1b remain unchanged. Five S8 requirements/three native spec scenarios preserved. S9 approval and actual amendment proof support the new exact stage map.",
+    "risk_evidence": "Major/strict retained; all six critical command strings remain exact and unchanged in context. Router-governed actual-files/full-diff/rerun/adversarial rules applied. Diagnostic fixtures are explicitly synthetic and never source signoff.",
+    "assignments_authority": "s8-control-01 retains sole decision/transition authority. Implementation s8-review-01 and Final s8-final-01 remain distinct full assignments. This Review grants only governed-review-evidence.",
+    "files": "44 unrelated file hashes match B manifest;76 source baseline files are unchanged except authorized CURRENT/BACKLOG/canonical readiness metadata. S1-S7 and S9 backlog rows match HEAD. No source implementation edits. AGENTS/CONTEXT/root guidance, S7/S9 implementation, companion/shared governance, manifest/targets/dependencies and main/historical specs are protected.",
+    "branch_git": "Actual main and HEAD44493026 match user-selected source workspace and recorded one-round Git lease. Index empty. No worktree, Git write, publication or remote mutation by reviewer.",
+    "production_credentials": "No production/business-document action, credential copying or config/session editing. Native probe inherits HOME/CODEX_HOME unchanged and writes only owned synthetic fixture.",
+    "rollback": "Fresh post-S9 source/runtime backup is the new rollback baseline. Old S8 backups remain retained rather than being used to roll runtime back before S9. Runtime rollback remains reviewed transaction/receipt based.",
+    "archive_ownership": "Byte-identical context remains at exact approved original regular path after owned archive; redundant newly archived copy removed. Stable provenance binds original approval without changing immutable context/API/gates. Actual post-archive verified inputs remain valid and terminal recovery passes; no-tasks/active-ID strict failure stays disclosed with exact-archived-byte cwd evidence."
+  },
+  "declared_correction_set": [
+    "S8-PF-ARCHIVE-FRESHNESS",
+    "S8-PF-PRESTATE-ARG",
+    "S8-PF-LEGACY-INVENTORY",
+    "S8-PF-COMPANION-CHECKS"
+  ],
+  "focused_eligibility": {
+    "result": "PASS",
+    "evidence": [
+      "Existing approved-implementation-workflow lines89-100 permit focused correction of declared findings and necessary adjacent edits when protected boundaries remain unchanged.",
+      "Same safe logical Plan path; immutable parent8651505 binds root550d1ca; root snapshot matches550d1ca; current regular non-symlink descriptor hash37a657c matches job.",
+      "Complete root-to-current relevant diff contains only the four declared correction mechanisms, stable approval-provenance evidence and necessary adjacent canonical/iteration metadata. Source implementation remains baseline.",
+      "306332 inventory draft and f8f080 checkpoint draft were inspected before any terminal Review artifact/final result was issued. The turn was explicitly interrupted while unfinished. Continued edits close the original inventory finding and its required adjacent revision metadata; they do not introduce another Review mode, attempt, outcome, replacement reviewer or protected boundary.",
+      "The intermediate exit1 and stale literal checkpoint are retained below. Early commentary forecast BLOCKED was a progress report about the unfinished draft, not an accepted or signed terminal Review. No preflight-focused.json existed at interruption.",
+      "Actual protected scope/spec/acceptance/risk, six immutable command strings, owner/phase assignments, files, branch/main consent, production/credential and Git/publication authority remain unchanged. No new approval is inferred from provenance."
+    ]
+  },
+  "mechanical_self_check": {
+    "result": "PASS",
+    "checks": {
+      "source_baseline_count": 76,
+      "unauthorized_drift": [],
+      "foreign_count": 44,
+      "foreign_drift": [],
+      "plan_actual_sha256": "37a657c4393993eddc462f106de22ae927de25202f741050bf2cde7d22fb851d",
+      "canonical_actual_sha256": "94a0bffc7e858a5bac0ca4021944ee89a23433976cb706d688b8f5876926d9b9",
+      "parent_actual_sha256": "8651505d62a743d6fdece91d9ed7f347a8409fce8890d218ac3734ac38898372",
+      "same_reviewer_instance": true,
+      "root_copy_sha256": "550d1ca427bd66e0aeb5bcb06ca03b54ace4f0dcefdb7e2bac965484359fb87f",
+      "inflight_draft_sha256": "306332de0ead1794afd6d45f041b0cbb19641fce81f9475269f4874b267b2705",
+      "context_actual_sha256": "798ea76ff6b0dd62f59bc7062fd5acd3587bae2d55c43013ed9479a1b20e2a62",
+      "original_approval_actual_sha256": "233d318470241a5eb22eea9186bb372d72db6b65bf9556f6ffa818318e924873",
+      "provenance_actual_sha256": "2d6b0763def4ac3a5fe2ec491834a70a6654c3bf303c2054cb875e7b7cec5e06",
+      "canonical_candidate_count": 10,
+      "canonical_candidates": [
+        {
+          "path": "/Users/elvis/file/develop/opensource/openspec-superpower-change/docs/agent-collab",
+          "is_dir": true
+        },
+        {
+          "path": "/Users/elvis/file/develop/opensource/codex-brief-antigravity-review/docs/agent-collab",
+          "is_dir": false
+        },
+        {
+          "path": "/Users/elvis/.codex/skills/openspec-superpower-change/docs/agent-collab",
+          "is_dir": false
+        },
+        {
+          "path": "/Users/elvis/.codex/skills/codex-brief-antigravity-review/docs/agent-collab",
+          "is_dir": false
+        },
+        {
+          "path": "/Users/elvis/.pi/agent/skills/openspec-superpower-change/docs/agent-collab",
+          "is_dir": false
+        },
+        {
+          "path": "/Users/elvis/.pi/agent/skills/codex-brief-antigravity-review/docs/agent-collab",
+          "is_dir": false
+        },
+        {
+          "path": "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change/docs/agent-collab",
+          "is_dir": false
+        },
+        {
+          "path": "/Users/elvis/.gemini/antigravity-cli/skills/codex-brief-antigravity-review/docs/agent-collab",
+          "is_dir": false
+        },
+        {
+          "path": "/Users/elvis/.grok/skills/openspec-superpower-change/docs/agent-collab",
+          "is_dir": false
+        },
+        {
+          "path": "/Users/elvis/.grok/skills/codex-brief-antigravity-review/docs/agent-collab",
+          "is_dir": false
+        }
+      ],
+      "branch": "main",
+      "head": "44493026aa3897c243f4ebab9b37bd402170343e",
+      "index_empty": true,
+      "native_raw_absent": true,
+      "checkpoint_draft_sha256": "f8f080954ba10b1f18960859fb35b88d4e74680e05226d12f32bdbaba29ba803",
+      "canonical_record_revision": 9,
+      "canonical_validation": {
+        "change_id": "add-project-document-ownership",
+        "record_kind": "local",
+        "state": "blocked",
+        "next_action": {
+          "action": "wait",
+          "owner": "openspec-superpower-change",
+          "permission": "none",
+          "inputs": [
+            {
+              "path": "docs/review/2026-10-09-S8-resumed-implementation-plan.md",
+              "sha256": "37a657c4393993eddc462f106de22ae927de25202f741050bf2cde7d22fb851d"
+            },
+            {
+              "path": "openspec/changes/add-project-document-ownership/resume-contract-v2.md",
+              "sha256": "798ea76ff6b0dd62f59bc7062fd5acd3587bae2d55c43013ed9479a1b20e2a62"
+            }
+          ]
+        },
+        "verified_revision": null,
+        "authority_granted": false
+      }
+    }
+  },
+  "finding_completeness": true,
+  "blocking_findings": [],
+  "non_blocking_recommendations": [],
+  "closed_findings": [
+    {
+      "id": "S8-PF-ARCHIVE-FRESHNESS",
+      "result": "PASS",
+      "evidence": [
+        {
+          "path": "docs/review/2026-10-09-S8-resumed-implementation-plan.md",
+          "line": 96,
+          "observation": "Task1 finishes fingerprinted CHANGELOG before source fingerprint and Implementation/fresh verification/distinct Final; Task3 subsequently changes only mutable iteration state."
+        },
+        {
+          "path": "docs/review/2026-10-09-S8-resumed-implementation-plan.md",
+          "line": 345,
+          "observation": "Fingerprint binds stable approval-provenance, immutable same-path context and frozen Plan; moving original approval no longer enters current verified.inputs."
+        },
+        {
+          "path": "docs/review/2026-10-09-S8-resumed-implementation-plan.md",
+          "line": 408,
+          "observation": "Original and archived approval bytes are explicitly compared against stable provenance; evidence grants no new approval."
+        },
+        {
+          "path": "docs/review/2026-10-09-S8-resumed-implementation-plan.md",
+          "line": 416,
+          "observation": "All six exact literal commands execute at source root for source checks and fresh persisted verification. Exact sixth command runs additionally from isolated actual archived-byte root after archive, recording cwd and hashes; earlier source results are preserved."
+        }
+      ],
+      "stable_provenance": {
+        "path": "docs/review/2026-10-09-S8-approval-provenance.json",
+        "sha256": "2d6b0763def4ac3a5fe2ec491834a70a6654c3bf303c2054cb875e7b7cec5e06",
+        "original_approval_sha256": "233d318470241a5eb22eea9186bb372d72db6b65bf9556f6ffa818318e924873",
+        "original_bytes_and_archived_bytes_match": true,
+        "authority_granted": false
+      },
+      "independent_proof": "Actual private archive succeeds; original approval disappears, sole byte-identical sidecar remains at exact immutable original path and redundant archived copy is removed. Stable fingerprint validation against actual persisted verification prior and terminal recovery both pass. Altering provenance or CHANGELOG rejects stale input; tampering archived approval fails dedicated exact-byte comparison. Active-anchor strict exits1 honestly, exact archived-byte root same literal command exits0. No checkpoint rule or API is weakened."
+    },
+    {
+      "id": "S8-PF-PRESTATE-ARG",
+      "result": "PASS",
+      "evidence": [
+        {
+          "path": "docs/review/2026-10-09-S8-resumed-implementation-plan.md",
+          "line": 188,
+          "observation": "Mandatory verify-prestate now explicitly --target all, repeated before first apply."
+        }
+      ],
+      "independent_proof": {
+        "command": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/validate_cross_cli_sync.py verify-prestate --target all --plan <reviewer-private-root>/prototype-sync-plan.json",
+        "exit_code": 0,
+        "targets": [
+          "codex",
+          "pi",
+          "antigravity-cli",
+          "grok-cli"
+        ],
+        "prototype_plan_sha256": "76a6428a886481f537624d345c201db4f0a6f6dd25e0d758345c3544189d43ae",
+        "limitation": "Readiness prototype only; no runtime apply or future transaction signoff."
+      }
+    },
+    {
+      "id": "S8-PF-LEGACY-INVENTORY",
+      "result": "PASS",
+      "evidence": [
+        {
+          "path": "docs/review/2026-10-09-S8-resumed-implementation-plan.md",
+          "line": 204,
+          "observation": "Exact existing CLI now passes only actually present source docs/agent-collab root; sanitized output named legacy-before-plan.json."
+        },
+        {
+          "path": "docs/review/2026-10-09-S8-resumed-implementation-plan.md",
+          "line": 207,
+          "observation": "All ten candidates require Path.is_dir existence observations before planning and immediately before first apply. Nine actual absences are neither created nor passed to CLI. Any newly present root stops for reviewed coverage; invalid/active inventory or changed prestate blocks apply."
+        },
+        {
+          "path": "docs/review/2026-10-09-S8-resumed-implementation-plan.md",
+          "line": 437,
+          "observation": "Ten absolute logical candidate roots bound, covering both source repos and both skills on all four runtime targets."
+        }
+      ],
+      "independent_proof": {
+        "exact_present_root_cli_exit_code": 0,
+        "active_legacy_count": 0,
+        "records": 0,
+        "candidate_count": 10,
+        "present_count": 1,
+        "absent_count": 9,
+        "root_observations": [
+          {
+            "path": "/Users/elvis/file/develop/opensource/openspec-superpower-change/docs/agent-collab",
+            "is_dir": true
+          },
+          {
+            "path": "/Users/elvis/file/develop/opensource/codex-brief-antigravity-review/docs/agent-collab",
+            "is_dir": false
+          },
+          {
+            "path": "/Users/elvis/.codex/skills/openspec-superpower-change/docs/agent-collab",
+            "is_dir": false
+          },
+          {
+            "path": "/Users/elvis/.codex/skills/codex-brief-antigravity-review/docs/agent-collab",
+            "is_dir": false
+          },
+          {
+            "path": "/Users/elvis/.pi/agent/skills/openspec-superpower-change/docs/agent-collab",
+            "is_dir": false
+          },
+          {
+            "path": "/Users/elvis/.pi/agent/skills/codex-brief-antigravity-review/docs/agent-collab",
+            "is_dir": false
+          },
+          {
+            "path": "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change/docs/agent-collab",
+            "is_dir": false
+          },
+          {
+            "path": "/Users/elvis/.gemini/antigravity-cli/skills/codex-brief-antigravity-review/docs/agent-collab",
+            "is_dir": false
+          },
+          {
+            "path": "/Users/elvis/.grok/skills/openspec-superpower-change/docs/agent-collab",
+            "is_dir": false
+          },
+          {
+            "path": "/Users/elvis/.grok/skills/codex-brief-antigravity-review/docs/agent-collab",
+            "is_dir": false
+          }
+        ],
+        "intermediate_ten_root_exit_code": 1,
+        "intermediate_failure": "Core gate validation failed: legacy inventory root is not a directory: /Users/elvis/file/develop/opensource/codex-brief-antigravity-review/docs/agent-collab",
+        "source_reference": "scripts/validate_core_gates.py:1040 inventory_legacy_handoffs rejects absent roots",
+        "limitation": "This is independent readiness execution. Required actual immediately-pre-first-apply inventory/existence/prestate evidence remains future mandatory work; no historical readiness proof substitutes for it."
+      }
+    },
+    {
+      "id": "S8-PF-COMPANION-CHECKS",
+      "result": "PASS",
+      "evidence": [
+        {
+          "path": "docs/review/2026-10-09-S8-resumed-implementation-plan.md",
+          "line": 198,
+          "observation": "Explicit source companion quick_validate, validate_templates and default-python unittest commands added, source companion stays read-only."
+        }
+      ],
+      "independent_proof": {
+        "source_quick_validate_exit_code": 0,
+        "source_validate_templates_exit_code": 0,
+        "source_default_python_unittest_exit_code": 0,
+        "source_default_python_unittest_tests": 91,
+        "exact_commands": [
+          "PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python3 /Users/elvis/.codex-account-a/skills/.system/skill-creator/scripts/quick_validate.py /Users/elvis/file/develop/opensource/codex-brief-antigravity-review",
+          "PYTHONDONTWRITEBYTECODE=1 python3 /Users/elvis/file/develop/opensource/codex-brief-antigravity-review/scripts/validate_templates.py /Users/elvis/file/develop/opensource/codex-brief-antigravity-review",
+          "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s /Users/elvis/file/develop/opensource/codex-brief-antigravity-review/tests -v"
+        ]
+      }
+    }
+  ],
+  "inflight_diagnostic_history": [
+    {
+      "reviewed_draft_sha256": "306332de0ead1794afd6d45f041b0cbb19641fce81f9475269f4874b267b2705",
+      "retained_snapshot": "B/plan-inflight-inventory-draft.md",
+      "observation": "Ten-root inventory literal executed and exited1; original S8-PF-LEGACY-INVENTORY correction remained open. Unfinished review was explicitly interrupted before artifact/final issuance; failure retained, never claimed PASS.",
+      "subsequent_same_finding_correction": "Sole existing root CLI plus all ten candidate existence assertions and new-root stop."
+    },
+    {
+      "reviewed_draft_sha256": "f8f080954ba10b1f18960859fb35b88d4e74680e05226d12f32bdbaba29ba803",
+      "retained_snapshot": "B/plan-inflight-checkpoint-draft.md",
+      "observation": "Necessary adjacent Plan checkpoint still promised ready7->8 while actual canonical already blocked8. Reviewer reported mismatch before terminal artifact; one sentence corrected to actual persisted blocked revision plus one.",
+      "final_observation": "Actual blocked9 canonical validates; independent synthetic blocked9->ready10 against actual prior bytes passes."
+    },
+    {
+      "diagnostic_observation": "Initial private post-archive direct complete validation omitted the actual previous verification record and correctly rejected actual previous persisted final-verification snapshot required. Terminal recovery itself passed.",
+      "correction": "Diagnostic harness supplied the actual persisted private prior; direct validation then passes. Strict prior requirement was preserved, not waived."
+    }
+  ],
+  "independent_adversarial_probe": {
+    "author": "elvis",
+    "diagnostic_only": true,
+    "source_signoff": false,
+    "steps": [
+      {
+        "name": "current exact blocked revision 9",
+        "validator_result": {
+          "change_id": "add-project-document-ownership",
+          "record_kind": "local",
+          "state": "blocked",
+          "next_action": {
+            "action": "wait",
+            "owner": "openspec-superpower-change",
+            "permission": "none",
+            "inputs": [
+              {
+                "path": "docs/review/2026-10-09-S8-resumed-implementation-plan.md",
+                "sha256": "37a657c4393993eddc462f106de22ae927de25202f741050bf2cde7d22fb851d"
+              },
+              {
+                "path": "openspec/changes/add-project-document-ownership/resume-contract-v2.md",
+                "sha256": "798ea76ff6b0dd62f59bc7062fd5acd3587bae2d55c43013ed9479a1b20e2a62"
+              }
+            ]
+          },
+          "verified_revision": null,
+          "authority_granted": false
+        },
+        "expected_rejection": false,
+        "probe_pass": true
+      },
+      {
+        "name": "legal blocked 9 to ready 10",
+        "validator_result": {
+          "change_id": "add-project-document-ownership",
+          "record_kind": "local",
+          "state": "ready-for-execution",
+          "next_action": {
+            "action": "implement",
+            "owner": "openspec-superpower-change",
+            "permission": "local-edit",
+            "inputs": [
+              {
+                "path": "docs/review/2026-10-09-S8-resumed-implementation-plan.md",
+                "sha256": "37a657c4393993eddc462f106de22ae927de25202f741050bf2cde7d22fb851d"
+              },
+              {
+                "path": "openspec/changes/add-project-document-ownership/resume-contract-v2.md",
+                "sha256": "798ea76ff6b0dd62f59bc7062fd5acd3587bae2d55c43013ed9479a1b20e2a62"
+              }
+            ]
+          },
+          "verified_revision": null,
+          "authority_granted": false
+        },
+        "expected_rejection": false,
+        "probe_pass": true
+      },
+      {
+        "name": "synthetic ready 10 to ready-for-review 11",
+        "validator_result": {
+          "change_id": "add-project-document-ownership",
+          "record_kind": "local",
+          "state": "ready-for-review",
+          "next_action": {
+            "action": "review",
+            "owner": "openspec-superpower-change",
+            "permission": "local-read",
+            "inputs": [
+              {
+                "path": "docs/review/2026-10-09-S8-resumed-implementation-plan.md",
+                "sha256": "37a657c4393993eddc462f106de22ae927de25202f741050bf2cde7d22fb851d"
+              },
+              {
+                "path": "openspec/changes/add-project-document-ownership/resume-contract-v2.md",
+                "sha256": "798ea76ff6b0dd62f59bc7062fd5acd3587bae2d55c43013ed9479a1b20e2a62"
+              }
+            ]
+          },
+          "verified_revision": null,
+          "authority_granted": false
+        },
+        "expected_rejection": false,
+        "probe_pass": true
+      },
+      {
+        "name": "implementation s8-review-01 enters persisted final verification",
+        "validator_result": {
+          "change_id": "add-project-document-ownership",
+          "record_kind": "local",
+          "state": "awaiting-final-verification",
+          "next_action": {
+            "action": "verify",
+            "owner": "openspec-superpower-change",
+            "permission": "local-read",
+            "inputs": [
+              {
+                "path": "docs/review/2026-10-09-S8-resumed-implementation-plan.md",
+                "sha256": "37a657c4393993eddc462f106de22ae927de25202f741050bf2cde7d22fb851d"
+              },
+              {
+                "path": "openspec/changes/add-project-document-ownership/resume-contract-v2.md",
+                "sha256": "798ea76ff6b0dd62f59bc7062fd5acd3587bae2d55c43013ed9479a1b20e2a62"
+              }
+            ]
+          },
+          "verified_revision": 12,
+          "authority_granted": false
+        },
+        "expected_rejection": false,
+        "probe_pass": true
+      },
+      {
+        "name": "separate s8-final-01 completes against persisted prior 12",
+        "validator_result": {
+          "change_id": "add-project-document-ownership",
+          "record_kind": "local",
+          "state": "complete",
+          "next_action": null,
+          "verified_revision": 12,
+          "authority_granted": false
+        },
+        "expected_rejection": false,
+        "probe_pass": true
+      },
+      {
+        "name": "atomic verify-review-complete rejects actual review-ready prior",
+        "rejection": "resume: terminal state or invalid revision increment",
+        "expected_rejection": true,
+        "probe_pass": true
+      },
+      {
+        "name": "wrong phase reviewer rejects",
+        "rejection": "local Review: identity/independent assignment mismatch",
+        "expected_rejection": true,
+        "probe_pass": true
+      },
+      {
+        "name": "same-byte context path rotation rejects",
+        "rejection": "resume: readonly kind/context cannot change in place",
+        "expected_rejection": true,
+        "probe_pass": true
+      },
+      {
+        "name": "freshness drift rejects",
+        "rejection": "verified inputs changed: preserve checkpoint/edits; verify current inputs before resume",
+        "expected_rejection": true,
+        "probe_pass": true
+      },
+      {
+        "name": "post-archive stable-provenance fingerprint with actual persisted prior",
+        "validator_result": {
+          "change_id": "add-project-document-ownership",
+          "record_kind": "local",
+          "state": "complete",
+          "next_action": null,
+          "verified_revision": 12,
+          "authority_granted": false
+        },
+        "expected_rejection": false,
+        "probe_pass": true
+      },
+      {
+        "name": "stable provenance mutation rejects",
+        "rejection": "verified inputs changed: preserve checkpoint/edits; verify current inputs before resume",
+        "expected_rejection": true,
+        "probe_pass": true
+      },
+      {
+        "name": "post-final CHANGELOG mutation rejects",
+        "rejection": "verified inputs changed: preserve checkpoint/edits; verify current inputs before resume",
+        "expected_rejection": true,
+        "probe_pass": true
+      }
+    ],
+    "terminal_recovery_before_archive": {
+      "change_id": "add-project-document-ownership",
+      "state": "recorded-complete",
+      "next_action": null,
+      "authority_granted": false
+    },
+    "archive_anchor": {
+      "original_context_bytes_preserved": true,
+      "redundant_archive_context_removed": true,
+      "original_change_has_only_context": true,
+      "unchanged_sidecar_direct_read_hash": "798ea76ff6b0dd62f59bc7062fd5acd3587bae2d55c43013ed9479a1b20e2a62"
+    },
+    "terminal_recovery_after_archive": {
+      "change_id": "add-project-document-ownership",
+      "state": "recorded-complete",
+      "next_action": null,
+      "authority_granted": false
+    },
+    "approval_provenance": {
+      "stable_sha256": "2d6b0763def4ac3a5fe2ec491834a70a6654c3bf303c2054cb875e7b7cec5e06",
+      "original_sha256": "233d318470241a5eb22eea9186bb372d72db6b65bf9556f6ffa818318e924873",
+      "actual_archived_bytes_match": true,
+      "grants_new_authority": false,
+      "archived_tamper_comparison_rejects": true
+    },
+    "exact_archived_private_validation": {
+      "exit_code": 0,
+      "output": "Change 'add-project-document-ownership' is valid",
+      "same_archived_files": true
+    },
+    "archive_cli_commands": [
+      {
+        "argv": [
+          "openspec",
+          "archive",
+          "add-project-document-ownership",
+          "--yes",
+          "--skip-specs"
+        ],
+        "exit_code": 0,
+        "stdout": "Task status: ✓ Complete\nSkipping spec updates (--skip-specs flag provided).\nChange 'add-project-document-ownership' archived as '2026-10-09-add-project-document-ownership'.",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "argv": [
+          "openspec",
+          "list",
+          "--json"
+        ],
+        "exit_code": 0,
+        "stdout": "{\n  \"changes\": [\n    {\n      \"name\": \"add-project-document-ownership\",\n      \"completedTasks\": 0,\n      \"totalTasks\": 0,\n      \"lastModified\": \"2026-10-09T05:31:40.331Z\",\n      \"status\": \"no-tasks\"\n    }\n  ],\n  \"root\": {\n    \"path\": \"/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S8-resumed-jd5ww5mw/s8-resumed-preflight/focused-synthetic-project\",\n    \"source\": \"nearest\"\n  }\n}",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "argv": [
+          "openspec",
+          "validate",
+          "add-project-document-ownership",
+          "--strict"
+        ],
+        "exit_code": 1,
+        "stdout": "",
+        "stderr_sha256": "5c10181b4b8c0b52158c13e5d09f4b9df2a07ff4ce7dbafcaee8094d067ba05a"
+      }
+    ],
+    "synthetic_verification_notice": "PASS-shaped fixture evidence is synthetic and diagnostic only. It proves validator behavior, not execution of six business verification commands or S8 signoff.",
+    "all_expected_diagnostic_steps_pass": true
+  },
+  "independent_checks": [
+    {
+      "command": "Existing exact source legacy inventory command from final Plan; only output redirected to owned P/legacy-focused-final.json",
+      "exit_code": 0,
+      "result": "records0 active0"
+    },
+    {
+      "command": "Existing --resume-status core validator for actual source canonical; descriptor-bound record independently validated after final Plan change",
+      "exit_code": 0,
+      "result": "blocked9/wait-none/verified-null/authorityfalse"
+    },
+    {
+      "command": "Corrected --target all verify-prestate on unchanged independently generated prototype",
+      "exit_code": 0,
+      "result": "all four actual existing target prestates pass"
+    },
+    {
+      "command": "Three exact existing companion source checks",
+      "exit_code": 0,
+      "result": "quick/template/default-python91 tests pass"
+    },
+    {
+      "command": "Private focused-probe.py actual existing validator and native openspec archive/list/strict invocations",
+      "exit_code": 0,
+      "result": "all positive and expected negative diagnostic steps pass; six PASS-shaped verification commands are synthetic diagnostic only, not source signoff"
+    },
+    {
+      "command": "76 baseline paths /44 foreign hashes, original contract/approval/context/old histories, actual HEAD/main and empty index",
+      "exit_code": 0,
+      "result": "no unauthorized drift; safe regular descriptor Plan/parent/context bindings match"
+    },
+    {
+      "command": "Full-root independent quick/core both parser/S8 strict/relevant50 tests both parsers/native mechanical feasibility evidence",
+      "result": "Reused from immutable parent only for unchanged mechanisms; six production inputs match fresh baseline, no production/test/native mechanism edit. Focused corrections do not affect native mechanics. No unnecessary full suite rerun."
+    }
+  ],
+  "native_mechanical_probe_reuse": {
+    "parent_review": {
+      "path": "docs/review/2026-10-09-S8-resumed-preflight-full.json",
+      "sha256": "8651505d62a743d6fdece91d9ed7f347a8409fce8890d218ac3734ac38898372"
+    },
+    "event_stream_sha256": "9fa86902422c398ce1c58968f561231189b78589c13421cffc9fa5acc8e7c0b7",
+    "completed_commands": 1,
+    "unknown_events": 0,
+    "home_unchanged": true,
+    "codex_home_unchanged": true,
+    "unchanged_mechanism_basis": "All six source inputs remain B baseline; four native invocation mechanics/allowlists/tool audits and fixed model/reasoning unchanged by four Plan corrections.",
+    "raw_trace_absence_verified": true
+  },
+  "accepted_residual_risks": [
+    {
+      "risk": "The intentionally retained original OpenSpec directory is visible to list as no-tasks and active-ID strict validation finds no deltas.",
+      "evidence": "Actual private native archive/list returned a sole unchanged sidecar and no-tasks; exact archived-byte private validation returned0. New Plan explicitly identifies this immutable metadata anchor and archived addressing.",
+      "impact": "Consumers must distinguish the metadata anchor from an active implementation proposal and record archived validation execution root truthfully. No readiness/completion can be inferred from no-tasks.",
+      "owner_or_decision": "Bound controller s8-control-01 owns the documented S8-only closure choice and its truthful report; no global OpenSpec behavior changes or completion-rule waiver."
+    }
+  ],
+  "read_only_limits": {
+    "source_edits": false,
+    "runtime_apply": false,
+    "canonical_signing_or_transition": false,
+    "git_writes": false,
+    "whole_task_completion_claim": false,
+    "full_post_implementation_suite_or_S8_GREEN_claim": false
+  },
+  "cleanup": {
+    "owned_private_root": "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S8-resumed-jd5ww5mw/s8-resumed-preflight",
+    "native_raw_files_removed": [
+      "native-events.jsonl",
+      "native-result.txt",
+      "native-stderr.txt"
+    ],
+    "removal_verified": true,
+    "remaining": "Sanitized results/scripts and credential-free synthetic filesystem fixtures retained only until parent copies accepted terminal evidence. Parent may remove only this reviewer-owned directory; all parent source/runtime backups untouched. No native raw trace/result/stderr retained."
+  },
+  "disposition": "PASS for final Plan37a657c readiness only. This is the one terminal same-instance FOCUSED_RECHECK, attempt2; no additional unchanged-contract Preflight is available. Root alone accepts/persists and advances actual blocked9 by legal actual-prior transition. All implementation RED/GREEN/native/sync/Implementation/fresh persisted verification/distinct Final/archive/publication/completion gates remain required; diagnostic fixtures grant no source signoff or whole-task completion."
+}

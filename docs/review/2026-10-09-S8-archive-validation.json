@@ -1,0 +1,73 @@
+{
+  "author": "elvis",
+  "change_id": "add-project-document-ownership",
+  "source_final_verification": {
+    "path": "docs/review/2026-10-09-S8-final-verification.json",
+    "sha256": "efb8dc8e0d894668cfda8bd8bed644b34d77dff3052a5e15ab77241ef879ddcc"
+  },
+  "distinct_final_review": {
+    "path": "docs/review/2026-10-09-S8-final-review.json",
+    "sha256": "f62f10a0b2cc1527fd803dde8ea3aaf77158c6aa57f429f132e26f6885b23fd5"
+  },
+  "actual_archive": {
+    "argv": [
+      "openspec",
+      "archive",
+      "add-project-document-ownership",
+      "--yes",
+      "--skip-specs"
+    ],
+    "cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change",
+    "exit_code": 0,
+    "started_at": "2026-10-09T06:32:39.908820+00:00",
+    "finished_at": "2026-10-09T06:32:40.146152+00:00",
+    "output_sha256": "ce485a75dcde98fbb4c5ecd61bb9b2572945aa37b2ad6ff6a8a0c8e7fab9e32c"
+  },
+  "archived_directory": "openspec/changes/archive/2026-10-09-add-project-document-ownership",
+  "main_spec_untouched": true,
+  "task_progress": {
+    "checked": 10,
+    "required_total": 11,
+    "pending": "3.5 authorized publication and post-push owned cleanup; checkbox will be updated only after actual cleanup"
+  },
+  "archived_file_sha256": {
+    "proposal.md": "a4e465222f68340006caae873e56194be50cc2d84f66d276df76f51ead921e9d",
+    "design.md": "a4a1409f223a37b874d313c10cec4ff89cee2ce83bb1563b4eaeca1739c49d7a",
+    "tasks.md": "ed6f674ba291eb2a3d65e470f7fd14cb9f76c902eec280c2e5c2a2acb9542fcc",
+    "specs/skill-workflow-governance/spec.md": "af075dc7bee1e39fd08c1c3913f599cbb01c9583669d44c2efd0cef917e8e56b"
+  },
+  "archived_original_approval_sha256": "233d318470241a5eb22eea9186bb372d72db6b65bf9556f6ffa818318e924873",
+  "context_original_path_sha256": "798ea76ff6b0dd62f59bc7062fd5acd3587bae2d55c43013ed9479a1b20e2a62",
+  "redundant_archived_context_absent": true,
+  "source_post_archive_strict": {
+    "argv": [
+      "openspec",
+      "validate",
+      "add-project-document-ownership",
+      "--strict"
+    ],
+    "cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change",
+    "exit_code": 1,
+    "started_at": "2026-10-09T06:32:40.147190+00:00",
+    "finished_at": "2026-10-09T06:32:40.346789+00:00",
+    "output_sha256": "5c10181b4b8c0b52158c13e5d09f4b9df2a07ff4ce7dbafcaee8094d067ba05a",
+    "interpretation": "Actual exit1 because original path holds only immutable resume metadata and no change delta. This is not a PASS and does not replace source pre-archive strict exit0."
+  },
+  "exact_archived_private_strict": {
+    "argv": [
+      "openspec",
+      "validate",
+      "add-project-document-ownership",
+      "--strict"
+    ],
+    "cwd": "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S8-resumed-jd5ww5mw/archive-validation",
+    "exit_code": 0,
+    "started_at": "2026-10-09T06:32:40.350554+00:00",
+    "finished_at": "2026-10-09T06:32:40.591298+00:00",
+    "output_sha256": "774f5a01ce2f01fe09f986029e119944e09f92a039ce1bb47fc0911344a40ff0",
+    "literal_command": "openspec validate add-project-document-ownership --strict",
+    "private_files_byte_identical_to_actual_archive": true
+  },
+  "publication_and_cleanup": "Pending at this immutable archive audit. No cleanup or complete claim from this artifact.",
+  "pass": true
+}

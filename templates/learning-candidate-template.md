@@ -28,9 +28,8 @@ decision_provenance:
 - Summarize the evidence; do not copy a full conversation or Review transcript.
 - Keep credentials, tokens, private prompts, customer data, and other sensitive
   content out of this artifact.
-- Put domain meaning in `CONTEXT.md`, engineering/agent invariants in the
-  repository-defined guidance (default `docs/engineering-invariants.md`), and
-  qualifying decisions in ADRs.
+- Select durable targets using the canonical
+  [Target resolver](../references/project-learning-closeout.md#target-resolver).
 - When behavior is mechanically enforceable, require a deterministic regression
   test or validator; prose-only documentation cannot satisfy promotion.
 - When mechanical enforcement is infeasible, require a non-blank reason and an

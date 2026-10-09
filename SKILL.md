@@ -39,6 +39,7 @@ Uncertain OpenSpec classification uses `references/openspec-decision-rule.md`.
 | Assign a reviewer or decide capability/authority | `references/agent-capability-routing.md` |
 | Edit this skill | `references/self-evolution-rule.md`; required behavioral evidence uses `references/step-evidence-gate.md` |
 | Skill iteration command | `references/skill-iteration-loop.md`; `references/self-evolution-rule.md` |
+| Create or move ordinary project documents | `references/project-learning-closeout.md` (Project Document Ownership only; placement does not trigger promotion) |
 | Correction/Review history or explicit archive and distill request | `references/project-learning-closeout.md`; candidate classification uses `references/learning-candidate-pipeline.md` |
 | Source/runtime sync | `references/sync-checklist.md`; portable changes also use `references/cross-cli-sync.md` |
 | Requested output mode or response template | `references/response-patterns.md` |
