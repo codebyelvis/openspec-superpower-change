@@ -35,7 +35,7 @@ These checkboxes track the contract and are not a Superpowers execution Plan.
   targets block completion. No manifest or target-list edits.
 - [x] 3.4 Persist fresh final verification, then obtain distinct-instance Final
   Review of source/runtime and actual acceptance evidence; no combined shortcut.
-- [ ] 3.5 Reconcile/archive and update S8 bookkeeping only after required gates;
+- [x] 3.5 Reconcile/archive and update S8 bookkeeping only after required gates;
   any Git closeout uses the applicable explicit lease for this repository only.
   Remove owned temporary backups/traces only after applicable closure succeeds.
 

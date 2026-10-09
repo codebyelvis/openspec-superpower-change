@@ -74,17 +74,241 @@
     },
     "pass": true
   },
-  "publication": "Source published; canonical closure metadata publication pending at this capture",
+  "publication": "Source and closure metadata pushes verified. Actual cleanup facts are included in the Git commit containing this artifact version; final remote equality is checked after push and reported without a self-referential commit hash.",
   "cleanup": {
-    "state": "pending",
+    "state": "complete",
     "owner": "codex/s8-control-01",
-    "declared_owned_roots": [
-      "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S8-resumed-jd5ww5mw",
-      "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S8-implementation-68h7vzmq",
-      "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S8-proposal-4xkas497"
+    "verified_absent_at": "2026-10-09T06:46:52.500339+00:00",
+    "owned_root_inventory": [
+      {
+        "declared_path": "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S8-resumed-jd5ww5mw",
+        "actual_real_path": "/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S8-resumed-jd5ww5mw",
+        "nonsymlink_containment_checked_before_actual_delete": true,
+        "actual_absent": true
+      },
+      {
+        "declared_path": "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S8-implementation-68h7vzmq",
+        "actual_real_path": "/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S8-implementation-68h7vzmq",
+        "nonsymlink_containment_checked_before_actual_delete": true,
+        "actual_absent": true
+      },
+      {
+        "declared_path": "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S8-proposal-4xkas497",
+        "actual_real_path": "/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S8-proposal-4xkas497",
+        "nonsymlink_containment_checked_before_actual_delete": true,
+        "actual_absent": true
+      }
     ],
-    "resume_condition": "After actual source and closure metadata pushes, delete only these three nonsymlink owned roots and verify final current source/archive/recovery/link/scope state"
+    "raw_native_and_reviewer_traces_receipts_backups_fixtures_removed_with_owned_roots": true,
+    "private_wrapper_correction": "Only the private normalization assertion was overescaped; actual deletion and task3.5 update occurred. Exact Git comparison and normalized approved SHA prove unchanged task prose. Final strict/parity checks remain pending at this capture.",
+    "normalized_actual_task_sha256": "d06fbfd095fe76b6485fdbf157b40211aeaa0c0a74edaa83aefcd1e2530e0354",
+    "all_declared_owned_roots_absent": true,
+    "temporary_final_validation_and_readonly_parity_plan_and_raw_inspect_removed": true
   },
   "next_backlog": "S6 upstream comparison window2027Q1; no immediate slice",
-  "captured_at": "2026-10-09T06:38:31.096252+00:00"
+  "captured_at": "2026-10-09T06:38:31.096252+00:00",
+  "closure_metadata_commit": "275c9c0642c5efd9d700d6ff4b25ffabcb3e7aa2",
+  "closure_metadata_remote_verified": "275c9c0642c5efd9d700d6ff4b25ffabcb3e7aa2",
+  "final_post_cleanup_checks": {
+    "actual_commands": [
+      {
+        "label": "final-exact-11-task-archive-strict",
+        "argv": [
+          "openspec",
+          "validate",
+          "add-project-document-ownership",
+          "--strict"
+        ],
+        "cwd": "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S8-final-validation-krj0a5gl",
+        "started_at": "2026-10-09T06:50:03.312236+00:00",
+        "finished_at": "2026-10-09T06:50:03.544916+00:00",
+        "exit_code": 0,
+        "output_sha256": "774f5a01ce2f01fe09f986029e119944e09f92a039ce1bb47fc0911344a40ff0"
+      },
+      {
+        "label": "readonly-current-parity-plan-no-apply",
+        "argv": [
+          "python3",
+          "scripts/validate_cross_cli_sync.py",
+          "plan",
+          "--manifest",
+          "references/cross-cli-portable-manifest.json",
+          "--openspec-source",
+          ".",
+          "--brief-source",
+          "/Users/elvis/file/develop/opensource/codex-brief-antigravity-review",
+          "--codex-skills-root",
+          "/Users/elvis/.codex/skills",
+          "--codex-rule-file",
+          "/Users/elvis/.codex/AGENTS.md",
+          "--pi-skills-root",
+          "/Users/elvis/.pi/agent/skills",
+          "--pi-rule-file",
+          "/Users/elvis/.pi/agent/APPEND_SYSTEM.md",
+          "--antigravity-skills-root",
+          "/Users/elvis/.gemini/antigravity-cli/skills",
+          "--antigravity-rule-file",
+          "/Users/elvis/.gemini/GEMINI.md",
+          "--grok-skills-root",
+          "/Users/elvis/.grok/skills",
+          "--grok-rule-file",
+          "/Users/elvis/.grok/AGENTS.md",
+          "--select-file",
+          "openspec-superpower-change:SKILL.md",
+          "--select-file",
+          "openspec-superpower-change:references/project-learning-closeout.md",
+          "--select-file",
+          "openspec-superpower-change:templates/learning-candidate-template.md",
+          "--select-file",
+          "openspec-superpower-change:scripts/validate_core_gates.py",
+          "--output",
+          "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S8-final-validation-krj0a5gl/readonly-current-parity-plan.json"
+        ],
+        "cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change",
+        "started_at": "2026-10-09T06:50:03.545022+00:00",
+        "finished_at": "2026-10-09T06:50:03.725195+00:00",
+        "exit_code": 0,
+        "output_sha256": "6ea6c7d688d3be3b198d9395cbfa7606d0010b8aa5a167f78dab14222f7388e7"
+      },
+      {
+        "label": "final-readonly-grok-user-discovery",
+        "argv": [
+          "grok",
+          "inspect",
+          "--json"
+        ],
+        "cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change",
+        "started_at": "2026-10-09T06:50:03.757310+00:00",
+        "exit_code": 0,
+        "output_sha256": "c0d0e92e20f5412bf03bab4f97bab457d157016f3ef8ad3d8b227215586af2bd",
+        "raw_0600_consumed": true,
+        "source_type": "user",
+        "source_root": "/Users/elvis/.grok/skills"
+      },
+      {
+        "label": "final-postcleanup-source-quick",
+        "argv": [
+          "/opt/anaconda3/bin/python3",
+          "/Users/elvis/.codex-account-a/skills/.system/skill-creator/scripts/quick_validate.py",
+          "."
+        ],
+        "cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change",
+        "started_at": "2026-10-09T06:50:03.954544+00:00",
+        "finished_at": "2026-10-09T06:50:03.991589+00:00",
+        "exit_code": 0,
+        "output_sha256": "db349825903d66adffea3ecf1bd8e1803043e8a71cf1a051235dabc5371f5bb0"
+      },
+      {
+        "label": "final-postcleanup-core-fallback",
+        "argv": [
+          "python3",
+          "scripts/validate_core_gates.py",
+          "."
+        ],
+        "cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change",
+        "started_at": "2026-10-09T06:50:03.991636+00:00",
+        "finished_at": "2026-10-09T06:50:04.068159+00:00",
+        "exit_code": 0,
+        "output_sha256": "d0c3710506d14833fcb03a19decc83a24dd1cb9739786182fcbd9496df6a3bc0"
+      },
+      {
+        "label": "final-postcleanup-core-yaml",
+        "argv": [
+          "/opt/anaconda3/bin/python3",
+          "scripts/validate_core_gates.py",
+          "."
+        ],
+        "cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change",
+        "started_at": "2026-10-09T06:50:04.068210+00:00",
+        "finished_at": "2026-10-09T06:50:04.152810+00:00",
+        "exit_code": 0,
+        "output_sha256": "d0c3710506d14833fcb03a19decc83a24dd1cb9739786182fcbd9496df6a3bc0"
+      }
+    ],
+    "archive_file_sha256": {
+      "proposal.md": "a4e465222f68340006caae873e56194be50cc2d84f66d276df76f51ead921e9d",
+      "design.md": "a4a1409f223a37b874d313c10cec4ff89cee2ce83bb1563b4eaeca1739c49d7a",
+      "tasks.md": "e87c1cf2b6fec9a8f8c4c03b695379a342eebd311cf1cf1cada427e732bc7fd0",
+      "specs/skill-workflow-governance/spec.md": "af075dc7bee1e39fd08c1c3913f599cbb01c9583669d44c2efd0cef917e8e56b"
+    },
+    "all_11_tasks_checked": true,
+    "normalized_task_sha256_equals_original_approved": "d06fbfd095fe76b6485fdbf157b40211aeaa0c0a74edaa83aefcd1e2530e0354",
+    "exact_current_task_delta_from_published_archive10": "3.5 checkbox only",
+    "canonical_same_sha256": "83f8736fd600b09576af248147e8f64488b4d088bcfc03992d4bc2418578b556",
+    "canonical_recovery": {
+      "change_id": "add-project-document-ownership",
+      "state": "recorded-complete",
+      "next_action": null,
+      "authority_granted": false
+    },
+    "all_20_frozen_inputs_current": true,
+    "foreign44_baseline_byte_check_before_owned_deletion_passed": true,
+    "foreign44_current_git_status_paths_preserved": true,
+    "foreign44_postcleanup_snapshot_sha256": "fa62e01c9dbaea627c3592aa811168ca420a0ae0eaf16af47b3604b4f511238d",
+    "foreign44_snapshot_unchanged_during_final_validation": true,
+    "deletion_contained_outside_project_and_only_owned_task3_5_written_before_wrapper_failure": true,
+    "prior_S1_S7_and_S9_backlog_rows_preserved": true,
+    "prior_log_rows_preserved": true,
+    "owned_markdown_links_checked": [
+      "docs/review/2026-10-08-S8-project-document-ownership-draft.md",
+      "docs/review/2026-10-09-S8-learning-closeout.md",
+      "docs/review/2026-10-09-S8-resumed-implementation-plan.md",
+      "docs/review/2026-10-08-S8-blocked-status.md",
+      "docs/review/2026-10-08-S8-implementation-plan.md",
+      "docs/review/2026-10-08-S8-project-document-ownership-proposal-validation.md",
+      "openspec/changes/archive/2026-10-09-add-project-document-ownership/approval.md",
+      "openspec/changes/archive/2026-10-09-add-project-document-ownership/tasks.md",
+      "openspec/changes/archive/2026-10-09-add-project-document-ownership/design.md",
+      "openspec/changes/archive/2026-10-09-add-project-document-ownership/proposal.md",
+      "openspec/changes/archive/2026-10-09-add-project-document-ownership/specs/skill-workflow-governance/spec.md",
+      "docs/iteration/CURRENT.md",
+      "templates/learning-candidate-template.md"
+    ],
+    "runtime_current_full_closure_audit": {
+      "read_only_current_plan_sha256": "6db1695a84595d46fd8671acd0f95c0cfe14e2342b23e192a55e75d6d392908b",
+      "purpose": "Read-only current parity audit after the original already-committed receipts were removed. No new apply, authority or substitute transaction signoff. Original sync545707 and verify-all remain established by immutable sync/Implementation/Final records and actual pre-deletion verify-all.",
+      "targets": [
+        {
+          "target": "codex",
+          "root": "/Users/elvis/.codex/skills",
+          "selected": 4,
+          "asserted": 36,
+          "actual_current_full_closure_parity": true,
+          "managed_rule_selected": false,
+          "current_whole_rule_sha256": "6893724a7f95510882fc5ac616c063d1446f2c3dbe1e136e0feffa1d933a19cc"
+        },
+        {
+          "target": "pi",
+          "root": "/Users/elvis/.pi/agent/skills",
+          "selected": 4,
+          "asserted": 36,
+          "actual_current_full_closure_parity": true,
+          "managed_rule_selected": false,
+          "current_whole_rule_sha256": "a6be2edf44714a802aaeeede6dd2e65cd9e3f4e542a64d57c383a2e5c38e5c5f"
+        },
+        {
+          "target": "antigravity-cli",
+          "root": "/Users/elvis/.gemini/antigravity-cli/skills",
+          "selected": 4,
+          "asserted": 36,
+          "actual_current_full_closure_parity": true,
+          "managed_rule_selected": false,
+          "current_whole_rule_sha256": "7fde09daec9bc5d56754a058a32ec48f983bae0898f59453ae00ca1853982006"
+        },
+        {
+          "target": "grok-cli",
+          "root": "/Users/elvis/.grok/skills",
+          "selected": 4,
+          "asserted": 36,
+          "actual_current_full_closure_parity": true,
+          "managed_rule_selected": false,
+          "current_whole_rule_sha256": "5114a280dec4d4b47d66540ae872b1e55b1d21eae18439f185695d640d6f29be"
+        }
+      ],
+      "grok_current_user_discovery_pass": true,
+      "runtime_writes": false
+    },
+    "current_idle": true
+  },
+  "completed_at": "2026-10-09T06:50:04.191248+00:00"
 }
