@@ -1,0 +1,122 @@
+{
+  "author": "elvis",
+  "change_id": "support-stage-specific-resume-review",
+  "source_commit": "605a09937df3f8acb7762ba2277a97d2203e5e59",
+  "source_push_exit_code": 0,
+  "remote_source_tip_verified": "605a09937df3f8acb7762ba2277a97d2203e5e59",
+  "source_staged_files": 28,
+  "source_staged_hash_inventory_sha256": "d5ae63e0e910315f7092549175f369c99ceb4a689c82cf670654689f457a979b",
+  "s9_canonical_transition": {
+    "actual_root": "/root",
+    "bound_owner": {
+      "agent_product": "codex",
+      "agent_instance_id": "s8-control-01",
+      "agent_role": "control-plane",
+      "capability_profile": "control-plane-high"
+    },
+    "actual_prior_sha256": "e582db0b26ac54dc130d24fecb4a0565da272f63073ffab5ac98d56ec879f3c3",
+    "prior_revision": 7,
+    "actual_persisted_verification_preserved": true,
+    "persisted_verified_revision": 7,
+    "accepted_final_review_sha256": "f3d11ee9c80dffd5aa9705051a88a06460270ed3398cfed1dd0ed8f24997b9fa",
+    "new_revision": 8,
+    "new_canonical_sha256": "28039543f9785a0375d1b71450cf6719f96712305e5ebdbd2028478c5a0f020b",
+    "validation_commands": [
+      {
+        "command": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/validate_core_gates.py . --resume-status /var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn/s9-complete-proposed.md --artifact-root . --previous-status docs/agent-collab/support-stage-specific-resume-review/status.md --resume-actor s8-control-01",
+        "exit_code": 0,
+        "facts": {
+          "authority_granted": false,
+          "change_id": "support-stage-specific-resume-review",
+          "next_action": null,
+          "record_kind": "local",
+          "state": "complete",
+          "verified_revision": 7
+        },
+        "output_sha256": "458627fe3898f9b882a17a2a15ac0fedf981b2f728c48f10fd95f44665ef1427"
+      },
+      {
+        "command": "PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python3 scripts/validate_core_gates.py . --resume-status /var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn/s9-complete-proposed.md --artifact-root . --previous-status docs/agent-collab/support-stage-specific-resume-review/status.md --resume-actor s8-control-01",
+        "exit_code": 0,
+        "facts": {
+          "authority_granted": false,
+          "change_id": "support-stage-specific-resume-review",
+          "next_action": null,
+          "record_kind": "local",
+          "state": "complete",
+          "verified_revision": 7
+        },
+        "output_sha256": "458627fe3898f9b882a17a2a15ac0fedf981b2f728c48f10fd95f44665ef1427"
+      }
+    ],
+    "prior_bytes_rechecked_immediately_before_atomic_replace": true,
+    "read_only_recovery": {
+      "change_id": "support-stage-specific-resume-review",
+      "state": "recorded-complete",
+      "next_action": null,
+      "authority_granted": false
+    }
+  },
+  "s8_readonly_recovery": {
+    "change_id": "add-project-document-ownership",
+    "record_kind": "local",
+    "state": "blocked",
+    "next_action": {
+      "action": "wait",
+      "owner": "openspec-superpower-change",
+      "permission": "none",
+      "inputs": [
+        {
+          "path": "docs/review/2026-10-09-S9-stage-review-binding-draft.md",
+          "sha256": "cd91309ccb8161ce0139baead004ad7284fb3fc78b016338849d95034f964c08"
+        }
+      ]
+    },
+    "verified_revision": null,
+    "authority_granted": false
+  },
+  "publication_scope": "S9-only; entire active S8 graph/newcontext/status and44 unrelated local files excluded",
+  "metadata_publication": "pending; only owned bookkeeping, no implementation changes",
+  "cleanup": "pending until required metadata publication; S9 implementation/proposal/private traces only; preserve two S8 backups",
+  "authority_granted": false,
+  "fresh_owned_metadata_checks": {
+    "exact_archived_files": {
+      "design.md": "e2206d3f0bef80a635c4102eee94a3bcd86af80894a2d8fdd69f525664f472bb",
+      "proposal.md": "833851ce05cfc18ea88f4b6eae577523b0887f66be3a4b19f0d3ce1c7195a89e",
+      "specs/skill-workflow-governance/spec.md": "4151536cbdd3cb668bfc1b2a5af2b6e00a11a197890db1694f27b3c13b9ac1f0",
+      "tasks.md": "35653a7b3ac7086b2e912622c26dd2b48eea75ee0edcb408f042ccf77de7200c"
+    },
+    "S1_S7_rows_unchanged": true,
+    "stable_verified_inputs_unchanged": 15,
+    "results": [
+      {
+        "command": "openspec validate support-stage-specific-resume-review --strict --no-interactive",
+        "execution_root": "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn/archive-validation",
+        "exit_code": 0,
+        "output_sha256": "f545585d64cd680c1f950fdbe0f9b4db1b88a534571759e957fee28175d2fbf6",
+        "output": "Change 'support-stage-specific-resume-review' is valid"
+      },
+      {
+        "command": "python3 /var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn/check-scope.py",
+        "execution_root": "/Users/elvis/file/develop/opensource/openspec-superpower-change",
+        "exit_code": 0,
+        "output_sha256": "2563941ebed36ae3cf5328f36d88a8d8a08ebcb653e2c10dc60f46c337f43ad2",
+        "output": "{\"result\": \"pass\", \"unrelated_unchanged\": 44, \"original_s8_artifacts_unchanged\": 11, \"approved_s9_contracts_preserved\": 4, \"resolved_local_links\": 13, \"checked_baseline_files\": 86}"
+      },
+      {
+        "command": "python3 scripts/validate_cross_cli_sync.py verify-all --plan /var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn/sync-plan.json --transaction-root /var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn/transactions",
+        "execution_root": "/Users/elvis/file/develop/opensource/openspec-superpower-change",
+        "exit_code": 0,
+        "output_sha256": "7bfeb8743a334e9117a9003128d812d0f4a581e38bf8125af26bc6b19608f34e",
+        "output": "{\"targets\": [\"codex\", \"pi\", \"antigravity-cli\", \"grok-cli\"], \"verify_all\": \"pass\"}"
+      },
+      {
+        "command": "git diff --check -- docs/iteration docs/agent-collab/support-stage-specific-resume-review docs/review/2026-10-09-S9-publication-closeout.json openspec/changes/archive/2026-10-09-support-stage-specific-resume-review",
+        "execution_root": "/Users/elvis/file/develop/opensource/openspec-superpower-change",
+        "exit_code": 0,
+        "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "output": ""
+      }
+    ]
+  }
+}

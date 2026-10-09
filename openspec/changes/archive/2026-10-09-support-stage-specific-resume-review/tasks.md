@@ -47,7 +47,7 @@ Author: elvis. Status: proposal only; all approval/implementation/closure gates 
 - [x] 5.3 Verify S8 remains blocked with no readiness/completion authority, record
   its later fresh-lineage resume condition; perform the learning audit, fresh final
   verification and separate independent Final Review covering the actual final diff.
-- [ ] 5.4 Reconcile/archive/strict-validate S9 only, update CHANGELOG and iteration
+- [x] 5.4 Reconcile/archive/strict-validate S9 only, update CHANGELOG and iteration
   state, then scoped source commit/current-branch push using the specific lease;
   preserve all S8/unrelated dirty work outside this approved amendment.
 - [ ] 5.5 After push clean S9 temporary rollback/trace artifacts, retain S8 backups

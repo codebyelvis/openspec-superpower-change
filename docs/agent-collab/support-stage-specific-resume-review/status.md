@@ -13,8 +13,8 @@ Author: elvis. Canonical local checkpoint; no new authority.
     "mode": "self-evolution",
     "approval_status": "approved",
     "risk_profile": "strict",
-    "contract_revision": 7,
-    "lifecycle_state": "awaiting-final-verification",
+    "contract_revision": 8,
+    "lifecycle_state": "complete",
     "control_plane_owner": {
       "agent_product": "codex",
       "agent_instance_id": "s8-control-01",
@@ -81,23 +81,13 @@ Author: elvis. Canonical local checkpoint; no new authority.
       {
         "path": "docs/review/2026-10-09-S9-amended-implementation-review.json",
         "sha256": "098734587aa21c9c8d131372a57cf5a7e637e4555ceb1d4f8c11f3417aed45b1"
+      },
+      {
+        "path": "docs/review/2026-10-09-S9-final-review-full.json",
+        "sha256": "f3d11ee9c80dffd5aa9705051a88a06460270ed3398cfed1dd0ed8f24997b9fa"
       }
     ],
-    "next_action": {
-      "action": "review",
-      "owner": "openspec-superpower-change",
-      "permission": "local-read",
-      "inputs": [
-        {
-          "path": "docs/review/2026-10-09-S9-final-verification.json",
-          "sha256": "ea4dffec751593c5b9e34a21b79b88a81c9243041c077dcc792168ccd4eb37b7"
-        },
-        {
-          "path": "docs/review/2026-10-09-S9-amended-implementation-review.json",
-          "sha256": "098734587aa21c9c8d131372a57cf5a7e637e4555ceb1d4f8c11f3417aed45b1"
-        }
-      ]
-    },
+    "next_action": null,
     "verified_revision": {
       "revision": 7,
       "inputs": {
