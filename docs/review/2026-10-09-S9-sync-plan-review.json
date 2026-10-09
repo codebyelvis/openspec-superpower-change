@@ -1,0 +1,434 @@
+{
+  "author": "elvis",
+  "review_kind": "bounded sync-plan Review; separate from Preflight and Final",
+  "review_result": "PASS",
+  "evidence_role": "sync-plan-review",
+  "evidence_result": "pass",
+  "change_id": "support-stage-specific-resume-review",
+  "contract_revision": 4,
+  "canonical_sha256": "8905bb9cc295be4eca87b31f042ee747a87c33d686d2d30509abceeea9c8acb2",
+  "plan_sha256": "3aefd51f077d607ab88d6e248b78e833eed8340a76fa23c2f9f9a2c1495d3827",
+  "plan_path": "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn/sync-plan.json",
+  "agent_identity": {
+    "agent_product": "codex",
+    "agent_instance_id": "s9-review-01",
+    "agent_role": "independent-reviewer",
+    "capability_profile": "control-plane-high"
+  },
+  "reviewer_assignment": {
+    "review_purpose": {
+      "object": "S9 stage-specific resume implementation and separate final gates",
+      "decision": "decide pass, fail or blocked at the independently reviewed implementation or final gate"
+    },
+    "agent_product": "codex",
+    "agent_instance_id": "s9-review-01",
+    "agent_role": "independent-reviewer",
+    "capability_profile": "control-plane-high",
+    "independence_requirement": {
+      "kind": "distinct-contract-instance",
+      "distinct_from": [
+        "control_plane_owner",
+        "executor_assignment"
+      ]
+    },
+    "result_authority": "governed-review-evidence"
+  },
+  "actual_tool_instance": "/root/s9_review",
+  "model_metadata": {
+    "model": "gpt-6.1-sol",
+    "reasoning": "high",
+    "authority_effect": "none"
+  },
+  "review_timestamp_utc": "2026-10-09T03:59:59.047788+00:00",
+  "finding_completeness": true,
+  "actionable_findings": [],
+  "authorization": {
+    "specific_approval_record": "docs/review/2026-10-09-S9-stage-review-binding-draft.md",
+    "specific_approval_sha256": "cd91309ccb8161ce0139baead004ad7284fb3fc78b016338849d95034f964c08",
+    "implementation_plan": "docs/review/2026-10-09-S9-implementation-plan.md",
+    "implementation_plan_sha256": "5af17584cb0e658470efb9c78a7594c38f52dd4ef613353594fff081db2956e8",
+    "accepted_implementation_review": "docs/review/2026-10-09-S9-implementation-review-full.json",
+    "accepted_implementation_review_sha256": "cb8ef5134967fb5eecdb3f41ffd37060d7783d7ef075c81f11d4476f95c47fef",
+    "selection": "Only two existing portable files under approved S9 single-round four-target scope. No target/manifest/global/companion changes. Source whole-task or future amendment/Final signoff not inferred."
+  },
+  "full_plan_review": {
+    "result": "pass",
+    "plan_sha256": "3aefd51f077d607ab88d6e248b78e833eed8340a76fa23c2f9f9a2c1495d3827",
+    "schema_version": 2,
+    "selection": {
+      "files": [
+        {
+          "path": "references/approved-implementation-workflow.md",
+          "skill": "openspec-superpower-change"
+        },
+        {
+          "path": "scripts/validate_core_gates.py",
+          "skill": "openspec-superpower-change"
+        }
+      ],
+      "managed_rule": false
+    },
+    "targets": {
+      "codex": {
+        "skills_root": "/Users/elvis/.codex/skills",
+        "selected_mutations": [
+          {
+            "destination": "/Users/elvis/.codex/skills/openspec-superpower-change/references/approved-implementation-workflow.md",
+            "path": "references/approved-implementation-workflow.md",
+            "pre_state": {
+              "kind": "file",
+              "mode": 420,
+              "sha256": "a93475a946d7c392ef3b9b36441bcadc4a6b6991887ae41d2c1043ceb094f3b3"
+            },
+            "sha256": "dfe2e62423123f559dae184e823282b31d1dd05afeab517fa482d939166b3b8a",
+            "skill": "openspec-superpower-change",
+            "source_alias": "openspec"
+          },
+          {
+            "destination": "/Users/elvis/.codex/skills/openspec-superpower-change/scripts/validate_core_gates.py",
+            "path": "scripts/validate_core_gates.py",
+            "pre_state": {
+              "kind": "file",
+              "mode": 493,
+              "sha256": "8c0844c1ede850109965ead76831b5bceaea434482342739f53a4186198d7959"
+            },
+            "sha256": "5e078403b4275a911b8476af994cd5d7052ac3ea49aafa1040832cea0fd3ca53",
+            "skill": "openspec-superpower-change",
+            "source_alias": "openspec"
+          }
+        ],
+        "assertions_count": 38,
+        "all_sources_destinations_prestates_verified": true,
+        "asserted_full_closure_parity": true,
+        "managed_rule_selected": false,
+        "managed_rule_path": "/Users/elvis/.codex/AGENTS.md",
+        "global_file_sha256": "6893724a7f95510882fc5ac616c063d1446f2c3dbe1e136e0feffa1d933a19cc",
+        "outside_managed_bytes_sha256": "9b76194e795ac169ac7f8865f5dd577066b17260f80f3f2ae2760449dbe02660",
+        "canonical_managed_body_sha256": "0040153a954ab0a6599e3eb951e8fa6b7715710745616f1f404904bf056c11d2",
+        "managed_rule_version": 6,
+        "native_outside_preservation": "No global mutation operation; full-file prestate bound and rechecked. Existing transaction restores selected file bytes only."
+      },
+      "pi": {
+        "skills_root": "/Users/elvis/.pi/agent/skills",
+        "selected_mutations": [
+          {
+            "destination": "/Users/elvis/.pi/agent/skills/openspec-superpower-change/references/approved-implementation-workflow.md",
+            "path": "references/approved-implementation-workflow.md",
+            "pre_state": {
+              "kind": "file",
+              "mode": 384,
+              "sha256": "a93475a946d7c392ef3b9b36441bcadc4a6b6991887ae41d2c1043ceb094f3b3"
+            },
+            "sha256": "dfe2e62423123f559dae184e823282b31d1dd05afeab517fa482d939166b3b8a",
+            "skill": "openspec-superpower-change",
+            "source_alias": "openspec"
+          },
+          {
+            "destination": "/Users/elvis/.pi/agent/skills/openspec-superpower-change/scripts/validate_core_gates.py",
+            "path": "scripts/validate_core_gates.py",
+            "pre_state": {
+              "kind": "file",
+              "mode": 448,
+              "sha256": "8c0844c1ede850109965ead76831b5bceaea434482342739f53a4186198d7959"
+            },
+            "sha256": "5e078403b4275a911b8476af994cd5d7052ac3ea49aafa1040832cea0fd3ca53",
+            "skill": "openspec-superpower-change",
+            "source_alias": "openspec"
+          }
+        ],
+        "assertions_count": 38,
+        "all_sources_destinations_prestates_verified": true,
+        "asserted_full_closure_parity": true,
+        "managed_rule_selected": false,
+        "managed_rule_path": "/Users/elvis/.pi/agent/APPEND_SYSTEM.md",
+        "global_file_sha256": "a6be2edf44714a802aaeeede6dd2e65cd9e3f4e542a64d57c383a2e5c38e5c5f",
+        "outside_managed_bytes_sha256": "e4abf854c6e2dff5e0b7c41497e510b60ef140812dc37925a1e03384ce459c63",
+        "canonical_managed_body_sha256": "0040153a954ab0a6599e3eb951e8fa6b7715710745616f1f404904bf056c11d2",
+        "managed_rule_version": 6,
+        "native_outside_preservation": "No global mutation operation; full-file prestate bound and rechecked. Existing transaction restores selected file bytes only."
+      },
+      "antigravity-cli": {
+        "skills_root": "/Users/elvis/.gemini/antigravity-cli/skills",
+        "selected_mutations": [
+          {
+            "destination": "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change/references/approved-implementation-workflow.md",
+            "path": "references/approved-implementation-workflow.md",
+            "pre_state": {
+              "kind": "file",
+              "mode": 420,
+              "sha256": "a93475a946d7c392ef3b9b36441bcadc4a6b6991887ae41d2c1043ceb094f3b3"
+            },
+            "sha256": "dfe2e62423123f559dae184e823282b31d1dd05afeab517fa482d939166b3b8a",
+            "skill": "openspec-superpower-change",
+            "source_alias": "openspec"
+          },
+          {
+            "destination": "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change/scripts/validate_core_gates.py",
+            "path": "scripts/validate_core_gates.py",
+            "pre_state": {
+              "kind": "file",
+              "mode": 493,
+              "sha256": "8c0844c1ede850109965ead76831b5bceaea434482342739f53a4186198d7959"
+            },
+            "sha256": "5e078403b4275a911b8476af994cd5d7052ac3ea49aafa1040832cea0fd3ca53",
+            "skill": "openspec-superpower-change",
+            "source_alias": "openspec"
+          }
+        ],
+        "assertions_count": 38,
+        "all_sources_destinations_prestates_verified": true,
+        "asserted_full_closure_parity": true,
+        "managed_rule_selected": false,
+        "managed_rule_path": "/Users/elvis/.gemini/GEMINI.md",
+        "global_file_sha256": "7fde09daec9bc5d56754a058a32ec48f983bae0898f59453ae00ca1853982006",
+        "outside_managed_bytes_sha256": "cbc153bcc0c72c6af34e79d1f8c318460224d0e0c07c2a9c5c04df1a8b04657e",
+        "canonical_managed_body_sha256": "0040153a954ab0a6599e3eb951e8fa6b7715710745616f1f404904bf056c11d2",
+        "managed_rule_version": 6,
+        "native_outside_preservation": "No global mutation operation; full-file prestate bound and rechecked. Existing transaction restores selected file bytes only."
+      },
+      "grok-cli": {
+        "skills_root": "/Users/elvis/.grok/skills",
+        "selected_mutations": [
+          {
+            "destination": "/Users/elvis/.grok/skills/openspec-superpower-change/references/approved-implementation-workflow.md",
+            "path": "references/approved-implementation-workflow.md",
+            "pre_state": {
+              "kind": "file",
+              "mode": 420,
+              "sha256": "a93475a946d7c392ef3b9b36441bcadc4a6b6991887ae41d2c1043ceb094f3b3"
+            },
+            "sha256": "dfe2e62423123f559dae184e823282b31d1dd05afeab517fa482d939166b3b8a",
+            "skill": "openspec-superpower-change",
+            "source_alias": "openspec"
+          },
+          {
+            "destination": "/Users/elvis/.grok/skills/openspec-superpower-change/scripts/validate_core_gates.py",
+            "path": "scripts/validate_core_gates.py",
+            "pre_state": {
+              "kind": "file",
+              "mode": 420,
+              "sha256": "8c0844c1ede850109965ead76831b5bceaea434482342739f53a4186198d7959"
+            },
+            "sha256": "5e078403b4275a911b8476af994cd5d7052ac3ea49aafa1040832cea0fd3ca53",
+            "skill": "openspec-superpower-change",
+            "source_alias": "openspec"
+          }
+        ],
+        "assertions_count": 38,
+        "all_sources_destinations_prestates_verified": true,
+        "asserted_full_closure_parity": true,
+        "managed_rule_selected": false,
+        "managed_rule_path": "/Users/elvis/.grok/AGENTS.md",
+        "global_file_sha256": "5114a280dec4d4b47d66540ae872b1e55b1d21eae18439f185695d640d6f29be",
+        "outside_managed_bytes_sha256": "0579cdbb098b439c1e3a7f32871df3b9d9dd1a9cd41897dcce2b9e6d590b5545",
+        "canonical_managed_body_sha256": "0040153a954ab0a6599e3eb951e8fa6b7715710745616f1f404904bf056c11d2",
+        "managed_rule_version": 6,
+        "native_outside_preservation": "No global mutation operation; full-file prestate bound and rechecked. Existing transaction restores selected file bytes only."
+      }
+    },
+    "entire_plan_validated_against_manifest_and_exact_approved_roots": true,
+    "commands": [
+      {
+        "label": "independent all-target verify-prestate",
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "/Users/elvis/file/develop/opensource/openspec-superpower-change/scripts/validate_cross_cli_sync.py",
+          "verify-prestate",
+          "--plan",
+          "/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn/sync-plan.json",
+          "--target",
+          "all"
+        ],
+        "exit_code": 0,
+        "output_sha256": "30785d2e2471530fe731d1ce5e4ddc0544ccf2dbd0f27410d635c1ccb0ab9717",
+        "summary": "{\"prestate\": \"pass\", \"targets\": [\"codex\", \"pi\", \"antigravity-cli\", \"grok-cli\"]}"
+      },
+      {
+        "label": "independent known-root legacy inventory",
+        "argv": [
+          "/opt/homebrew/opt/python@3.14/bin/python3.14",
+          "/Users/elvis/file/develop/opensource/openspec-superpower-change/scripts/validate_core_gates.py",
+          "/Users/elvis/file/develop/opensource/openspec-superpower-change",
+          "--legacy-inventory-root",
+          "/Users/elvis/file/develop/opensource/openspec-superpower-change",
+          "--legacy-inventory-root",
+          "/Users/elvis/file/develop/opensource/codex-brief-antigravity-review",
+          "--legacy-inventory-root",
+          "/Users/elvis/.codex/skills/openspec-superpower-change",
+          "--legacy-inventory-root",
+          "/Users/elvis/.codex/skills/codex-brief-antigravity-review",
+          "--legacy-inventory-root",
+          "/Users/elvis/.pi/agent/skills/openspec-superpower-change",
+          "--legacy-inventory-root",
+          "/Users/elvis/.pi/agent/skills/codex-brief-antigravity-review",
+          "--legacy-inventory-root",
+          "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change",
+          "--legacy-inventory-root",
+          "/Users/elvis/.gemini/antigravity-cli/skills/codex-brief-antigravity-review",
+          "--legacy-inventory-root",
+          "/Users/elvis/.grok/skills/openspec-superpower-change",
+          "--legacy-inventory-root",
+          "/Users/elvis/.grok/skills/codex-brief-antigravity-review",
+          "--legacy-inventory-output",
+          "/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn/s9-review/legacy-independent.json"
+        ],
+        "exit_code": 0,
+        "output_sha256": "128abab2088f0ea4c0a6f01c391cbebe8040ac04b4a2ab9c22e9b58e10c30a54",
+        "summary": "{\"active_legacy_count\":0,\"legacy_audit\":\"pass\",\"records\":[]}\nCore gates valid: /Users/elvis/file/develop/opensource/openspec-superpower-change"
+      }
+    ],
+    "legacy_inventory_roots": [
+      "/Users/elvis/file/develop/opensource/openspec-superpower-change",
+      "/Users/elvis/file/develop/opensource/codex-brief-antigravity-review",
+      "/Users/elvis/.codex/skills/openspec-superpower-change",
+      "/Users/elvis/.codex/skills/codex-brief-antigravity-review",
+      "/Users/elvis/.pi/agent/skills/openspec-superpower-change",
+      "/Users/elvis/.pi/agent/skills/codex-brief-antigravity-review",
+      "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change",
+      "/Users/elvis/.gemini/antigravity-cli/skills/codex-brief-antigravity-review",
+      "/Users/elvis/.grok/skills/openspec-superpower-change",
+      "/Users/elvis/.grok/skills/codex-brief-antigravity-review"
+    ],
+    "legacy_inventory": {
+      "active_legacy_count": 0,
+      "legacy_audit": "pass",
+      "records": []
+    },
+    "tamper_probes": [
+      {
+        "case": "selected source hash substitution",
+        "result": "rejected",
+        "reason": "scoped operation binding is stale or tampered: codex"
+      },
+      {
+        "case": "drop unselected assertion",
+        "result": "rejected",
+        "reason": "scoped assertion closure is stale or tampered: codex"
+      },
+      {
+        "case": "duplicate selected selector",
+        "result": "rejected",
+        "reason": "scoped selection contains a duplicate file"
+      },
+      {
+        "case": "selected destination retarget",
+        "result": "rejected",
+        "reason": "scoped destination is stale or tampered: codex"
+      },
+      {
+        "case": "coherent global destination and prestate retarget",
+        "result": "rejected",
+        "reason": "scoped global rule destination is stale or tampered: codex"
+      },
+      {
+        "case": "selected target prestate drift",
+        "result": "rejected",
+        "reason": "destination pre-state drift: codex:openspec-superpower-change/references/approved-implementation-workflow.md"
+      },
+      {
+        "case": "unselected target prestate drift",
+        "result": "rejected",
+        "reason": "destination pre-state drift: codex:openspec-superpower-change/SKILL.md"
+      },
+      {
+        "case": "unselected global prestate drift",
+        "result": "rejected",
+        "reason": "destination pre-state drift: codex:global-rule"
+      },
+      {
+        "case": "extra unreviewed target",
+        "result": "rejected",
+        "reason": "scoped sync plan sources or targets are invalid"
+      }
+    ],
+    "tamper_probe_count": 9,
+    "all_target_files_and_globals_unchanged": true
+  },
+  "command_results": [
+    {
+      "label": "independent all-target verify-prestate",
+      "argv": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "/Users/elvis/file/develop/opensource/openspec-superpower-change/scripts/validate_cross_cli_sync.py",
+        "verify-prestate",
+        "--plan",
+        "/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn/sync-plan.json",
+        "--target",
+        "all"
+      ],
+      "exit_code": 0,
+      "output_sha256": "30785d2e2471530fe731d1ce5e4ddc0544ccf2dbd0f27410d635c1ccb0ab9717",
+      "summary": "{\"prestate\": \"pass\", \"targets\": [\"codex\", \"pi\", \"antigravity-cli\", \"grok-cli\"]}"
+    },
+    {
+      "label": "independent known-root legacy inventory",
+      "argv": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "/Users/elvis/file/develop/opensource/openspec-superpower-change/scripts/validate_core_gates.py",
+        "/Users/elvis/file/develop/opensource/openspec-superpower-change",
+        "--legacy-inventory-root",
+        "/Users/elvis/file/develop/opensource/openspec-superpower-change",
+        "--legacy-inventory-root",
+        "/Users/elvis/file/develop/opensource/codex-brief-antigravity-review",
+        "--legacy-inventory-root",
+        "/Users/elvis/.codex/skills/openspec-superpower-change",
+        "--legacy-inventory-root",
+        "/Users/elvis/.codex/skills/codex-brief-antigravity-review",
+        "--legacy-inventory-root",
+        "/Users/elvis/.pi/agent/skills/openspec-superpower-change",
+        "--legacy-inventory-root",
+        "/Users/elvis/.pi/agent/skills/codex-brief-antigravity-review",
+        "--legacy-inventory-root",
+        "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change",
+        "--legacy-inventory-root",
+        "/Users/elvis/.gemini/antigravity-cli/skills/codex-brief-antigravity-review",
+        "--legacy-inventory-root",
+        "/Users/elvis/.grok/skills/openspec-superpower-change",
+        "--legacy-inventory-root",
+        "/Users/elvis/.grok/skills/codex-brief-antigravity-review",
+        "--legacy-inventory-output",
+        "/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn/s9-review/legacy-independent.json"
+      ],
+      "exit_code": 0,
+      "output_sha256": "128abab2088f0ea4c0a6f01c391cbebe8040ac04b4a2ab9c22e9b58e10c30a54",
+      "summary": "{\"active_legacy_count\":0,\"legacy_audit\":\"pass\",\"records\":[]}\nCore gates valid: /Users/elvis/file/develop/opensource/openspec-superpower-change"
+    }
+  ],
+  "rollback_and_apply_assessment": {
+    "result": "PASS",
+    "reviewed_existing_functions": [
+      "scripts/validate_cross_cli_sync.py::_validate_scoped_plan",
+      "::_assert_target_prestate",
+      "::_target_candidate_entries",
+      "::apply_target",
+      "::_restore_target_locked",
+      "::restore_target"
+    ],
+    "per_target_order": [
+      "codex",
+      "pi",
+      "antigravity-cli",
+      "grok-cli"
+    ],
+    "apply_guards": "Root alone applies reviewed digest. Existing prior-target verified guard, full selected-plus-asserted/global prestate check before backup, selected-only candidate/backup operations and durable receipt before mutation preserved. Each receipt binds this whole-plan digest and candidate/preimage closure.",
+    "rollback": "Only selected target entries restored through existing verified backup/receipt and admissible preimage/candidate identities; restoration verifies reviewed modes/hashes. Unknown state fails closed with recovery-blocked evidence; later targets remain stopped. No manual copy or unselected/global writes.",
+    "native_global_preservation": "Managed global operation selected:false for every target; entire current file hash/mode is bound. Independent parity and prefix/suffix hashes captured privately, no raw native/global text output.",
+    "discovery": "Root must run existing per-target content/discovery/commit and final verify-all. Pi native process is not called. Grok inspect must remain private mode0600 and use current user or eligible prior same-plan configToml evidence; no config/auth inspection."
+  },
+  "accepted_phase_limitations": [
+    "Review PASS covers this exact whole-plan digest and observed target prestates only. Any source, selection, plan or target-prestate drift blocks apply until properly reviewed.",
+    "Repeat known-root legacy inventory immediately before first apply; current independent inventory active0 is not a future drain waiver.",
+    "No apply, receipts, runtime verification/discovery, actual S8 amendment, later same-stage Implementation re-Review, Final, publication or whole-task completion has been performed or authorized by this reviewer output."
+  ],
+  "private_artifacts": {
+    "owned_root": "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn/s9-review",
+    "probe_script": "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn/s9-review/sync-plan-probe.py",
+    "probe_script_sha256": "050cc3f18e585e281cdfa49566944da2a6f82622dd0503752d5c44df64e2584a",
+    "probe_results": "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn/s9-review/sync-plan-probe-results.json",
+    "probe_results_sha256": "c5480e02be28dbf47fa861957c38856b8ee203389ac8d89cc0453288c3e94f08",
+    "cleanup": "Preserve until root accepts and original proof/rollback cleanup conditions are satisfied."
+  },
+  "source_runtime_target_receipt_git_mutations": false,
+  "authority_granted": false,
+  "whole_task_complete": false
+}

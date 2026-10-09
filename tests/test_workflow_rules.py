@@ -4860,6 +4860,297 @@ class ProjectSessionResumeTests(unittest.TestCase):
         final["progress"]["completed"].append(self._write("final-review.json", json.dumps(review)))
         self.assertEqual(self._validate(final, previous_text=self._render(verified))["state"], "complete")
 
+    def _stage_assignments(self):
+        implementation = standard_reviewer_assignment("codex", "stage-implementation-01")
+        final = standard_reviewer_assignment("codex", "stage-final-01")
+        final["review_purpose"] = {"object": "persisted final verification", "decision": "decide final gate"}
+        final["independence_requirement"]["distinct_from"].append("implementation_reviewer")
+        return {"implementation-review": implementation, "final-review": final}
+
+    def _stage_workflow(self):
+        self.context.update(risk_profile="strict", reviewer_assignment=self._stage_assignments())
+        ready = self._record()
+        ready["governance"]["lifecycle_state"] = "ready-for-review"
+        verified = self._record(True)
+        self._stage_review(verified, "implementation-review", ready)
+        final = copy.deepcopy(verified)
+        final["governance"].update(contract_revision=3, lifecycle_state="complete")
+        final["progress"]["next_action"] = None
+        self._stage_review(final, "final-review", verified)
+        return ready, verified, final
+
+    def _stage_review(self, record, role, previous, assignment=None, **overrides):
+        assignment = copy.deepcopy(assignment or self.context["reviewer_assignment"][role])
+        evidence = {
+            "evidence_role": role, "evidence_result": "pass", "change_id": self.change,
+            "contract_revision": previous["governance"]["contract_revision"],
+            "source_fingerprint": record["progress"]["verified_revision"]["fingerprint"],
+            "canonical_sha256": hashlib.sha256(self._render(previous).encode()).hexdigest(),
+            "agent_identity": {key: assignment[key] for key in self.owner},
+            "reviewer_assignment": assignment,
+        }
+        evidence.update(overrides)
+        ref = self._write(role + ".json", json.dumps(evidence))
+        record["progress"]["completed"] = [r for r in record["progress"]["completed"]
+                                             if r["path"] != ref["path"]] + [ref]
+
+    def _amendment(self):
+        self.context.update(mode="self-evolution", approval_status="approved", risk_profile="strict",
+                            reviewer_assignment=self._stage_assignments()["implementation-review"])
+        before = self._record()
+        before["governance"].update(lifecycle_state="blocked", blocked_reason="distinct Final unavailable",
+                                    blocker_owner="openspec-superpower-change", resume_condition="approved amendment")
+        before["progress"].update(plan=self._write("plan.md", "# Retained Plan\n"),
+                                  completed=[self._write("history.md", "# Retained history\n")],
+                                  next_action={"action": "wait", "owner": "openspec-superpower-change",
+                                               "permission": "none", "inputs": []})
+        old_context = copy.deepcopy(self.context)
+        self.context["reviewer_assignment"] = self._stage_assignments()
+        after = copy.deepcopy(before)
+        after["governance"]["contract_revision"] += 1
+        after["progress"]["contract"] = self._write("context-v2.md", "## Resume Context\n\n```json\n" + json.dumps(self.context) + "\n```\n")
+        parent = copy.deepcopy(old_context)
+        parent["change_id"] = "approved-stage-amendment"
+        parent["allowed_actions"]["amend-review-binding"] = "local-edit"
+        authorization = {
+            "amendment_kind": "strict-local-reviewer-binding", "change_id": self.change,
+            "previous_contract": before["progress"]["contract"], "next_contract_path": "context-v2.md",
+            "reviewer_assignment": copy.deepcopy(self.context["reviewer_assignment"]),
+        }
+        approval = self._approval_ref(parent, authorization)
+        return before, after, approval, old_context, parent, authorization
+
+    def _approval_ref(self, parent, authorization):
+        return self._write("amendment-approval.md", "## Resume Context\n\n```json\n" + json.dumps(parent)
+                           + "\n```\n\n## Resume Amendment Authorization\n\n```json\n"
+                           + json.dumps(authorization) + "\n```\n")
+
+    def test_strict_stage_assignments_support_distinct_reviewers_and_recovery(self):
+        ready, verified, final = self._stage_workflow()
+        self.assertEqual(self._validate(verified, previous_text=self._render(ready))["state"], "awaiting-final-verification")
+        self.assertEqual(self._validate(verified)["verified_revision"], 2)
+        self.assertEqual(self._validate(final, previous_text=self._render(verified))["state"], "complete")
+        self._write(f"docs/agent-collab/{self.change}/status.md", self._render(final))
+        recovered = self.validator.recover_project_session(self.root, change_id=self.change)
+        self.assertEqual(recovered["state"], "recorded-complete")
+        self.assertFalse(recovered["authority_granted"])
+
+    def test_stage_assignment_shape_and_eligibility_fail_closed(self):
+        base = self._stage_assignments()
+        mutations = [None, {}, {"implementation-review": base["implementation-review"]},
+                     {**base, "extra": None}, {**base, "agent_product": "codex"},
+                     {**base, "final-review": None}]
+        for field, value in (("agent_product", "unknown"), ("agent_role", "executor"),
+                             ("capability_profile", "execution-low"), ("result_authority", "completion"),
+                             ("review_purpose", {"object": "", "decision": "pass"}),
+                             ("agent_instance_id", self.owner["agent_instance_id"]),
+                             ("agent_instance_id", base["implementation-review"]["agent_instance_id"]),
+                             ("independence_requirement", base["implementation-review"]["independence_requirement"])):
+            bad = copy.deepcopy(base); bad["final-review"][field] = value; mutations.append(bad)
+        for bad in mutations:
+            with self.subTest(assignment=bad), self.assertRaises(AssertionError):
+                self.context.update(risk_profile="strict", reviewer_assignment=bad)
+                self._validate(self._record())
+        self.context.update(risk_profile="strict", reviewer_assignment=base)
+        record = self._record()
+        context_text = (self.root / "contract.md").read_text().replace('"final-review":', '"final-review": null, "final-review":', 1)
+        record["progress"]["contract"] = self._write("contract.md", context_text)
+        with self.assertRaisesRegex(AssertionError, "duplicate"):
+            self._validate(record)
+
+    def test_stage_forms_do_not_change_other_resume_profiles(self):
+        for profile in ("compact", "standard"):
+            with self.subTest(profile=profile), self.assertRaises(AssertionError):
+                self.context.update(risk_profile=profile, reviewer_assignment=self._stage_assignments())
+                self._validate(self._record())
+        self.context.update(risk_profile="standard", reviewer_assignment=standard_reviewer_assignment("codex", "legacy-review"))
+        self.assertEqual(self._validate(self._record())["state"], "ready-for-execution")
+        self.context.update(risk_profile="compact", reviewer_assignment=None)
+        self.assertEqual(self._validate(self._record())["state"], "ready-for-execution")
+
+    def test_stage_completion_rejects_wrong_stage_and_stale_evidence(self):
+        for role, field, value in (
+            ("final-review", "assignment", "implementation-review"),
+            ("implementation-review", "assignment", "final-review"),
+            ("final-review", "canonical_sha256", "0" * 64),
+            ("final-review", "contract_revision", 1),
+            ("final-review", "source_fingerprint", "0" * 64),
+            ("final-review", "evidence_result", "blocked"),
+        ):
+            with self.subTest(role=role, field=field), self.assertRaises(AssertionError):
+                ready, verified, final = self._stage_workflow()
+                record, previous = (final, verified) if role == "final-review" else (verified, ready)
+                if field == "assignment":
+                    self._stage_review(record, role, previous, self.context["reviewer_assignment"][value])
+                else:
+                    self._stage_review(record, role, previous, **{field: value})
+                self._validate(record, previous_text=self._render(previous))
+        ready, verified, final = self._stage_workflow()
+        with self.assertRaisesRegex(AssertionError, "previous|verification|revision"):
+            self._validate(final, previous_text=self._render(ready))
+
+    def test_stage_terminal_recovery_revalidates_both_reviews(self):
+        for role in ("implementation-review", "final-review"):
+            with self.subTest(missing=role), self.assertRaises(AssertionError):
+                _, _, final = self._stage_workflow()
+                final["progress"]["completed"] = [r for r in final["progress"]["completed"] if r["path"] != role + ".json"]
+                self._write(f"docs/agent-collab/{self.change}/status.md", self._render(final))
+                self.validator.recover_project_session(self.root, change_id=self.change)
+        _, verified, final = self._stage_workflow()
+        self._stage_review(final, "final-review", verified, self.context["reviewer_assignment"]["implementation-review"])
+        self._write(f"docs/agent-collab/{self.change}/status.md", self._render(final))
+        with self.assertRaisesRegex(AssertionError, "assignment"):
+            self.validator.recover_project_session(self.root, change_id=self.change)
+        _, verified, final = self._stage_workflow()
+        self._stage_review(final, "final-review", verified, contract_revision=1)
+        self._write(f"docs/agent-collab/{self.change}/status.md", self._render(final))
+        with self.assertRaisesRegex(AssertionError, "revision|persisted"):
+            self.validator.recover_project_session(self.root, change_id=self.change)
+
+    def test_explicit_approved_stage_context_amendment_preserves_blocked_history(self):
+        import inspect
+        self.assertIn("amendment_approval", inspect.signature(self.validator.validate_resume_record).parameters)
+        before, after, approval, _, _, _ = self._amendment()
+        old_bytes = (self.root / "contract.md").read_bytes()
+        result = self._validate(after, previous_text=self._render(before), actor=self.owner, amendment_approval=approval)
+        self.assertEqual(result["state"], "blocked")
+        self.assertIsNone(result["verified_revision"])
+        self.assertFalse(result["authority_granted"])
+        self.assertEqual((self.root / "contract.md").read_bytes(), old_bytes)
+        self.assertEqual(after["progress"]["completed"], before["progress"]["completed"])
+        self.assertEqual(self._validate(after)["state"], "blocked")
+        with self.assertRaisesRegex(AssertionError, "context"):
+            self._validate(after, previous_text=self._render(before))
+
+    def test_amendment_preserves_context_authority_and_canonical_fields(self):
+        for field, value in (("goal", "new scope"), ("plan", None), ("completed", []),
+                             ("next_action", {"action": "wait", "owner": "openspec-superpower-change", "permission": "none", "inputs": []})):
+            before, after, approval, _, _, _ = self._amendment()
+            if field == "next_action":
+                value = copy.deepcopy(value); value["inputs"] = [after["progress"]["plan"]]
+            after["progress"][field] = value
+            with self.subTest(progress=field), self.assertRaises(AssertionError):
+                self._validate(after, previous_text=self._render(before), amendment_approval=approval)
+        for field, value in (("blocked_reason", "changed blocker"), ("resume_condition", "run now"),
+                             ("blocker_owner", "user"), ("contract_revision", 3)):
+            before, after, approval, _, _, _ = self._amendment()
+            after["governance"][field] = value
+            with self.subTest(governance=field), self.assertRaises(AssertionError):
+                self._validate(after, previous_text=self._render(before), amendment_approval=approval)
+        for field, value in (("allowed_actions", {"wait": "none", "deploy": "production-write"}),
+                             ("verification_commands", ["true"]),
+                             ("control_plane_owner", {**self.owner, "agent_instance_id": "replacement"})):
+            before, after, approval, _, _, _ = self._amendment()
+            self.context[field] = value
+            after["progress"]["contract"] = self._write("context-v2.md", "## Resume Context\n\n```json\n" + json.dumps(self.context) + "\n```\n")
+            with self.subTest(context=field), self.assertRaises(AssertionError):
+                self._validate(after, previous_text=self._render(before), amendment_approval=approval)
+
+    def test_amendment_requires_approved_exact_scope_and_safe_hashes(self):
+        for field, value in (("amendment_kind", "anything"), ("change_id", "different"),
+                             ("previous_contract", {"path": "contract.md", "sha256": "0" * 64}),
+                             ("next_contract_path", "contract.md"), ("next_contract_path", "../outside.md"),
+                             ("reviewer_assignment", {}), ("extra", True)):
+            before, after, _, _, parent, authorization = self._amendment()
+            authorization[field] = value
+            approval = self._approval_ref(parent, authorization)
+            with self.subTest(authorization=field), self.assertRaises(AssertionError):
+                self._validate(after, previous_text=self._render(before), amendment_approval=approval)
+        for field, value in (("approval_status", "proposed"), ("mode", "direct-change"),
+                             ("risk_profile", "standard"), ("record_kind", "external"),
+                             ("control_plane_owner", {**self.owner, "agent_instance_id": "different"}),
+                             ("allowed_actions", {"wait": "none"})):
+            before, after, _, _, parent, authorization = self._amendment()
+            parent[field] = value
+            with self.subTest(parent=field), self.assertRaises(AssertionError):
+                self._validate(after, previous_text=self._render(before), amendment_approval=self._approval_ref(parent, authorization))
+        before, after, approval, _, _, _ = self._amendment()
+        for bad in (None, {**approval, "sha256": "0" * 64}, {**approval, "extra": True},
+                    {**approval, "path": "../escape.md"}):
+            with self.subTest(approval=bad), self.assertRaises(AssertionError):
+                self._validate(after, previous_text=self._render(before), amendment_approval=bad)
+        (self.root / "approval-link.md").symlink_to(self.root / "amendment-approval.md")
+        with self.assertRaisesRegex(AssertionError, "symlink|unsafe"):
+            self._validate(after, previous_text=self._render(before), amendment_approval={**approval, "path": "approval-link.md"})
+        approval_text = (self.root / approval["path"]).read_text().replace('"amendment_kind":', '"amendment_kind": null, "amendment_kind":', 1)
+        with self.assertRaisesRegex(AssertionError, "duplicate"):
+            self._validate(after, previous_text=self._render(before), amendment_approval=self._write(approval["path"], approval_text))
+
+    def test_amendment_rejects_wrong_lifecycle_and_verified_previous(self):
+        for state in ("ready-for-execution", "awaiting-final-verification", "complete"):
+            before, after, approval, _, _, _ = self._amendment()
+            before["governance"].update(lifecycle_state=state, blocked_reason=None, blocker_owner="none", resume_condition=None)
+            with self.subTest(state=state), self.assertRaises(AssertionError):
+                self._validate(after, previous_text=self._render(before), amendment_approval=approval)
+        before, after, approval, old_context, _, _ = self._amendment()
+        self.context = copy.deepcopy(old_context)
+        verified = self._record(True)["progress"]["verified_revision"]
+        before["governance"]["contract_revision"] = 2
+        before["progress"]["verified_revision"] = verified
+        after["governance"]["contract_revision"] = 3
+        self.assertEqual(self._validate(before)["verified_revision"], 2)
+        with self.assertRaisesRegex(AssertionError, "unverified"):
+            self._validate(after, previous_text=self._render(before), amendment_approval=approval)
+        before, after, approval, _, _, authorization = self._amendment()
+        changed = copy.deepcopy(self.context)
+        changed["reviewer_assignment"]["implementation-review"]["review_purpose"]["object"] = "changed historical purpose"
+        after["progress"]["contract"] = self._write("context-v2.md", "## Resume Context\n\n```json\n" + json.dumps(changed) + "\n```\n")
+        with self.assertRaises(AssertionError):
+            self._validate(after, previous_text=self._render(before), amendment_approval=approval)
+
+    def test_amendment_requires_actual_previous_and_never_external_status(self):
+        before, after, approval, _, _, _ = self._amendment()
+        with self.assertRaisesRegex(AssertionError, "previous"):
+            self._validate(after, amendment_approval=approval)
+        unchanged = copy.deepcopy(before); unchanged["governance"]["contract_revision"] += 1
+        with self.assertRaises(AssertionError):
+            self._validate(unchanged, previous_text=self._render(before), amendment_approval=approval)
+        (self.root / "contract.md").write_text("stale previous context")
+        with self.assertRaisesRegex(AssertionError, "sha256"):
+            self._validate(after, previous_text=self._render(before), amendment_approval=approval)
+        handoff = (ROOT / "references/handoff-contract.md").read_text()
+        external = compact_schema6_contract(self.validator, handoff)
+        self.change, self.owner = external["change_id"], external["control_plane_owner"]
+        self.context.update(change_id=self.change, record_kind="external", mode=external["mode"],
+                            approval_status=external["approval_status"], risk_profile=external["risk_profile"],
+                            control_plane_owner=self.owner, reviewer_assignment=external["reviewer_assignment"])
+        lease = WorkflowRulesTest._lease_artifact_text(self, risk_profile="compact")
+        external["confirmation_lease"]["sha256"] = self._write(external["confirmation_lease"]["path"], lease)["sha256"]
+        local = self._record()
+        local["progress"]["next_action"]["owner"] = external["next_owner"]
+        record = {"record_kind": "external", "contract_revision": external["contract_revision"], "progress": local["progress"]}
+        text = render_handoff_contract(self.validator, external) + self._render(record)
+        self.assertEqual(self.validator.validate_resume_record(text, self.root)["record_kind"], "external")
+        with self.assertRaisesRegex(AssertionError, "external"):
+            self.validator.validate_resume_record(text, self.root, previous_text=text, amendment_approval=approval)
+
+    def test_resume_amendment_cli_binding_and_option_exclusions(self):
+        before, after, approval, _, _, _ = self._amendment()
+        status = self.root / f"docs/agent-collab/{self.change}/status.md"
+        self._write(status.relative_to(self.root).as_posix(), self._render(before))
+        proposed = self.root / "proposed.md"
+        proposed.write_text(self._render(after))
+        argv = ["validator", str(ROOT), "--resume-status", str(proposed), "--artifact-root", str(self.root),
+                "--previous-status", str(status), "--resume-amendment-approval", json.dumps(approval)]
+        with mock.patch("sys.stdout"):
+            self.assertEqual(self.validator.main(argv), 0)
+        self.assertEqual(status.read_text(), self._render(before))
+        for removed in ("--previous-status", "--artifact-root", "--resume-status"):
+            invalid = argv.copy(); index = invalid.index(removed); del invalid[index:index + 2]
+            with self.subTest(missing=removed), mock.patch("sys.stderr"), self.assertRaises(SystemExit) as raised:
+                self.validator.parse_args(invalid)
+            self.assertEqual(raised.exception.code, 2)
+        invalid = argv.copy(); invalid[invalid.index("--resume-status")] = "--status"
+        with mock.patch("sys.stderr"), self.assertRaises(SystemExit):
+            self.validator.parse_args(invalid)
+        duplicate = argv.copy(); duplicate[-1] = '{"path":"amendment-approval.md","path":"contract.md","sha256":"' + approval["sha256"] + '"}'
+        with mock.patch("sys.stdout"), self.assertRaisesRegex(AssertionError, "duplicate"):
+            self.validator.main(duplicate)
+        drift = copy.deepcopy(before); drift["governance"]["contract_revision"] += 1
+        status.write_text(self._render(drift))
+        with mock.patch("sys.stdout"), self.assertRaises(AssertionError):
+            self.validator.main(argv)
+
     def test_malformed_action_uses_bounded_validation_error(self):
         record = self._record()
         record["progress"]["next_action"]["action"] = []

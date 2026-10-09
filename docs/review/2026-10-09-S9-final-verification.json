@@ -1,0 +1,94 @@
+{
+  "author": "elvis",
+  "evidence_role": "final-verification",
+  "evidence_result": "pass",
+  "change_id": "support-stage-specific-resume-review",
+  "contract_revision": 7,
+  "source_fingerprint": "d6142d0fd652c45ef187c90f3f3cf4a4ec26963ac4d3a161370c753ce522f078",
+  "agent_identity": {
+    "agent_product": "codex",
+    "agent_instance_id": "s8-control-01",
+    "agent_role": "control-plane",
+    "capability_profile": "control-plane-high"
+  },
+  "commands": {
+    "PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python3 /Users/elvis/.codex-account-a/skills/.system/skill-creator/scripts/quick_validate.py .": 0,
+    "PYTHONDONTWRITEBYTECODE=1 python3 scripts/validate_core_gates.py .": 0,
+    "PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python3 scripts/validate_core_gates.py .": 0,
+    "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s tests -v": 0,
+    "PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python3 -m unittest discover -s tests -v": 0,
+    "OPENSPEC_TELEMETRY=0 openspec validate support-stage-specific-resume-review --strict --no-interactive": 0,
+    "git diff --check -- references/approved-implementation-workflow.md scripts/validate_core_gates.py tests/test_workflow_rules.py CHANGELOG.md docs/iteration": 0
+  },
+  "actual_command_results": [
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python3 /Users/elvis/.codex-account-a/skills/.system/skill-creator/scripts/quick_validate.py .",
+      "exit_code": 0,
+      "elapsed_seconds": 0.05,
+      "output_sha256": "db349825903d66adffea3ecf1bd8e1803043e8a71cf1a051235dabc5371f5bb0",
+      "tests": null
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/validate_core_gates.py .",
+      "exit_code": 0,
+      "elapsed_seconds": 0.08,
+      "output_sha256": "d0c3710506d14833fcb03a19decc83a24dd1cb9739786182fcbd9496df6a3bc0",
+      "tests": null
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python3 scripts/validate_core_gates.py .",
+      "exit_code": 0,
+      "elapsed_seconds": 0.08,
+      "output_sha256": "d0c3710506d14833fcb03a19decc83a24dd1cb9739786182fcbd9496df6a3bc0",
+      "tests": null
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s tests -v",
+      "exit_code": 0,
+      "elapsed_seconds": 28.6,
+      "output_sha256": "38bf494b8302a9d4836b796a3daaf3173ebe3ebbc3ce1c8bf7c831621e2bc646",
+      "tests": 461
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python3 -m unittest discover -s tests -v",
+      "exit_code": 0,
+      "elapsed_seconds": 27.57,
+      "output_sha256": "6a0c66e1be64d72b9b215f4a62cf0c789fb2caacc2afbdd5be502bcab9aa8eb6",
+      "tests": 461
+    },
+    {
+      "command": "OPENSPEC_TELEMETRY=0 openspec validate support-stage-specific-resume-review --strict --no-interactive",
+      "exit_code": 0,
+      "elapsed_seconds": 0.25,
+      "output_sha256": "f545585d64cd680c1f950fdbe0f9b4db1b88a534571759e957fee28175d2fbf6",
+      "tests": null
+    },
+    {
+      "command": "git diff --check -- references/approved-implementation-workflow.md scripts/validate_core_gates.py tests/test_workflow_rules.py CHANGELOG.md docs/iteration",
+      "exit_code": 0,
+      "elapsed_seconds": 0.03,
+      "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "tests": null
+    }
+  ],
+  "captured_at": "2026-10-09T04:10:38.946076+00:00",
+  "freshness": "after final implementation, actual scoped S8 amendment and last learning clarification; applicable independent Implementation re-Review passed",
+  "actual_S8_snapshot_matches_immutable_proof": true,
+  "scoped_inputs": {
+    "CHANGELOG.md": "b8778eb3212f7f98bcc1a758703de9a1ffe8fe8c37232779f2e1e4358f4a66cb",
+    "references/approved-implementation-workflow.md": "dfe2e62423123f559dae184e823282b31d1dd05afeab517fa482d939166b3b8a",
+    "scripts/validate_core_gates.py": "5e078403b4275a911b8476af994cd5d7052ac3ea49aafa1040832cea0fd3ca53",
+    "tests/test_workflow_rules.py": "3c51123bdf4dca7ea36c96b68524b514c5e048c2f307debbd8feb3361c3be260",
+    "docs/review/2026-10-09-S9-stage-review-binding-draft.md": "cd91309ccb8161ce0139baead004ad7284fb3fc78b016338849d95034f964c08",
+    "docs/review/2026-10-09-S9-implementation-plan.md": "5af17584cb0e658470efb9c78a7594c38f52dd4ef613353594fff081db2956e8",
+    "docs/review/2026-10-09-S9-preflight-full.json": "bdc27a31f79c885a2973381b133bea3b654ca11fd637876ad3fba077964400b7",
+    "docs/review/2026-10-09-S9-red-green.json": "09b1d45d97e1a21ce58ee19a13249398043efe011a78550db873b50ff7dc5dfd",
+    "docs/review/2026-10-09-S9-implementation-verification.json": "7480f1de380f5f8fb6cc2a207068be90627e371ba04b627e4b946850beb636cd",
+    "docs/review/2026-10-09-S9-implementation-review-full.json": "cb8ef5134967fb5eecdb3f41ffd37060d7783d7ef075c81f11d4476f95c47fef",
+    "docs/review/2026-10-09-S9-sync-plan-review.json": "386a533b780950199a8f0d79f3fb0f167c1b0e967e646b245fd3173083714f45",
+    "docs/review/2026-10-09-S9-runtime-sync.json": "82cef86d3ef6fe561a34b230a30a9368ef81996cb31c38ea5abd67b25d25c990",
+    "docs/review/2026-10-09-S9-S8-amendment-proof.json": "020335bfd76313a74598d4493b74f34076c21c0bbd5b84e6cd161c10a530b893",
+    "docs/review/2026-10-09-S9-learning-closeout.md": "dcff2419cabd0f2df1d470768f605e2d53296a6ead9f58cafac28dce2ee5b866",
+    "docs/review/2026-10-09-S9-review-history.md": "78e779eef22cca66c2f6b54e623ac08a227eb95df27e6984a9f3665596179a4c"
+  }
+}

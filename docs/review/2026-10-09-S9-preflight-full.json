@@ -1,0 +1,226 @@
+{
+  "review_mode": "FULL_PREFLIGHT",
+  "review_result": "PASS",
+  "change_id": "support-stage-specific-resume-review",
+  "finding_completeness": true,
+  "lineage_root_revision": {
+    "path": "docs/review/2026-10-09-S9-implementation-plan.md",
+    "sha256": "5af17584cb0e658470efb9c78a7594c38f52dd4ef613353594fff081db2956e8"
+  },
+  "reviewed_revision": {
+    "path": "docs/review/2026-10-09-S9-implementation-plan.md",
+    "sha256": "5af17584cb0e658470efb9c78a7594c38f52dd4ef613353594fff081db2956e8"
+  },
+  "parent_review": null,
+  "attempt": 1,
+  "reviewer_identity": {
+    "agent_product": "codex",
+    "agent_instance_id": "s9-preflight-01",
+    "agent_role": "independent-reviewer",
+    "capability_profile": "control-plane-high"
+  },
+  "review_assignment": {
+    "review_purpose": {
+      "object": "Complete approved S9 implementation Plan and readiness evidence",
+      "decision": "Return independent FULL_PREFLIGHT PASS or BLOCKED"
+    },
+    "agent_product": "codex",
+    "agent_instance_id": "s9-preflight-01",
+    "agent_role": "independent-reviewer",
+    "capability_profile": "control-plane-high",
+    "independence_requirement": {
+      "kind": "distinct-contract-instance",
+      "distinct_from": [
+        "control_plane_owner",
+        "executor_assignment"
+      ]
+    },
+    "result_authority": "governed-review-evidence"
+  },
+  "actual_tool_instance": "/root/s9_preflight",
+  "model_metadata": {
+    "model": "gpt-6.1-sol",
+    "reasoning": "high",
+    "authority_effect": "none"
+  },
+  "same_reviewer_instance": false,
+  "declared_correction_set": [],
+  "protected_boundaries": {
+    "scope_and_contract": {
+      "result": "PASS",
+      "evidence": "Read all four approved S9 artifacts and complete Plan. Proposal, design and spec match approved hashes; tasks differ only by 1.1 and 1.2 checkbox progress."
+    },
+    "acceptance_and_risk": {
+      "result": "PASS",
+      "evidence": "Major strict profile retained. Exact-shape admission, both-stage validation, actual previous binding, blocked-only amendment, compatibility, native proof, dual-parser full suite, independent Implementation/Final Review and four-target sync are explicit."
+    },
+    "authority_and_assignments": {
+      "result": "PASS",
+      "evidence": "Actual controller/author/executor remains /root, contract instance s8-control-01. This reviewer is independent. S9 old-format bootstrap expressly permits s9-review-01 at separate implementation/final gates; S8 retains distinct s8-review-01 and s8-final-01."
+    },
+    "allowed_and_forbidden_files": {
+      "result": "PASS",
+      "evidence": "Production edits limited to owned resume reference, resume validator/API/CLI, existing resume test class and CHANGELOG. S9 bookkeeping and sole S8 context/status amendment are scoped. All 44 unrelated regular files and 11 original S8 contract/review files checked unchanged."
+    },
+    "branch_and_workspace": {
+      "result": "PASS",
+      "evidence": "Given source root retained without cd or repository search. Read .git/HEAD directly: ref: refs/heads/main. Plan preserves authorized current-main workspace and explicitly excludes unowned files from staging."
+    },
+    "database_production_credentials_and_external_effects": {
+      "result": "PASS",
+      "evidence": "No production/business datasource requirement arises. Plan forbids production, credential copying/config changes, other repositories and external messaging. Native private fixtures retain configured authentication without identity switching."
+    },
+    "git_publication_and_deployment": {
+      "result": "PASS",
+      "evidence": "Specific fixed-command approval grants only this repository's S9 scoped add/commit/current-branch push after gates. Excluding the entire incomplete S8 graph, including its new context/status, is a narrower publication choice; immutable sanitized S9 amendment proof retains reviewed historical facts."
+    },
+    "approval_record_and_archive_binding": {
+      "result": "PASS",
+      "evidence": "Existing stable review draft owns factual specific approval, old-format context and exact amendment authorization. Its whole-file hash is cd91309ccb8161ce0139baead004ad7284fb3fc78b016338849d95034f964c08. This path remains resolvable after S9 OpenSpec archive and does not replace the four-artifact contract."
+    },
+    "source_bootstrap_and_previous_bindings": {
+      "result": "PASS",
+      "evidence": "Actual copied S9 revision 1 and S8 revision 3 validate as blocked, wait/none, verified_revision null, authority_granted false. Ordinary same-context proposed transition binds actual canonical previous; CLI rejects prior drift and identity substitution."
+    },
+    "amendment_guards": {
+      "result": "PASS",
+      "evidence": "Approved authorization binds exact old S8 approval hash, new path and full mapping. Plan preserves all context facts except assignment and all canonical facts except contract ref/revision+1, validates actual previous, checks concurrent equality before replacement, preserves history and keeps blocked."
+    },
+    "step_order_and_completion": {
+      "result": "PASS",
+      "evidence": "Preflight precedes implementation. RED precedes production edit. Source proof and Implementation Review precede reviewed sync. Sync precedes S8 amendment; learning and actual amendment precede fresh final verification and separate Final Review. Archive validation and publication remain mandatory before closure."
+    },
+    "sync_targets_paths_and_rollback": {
+      "result": "PASS",
+      "evidence": "Actual private schema-v2 plan generation and verify-prestate pass for Codex, Pi, Antigravity CLI and Grok CLI at exact declared roots. Selection contains exactly approved-implementation-workflow.md and validate_core_gates.py; managed_rule false. Plan retains full unselected assertions, canonical rule destinations, receipt/discovery/commit gates and selected-only restore."
+    },
+    "executability_and_stop_conditions": {
+      "result": "PASS",
+      "evidence": "Existing validator/test extension points and current CLI option handling inspected. codex exec --help confirms declared ephemeral/config/rules/model/sandbox/output options. Native harness and new feature tests are explicit future Task 2/4 deliverables, not missing current readiness implementation. Required failure, scope and rollback stops are defined."
+    }
+  },
+  "mechanical_self_check": {
+    "result": "PASS",
+    "root_current_paths_identical": true,
+    "root_current_sha256_equal": true,
+    "current_bound_files_regular_non_symlink": true,
+    "reviewer_distinct_from_author_and_executor": true,
+    "approval_hash_rechecked": true,
+    "approved_contract_hashes_rechecked": true,
+    "placeholders_resolved_by_declared_task": true,
+    "protected_boundaries_complete": true,
+    "repository_or_runtime_mutations": false,
+    "git_commands_executed": false,
+    "private_probe_assertion_corrections": "Corrected reviewer-owned diagnostic and inventory assumptions, including canonical temporary path resolution. These were private probe/reporting corrections; successful final probe exit was 0."
+  },
+  "blocking_findings": [],
+  "non_blocking_recommendations": [],
+  "accepted_residual_risks": [
+    {
+      "risk": "Synthetic fixture approvals and Review values establish consistency, not real authorization or independent source signoff.",
+      "evidence": "Approved design and Plan explicitly retain actual independent source Reviews and audited native tool/file/command proof.",
+      "impact": "Preflight does not establish GREEN, runtime parity after changes, amendment execution or completion.",
+      "owner": "codex/s8-control-01",
+      "decision": "Accepted phase limitation; required implementation and final gates remain pending."
+    },
+    {
+      "risk": "S8 remains incomplete and intentionally unpublished during this S9 round.",
+      "evidence": "Plan publishes S9-owned immutable sanitized amendment facts, excludes active S8 graph, and binds S9 fingerprint to owned source and immutable amendment proof.",
+      "impact": "S8 needs its own fresh changed-binding readiness and authorized closure; future S8 mutable status must not invalidate S9 historical verification.",
+      "owner": "codex/s8-control-01",
+      "decision": "Accepted scoped publication boundary consistent with approved metadata-only amendment."
+    }
+  ],
+  "command_evidence": [
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python3 /Users/elvis/.codex-account-a/skills/.system/skill-creator/scripts/quick_validate.py .",
+      "exit_code": 0,
+      "result": "Skill is valid!"
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/validate_core_gates.py .",
+      "exit_code": 0,
+      "result": "Core gates valid; dependency-free interpreter."
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python3 scripts/validate_core_gates.py .",
+      "exit_code": 0,
+      "result": "Core gates valid; PyYAML interpreter."
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=tests python3 -m unittest test_workflow_rules.ProjectSessionResumeTests test_workflow_rules.SkillIterationEntryTests -v",
+      "exit_code": 0,
+      "tests": 32,
+      "result": "OK"
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=tests /opt/anaconda3/bin/python3 -m unittest test_workflow_rules.ProjectSessionResumeTests test_workflow_rules.SkillIterationEntryTests -v",
+      "exit_code": 0,
+      "tests": 32,
+      "result": "OK"
+    },
+    {
+      "command": "OPENSPEC_TELEMETRY=0 openspec validate support-stage-specific-resume-review --strict --no-interactive",
+      "exit_code": 0,
+      "result": "Change valid."
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/validate_cross_cli_sync.py plan --manifest references/cross-cli-portable-manifest.json --openspec-source /Users/elvis/file/develop/opensource/openspec-superpower-change --brief-source /Users/elvis/file/develop/opensource/codex-brief-antigravity-review --codex-skills-root /Users/elvis/.codex/skills --codex-rule-file /Users/elvis/.codex/AGENTS.md --pi-skills-root /Users/elvis/.pi/agent/skills --pi-rule-file /Users/elvis/.pi/agent/APPEND_SYSTEM.md --antigravity-skills-root /Users/elvis/.gemini/antigravity-cli/skills --antigravity-rule-file /Users/elvis/.gemini/GEMINI.md --grok-skills-root /Users/elvis/.grok/skills --grok-rule-file /Users/elvis/.grok/AGENTS.md --select-file openspec-superpower-change:references/approved-implementation-workflow.md --select-file openspec-superpower-change:scripts/validate_core_gates.py --output /var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/s9-preflight-independent-p5q9noic/readiness-sync-plan.json",
+      "exit_code": 0,
+      "result": "Private readiness plan pass; not an implementation sync approval."
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/validate_cross_cli_sync.py verify-prestate --plan /var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/s9-preflight-independent-p5q9noic/readiness-sync-plan.json --target all",
+      "exit_code": 0,
+      "result": "Prestate pass for all four targets."
+    }
+  ],
+  "independent_probe": {
+    "kind": "adversarial",
+    "command": "PYTHONDONTWRITEBYTECODE=1 python3 - <<'PY' [independent private actual-file API/CLI probe] PY",
+    "exit_code": 0,
+    "result": "PASS",
+    "data": "Actual S9/S8 canonical/context/Plan/evidence bytes copied into reviewer-owned temporary root.",
+    "cases": [
+      "S9 approved old strict bootstrap remains blocked/unverified with no authority",
+      "S8 retained revision 3 remains blocked/unverified with no authority",
+      "Explicit read-only recovery preserves pending gates",
+      "Multiple unfinished changes require explicit selection",
+      "Duplicate JSON keys reject",
+      "Unbound reviewer actor rejects",
+      "Wait action cannot acquire local-edit authority",
+      "Same-byte alternate context path rejects ordinary transition",
+      "Stale contract SHA rejects",
+      "Context leaf symlink rejects",
+      "Old stage-map admission rejects as expected baseline RED",
+      "CLI actual canonical previous accepts legal blocked transition",
+      "CLI conflicting full external status exits 2",
+      "CLI missing artifact root exits 2",
+      "CLI impersonation exits 1",
+      "CLI actual canonical previous drift exits 1"
+    ],
+    "scope_inventory": {
+      "unrelated_files_unchanged": 44,
+      "original_S8_contract_review_files_unchanged": 11,
+      "production_files_unchanged": 4,
+      "S9_approved_artifacts_preserved_except_task_progress": true
+    },
+    "production_source_sha256": {
+      "scripts/validate_core_gates.py": "8c0844c1ede850109965ead76831b5bceaea434482342739f53a4186198d7959",
+      "references/approved-implementation-workflow.md": "a93475a946d7c392ef3b9b36441bcadc4a6b6991887ae41d2c1043ceb094f3b3"
+    }
+  },
+  "private_artifacts": {
+    "owned_roots": [
+      "/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/s9-preflight-independent-xg_54pb4",
+      "/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/s9-preflight-independent-p5q9noic"
+    ],
+    "durable_source_edits": [],
+    "second_root_files": 14,
+    "contents": "Scoped copied fixture bytes, proposed status, same-byte context copy, probe-results.json, inventory-results.json and readiness-sync-plan.json.",
+    "cleanup_owner": "/root/s9_preflight",
+    "cleanup_condition": "Retain until /root accepts this complete result; then remove only these reviewer-owned private roots."
+  },
+  "authority_granted": false,
+  "canonical_changes_authorized_by_reviewer": false
+}

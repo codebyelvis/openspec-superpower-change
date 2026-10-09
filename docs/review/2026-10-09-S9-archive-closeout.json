@@ -1,0 +1,68 @@
+{
+  "author": "elvis",
+  "change_id": "support-stage-specific-resume-review",
+  "archive_command": "OPENSPEC_TELEMETRY=0 openspec archive support-stage-specific-resume-review --yes --skip-specs",
+  "archive_exit_code": 0,
+  "archive_task_status": "14/16: Git/cleanup pending",
+  "archive_path": "openspec/changes/archive/2026-10-09-support-stage-specific-resume-review",
+  "main_spec_updates": "skipped; unrelated dirty main spec preserved",
+  "navigation_repair": {
+    "path": "openspec/changes/archive/2026-10-09-support-stage-specific-resume-review/proposal.md",
+    "previous_sha256": "e56402cee634a79af67fd062aee28c8e27d45c8e8bdc4ea9de0412f21f773b14",
+    "current_sha256": "833851ce05cfc18ea88f4b6eae577523b0887f66be3a4b19f0d3ce1c7195a89e",
+    "mechanical_change": "one moved relative Markdown navigation adds one parent; approved prose unchanged"
+  },
+  "exact_archive_files": {
+    "design.md": "e2206d3f0bef80a635c4102eee94a3bcd86af80894a2d8fdd69f525664f472bb",
+    "proposal.md": "833851ce05cfc18ea88f4b6eae577523b0887f66be3a4b19f0d3ce1c7195a89e",
+    "specs/skill-workflow-governance/spec.md": "4151536cbdd3cb668bfc1b2a5af2b6e00a11a197890db1694f27b3c13b9ac1f0",
+    "tasks.md": "5ba9cbab959ffb9b8ca3cc1f3e1146269e1f548cca1f333bf6b056e68bd09c72"
+  },
+  "strict_command": "OPENSPEC_TELEMETRY=0 openspec validate support-stage-specific-resume-review --strict --no-interactive",
+  "strict_execution_root": "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn/archive-validation",
+  "strict_input": "all four exact copied archived bytes, original change-id, isolated OpenSpec root",
+  "strict_exit_code": 0,
+  "strict_output_sha256": "f545585d64cd680c1f950fdbe0f9b4db1b88a534571759e957fee28175d2fbf6",
+  "evidence_role": "owned-archive-closeout",
+  "evidence_result": "pass",
+  "source_fingerprint": "d6142d0fd652c45ef187c90f3f3cf4a4ec26963ac4d3a161370c753ce522f078",
+  "accepted_final_review": {
+    "path": "docs/review/2026-10-09-S9-final-review-full.json",
+    "sha256": "f3d11ee9c80dffd5aa9705051a88a06460270ed3398cfed1dd0ed8f24997b9fa"
+  },
+  "scope_and_links": {
+    "result": "pass",
+    "unrelated_unchanged": 44,
+    "original_s8_artifacts_unchanged": 11,
+    "approved_s9_contracts_preserved": 4,
+    "resolved_local_links": 13,
+    "checked_baseline_files": 86
+  },
+  "post_archive_checks": [
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/validate_cross_cli_sync.py verify-all --plan B/sync-plan.json --transaction-root B/transactions",
+      "exit_code": 0,
+      "targets": [
+        "codex",
+        "pi",
+        "antigravity-cli",
+        "grok-cli"
+      ],
+      "plan_sha256": "3aefd51f077d607ab88d6e248b78e833eed8340a76fa23c2f9f9a2c1495d3827"
+    },
+    {
+      "command": "git diff --check -- references/approved-implementation-workflow.md scripts/validate_core_gates.py tests/test_workflow_rules.py CHANGELOG.md docs/iteration",
+      "exit_code": 0
+    }
+  ],
+  "verified_inputs_unchanged": 15,
+  "actual_s8_remains_blocked": "revision5, verified null, original approval/11 artifacts unchanged; no readiness/implementation/completion signoff",
+  "publication": "pending; all S8 original graph plus new context/status and44 unrelated excluded",
+  "closure": "root-owned canonical completion/publication/cleanup pending; this artifact issues no authority",
+  "mechanical_owned_eof_repair": {
+    "path": "docs/review/2026-10-09-S9-stage-review-binding-proposal-validation.md",
+    "old_sha256": "2c53eaae2a501db65c47cedf11dfabbbeffdc0778957d9b7cd8fb0f01d06c868",
+    "new_sha256": "2458969d49058aa8bf5658882623d36fd8a255572b149a8ee5aeb6b227cf919a",
+    "scope": "remove trailing extra blank line found by first actual full staged diff-check; no prose/evidence/normative or frozen input change"
+  }
+}

@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- S9: add strict-local stage-specific resume reviewer binding and an explicit,
+  approved blocked-context amendment check; preserve legacy and external gates.
+
 - Add approved S7 project-session checkpoints in the existing canonical status,
   an explicit local schema-6 subset, hashed verification/review bindings and
   read-only recovery diagnostics. Preserve full external Handoff APIs, approval

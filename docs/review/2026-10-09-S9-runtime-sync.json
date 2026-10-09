@@ -1,0 +1,346 @@
+{
+  "author": "elvis",
+  "evidence_role": "runtime-sync",
+  "evidence_result": "pass",
+  "change_id": "support-stage-specific-resume-review",
+  "plan_sha256": "3aefd51f077d607ab88d6e248b78e833eed8340a76fa23c2f9f9a2c1495d3827",
+  "schema_version": 2,
+  "managed_rule_version": 6,
+  "targets": {
+    "codex": {
+      "state": "verified",
+      "receipt_sha256": "7b2c31dbdd5c44f3a77d8da8bc6af2607f4456137cff07fb61456e3fd7803dc5",
+      "mutation_files": 2,
+      "assertions": 38,
+      "managed_rule_selected": false,
+      "skills_root": "/Users/elvis/.codex/skills",
+      "selected_parity": {
+        "references/approved-implementation-workflow.md": "dfe2e62423123f559dae184e823282b31d1dd05afeab517fa482d939166b3b8a",
+        "scripts/validate_core_gates.py": "5e078403b4275a911b8476af994cd5d7052ac3ea49aafa1040832cea0fd3ca53"
+      },
+      "content_verification_sha256": "d0d6ec2a6aff17f38e6b7155788a8a8360d9bdf92654f933c6fa1689357278a5",
+      "discovery_verification_sha256": "bbc9476395b41a6f55eb6d7faba63e3420e906c4bea6b509b786bd748a35b98e"
+    },
+    "pi": {
+      "state": "verified",
+      "receipt_sha256": "dd6d2623f204bcf4df0e9433700f18fa82ee83efde433e8a662a1d0cd79a855a",
+      "mutation_files": 2,
+      "assertions": 38,
+      "managed_rule_selected": false,
+      "skills_root": "/Users/elvis/.pi/agent/skills",
+      "selected_parity": {
+        "references/approved-implementation-workflow.md": "dfe2e62423123f559dae184e823282b31d1dd05afeab517fa482d939166b3b8a",
+        "scripts/validate_core_gates.py": "5e078403b4275a911b8476af994cd5d7052ac3ea49aafa1040832cea0fd3ca53"
+      },
+      "content_verification_sha256": "78dd30999c6050b51836850f96b8d654e2a2cfaa13f9ad32f5ddd28a02404a62",
+      "discovery_verification_sha256": "aca495d725e45e1182f346258727c891d9a16fc38e49178da052ab0ae5d7dcde"
+    },
+    "antigravity-cli": {
+      "state": "verified",
+      "receipt_sha256": "9e1363ee8ffac25fdee239e54ab7e8894d20428fc7aa5e56f21c0bc252189ced",
+      "mutation_files": 2,
+      "assertions": 38,
+      "managed_rule_selected": false,
+      "skills_root": "/Users/elvis/.gemini/antigravity-cli/skills",
+      "selected_parity": {
+        "references/approved-implementation-workflow.md": "dfe2e62423123f559dae184e823282b31d1dd05afeab517fa482d939166b3b8a",
+        "scripts/validate_core_gates.py": "5e078403b4275a911b8476af994cd5d7052ac3ea49aafa1040832cea0fd3ca53"
+      },
+      "content_verification_sha256": "e05f734be88b17bbd86e505cd777b4421e969f0bf7c2ec94d8bdaee2f0f00518",
+      "discovery_verification_sha256": "53d0913aa2268322763776a8ff434b7aa7a19c709745daa6e816cd2fdbbd1fa8"
+    },
+    "grok-cli": {
+      "state": "verified",
+      "receipt_sha256": "8c73cec48f7827d8c6477c07484e74dcec0889a01fd0dbc4d47e77789ff4b8af",
+      "mutation_files": 2,
+      "assertions": 38,
+      "managed_rule_selected": false,
+      "skills_root": "/Users/elvis/.grok/skills",
+      "selected_parity": {
+        "references/approved-implementation-workflow.md": "dfe2e62423123f559dae184e823282b31d1dd05afeab517fa482d939166b3b8a",
+        "scripts/validate_core_gates.py": "5e078403b4275a911b8476af994cd5d7052ac3ea49aafa1040832cea0fd3ca53"
+      },
+      "content_verification_sha256": "8c8d482f81f3a66fc022163252d45c092ccb42327412e4fac60dbb3673423a99",
+      "discovery_verification_sha256": "ff901af5be00e9d15a1965b6fba6d2a7bd2b309f7235835e27fef1723b2b8d5a"
+    }
+  },
+  "command_results": [
+    {
+      "label": "companion-source-quick",
+      "command": "/opt/anaconda3/bin/python3 /Users/elvis/.codex-account-a/skills/.system/skill-creator/scripts/quick_validate.py /Users/elvis/file/develop/opensource/codex-brief-antigravity-review",
+      "exit_code": 0,
+      "output_sha256": "db349825903d66adffea3ecf1bd8e1803043e8a71cf1a051235dabc5371f5bb0"
+    },
+    {
+      "label": "companion-source-validator",
+      "command": "python3 /Users/elvis/file/develop/opensource/codex-brief-antigravity-review/scripts/validate_templates.py /Users/elvis/file/develop/opensource/codex-brief-antigravity-review",
+      "exit_code": 0,
+      "output_sha256": "7d982cd9096326757cf8f6e7763814733df940ac27e28659ea5a0ad4fe2aa588"
+    },
+    {
+      "label": "companion-source-existing-tests",
+      "command": "python3 -m unittest discover -s /Users/elvis/file/develop/opensource/codex-brief-antigravity-review/tests -v",
+      "exit_code": 0,
+      "output_sha256": "9b0c9de95c180231bd2690744b50956f8ee0fb4600a14cd97f1487500e9a6737"
+    },
+    {
+      "label": "codex-apply",
+      "command": "python3 scripts/validate_cross_cli_sync.py apply --target codex --plan /private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn/sync-plan.json --transaction-receipt /private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn/transactions/codex.json --backup-root /private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn/sync-backups/codex",
+      "exit_code": 0,
+      "output_sha256": "0b9ce81a8a9bf36893ff3e5b3437cbb0108bf37b644dd151f3f69ea15ef98f54"
+    },
+    {
+      "label": "codex-content-verify",
+      "command": "python3 scripts/validate_cross_cli_sync.py verify --target codex --plan /private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn/sync-plan.json --transaction-receipt /private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn/transactions/codex.json",
+      "exit_code": 0,
+      "output_sha256": "dfd2dbe0bbd8565e1aebd6ab22000fa806d68cea63639c831405fe71b2160faf"
+    },
+    {
+      "label": "codex-discovery",
+      "command": "python3 scripts/validate_cross_cli_sync.py verify-discovery --target codex --plan /private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn/sync-plan.json --transaction-receipt /private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn/transactions/codex.json",
+      "exit_code": 0,
+      "output_sha256": "4d3490dd2d46e9a1478ffc6e4777ef82cfbf864cfabe2c2b8ad7780e4f779a0c"
+    },
+    {
+      "label": "codex-openspec-superpower-change-quick",
+      "command": "/opt/anaconda3/bin/python3 /Users/elvis/.codex-account-a/skills/.system/skill-creator/scripts/quick_validate.py /Users/elvis/.codex/skills/openspec-superpower-change",
+      "exit_code": 0,
+      "output_sha256": "db349825903d66adffea3ecf1bd8e1803043e8a71cf1a051235dabc5371f5bb0"
+    },
+    {
+      "label": "codex-openspec-superpower-change-validator-python3-fallback",
+      "command": "python3 /Users/elvis/.codex/skills/openspec-superpower-change/scripts/validate_core_gates.py /Users/elvis/.codex/skills/openspec-superpower-change",
+      "exit_code": 0,
+      "output_sha256": "ee476d351f7c7780323780889818bf66dbc22cb184cadfb0dd4ba9716b4457c0"
+    },
+    {
+      "label": "codex-openspec-superpower-change-validator-python3-yaml",
+      "command": "/opt/anaconda3/bin/python3 /Users/elvis/.codex/skills/openspec-superpower-change/scripts/validate_core_gates.py /Users/elvis/.codex/skills/openspec-superpower-change",
+      "exit_code": 0,
+      "output_sha256": "ee476d351f7c7780323780889818bf66dbc22cb184cadfb0dd4ba9716b4457c0"
+    },
+    {
+      "label": "codex-codex-brief-antigravity-review-quick",
+      "command": "/opt/anaconda3/bin/python3 /Users/elvis/.codex-account-a/skills/.system/skill-creator/scripts/quick_validate.py /Users/elvis/.codex/skills/codex-brief-antigravity-review",
+      "exit_code": 0,
+      "output_sha256": "db349825903d66adffea3ecf1bd8e1803043e8a71cf1a051235dabc5371f5bb0"
+    },
+    {
+      "label": "codex-codex-brief-antigravity-review-validator-python3-fallback",
+      "command": "python3 /Users/elvis/.codex/skills/codex-brief-antigravity-review/scripts/validate_templates.py /Users/elvis/.codex/skills/codex-brief-antigravity-review",
+      "exit_code": 0,
+      "output_sha256": "d345f275ebc91e1cda2d1d6365cc769809694f4b9b2448daab8f151a1df68d81"
+    },
+    {
+      "label": "codex-codex-brief-antigravity-review-validator-python3-yaml",
+      "command": "/opt/anaconda3/bin/python3 /Users/elvis/.codex/skills/codex-brief-antigravity-review/scripts/validate_templates.py /Users/elvis/.codex/skills/codex-brief-antigravity-review",
+      "exit_code": 0,
+      "output_sha256": "d345f275ebc91e1cda2d1d6365cc769809694f4b9b2448daab8f151a1df68d81"
+    },
+    {
+      "label": "codex-commit",
+      "command": "python3 scripts/validate_cross_cli_sync.py commit-target --target codex --plan /private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn/sync-plan.json --transaction-receipt /private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn/transactions/codex.json",
+      "exit_code": 0,
+      "output_sha256": "0b5297f1053dfa27435dd70cf24d064ffc14264addf6d3694c18c6c993ca0ebb"
+    },
+    {
+      "label": "pi-apply",
+      "command": "python3 scripts/validate_cross_cli_sync.py apply --target pi --plan /private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn/sync-plan.json --transaction-receipt /private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn/transactions/pi.json --backup-root /private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn/sync-backups/pi",
+      "exit_code": 0,
+      "output_sha256": "d0dc4106ca5f385e68b46c626e11f8e28629dc4979d995bb782d0963ab84a035"
+    },
+    {
+      "label": "pi-content-verify",
+      "command": "python3 scripts/validate_cross_cli_sync.py verify --target pi --plan /private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn/sync-plan.json --transaction-receipt /private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn/transactions/pi.json",
+      "exit_code": 0,
+      "output_sha256": "c3c2cd2bebe798217c3839756c95146ca9bcab9275c53a3dd14180b973197a11"
+    },
+    {
+      "label": "pi-discovery",
+      "command": "python3 scripts/validate_cross_cli_sync.py verify-discovery --target pi --plan /private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn/sync-plan.json --transaction-receipt /private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn/transactions/pi.json",
+      "exit_code": 0,
+      "output_sha256": "d86e0e839b9358c5fe1a972a444a1156272a456127806548d568eed1e40a4454"
+    },
+    {
+      "label": "pi-openspec-superpower-change-quick",
+      "command": "/opt/anaconda3/bin/python3 /Users/elvis/.codex-account-a/skills/.system/skill-creator/scripts/quick_validate.py /Users/elvis/.pi/agent/skills/openspec-superpower-change",
+      "exit_code": 0,
+      "output_sha256": "db349825903d66adffea3ecf1bd8e1803043e8a71cf1a051235dabc5371f5bb0"
+    },
+    {
+      "label": "pi-openspec-superpower-change-validator-python3-fallback",
+      "command": "python3 /Users/elvis/.pi/agent/skills/openspec-superpower-change/scripts/validate_core_gates.py /Users/elvis/.pi/agent/skills/openspec-superpower-change",
+      "exit_code": 0,
+      "output_sha256": "a389f7ae9347810796918b173f088232dd6079ac843da4980704f4eb98b5df35"
+    },
+    {
+      "label": "pi-openspec-superpower-change-validator-python3-yaml",
+      "command": "/opt/anaconda3/bin/python3 /Users/elvis/.pi/agent/skills/openspec-superpower-change/scripts/validate_core_gates.py /Users/elvis/.pi/agent/skills/openspec-superpower-change",
+      "exit_code": 0,
+      "output_sha256": "a389f7ae9347810796918b173f088232dd6079ac843da4980704f4eb98b5df35"
+    },
+    {
+      "label": "pi-codex-brief-antigravity-review-quick",
+      "command": "/opt/anaconda3/bin/python3 /Users/elvis/.codex-account-a/skills/.system/skill-creator/scripts/quick_validate.py /Users/elvis/.pi/agent/skills/codex-brief-antigravity-review",
+      "exit_code": 0,
+      "output_sha256": "db349825903d66adffea3ecf1bd8e1803043e8a71cf1a051235dabc5371f5bb0"
+    },
+    {
+      "label": "pi-codex-brief-antigravity-review-validator-python3-fallback",
+      "command": "python3 /Users/elvis/.pi/agent/skills/codex-brief-antigravity-review/scripts/validate_templates.py /Users/elvis/.pi/agent/skills/codex-brief-antigravity-review",
+      "exit_code": 0,
+      "output_sha256": "e1e0bfab990a6ae6de908db114f28d8ec036f3def14c6b4c093787e4cbdc6a33"
+    },
+    {
+      "label": "pi-codex-brief-antigravity-review-validator-python3-yaml",
+      "command": "/opt/anaconda3/bin/python3 /Users/elvis/.pi/agent/skills/codex-brief-antigravity-review/scripts/validate_templates.py /Users/elvis/.pi/agent/skills/codex-brief-antigravity-review",
+      "exit_code": 0,
+      "output_sha256": "e1e0bfab990a6ae6de908db114f28d8ec036f3def14c6b4c093787e4cbdc6a33"
+    },
+    {
+      "label": "pi-commit",
+      "command": "python3 scripts/validate_cross_cli_sync.py commit-target --target pi --plan /private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn/sync-plan.json --transaction-receipt /private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn/transactions/pi.json",
+      "exit_code": 0,
+      "output_sha256": "cfda3d536b7864adad1c782823f0ebf105905651cb6ef9fb8432fc388eb7ca66"
+    },
+    {
+      "label": "antigravity-cli-apply",
+      "command": "python3 scripts/validate_cross_cli_sync.py apply --target antigravity-cli --plan /private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn/sync-plan.json --transaction-receipt /private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn/transactions/antigravity-cli.json --backup-root /private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn/sync-backups/antigravity-cli",
+      "exit_code": 0,
+      "output_sha256": "256f219ea2852fba23fdc0e6ffe7c9fd2bfeb02387378f3286e7c36f29083d68"
+    },
+    {
+      "label": "antigravity-cli-content-verify",
+      "command": "python3 scripts/validate_cross_cli_sync.py verify --target antigravity-cli --plan /private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn/sync-plan.json --transaction-receipt /private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn/transactions/antigravity-cli.json",
+      "exit_code": 0,
+      "output_sha256": "5928145ca5e61e786c4563539507785f5eba33af976f2b5c4c7c1f3713b7e483"
+    },
+    {
+      "label": "antigravity-cli-discovery",
+      "command": "python3 scripts/validate_cross_cli_sync.py verify-discovery --target antigravity-cli --plan /private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn/sync-plan.json --transaction-receipt /private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn/transactions/antigravity-cli.json",
+      "exit_code": 0,
+      "output_sha256": "20bf95ded509358f26dd2ba0b187b5bce44955ebed59b4ca77ece20c8066747e"
+    },
+    {
+      "label": "antigravity-cli-openspec-superpower-change-quick",
+      "command": "/opt/anaconda3/bin/python3 /Users/elvis/.codex-account-a/skills/.system/skill-creator/scripts/quick_validate.py /Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change",
+      "exit_code": 0,
+      "output_sha256": "db349825903d66adffea3ecf1bd8e1803043e8a71cf1a051235dabc5371f5bb0"
+    },
+    {
+      "label": "antigravity-cli-openspec-superpower-change-validator-python3-fallback",
+      "command": "python3 /Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change/scripts/validate_core_gates.py /Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change",
+      "exit_code": 0,
+      "output_sha256": "e21a03d3821631569b9dcb71d6c71a743049951d34040189387a381d0062af4f"
+    },
+    {
+      "label": "antigravity-cli-openspec-superpower-change-validator-python3-yaml",
+      "command": "/opt/anaconda3/bin/python3 /Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change/scripts/validate_core_gates.py /Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change",
+      "exit_code": 0,
+      "output_sha256": "e21a03d3821631569b9dcb71d6c71a743049951d34040189387a381d0062af4f"
+    },
+    {
+      "label": "antigravity-cli-codex-brief-antigravity-review-quick",
+      "command": "/opt/anaconda3/bin/python3 /Users/elvis/.codex-account-a/skills/.system/skill-creator/scripts/quick_validate.py /Users/elvis/.gemini/antigravity-cli/skills/codex-brief-antigravity-review",
+      "exit_code": 0,
+      "output_sha256": "db349825903d66adffea3ecf1bd8e1803043e8a71cf1a051235dabc5371f5bb0"
+    },
+    {
+      "label": "antigravity-cli-codex-brief-antigravity-review-validator-python3-fallback",
+      "command": "python3 /Users/elvis/.gemini/antigravity-cli/skills/codex-brief-antigravity-review/scripts/validate_templates.py /Users/elvis/.gemini/antigravity-cli/skills/codex-brief-antigravity-review",
+      "exit_code": 0,
+      "output_sha256": "cb04c5b7ff03bcb21ac0da0712e7c21910230936e02e44a0d2980bf7571ac1ca"
+    },
+    {
+      "label": "antigravity-cli-codex-brief-antigravity-review-validator-python3-yaml",
+      "command": "/opt/anaconda3/bin/python3 /Users/elvis/.gemini/antigravity-cli/skills/codex-brief-antigravity-review/scripts/validate_templates.py /Users/elvis/.gemini/antigravity-cli/skills/codex-brief-antigravity-review",
+      "exit_code": 0,
+      "output_sha256": "cb04c5b7ff03bcb21ac0da0712e7c21910230936e02e44a0d2980bf7571ac1ca"
+    },
+    {
+      "label": "antigravity-cli-commit",
+      "command": "python3 scripts/validate_cross_cli_sync.py commit-target --target antigravity-cli --plan /private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn/sync-plan.json --transaction-receipt /private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn/transactions/antigravity-cli.json",
+      "exit_code": 0,
+      "output_sha256": "eb89e7965bc4e441fdb5e2ef1ca75edf326c70732607d58270efdfff092f46b5"
+    },
+    {
+      "label": "grok-cli-apply",
+      "command": "python3 scripts/validate_cross_cli_sync.py apply --target grok-cli --plan /private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn/sync-plan.json --transaction-receipt /private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn/transactions/grok-cli.json --backup-root /private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn/sync-backups/grok-cli",
+      "exit_code": 0,
+      "output_sha256": "0b2c20619e986c8aaa88d0e64d656d3efa3272671e6c67b45bb7edaedccc014e"
+    },
+    {
+      "label": "grok-cli-content-verify",
+      "command": "python3 scripts/validate_cross_cli_sync.py verify --target grok-cli --plan /private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn/sync-plan.json --transaction-receipt /private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn/transactions/grok-cli.json",
+      "exit_code": 0,
+      "output_sha256": "cd05070c328068455f3e1edba17784693ce36eda1e3c8bdab1defcaa3c85ea00"
+    },
+    {
+      "label": "grok-cli-discovery",
+      "command": "python3 scripts/validate_cross_cli_sync.py verify-discovery --target grok-cli --plan /private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn/sync-plan.json --transaction-receipt /private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn/transactions/grok-cli.json --inspect-json /private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn/grok-inspect.json --consume",
+      "exit_code": 0,
+      "output_sha256": "60877a4de40ad8cc68cb823d6a8d9723f40921a1f222e4e75c59cea9344f7254"
+    },
+    {
+      "label": "grok-cli-openspec-superpower-change-quick",
+      "command": "/opt/anaconda3/bin/python3 /Users/elvis/.codex-account-a/skills/.system/skill-creator/scripts/quick_validate.py /Users/elvis/.grok/skills/openspec-superpower-change",
+      "exit_code": 0,
+      "output_sha256": "db349825903d66adffea3ecf1bd8e1803043e8a71cf1a051235dabc5371f5bb0"
+    },
+    {
+      "label": "grok-cli-openspec-superpower-change-validator-python3-fallback",
+      "command": "python3 /Users/elvis/.grok/skills/openspec-superpower-change/scripts/validate_core_gates.py /Users/elvis/.grok/skills/openspec-superpower-change",
+      "exit_code": 0,
+      "output_sha256": "657d3cc83e444d8c97d2f0cbe280366e1ae808a04a9998bb7ede74a7fb1b3697"
+    },
+    {
+      "label": "grok-cli-openspec-superpower-change-validator-python3-yaml",
+      "command": "/opt/anaconda3/bin/python3 /Users/elvis/.grok/skills/openspec-superpower-change/scripts/validate_core_gates.py /Users/elvis/.grok/skills/openspec-superpower-change",
+      "exit_code": 0,
+      "output_sha256": "657d3cc83e444d8c97d2f0cbe280366e1ae808a04a9998bb7ede74a7fb1b3697"
+    },
+    {
+      "label": "grok-cli-codex-brief-antigravity-review-quick",
+      "command": "/opt/anaconda3/bin/python3 /Users/elvis/.codex-account-a/skills/.system/skill-creator/scripts/quick_validate.py /Users/elvis/.grok/skills/codex-brief-antigravity-review",
+      "exit_code": 0,
+      "output_sha256": "db349825903d66adffea3ecf1bd8e1803043e8a71cf1a051235dabc5371f5bb0"
+    },
+    {
+      "label": "grok-cli-codex-brief-antigravity-review-validator-python3-fallback",
+      "command": "python3 /Users/elvis/.grok/skills/codex-brief-antigravity-review/scripts/validate_templates.py /Users/elvis/.grok/skills/codex-brief-antigravity-review",
+      "exit_code": 0,
+      "output_sha256": "9ba735d08784d5dcfdd3d18f31f9dc6e880fff1eae13f422536d3956d7800ae1"
+    },
+    {
+      "label": "grok-cli-codex-brief-antigravity-review-validator-python3-yaml",
+      "command": "/opt/anaconda3/bin/python3 /Users/elvis/.grok/skills/codex-brief-antigravity-review/scripts/validate_templates.py /Users/elvis/.grok/skills/codex-brief-antigravity-review",
+      "exit_code": 0,
+      "output_sha256": "9ba735d08784d5dcfdd3d18f31f9dc6e880fff1eae13f422536d3956d7800ae1"
+    },
+    {
+      "label": "grok-cli-commit",
+      "command": "python3 scripts/validate_cross_cli_sync.py commit-target --target grok-cli --plan /private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn/sync-plan.json --transaction-receipt /private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn/transactions/grok-cli.json",
+      "exit_code": 0,
+      "output_sha256": "ad7bc584ff597fe27f43e3a3704935b9ee4bbb6b69beb802246d09e84c66c2c7"
+    },
+    {
+      "label": "verify-all",
+      "command": "python3 scripts/validate_cross_cli_sync.py verify-all --plan /private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn/sync-plan.json --transaction-root /private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn/transactions",
+      "exit_code": 0,
+      "output_sha256": "7bfeb8743a334e9117a9003128d812d0f4a581e38bf8125af26bc6b19608f34e"
+    }
+  ],
+  "legacy_before_plan": {
+    "active_legacy_count": 0,
+    "legacy_audit": "pass",
+    "records": []
+  },
+  "legacy_immediately_before_apply": {
+    "active_legacy_count": 0,
+    "legacy_audit": "pass",
+    "records": []
+  },
+  "native_pi_process_invoked": false,
+  "grok_inspect_consumed": true,
+  "scope": "two portable files only; unselected full closure and native/global bytes preserved"
+}

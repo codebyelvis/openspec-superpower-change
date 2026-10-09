@@ -1,0 +1,527 @@
+{
+  "evidence_role": "final-review",
+  "change_id": "support-stage-specific-resume-review",
+  "contract_revision": 7,
+  "source_fingerprint": "d6142d0fd652c45ef187c90f3f3cf4a4ec26963ac4d3a161370c753ce522f078",
+  "canonical_sha256": "e582db0b26ac54dc130d24fecb4a0565da272f63073ffab5ac98d56ec879f3c3",
+  "agent_identity": {
+    "agent_product": "codex",
+    "agent_instance_id": "s9-review-01",
+    "agent_role": "independent-reviewer",
+    "capability_profile": "control-plane-high"
+  },
+  "reviewer_assignment": {
+    "review_purpose": {
+      "object": "S9 stage-specific resume implementation and separate final gates",
+      "decision": "decide pass, fail or blocked at the independently reviewed implementation or final gate"
+    },
+    "agent_product": "codex",
+    "agent_instance_id": "s9-review-01",
+    "agent_role": "independent-reviewer",
+    "capability_profile": "control-plane-high",
+    "independence_requirement": {
+      "kind": "distinct-contract-instance",
+      "distinct_from": [
+        "control_plane_owner",
+        "executor_assignment"
+      ]
+    },
+    "result_authority": "governed-review-evidence"
+  },
+  "author": "elvis",
+  "evidence_result": "pass",
+  "actual_tool_instance": "/root/s9_review",
+  "model_metadata": {
+    "model": "gpt-6.1-sol",
+    "reasoning": "high",
+    "authority_effect": "none"
+  },
+  "review_timestamp_utc": "2026-10-09T04:15:34.130007+00:00",
+  "finding_completeness": true,
+  "review_scope": {
+    "kind": "Separate independent strict Final Review; after accepted amended Implementation Review and persisted final verification",
+    "source_root": "/Users/elvis/file/develop/opensource/openspec-superpower-change",
+    "job_sha256": "676558a36576fd3214bfb98719d953405a9b18c4b19c2dd72fb6da34948d1953",
+    "actual_scoped_inputs": {
+      "CHANGELOG.md": "b8778eb3212f7f98bcc1a758703de9a1ffe8fe8c37232779f2e1e4358f4a66cb",
+      "references/approved-implementation-workflow.md": "dfe2e62423123f559dae184e823282b31d1dd05afeab517fa482d939166b3b8a",
+      "scripts/validate_core_gates.py": "5e078403b4275a911b8476af994cd5d7052ac3ea49aafa1040832cea0fd3ca53",
+      "tests/test_workflow_rules.py": "3c51123bdf4dca7ea36c96b68524b514c5e048c2f307debbd8feb3361c3be260",
+      "docs/review/2026-10-09-S9-stage-review-binding-draft.md": "cd91309ccb8161ce0139baead004ad7284fb3fc78b016338849d95034f964c08",
+      "docs/review/2026-10-09-S9-implementation-plan.md": "5af17584cb0e658470efb9c78a7594c38f52dd4ef613353594fff081db2956e8",
+      "docs/review/2026-10-09-S9-preflight-full.json": "bdc27a31f79c885a2973381b133bea3b654ca11fd637876ad3fba077964400b7",
+      "docs/review/2026-10-09-S9-red-green.json": "09b1d45d97e1a21ce58ee19a13249398043efe011a78550db873b50ff7dc5dfd",
+      "docs/review/2026-10-09-S9-implementation-verification.json": "7480f1de380f5f8fb6cc2a207068be90627e371ba04b627e4b946850beb636cd",
+      "docs/review/2026-10-09-S9-implementation-review-full.json": "cb8ef5134967fb5eecdb3f41ffd37060d7783d7ef075c81f11d4476f95c47fef",
+      "docs/review/2026-10-09-S9-sync-plan-review.json": "386a533b780950199a8f0d79f3fb0f167c1b0e967e646b245fd3173083714f45",
+      "docs/review/2026-10-09-S9-runtime-sync.json": "82cef86d3ef6fe561a34b230a30a9368ef81996cb31c38ea5abd67b25d25c990",
+      "docs/review/2026-10-09-S9-S8-amendment-proof.json": "020335bfd76313a74598d4493b74f34076c21c0bbd5b84e6cd161c10a530b893",
+      "docs/review/2026-10-09-S9-learning-closeout.md": "dcff2419cabd0f2df1d470768f605e2d53296a6ead9f58cafac28dce2ee5b866",
+      "docs/review/2026-10-09-S9-review-history.md": "78e779eef22cca66c2f6b54e623ac08a227eb95df27e6984a9f3665596179a4c"
+    },
+    "reviewed_diff": "Actual complete approved uncommitted scope, preserved-source hash reuse of prior deep production inspection, actual S8 metadata amendment/context/history proof, four-runtime transaction, learning provenance, current bookkeeping, latest applicable Implementation, actual final verification and its exact read-only canonical snapshot. Not a commit-range-only package.",
+    "final_verification_path": "docs/review/2026-10-09-S9-final-verification.json",
+    "final_verification_sha256": "ea4dffec751593c5b9e34a21b79b88a81c9243041c077dcc792168ccd4eb37b7",
+    "final_verification_snapshot_path": "docs/review/2026-10-09-S9-final-verification-snapshot.md",
+    "final_verification_snapshot_sha256": "e582db0b26ac54dc130d24fecb4a0565da272f63073ffab5ac98d56ec879f3c3",
+    "applicable_implementation_review_path": "docs/review/2026-10-09-S9-amended-implementation-review.json",
+    "applicable_implementation_review_sha256": "098734587aa21c9c8d131372a57cf5a7e637e4555ceb1d4f8c11f3417aed45b1",
+    "persisted_verified_revision": {
+      "revision": 7,
+      "inputs": {
+        "CHANGELOG.md": "b8778eb3212f7f98bcc1a758703de9a1ffe8fe8c37232779f2e1e4358f4a66cb",
+        "references/approved-implementation-workflow.md": "dfe2e62423123f559dae184e823282b31d1dd05afeab517fa482d939166b3b8a",
+        "scripts/validate_core_gates.py": "5e078403b4275a911b8476af994cd5d7052ac3ea49aafa1040832cea0fd3ca53",
+        "tests/test_workflow_rules.py": "3c51123bdf4dca7ea36c96b68524b514c5e048c2f307debbd8feb3361c3be260",
+        "docs/review/2026-10-09-S9-stage-review-binding-draft.md": "cd91309ccb8161ce0139baead004ad7284fb3fc78b016338849d95034f964c08",
+        "docs/review/2026-10-09-S9-implementation-plan.md": "5af17584cb0e658470efb9c78a7594c38f52dd4ef613353594fff081db2956e8",
+        "docs/review/2026-10-09-S9-preflight-full.json": "bdc27a31f79c885a2973381b133bea3b654ca11fd637876ad3fba077964400b7",
+        "docs/review/2026-10-09-S9-red-green.json": "09b1d45d97e1a21ce58ee19a13249398043efe011a78550db873b50ff7dc5dfd",
+        "docs/review/2026-10-09-S9-implementation-verification.json": "7480f1de380f5f8fb6cc2a207068be90627e371ba04b627e4b946850beb636cd",
+        "docs/review/2026-10-09-S9-implementation-review-full.json": "cb8ef5134967fb5eecdb3f41ffd37060d7783d7ef075c81f11d4476f95c47fef",
+        "docs/review/2026-10-09-S9-sync-plan-review.json": "386a533b780950199a8f0d79f3fb0f167c1b0e967e646b245fd3173083714f45",
+        "docs/review/2026-10-09-S9-runtime-sync.json": "82cef86d3ef6fe561a34b230a30a9368ef81996cb31c38ea5abd67b25d25c990",
+        "docs/review/2026-10-09-S9-S8-amendment-proof.json": "020335bfd76313a74598d4493b74f34076c21c0bbd5b84e6cd161c10a530b893",
+        "docs/review/2026-10-09-S9-learning-closeout.md": "dcff2419cabd0f2df1d470768f605e2d53296a6ead9f58cafac28dce2ee5b866",
+        "docs/review/2026-10-09-S9-review-history.md": "78e779eef22cca66c2f6b54e623ac08a227eb95df27e6984a9f3665596179a4c"
+      },
+      "fingerprint": "d6142d0fd652c45ef187c90f3f3cf4a4ec26963ac4d3a161370c753ce522f078",
+      "commands": [
+        {
+          "command": "PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python3 /Users/elvis/.codex-account-a/skills/.system/skill-creator/scripts/quick_validate.py .",
+          "result": "pass",
+          "evidence": {
+            "path": "docs/review/2026-10-09-S9-final-verification.json",
+            "sha256": "ea4dffec751593c5b9e34a21b79b88a81c9243041c077dcc792168ccd4eb37b7"
+          }
+        },
+        {
+          "command": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/validate_core_gates.py .",
+          "result": "pass",
+          "evidence": {
+            "path": "docs/review/2026-10-09-S9-final-verification.json",
+            "sha256": "ea4dffec751593c5b9e34a21b79b88a81c9243041c077dcc792168ccd4eb37b7"
+          }
+        },
+        {
+          "command": "PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python3 scripts/validate_core_gates.py .",
+          "result": "pass",
+          "evidence": {
+            "path": "docs/review/2026-10-09-S9-final-verification.json",
+            "sha256": "ea4dffec751593c5b9e34a21b79b88a81c9243041c077dcc792168ccd4eb37b7"
+          }
+        },
+        {
+          "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s tests -v",
+          "result": "pass",
+          "evidence": {
+            "path": "docs/review/2026-10-09-S9-final-verification.json",
+            "sha256": "ea4dffec751593c5b9e34a21b79b88a81c9243041c077dcc792168ccd4eb37b7"
+          }
+        },
+        {
+          "command": "PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python3 -m unittest discover -s tests -v",
+          "result": "pass",
+          "evidence": {
+            "path": "docs/review/2026-10-09-S9-final-verification.json",
+            "sha256": "ea4dffec751593c5b9e34a21b79b88a81c9243041c077dcc792168ccd4eb37b7"
+          }
+        },
+        {
+          "command": "OPENSPEC_TELEMETRY=0 openspec validate support-stage-specific-resume-review --strict --no-interactive",
+          "result": "pass",
+          "evidence": {
+            "path": "docs/review/2026-10-09-S9-final-verification.json",
+            "sha256": "ea4dffec751593c5b9e34a21b79b88a81c9243041c077dcc792168ccd4eb37b7"
+          }
+        },
+        {
+          "command": "git diff --check -- references/approved-implementation-workflow.md scripts/validate_core_gates.py tests/test_workflow_rules.py CHANGELOG.md docs/iteration",
+          "result": "pass",
+          "evidence": {
+            "path": "docs/review/2026-10-09-S9-final-verification.json",
+            "sha256": "ea4dffec751593c5b9e34a21b79b88a81c9243041c077dcc792168ccd4eb37b7"
+          }
+        }
+      ]
+    },
+    "source_production_changed_since_prior_deep_review": false
+  },
+  "actionable_findings": [],
+  "non_actionable_recommendations": [],
+  "resolved_findings": [
+    {
+      "id": "S9-FR-1",
+      "severity": "low",
+      "type": "mutable current status consistency",
+      "finding": "CURRENT main top accurately reflected accepted re-Review and persisted verification7, but its later current verification paragraph still listed both as pending.",
+      "resolution": "Root corrected only mutable current sentence, now distinguishes accepted Implementation re-Review/persisted final7 from ongoing separate Final/archive/Git/cleanup.",
+      "validation": "Reviewer independently reread exact corrected sentence, refreshed current status hashes and reran scoped diff-check. No canonical, fingerprint, immutable input, approval, Plan, source or runtime change; original fresh full command/probe evidence remains applicable.",
+      "status": "resolved"
+    }
+  ],
+  "independent_command_results": [
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python3 /Users/elvis/.codex-account-a/skills/.system/skill-creator/scripts/quick_validate.py .",
+      "exit_code": 0,
+      "seconds": 0.04,
+      "tests": null,
+      "output_sha256": "db349825903d66adffea3ecf1bd8e1803043e8a71cf1a051235dabc5371f5bb0",
+      "log": "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn/s9-review/final/command-0.log",
+      "tail": "Skill is valid!\n"
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/validate_core_gates.py .",
+      "exit_code": 0,
+      "seconds": 0.07,
+      "tests": null,
+      "output_sha256": "d0c3710506d14833fcb03a19decc83a24dd1cb9739786182fcbd9496df6a3bc0",
+      "log": "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn/s9-review/final/command-1.log",
+      "tail": "Core gates valid: /Users/elvis/file/develop/opensource/openspec-superpower-change\n"
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python3 scripts/validate_core_gates.py .",
+      "exit_code": 0,
+      "seconds": 0.06,
+      "tests": null,
+      "output_sha256": "d0c3710506d14833fcb03a19decc83a24dd1cb9739786182fcbd9496df6a3bc0",
+      "log": "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn/s9-review/final/command-2.log",
+      "tail": "Core gates valid: /Users/elvis/file/develop/opensource/openspec-superpower-change\n"
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s tests -v",
+      "exit_code": 0,
+      "seconds": 27.34,
+      "tests": 461,
+      "output_sha256": "b3b1e13ee77a235f785d1c8528cccfd5afb2266f3c355f5cc6b0dbd1a91b782a",
+      "log": "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn/s9-review/final/command-3.log",
+      "tail": "_other_role_reuse) ... ok\ntest_timeout_audit_is_blocked_only_and_cannot_satisfy_complete (test_workflow_rules.WorkflowRulesTest.test_timeout_audit_is_blocked_only_and_cannot_satisfy_complete) ... ok\n\n----------------------------------------------------------------------\nRan 461 tests in 27.149s\n\nOK\n"
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python3 -m unittest discover -s tests -v",
+      "exit_code": 0,
+      "seconds": 26.43,
+      "tests": 461,
+      "output_sha256": "23fbc9ffd4b1bf0946b2baa45448cb40dc09662fc90357b0d60fc624476456f5",
+      "log": "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn/s9-review/final/command-4.log",
+      "tail": "_other_role_reuse) ... ok\ntest_timeout_audit_is_blocked_only_and_cannot_satisfy_complete (test_workflow_rules.WorkflowRulesTest.test_timeout_audit_is_blocked_only_and_cannot_satisfy_complete) ... ok\n\n----------------------------------------------------------------------\nRan 461 tests in 26.247s\n\nOK\n"
+    },
+    {
+      "command": "OPENSPEC_TELEMETRY=0 openspec validate support-stage-specific-resume-review --strict --no-interactive",
+      "exit_code": 0,
+      "seconds": 0.23,
+      "tests": null,
+      "output_sha256": "f545585d64cd680c1f950fdbe0f9b4db1b88a534571759e957fee28175d2fbf6",
+      "log": "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn/s9-review/final/command-5.log",
+      "tail": "Change 'support-stage-specific-resume-review' is valid\n"
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/validate_cross_cli_sync.py verify-all --plan /var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn/sync-plan.json --transaction-root /var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn/transactions",
+      "exit_code": 0,
+      "seconds": 0.16,
+      "tests": null,
+      "output_sha256": "7bfeb8743a334e9117a9003128d812d0f4a581e38bf8125af26bc6b19608f34e",
+      "log": "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn/s9-review/final/command-6.log",
+      "tail": "{\"targets\": [\"codex\", \"pi\", \"antigravity-cli\", \"grok-cli\"], \"verify_all\": \"pass\"}\n"
+    },
+    {
+      "command": "git diff --check -- references/approved-implementation-workflow.md scripts/validate_core_gates.py tests/test_workflow_rules.py CHANGELOG.md docs/iteration",
+      "exit_code": 0,
+      "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "tests": null,
+      "freshness": "after final mutable CURRENT sentence correction"
+    }
+  ],
+  "independent_probe": {
+    "command": "PYTHONDONTWRITEBYTECODE=1 python3 /var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn/s9-review/final/probe.py",
+    "exit_code": 0,
+    "script_sha256": "1517f896d6641f1bcdd25983b78fa4d9d6206c5e019941840c0eb98aa3969c89",
+    "results_sha256": "ccf663b391747822a45d517ffede99ddfba52529dd4bc5be0d4e189b3e048427",
+    "results": {
+      "author": "elvis",
+      "result": "pass",
+      "final_job_sha256": "676558a36576fd3214bfb98719d953405a9b18c4b19c2dd72fb6da34948d1953",
+      "source_fingerprint": "d6142d0fd652c45ef187c90f3f3cf4a4ec26963ac4d3a161370c753ce522f078",
+      "canonical_sha256": "e582db0b26ac54dc130d24fecb4a0565da272f63073ffab5ac98d56ec879f3c3",
+      "persisted_verification_revision": 7,
+      "exact_snapshot_equals_current_canonical": true,
+      "single_applicable_implementation_review_revision": 6,
+      "cases": [
+        {
+          "case": "actual current persisted verification7 is valid read-only",
+          "result": "accepted",
+          "facts": {
+            "change_id": "support-stage-specific-resume-review",
+            "record_kind": "local",
+            "state": "awaiting-final-verification",
+            "next_action": {
+              "action": "review",
+              "owner": "openspec-superpower-change",
+              "permission": "local-read",
+              "inputs": [
+                {
+                  "path": "docs/review/2026-10-09-S9-final-verification.json",
+                  "sha256": "ea4dffec751593c5b9e34a21b79b88a81c9243041c077dcc792168ccd4eb37b7"
+                },
+                {
+                  "path": "docs/review/2026-10-09-S9-amended-implementation-review.json",
+                  "sha256": "098734587aa21c9c8d131372a57cf5a7e637e4555ceb1d4f8c11f3417aed45b1"
+                }
+              ]
+            },
+            "verified_revision": 7,
+            "authority_granted": false
+          }
+        },
+        {
+          "case": "new-window copied current checkpoint read-only pending Final",
+          "result": "accepted",
+          "facts": {
+            "change_id": "support-stage-specific-resume-review",
+            "record_kind": "local",
+            "state": "awaiting-final-verification",
+            "next_action": {
+              "action": "review",
+              "owner": "openspec-superpower-change",
+              "permission": "local-read",
+              "inputs": [
+                {
+                  "path": "docs/review/2026-10-09-S9-final-verification.json",
+                  "sha256": "ea4dffec751593c5b9e34a21b79b88a81c9243041c077dcc792168ccd4eb37b7"
+                },
+                {
+                  "path": "docs/review/2026-10-09-S9-amended-implementation-review.json",
+                  "sha256": "098734587aa21c9c8d131372a57cf5a7e637e4555ceb1d4f8c11f3417aed45b1"
+                }
+              ]
+            },
+            "verified_revision": 7,
+            "authority_granted": false
+          }
+        },
+        {
+          "case": "synthetic complete8 only with exact actual persisted7 and full bound Final",
+          "result": "accepted",
+          "facts": {
+            "change_id": "support-stage-specific-resume-review",
+            "record_kind": "local",
+            "state": "complete",
+            "next_action": null,
+            "verified_revision": 7,
+            "authority_granted": false
+          }
+        },
+        {
+          "case": "synthetic complete8 requires actual previous",
+          "result": "rejected",
+          "reason": "complete: actual previous persisted final-verification snapshot required"
+        },
+        {
+          "case": "synthetic complete8 rejects same facts altered previous bytes",
+          "result": "rejected",
+          "reason": "local Review: actual previous revision/SHA required"
+        },
+        {
+          "case": "atomic verification-review-complete from unverified actual lineage rejected",
+          "result": "rejected",
+          "reason": "resume: terminal state or invalid revision increment"
+        },
+        {
+          "case": "Final unknown identity",
+          "result": "rejected",
+          "reason": "local Review: identity/independent assignment mismatch"
+        },
+        {
+          "case": "Final full assignment purpose substitution",
+          "result": "rejected",
+          "reason": "local Review: identity/independent assignment mismatch"
+        },
+        {
+          "case": "Final claimed completion authority",
+          "result": "rejected",
+          "reason": "local Review: identity/independent assignment mismatch"
+        },
+        {
+          "case": "Final swapped evidence stage",
+          "result": "rejected",
+          "reason": "local Review: exactly one implementation-review PASS required"
+        },
+        {
+          "case": "Final stale initial source fingerprint",
+          "result": "rejected",
+          "reason": "local Review: stale or non-PASS evidence"
+        },
+        {
+          "case": "Final stale previous canonical SHA",
+          "result": "rejected",
+          "reason": "local Review: actual previous revision/SHA required"
+        },
+        {
+          "case": "Final stale prior revision6",
+          "result": "rejected",
+          "reason": "local Review: actual previous revision/SHA required"
+        },
+        {
+          "case": "Final evidence blocked cannot sign",
+          "result": "rejected",
+          "reason": "local Review: stale or non-PASS evidence"
+        },
+        {
+          "case": "missing independent Final gate rejected",
+          "result": "rejected",
+          "reason": "local Review: exactly one final-review PASS required"
+        },
+        {
+          "case": "new verification cannot be smuggled into complete8",
+          "result": "rejected",
+          "reason": "verification evidence: mismatched contract_revision"
+        },
+        {
+          "case": "actual immutable amendment input drift rejects complete8",
+          "result": "rejected",
+          "reason": "completed: reference sha256 mismatch or empty artifact"
+        },
+        {
+          "case": "duplicate Final evidence key rejected",
+          "result": "rejected",
+          "reason": "local Review: duplicate JSON key"
+        },
+        {
+          "case": "symlink Final evidence rejected",
+          "result": "rejected",
+          "reason": "completed: unsafe/symlink reference or unsupported secure reader"
+        },
+        {
+          "case": "reviewer cannot impersonate bound control owner",
+          "result": "rejected",
+          "reason": "resume assignment: new actor cannot impersonate owner"
+        },
+        {
+          "case": "actual S8 remains blocked no readiness verification authority",
+          "result": "accepted",
+          "facts": {
+            "change_id": "add-project-document-ownership",
+            "record_kind": "local",
+            "state": "blocked",
+            "next_action": {
+              "action": "wait",
+              "owner": "openspec-superpower-change",
+              "permission": "none",
+              "inputs": [
+                {
+                  "path": "docs/review/2026-10-09-S9-stage-review-binding-draft.md",
+                  "sha256": "cd91309ccb8161ce0139baead004ad7284fb3fc78b016338849d95034f964c08"
+                }
+              ]
+            },
+            "verified_revision": null,
+            "authority_granted": false
+          }
+        }
+      ],
+      "case_count": 21,
+      "cli_results": [
+        {
+          "case": "actual-file CLI exact persisted canonical7 complete fixture positive",
+          "exit_code": 0,
+          "output_sha256": "458627fe3898f9b882a17a2a15ac0fedf981b2f728c48f10fd95f44665ef1427"
+        },
+        {
+          "case": "actual-file CLI reviewer actor claim rejected",
+          "exit_code": 1,
+          "output_sha256": "32242cd711bd0d51dcf3238082f0a692971c6891ec4104c4807e3161ad2cc860"
+        },
+        {
+          "case": "actual-file CLI canonical prior-byte drift rejected",
+          "exit_code": 1,
+          "output_sha256": "c434cb3ca32336fcd1b8c87ccc193c5a243770a9637a1e38426e571123bc416a"
+        }
+      ],
+      "actual_S8_current_proof_context_oldapproval_exact": true,
+      "actual_S8_state": "blocked",
+      "source_and_canonical_unchanged": true,
+      "synthetic_final_values_create_no_source_signoff": true,
+      "whole_task_complete": false
+    },
+    "boundary": "Fresh independently authored actual-file probe copies actual persisted revision7, all15 stable verified inputs, actual verified command evidence and sole current Implementation reference. Synthetic final consistency object exercises eligible complete8 only against exact prior7 plus full bound Final. Negatives cover missing/stale prior, atomic verification-review-complete, unknown/mismatched identity/purpose/authority/stage, old fingerprint/prior revision, blocked/missing/duplicate/symlink Final, new verification at completion, immutable amendment input drift and actual CLI actor/canonical drift. Copies and proposed state exist only under private reviewer root; no source Final signature or user authority is inferred from synthetic fixtures."
+  },
+  "independent_complete_scope_audit": {
+    "result": "pass",
+    "scoped_inputs": 15,
+    "unrelated_preserved": 44,
+    "original_s8_preserved": 11,
+    "approved_contracts_preserved": 4,
+    "head": "379667f9780a3e718f41021f8a92a82618a286e2",
+    "index_empty": true,
+    "reviewed_owned_files": 28,
+    "resolved_links_in_full_owned_scope": 13,
+    "no_raw_traces_logs_or_sensitive_literals_in_owned_artifacts": true,
+    "runtime_receipts": [
+      {
+        "target": "codex",
+        "state": "verified",
+        "receipt_sha256": "7b2c31dbdd5c44f3a77d8da8bc6af2607f4456137cff07fb61456e3fd7803dc5"
+      },
+      {
+        "target": "pi",
+        "state": "verified",
+        "receipt_sha256": "dd6d2623f204bcf4df0e9433700f18fa82ee83efde433e8a662a1d0cd79a855a"
+      },
+      {
+        "target": "antigravity-cli",
+        "state": "verified",
+        "receipt_sha256": "9e1363ee8ffac25fdee239e54ab7e8894d20428fc7aa5e56f21c0bc252189ced"
+      },
+      {
+        "target": "grok-cli",
+        "state": "verified",
+        "receipt_sha256": "8c73cec48f7827d8c6477c07484e74dcec0889a01fd0dbc4d47e77789ff4b8af"
+      }
+    ],
+    "full_runtime_source_assertion_global_parity": true,
+    "mutable_phase_status_sha256": {
+      "docs/iteration/CURRENT.md": "5308e7f9c793bbf4251bf7c8d2fc1b716c036c82c646744134349d5d66bc078e",
+      "docs/iteration/BACKLOG.md": "dc6d7166b17cbb29ef0c7c7b89c56c2485584fe67932cce90b9fef8132446817"
+    },
+    "publication_scope": "Only S9 scoped source/contracts/evidence and immutable sanitized S8 amendment facts are approved for this one-round publication; all active S8 graph/newcontext/status and44 unrelated files remain excluded. No staging/push has happened.",
+    "root_actual_final_results_match_private_capture": "final-learning-checks.json",
+    "independent_full_suites_no_skip_failure_error": true
+  },
+  "review_assessment": {
+    "separate_gates": "Actual current canonical is already awaiting-final-verification revision7 with persisted verifiedrevision7. Its immutable snapshot bytes equal actual source canonical. Active completed references contain exactly one applicable current Implementation Review bound to prior6/current15 fingerprint. Original source Implementation remains immutable historical input referenced by review-history, not another active gate. This separate actual Final event uses the expressly approved legacy S9 assignment; it never substitutes for S8 distinct Final.",
+    "evidence_freshness": "Actual root final verification commands/exits/output hashes match private final-learning-checks capture after last learning clarification; seven recorded checks all0. Independent current-run five critical commands, strict, verify-all and post-current-correction diff-check all0; dualfull461 each with no skip/failure/error. Root controller identity, persisted revision, complete15 input equality and fingerprint are validated, not inferred from a PASS label.",
+    "behavior_and_security": "Stage mapping/admission, full evidence binding, actual prior gates, unchanged legacy compatibility and blocked context conversion retain approved strict boundaries. Current native proof honestly reuses unchanged mechanisms while fixed terminal recovery native audit is bound to current validator. Current independent exact completion fixtures reject authority/false-evidence/atomic/stale attacks.",
+    "actual_s8": "Original approval233d… and11 contract/Plan/review artifacts remain unchanged. Newcontext798ea76… retains exact s8-review-01 and distinct s8-final-01. Current canonical blockedrev5/null verification/wait-none bytes equal immutable proof ordinary followup; guarded3->4 and separate ordinary4->5 stay bounded. No readiness, implementation or completion of S8 is asserted.",
+    "runtime_and_learning": "All four current verified receipts/full40-file closure match reviewed two-file plan; unselected global complete bytes/modes remain reviewed prestate. Independent verify-all passes. Learning closeout promotes approved owned mechanism and deterministic negative enforcement with correct historical/current provenance, no additional routing/trigger/authority expansion.",
+    "scope_sensitive_temporary_unrelated": "28 owned actual files checked; no raw trace/log files or sensitive literal matches found in owned scope.44 unrelated and11 original S8 files preserved; four approved contracts normalize only permitted checkbox progress. Shared body/manifest/companion/target surfaces unchanged. Native traces/backups/receipts remain private outside discovery pending authorized cleanup, with durable sanitized evidence. Git HEAD and empty index unchanged.",
+    "publication_and_closeout": "Specific one-round lease covers future scoped S9 source publication only. Active incomplete S8 graph/newcontext/status and44 unrelated files remain excluded; only immutable sanitized S8 historical amendment proof enters S9 publication. OpenSpec tasks5.3/5.4/5.5 honestly remain pending until actual final/owned archive/publication/cleanup gates finish."
+  },
+  "accepted_phase_limitations": [
+    {
+      "limitation": "Final Review PASS signs only actual current revision7/source fingerprint/canonical bytes and complete reviewed scope. It does not authorize or claim whole-task completion.",
+      "required_next": "Root accepts exact output and alone performs pending reconciliation/archive strict checks, authorized scoped publication and cleanup; actual complete8 requires preserved persisted prior7/verification and this separate Final evidence."
+    },
+    {
+      "limitation": "Future mechanical task/iteration/archive-link/bookkeeping mutations are not represented as already covered by this current actual diff.",
+      "required_next": "Run fresh affected archive/link/scope/runtime and record closeout evidence as required; any source/learning/normative change requires affected verification and Review at the proper stage."
+    },
+    {
+      "limitation": "S8 remains incomplete and intentionally local/unpublished, with its distinct Final and original Preflight BLOCKED retained.",
+      "required_next": "Only after S9 closure may its authorized fresh changed-binding Plan/Preflight lineage establish S8 readiness."
+    },
+    {
+      "limitation": "Private fixture approvals/Final values and actor diagnostics check consistency, never authentication or source signoff.",
+      "required_next": "Existing bound Codex control plane owns actual user-approval application, canonical transition and Completion Contract evaluation."
+    }
+  ],
+  "private_artifacts": {
+    "owned_root": "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn/s9-review",
+    "current_probe_root": "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn/s9-review/final",
+    "output": "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn/s9-review/final-review-full.json",
+    "cleanup_owner": "/root/s9_review coordinated by /root",
+    "cleanup_condition": "Preserve through required publication/rollback/closeout; remove only after durable sanitized evidence and authorized cleanup conditions."
+  },
+  "authority_granted": false,
+  "canonical_changes_authorized_by_reviewer": false,
+  "whole_task_complete": false
+}

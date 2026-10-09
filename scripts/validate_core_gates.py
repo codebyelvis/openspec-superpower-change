@@ -2422,6 +2422,7 @@ RESUME_CONTEXT_FIELDS = {
     "change_id", "record_kind", "mode", "approval_status", "risk_profile",
     "control_plane_owner", "allowed_actions", "verification_commands", "reviewer_assignment",
 }
+RESUME_REVIEW_PHASES = {"implementation-review", "final-review"}
 
 
 def _resume_bytes(root: Path, path: str, label: str, *, missing=False) -> bytes | None:
@@ -2493,6 +2494,82 @@ def _resume_ref(ref, root: Path, label: str) -> bytes:
     if not payload or hashlib.sha256(payload).hexdigest() != ref["sha256"]:
         raise AssertionError(f"{label}: reference sha256 mismatch or empty artifact")
     return payload
+
+
+def _resume_local_assignment(context: dict) -> None:
+    """Validate both strict stage entries; legacy shapes retain their meaning."""
+    assignment = context["reviewer_assignment"]
+    if context["risk_profile"] == "compact":
+        if assignment is not None:
+            raise AssertionError("local compact: use existing inline Review applicability")
+        return
+    stages = isinstance(assignment, dict) and set(assignment) == RESUME_REVIEW_PHASES
+    if stages and context["risk_profile"] != "strict":
+        raise AssertionError("local Review: stage assignments require strict risk")
+    entries = assignment.items() if stages else [(None, assignment)]
+    identities = []
+    for phase, entry in entries:
+        _resume_keys(entry, REVIEWER_ASSIGNMENT_FIELDS, "local independent Review")
+        _validate_review_purpose(entry["review_purpose"], "local Review")
+        targets = {"control_plane_owner", "executor_assignment"}
+        if phase == "final-review":
+            targets.add("implementation_reviewer")
+        _validate_independence(entry["independence_requirement"], targets, "local Review")
+        identity = {key: entry[key] for key in ("agent_product", "agent_instance_id", "agent_role", "capability_profile")}
+        _validate_assignment(identity, "reviewer", "independent-reviewer", {"control-plane-high"}, SCHEMA6_AGENT_PRODUCTS, "local Review")
+        instance = identity["agent_instance_id"]
+        if instance == context["control_plane_owner"]["agent_instance_id"] or instance in identities or entry["result_authority"] != "governed-review-evidence":
+            raise AssertionError("local Review: independent identity and governed authority required")
+        identities.append(instance)
+
+
+def _resume_amendment(record: dict, context: dict, previous_text: str,
+                      root: Path, approval: dict) -> None:
+    """Check a scoped blocked binding amendment, without granting authority."""
+    old_record, old_data, old_progress, old_context, _ = _resume_loaded(previous_text, root)
+    data, progress = record["governance"], record["progress"]
+    for current in (old_record, record):
+        governance = current.get("governance", {})
+        if current["record_kind"] != "local" or any(governance.get(k) != v for k, v in (
+            ("risk_profile", "strict"), ("approval_status", "approved"), ("lifecycle_state", "blocked"),
+        )) or current["progress"]["verified_revision"] is not None:
+            raise AssertionError("resume amendment: only approved strict local blocked unverified states")
+    _resume_keys(old_context["reviewer_assignment"], REVIEWER_ASSIGNMENT_FIELDS, "previous amendment assignment")
+    _resume_keys(context["reviewer_assignment"], RESUME_REVIEW_PHASES, "next amendment assignment")
+    if context["reviewer_assignment"]["implementation-review"] != old_context["reviewer_assignment"]:
+        raise AssertionError("resume amendment: preserve the original Implementation assignment")
+    if {k: v for k, v in old_context.items() if k != "reviewer_assignment"} != {k: v for k, v in context.items() if k != "reviewer_assignment"}:
+        raise AssertionError("resume amendment: context facts other than reviewer_assignment must remain equal")
+    expected = {**old_record,
+                "governance": {**old_data, "contract_revision": old_data["contract_revision"] + 1},
+                "progress": {**old_progress, "contract": progress["contract"]}}
+    if record != expected or old_progress["contract"] == progress["contract"]:
+        raise AssertionError("resume amendment: preserve canonical facts except contract ref and revision+1")
+    payload = _resume_ref(approval, root, "amendment approval").decode()
+    parent = _resume_section(payload, "Resume Context", "amendment approving context")
+    _resume_keys(parent, RESUME_CONTEXT_FIELDS, "amendment approving context")
+    if any(parent[k] != v for k, v in (
+        ("record_kind", "local"), ("mode", "self-evolution"), ("approval_status", "approved"),
+        ("risk_profile", "strict"), ("control_plane_owner", data["control_plane_owner"]),
+    )) or not isinstance(parent["change_id"], str) or not re.fullmatch(r"[a-z0-9][a-z0-9-]*", parent["change_id"]):
+        raise AssertionError("resume amendment: approved strict self-evolution context with same owner required")
+    actions = parent["allowed_actions"]
+    if not isinstance(actions, dict) or not all(_is_nonblank(k) and _is_nonblank(v) for k, v in actions.items()) or actions.get("amend-review-binding") != "local-edit":
+        raise AssertionError("resume amendment: approving context must explicitly allow amend-review-binding/local-edit")
+    _validate_string_list(parent["verification_commands"], "verification_commands", "amendment approving context")
+    if len(parent["verification_commands"]) != len(set(parent["verification_commands"])):
+        raise AssertionError("resume amendment: duplicate approving verification commands")
+    _resume_local_assignment(parent)
+    authorization = _resume_section(payload, "Resume Amendment Authorization", "resume amendment authorization")
+    _resume_keys(authorization, {"amendment_kind", "change_id", "previous_contract", "next_contract_path", "reviewer_assignment"}, "resume amendment authorization")
+    next_path = authorization["next_contract_path"]
+    _validate_artifact_ref({"path": next_path, "sha256": progress["contract"]["sha256"]}, True, "reference", "amendment next path")
+    if any(authorization[k] != v for k, v in (
+        ("amendment_kind", "strict-local-reviewer-binding"), ("change_id", data["change_id"]),
+        ("previous_contract", old_progress["contract"]), ("next_contract_path", progress["contract"]["path"]),
+        ("reviewer_assignment", context["reviewer_assignment"]),
+    )) or next_path == old_progress["contract"]["path"]:
+        raise AssertionError("resume amendment: approval must bind exact target, old contract, new path and stage assignments")
 
 
 def _resume_governance(record: dict, text: str) -> dict:
@@ -2582,7 +2659,7 @@ def _resume_verification(progress: dict, data: dict, context: dict, root: Path) 
 
 
 def _resume_review(refs: list, role: str, data: dict, context: dict, root: Path,
-                   fingerprint: str, previous_text: str | None = None) -> None:
+                   fingerprint: str, previous_text: str | None = None) -> dict:
     found = []
     for ref in refs:
         payload = _resume_ref(ref, root, "completed reference")
@@ -2596,6 +2673,8 @@ def _resume_review(refs: list, role: str, data: dict, context: dict, root: Path,
         raise AssertionError(f"local Review: exactly one {role} PASS required")
     evidence = found[0]
     expected = context["reviewer_assignment"]
+    if isinstance(expected, dict) and set(expected) == RESUME_REVIEW_PHASES:
+        expected = expected[role]
     identity = data["control_plane_owner"] if expected is None else {
         key: expected[key] for key in ("agent_product", "agent_instance_id", "agent_role", "capability_profile")
     }
@@ -2610,6 +2689,7 @@ def _resume_review(refs: list, role: str, data: dict, context: dict, root: Path,
         previous = _resume_governance(extract_resume_record(previous_text, "previous"), previous_text)
         if evidence.get("contract_revision") != previous["contract_revision"] or evidence.get("canonical_sha256") != hashlib.sha256(previous_text.encode()).hexdigest():
             raise AssertionError("local Review: actual previous revision/SHA required")
+    return evidence
 
 
 def _resume_loaded(text: str, root: Path, actor: dict | None = None) -> tuple:
@@ -2637,16 +2717,8 @@ def _resume_loaded(text: str, root: Path, actor: dict | None = None) -> tuple:
     if record["record_kind"] == "external":
         if assignment != data["reviewer_assignment"]:
             raise AssertionError("external contract context: reviewer_assignment must match full Handoff")
-    elif data["risk_profile"] != "compact":
-        _resume_keys(assignment, REVIEWER_ASSIGNMENT_FIELDS, "local independent Review")
-        _validate_review_purpose(assignment["review_purpose"], "local Review")
-        _validate_independence(assignment["independence_requirement"], {"control_plane_owner", "executor_assignment"}, "local Review")
-        identity = {key: assignment[key] for key in ("agent_product", "agent_instance_id", "agent_role", "capability_profile")}
-        _validate_assignment(identity, "reviewer", "independent-reviewer", {"control-plane-high"}, SCHEMA6_AGENT_PRODUCTS, "local Review")
-        if identity["agent_instance_id"] == data["control_plane_owner"]["agent_instance_id"] or assignment["result_authority"] != "governed-review-evidence":
-            raise AssertionError("local Review: independent identity and governed authority required")
-    elif record["record_kind"] == "local" and assignment is not None:
-        raise AssertionError("local compact: use existing inline Review applicability")
+    else:
+        _resume_local_assignment(context)
     if progress["plan"] is not None:
         _resume_ref(progress["plan"], root, "plan")
     if not isinstance(progress["completed"], list):
@@ -2680,20 +2752,30 @@ def _resume_loaded(text: str, root: Path, actor: dict | None = None) -> tuple:
         if verified is None:
             raise AssertionError("local Review: verified scoped inputs required")
         _resume_review(progress["completed"], "implementation-review", data, context, root, verified["fingerprint"])
+        if data["lifecycle_state"] == "complete" and set(context["reviewer_assignment"]) == RESUME_REVIEW_PHASES:
+            final = _resume_review(progress["completed"], "final-review", data, context, root, verified["fingerprint"])
+            if final["contract_revision"] != verified["revision"]:
+                raise AssertionError("local Review: Final revision must match persisted verified revision")
     return record, data, progress, context, verified
 
 
 def validate_resume_record(text: str, root: Path, *, previous_text: str | None = None,
-                           actor: dict | None = None) -> dict:
+                           actor: dict | None = None, amendment_approval: dict | None = None) -> dict:
     """Read/validate facts; never authenticate an actor or grant write/signoff."""
     root = root.resolve()
     record, data, progress, context, verified = _resume_loaded(text, root, actor)
     action = progress["next_action"]
     previous = None
+    if amendment_approval is not None:
+        if previous_text is None:
+            raise AssertionError("resume amendment: actual previous canonical text required")
+        if record["record_kind"] != "local":
+            raise AssertionError("resume amendment: external records cannot select local amendment")
+        _resume_amendment(record, context, previous_text, root, amendment_approval)
     if previous_text is not None:
         previous_record = extract_resume_record(previous_text, "previous resume")
         previous = _resume_governance(previous_record, previous_text)
-        if previous_record["record_kind"] != record["record_kind"] or previous_record["progress"]["contract"] != progress["contract"]:
+        if previous_record["record_kind"] != record["record_kind"] or (amendment_approval is None and previous_record["progress"]["contract"] != progress["contract"]):
             raise AssertionError("resume: readonly kind/context cannot change in place")
         if record["record_kind"] == "local":
             for key in RESUME_LOCAL_FIELDS & SCHEMA6_IMMUTABLE_FIELDS:
@@ -2761,6 +2843,7 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     parser.add_argument("--status", type=Path)
     parser.add_argument("--resume-status", type=Path)
     parser.add_argument("--resume-actor")
+    parser.add_argument("--resume-amendment-approval")
     parser.add_argument("--artifact-root", type=Path)
     parser.add_argument("--previous-status", type=Path)
     parser.add_argument("--legacy-inventory-root", action="append", type=Path, default=[])
@@ -2774,6 +2857,8 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
         parser.error("--previous-status requires a status and --artifact-root")
     if args.resume_actor and not args.resume_status:
         parser.error("--resume-actor requires --resume-status; it grants no identity")
+    if args.resume_amendment_approval is not None and (not args.resume_status or not args.artifact_root or not args.previous_status or args.status):
+        parser.error("--resume-amendment-approval requires --resume-status/--artifact-root/--previous-status and never --status")
     if bool(args.legacy_inventory_root) != bool(args.legacy_inventory_output):
         parser.error(
             "--legacy-inventory-root and --legacy-inventory-output are required together"
@@ -2958,7 +3043,9 @@ def main(argv: list[str] | None = None) -> int:
             raise AssertionError("resume: canonical directory/change_id mismatch")
         if args.resume_actor is not None and args.resume_actor != data["control_plane_owner"]["agent_instance_id"]:
             raise AssertionError("resume: actor diagnostic does not match assignment")
-        print(json.dumps(validate_resume_record(text, project_root, previous_text=previous_text), sort_keys=True))
+        amendment_approval = _resume_json(args.resume_amendment_approval, "amendment approval reference") if args.resume_amendment_approval is not None else None
+        print(json.dumps(validate_resume_record(text, project_root, previous_text=previous_text,
+                                              amendment_approval=amendment_approval), sort_keys=True))
     if args.status:
         status_path = args.status.resolve()
         status = extract_handoff_contract(read(status_path), str(args.status))

@@ -1,0 +1,243 @@
+{
+  "author": "elvis",
+  "evidence_role": "bounded-context-amendment-proof",
+  "evidence_result": "pass",
+  "change_id": "support-stage-specific-resume-review",
+  "target_change_id": "add-project-document-ownership",
+  "authorizing_approval": {
+    "path": "docs/review/2026-10-09-S9-stage-review-binding-draft.md",
+    "sha256": "cd91309ccb8161ce0139baead004ad7284fb3fc78b016338849d95034f964c08"
+  },
+  "previous_contract": {
+    "path": "openspec/changes/add-project-document-ownership/approval.md",
+    "sha256": "233d318470241a5eb22eea9186bb372d72db6b65bf9556f6ffa818318e924873"
+  },
+  "next_contract": {
+    "path": "openspec/changes/add-project-document-ownership/resume-contract-v2.md",
+    "sha256": "798ea76ff6b0dd62f59bc7062fd5acd3587bae2d55c43013ed9479a1b20e2a62"
+  },
+  "old_context": {
+    "change_id": "add-project-document-ownership",
+    "record_kind": "local",
+    "mode": "self-evolution",
+    "approval_status": "approved",
+    "risk_profile": "strict",
+    "control_plane_owner": {
+      "agent_product": "codex",
+      "agent_instance_id": "s8-control-01",
+      "agent_role": "control-plane",
+      "capability_profile": "control-plane-high"
+    },
+    "allowed_actions": {
+      "wait": "none",
+      "preflight": "local-read",
+      "implement": "local-edit",
+      "verify": "local-read",
+      "review": "local-read",
+      "sync": "local-runtime-sync",
+      "commit-push": "source-git-lease"
+    },
+    "verification_commands": [
+      "PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python3 /Users/elvis/.codex-account-a/skills/.system/skill-creator/scripts/quick_validate.py .",
+      "PYTHONDONTWRITEBYTECODE=1 python3 scripts/validate_core_gates.py .",
+      "PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python3 scripts/validate_core_gates.py .",
+      "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s tests -v",
+      "PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python3 -m unittest discover -s tests -v",
+      "openspec validate add-project-document-ownership --strict"
+    ],
+    "reviewer_assignment": {
+      "review_purpose": {
+        "object": "S8 scoped implementation and its bound evidence",
+        "decision": "decide pass, fail or blocked for the independent implementation gate"
+      },
+      "agent_product": "codex",
+      "agent_instance_id": "s8-review-01",
+      "agent_role": "independent-reviewer",
+      "capability_profile": "control-plane-high",
+      "independence_requirement": {
+        "kind": "distinct-contract-instance",
+        "distinct_from": [
+          "control_plane_owner",
+          "executor_assignment"
+        ]
+      },
+      "result_authority": "governed-review-evidence"
+    }
+  },
+  "new_context": {
+    "change_id": "add-project-document-ownership",
+    "record_kind": "local",
+    "mode": "self-evolution",
+    "approval_status": "approved",
+    "risk_profile": "strict",
+    "control_plane_owner": {
+      "agent_product": "codex",
+      "agent_instance_id": "s8-control-01",
+      "agent_role": "control-plane",
+      "capability_profile": "control-plane-high"
+    },
+    "allowed_actions": {
+      "wait": "none",
+      "preflight": "local-read",
+      "implement": "local-edit",
+      "verify": "local-read",
+      "review": "local-read",
+      "sync": "local-runtime-sync",
+      "commit-push": "source-git-lease"
+    },
+    "verification_commands": [
+      "PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python3 /Users/elvis/.codex-account-a/skills/.system/skill-creator/scripts/quick_validate.py .",
+      "PYTHONDONTWRITEBYTECODE=1 python3 scripts/validate_core_gates.py .",
+      "PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python3 scripts/validate_core_gates.py .",
+      "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s tests -v",
+      "PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python3 -m unittest discover -s tests -v",
+      "openspec validate add-project-document-ownership --strict"
+    ],
+    "reviewer_assignment": {
+      "implementation-review": {
+        "review_purpose": {
+          "object": "S8 scoped implementation and its bound evidence",
+          "decision": "decide pass, fail or blocked for the independent implementation gate"
+        },
+        "agent_product": "codex",
+        "agent_instance_id": "s8-review-01",
+        "agent_role": "independent-reviewer",
+        "capability_profile": "control-plane-high",
+        "independence_requirement": {
+          "kind": "distinct-contract-instance",
+          "distinct_from": [
+            "control_plane_owner",
+            "executor_assignment"
+          ]
+        },
+        "result_authority": "governed-review-evidence"
+      },
+      "final-review": {
+        "review_purpose": {
+          "object": "S8 final verification and closure",
+          "decision": "decide pass, fail or blocked for the independent final gate"
+        },
+        "agent_product": "codex",
+        "agent_instance_id": "s8-final-01",
+        "agent_role": "independent-reviewer",
+        "capability_profile": "control-plane-high",
+        "independence_requirement": {
+          "kind": "distinct-contract-instance",
+          "distinct_from": [
+            "control_plane_owner",
+            "executor_assignment",
+            "implementation_reviewer"
+          ]
+        },
+        "result_authority": "governed-review-evidence"
+      }
+    }
+  },
+  "previous_canonical_text": "# S8 Implementation Status\n\nAuthor: elvis. Approved scope is retained; implementation has not started.\n\n## Session Resume\n\n```json\n{\n  \"record_kind\": \"local\",\n  \"governance\": {\n    \"schema_version\": 6,\n    \"change_id\": \"add-project-document-ownership\",\n    \"mode\": \"self-evolution\",\n    \"approval_status\": \"approved\",\n    \"risk_profile\": \"strict\",\n    \"contract_revision\": 3,\n    \"lifecycle_state\": \"blocked\",\n    \"control_plane_owner\": {\n      \"agent_product\": \"codex\",\n      \"agent_instance_id\": \"s8-control-01\",\n      \"agent_role\": \"control-plane\",\n      \"capability_profile\": \"control-plane-high\"\n    },\n    \"blocked_reason\": \"S8 Preflight F1: existing immutable single reviewer assignment cannot represent approved distinct implementation/final instances; changing excluded S7/evidence bindings requires a separate Major proposal and approval.\",\n    \"blocker_owner\": \"openspec-superpower-change\",\n    \"resume_condition\": \"Approved S9 prerequisite must pass source proof, Implementation Review and four-runtime sync, then its scoped context amendment; S8 afterward requires fresh readiness before implementation.\",\n    \"next_owner\": \"openspec-superpower-change\",\n    \"readonly_fields\": [\n      \"approval_status\",\n      \"change_id\",\n      \"control_plane_owner\",\n      \"mode\",\n      \"readonly_fields\",\n      \"risk_profile\",\n      \"schema_version\"\n    ]\n  },\n  \"progress\": {\n    \"goal\": \"Implement only approved S8 document ownership and close its required gates without changing excluded governance.\",\n    \"contract\": {\n      \"path\": \"openspec/changes/add-project-document-ownership/approval.md\",\n      \"sha256\": \"233d318470241a5eb22eea9186bb372d72db6b65bf9556f6ffa818318e924873\"\n    },\n    \"plan\": {\n      \"path\": \"docs/review/2026-10-08-S8-implementation-plan.md\",\n      \"sha256\": \"d8baab34dedc8043c857df53e62387d6a0d8b6078a27a8ddfeb7c37e3f582df6\"\n    },\n    \"completed\": [\n      {\n        \"path\": \"docs/review/2026-10-08-S8-project-document-ownership-proposal-validation.md\",\n        \"sha256\": \"a4eebbf3f68d27bc75011c4b3cf44a264f49567f893a08da83e3bab1cb5195f3\"\n      },\n      {\n        \"path\": \"docs/review/2026-10-08-S8-preflight-full.json\",\n        \"sha256\": \"f68f1bd8b3d344a3dce787ac5886ea9a0a609c0365d7337d4b6b10a9611af629\"\n      },\n      {\n        \"path\": \"docs/review/2026-10-08-S8-major-prerequisite-conflict.json\",\n        \"sha256\": \"a89dcf440f17b620168aa6b92725c0f4ad4e003ed5ce22091a3b8edbd46bba50\"\n      }\n    ],\n    \"next_action\": {\n      \"action\": \"wait\",\n      \"owner\": \"openspec-superpower-change\",\n      \"permission\": \"none\",\n      \"inputs\": [\n        {\n          \"path\": \"docs/review/2026-10-09-S9-stage-review-binding-draft.md\",\n          \"sha256\": \"cd91309ccb8161ce0139baead004ad7284fb3fc78b016338849d95034f964c08\"\n        }\n      ]\n    },\n    \"verified_revision\": null\n  }\n}\n```\n",
+  "previous_canonical_sha256": "b92cd52caaa37190dbddb0fbbe4c3cba11df0505da981fa72a22cd0812f76fb3",
+  "amended_canonical_text": "# S8 Implementation Status\n\nAuthor: elvis. Approved scope is retained; implementation has not started.\n\n## Session Resume\n\n```json\n{\n  \"record_kind\": \"local\",\n  \"governance\": {\n    \"schema_version\": 6,\n    \"change_id\": \"add-project-document-ownership\",\n    \"mode\": \"self-evolution\",\n    \"approval_status\": \"approved\",\n    \"risk_profile\": \"strict\",\n    \"contract_revision\": 4,\n    \"lifecycle_state\": \"blocked\",\n    \"control_plane_owner\": {\n      \"agent_product\": \"codex\",\n      \"agent_instance_id\": \"s8-control-01\",\n      \"agent_role\": \"control-plane\",\n      \"capability_profile\": \"control-plane-high\"\n    },\n    \"blocked_reason\": \"S8 Preflight F1: existing immutable single reviewer assignment cannot represent approved distinct implementation/final instances; changing excluded S7/evidence bindings requires a separate Major proposal and approval.\",\n    \"blocker_owner\": \"openspec-superpower-change\",\n    \"resume_condition\": \"Approved S9 prerequisite must pass source proof, Implementation Review and four-runtime sync, then its scoped context amendment; S8 afterward requires fresh readiness before implementation.\",\n    \"next_owner\": \"openspec-superpower-change\",\n    \"readonly_fields\": [\n      \"approval_status\",\n      \"change_id\",\n      \"control_plane_owner\",\n      \"mode\",\n      \"readonly_fields\",\n      \"risk_profile\",\n      \"schema_version\"\n    ]\n  },\n  \"progress\": {\n    \"goal\": \"Implement only approved S8 document ownership and close its required gates without changing excluded governance.\",\n    \"contract\": {\n      \"path\": \"openspec/changes/add-project-document-ownership/resume-contract-v2.md\",\n      \"sha256\": \"798ea76ff6b0dd62f59bc7062fd5acd3587bae2d55c43013ed9479a1b20e2a62\"\n    },\n    \"plan\": {\n      \"path\": \"docs/review/2026-10-08-S8-implementation-plan.md\",\n      \"sha256\": \"d8baab34dedc8043c857df53e62387d6a0d8b6078a27a8ddfeb7c37e3f582df6\"\n    },\n    \"completed\": [\n      {\n        \"path\": \"docs/review/2026-10-08-S8-project-document-ownership-proposal-validation.md\",\n        \"sha256\": \"a4eebbf3f68d27bc75011c4b3cf44a264f49567f893a08da83e3bab1cb5195f3\"\n      },\n      {\n        \"path\": \"docs/review/2026-10-08-S8-preflight-full.json\",\n        \"sha256\": \"f68f1bd8b3d344a3dce787ac5886ea9a0a609c0365d7337d4b6b10a9611af629\"\n      },\n      {\n        \"path\": \"docs/review/2026-10-08-S8-major-prerequisite-conflict.json\",\n        \"sha256\": \"a89dcf440f17b620168aa6b92725c0f4ad4e003ed5ce22091a3b8edbd46bba50\"\n      }\n    ],\n    \"next_action\": {\n      \"action\": \"wait\",\n      \"owner\": \"openspec-superpower-change\",\n      \"permission\": \"none\",\n      \"inputs\": [\n        {\n          \"path\": \"docs/review/2026-10-09-S9-stage-review-binding-draft.md\",\n          \"sha256\": \"cd91309ccb8161ce0139baead004ad7284fb3fc78b016338849d95034f964c08\"\n        }\n      ]\n    },\n    \"verified_revision\": null\n  }\n}\n```\n",
+  "amended_canonical_sha256": "485dcc9b30bd229b636befb4dff2caaf599610a7de841959e49c64c0710a3354",
+  "ordinary_followup_canonical_text": "# S8 Implementation Status\n\nAuthor: elvis. Approved scope is retained; implementation has not started.\n\n## Session Resume\n\n```json\n{\n  \"record_kind\": \"local\",\n  \"governance\": {\n    \"schema_version\": 6,\n    \"change_id\": \"add-project-document-ownership\",\n    \"mode\": \"self-evolution\",\n    \"approval_status\": \"approved\",\n    \"risk_profile\": \"strict\",\n    \"contract_revision\": 5,\n    \"lifecycle_state\": \"blocked\",\n    \"control_plane_owner\": {\n      \"agent_product\": \"codex\",\n      \"agent_instance_id\": \"s8-control-01\",\n      \"agent_role\": \"control-plane\",\n      \"capability_profile\": \"control-plane-high\"\n    },\n    \"blocked_reason\": \"S9 approved representation and guarded binding amendment passed; fresh S8 readiness remains required.\",\n    \"blocker_owner\": \"openspec-superpower-change\",\n    \"resume_condition\": \"After S9 closure, revalidate approved S8 scope and build its fresh changed-binding Plan/Preflight lineage before any S8 implementation.\",\n    \"next_owner\": \"openspec-superpower-change\",\n    \"readonly_fields\": [\n      \"approval_status\",\n      \"change_id\",\n      \"control_plane_owner\",\n      \"mode\",\n      \"readonly_fields\",\n      \"risk_profile\",\n      \"schema_version\"\n    ]\n  },\n  \"progress\": {\n    \"goal\": \"Implement only approved S8 document ownership and close its required gates without changing excluded governance.\",\n    \"contract\": {\n      \"path\": \"openspec/changes/add-project-document-ownership/resume-contract-v2.md\",\n      \"sha256\": \"798ea76ff6b0dd62f59bc7062fd5acd3587bae2d55c43013ed9479a1b20e2a62\"\n    },\n    \"plan\": {\n      \"path\": \"docs/review/2026-10-08-S8-implementation-plan.md\",\n      \"sha256\": \"d8baab34dedc8043c857df53e62387d6a0d8b6078a27a8ddfeb7c37e3f582df6\"\n    },\n    \"completed\": [\n      {\n        \"path\": \"docs/review/2026-10-08-S8-project-document-ownership-proposal-validation.md\",\n        \"sha256\": \"a4eebbf3f68d27bc75011c4b3cf44a264f49567f893a08da83e3bab1cb5195f3\"\n      },\n      {\n        \"path\": \"docs/review/2026-10-08-S8-preflight-full.json\",\n        \"sha256\": \"f68f1bd8b3d344a3dce787ac5886ea9a0a609c0365d7337d4b6b10a9611af629\"\n      },\n      {\n        \"path\": \"docs/review/2026-10-08-S8-major-prerequisite-conflict.json\",\n        \"sha256\": \"a89dcf440f17b620168aa6b92725c0f4ad4e003ed5ce22091a3b8edbd46bba50\"\n      }\n    ],\n    \"next_action\": {\n      \"action\": \"wait\",\n      \"owner\": \"openspec-superpower-change\",\n      \"permission\": \"none\",\n      \"inputs\": [\n        {\n          \"path\": \"docs/review/2026-10-09-S9-stage-review-binding-draft.md\",\n          \"sha256\": \"cd91309ccb8161ce0139baead004ad7284fb3fc78b016338849d95034f964c08\"\n        }\n      ]\n    },\n    \"verified_revision\": null\n  }\n}\n```\n",
+  "ordinary_followup_canonical_sha256": "c5405f0cbd29ec7180bf2fefee72613ba3315c52c7c245b4b1859645398a8a9d",
+  "commands": [
+    {
+      "command": [
+        "python3",
+        "scripts/validate_core_gates.py",
+        ".",
+        "--resume-status",
+        "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn/s8-proposed.md",
+        "--artifact-root",
+        ".",
+        "--previous-status",
+        "docs/agent-collab/add-project-document-ownership/status.md",
+        "--resume-actor",
+        "s8-control-01",
+        "--resume-amendment-approval",
+        "{\"path\":\"docs/review/2026-10-09-S9-stage-review-binding-draft.md\",\"sha256\":\"cd91309ccb8161ce0139baead004ad7284fb3fc78b016338849d95034f964c08\"}"
+      ],
+      "exit_code": 0,
+      "facts": {
+        "authority_granted": false,
+        "change_id": "add-project-document-ownership",
+        "next_action": {
+          "action": "wait",
+          "inputs": [
+            {
+              "path": "docs/review/2026-10-09-S9-stage-review-binding-draft.md",
+              "sha256": "cd91309ccb8161ce0139baead004ad7284fb3fc78b016338849d95034f964c08"
+            }
+          ],
+          "owner": "openspec-superpower-change",
+          "permission": "none"
+        },
+        "record_kind": "local",
+        "state": "blocked",
+        "verified_revision": null
+      },
+      "output_sha256": "77922ea80a4153e03762747533b1a071640b3f35281096dbfbd5c0a3bd13949c"
+    },
+    {
+      "command": [
+        "/opt/anaconda3/bin/python3",
+        "scripts/validate_core_gates.py",
+        ".",
+        "--resume-status",
+        "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn/s8-proposed.md",
+        "--artifact-root",
+        ".",
+        "--previous-status",
+        "docs/agent-collab/add-project-document-ownership/status.md",
+        "--resume-actor",
+        "s8-control-01",
+        "--resume-amendment-approval",
+        "{\"path\":\"docs/review/2026-10-09-S9-stage-review-binding-draft.md\",\"sha256\":\"cd91309ccb8161ce0139baead004ad7284fb3fc78b016338849d95034f964c08\"}"
+      ],
+      "exit_code": 0,
+      "facts": {
+        "authority_granted": false,
+        "change_id": "add-project-document-ownership",
+        "next_action": {
+          "action": "wait",
+          "inputs": [
+            {
+              "path": "docs/review/2026-10-09-S9-stage-review-binding-draft.md",
+              "sha256": "cd91309ccb8161ce0139baead004ad7284fb3fc78b016338849d95034f964c08"
+            }
+          ],
+          "owner": "openspec-superpower-change",
+          "permission": "none"
+        },
+        "record_kind": "local",
+        "state": "blocked",
+        "verified_revision": null
+      },
+      "output_sha256": "77922ea80a4153e03762747533b1a071640b3f35281096dbfbd5c0a3bd13949c"
+    }
+  ],
+  "original_approval_preserved_sha256": "233d318470241a5eb22eea9186bb372d72db6b65bf9556f6ffa818318e924873",
+  "actual_prior_rechecked_before_atomic_replace": true,
+  "guarded_revision": 4,
+  "ordinary_blocked_revision": 5,
+  "final_facts": {
+    "change_id": "add-project-document-ownership",
+    "record_kind": "local",
+    "state": "blocked",
+    "next_action": {
+      "action": "wait",
+      "owner": "openspec-superpower-change",
+      "permission": "none",
+      "inputs": [
+        {
+          "path": "docs/review/2026-10-09-S9-stage-review-binding-draft.md",
+          "sha256": "cd91309ccb8161ce0139baead004ad7284fb3fc78b016338849d95034f964c08"
+        }
+      ]
+    },
+    "verified_revision": null,
+    "authority_granted": false
+  },
+  "s8_original_artifacts_unchanged": true,
+  "s8_readiness_or_implementation_signed": false,
+  "publication": "immutable sanitized proof only; active S8 graph/context/status intentionally local and excluded from S9 staging"
+}

@@ -283,13 +283,26 @@ contract**, as immutable factual metadata, never a new approval document.
 Its exact fields are `change_id`, `record_kind`, `mode`, `approval_status`,
 `risk_profile`, `control_plane_owner`, `allowed_actions` (action -> permission),
 `verification_commands` (nonempty unique command strings), `reviewer_assignment`
-(existing full assignment for standard/strict, null only for local compact
-inline Review). External context carries the exact full Handoff assignment,
+(existing full assignment for standard/strict, the strict-local stage form below,
+or null only for local compact inline Review). External context carries the exact full Handoff assignment,
 including compact's bound control-plane Review; it cannot substitute null,
 another instance or malformed metadata.
 Facts must match governance. Bare prose “approved”, metadata and validator PASS
 cannot create authorization or enlarge scope. Proposed/blocked approval stays
 blocked with a reason, owner, resume condition and `wait` action.
+
+Only local strict contexts may use an exact two-key `reviewer_assignment` mapping:
+`implementation-review` and `final-review`, each containing the complete existing
+seven-field assignment. Validate both entries on every load, including blocked
+states; reject mixed, missing, unknown or duplicate keys without shape fallback.
+Both reviewers are eligible independent-reviewer/control-plane-high instances
+with explicit purpose and governed-review-evidence authority. Implementation
+independence names exactly `control_plane_owner` and `executor_assignment`;
+Final additionally names `implementation_reviewer`. Both contract instance IDs
+must differ from the bound controller/local executor and from each other. Local
+execution does not invent an external executor assignment. Legacy single
+assignments retain their original separate-gate behavior; standard, compact and
+full external Handoff retain their existing shapes and applicability.
 
 Example progress before verification (replace hashes with actual file hashes):
 
@@ -340,6 +353,12 @@ canonical bytes. Standard/strict Review matches the independent assignment's
 purpose, product, role, capability, independence and evidence authority; compact
 inline Review uses the bound owner and null independent assignment. The existing
 Completion Contract decides applicability; no new signoff owner is introduced.
+For the strict-local stage form, `evidence_role` selects exactly its approved
+entry. Evidence still carries one full assignment and its identity, never the
+mapping or an arbitrary eligible reviewer. Recorded-complete stage-form recovery
+rechecks both retained phase Reviews and verified consistency, including Final's
+revision matching the persisted verified revision. This read-only
+check does not recreate or claim the original actual previous canonical bytes.
 
 Validate proposed transitions against actual prior canonical bytes before the
 already-bound controller atomically replaces status. Preserve kind/context and
@@ -353,6 +372,41 @@ separate final Review and complete transition. Complete requires that actual
 previous revision/SHA and unchanged verified checkpoint; atomic verify/review/
 complete fails. Terminal recovery is read-only and never signs completion again.
 External transitions delegate to unchanged full Handoff validators.
+
+### Specifically approved blocked-context amendment
+
+Ordinary transitions preserve the exact immutable contract reference. The sole
+opt-in is `validate_resume_record(..., amendment_approval=<safe hashed ref>)`,
+or `--resume-amendment-approval '<hashed-reference JSON>'` together with
+`--resume-status`, `--artifact-root` and actual canonical `--previous-status`.
+Never use it with full external `--status`. The validator remains read-only and
+returns `authority_granted: false`; factual validation cannot authenticate an
+actor, establish user approval or grant signing, Git or production authority.
+The Router must first record specific approval of the scoped amendment.
+
+That approving contract owns exactly one `## Resume Amendment Authorization`
+JSON fence with exactly `amendment_kind: strict-local-reviewer-binding`, target
+`change_id`, exact hashed `previous_contract`, safe distinct `next_contract_path`
+and the complete approved stage `reviewer_assignment` map. Its own nine-field
+Resume Context is approved/self-evolution/strict/local, binds the same controller
+and explicitly permits `amend-review-binding: local-edit`.
+
+Validate the actual previous state and both immutable contexts through the
+existing duplicate-safe, descriptor-bound hash/parse and no-symlink rules. Both
+states must remain approved/strict/local/blocked with null verified revision.
+The old context has the legacy full assignment; the new Implementation entry
+equals it exactly. Preserve every other context fact, including owner, actions
+and critical commands. Preserve every canonical fact, including blocker, wait
+action, goal, Plan and completed history, except the new contract reference and
+revision increment by exactly one. Bind approval to that exact target, original
+reference, new path and full map. No silent migration or new PASS is permitted.
+
+Only the already-bound controller may perform the specifically authorized atomic
+replacement after checking that actual prior canonical bytes remain identical
+to those validated. Keep the old approved contract and immutable prior snapshot;
+concurrent drift blocks replacement. A separate authorized ordinary same-context
+transition may later resolve the blocker after fresh readiness. This amendment
+does not sign readiness, alter historical evidence or close the target change.
 
 ### Read-only recovery and identity
 

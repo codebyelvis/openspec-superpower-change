@@ -1,0 +1,221 @@
+{
+  "author": "elvis",
+  "change_id": "support-stage-specific-resume-review",
+  "evidence_kind": "TDD and native fixture proof; not source Review signoff",
+  "approval_effect": "none",
+  "unit_red": {
+    "command": "PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=tests python3 -m unittest test_workflow_rules.ProjectSessionResumeTests.test_strict_stage_assignments_support_distinct_reviewers_and_recovery test_workflow_rules.ProjectSessionResumeTests.test_explicit_approved_stage_context_amendment_preserves_blocked_history -v",
+    "exit_code": 1,
+    "tests": 2,
+    "failures": 2,
+    "observed_failures": [
+      "old exact seven-key assignment rejects strict stage map",
+      "amendment_approval missing from actual API signature"
+    ]
+  },
+  "additional_recovery_red": {
+    "command": "PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=tests python3 -m unittest test_workflow_rules.ProjectSessionResumeTests.test_stage_terminal_recovery_revalidates_both_reviews -v",
+    "exit_code": 1,
+    "observed_failure": "stale Final revision was accepted by recorded-complete recovery"
+  },
+  "corrections": [
+    {
+      "scope": "private fixture expectation",
+      "finding": "atomic-completion negative reached earlier revision guard; assertion wording updated without changing behavior"
+    },
+    {
+      "scope": "private native capture",
+      "finding": "native correctly reported the actually executed PYTHONDONTWRITEBYTECODE-prefixed command; harness key corrected and unchanged real output reused"
+    },
+    {
+      "scope": "approved terminal recovery consistency",
+      "finding": "Final revision now matches persisted verification revision; exact RED added before production fix"
+    }
+  ],
+  "baseline_sha256": {
+    "scripts/validate_core_gates.py": "8c0844c1ede850109965ead76831b5bceaea434482342739f53a4186198d7959",
+    "references/approved-implementation-workflow.md": "a93475a946d7c392ef3b9b36441bcadc4a6b6991887ae41d2c1043ceb094f3b3",
+    "tests/test_workflow_rules.py": "88633546a316f5e76a512bdd6918acc1554bd7ac738a401dab231282c4fd2791"
+  },
+  "native_red": {
+    "phase": "red",
+    "result": "pass",
+    "boundary": "actual old validator rejection, no gate signoff",
+    "old_validator_sha256": "8c0844c1ede850109965ead76831b5bceaea434482342739f53a4186198d7959",
+    "native": {
+      "declared_instance": "native-red-reader-01",
+      "actual_native_thread_id": "01a11ebc-c11a-7f40-97d2-06d4c871b364",
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "process_exit": 0,
+      "elapsed_seconds": 45.44,
+      "native_command_count": 3,
+      "command_exits": [
+        0,
+        0,
+        1
+      ],
+      "trace_sha256": "9cfc574f5268e75f43da204679f0a6f7c0e16e880394fab214f98e715645daf8",
+      "result_sha256": "d1ebc3fdc1b94ae0ffe57c08259dd25a8ce540125f5a388099f32d81f43b037c"
+    },
+    "canonical_unchanged": true,
+    "source_inventory_unchanged": {
+      "scripts/validate_core_gates.py": "8c0844c1ede850109965ead76831b5bceaea434482342739f53a4186198d7959",
+      "references/approved-implementation-workflow.md": "a93475a946d7c392ef3b9b36441bcadc4a6b6991887ae41d2c1043ceb094f3b3",
+      "tests/test_workflow_rules.py": "17511c7df62ea4a83ad781b762cc4ee0379bf15a9842df9f12460a0dd0fd480b",
+      "CHANGELOG.md": "1ca4fdaaf0655d2df6b39024380c29295ce5d380ff925f23011b08906c2db3cf"
+    }
+  },
+  "native_green_initial": {
+    "phase": "green",
+    "result": "pass",
+    "fixture_signoff_only": true,
+    "validator_sha256": "0be5d01a0449ab09e557cccd1cd3a12cd428bf9b17234319d53faf27094253cc",
+    "actual_fixture_critical_commands": {
+      "python3 -m unittest discover -s tests -v": 0
+    },
+    "stage_revisions": [
+      1,
+      2,
+      3
+    ],
+    "pending_recovery_readonly": true,
+    "native_instances": [
+      {
+        "declared_instance": "stage-implementation-01",
+        "actual_native_thread_id": "01a11ebf-8bfe-74d3-ac81-90061bcf16e9",
+        "model": "gpt-6.1-sol",
+        "reasoning": "high",
+        "process_exit": 0,
+        "elapsed_seconds": null,
+        "native_command_count": 4,
+        "command_exits": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "trace_sha256": "37f21bce0e968f7b17c02b996a2a81cf5b598f2b32ccf02a3cf3ee96cf96807c",
+        "result_sha256": "55907d53ca881ca96f2659f6d928732c50c736f267caf6daa6643686b50d4290",
+        "fixture_changed_paths": [],
+        "native_event_audit": "pass",
+        "evidence_reused": true,
+        "reuse_reason": "completed real native implementation output reused after private capture key correction; no native re-execution"
+      },
+      {
+        "declared_instance": "native-recovery-reader-01",
+        "actual_native_thread_id": "01a11ec1-9e99-74f1-bbb8-06ec9a2a8232",
+        "model": "gpt-6.1-sol",
+        "reasoning": "high",
+        "process_exit": 0,
+        "elapsed_seconds": 70.85,
+        "native_command_count": 5,
+        "command_exits": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "trace_sha256": "24e6b6e39f6f70898c0b98beef55cc6cc31ecee59136b340a2874842519cdd5b",
+        "result_sha256": "faa93eccaf503c8f4cb5f6bfc1248288e0da7059ec0ac666ab16436b7d10dc91",
+        "fixture_changed_paths": [],
+        "native_event_audit": "pass"
+      },
+      {
+        "declared_instance": "stage-final-01",
+        "actual_native_thread_id": "01a11ec2-b36d-70f1-9bd2-7473d72bd701",
+        "model": "gpt-6.1-sol",
+        "reasoning": "high",
+        "process_exit": 0,
+        "elapsed_seconds": 96.79,
+        "native_command_count": 6,
+        "command_exits": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "trace_sha256": "843a2eb42f8539156e2f8fa8fbb74e63cb09b0deabff2e4a4aa408e225318777",
+        "result_sha256": "5c62fb3e25ccaa004ec208354c1f603e1b97d947396ab9c06ac1072d783a7df7",
+        "fixture_changed_paths": [],
+        "native_event_audit": "pass"
+      },
+      {
+        "declared_instance": "resume-control-01",
+        "actual_native_thread_id": "01a11ec4-2d9a-7d02-a03d-3ad0fc921f56",
+        "model": "gpt-6.1-sol",
+        "reasoning": "high",
+        "process_exit": 0,
+        "elapsed_seconds": 91.29,
+        "native_command_count": 5,
+        "command_exits": [
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        "trace_sha256": "94aba1bb28c289e46c8417e9b38b6d0171517723a511d40923869f697d3a5ae4",
+        "result_sha256": "317c6d91404ab2a244c2b3480390939aee0499b817596bdd7972786b4acd6cf2",
+        "fixture_changed_paths": [
+          "docs/agent-collab/direct-resume-example/status.md"
+        ],
+        "native_event_audit": "pass"
+      }
+    ],
+    "blocked_amendment_preserved_old_context": true,
+    "adversarial_resume_suite_exit": 0,
+    "source_inventory_unchanged": {
+      "scripts/validate_core_gates.py": "0be5d01a0449ab09e557cccd1cd3a12cd428bf9b17234319d53faf27094253cc",
+      "references/approved-implementation-workflow.md": "500f1007d8f75d7313660e208213a3c1753733d1e0ab96af8e8b145935800d0d",
+      "tests/test_workflow_rules.py": "5e827f4f3a7388c753becf03d5ac41e948d055c03c89a3d7dbb4cca8e2beb527",
+      "CHANGELOG.md": "b8778eb3212f7f98bcc1a758703de9a1ffe8fe8c37232779f2e1e4358f4a66cb"
+    }
+  },
+  "unit_green": {
+    "command": "PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=tests python3 -m unittest test_workflow_rules.ProjectSessionResumeTests -q",
+    "exit_code": 0,
+    "tests": 33
+  },
+  "native_terminal_recovery_after_fix": {
+    "result": "pass",
+    "validator_sha256": "5e078403b4275a911b8476af994cd5d7052ac3ea49aafa1040832cea0fd3ca53",
+    "native": {
+      "declared_instance": "native-terminal-recovery-fixed-01",
+      "actual_native_thread_id": "01a11ec6-b797-7212-a6bd-bc6cae678763",
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "process_exit": 0,
+      "elapsed_seconds": 64.4,
+      "native_command_count": 10,
+      "command_exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "trace_sha256": "41eaff12453eb953acf4edf7e6c4309c412c371f831e0029b04e8fad9b237ba3",
+      "result_sha256": "d4caed9d4a0247ffee9b68e440bf6cbac0ce829251bf83784dca3fc63d09e5e2",
+      "fixture_changed_paths": [],
+      "native_event_audit": "pass"
+    },
+    "valid_complete_recovery": true,
+    "stale_final_revision_rejected": true,
+    "evidence_reuse": "earlier phase-transition and amendment effects unchanged; terminal recovery re-executed after actual source correction"
+  },
+  "final_source_sha256": {
+    "scripts/validate_core_gates.py": "5e078403b4275a911b8476af994cd5d7052ac3ea49aafa1040832cea0fd3ca53",
+    "references/approved-implementation-workflow.md": "dfe2e62423123f559dae184e823282b31d1dd05afeab517fa482d939166b3b8a",
+    "tests/test_workflow_rules.py": "3c51123bdf4dca7ea36c96b68524b514c5e048c2f307debbd8feb3361c3be260",
+    "CHANGELOG.md": "b8778eb3212f7f98bcc1a758703de9a1ffe8fe8c37232779f2e1e4358f4a66cb"
+  }
+}

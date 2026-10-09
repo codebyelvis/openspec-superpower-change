@@ -1,0 +1,572 @@
+{
+  "evidence_role": "implementation-review",
+  "change_id": "support-stage-specific-resume-review",
+  "contract_revision": 3,
+  "source_fingerprint": "52e812c8a441530cfab65ea1bba4fb0c091dae9d5ca562e64be2c838c182c7d0",
+  "canonical_sha256": "b7541a1f6083b73e395241a0d9dad7201b93488912ac9fd3f102ed59c2bfdd24",
+  "agent_identity": {
+    "agent_product": "codex",
+    "agent_instance_id": "s9-review-01",
+    "agent_role": "independent-reviewer",
+    "capability_profile": "control-plane-high"
+  },
+  "reviewer_assignment": {
+    "review_purpose": {
+      "object": "S9 stage-specific resume implementation and separate final gates",
+      "decision": "decide pass, fail or blocked at the independently reviewed implementation or final gate"
+    },
+    "agent_product": "codex",
+    "agent_instance_id": "s9-review-01",
+    "agent_role": "independent-reviewer",
+    "capability_profile": "control-plane-high",
+    "independence_requirement": {
+      "kind": "distinct-contract-instance",
+      "distinct_from": [
+        "control_plane_owner",
+        "executor_assignment"
+      ]
+    },
+    "result_authority": "governed-review-evidence"
+  },
+  "author": "elvis",
+  "evidence_result": "pass",
+  "actual_tool_instance": "/root/s9_review",
+  "model_metadata": {
+    "model": "gpt-6.1-sol",
+    "reasoning": "high",
+    "authority_effect": "none"
+  },
+  "review_timestamp_utc": "2026-10-09T03:55:46.356006+00:00",
+  "review_scope": {
+    "kind": "Major strict read-only independent Implementation Review",
+    "source_root": "/Users/elvis/file/develop/opensource/openspec-superpower-change",
+    "base_head": "379667f9780a3e718f41021f8a92a82618a286e2",
+    "diff_kind": "actual scoped uncommitted diff and complete new S9 contract/Plan/approval/evidence/canonical artifacts; not commit range only",
+    "production_files": [
+      "references/approved-implementation-workflow.md",
+      "scripts/validate_core_gates.py",
+      "tests/test_workflow_rules.py",
+      "CHANGELOG.md"
+    ],
+    "mutable_bookkeeping_files": [
+      "docs/iteration/CURRENT.md",
+      "docs/iteration/BACKLOG.md"
+    ],
+    "scoped_inputs": {
+      "CHANGELOG.md": "b8778eb3212f7f98bcc1a758703de9a1ffe8fe8c37232779f2e1e4358f4a66cb",
+      "references/approved-implementation-workflow.md": "dfe2e62423123f559dae184e823282b31d1dd05afeab517fa482d939166b3b8a",
+      "scripts/validate_core_gates.py": "5e078403b4275a911b8476af994cd5d7052ac3ea49aafa1040832cea0fd3ca53",
+      "tests/test_workflow_rules.py": "3c51123bdf4dca7ea36c96b68524b514c5e048c2f307debbd8feb3361c3be260",
+      "docs/review/2026-10-09-S9-stage-review-binding-draft.md": "cd91309ccb8161ce0139baead004ad7284fb3fc78b016338849d95034f964c08",
+      "docs/review/2026-10-09-S9-implementation-plan.md": "5af17584cb0e658470efb9c78a7594c38f52dd4ef613353594fff081db2956e8",
+      "docs/review/2026-10-09-S9-preflight-full.json": "bdc27a31f79c885a2973381b133bea3b654ca11fd637876ad3fba077964400b7",
+      "docs/review/2026-10-09-S9-red-green.json": "09b1d45d97e1a21ce58ee19a13249398043efe011a78550db873b50ff7dc5dfd",
+      "docs/review/2026-10-09-S9-implementation-verification.json": "7480f1de380f5f8fb6cc2a207068be90627e371ba04b627e4b946850beb636cd"
+    },
+    "additional_reviewed_current_hashes": {
+      "docs/iteration/CURRENT.md": "5a0a32f0b586d5daca856c9fa0f0639f071012e3f15266035d6c98d798887e14",
+      "docs/iteration/BACKLOG.md": "d25a925a161c4f25db3d51263cd5789e8337415fc33aa3ebd02f25d4fe812fdc"
+    },
+    "approved_contract": "openspec/changes/support-stage-specific-resume-review/{proposal,design,tasks}.md and specs/skill-workflow-governance/spec.md; exact draft-v1 approval, checkbox-only tasks updates"
+  },
+  "finding_completeness": true,
+  "actionable_findings": [],
+  "non_actionable_recommendations": [],
+  "resolved_findings": [
+    {
+      "id": "S9-IR-1",
+      "type": "current bookkeeping consistency",
+      "severity": "low",
+      "finding": "CURRENT stated ready-for-execution revision2 and terminal correction pending, while actual canonical was ready-for-review revision3 and corrected native/source proof was durable; latest BACKLOG approval paragraph still stated Preflight pending.",
+      "resolution": "Root corrected only authorized mutable CURRENT/BACKLOG current-phase text during this original Review; reviewer independently reread exact corrected lines. Historical draft labels and approved bytes remain frozen.",
+      "validation": "Current canonical revision3/review-local-read/null verification and Preflight PASS/recovery correction proof now accurately reflected; source fingerprint, canonical, frozen approval and Plan unchanged.",
+      "status": "resolved"
+    }
+  ],
+  "independent_command_results": [
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python3 /Users/elvis/.codex-account-a/skills/.system/skill-creator/scripts/quick_validate.py .",
+      "exit_code": 0,
+      "seconds": 0.04,
+      "tests": null,
+      "output_sha256": "db349825903d66adffea3ecf1bd8e1803043e8a71cf1a051235dabc5371f5bb0",
+      "log": "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn/s9-review/command-0.log",
+      "tail": "Skill is valid!\n"
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/validate_core_gates.py .",
+      "exit_code": 0,
+      "seconds": 0.07,
+      "tests": null,
+      "output_sha256": "d0c3710506d14833fcb03a19decc83a24dd1cb9739786182fcbd9496df6a3bc0",
+      "log": "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn/s9-review/command-1.log",
+      "tail": "Core gates valid: /Users/elvis/file/develop/opensource/openspec-superpower-change\n"
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python3 scripts/validate_core_gates.py .",
+      "exit_code": 0,
+      "seconds": 0.07,
+      "tests": null,
+      "output_sha256": "d0c3710506d14833fcb03a19decc83a24dd1cb9739786182fcbd9496df6a3bc0",
+      "log": "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn/s9-review/command-2.log",
+      "tail": "Core gates valid: /Users/elvis/file/develop/opensource/openspec-superpower-change\n"
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s tests -v",
+      "exit_code": 0,
+      "seconds": 27.75,
+      "tests": 461,
+      "output_sha256": "f883686a335c167eccf5e4771a7e331964e331c229046117ff900ac69c20e81e",
+      "log": "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn/s9-review/command-3.log",
+      "tail": "e_reuse (test_workflow_rules.WorkflowRulesTest.test_timeout_audit_can_bind_report_and_review_without_other_role_reuse) ... ok\ntest_timeout_audit_is_blocked_only_and_cannot_satisfy_complete (test_workflow_rules.WorkflowRulesTest.test_timeout_audit_is_blocked_only_and_cannot_satisfy_complete) ... ok\n\n----------------------------------------------------------------------\nRan 461 tests in 27.553s\n\nOK\n"
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python3 -m unittest discover -s tests -v",
+      "exit_code": 0,
+      "seconds": 26.87,
+      "tests": 461,
+      "output_sha256": "5085ac5d1d513ef9f9960eeec15d3f9e285940a858f8e6e7b57fe81fbeb75fed",
+      "log": "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn/s9-review/command-4.log",
+      "tail": "e_reuse (test_workflow_rules.WorkflowRulesTest.test_timeout_audit_can_bind_report_and_review_without_other_role_reuse) ... ok\ntest_timeout_audit_is_blocked_only_and_cannot_satisfy_complete (test_workflow_rules.WorkflowRulesTest.test_timeout_audit_is_blocked_only_and_cannot_satisfy_complete) ... ok\n\n----------------------------------------------------------------------\nRan 461 tests in 26.681s\n\nOK\n"
+    },
+    {
+      "command": "OPENSPEC_TELEMETRY=0 openspec validate support-stage-specific-resume-review --strict --no-interactive",
+      "exit_code": 0,
+      "seconds": 0.24,
+      "tests": null,
+      "output_sha256": "f545585d64cd680c1f950fdbe0f9b4db1b88a534571759e957fee28175d2fbf6",
+      "log": "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn/s9-review/command-5.log",
+      "tail": "Change 'support-stage-specific-resume-review' is valid\n"
+    }
+  ],
+  "independent_probe": {
+    "command": "PYTHONDONTWRITEBYTECODE=1 python3 /var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn/s9-review/probe.py",
+    "exit_code": 0,
+    "script_sha256": "d2841deb00cd11c150b52dde106ca211b50303f005eba1a3db262f60a82dbefe",
+    "full_results_sha256": "4bbf1a02a0d408405c768b7b71146f007cb4365dc5d6f4106a98a854fbd7dcba",
+    "results": {
+      "author": "elvis",
+      "result": "pass",
+      "synthetic_authority_only": true,
+      "real_critical_command": {
+        "command": "python3 -c 'print(7 * 6)'",
+        "exit_code": 0,
+        "stdout_sha256": "084c799cd551dd1d8d5c5f9a5d593b2e931f5e36122ee5c793c1d08a19839cc0"
+      },
+      "cases": [
+        {
+          "case": "stage entry exact prior bytes",
+          "result": "accepted",
+          "facts": {
+            "change_id": "reviewer-private-resume",
+            "record_kind": "local",
+            "state": "awaiting-final-verification",
+            "next_action": {
+              "action": "verify",
+              "owner": "openspec-superpower-change",
+              "permission": "local-read",
+              "inputs": []
+            },
+            "verified_revision": 2,
+            "authority_granted": false
+          }
+        },
+        {
+          "case": "separate complete exact prior bytes",
+          "result": "accepted",
+          "facts": {
+            "change_id": "reviewer-private-resume",
+            "record_kind": "local",
+            "state": "complete",
+            "next_action": null,
+            "verified_revision": 2,
+            "authority_granted": false
+          }
+        },
+        {
+          "case": "terminal read-only recovery both reviews",
+          "result": "accepted",
+          "facts": {
+            "change_id": "reviewer-private-resume",
+            "state": "recorded-complete",
+            "next_action": null,
+            "authority_granted": false
+          }
+        },
+        {
+          "case": "terminal Final substituted Implementation",
+          "result": "rejected",
+          "reason": "local Review: identity/independent assignment mismatch"
+        },
+        {
+          "case": "terminal Final stale revision",
+          "result": "rejected",
+          "reason": "local Review: Final revision must match persisted verified revision"
+        },
+        {
+          "case": "terminal Implementation purpose substitution",
+          "result": "rejected",
+          "reason": "local Review: identity/independent assignment mismatch"
+        },
+        {
+          "case": "terminal Final fingerprint substitution",
+          "result": "rejected",
+          "reason": "local Review: stale or non-PASS evidence"
+        },
+        {
+          "case": "complete stale actual previous SHA",
+          "result": "rejected",
+          "reason": "local Review: actual previous revision/SHA required"
+        },
+        {
+          "case": "atomic ready to complete",
+          "result": "rejected",
+          "reason": "resume: terminal state or invalid revision increment"
+        },
+        {
+          "case": "early invalid hidden Final",
+          "result": "rejected",
+          "reason": "local Review: independent identity and governed authority required"
+        },
+        {
+          "case": "map reviewer reuse",
+          "result": "rejected",
+          "reason": "local Review: independent identity and governed authority required"
+        },
+        {
+          "case": "map mixed keys",
+          "result": "rejected",
+          "reason": "local independent Review: expected exactly ['agent_instance_id', 'agent_product', 'agent_role', 'capability_profile', 'independence_requirement', 'result_authority', 'review_purpose']"
+        },
+        {
+          "case": "blocked admission validates hidden Final entry",
+          "result": "rejected",
+          "reason": "local Review: review_purpose values must be non-blank"
+        },
+        {
+          "case": "local external marker downgrade",
+          "result": "rejected",
+          "reason": "session resume: expected exactly one JSON fence"
+        },
+        {
+          "case": "explicit amendment eligible positive",
+          "result": "accepted",
+          "facts": {
+            "change_id": "reviewer-private-resume",
+            "record_kind": "local",
+            "state": "blocked",
+            "next_action": {
+              "action": "wait",
+              "owner": "openspec-superpower-change",
+              "permission": "none",
+              "inputs": []
+            },
+            "verified_revision": null,
+            "authority_granted": false
+          }
+        },
+        {
+          "case": "ordinary context swap rejected",
+          "result": "rejected",
+          "reason": "resume: readonly kind/context cannot change in place"
+        },
+        {
+          "case": "amendment missing actual previous",
+          "result": "rejected",
+          "reason": "resume amendment: actual previous canonical text required"
+        },
+        {
+          "case": "amendment stale approval hash",
+          "result": "rejected",
+          "reason": "amendment approval: reference sha256 mismatch or empty artifact"
+        },
+        {
+          "case": "amendment goal drift",
+          "result": "rejected",
+          "reason": "resume amendment: preserve canonical facts except contract ref and revision+1"
+        },
+        {
+          "case": "amendment history drift",
+          "result": "rejected",
+          "reason": "resume amendment: preserve canonical facts except contract ref and revision+1"
+        },
+        {
+          "case": "amendment wait inputs drift",
+          "result": "rejected",
+          "reason": "resume amendment: preserve canonical facts except contract ref and revision+1"
+        },
+        {
+          "case": "amendment wrong target",
+          "result": "rejected",
+          "reason": "resume amendment: approval must bind exact target, old contract, new path and stage assignments"
+        },
+        {
+          "case": "amendment wrong new path",
+          "result": "rejected",
+          "reason": "resume amendment: approval must bind exact target, old contract, new path and stage assignments"
+        },
+        {
+          "case": "amendment wrong previous hash",
+          "result": "rejected",
+          "reason": "resume amendment: approval must bind exact target, old contract, new path and stage assignments"
+        },
+        {
+          "case": "amendment unapproved",
+          "result": "rejected",
+          "reason": "resume amendment: approved strict self-evolution context with same owner required"
+        },
+        {
+          "case": "amendment no explicit action",
+          "result": "rejected",
+          "reason": "resume amendment: approving context must explicitly allow amend-review-binding/local-edit"
+        },
+        {
+          "case": "amendment owner substitution",
+          "result": "rejected",
+          "reason": "resume amendment: approved strict self-evolution context with same owner required"
+        },
+        {
+          "case": "amendment critical-command context drift",
+          "result": "rejected",
+          "reason": "resume amendment: context facts other than reviewer_assignment must remain equal"
+        },
+        {
+          "case": "amendment actual previous plan invalid",
+          "result": "rejected",
+          "reason": "plan: reference sha256 mismatch or empty artifact"
+        },
+        {
+          "case": "amendment previous valid but nonblocked lifecycle",
+          "result": "rejected",
+          "reason": "resume amendment: only approved strict local blocked unverified states"
+        },
+        {
+          "case": "amendment symlink approval",
+          "result": "rejected",
+          "reason": "amendment approval: unsafe/symlink reference or unsupported secure reader"
+        },
+        {
+          "case": "amendment duplicate authorization keys",
+          "result": "rejected",
+          "reason": "resume amendment authorization: duplicate JSON key"
+        },
+        {
+          "case": "amendment unsafe approval traversal",
+          "result": "rejected",
+          "reason": "amendment approval: reference.path must be a safe project-relative path"
+        },
+        {
+          "case": "CLI external private proposal canonical previous positive",
+          "result": "accepted",
+          "exit_code": 0,
+          "output_sha256": "093b8ce02b869ea4b56b380afbccf4f167ba937d2fd4909f0cdebbf595f56988"
+        },
+        {
+          "case": "CLI missing --resume-status",
+          "result": "rejected",
+          "exit_code": 2,
+          "output_sha256": "e19711066f34222206a6f09d8c303e3c137e4d3b959e78d5d2267fc240f72ad9"
+        },
+        {
+          "case": "CLI missing --artifact-root",
+          "result": "rejected",
+          "exit_code": 2,
+          "output_sha256": "e19711066f34222206a6f09d8c303e3c137e4d3b959e78d5d2267fc240f72ad9"
+        },
+        {
+          "case": "CLI missing --previous-status",
+          "result": "rejected",
+          "exit_code": 2,
+          "output_sha256": "d4d053de0f53ee960d8509f3a0f9decdac333df0df4cf6f13163f83ed968e15b"
+        },
+        {
+          "case": "CLI full external --status exclusion",
+          "result": "rejected",
+          "exit_code": 2,
+          "output_sha256": "784d715169cb722283479d1c8f50e2951a209e8f42bcf46113a396aaca7642e4"
+        },
+        {
+          "case": "CLI duplicate approval ref",
+          "result": "rejected",
+          "exit_code": 1,
+          "output_sha256": "3ccb7b8e14731dbca4343299df15c6d82fae5e79797e65c64247e8e6fec4e75b"
+        },
+        {
+          "case": "CLI actor impersonation",
+          "result": "rejected",
+          "exit_code": 1,
+          "output_sha256": "32242cd711bd0d51dcf3238082f0a692971c6891ec4104c4807e3161ad2cc860"
+        },
+        {
+          "case": "CLI actual previous canonical revision drift",
+          "result": "rejected",
+          "exit_code": 1,
+          "output_sha256": "f1e1fc3f49f1dc8ed0099b9ad8455c6e566bf9364ffc4c073397a7e6079d81b9"
+        }
+      ],
+      "case_count": 41,
+      "canonical_unchanged": true,
+      "old_contract_unchanged": true
+    },
+    "fixture_boundary": "Independently authored regular-file actual API plus actual CLI subprocess fixtures entirely under reviewer-owned private child, no imported test fixture builders and no credential copying. Synthetic approval/review consistency only; no canonical source authorization.",
+    "reviewer_owned_harness_correction": "Initial private CLI-output parser assumed stdout only JSON; successful validator also prints core summary. Corrected parser to consume first JSON line; no production behavior change. Re-executed full private probe successfully."
+  },
+  "independent_scope_and_native_audit": {
+    "result": "pass",
+    "frozen_unrelated_files": 44,
+    "original_s8_artifacts": 11,
+    "approved_contracts": 4,
+    "links": [
+      [
+        "docs/iteration/BACKLOG.md",
+        "../review/2026-10-09-S9-stage-review-binding-draft.md"
+      ],
+      [
+        "docs/iteration/BACKLOG.md",
+        "../../openspec/changes/support-stage-specific-resume-review/design.md"
+      ],
+      [
+        "docs/iteration/BACKLOG.md",
+        "../review/2026-10-09-S9-stage-review-binding-proposal-validation.md"
+      ],
+      [
+        "docs/review/2026-10-09-S9-stage-review-binding-proposal-validation.md",
+        "../../references/self-evolution-rule.md"
+      ],
+      [
+        "docs/review/2026-10-09-S9-stage-review-binding-proposal-validation.md",
+        "../requirement/openspec-superpower-change-iteration-plan.md"
+      ],
+      [
+        "docs/review/2026-10-09-S9-stage-review-binding-draft.md",
+        "2026-10-08-S8-preflight-full.json"
+      ],
+      [
+        "docs/review/2026-10-09-S9-stage-review-binding-draft.md",
+        "2026-10-08-S8-major-prerequisite-conflict.json"
+      ],
+      [
+        "openspec/changes/support-stage-specific-resume-review/proposal.md",
+        "../../../docs/review/2026-10-09-S9-stage-review-binding-draft.md"
+      ]
+    ],
+    "head_and_index_unchanged": true,
+    "dispatch_inputs_and_canonical_current": true,
+    "native_audit": [
+      {
+        "instance": "native-red-reader-01",
+        "native_thread_id": "01a11ebc-c11a-7f40-97d2-06d4c871b364",
+        "actual_command_count": 3,
+        "command_exits": [
+          0,
+          0,
+          1
+        ],
+        "trace_and_result_hashes_match": true
+      },
+      {
+        "instance": "stage-implementation-01",
+        "native_thread_id": "01a11ebf-8bfe-74d3-ac81-90061bcf16e9",
+        "actual_command_count": 4,
+        "command_exits": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "trace_and_result_hashes_match": true
+      },
+      {
+        "instance": "native-recovery-reader-01",
+        "native_thread_id": "01a11ec1-9e99-74f1-bbb8-06ec9a2a8232",
+        "actual_command_count": 5,
+        "command_exits": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "trace_and_result_hashes_match": true
+      },
+      {
+        "instance": "stage-final-01",
+        "native_thread_id": "01a11ec2-b36d-70f1-9bd2-7473d72bd701",
+        "actual_command_count": 6,
+        "command_exits": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "trace_and_result_hashes_match": true
+      },
+      {
+        "instance": "resume-control-01",
+        "native_thread_id": "01a11ec4-2d9a-7d02-a03d-3ad0fc921f56",
+        "actual_command_count": 5,
+        "command_exits": [
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        "trace_and_result_hashes_match": true
+      },
+      {
+        "instance": "native-terminal-recovery-fixed-01",
+        "native_thread_id": "01a11ec6-b797-7212-a6bd-bc6cae678763",
+        "actual_command_count": 10,
+        "command_exits": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "trace_and_result_hashes_match": true
+      }
+    ],
+    "reused_native_evidence_honestly_version_bound": true,
+    "current_affected_native_recheck_hash_matches": true
+  },
+  "review_assessment": {
+    "stage_assignment": "Exact legacy seven-key versus strict-local two-key classification; both assignments validated at every load; phase-specific independence and instance distinctness; evidence_role binds full purpose/product/identity/role/profile/independence/authority. Invalid/mixed/unknown forms reject without lowering profiles.",
+    "recovery_and_completion": "Entering final-verification binds actual prior revision/SHA; unchanged verification persists separately; complete requires actual prior awaiting snapshot plus Final evidence. Recorded-complete stage recovery checks both retained reviews; Final revision equals persisted verification revision. Independent terminal stale/substituted evidence probes reject. Legacy behavior unchanged.",
+    "amendment": "Explicit opt-in validates actual old canonical/context plus all hashes, proposed context and hashed exact authorization. Approved strict local blocked/null-verification only; old assignment retained as Implementation; all context facts and canonical data preserved except contract ref/revision+1. Scope/hash/path/owner/actions/commands/history/wait/metadata drift rejects. Ordinary context swap remains immutable.",
+    "safe_loading_and_cli": "Descriptor-bound regular-file no-follow readers and duplicate-safe JSON preserved. CLI requires resume-status/artifact-root/actual canonical previous-status, excludes external status and returns no authority. Actual private canonical CLI drift and options independently tested.",
+    "native_evidence_adequacy": "Independently parsed six private native streams with allowed event/item types, distinct actual thread IDs, actual command counts/exits and exact sanitized trace/result hash matches. Native forward harness uses actual small app/tests, actual commands and legal fixture state effects; unauthorized amendment rejects before only eligible fixture canonical mutation. Raw traces remain private. Initial green source hash is older and explicitly labeled; unchanged phase/amendment evidence reuse is acceptable, while changed terminal-recovery boundary was independently native rechecked against current validator hash. Command-key capture correction is explicitly recorded, not a claimed native rerun."
+  },
+  "accepted_phase_limitations": [
+    {
+      "limitation": "This source Implementation PASS binds only current revision3 and current scoped fingerprint. It does not cover future source, amendment or fingerprint changes.",
+      "required_next_gate": "Actual amended final input set requires same-stage Implementation re-Review before persisted final verification; separate Final Review remains mandatory."
+    },
+    {
+      "limitation": "Native and independent private fixture approvals/reviews establish behavior and factual consistency; they do not authenticate user authorization or sign source gates.",
+      "required_next_gate": "Root retains actual approved contract/control-plane authorization and all separate workflow gates."
+    },
+    {
+      "limitation": "Four-target runtime sync, actual S8 context amendment, learning closeout, fresh final verification, Final Review, archive, Git publication and cleanup remain pending.",
+      "required_next_gate": "Root owns phase advancement and whole-task completion; S8 remains blocked and no S8 implementation or readiness is claimed."
+    }
+  ],
+  "private_artifacts": {
+    "owned_root": "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn/s9-review",
+    "output": "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/openspec-S9-implementation-ahva86yn/s9-review/implementation-full.json",
+    "scope": "Only reviewer-owned fixture/script/output/log files; no source/runtime/Git/canonical mutation by reviewer.",
+    "cleanup_owner": "/root/s9_review coordinated by /root",
+    "cleanup_condition": "Retain until root accepts result and later required evidence/rollback/cleanup conditions are satisfied."
+  },
+  "authority_granted": false,
+  "canonical_changes_authorized_by_reviewer": false,
+  "whole_task_complete": false
+}

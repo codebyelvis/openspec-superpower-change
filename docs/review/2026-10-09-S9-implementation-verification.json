@@ -1,0 +1,64 @@
+{
+  "author": "elvis",
+  "change_id": "support-stage-specific-resume-review",
+  "evidence_role": "implementation-verification",
+  "commands": [
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python3 /Users/elvis/.codex-account-a/skills/.system/skill-creator/scripts/quick_validate.py .",
+      "exit_code": 0,
+      "elapsed_seconds": 0.04,
+      "output_sha256": "db349825903d66adffea3ecf1bd8e1803043e8a71cf1a051235dabc5371f5bb0",
+      "tests": null
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/validate_core_gates.py .",
+      "exit_code": 0,
+      "elapsed_seconds": 0.07,
+      "output_sha256": "d0c3710506d14833fcb03a19decc83a24dd1cb9739786182fcbd9496df6a3bc0",
+      "tests": null
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python3 scripts/validate_core_gates.py .",
+      "exit_code": 0,
+      "elapsed_seconds": 0.07,
+      "output_sha256": "d0c3710506d14833fcb03a19decc83a24dd1cb9739786182fcbd9496df6a3bc0",
+      "tests": null
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s tests -v",
+      "exit_code": 0,
+      "elapsed_seconds": 27.65,
+      "output_sha256": "c00394beac7df48d5eed098ff64a398f528b155c4642a280917cbbb7bcf46d92",
+      "tests": 461
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python3 -m unittest discover -s tests -v",
+      "exit_code": 0,
+      "elapsed_seconds": 26.72,
+      "output_sha256": "787492d7d4f1076fac77ec2fade514f3ddf15760c0fbca08e7eefa13aef6a39f",
+      "tests": 461
+    },
+    {
+      "command": "OPENSPEC_TELEMETRY=0 openspec validate support-stage-specific-resume-review --strict --no-interactive",
+      "exit_code": 0,
+      "elapsed_seconds": 0.23,
+      "output_sha256": "f545585d64cd680c1f950fdbe0f9b4db1b88a534571759e957fee28175d2fbf6",
+      "tests": null
+    },
+    {
+      "command": "git diff --check -- references/approved-implementation-workflow.md scripts/validate_core_gates.py tests/test_workflow_rules.py CHANGELOG.md docs/iteration",
+      "exit_code": 0,
+      "elapsed_seconds": 0.03,
+      "output_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "tests": null
+    }
+  ],
+  "scope_check": {
+    "result": "pass",
+    "unrelated_unchanged": 44,
+    "original_s8_artifacts_unchanged": 11,
+    "approved_s9_contracts_preserved": 4,
+    "resolved_local_links": 8,
+    "checked_baseline_files": 86
+  }
+}
