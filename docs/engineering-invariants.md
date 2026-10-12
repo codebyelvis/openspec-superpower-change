@@ -268,3 +268,54 @@ as commit and makes its remaining cleanup non-rejecting.
 
 Loading pointer: agents read this file through `AGENTS.md`; the executable
 commit boundary remains in the named builder and regression.
+
+## Native consumption and evidence qualification stay scoped
+
+Scope: shared governance, actual-account/native consumer audits, plan/report
+placement and four-target synchronization.
+
+Invariant:
+
+- A portable product snapshot and a native entry are different evidence scopes.
+  Record actual config root, launcher, instruction source, discovered skill
+  paths and dependency hash. Missing private copies cannot disprove shared
+  discovery; another account's parity cannot qualify native loading or behavior.
+- Content reuse does not expand formal products, instances or authority.
+  Claude launchers keep the Claude Code product, and a publisher cannot confer
+  a schema-6 role or rewrite already-bound attempt evidence.
+- Required plans exist before execution at their bound/project-selected paths.
+  Native fallback directories never relocate or duplicate immutable evidence.
+  Standalone advisory defaults to chat; persistence returns to classification.
+- Compact-local inline readiness is not a compact-external Preflight waiver.
+  Managed CCG-004/014 own their complete paragraphs; a correct prefix followed
+  by a contradictory waiver must fail. Native policy belongs in its checkpoint
+  section; another artifact, hidden comments or fenced examples cannot supply it.
+- Evidence hashes bind the exact consumed bytes. Read source and fixture inputs
+  once; decode, project and hash that same snapshot. A later pathname read may
+  describe replacement content that never entered the observed run.
+- A probe lifecycle is part of acceptance. Restore signal handlers on cleanup
+  failure and report success only after owned-directory cleanup succeeds;
+  a printed success followed by a cleanup exception is not a passing command.
+- Behavioral proof describes its actual instruction-delivery mechanism. Native
+  Codex consuming projected project AGENTS is not proof of Skill-body loading,
+  other native agents or seven-entry acceptance. Raw events stay temporary;
+  sanitized enum/audit/hash results retain these limitations.
+
+Counterexamples: an empty account-specific skill folder is labeled unavailable
+while the catalog lists shared skills; a publisher assigns itself Codex identity;
+CCG-004 has a valid prefix followed by a compact-external waiver; policy moved
+into an adapter still passes a concatenation-based checker; a no-tool classifier
+is reported as native Skill loading across seven agents.
+
+Mechanical enforcement: `NativeConsumptionManagedRulesTests` invokes the real
+managed-body validator for universal Preflight, missing advisory and contradictory
+waiver mutations. `NativeAgentConsumptionTests` invokes owner-bound consumption
+checks and rejects hidden/moved clauses, extra classifier fields and invalid
+native events. Its preparation replacement tests bind hashes to projected/read
+bytes; CLI cleanup tests cover arbitrary caller names and failure without PASS
+publication. The seven-case native runner reports only its projected-instruction
+scope and never upgrades that evidence to native Skill loading.
+
+Loading pointer: `references/local-instruction-checkpoint.md` (Native agent
+consumption), reachable from SKILL's existing affected-instructions row; existing
+adapter and synchronization references point to this same owner.

@@ -196,3 +196,7 @@ deployment until it completes under its old runtime. Never rewrite, silently
 migrate, resume after cutover, ignore, or abandon active legacy state. Complete
 legacy contracts/evidence remain immutable. Retain only non-sensitive inventory
 fields and repeat the check immediately before the first runtime apply.
+
+## Native entry qualification boundary
+
+Report four-target portable parity separately from actual-entry loading/behavior evidence. Use `references/local-instruction-checkpoint.md` (Native agent consumption); alternate accounts and native consumer overlays require their own approved path/prestate adaptation plan. Do not use a target-path override or copy native configuration through the portable sync.

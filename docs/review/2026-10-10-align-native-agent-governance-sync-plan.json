@@ -1,0 +1,2080 @@
+{
+  "managed_rules": {
+    "invariant_ids": [
+      "CCG-001",
+      "CCG-002",
+      "CCG-003",
+      "CCG-004",
+      "CCG-005",
+      "CCG-006",
+      "CCG-007",
+      "CCG-008",
+      "CCG-009",
+      "CCG-010",
+      "CCG-011",
+      "CCG-012",
+      "CCG-013",
+      "CCG-014",
+      "CCG-015",
+      "CCG-016"
+    ],
+    "path": "references/shared-global-governance.md",
+    "sha256": "960db63a0053c8d4311df61ff55f1534fd117868b39101d99b5666dd7e0a1977",
+    "source_alias": "openspec",
+    "version": 6
+  },
+  "manifest_path": "/Users/elvis/file/develop/opensource/openspec-superpower-change/references/cross-cli-portable-manifest.json",
+  "manifest_sha256": "d8389bf24b9fb3bc22bde69f1b2ba5cfee0fb6245d38ff4dcb5fe2f7649d4116",
+  "schema_version": 2,
+  "selection": {
+    "files": [
+      {
+        "path": "references/cross-cli-sync.md",
+        "skill": "openspec-superpower-change"
+      },
+      {
+        "path": "references/local-instruction-checkpoint.md",
+        "skill": "openspec-superpower-change"
+      },
+      {
+        "path": "references/shared-global-governance.md",
+        "skill": "openspec-superpower-change"
+      },
+      {
+        "path": "references/superpowers-adapter.md",
+        "skill": "openspec-superpower-change"
+      },
+      {
+        "path": "references/sync-checklist.md",
+        "skill": "openspec-superpower-change"
+      },
+      {
+        "path": "scripts/validate_core_gates.py",
+        "skill": "openspec-superpower-change"
+      },
+      {
+        "path": "scripts/validate_cross_cli_sync.py",
+        "skill": "openspec-superpower-change"
+      }
+    ],
+    "managed_rule": true
+  },
+  "sources": {
+    "brief": "/Users/elvis/file/develop/opensource/codex-brief-antigravity-review",
+    "openspec": "/Users/elvis/file/develop/opensource/openspec-superpower-change"
+  },
+  "targets": {
+    "antigravity-cli": {
+      "assertions": [
+        {
+          "destination": "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change/SKILL.md",
+          "path": "SKILL.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "4bc91eb0eb29973e5dd1ed76b9e7ec4414f04b05f812f00f6a7d0690968181b1"
+          },
+          "sha256": "4bc91eb0eb29973e5dd1ed76b9e7ec4414f04b05f812f00f6a7d0690968181b1",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change/references/approved-implementation-workflow.md",
+          "path": "references/approved-implementation-workflow.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "dfe2e62423123f559dae184e823282b31d1dd05afeab517fa482d939166b3b8a"
+          },
+          "sha256": "dfe2e62423123f559dae184e823282b31d1dd05afeab517fa482d939166b3b8a",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change/references/agent-capability-routing.md",
+          "path": "references/agent-capability-routing.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "0ab10182bcabe5743cd16f5c7a262fdfeb6a7b029285767f0cd8033fefc4ebf7"
+          },
+          "sha256": "0ab10182bcabe5743cd16f5c7a262fdfeb6a7b029285767f0cd8033fefc4ebf7",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change/references/confirmation-lease.md",
+          "path": "references/confirmation-lease.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "c91d17fd84a217808825515eefa50db0619a11bfdd2517e00fd5990bf2836164"
+          },
+          "sha256": "c91d17fd84a217808825515eefa50db0619a11bfdd2517e00fd5990bf2836164",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change/references/completion-contract.md",
+          "path": "references/completion-contract.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "31647becd38c76221d2adc0f38771113963f20e7334f4437157d7e835bafc69e"
+          },
+          "sha256": "31647becd38c76221d2adc0f38771113963f20e7334f4437157d7e835bafc69e",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change/references/direct-change-rule.md",
+          "path": "references/direct-change-rule.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "0aae205d1cb8db56d6cfd04746d84fe0b9c9b59820ce87ef30cf82c9b8be8dae"
+          },
+          "sha256": "0aae205d1cb8db56d6cfd04746d84fe0b9c9b59820ce87ef30cf82c9b8be8dae",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change/references/handoff-contract.md",
+          "path": "references/handoff-contract.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "01e558079c96ab1f9893cffd202fb2c07f84eedaf5c0ad5f1da6c79a0deec143"
+          },
+          "sha256": "01e558079c96ab1f9893cffd202fb2c07f84eedaf5c0ad5f1da6c79a0deec143",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change/references/learning-candidate-pipeline.md",
+          "path": "references/learning-candidate-pipeline.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "65c16f267802874d397aabae3cb8f43224a3a1a60f76935c3a672e27ee4afdd8"
+          },
+          "sha256": "65c16f267802874d397aabae3cb8f43224a3a1a60f76935c3a672e27ee4afdd8",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change/references/openspec-decision-rule.md",
+          "path": "references/openspec-decision-rule.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "e2e41158cbaea9fb2328d8937e8885856119b23c66ac4db843814f1c58f08d5f"
+          },
+          "sha256": "e2e41158cbaea9fb2328d8937e8885856119b23c66ac4db843814f1c58f08d5f",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change/references/proposal-workflow.md",
+          "path": "references/proposal-workflow.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "0f66e4e41a449002d3d2a19f308b0675027683199e2ac8cc37166e66da926141"
+          },
+          "sha256": "0f66e4e41a449002d3d2a19f308b0675027683199e2ac8cc37166e66da926141",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change/references/project-learning-closeout.md",
+          "path": "references/project-learning-closeout.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "64a2c446445ca88134672677022f854975bee752adf1778ee5dfbfac237f1014"
+          },
+          "sha256": "64a2c446445ca88134672677022f854975bee752adf1778ee5dfbfac237f1014",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change/references/request-modes.md",
+          "path": "references/request-modes.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "ef4c3378c196e32cfe01b21ff20fce3f67ba3b0c14b1f7c8800bd2878754a416"
+          },
+          "sha256": "ef4c3378c196e32cfe01b21ff20fce3f67ba3b0c14b1f7c8800bd2878754a416",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change/references/response-patterns.md",
+          "path": "references/response-patterns.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "c98eda749f9e5c2bd48f4303cf587d2259fcafbd1971a4794e88044f26fa31e9"
+          },
+          "sha256": "c98eda749f9e5c2bd48f4303cf587d2259fcafbd1971a4794e88044f26fa31e9",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change/references/self-evolution-rule.md",
+          "path": "references/self-evolution-rule.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "b2662a04256903d509ae6cf0ec0fb462a03c0e85457293bf5629dc86f824e090"
+          },
+          "sha256": "b2662a04256903d509ae6cf0ec0fb462a03c0e85457293bf5629dc86f824e090",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change/references/skill-iteration-loop.md",
+          "path": "references/skill-iteration-loop.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "9b6347be43661e8571a0b75ec27cdceef316db3e2e052134153a8123391ddc66"
+          },
+          "sha256": "9b6347be43661e8571a0b75ec27cdceef316db3e2e052134153a8123391ddc66",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change/references/step-evidence-gate.md",
+          "path": "references/step-evidence-gate.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "82ddadd792c4f607b9699811d8b64889d7555150422f91e05cf5126b987a3f11"
+          },
+          "sha256": "82ddadd792c4f607b9699811d8b64889d7555150422f91e05cf5126b987a3f11",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change/templates/design-template.md",
+          "path": "templates/design-template.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "5482c75976d3aab973e61fb3cdf57619959836715e4ba61d15f321f8af43d155"
+          },
+          "sha256": "5482c75976d3aab973e61fb3cdf57619959836715e4ba61d15f321f8af43d155",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change/templates/evidence-template.md",
+          "path": "templates/evidence-template.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "25f6a94c87ce9b0db664c14c12decfd2f089dc12be126a83fe1db95a87de1c05"
+          },
+          "sha256": "25f6a94c87ce9b0db664c14c12decfd2f089dc12be126a83fe1db95a87de1c05",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change/templates/final-report-template.md",
+          "path": "templates/final-report-template.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "3f02c3ea076002ddc0d3c5a11b195442b115e2e7cbc871d05c498226ee92de27"
+          },
+          "sha256": "3f02c3ea076002ddc0d3c5a11b195442b115e2e7cbc871d05c498226ee92de27",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change/templates/final-verification-template.md",
+          "path": "templates/final-verification-template.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "ddb69e1182b3e6c20e233f7dacb802e9b623a6951086b5f6ced1ffee76fd8ea6"
+          },
+          "sha256": "ddb69e1182b3e6c20e233f7dacb802e9b623a6951086b5f6ced1ffee76fd8ea6",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change/templates/learning-candidate-template.md",
+          "path": "templates/learning-candidate-template.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "ead199a25903b29e3fc778d068c9251d00fbb20a59007ab6f913720dd1812d47"
+          },
+          "sha256": "ead199a25903b29e3fc778d068c9251d00fbb20a59007ab6f913720dd1812d47",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change/templates/proposal-template.md",
+          "path": "templates/proposal-template.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "6f8739babf5269b7d229cfff498f84debf0e38e09223f6b19fcd45e7d99f5e57"
+          },
+          "sha256": "6f8739babf5269b7d229cfff498f84debf0e38e09223f6b19fcd45e7d99f5e57",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change/templates/tasks-template.md",
+          "path": "templates/tasks-template.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "45512dd5c1cc90761742115bc8e972d1bd4914d3b0e212809e2646ee093ccf8f"
+          },
+          "sha256": "45512dd5c1cc90761742115bc8e972d1bd4914d3b0e212809e2646ee093ccf8f",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.gemini/antigravity-cli/skills/codex-brief-antigravity-review/SKILL.md",
+          "path": "SKILL.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "fcf3f3f94edd0a669b5563f974b15237ae8e667db8de509c73a397bababc4de1"
+          },
+          "sha256": "fcf3f3f94edd0a669b5563f974b15237ae8e667db8de509c73a397bababc4de1",
+          "skill": "codex-brief-antigravity-review",
+          "source_alias": "brief"
+        },
+        {
+          "destination": "/Users/elvis/.gemini/antigravity-cli/skills/codex-brief-antigravity-review/references/agy-dispatch-template.md",
+          "path": "references/agy-dispatch-template.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "e3339650fcfa7aedabb16deb34b5dfd41915a0d04fec18ad8ba7195f4fd95909"
+          },
+          "sha256": "e3339650fcfa7aedabb16deb34b5dfd41915a0d04fec18ad8ba7195f4fd95909",
+          "skill": "codex-brief-antigravity-review",
+          "source_alias": "brief"
+        },
+        {
+          "destination": "/Users/elvis/.gemini/antigravity-cli/skills/codex-brief-antigravity-review/references/brief-template.md",
+          "path": "references/brief-template.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "8a4a14bfbcf223f1842bd0761a1d5ddfb0bd6db55511c0440de50a3eb4d6a398"
+          },
+          "sha256": "8a4a14bfbcf223f1842bd0761a1d5ddfb0bd6db55511c0440de50a3eb4d6a398",
+          "skill": "codex-brief-antigravity-review",
+          "source_alias": "brief"
+        },
+        {
+          "destination": "/Users/elvis/.gemini/antigravity-cli/skills/codex-brief-antigravity-review/references/handed-off-external-execution.md",
+          "path": "references/handed-off-external-execution.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "0931999b997b93da601d443b5bdf7a3486f950ab47ef7d96c31c19a6911fc1fe"
+          },
+          "sha256": "0931999b997b93da601d443b5bdf7a3486f950ab47ef7d96c31c19a6911fc1fe",
+          "skill": "codex-brief-antigravity-review",
+          "source_alias": "brief"
+        },
+        {
+          "destination": "/Users/elvis/.gemini/antigravity-cli/skills/codex-brief-antigravity-review/references/handoff-contract.md",
+          "path": "references/handoff-contract.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "01e558079c96ab1f9893cffd202fb2c07f84eedaf5c0ad5f1da6c79a0deec143"
+          },
+          "sha256": "01e558079c96ab1f9893cffd202fb2c07f84eedaf5c0ad5f1da6c79a0deec143",
+          "skill": "codex-brief-antigravity-review",
+          "source_alias": "brief"
+        },
+        {
+          "destination": "/Users/elvis/.gemini/antigravity-cli/skills/codex-brief-antigravity-review/references/report-template.md",
+          "path": "references/report-template.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "13af325d55792e166936033e3be75c5fa5fe00b370bf03f1e57b9e8df42de1c7"
+          },
+          "sha256": "13af325d55792e166936033e3be75c5fa5fe00b370bf03f1e57b9e8df42de1c7",
+          "skill": "codex-brief-antigravity-review",
+          "source_alias": "brief"
+        },
+        {
+          "destination": "/Users/elvis/.gemini/antigravity-cli/skills/codex-brief-antigravity-review/references/review-template.md",
+          "path": "references/review-template.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "5e67927047924e46193fd0180982c01f28da2e8291a598ea7dda06d9383bb42b"
+          },
+          "sha256": "5e67927047924e46193fd0180982c01f28da2e8291a598ea7dda06d9383bb42b",
+          "skill": "codex-brief-antigravity-review",
+          "source_alias": "brief"
+        },
+        {
+          "destination": "/Users/elvis/.gemini/antigravity-cli/skills/codex-brief-antigravity-review/references/timeout-audit-template.md",
+          "path": "references/timeout-audit-template.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "bf2a6d9b4927c6ae08787aef33388639f0e19fa121813987e639650d11c3ac28"
+          },
+          "sha256": "bf2a6d9b4927c6ae08787aef33388639f0e19fa121813987e639650d11c3ac28",
+          "skill": "codex-brief-antigravity-review",
+          "source_alias": "brief"
+        },
+        {
+          "destination": "/Users/elvis/.gemini/antigravity-cli/skills/codex-brief-antigravity-review/scripts/validate_templates.py",
+          "path": "scripts/validate_templates.py",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "1fda4ff10571800b9d3b7aba93839208ee7f2ab9144b34e8887a22ad62c65f0b"
+          },
+          "sha256": "1fda4ff10571800b9d3b7aba93839208ee7f2ab9144b34e8887a22ad62c65f0b",
+          "skill": "codex-brief-antigravity-review",
+          "source_alias": "brief"
+        },
+        {
+          "destination": "/Users/elvis/.gemini/antigravity-cli/skills/codex-brief-antigravity-review/agents/openai.yaml",
+          "path": "agents/openai.yaml",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "4da5d5101c5e54ea38412021775befc1991e5f5757ce7d2644e214aae78c1364"
+          },
+          "sha256": "4da5d5101c5e54ea38412021775befc1991e5f5757ce7d2644e214aae78c1364",
+          "skill": "codex-brief-antigravity-review",
+          "source_alias": "brief"
+        }
+      ],
+      "decision_owner": "codex",
+      "evidence": "pending-runtime-verification",
+      "files": [
+        {
+          "destination": "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change/references/cross-cli-sync.md",
+          "path": "references/cross-cli-sync.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "e903818b34ffc63dfcc697ffc727cf0c21db6533bc1b23becc4b81aa9c6d7641"
+          },
+          "sha256": "f52a9d7a3caabc265c8a2b059179096f86567a75d6e704543fd5e14b8b9dc4ec",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change/references/local-instruction-checkpoint.md",
+          "path": "references/local-instruction-checkpoint.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "186c349df9ba97a19239b02705f2e328354c609677544dea9afcc44a02183020"
+          },
+          "sha256": "11e9c8db28264eb638f44198d222885df4ecf6a01c532deddd4119b27b845132",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change/references/shared-global-governance.md",
+          "path": "references/shared-global-governance.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "0040153a954ab0a6599e3eb951e8fa6b7715710745616f1f404904bf056c11d2"
+          },
+          "sha256": "960db63a0053c8d4311df61ff55f1534fd117868b39101d99b5666dd7e0a1977",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change/references/superpowers-adapter.md",
+          "path": "references/superpowers-adapter.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "f164c56a8b1fa0960a421112b1ede73a98dbc981de7afcf03700dd081382e3c2"
+          },
+          "sha256": "851cbff37e5407c8c0c5c2872baa07b398f0d097aabcbe50eb29cb4c5b8b734f",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change/references/sync-checklist.md",
+          "path": "references/sync-checklist.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "ee566b6bfaa2283770e85b1156395e6e122b726aac6f3146336fc651a52345b3"
+          },
+          "sha256": "366f272094a2c24d8840c94159483636624b24cd1629219f7114959848905028",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change/scripts/validate_core_gates.py",
+          "path": "scripts/validate_core_gates.py",
+          "pre_state": {
+            "kind": "file",
+            "mode": 493,
+            "sha256": "fbb159992658e7df9679ccf99605d697f2550ccc943737bc4a831df5be52cdf6"
+          },
+          "sha256": "be8a6b215b0b8b408ba9cb66036e98be97bd9c6872630aa0b8972969a91f54ea",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change/scripts/validate_cross_cli_sync.py",
+          "path": "scripts/validate_cross_cli_sync.py",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "2e8089a18681cde52816f95a476cc7f830af47bc6a16caced5510038b7e01a99"
+          },
+          "sha256": "640402ec081b2ceee22d515f8f97ee93bbae75ab102b1b2607c2024c44f607b9",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        }
+      ],
+      "id": "antigravity-cli",
+      "managed_rule": {
+        "destination": "/Users/elvis/.gemini/GEMINI.md",
+        "pre_state": {
+          "kind": "file",
+          "mode": 420,
+          "sha256": "7fde09daec9bc5d56754a058a32ec48f983bae0898f59453ae00ca1853982006"
+        },
+        "selected": true
+      },
+      "reason": "selected collaboration runtime",
+      "result": "pending",
+      "resume_condition": "rerun parity and discovery checks",
+      "selection": "required",
+      "skills_root": "/Users/elvis/.gemini/antigravity-cli/skills"
+    },
+    "codex": {
+      "assertions": [
+        {
+          "destination": "/Users/elvis/.codex/skills/openspec-superpower-change/SKILL.md",
+          "path": "SKILL.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "4bc91eb0eb29973e5dd1ed76b9e7ec4414f04b05f812f00f6a7d0690968181b1"
+          },
+          "sha256": "4bc91eb0eb29973e5dd1ed76b9e7ec4414f04b05f812f00f6a7d0690968181b1",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.codex/skills/openspec-superpower-change/references/approved-implementation-workflow.md",
+          "path": "references/approved-implementation-workflow.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "dfe2e62423123f559dae184e823282b31d1dd05afeab517fa482d939166b3b8a"
+          },
+          "sha256": "dfe2e62423123f559dae184e823282b31d1dd05afeab517fa482d939166b3b8a",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.codex/skills/openspec-superpower-change/references/agent-capability-routing.md",
+          "path": "references/agent-capability-routing.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "0ab10182bcabe5743cd16f5c7a262fdfeb6a7b029285767f0cd8033fefc4ebf7"
+          },
+          "sha256": "0ab10182bcabe5743cd16f5c7a262fdfeb6a7b029285767f0cd8033fefc4ebf7",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.codex/skills/openspec-superpower-change/references/confirmation-lease.md",
+          "path": "references/confirmation-lease.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "c91d17fd84a217808825515eefa50db0619a11bfdd2517e00fd5990bf2836164"
+          },
+          "sha256": "c91d17fd84a217808825515eefa50db0619a11bfdd2517e00fd5990bf2836164",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.codex/skills/openspec-superpower-change/references/completion-contract.md",
+          "path": "references/completion-contract.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "31647becd38c76221d2adc0f38771113963f20e7334f4437157d7e835bafc69e"
+          },
+          "sha256": "31647becd38c76221d2adc0f38771113963f20e7334f4437157d7e835bafc69e",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.codex/skills/openspec-superpower-change/references/direct-change-rule.md",
+          "path": "references/direct-change-rule.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "0aae205d1cb8db56d6cfd04746d84fe0b9c9b59820ce87ef30cf82c9b8be8dae"
+          },
+          "sha256": "0aae205d1cb8db56d6cfd04746d84fe0b9c9b59820ce87ef30cf82c9b8be8dae",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.codex/skills/openspec-superpower-change/references/handoff-contract.md",
+          "path": "references/handoff-contract.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "01e558079c96ab1f9893cffd202fb2c07f84eedaf5c0ad5f1da6c79a0deec143"
+          },
+          "sha256": "01e558079c96ab1f9893cffd202fb2c07f84eedaf5c0ad5f1da6c79a0deec143",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.codex/skills/openspec-superpower-change/references/learning-candidate-pipeline.md",
+          "path": "references/learning-candidate-pipeline.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "65c16f267802874d397aabae3cb8f43224a3a1a60f76935c3a672e27ee4afdd8"
+          },
+          "sha256": "65c16f267802874d397aabae3cb8f43224a3a1a60f76935c3a672e27ee4afdd8",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.codex/skills/openspec-superpower-change/references/openspec-decision-rule.md",
+          "path": "references/openspec-decision-rule.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "e2e41158cbaea9fb2328d8937e8885856119b23c66ac4db843814f1c58f08d5f"
+          },
+          "sha256": "e2e41158cbaea9fb2328d8937e8885856119b23c66ac4db843814f1c58f08d5f",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.codex/skills/openspec-superpower-change/references/proposal-workflow.md",
+          "path": "references/proposal-workflow.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "0f66e4e41a449002d3d2a19f308b0675027683199e2ac8cc37166e66da926141"
+          },
+          "sha256": "0f66e4e41a449002d3d2a19f308b0675027683199e2ac8cc37166e66da926141",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.codex/skills/openspec-superpower-change/references/project-learning-closeout.md",
+          "path": "references/project-learning-closeout.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "64a2c446445ca88134672677022f854975bee752adf1778ee5dfbfac237f1014"
+          },
+          "sha256": "64a2c446445ca88134672677022f854975bee752adf1778ee5dfbfac237f1014",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.codex/skills/openspec-superpower-change/references/request-modes.md",
+          "path": "references/request-modes.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "ef4c3378c196e32cfe01b21ff20fce3f67ba3b0c14b1f7c8800bd2878754a416"
+          },
+          "sha256": "ef4c3378c196e32cfe01b21ff20fce3f67ba3b0c14b1f7c8800bd2878754a416",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.codex/skills/openspec-superpower-change/references/response-patterns.md",
+          "path": "references/response-patterns.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "c98eda749f9e5c2bd48f4303cf587d2259fcafbd1971a4794e88044f26fa31e9"
+          },
+          "sha256": "c98eda749f9e5c2bd48f4303cf587d2259fcafbd1971a4794e88044f26fa31e9",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.codex/skills/openspec-superpower-change/references/self-evolution-rule.md",
+          "path": "references/self-evolution-rule.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "b2662a04256903d509ae6cf0ec0fb462a03c0e85457293bf5629dc86f824e090"
+          },
+          "sha256": "b2662a04256903d509ae6cf0ec0fb462a03c0e85457293bf5629dc86f824e090",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.codex/skills/openspec-superpower-change/references/skill-iteration-loop.md",
+          "path": "references/skill-iteration-loop.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "9b6347be43661e8571a0b75ec27cdceef316db3e2e052134153a8123391ddc66"
+          },
+          "sha256": "9b6347be43661e8571a0b75ec27cdceef316db3e2e052134153a8123391ddc66",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.codex/skills/openspec-superpower-change/references/step-evidence-gate.md",
+          "path": "references/step-evidence-gate.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "82ddadd792c4f607b9699811d8b64889d7555150422f91e05cf5126b987a3f11"
+          },
+          "sha256": "82ddadd792c4f607b9699811d8b64889d7555150422f91e05cf5126b987a3f11",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.codex/skills/openspec-superpower-change/templates/design-template.md",
+          "path": "templates/design-template.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "5482c75976d3aab973e61fb3cdf57619959836715e4ba61d15f321f8af43d155"
+          },
+          "sha256": "5482c75976d3aab973e61fb3cdf57619959836715e4ba61d15f321f8af43d155",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.codex/skills/openspec-superpower-change/templates/evidence-template.md",
+          "path": "templates/evidence-template.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "25f6a94c87ce9b0db664c14c12decfd2f089dc12be126a83fe1db95a87de1c05"
+          },
+          "sha256": "25f6a94c87ce9b0db664c14c12decfd2f089dc12be126a83fe1db95a87de1c05",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.codex/skills/openspec-superpower-change/templates/final-report-template.md",
+          "path": "templates/final-report-template.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "3f02c3ea076002ddc0d3c5a11b195442b115e2e7cbc871d05c498226ee92de27"
+          },
+          "sha256": "3f02c3ea076002ddc0d3c5a11b195442b115e2e7cbc871d05c498226ee92de27",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.codex/skills/openspec-superpower-change/templates/final-verification-template.md",
+          "path": "templates/final-verification-template.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "ddb69e1182b3e6c20e233f7dacb802e9b623a6951086b5f6ced1ffee76fd8ea6"
+          },
+          "sha256": "ddb69e1182b3e6c20e233f7dacb802e9b623a6951086b5f6ced1ffee76fd8ea6",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.codex/skills/openspec-superpower-change/templates/learning-candidate-template.md",
+          "path": "templates/learning-candidate-template.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "ead199a25903b29e3fc778d068c9251d00fbb20a59007ab6f913720dd1812d47"
+          },
+          "sha256": "ead199a25903b29e3fc778d068c9251d00fbb20a59007ab6f913720dd1812d47",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.codex/skills/openspec-superpower-change/templates/proposal-template.md",
+          "path": "templates/proposal-template.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "6f8739babf5269b7d229cfff498f84debf0e38e09223f6b19fcd45e7d99f5e57"
+          },
+          "sha256": "6f8739babf5269b7d229cfff498f84debf0e38e09223f6b19fcd45e7d99f5e57",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.codex/skills/openspec-superpower-change/templates/tasks-template.md",
+          "path": "templates/tasks-template.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "45512dd5c1cc90761742115bc8e972d1bd4914d3b0e212809e2646ee093ccf8f"
+          },
+          "sha256": "45512dd5c1cc90761742115bc8e972d1bd4914d3b0e212809e2646ee093ccf8f",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.codex/skills/codex-brief-antigravity-review/SKILL.md",
+          "path": "SKILL.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "fcf3f3f94edd0a669b5563f974b15237ae8e667db8de509c73a397bababc4de1"
+          },
+          "sha256": "fcf3f3f94edd0a669b5563f974b15237ae8e667db8de509c73a397bababc4de1",
+          "skill": "codex-brief-antigravity-review",
+          "source_alias": "brief"
+        },
+        {
+          "destination": "/Users/elvis/.codex/skills/codex-brief-antigravity-review/references/agy-dispatch-template.md",
+          "path": "references/agy-dispatch-template.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "e3339650fcfa7aedabb16deb34b5dfd41915a0d04fec18ad8ba7195f4fd95909"
+          },
+          "sha256": "e3339650fcfa7aedabb16deb34b5dfd41915a0d04fec18ad8ba7195f4fd95909",
+          "skill": "codex-brief-antigravity-review",
+          "source_alias": "brief"
+        },
+        {
+          "destination": "/Users/elvis/.codex/skills/codex-brief-antigravity-review/references/brief-template.md",
+          "path": "references/brief-template.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "8a4a14bfbcf223f1842bd0761a1d5ddfb0bd6db55511c0440de50a3eb4d6a398"
+          },
+          "sha256": "8a4a14bfbcf223f1842bd0761a1d5ddfb0bd6db55511c0440de50a3eb4d6a398",
+          "skill": "codex-brief-antigravity-review",
+          "source_alias": "brief"
+        },
+        {
+          "destination": "/Users/elvis/.codex/skills/codex-brief-antigravity-review/references/handed-off-external-execution.md",
+          "path": "references/handed-off-external-execution.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "0931999b997b93da601d443b5bdf7a3486f950ab47ef7d96c31c19a6911fc1fe"
+          },
+          "sha256": "0931999b997b93da601d443b5bdf7a3486f950ab47ef7d96c31c19a6911fc1fe",
+          "skill": "codex-brief-antigravity-review",
+          "source_alias": "brief"
+        },
+        {
+          "destination": "/Users/elvis/.codex/skills/codex-brief-antigravity-review/references/handoff-contract.md",
+          "path": "references/handoff-contract.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "01e558079c96ab1f9893cffd202fb2c07f84eedaf5c0ad5f1da6c79a0deec143"
+          },
+          "sha256": "01e558079c96ab1f9893cffd202fb2c07f84eedaf5c0ad5f1da6c79a0deec143",
+          "skill": "codex-brief-antigravity-review",
+          "source_alias": "brief"
+        },
+        {
+          "destination": "/Users/elvis/.codex/skills/codex-brief-antigravity-review/references/report-template.md",
+          "path": "references/report-template.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "13af325d55792e166936033e3be75c5fa5fe00b370bf03f1e57b9e8df42de1c7"
+          },
+          "sha256": "13af325d55792e166936033e3be75c5fa5fe00b370bf03f1e57b9e8df42de1c7",
+          "skill": "codex-brief-antigravity-review",
+          "source_alias": "brief"
+        },
+        {
+          "destination": "/Users/elvis/.codex/skills/codex-brief-antigravity-review/references/review-template.md",
+          "path": "references/review-template.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "5e67927047924e46193fd0180982c01f28da2e8291a598ea7dda06d9383bb42b"
+          },
+          "sha256": "5e67927047924e46193fd0180982c01f28da2e8291a598ea7dda06d9383bb42b",
+          "skill": "codex-brief-antigravity-review",
+          "source_alias": "brief"
+        },
+        {
+          "destination": "/Users/elvis/.codex/skills/codex-brief-antigravity-review/references/timeout-audit-template.md",
+          "path": "references/timeout-audit-template.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "bf2a6d9b4927c6ae08787aef33388639f0e19fa121813987e639650d11c3ac28"
+          },
+          "sha256": "bf2a6d9b4927c6ae08787aef33388639f0e19fa121813987e639650d11c3ac28",
+          "skill": "codex-brief-antigravity-review",
+          "source_alias": "brief"
+        },
+        {
+          "destination": "/Users/elvis/.codex/skills/codex-brief-antigravity-review/scripts/validate_templates.py",
+          "path": "scripts/validate_templates.py",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "1fda4ff10571800b9d3b7aba93839208ee7f2ab9144b34e8887a22ad62c65f0b"
+          },
+          "sha256": "1fda4ff10571800b9d3b7aba93839208ee7f2ab9144b34e8887a22ad62c65f0b",
+          "skill": "codex-brief-antigravity-review",
+          "source_alias": "brief"
+        },
+        {
+          "destination": "/Users/elvis/.codex/skills/codex-brief-antigravity-review/agents/openai.yaml",
+          "path": "agents/openai.yaml",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "4da5d5101c5e54ea38412021775befc1991e5f5757ce7d2644e214aae78c1364"
+          },
+          "sha256": "4da5d5101c5e54ea38412021775befc1991e5f5757ce7d2644e214aae78c1364",
+          "skill": "codex-brief-antigravity-review",
+          "source_alias": "brief"
+        }
+      ],
+      "decision_owner": "codex",
+      "evidence": "pending-runtime-verification",
+      "files": [
+        {
+          "destination": "/Users/elvis/.codex/skills/openspec-superpower-change/references/cross-cli-sync.md",
+          "path": "references/cross-cli-sync.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "e903818b34ffc63dfcc697ffc727cf0c21db6533bc1b23becc4b81aa9c6d7641"
+          },
+          "sha256": "f52a9d7a3caabc265c8a2b059179096f86567a75d6e704543fd5e14b8b9dc4ec",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.codex/skills/openspec-superpower-change/references/local-instruction-checkpoint.md",
+          "path": "references/local-instruction-checkpoint.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "186c349df9ba97a19239b02705f2e328354c609677544dea9afcc44a02183020"
+          },
+          "sha256": "11e9c8db28264eb638f44198d222885df4ecf6a01c532deddd4119b27b845132",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.codex/skills/openspec-superpower-change/references/shared-global-governance.md",
+          "path": "references/shared-global-governance.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "0040153a954ab0a6599e3eb951e8fa6b7715710745616f1f404904bf056c11d2"
+          },
+          "sha256": "960db63a0053c8d4311df61ff55f1534fd117868b39101d99b5666dd7e0a1977",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.codex/skills/openspec-superpower-change/references/superpowers-adapter.md",
+          "path": "references/superpowers-adapter.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "f164c56a8b1fa0960a421112b1ede73a98dbc981de7afcf03700dd081382e3c2"
+          },
+          "sha256": "851cbff37e5407c8c0c5c2872baa07b398f0d097aabcbe50eb29cb4c5b8b734f",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.codex/skills/openspec-superpower-change/references/sync-checklist.md",
+          "path": "references/sync-checklist.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "ee566b6bfaa2283770e85b1156395e6e122b726aac6f3146336fc651a52345b3"
+          },
+          "sha256": "366f272094a2c24d8840c94159483636624b24cd1629219f7114959848905028",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.codex/skills/openspec-superpower-change/scripts/validate_core_gates.py",
+          "path": "scripts/validate_core_gates.py",
+          "pre_state": {
+            "kind": "file",
+            "mode": 493,
+            "sha256": "fbb159992658e7df9679ccf99605d697f2550ccc943737bc4a831df5be52cdf6"
+          },
+          "sha256": "be8a6b215b0b8b408ba9cb66036e98be97bd9c6872630aa0b8972969a91f54ea",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.codex/skills/openspec-superpower-change/scripts/validate_cross_cli_sync.py",
+          "path": "scripts/validate_cross_cli_sync.py",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "2e8089a18681cde52816f95a476cc7f830af47bc6a16caced5510038b7e01a99"
+          },
+          "sha256": "640402ec081b2ceee22d515f8f97ee93bbae75ab102b1b2607c2024c44f607b9",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        }
+      ],
+      "id": "codex",
+      "managed_rule": {
+        "destination": "/Users/elvis/.codex/AGENTS.md",
+        "pre_state": {
+          "kind": "file",
+          "mode": 420,
+          "sha256": "6893724a7f95510882fc5ac616c063d1446f2c3dbe1e136e0feffa1d933a19cc"
+        },
+        "selected": true
+      },
+      "reason": "selected collaboration runtime",
+      "result": "pending",
+      "resume_condition": "rerun parity and discovery checks",
+      "selection": "required",
+      "skills_root": "/Users/elvis/.codex/skills"
+    },
+    "grok-cli": {
+      "assertions": [
+        {
+          "destination": "/Users/elvis/.grok/skills/openspec-superpower-change/SKILL.md",
+          "path": "SKILL.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "4bc91eb0eb29973e5dd1ed76b9e7ec4414f04b05f812f00f6a7d0690968181b1"
+          },
+          "sha256": "4bc91eb0eb29973e5dd1ed76b9e7ec4414f04b05f812f00f6a7d0690968181b1",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.grok/skills/openspec-superpower-change/references/approved-implementation-workflow.md",
+          "path": "references/approved-implementation-workflow.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "dfe2e62423123f559dae184e823282b31d1dd05afeab517fa482d939166b3b8a"
+          },
+          "sha256": "dfe2e62423123f559dae184e823282b31d1dd05afeab517fa482d939166b3b8a",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.grok/skills/openspec-superpower-change/references/agent-capability-routing.md",
+          "path": "references/agent-capability-routing.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "0ab10182bcabe5743cd16f5c7a262fdfeb6a7b029285767f0cd8033fefc4ebf7"
+          },
+          "sha256": "0ab10182bcabe5743cd16f5c7a262fdfeb6a7b029285767f0cd8033fefc4ebf7",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.grok/skills/openspec-superpower-change/references/confirmation-lease.md",
+          "path": "references/confirmation-lease.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "c91d17fd84a217808825515eefa50db0619a11bfdd2517e00fd5990bf2836164"
+          },
+          "sha256": "c91d17fd84a217808825515eefa50db0619a11bfdd2517e00fd5990bf2836164",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.grok/skills/openspec-superpower-change/references/completion-contract.md",
+          "path": "references/completion-contract.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "31647becd38c76221d2adc0f38771113963f20e7334f4437157d7e835bafc69e"
+          },
+          "sha256": "31647becd38c76221d2adc0f38771113963f20e7334f4437157d7e835bafc69e",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.grok/skills/openspec-superpower-change/references/direct-change-rule.md",
+          "path": "references/direct-change-rule.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "0aae205d1cb8db56d6cfd04746d84fe0b9c9b59820ce87ef30cf82c9b8be8dae"
+          },
+          "sha256": "0aae205d1cb8db56d6cfd04746d84fe0b9c9b59820ce87ef30cf82c9b8be8dae",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.grok/skills/openspec-superpower-change/references/handoff-contract.md",
+          "path": "references/handoff-contract.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "01e558079c96ab1f9893cffd202fb2c07f84eedaf5c0ad5f1da6c79a0deec143"
+          },
+          "sha256": "01e558079c96ab1f9893cffd202fb2c07f84eedaf5c0ad5f1da6c79a0deec143",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.grok/skills/openspec-superpower-change/references/learning-candidate-pipeline.md",
+          "path": "references/learning-candidate-pipeline.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "65c16f267802874d397aabae3cb8f43224a3a1a60f76935c3a672e27ee4afdd8"
+          },
+          "sha256": "65c16f267802874d397aabae3cb8f43224a3a1a60f76935c3a672e27ee4afdd8",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.grok/skills/openspec-superpower-change/references/openspec-decision-rule.md",
+          "path": "references/openspec-decision-rule.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "e2e41158cbaea9fb2328d8937e8885856119b23c66ac4db843814f1c58f08d5f"
+          },
+          "sha256": "e2e41158cbaea9fb2328d8937e8885856119b23c66ac4db843814f1c58f08d5f",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.grok/skills/openspec-superpower-change/references/proposal-workflow.md",
+          "path": "references/proposal-workflow.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "0f66e4e41a449002d3d2a19f308b0675027683199e2ac8cc37166e66da926141"
+          },
+          "sha256": "0f66e4e41a449002d3d2a19f308b0675027683199e2ac8cc37166e66da926141",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.grok/skills/openspec-superpower-change/references/project-learning-closeout.md",
+          "path": "references/project-learning-closeout.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "64a2c446445ca88134672677022f854975bee752adf1778ee5dfbfac237f1014"
+          },
+          "sha256": "64a2c446445ca88134672677022f854975bee752adf1778ee5dfbfac237f1014",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.grok/skills/openspec-superpower-change/references/request-modes.md",
+          "path": "references/request-modes.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "ef4c3378c196e32cfe01b21ff20fce3f67ba3b0c14b1f7c8800bd2878754a416"
+          },
+          "sha256": "ef4c3378c196e32cfe01b21ff20fce3f67ba3b0c14b1f7c8800bd2878754a416",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.grok/skills/openspec-superpower-change/references/response-patterns.md",
+          "path": "references/response-patterns.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "c98eda749f9e5c2bd48f4303cf587d2259fcafbd1971a4794e88044f26fa31e9"
+          },
+          "sha256": "c98eda749f9e5c2bd48f4303cf587d2259fcafbd1971a4794e88044f26fa31e9",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.grok/skills/openspec-superpower-change/references/self-evolution-rule.md",
+          "path": "references/self-evolution-rule.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "b2662a04256903d509ae6cf0ec0fb462a03c0e85457293bf5629dc86f824e090"
+          },
+          "sha256": "b2662a04256903d509ae6cf0ec0fb462a03c0e85457293bf5629dc86f824e090",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.grok/skills/openspec-superpower-change/references/skill-iteration-loop.md",
+          "path": "references/skill-iteration-loop.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "9b6347be43661e8571a0b75ec27cdceef316db3e2e052134153a8123391ddc66"
+          },
+          "sha256": "9b6347be43661e8571a0b75ec27cdceef316db3e2e052134153a8123391ddc66",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.grok/skills/openspec-superpower-change/references/step-evidence-gate.md",
+          "path": "references/step-evidence-gate.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "82ddadd792c4f607b9699811d8b64889d7555150422f91e05cf5126b987a3f11"
+          },
+          "sha256": "82ddadd792c4f607b9699811d8b64889d7555150422f91e05cf5126b987a3f11",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.grok/skills/openspec-superpower-change/templates/design-template.md",
+          "path": "templates/design-template.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "5482c75976d3aab973e61fb3cdf57619959836715e4ba61d15f321f8af43d155"
+          },
+          "sha256": "5482c75976d3aab973e61fb3cdf57619959836715e4ba61d15f321f8af43d155",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.grok/skills/openspec-superpower-change/templates/evidence-template.md",
+          "path": "templates/evidence-template.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "25f6a94c87ce9b0db664c14c12decfd2f089dc12be126a83fe1db95a87de1c05"
+          },
+          "sha256": "25f6a94c87ce9b0db664c14c12decfd2f089dc12be126a83fe1db95a87de1c05",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.grok/skills/openspec-superpower-change/templates/final-report-template.md",
+          "path": "templates/final-report-template.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "3f02c3ea076002ddc0d3c5a11b195442b115e2e7cbc871d05c498226ee92de27"
+          },
+          "sha256": "3f02c3ea076002ddc0d3c5a11b195442b115e2e7cbc871d05c498226ee92de27",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.grok/skills/openspec-superpower-change/templates/final-verification-template.md",
+          "path": "templates/final-verification-template.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "ddb69e1182b3e6c20e233f7dacb802e9b623a6951086b5f6ced1ffee76fd8ea6"
+          },
+          "sha256": "ddb69e1182b3e6c20e233f7dacb802e9b623a6951086b5f6ced1ffee76fd8ea6",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.grok/skills/openspec-superpower-change/templates/learning-candidate-template.md",
+          "path": "templates/learning-candidate-template.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "ead199a25903b29e3fc778d068c9251d00fbb20a59007ab6f913720dd1812d47"
+          },
+          "sha256": "ead199a25903b29e3fc778d068c9251d00fbb20a59007ab6f913720dd1812d47",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.grok/skills/openspec-superpower-change/templates/proposal-template.md",
+          "path": "templates/proposal-template.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "6f8739babf5269b7d229cfff498f84debf0e38e09223f6b19fcd45e7d99f5e57"
+          },
+          "sha256": "6f8739babf5269b7d229cfff498f84debf0e38e09223f6b19fcd45e7d99f5e57",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.grok/skills/openspec-superpower-change/templates/tasks-template.md",
+          "path": "templates/tasks-template.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "45512dd5c1cc90761742115bc8e972d1bd4914d3b0e212809e2646ee093ccf8f"
+          },
+          "sha256": "45512dd5c1cc90761742115bc8e972d1bd4914d3b0e212809e2646ee093ccf8f",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.grok/skills/codex-brief-antigravity-review/SKILL.md",
+          "path": "SKILL.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "fcf3f3f94edd0a669b5563f974b15237ae8e667db8de509c73a397bababc4de1"
+          },
+          "sha256": "fcf3f3f94edd0a669b5563f974b15237ae8e667db8de509c73a397bababc4de1",
+          "skill": "codex-brief-antigravity-review",
+          "source_alias": "brief"
+        },
+        {
+          "destination": "/Users/elvis/.grok/skills/codex-brief-antigravity-review/references/agy-dispatch-template.md",
+          "path": "references/agy-dispatch-template.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "e3339650fcfa7aedabb16deb34b5dfd41915a0d04fec18ad8ba7195f4fd95909"
+          },
+          "sha256": "e3339650fcfa7aedabb16deb34b5dfd41915a0d04fec18ad8ba7195f4fd95909",
+          "skill": "codex-brief-antigravity-review",
+          "source_alias": "brief"
+        },
+        {
+          "destination": "/Users/elvis/.grok/skills/codex-brief-antigravity-review/references/brief-template.md",
+          "path": "references/brief-template.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "8a4a14bfbcf223f1842bd0761a1d5ddfb0bd6db55511c0440de50a3eb4d6a398"
+          },
+          "sha256": "8a4a14bfbcf223f1842bd0761a1d5ddfb0bd6db55511c0440de50a3eb4d6a398",
+          "skill": "codex-brief-antigravity-review",
+          "source_alias": "brief"
+        },
+        {
+          "destination": "/Users/elvis/.grok/skills/codex-brief-antigravity-review/references/handed-off-external-execution.md",
+          "path": "references/handed-off-external-execution.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "0931999b997b93da601d443b5bdf7a3486f950ab47ef7d96c31c19a6911fc1fe"
+          },
+          "sha256": "0931999b997b93da601d443b5bdf7a3486f950ab47ef7d96c31c19a6911fc1fe",
+          "skill": "codex-brief-antigravity-review",
+          "source_alias": "brief"
+        },
+        {
+          "destination": "/Users/elvis/.grok/skills/codex-brief-antigravity-review/references/handoff-contract.md",
+          "path": "references/handoff-contract.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "01e558079c96ab1f9893cffd202fb2c07f84eedaf5c0ad5f1da6c79a0deec143"
+          },
+          "sha256": "01e558079c96ab1f9893cffd202fb2c07f84eedaf5c0ad5f1da6c79a0deec143",
+          "skill": "codex-brief-antigravity-review",
+          "source_alias": "brief"
+        },
+        {
+          "destination": "/Users/elvis/.grok/skills/codex-brief-antigravity-review/references/report-template.md",
+          "path": "references/report-template.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "13af325d55792e166936033e3be75c5fa5fe00b370bf03f1e57b9e8df42de1c7"
+          },
+          "sha256": "13af325d55792e166936033e3be75c5fa5fe00b370bf03f1e57b9e8df42de1c7",
+          "skill": "codex-brief-antigravity-review",
+          "source_alias": "brief"
+        },
+        {
+          "destination": "/Users/elvis/.grok/skills/codex-brief-antigravity-review/references/review-template.md",
+          "path": "references/review-template.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "5e67927047924e46193fd0180982c01f28da2e8291a598ea7dda06d9383bb42b"
+          },
+          "sha256": "5e67927047924e46193fd0180982c01f28da2e8291a598ea7dda06d9383bb42b",
+          "skill": "codex-brief-antigravity-review",
+          "source_alias": "brief"
+        },
+        {
+          "destination": "/Users/elvis/.grok/skills/codex-brief-antigravity-review/references/timeout-audit-template.md",
+          "path": "references/timeout-audit-template.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "bf2a6d9b4927c6ae08787aef33388639f0e19fa121813987e639650d11c3ac28"
+          },
+          "sha256": "bf2a6d9b4927c6ae08787aef33388639f0e19fa121813987e639650d11c3ac28",
+          "skill": "codex-brief-antigravity-review",
+          "source_alias": "brief"
+        },
+        {
+          "destination": "/Users/elvis/.grok/skills/codex-brief-antigravity-review/scripts/validate_templates.py",
+          "path": "scripts/validate_templates.py",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "1fda4ff10571800b9d3b7aba93839208ee7f2ab9144b34e8887a22ad62c65f0b"
+          },
+          "sha256": "1fda4ff10571800b9d3b7aba93839208ee7f2ab9144b34e8887a22ad62c65f0b",
+          "skill": "codex-brief-antigravity-review",
+          "source_alias": "brief"
+        },
+        {
+          "destination": "/Users/elvis/.grok/skills/codex-brief-antigravity-review/agents/openai.yaml",
+          "path": "agents/openai.yaml",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "4da5d5101c5e54ea38412021775befc1991e5f5757ce7d2644e214aae78c1364"
+          },
+          "sha256": "4da5d5101c5e54ea38412021775befc1991e5f5757ce7d2644e214aae78c1364",
+          "skill": "codex-brief-antigravity-review",
+          "source_alias": "brief"
+        }
+      ],
+      "decision_owner": "codex",
+      "evidence": "pending-runtime-verification",
+      "files": [
+        {
+          "destination": "/Users/elvis/.grok/skills/openspec-superpower-change/references/cross-cli-sync.md",
+          "path": "references/cross-cli-sync.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "e903818b34ffc63dfcc697ffc727cf0c21db6533bc1b23becc4b81aa9c6d7641"
+          },
+          "sha256": "f52a9d7a3caabc265c8a2b059179096f86567a75d6e704543fd5e14b8b9dc4ec",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.grok/skills/openspec-superpower-change/references/local-instruction-checkpoint.md",
+          "path": "references/local-instruction-checkpoint.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "186c349df9ba97a19239b02705f2e328354c609677544dea9afcc44a02183020"
+          },
+          "sha256": "11e9c8db28264eb638f44198d222885df4ecf6a01c532deddd4119b27b845132",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.grok/skills/openspec-superpower-change/references/shared-global-governance.md",
+          "path": "references/shared-global-governance.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "0040153a954ab0a6599e3eb951e8fa6b7715710745616f1f404904bf056c11d2"
+          },
+          "sha256": "960db63a0053c8d4311df61ff55f1534fd117868b39101d99b5666dd7e0a1977",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.grok/skills/openspec-superpower-change/references/superpowers-adapter.md",
+          "path": "references/superpowers-adapter.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "f164c56a8b1fa0960a421112b1ede73a98dbc981de7afcf03700dd081382e3c2"
+          },
+          "sha256": "851cbff37e5407c8c0c5c2872baa07b398f0d097aabcbe50eb29cb4c5b8b734f",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.grok/skills/openspec-superpower-change/references/sync-checklist.md",
+          "path": "references/sync-checklist.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "ee566b6bfaa2283770e85b1156395e6e122b726aac6f3146336fc651a52345b3"
+          },
+          "sha256": "366f272094a2c24d8840c94159483636624b24cd1629219f7114959848905028",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.grok/skills/openspec-superpower-change/scripts/validate_core_gates.py",
+          "path": "scripts/validate_core_gates.py",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "fbb159992658e7df9679ccf99605d697f2550ccc943737bc4a831df5be52cdf6"
+          },
+          "sha256": "be8a6b215b0b8b408ba9cb66036e98be97bd9c6872630aa0b8972969a91f54ea",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.grok/skills/openspec-superpower-change/scripts/validate_cross_cli_sync.py",
+          "path": "scripts/validate_cross_cli_sync.py",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "2e8089a18681cde52816f95a476cc7f830af47bc6a16caced5510038b7e01a99"
+          },
+          "sha256": "640402ec081b2ceee22d515f8f97ee93bbae75ab102b1b2607c2024c44f607b9",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        }
+      ],
+      "id": "grok-cli",
+      "managed_rule": {
+        "destination": "/Users/elvis/.grok/AGENTS.md",
+        "pre_state": {
+          "kind": "file",
+          "mode": 420,
+          "sha256": "5114a280dec4d4b47d66540ae872b1e55b1d21eae18439f185695d640d6f29be"
+        },
+        "selected": true
+      },
+      "reason": "selected collaboration runtime",
+      "result": "pending",
+      "resume_condition": "rerun parity and discovery checks",
+      "selection": "required",
+      "skills_root": "/Users/elvis/.grok/skills"
+    },
+    "pi": {
+      "assertions": [
+        {
+          "destination": "/Users/elvis/.pi/agent/skills/openspec-superpower-change/SKILL.md",
+          "path": "SKILL.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 384,
+            "sha256": "4bc91eb0eb29973e5dd1ed76b9e7ec4414f04b05f812f00f6a7d0690968181b1"
+          },
+          "sha256": "4bc91eb0eb29973e5dd1ed76b9e7ec4414f04b05f812f00f6a7d0690968181b1",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.pi/agent/skills/openspec-superpower-change/references/approved-implementation-workflow.md",
+          "path": "references/approved-implementation-workflow.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 384,
+            "sha256": "dfe2e62423123f559dae184e823282b31d1dd05afeab517fa482d939166b3b8a"
+          },
+          "sha256": "dfe2e62423123f559dae184e823282b31d1dd05afeab517fa482d939166b3b8a",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.pi/agent/skills/openspec-superpower-change/references/agent-capability-routing.md",
+          "path": "references/agent-capability-routing.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 384,
+            "sha256": "0ab10182bcabe5743cd16f5c7a262fdfeb6a7b029285767f0cd8033fefc4ebf7"
+          },
+          "sha256": "0ab10182bcabe5743cd16f5c7a262fdfeb6a7b029285767f0cd8033fefc4ebf7",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.pi/agent/skills/openspec-superpower-change/references/confirmation-lease.md",
+          "path": "references/confirmation-lease.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 384,
+            "sha256": "c91d17fd84a217808825515eefa50db0619a11bfdd2517e00fd5990bf2836164"
+          },
+          "sha256": "c91d17fd84a217808825515eefa50db0619a11bfdd2517e00fd5990bf2836164",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.pi/agent/skills/openspec-superpower-change/references/completion-contract.md",
+          "path": "references/completion-contract.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 384,
+            "sha256": "31647becd38c76221d2adc0f38771113963f20e7334f4437157d7e835bafc69e"
+          },
+          "sha256": "31647becd38c76221d2adc0f38771113963f20e7334f4437157d7e835bafc69e",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.pi/agent/skills/openspec-superpower-change/references/direct-change-rule.md",
+          "path": "references/direct-change-rule.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 384,
+            "sha256": "0aae205d1cb8db56d6cfd04746d84fe0b9c9b59820ce87ef30cf82c9b8be8dae"
+          },
+          "sha256": "0aae205d1cb8db56d6cfd04746d84fe0b9c9b59820ce87ef30cf82c9b8be8dae",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.pi/agent/skills/openspec-superpower-change/references/handoff-contract.md",
+          "path": "references/handoff-contract.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 384,
+            "sha256": "01e558079c96ab1f9893cffd202fb2c07f84eedaf5c0ad5f1da6c79a0deec143"
+          },
+          "sha256": "01e558079c96ab1f9893cffd202fb2c07f84eedaf5c0ad5f1da6c79a0deec143",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.pi/agent/skills/openspec-superpower-change/references/learning-candidate-pipeline.md",
+          "path": "references/learning-candidate-pipeline.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 384,
+            "sha256": "65c16f267802874d397aabae3cb8f43224a3a1a60f76935c3a672e27ee4afdd8"
+          },
+          "sha256": "65c16f267802874d397aabae3cb8f43224a3a1a60f76935c3a672e27ee4afdd8",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.pi/agent/skills/openspec-superpower-change/references/openspec-decision-rule.md",
+          "path": "references/openspec-decision-rule.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 384,
+            "sha256": "e2e41158cbaea9fb2328d8937e8885856119b23c66ac4db843814f1c58f08d5f"
+          },
+          "sha256": "e2e41158cbaea9fb2328d8937e8885856119b23c66ac4db843814f1c58f08d5f",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.pi/agent/skills/openspec-superpower-change/references/proposal-workflow.md",
+          "path": "references/proposal-workflow.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 384,
+            "sha256": "0f66e4e41a449002d3d2a19f308b0675027683199e2ac8cc37166e66da926141"
+          },
+          "sha256": "0f66e4e41a449002d3d2a19f308b0675027683199e2ac8cc37166e66da926141",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.pi/agent/skills/openspec-superpower-change/references/project-learning-closeout.md",
+          "path": "references/project-learning-closeout.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 384,
+            "sha256": "64a2c446445ca88134672677022f854975bee752adf1778ee5dfbfac237f1014"
+          },
+          "sha256": "64a2c446445ca88134672677022f854975bee752adf1778ee5dfbfac237f1014",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.pi/agent/skills/openspec-superpower-change/references/request-modes.md",
+          "path": "references/request-modes.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 384,
+            "sha256": "ef4c3378c196e32cfe01b21ff20fce3f67ba3b0c14b1f7c8800bd2878754a416"
+          },
+          "sha256": "ef4c3378c196e32cfe01b21ff20fce3f67ba3b0c14b1f7c8800bd2878754a416",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.pi/agent/skills/openspec-superpower-change/references/response-patterns.md",
+          "path": "references/response-patterns.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 384,
+            "sha256": "c98eda749f9e5c2bd48f4303cf587d2259fcafbd1971a4794e88044f26fa31e9"
+          },
+          "sha256": "c98eda749f9e5c2bd48f4303cf587d2259fcafbd1971a4794e88044f26fa31e9",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.pi/agent/skills/openspec-superpower-change/references/self-evolution-rule.md",
+          "path": "references/self-evolution-rule.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 384,
+            "sha256": "b2662a04256903d509ae6cf0ec0fb462a03c0e85457293bf5629dc86f824e090"
+          },
+          "sha256": "b2662a04256903d509ae6cf0ec0fb462a03c0e85457293bf5629dc86f824e090",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.pi/agent/skills/openspec-superpower-change/references/skill-iteration-loop.md",
+          "path": "references/skill-iteration-loop.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 420,
+            "sha256": "9b6347be43661e8571a0b75ec27cdceef316db3e2e052134153a8123391ddc66"
+          },
+          "sha256": "9b6347be43661e8571a0b75ec27cdceef316db3e2e052134153a8123391ddc66",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.pi/agent/skills/openspec-superpower-change/references/step-evidence-gate.md",
+          "path": "references/step-evidence-gate.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 384,
+            "sha256": "82ddadd792c4f607b9699811d8b64889d7555150422f91e05cf5126b987a3f11"
+          },
+          "sha256": "82ddadd792c4f607b9699811d8b64889d7555150422f91e05cf5126b987a3f11",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.pi/agent/skills/openspec-superpower-change/templates/design-template.md",
+          "path": "templates/design-template.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 384,
+            "sha256": "5482c75976d3aab973e61fb3cdf57619959836715e4ba61d15f321f8af43d155"
+          },
+          "sha256": "5482c75976d3aab973e61fb3cdf57619959836715e4ba61d15f321f8af43d155",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.pi/agent/skills/openspec-superpower-change/templates/evidence-template.md",
+          "path": "templates/evidence-template.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 384,
+            "sha256": "25f6a94c87ce9b0db664c14c12decfd2f089dc12be126a83fe1db95a87de1c05"
+          },
+          "sha256": "25f6a94c87ce9b0db664c14c12decfd2f089dc12be126a83fe1db95a87de1c05",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.pi/agent/skills/openspec-superpower-change/templates/final-report-template.md",
+          "path": "templates/final-report-template.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 384,
+            "sha256": "3f02c3ea076002ddc0d3c5a11b195442b115e2e7cbc871d05c498226ee92de27"
+          },
+          "sha256": "3f02c3ea076002ddc0d3c5a11b195442b115e2e7cbc871d05c498226ee92de27",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.pi/agent/skills/openspec-superpower-change/templates/final-verification-template.md",
+          "path": "templates/final-verification-template.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 384,
+            "sha256": "ddb69e1182b3e6c20e233f7dacb802e9b623a6951086b5f6ced1ffee76fd8ea6"
+          },
+          "sha256": "ddb69e1182b3e6c20e233f7dacb802e9b623a6951086b5f6ced1ffee76fd8ea6",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.pi/agent/skills/openspec-superpower-change/templates/learning-candidate-template.md",
+          "path": "templates/learning-candidate-template.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 384,
+            "sha256": "ead199a25903b29e3fc778d068c9251d00fbb20a59007ab6f913720dd1812d47"
+          },
+          "sha256": "ead199a25903b29e3fc778d068c9251d00fbb20a59007ab6f913720dd1812d47",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.pi/agent/skills/openspec-superpower-change/templates/proposal-template.md",
+          "path": "templates/proposal-template.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 384,
+            "sha256": "6f8739babf5269b7d229cfff498f84debf0e38e09223f6b19fcd45e7d99f5e57"
+          },
+          "sha256": "6f8739babf5269b7d229cfff498f84debf0e38e09223f6b19fcd45e7d99f5e57",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.pi/agent/skills/openspec-superpower-change/templates/tasks-template.md",
+          "path": "templates/tasks-template.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 384,
+            "sha256": "45512dd5c1cc90761742115bc8e972d1bd4914d3b0e212809e2646ee093ccf8f"
+          },
+          "sha256": "45512dd5c1cc90761742115bc8e972d1bd4914d3b0e212809e2646ee093ccf8f",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.pi/agent/skills/codex-brief-antigravity-review/SKILL.md",
+          "path": "SKILL.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 384,
+            "sha256": "fcf3f3f94edd0a669b5563f974b15237ae8e667db8de509c73a397bababc4de1"
+          },
+          "sha256": "fcf3f3f94edd0a669b5563f974b15237ae8e667db8de509c73a397bababc4de1",
+          "skill": "codex-brief-antigravity-review",
+          "source_alias": "brief"
+        },
+        {
+          "destination": "/Users/elvis/.pi/agent/skills/codex-brief-antigravity-review/references/agy-dispatch-template.md",
+          "path": "references/agy-dispatch-template.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 384,
+            "sha256": "e3339650fcfa7aedabb16deb34b5dfd41915a0d04fec18ad8ba7195f4fd95909"
+          },
+          "sha256": "e3339650fcfa7aedabb16deb34b5dfd41915a0d04fec18ad8ba7195f4fd95909",
+          "skill": "codex-brief-antigravity-review",
+          "source_alias": "brief"
+        },
+        {
+          "destination": "/Users/elvis/.pi/agent/skills/codex-brief-antigravity-review/references/brief-template.md",
+          "path": "references/brief-template.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 384,
+            "sha256": "8a4a14bfbcf223f1842bd0761a1d5ddfb0bd6db55511c0440de50a3eb4d6a398"
+          },
+          "sha256": "8a4a14bfbcf223f1842bd0761a1d5ddfb0bd6db55511c0440de50a3eb4d6a398",
+          "skill": "codex-brief-antigravity-review",
+          "source_alias": "brief"
+        },
+        {
+          "destination": "/Users/elvis/.pi/agent/skills/codex-brief-antigravity-review/references/handed-off-external-execution.md",
+          "path": "references/handed-off-external-execution.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 384,
+            "sha256": "0931999b997b93da601d443b5bdf7a3486f950ab47ef7d96c31c19a6911fc1fe"
+          },
+          "sha256": "0931999b997b93da601d443b5bdf7a3486f950ab47ef7d96c31c19a6911fc1fe",
+          "skill": "codex-brief-antigravity-review",
+          "source_alias": "brief"
+        },
+        {
+          "destination": "/Users/elvis/.pi/agent/skills/codex-brief-antigravity-review/references/handoff-contract.md",
+          "path": "references/handoff-contract.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 384,
+            "sha256": "01e558079c96ab1f9893cffd202fb2c07f84eedaf5c0ad5f1da6c79a0deec143"
+          },
+          "sha256": "01e558079c96ab1f9893cffd202fb2c07f84eedaf5c0ad5f1da6c79a0deec143",
+          "skill": "codex-brief-antigravity-review",
+          "source_alias": "brief"
+        },
+        {
+          "destination": "/Users/elvis/.pi/agent/skills/codex-brief-antigravity-review/references/report-template.md",
+          "path": "references/report-template.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 384,
+            "sha256": "13af325d55792e166936033e3be75c5fa5fe00b370bf03f1e57b9e8df42de1c7"
+          },
+          "sha256": "13af325d55792e166936033e3be75c5fa5fe00b370bf03f1e57b9e8df42de1c7",
+          "skill": "codex-brief-antigravity-review",
+          "source_alias": "brief"
+        },
+        {
+          "destination": "/Users/elvis/.pi/agent/skills/codex-brief-antigravity-review/references/review-template.md",
+          "path": "references/review-template.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 384,
+            "sha256": "5e67927047924e46193fd0180982c01f28da2e8291a598ea7dda06d9383bb42b"
+          },
+          "sha256": "5e67927047924e46193fd0180982c01f28da2e8291a598ea7dda06d9383bb42b",
+          "skill": "codex-brief-antigravity-review",
+          "source_alias": "brief"
+        },
+        {
+          "destination": "/Users/elvis/.pi/agent/skills/codex-brief-antigravity-review/references/timeout-audit-template.md",
+          "path": "references/timeout-audit-template.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 384,
+            "sha256": "bf2a6d9b4927c6ae08787aef33388639f0e19fa121813987e639650d11c3ac28"
+          },
+          "sha256": "bf2a6d9b4927c6ae08787aef33388639f0e19fa121813987e639650d11c3ac28",
+          "skill": "codex-brief-antigravity-review",
+          "source_alias": "brief"
+        },
+        {
+          "destination": "/Users/elvis/.pi/agent/skills/codex-brief-antigravity-review/scripts/validate_templates.py",
+          "path": "scripts/validate_templates.py",
+          "pre_state": {
+            "kind": "file",
+            "mode": 384,
+            "sha256": "1fda4ff10571800b9d3b7aba93839208ee7f2ab9144b34e8887a22ad62c65f0b"
+          },
+          "sha256": "1fda4ff10571800b9d3b7aba93839208ee7f2ab9144b34e8887a22ad62c65f0b",
+          "skill": "codex-brief-antigravity-review",
+          "source_alias": "brief"
+        },
+        {
+          "destination": "/Users/elvis/.pi/agent/skills/codex-brief-antigravity-review/agents/openai.yaml",
+          "path": "agents/openai.yaml",
+          "pre_state": {
+            "kind": "file",
+            "mode": 384,
+            "sha256": "4da5d5101c5e54ea38412021775befc1991e5f5757ce7d2644e214aae78c1364"
+          },
+          "sha256": "4da5d5101c5e54ea38412021775befc1991e5f5757ce7d2644e214aae78c1364",
+          "skill": "codex-brief-antigravity-review",
+          "source_alias": "brief"
+        }
+      ],
+      "decision_owner": "codex",
+      "evidence": "pending-runtime-verification",
+      "files": [
+        {
+          "destination": "/Users/elvis/.pi/agent/skills/openspec-superpower-change/references/cross-cli-sync.md",
+          "path": "references/cross-cli-sync.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 384,
+            "sha256": "e903818b34ffc63dfcc697ffc727cf0c21db6533bc1b23becc4b81aa9c6d7641"
+          },
+          "sha256": "f52a9d7a3caabc265c8a2b059179096f86567a75d6e704543fd5e14b8b9dc4ec",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.pi/agent/skills/openspec-superpower-change/references/local-instruction-checkpoint.md",
+          "path": "references/local-instruction-checkpoint.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 384,
+            "sha256": "186c349df9ba97a19239b02705f2e328354c609677544dea9afcc44a02183020"
+          },
+          "sha256": "11e9c8db28264eb638f44198d222885df4ecf6a01c532deddd4119b27b845132",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.pi/agent/skills/openspec-superpower-change/references/shared-global-governance.md",
+          "path": "references/shared-global-governance.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 384,
+            "sha256": "0040153a954ab0a6599e3eb951e8fa6b7715710745616f1f404904bf056c11d2"
+          },
+          "sha256": "960db63a0053c8d4311df61ff55f1534fd117868b39101d99b5666dd7e0a1977",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.pi/agent/skills/openspec-superpower-change/references/superpowers-adapter.md",
+          "path": "references/superpowers-adapter.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 384,
+            "sha256": "f164c56a8b1fa0960a421112b1ede73a98dbc981de7afcf03700dd081382e3c2"
+          },
+          "sha256": "851cbff37e5407c8c0c5c2872baa07b398f0d097aabcbe50eb29cb4c5b8b734f",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.pi/agent/skills/openspec-superpower-change/references/sync-checklist.md",
+          "path": "references/sync-checklist.md",
+          "pre_state": {
+            "kind": "file",
+            "mode": 384,
+            "sha256": "ee566b6bfaa2283770e85b1156395e6e122b726aac6f3146336fc651a52345b3"
+          },
+          "sha256": "366f272094a2c24d8840c94159483636624b24cd1629219f7114959848905028",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.pi/agent/skills/openspec-superpower-change/scripts/validate_core_gates.py",
+          "path": "scripts/validate_core_gates.py",
+          "pre_state": {
+            "kind": "file",
+            "mode": 448,
+            "sha256": "fbb159992658e7df9679ccf99605d697f2550ccc943737bc4a831df5be52cdf6"
+          },
+          "sha256": "be8a6b215b0b8b408ba9cb66036e98be97bd9c6872630aa0b8972969a91f54ea",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        },
+        {
+          "destination": "/Users/elvis/.pi/agent/skills/openspec-superpower-change/scripts/validate_cross_cli_sync.py",
+          "path": "scripts/validate_cross_cli_sync.py",
+          "pre_state": {
+            "kind": "file",
+            "mode": 384,
+            "sha256": "2e8089a18681cde52816f95a476cc7f830af47bc6a16caced5510038b7e01a99"
+          },
+          "sha256": "640402ec081b2ceee22d515f8f97ee93bbae75ab102b1b2607c2024c44f607b9",
+          "skill": "openspec-superpower-change",
+          "source_alias": "openspec"
+        }
+      ],
+      "id": "pi",
+      "managed_rule": {
+        "destination": "/Users/elvis/.pi/agent/APPEND_SYSTEM.md",
+        "pre_state": {
+          "kind": "file",
+          "mode": 420,
+          "sha256": "a6be2edf44714a802aaeeede6dd2e65cd9e3f4e542a64d57c383a2e5c38e5c5f"
+        },
+        "selected": true
+      },
+      "reason": "selected collaboration runtime",
+      "result": "pending",
+      "resume_condition": "rerun parity and discovery checks",
+      "selection": "required",
+      "skills_root": "/Users/elvis/.pi/agent/skills"
+    }
+  }
+}

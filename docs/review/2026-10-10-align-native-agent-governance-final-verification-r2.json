@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "change_id": "align-native-agent-governance",
+  "stage": "Final-Review-same-stage-FR1-correction",
+  "prior_verification": {
+    "path": "docs/review/2026-10-10-align-native-agent-governance-final-verification.json",
+    "sha256": "90fb3b92f52738f9954e7537b615327c9b76014caa136ca4cf3fd2fbb47f97c6"
+  },
+  "prior_final_review": {
+    "path": "docs/review/2026-10-10-align-native-agent-governance-final-review.md",
+    "sha256": "a3817bf771a326b1f2dbf05540cf5b2b7791075dcf18ccf6dff6595ce2cd066b",
+    "result": "FAIL",
+    "findings": [
+      "FR1"
+    ]
+  },
+  "correction": "classified template Candidate Card and linked correction closeout; no source/runtime mutation",
+  "candidate": {
+    "path": "docs/learning-candidates/2026-10-10-native-governance-evidence.md",
+    "sha256": "61eb470cdf5626eb75276242743a095d447a5e06f583259c9d0d3d58b5d7dcc4"
+  },
+  "learning_closeout": {
+    "path": "docs/review/2026-10-10-align-native-agent-governance-learning-closeout-r2.md",
+    "sha256": "68ef3d310bf2f7f8338af6e05e33954b15a31fd1270ba54634425f9cf4dd2580"
+  },
+  "checks": {
+    "candidate_required_fields": 19,
+    "relative_hash_references": 9,
+    "ignored": false,
+    "source_bindings_unchanged": 13,
+    "classified_target_review": "pass-Implementation-r2",
+    "new_provenance_review": "pending-Final-r2",
+    "private_prompt_or_raw_trace": "none; manually inspected finite summarized provenance"
+  },
+  "focused_unittest": {
+    "count": 14,
+    "exit_code": 0,
+    "failures": 0,
+    "errors": 0,
+    "skips": 0
+  },
+  "fresh_runtime_verify_all": "PASS-four-verified-targets",
+  "source_files": {
+    "references/shared-global-governance.md": "960db63a0053c8d4311df61ff55f1534fd117868b39101d99b5666dd7e0a1977",
+    "references/local-instruction-checkpoint.md": "11e9c8db28264eb638f44198d222885df4ecf6a01c532deddd4119b27b845132",
+    "references/superpowers-adapter.md": "851cbff37e5407c8c0c5c2872baa07b398f0d097aabcbe50eb29cb4c5b8b734f",
+    "references/cross-cli-sync.md": "f52a9d7a3caabc265c8a2b059179096f86567a75d6e704543fd5e14b8b9dc4ec",
+    "references/sync-checklist.md": "366f272094a2c24d8840c94159483636624b24cd1629219f7114959848905028",
+    "scripts/validate_core_gates.py": "be8a6b215b0b8b408ba9cb66036e98be97bd9c6872630aa0b8972969a91f54ea",
+    "scripts/validate_cross_cli_sync.py": "640402ec081b2ceee22d515f8f97ee93bbae75ab102b1b2607c2024c44f607b9",
+    "tests/test_workflow_rules.py": "ba2e486af4d0ab0f0286e5561826208728e7d404ab96faf4716afcda27471a14",
+    "tests/test_cross_cli_sync.py": "4abec2ef2d907637efe8dbdb3fa5e8645222cb20dbaaba6fcde01d0a93930863",
+    "docs/engineering-invariants.md": "f24f3f9cdc4e23f874fa900c477c27e22e8b3518b74e48b628ac980024589c1b",
+    "CHANGELOG.md": "9e1f1a594033ae42542c3e74bff4ee06723907f05532167d9d4fdf513ce1739b",
+    "tests/fixtures/native-agent-governance-cases.json": "8d3c0c2d42e70e75125e5c95e9a14a6f395879202ba32f79ce8a95cdd16bb4b7",
+    "tests/run_native_agent_governance_forward_tests.py": "20411c173bfe905a96355831578cdd5cfd454e184ab133a895e84276590eb4b4"
+  },
+  "native_full_rerun": "not-required; unchanged inputs and executable source",
+  "backup_cleanup": "pending-Final-Review-PASS",
+  "new_provenance_final_review": "pending"
+}

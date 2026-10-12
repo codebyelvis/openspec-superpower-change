@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import importlib.util
 import json
 import os
 import re
@@ -2195,6 +2196,79 @@ def validate_governed_caveman_lite(
             )
 
 
+def validate_native_agent_consumption(
+    governance: str, checkpoint: str, adapter: str, cross_cli: str, checklist: str,
+) -> None:
+    """Validate each native-consumption obligation only in its owning artifact."""
+    module_spec = importlib.util.spec_from_file_location(
+        "_native_managed_governance", Path(__file__).with_name("validate_cross_cli_sync.py")
+    )
+    module = importlib.util.module_from_spec(module_spec)
+    module_spec.loader.exec_module(module)
+    try:
+        module.validate_managed_rule_semantics(
+            _markdown_visible_content(governance), version=6
+        )
+    except ValueError as exc:
+        raise AssertionError(f"shared-global-governance.md: {exc}") from exc
+
+    section, _, _ = _markdown_owned_section(
+        checkpoint, "## Native agent consumption", "local-instruction-checkpoint.md"
+    )
+    owned = " ".join(_markdown_visible_content(section).split())
+    for obligation in (
+        "active configuration root", "native instruction sources", "discovered skill paths",
+        "Superpowers dependency path and SHA-256", "delivery policy and observed evidence",
+        "A missing private skill directory does not prove missing shared discovery",
+        "does not prove native loading, behavior or authority",
+        "Only the existing bound instance and contract grants control-plane authority",
+        "Claude Code and Cursor are content consumers and advisory reviewers, not schema-6 products",
+        "`claudex` and `claudeg` are Claude Code launchers",
+        "model backends do not change product identity",
+        "Sharing content does not share credentials, sessions, instances or permissions",
+        "form or reuse the applicable reviewed plan before execution",
+        "Resolve its destination from the user's authorized scope, project conventions and existing contract",
+        "A native `docs/design/` default is only a fallback",
+        "cannot relocate or duplicate an already-bound plan or evidence",
+        "requires a newly approved contract, never silent path replacement",
+        "Standalone read-only advisory output defaults to chat",
+        "persistence returns to Router classification",
+        "then respects the user's destination and the native publisher, when that publisher applies",
+        "Saving an advisory does not make it gate-bearing",
+        "bound project-relative attempt artifacts with the assigned real product, instance, role and evidence format",
+        "cannot substitute for each other or rewrite already-bound evidence",
+        "Check publisher applicability before constructing a saved advisory path",
+        "If the required publisher cannot represent the authorized path and format, report the conflict",
+        "Chat advisory, saved advisory and formal attempt evidence retain their separate authority boundaries",
+        "do not bypass its guard or claim publication",
+        "not a fifth portable target",
+        "Native rules, hooks and configuration outside the four managed blocks",
+        "separate exact path/prestate adaptation plan",
+        "appropriate approval, backup, supported mechanism, acceptance and rollback",
+        "Do not retarget the portable manifest or widen a publisher whitelist",
+        "registered compatibility hooks do not prove runtime enforcement",
+        "a selective isolation mechanism must be verified before changing unrelated protections",
+    ):
+        require(owned, obligation, "local-instruction-checkpoint.md native consumption")
+
+    for name, text, heading in (
+        ("superpowers-adapter.md", adapter, "## Native consumption"),
+        ("cross-cli-sync.md", cross_cli, "## Native entry qualification boundary"),
+        ("sync-checklist.md", checklist, "## Native entry qualification boundary"),
+    ):
+        pointer, _, _ = _markdown_owned_section(text, heading, name)
+        normalized = " ".join(_markdown_visible_content(pointer).split())
+        require(normalized, "`references/local-instruction-checkpoint.md`", name)
+    cross_owner, _, _ = _markdown_owned_section(
+        cross_cli, "## Native entry qualification boundary", "cross-cli-sync.md"
+    )
+    require(
+        " ".join(_markdown_visible_content(cross_owner).split()),
+        "native configuration outside managed blocks remains excluded",
+        "cross-cli-sync.md native boundary",
+    )
+
+
 def validate_project_document_ownership(skill: str, closeout: str, template: str) -> None:
     label = "project-learning-closeout.md document ownership"
     owner, _, _ = _markdown_owned_section(closeout, "## Project Document Ownership", label)
@@ -3041,6 +3115,11 @@ def main(argv: list[str] | None = None) -> int:
         "does not require `git add`, commit, or push",
     ):
         require(local_checkpoint, needle, "local-instruction-checkpoint.md")
+
+    validate_native_agent_consumption(
+        read(root / "references/shared-global-governance.md"), local_checkpoint, adapter,
+        read(root / "references/cross-cli-sync.md"), read(root / "references/sync-checklist.md"),
+    )
 
     contract = extract_handoff_contract(handoff, "handoff-contract.md")
     validate_handoff_contract(contract, "handoff-contract.md")

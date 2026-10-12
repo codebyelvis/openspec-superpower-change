@@ -7,6 +7,7 @@ import ctypes
 import errno
 import fcntl
 import hashlib
+import importlib.util
 import json
 import os
 import re
@@ -87,6 +88,32 @@ V6_MANAGED_RULE_BODIES = {
         "A missing or blank purpose, unresolved “other agent” destination, product "
         "substitution, self-review, or missing required independent instance is "
         "fail-closed."
+    ),
+}
+
+
+V6_NATIVE_CONSUMPTION_BODIES = {
+    'CCG-004': (
+        'Governed implementation outside the compact local Direct Change exception follows '
+        'Preflight Review -> Implement -> Verify -> Review, and every actionable finding '
+        'returns to Fix -> Verify -> Review. Compact local Direct Change follows '
+        '`references/direct-change-rule.md`: inline readiness, required verification and '
+        'inline self-review suffice when its bounded conditions hold. This exception does '
+        'not waive required behavioral evidence or apply to compact external execution, '
+        'standard/strict work, multi-slice work or protected effects.'
+    ),
+    'CCG-014': (
+        'Governed state-changing, Git-mutating, or whole-task-completion work enters '
+        '`openspec-superpower-change` Gate 0 through exactly one applicable Router before '
+        'broad Superpowers metadata or any user-explicit `$superpowers:*` method proceeds. '
+        'Generic create/modify wording alone does not activate a sub-skill; a user-explicit '
+        'method request grants no independent workflow, business, Git, or completion '
+        'authority; inability to load exactly one applicable Router is `BLOCKED`; once '
+        "selected, each sub-skill's full rules remain in force. Ordinary questions and "
+        'standalone read-only advisory review do not enter the Router or the Superpowers '
+        'meta-entry merely because native defaults request planning or saved reports. '
+        'Explicitly requested file persistence returns to Router classification before '
+        'writing.'
     ),
 }
 
@@ -415,10 +442,29 @@ def validate_managed_rule_semantics(canonical_body: str, *, version: int) -> boo
     """Bind semantic bodies that changed in managed-rule version 6."""
     if version != 6:
         return True
+    # Share the existing Markdown visibility parser with core gates; a comment
+    # or code example is not an active managed instruction. No raw-text fallback.
+    parser_spec = importlib.util.spec_from_file_location(
+        "_managed_markdown_visibility", Path(__file__).with_name("validate_core_gates.py")
+    )
+    parser_module = importlib.util.module_from_spec(parser_spec)
+    parser_spec.loader.exec_module(parser_module)
+    canonical_body = parser_module._markdown_visible_content(canonical_body)
     normalized = " ".join(canonical_body.split())
     for invariant_id, expected in V6_MANAGED_RULE_BODIES.items():
         if normalized.count(f"[{invariant_id}] {expected}") != 1:
             raise ValueError(f"managed-rule v6 semantic drift: {invariant_id}")
+    # Changed consumption rules must own their complete paragraphs. A prefix
+    # match could accept the right contract followed by a contradictory waiver.
+    paragraphs = re.findall(
+        r"(?ms)^- \[CCG-(\d{3})\] (.*?)(?=^- \[CCG-\d{3}\] |\Z)",
+        canonical_body,
+    )
+    for invariant_id, expected in V6_NATIVE_CONSUMPTION_BODIES.items():
+        owned = [" ".join(body.split()) for number, body in paragraphs
+                 if f"CCG-{number}" == invariant_id]
+        if owned != [expected]:
+            raise ValueError(f"managed-rule v6 consumption drift: {invariant_id}")
     return True
 
 

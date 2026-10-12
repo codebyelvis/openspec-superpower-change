@@ -14,6 +14,246 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 
 
+class NativeAgentConsumptionTests(unittest.TestCase):
+    def probe(self):
+        path = ROOT / "tests/run_native_agent_governance_forward_tests.py"
+        self.assertTrue(path.is_file(), "native-consumption runner is missing")
+        spec = importlib.util.spec_from_file_location("native_consumption_probe", path)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        return module
+
+    def test_classifier_rejects_extra_keys_and_invalid_enums(self):
+        probe = self.probe()
+        valid = {
+            "delivery": "chat", "preflight": "none", "plan_timing": "none",
+            "artifact_path": "none", "product": "codex", "qualification": "none",
+            "authority": "advisory-input", "action": "answer",
+        }
+        self.assertEqual(probe.validate_observed(valid), valid)
+        for broken in (dict(valid, token="private"), dict(valid, action="complete"), {}):
+            with self.assertRaises(probe.runtime.ProbeFailure):
+                probe.validate_observed(broken)
+
+    def test_probe_rejects_tool_unknown_and_incomplete_events(self):
+        probe = self.probe()
+        events = [
+            {"type": "thread.started"}, {"type": "turn.started"},
+            {"type": "item.completed", "item": {"type": "agent_message", "text": "answer"}},
+            {"type": "turn.completed"},
+        ]
+        trace = lambda value: "\n".join(json.dumps(event) for event in value)
+        self.assertEqual(probe.runtime.parse_event_trace(trace(events))["tool_event_count"], 0)
+        for broken in (
+            events[:-1], events + [{"type": "unknown"}],
+            events + [{"type": "item.completed", "item": {"type": "command_execution"}}],
+        ):
+            with self.assertRaises(probe.runtime.ProbeFailure):
+                probe.runtime.parse_event_trace(trace(broken))
+
+    def test_probe_main_cleans_arbitrary_owned_directory_and_restores_handlers(self):
+        probe = self.probe()
+        with tempfile.TemporaryDirectory() as raw:
+            parent = Path(raw)
+            requested = parent / "arbitrary-owned-name"
+            handlers = {sig: probe.signal.getsignal(sig) for sig in (probe.signal.SIGTERM, probe.signal.SIGINT)}
+            with mock.patch.object(probe, "run_case", return_value={"id": "advisory_chat", "result": "PASS"}):
+                try:
+                    status = probe.main([
+                        "--router-root", str(ROOT), "--temporary-root", str(requested),
+                        "--sanitized-summary", str(parent / "summary.json"), "--case", "advisory_chat",
+                    ])
+                except probe.runtime.ProbeFailure as exc:
+                    self.fail(f"owned temporary cleanup failed: {exc}")
+            self.assertEqual(status, 0)
+            self.assertFalse(requested.exists())
+            self.assertEqual({sig: probe.signal.getsignal(sig) for sig in handlers}, handlers)
+
+    def test_probe_cleanup_failure_blocks_success_and_restores_handlers(self):
+        probe = self.probe()
+        with tempfile.TemporaryDirectory() as raw:
+            root = Path(raw)
+            handlers = {sig: probe.signal.getsignal(sig) for sig in (probe.signal.SIGTERM, probe.signal.SIGINT)}
+            summary_path = root / "summary.json"
+            with mock.patch.object(probe, "run_case", return_value={"id": "advisory_chat", "result": "PASS"}), \
+                 mock.patch.object(probe.runtime, "validated_remove_run_root", side_effect=probe.runtime.ProbeFailure("cleanup failure")), \
+                 mock.patch("builtins.print") as printed:
+                status = probe.main(["--router-root", str(ROOT), "--temporary-root", str(root / "caller-name"),
+                    "--sanitized-summary", str(summary_path), "--case", "advisory_chat"])
+            self.assertEqual(status, 1)
+            self.assertFalse(summary_path.exists())
+            self.assertEqual(json.loads(printed.call_args.args[0])["forward"], "BLOCKED")
+            self.assertEqual({sig: probe.signal.getsignal(sig) for sig in handlers}, handlers)
+
+    def test_probe_source_hash_binds_exact_projected_bytes(self):
+        probe = self.probe()
+        observed = {key: "none" for key in probe.ENUMS}
+        observed["action"] = "answer"
+        trace = "\n".join(json.dumps(event) for event in (
+            {"type": "thread.started"}, {"type": "turn.started"},
+            {"type": "item.completed", "item": {"type": "agent_message", "text": "answer"}},
+            {"type": "turn.completed"},
+        ))
+        with tempfile.TemporaryDirectory() as raw:
+            root = Path(raw).resolve()
+            (root / "references").mkdir()
+            source = root / probe.SOURCE_FILES[0]
+            original = b"Original projected rule."
+            source.write_bytes(original)
+            (root / probe.SOURCE_FILES[1]).write_text("Checkpoint.")
+            captured = {}
+            real_text, real_bytes = Path.read_text, Path.read_bytes
+            def read_text(path, *args, **kwargs):
+                result = real_text(path, *args, **kwargs)
+                if path == source:
+                    source.write_text("Replaced after read.")
+                return result
+            def read_bytes(path, *args, **kwargs):
+                result = real_bytes(path, *args, **kwargs)
+                if path == source:
+                    source.write_text("Replaced after read.")
+                return result
+            def launch(command, **kwargs):
+                project = Path(kwargs["cwd"])
+                captured["projection"] = real_text(project / "AGENTS.md")
+                Path(command[command.index("--output-last-message") + 1]).write_text(json.dumps(observed))
+                process = mock.Mock(returncode=0)
+                process.communicate.return_value = (trace, "")
+                return process
+            with mock.patch.dict(os.environ, {"CODEX_HOME": str(root / "account")}), \
+                 mock.patch.object(Path, "read_text", read_text), \
+                 mock.patch.object(Path, "read_bytes", read_bytes), \
+                 mock.patch.object(probe.subprocess, "Popen", side_effect=launch):
+                result = probe.run_case({"id": "source-race", "native_default": "Default.",
+                    "prompt": "Classify.", "expected": {"action": "answer"}}, root, root)
+            self.assertIn(original.decode(), captured["projection"])
+            self.assertEqual(result["source_hashes"][probe.SOURCE_FILES[0]], hashlib.sha256(original).hexdigest())
+
+    def test_probe_fixture_hash_binds_exact_read_case_bytes(self):
+        probe = self.probe()
+        with tempfile.TemporaryDirectory() as raw:
+            root = Path(raw).resolve()
+            fixture_path = root / "tests/fixtures/native-agent-governance-cases.json"
+            fixture_path.parent.mkdir(parents=True)
+            original = (ROOT / "tests/fixtures/native-agent-governance-cases.json").read_bytes()
+            fixture_path.write_bytes(original)
+            real_text, real_bytes = Path.read_text, Path.read_bytes
+            def read_text(path, *args, **kwargs):
+                result = real_text(path, *args, **kwargs)
+                if path == fixture_path:
+                    fixture_path.write_text('{"replaced": true}')
+                return result
+            def read_bytes(path, *args, **kwargs):
+                result = real_bytes(path, *args, **kwargs)
+                if path == fixture_path:
+                    fixture_path.write_text('{"replaced": true}')
+                return result
+            summary_path = root / "summary.json"
+            # The process boundary is stubbed; real parsing, hashes and cleanup are tested.
+            with mock.patch.object(Path, "read_text", read_text), \
+                 mock.patch.object(Path, "read_bytes", read_bytes), \
+                 mock.patch.object(probe, "run_case", return_value={"id": "advisory_chat", "result": "PASS"}):
+                try:
+                    probe.main(["--router-root", str(root), "--temporary-root", str(root / "routing-forward-test"),
+                        "--sanitized-summary", str(summary_path), "--case", "advisory_chat"])
+                except probe.runtime.ProbeFailure:
+                    pass
+            summary = json.loads(real_text(summary_path))
+            self.assertEqual(summary["fixture_sha256"], hashlib.sha256(original).hexdigest())
+
+    def artifacts(self):
+        return {
+            key: (ROOT / "references" / filename).read_text()
+            for key, filename in (
+                ("governance", "shared-global-governance.md"),
+                ("checkpoint", "local-instruction-checkpoint.md"),
+                ("adapter", "superpowers-adapter.md"),
+                ("cross_cli", "cross-cli-sync.md"),
+                ("checklist", "sync-checklist.md"),
+            )
+        }
+
+    def check(self, artifacts):
+        validator = getattr(load_validator(), "validate_native_agent_consumption", None)
+        self.assertTrue(callable(validator), "artifact-owned consumption validator is missing")
+        validator(**artifacts)
+
+    def test_current_artifacts_pass_the_consumption_boundary(self):
+        self.check(self.artifacts())
+
+    def test_missing_safety_obligation_is_rejected_by_its_owner(self):
+        artifacts = self.artifacts()
+        clauses = (
+            ("checkpoint", 'active configuration root'),
+            ("checkpoint", 'native instruction sources'),
+            ("checkpoint", 'discovered skill paths'),
+            ("checkpoint", 'Superpowers dependency path and SHA-256'),
+            ("checkpoint", 'delivery policy and observed evidence'),
+            ("checkpoint", 'A missing private skill directory does not prove missing shared discovery'),
+            ("checkpoint", 'does not prove native loading, behavior or authority'),
+            ("checkpoint", 'Only the existing bound instance and contract grants control-plane authority'),
+            ("checkpoint", 'Claude Code and Cursor are content consumers and advisory reviewers, not schema-6 products'),
+            ("checkpoint", '`claudex` and `claudeg` are Claude Code launchers'),
+            ("checkpoint", 'model backends do not change product identity'),
+            ("checkpoint", 'Sharing content does not share credentials, sessions, instances or permissions'),
+            ("checkpoint", 'form or reuse the applicable reviewed plan before execution'),
+            ("checkpoint", "Resolve its destination from the user's authorized scope, project conventions and existing contract"),
+            ("checkpoint", 'A native `docs/design/` default is only a fallback'),
+            ("checkpoint", 'cannot relocate or duplicate an already-bound plan or evidence'),
+            ("checkpoint", 'requires a newly approved contract, never silent path replacement'),
+            ("checkpoint", 'Standalone read-only advisory output defaults to chat'),
+            ("checkpoint", 'persistence returns to Router classification'),
+            ("checkpoint", "then respects the user's destination and the native publisher, when that publisher applies"),
+            ("checkpoint", 'Saving an advisory does not make it gate-bearing'),
+            ("checkpoint", 'bound project-relative attempt artifacts with the assigned real product, instance, role and evidence format'),
+            ("checkpoint", 'cannot substitute for each other or rewrite already-bound evidence'),
+            ("checkpoint", 'Check publisher applicability before constructing a saved advisory path'),
+            ("checkpoint", 'If the required publisher cannot represent the authorized path and format, report the conflict'),
+            ("checkpoint", 'do not bypass its guard or claim publication'),
+            ("checkpoint", 'Chat advisory, saved advisory and formal attempt evidence retain their separate authority boundaries'),
+            ("checkpoint", 'not a fifth portable target'),
+            ("checkpoint", 'Native rules, hooks and configuration outside the four managed blocks'),
+            ("checkpoint", 'separate exact path/prestate adaptation plan'),
+            ("checkpoint", 'appropriate approval, backup, supported mechanism, acceptance and rollback'),
+            ("checkpoint", 'Do not retarget the portable manifest or widen a publisher whitelist'),
+            ("checkpoint", 'registered compatibility hooks do not prove runtime enforcement'),
+            ("checkpoint", 'a selective isolation mechanism must be verified before changing unrelated protections'),
+        )
+        for owner, clause in clauses:
+            with self.subTest(owner=owner, clause=clause):
+                pattern = r"\s+".join(re.escape(word) for word in clause.split())
+                self.assertRegex(artifacts[owner], pattern, "mutation must alter real source")
+                broken = dict(artifacts)
+                broken[owner] = re.sub(pattern, "removed", broken[owner], count=1)
+                with self.assertRaises(AssertionError):
+                    self.check(broken)
+
+    def test_moved_or_hidden_policy_cannot_pass_via_another_section(self):
+        artifacts = self.artifacts()
+        heading = "## Native agent consumption"
+        self.assertIn(heading, artifacts["checkpoint"])
+        prefix, policy = artifacts["checkpoint"].split(heading, 1)
+        for broken in (
+            prefix + heading + "\nPlaceholder.\n## Unrelated archive\n" + policy,
+            prefix + heading + "\n<!--\n" + policy + "\n-->\n",
+            prefix + heading + "\n```text\n" + policy + "\n```\n",
+        ):
+            with self.subTest(form=broken[len(prefix):len(prefix)+70]):
+                mutated = dict(artifacts, checkpoint=broken)
+                with self.assertRaises(AssertionError):
+                    self.check(mutated)
+
+    def test_unrelated_artifact_cannot_supply_missing_checkpoint(self):
+        artifacts = self.artifacts()
+        heading = "## Native agent consumption"
+        self.assertIn(heading, artifacts["checkpoint"])
+        prefix, policy = artifacts["checkpoint"].split(heading, 1)
+        broken = dict(artifacts, checkpoint=prefix + heading + "\nPlaceholder.\n")
+        broken["adapter"] += "\n" + heading + policy
+        with self.assertRaises(AssertionError):
+            self.check(broken)
+
+
 PREFLIGHT_BOUNDARIES = (
     "scope", "contract/spec", "acceptance", "risk/evidence profile",
     "authority", "assignments", "allowed/forbidden files", "branch/worktree",

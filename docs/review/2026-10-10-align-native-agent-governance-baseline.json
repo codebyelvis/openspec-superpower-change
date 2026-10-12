@@ -1,0 +1,71 @@
+{
+  "author": "elvis",
+  "change_id": "align-native-agent-governance",
+  "phase": "before-rule-edits",
+  "baseline": {
+    "unittest": {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s tests -v",
+      "exit_code": 0,
+      "test_count": 478,
+      "failures": 0,
+      "parser": "dependency-free"
+    },
+    "quick_validate": {
+      "exit_code": 0,
+      "parser": "PyYAML",
+      "scope": "isolated Router"
+    },
+    "core_gates": {
+      "exit_code": 0,
+      "parser": "dependency-free"
+    }
+  },
+  "native_compact_local": {
+    "result": "baseline-complies",
+    "observed": {
+      "preflight": "inline",
+      "plan": "none"
+    },
+    "event_audit": {
+      "event_count": 4,
+      "agent_message_count": 1,
+      "reasoning_event_count": 0,
+      "tool_event_count": 0
+    },
+    "instructions_delivery": "temporary-project-AGENTS",
+    "native_skill_loading": "not-tested"
+  },
+  "source_hashes": {
+    "references/shared-global-governance.md": "0040153a954ab0a6599e3eb951e8fa6b7715710745616f1f404904bf056c11d2",
+    "references/local-instruction-checkpoint.md": "186c349df9ba97a19239b02705f2e328354c609677544dea9afcc44a02183020"
+  },
+  "backup": {
+    "outside_skill_discovery": true,
+    "restricted_container": true,
+    "router_prestate_files": 551,
+    "companion_prestate_files": 23,
+    "owner": "align-native-root",
+    "cleanup": "after required validation/sync/final gates; preserve while blocked"
+  },
+  "claims_excluded": [
+    "native-skill-body-loading",
+    "seven-entry-behavior",
+    "implementation-PASS"
+  ],
+  "native_bound_plan": {
+    "result": "baseline-complies",
+    "observed": {
+      "plan_timing": "before-execution",
+      "artifact_path": "bound-plan"
+    },
+    "event_audit": {
+      "event_count": 4,
+      "agent_message_count": 1,
+      "reasoning_event_count": 0,
+      "tool_event_count": 0
+    },
+    "instructions_delivery": "temporary-project-AGENTS",
+    "native_skill_loading": "not-tested"
+  },
+  "baseline_interpretation": "Both native baselines comply. Static governance ambiguity remains; actual model failure is not asserted. RED will demonstrate actual validator acceptance gaps against the approved contract."
+}

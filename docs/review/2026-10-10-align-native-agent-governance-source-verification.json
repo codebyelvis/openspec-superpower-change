@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "phase": "source-before-transfer",
+  "source_files": {
+    "references/shared-global-governance.md": "960db63a0053c8d4311df61ff55f1534fd117868b39101d99b5666dd7e0a1977",
+    "references/local-instruction-checkpoint.md": "11e9c8db28264eb638f44198d222885df4ecf6a01c532deddd4119b27b845132",
+    "references/superpowers-adapter.md": "851cbff37e5407c8c0c5c2872baa07b398f0d097aabcbe50eb29cb4c5b8b734f",
+    "references/cross-cli-sync.md": "f52a9d7a3caabc265c8a2b059179096f86567a75d6e704543fd5e14b8b9dc4ec",
+    "references/sync-checklist.md": "366f272094a2c24d8840c94159483636624b24cd1629219f7114959848905028",
+    "scripts/validate_core_gates.py": "be8a6b215b0b8b408ba9cb66036e98be97bd9c6872630aa0b8972969a91f54ea",
+    "scripts/validate_cross_cli_sync.py": "640402ec081b2ceee22d515f8f97ee93bbae75ab102b1b2607c2024c44f607b9",
+    "tests/test_workflow_rules.py": "ba2e486af4d0ab0f0286e5561826208728e7d404ab96faf4716afcda27471a14",
+    "tests/test_cross_cli_sync.py": "4abec2ef2d907637efe8dbdb3fa5e8645222cb20dbaaba6fcde01d0a93930863",
+    "docs/engineering-invariants.md": "f24f3f9cdc4e23f874fa900c477c27e22e8b3518b74e48b628ac980024589c1b",
+    "CHANGELOG.md": "9e1f1a594033ae42542c3e74bff4ee06723907f05532167d9d4fdf513ce1739b",
+    "tests/fixtures/native-agent-governance-cases.json": "8d3c0c2d42e70e75125e5c95e9a14a6f395879202ba32f79ce8a95cdd16bb4b7",
+    "tests/run_native_agent_governance_forward_tests.py": "20411c173bfe905a96355831578cdd5cfd454e184ab133a895e84276590eb4b4"
+  },
+  "checks": [
+    {
+      "check": "full-unittest",
+      "parser_mode": "dependency-free",
+      "tests": 492,
+      "seconds": 34.212,
+      "exit_code": 0,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0,
+      "log_sha256": "0ae3a473b7ac8ccfcb9daa415a0202f87ad1218ce94ee4e259058f2323c43fe3"
+    },
+    {
+      "check": "full-unittest",
+      "parser_mode": "PyYAML",
+      "tests": 492,
+      "seconds": 34.491,
+      "exit_code": 0,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0,
+      "log_sha256": "dbbff1da997a15dbbec6cc608a6d53569c63cea2f9e4e5c9518ad343aea72648"
+    },
+    {
+      "check": "full-unittest",
+      "parser_mode": "unchanged-companion-fallback",
+      "tests": 91,
+      "seconds": 0.111,
+      "exit_code": 0,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0,
+      "log_sha256": "e253ca447195ea372a314bcedec1bf4b47cd88e0258c3eec11490790c122e4c8"
+    }
+  ],
+  "quick_validate": "PASS-isolated-PyYAML",
+  "core_gates": "PASS-both-parser-modes; PASS-after-doc-only-learning-promotion",
+  "openspec_strict": "PASS",
+  "companion_quick_templates": "PASS-unchanged-source",
+  "forward": {
+    "path": "docs/review/2026-10-10-align-native-agent-governance-forward.json",
+    "sha256": "c15b4e52e8af47655af7384270fbde5edb077ac382671dcbb1ab0c43718da1cc"
+  },
+  "review_corrections": {
+    "F1": "owned lifecycle tested including failure; no premature PASS",
+    "F2": "all 34 checkpoint obligations have owner-specific negative mutation tests",
+    "F3": "hidden/fenced rules rejected by actual semantic/parity API",
+    "F4": "independent guide definitions; unchanged expectations; fresh 7/7 native PASS",
+    "F5": "same read_bytes snapshot hashed/projected/parsed with deterministic replacement regressions"
+  },
+  "learning": "docs/engineering-invariants.md native-consumption invariant includes exact-byte evidence and owned cleanup",
+  "limits": "Full suites cover final executable revision before a doc-only invariant addition; focused/core checks cover that addition. Final source/runtime checks remain pending. No native Skill-loading or seven-entry acceptance."
+}

@@ -1,0 +1,648 @@
+{
+  "schema_version": 1,
+  "scope": "native-Codex-projected-instruction-consumption",
+  "native_skill_loading": "not-tested",
+  "seven_entry_acceptance": "not-tested",
+  "attempts": [
+    {
+      "summary_sha256": "6b4dc31eb622b572df8dd0ed57245f7ac6533164c29a0004d2447bc9ebc59994",
+      "exit_code": 1,
+      "owned_cleanup_passed": false,
+      "summary": {
+        "case_count": 7,
+        "fixture_sha256": "8d3c0c2d42e70e75125e5c95e9a14a6f395879202ba32f79ce8a95cdd16bb4b7",
+        "results": [
+          {
+            "event_audit": {
+              "agent_message_count": 1,
+              "event_count": 4,
+              "reasoning_event_count": 0,
+              "tool_event_count": 0
+            },
+            "id": "advisory_chat",
+            "instructions_delivery": "temporary-project-AGENTS",
+            "mismatched_fields": [],
+            "native_skill_loading": "not-tested",
+            "observed": {
+              "action": "answer",
+              "artifact_path": "none",
+              "authority": "advisory-input",
+              "delivery": "chat",
+              "plan_timing": "none",
+              "preflight": "none",
+              "product": "codex",
+              "qualification": "none"
+            },
+            "raw_trace_retained": false,
+            "result": "PASS",
+            "source_hashes": {
+              "references/local-instruction-checkpoint.md": "11e9c8db28264eb638f44198d222885df4ecf6a01c532deddd4119b27b845132",
+              "references/shared-global-governance.md": "960db63a0053c8d4311df61ff55f1534fd117868b39101d99b5666dd7e0a1977"
+            }
+          },
+          {
+            "event_audit": {
+              "agent_message_count": 1,
+              "event_count": 4,
+              "reasoning_event_count": 0,
+              "tool_event_count": 0
+            },
+            "id": "compact_local",
+            "instructions_delivery": "temporary-project-AGENTS",
+            "mismatched_fields": [
+              "action"
+            ],
+            "native_skill_loading": "not-tested",
+            "observed": {
+              "action": "answer",
+              "artifact_path": "none",
+              "authority": "none",
+              "delivery": "none",
+              "plan_timing": "none",
+              "preflight": "inline",
+              "product": "none",
+              "qualification": "none"
+            },
+            "raw_trace_retained": false,
+            "result": "FAIL",
+            "source_hashes": {
+              "references/local-instruction-checkpoint.md": "11e9c8db28264eb638f44198d222885df4ecf6a01c532deddd4119b27b845132",
+              "references/shared-global-governance.md": "960db63a0053c8d4311df61ff55f1534fd117868b39101d99b5666dd7e0a1977"
+            }
+          },
+          {
+            "event_audit": {
+              "agent_message_count": 1,
+              "event_count": 4,
+              "reasoning_event_count": 0,
+              "tool_event_count": 0
+            },
+            "id": "compact_external",
+            "instructions_delivery": "temporary-project-AGENTS",
+            "mismatched_fields": [],
+            "native_skill_loading": "not-tested",
+            "observed": {
+              "action": "implementation-gated",
+              "artifact_path": "bound-attempt",
+              "authority": "governed-review-evidence",
+              "delivery": "bound-attempt",
+              "plan_timing": "before-execution",
+              "preflight": "standalone",
+              "product": "none",
+              "qualification": "none"
+            },
+            "raw_trace_retained": false,
+            "result": "PASS",
+            "source_hashes": {
+              "references/local-instruction-checkpoint.md": "11e9c8db28264eb638f44198d222885df4ecf6a01c532deddd4119b27b845132",
+              "references/shared-global-governance.md": "960db63a0053c8d4311df61ff55f1534fd117868b39101d99b5666dd7e0a1977"
+            }
+          },
+          {
+            "event_audit": {
+              "agent_message_count": 1,
+              "event_count": 4,
+              "reasoning_event_count": 0,
+              "tool_event_count": 0
+            },
+            "id": "unapproved_major",
+            "instructions_delivery": "temporary-project-AGENTS",
+            "mismatched_fields": [
+              "action"
+            ],
+            "native_skill_loading": "not-tested",
+            "observed": {
+              "action": "blocked",
+              "artifact_path": "none",
+              "authority": "none",
+              "delivery": "none",
+              "plan_timing": "none",
+              "preflight": "blocked",
+              "product": "none",
+              "qualification": "none"
+            },
+            "raw_trace_retained": false,
+            "result": "FAIL",
+            "source_hashes": {
+              "references/local-instruction-checkpoint.md": "11e9c8db28264eb638f44198d222885df4ecf6a01c532deddd4119b27b845132",
+              "references/shared-global-governance.md": "960db63a0053c8d4311df61ff55f1534fd117868b39101d99b5666dd7e0a1977"
+            }
+          },
+          {
+            "event_audit": {
+              "agent_message_count": 1,
+              "event_count": 4,
+              "reasoning_event_count": 0,
+              "tool_event_count": 0
+            },
+            "id": "bound_plan",
+            "instructions_delivery": "temporary-project-AGENTS",
+            "mismatched_fields": [
+              "action"
+            ],
+            "native_skill_loading": "not-tested",
+            "observed": {
+              "action": "classify-persistence",
+              "artifact_path": "bound-plan",
+              "authority": "none",
+              "delivery": "none",
+              "plan_timing": "before-execution",
+              "preflight": "none",
+              "product": "none",
+              "qualification": "none"
+            },
+            "raw_trace_retained": false,
+            "result": "FAIL",
+            "source_hashes": {
+              "references/local-instruction-checkpoint.md": "11e9c8db28264eb638f44198d222885df4ecf6a01c532deddd4119b27b845132",
+              "references/shared-global-governance.md": "960db63a0053c8d4311df61ff55f1534fd117868b39101d99b5666dd7e0a1977"
+            }
+          },
+          {
+            "event_audit": {
+              "agent_message_count": 1,
+              "event_count": 4,
+              "reasoning_event_count": 0,
+              "tool_event_count": 0
+            },
+            "id": "shared_discovery",
+            "instructions_delivery": "temporary-project-AGENTS",
+            "mismatched_fields": [],
+            "native_skill_loading": "not-tested",
+            "observed": {
+              "action": "answer",
+              "artifact_path": "none",
+              "authority": "none",
+              "delivery": "chat",
+              "plan_timing": "none",
+              "preflight": "none",
+              "product": "codex",
+              "qualification": "discovered-only"
+            },
+            "raw_trace_retained": false,
+            "result": "PASS",
+            "source_hashes": {
+              "references/local-instruction-checkpoint.md": "11e9c8db28264eb638f44198d222885df4ecf6a01c532deddd4119b27b845132",
+              "references/shared-global-governance.md": "960db63a0053c8d4311df61ff55f1534fd117868b39101d99b5666dd7e0a1977"
+            }
+          },
+          {
+            "event_audit": {
+              "agent_message_count": 1,
+              "event_count": 4,
+              "reasoning_event_count": 0,
+              "tool_event_count": 0
+            },
+            "id": "claude_identity",
+            "instructions_delivery": "temporary-project-AGENTS",
+            "mismatched_fields": [
+              "authority"
+            ],
+            "native_skill_loading": "not-tested",
+            "observed": {
+              "action": "blocked",
+              "artifact_path": "none",
+              "authority": "advisory-input",
+              "delivery": "none",
+              "plan_timing": "none",
+              "preflight": "none",
+              "product": "claude-code",
+              "qualification": "none"
+            },
+            "raw_trace_retained": false,
+            "result": "FAIL",
+            "source_hashes": {
+              "references/local-instruction-checkpoint.md": "11e9c8db28264eb638f44198d222885df4ecf6a01c532deddd4119b27b845132",
+              "references/shared-global-governance.md": "960db63a0053c8d4311df61ff55f1534fd117868b39101d99b5666dd7e0a1977"
+            }
+          }
+        ],
+        "schema_version": 1,
+        "scope": "native-Codex-projected-instruction-consumption",
+        "seven_entry_acceptance": "not-tested"
+      }
+    },
+    {
+      "summary_sha256": "07ebc852a340e90db6dd5d149c513c0104d6a4e09d639c6cef5ca4e3575b7738",
+      "exit_code": 1,
+      "owned_cleanup_passed": true,
+      "summary": {
+        "case_count": 7,
+        "fixture_sha256": "8d3c0c2d42e70e75125e5c95e9a14a6f395879202ba32f79ce8a95cdd16bb4b7",
+        "results": [
+          {
+            "event_audit": {
+              "agent_message_count": 1,
+              "event_count": 4,
+              "reasoning_event_count": 0,
+              "tool_event_count": 0
+            },
+            "id": "advisory_chat",
+            "instructions_delivery": "temporary-project-AGENTS",
+            "mismatched_fields": [],
+            "native_skill_loading": "not-tested",
+            "observed": {
+              "action": "answer",
+              "artifact_path": "none",
+              "authority": "advisory-input",
+              "delivery": "chat",
+              "plan_timing": "none",
+              "preflight": "none",
+              "product": "codex",
+              "qualification": "none"
+            },
+            "raw_trace_retained": false,
+            "result": "PASS",
+            "source_hashes": {
+              "references/local-instruction-checkpoint.md": "11e9c8db28264eb638f44198d222885df4ecf6a01c532deddd4119b27b845132",
+              "references/shared-global-governance.md": "960db63a0053c8d4311df61ff55f1534fd117868b39101d99b5666dd7e0a1977"
+            }
+          },
+          {
+            "event_audit": {
+              "agent_message_count": 1,
+              "event_count": 4,
+              "reasoning_event_count": 0,
+              "tool_event_count": 0
+            },
+            "id": "compact_local",
+            "instructions_delivery": "temporary-project-AGENTS",
+            "mismatched_fields": [],
+            "native_skill_loading": "not-tested",
+            "observed": {
+              "action": "implementation-gated",
+              "artifact_path": "none",
+              "authority": "none",
+              "delivery": "none",
+              "plan_timing": "none",
+              "preflight": "inline",
+              "product": "none",
+              "qualification": "none"
+            },
+            "raw_trace_retained": false,
+            "result": "PASS",
+            "source_hashes": {
+              "references/local-instruction-checkpoint.md": "11e9c8db28264eb638f44198d222885df4ecf6a01c532deddd4119b27b845132",
+              "references/shared-global-governance.md": "960db63a0053c8d4311df61ff55f1534fd117868b39101d99b5666dd7e0a1977"
+            }
+          },
+          {
+            "event_audit": {
+              "agent_message_count": 1,
+              "event_count": 4,
+              "reasoning_event_count": 0,
+              "tool_event_count": 0
+            },
+            "id": "compact_external",
+            "instructions_delivery": "temporary-project-AGENTS",
+            "mismatched_fields": [],
+            "native_skill_loading": "not-tested",
+            "observed": {
+              "action": "implementation-gated",
+              "artifact_path": "bound-attempt",
+              "authority": "governed-review-evidence",
+              "delivery": "bound-attempt",
+              "plan_timing": "before-execution",
+              "preflight": "standalone",
+              "product": "none",
+              "qualification": "none"
+            },
+            "raw_trace_retained": false,
+            "result": "PASS",
+            "source_hashes": {
+              "references/local-instruction-checkpoint.md": "11e9c8db28264eb638f44198d222885df4ecf6a01c532deddd4119b27b845132",
+              "references/shared-global-governance.md": "960db63a0053c8d4311df61ff55f1534fd117868b39101d99b5666dd7e0a1977"
+            }
+          },
+          {
+            "event_audit": {
+              "agent_message_count": 1,
+              "event_count": 4,
+              "reasoning_event_count": 0,
+              "tool_event_count": 0
+            },
+            "id": "unapproved_major",
+            "instructions_delivery": "temporary-project-AGENTS",
+            "mismatched_fields": [],
+            "native_skill_loading": "not-tested",
+            "observed": {
+              "action": "proposal-only",
+              "artifact_path": "none",
+              "authority": "none",
+              "delivery": "none",
+              "plan_timing": "none",
+              "preflight": "blocked",
+              "product": "none",
+              "qualification": "none"
+            },
+            "raw_trace_retained": false,
+            "result": "PASS",
+            "source_hashes": {
+              "references/local-instruction-checkpoint.md": "11e9c8db28264eb638f44198d222885df4ecf6a01c532deddd4119b27b845132",
+              "references/shared-global-governance.md": "960db63a0053c8d4311df61ff55f1534fd117868b39101d99b5666dd7e0a1977"
+            }
+          },
+          {
+            "event_audit": {
+              "agent_message_count": 1,
+              "event_count": 4,
+              "reasoning_event_count": 0,
+              "tool_event_count": 0
+            },
+            "id": "bound_plan",
+            "instructions_delivery": "temporary-project-AGENTS",
+            "mismatched_fields": [],
+            "native_skill_loading": "not-tested",
+            "observed": {
+              "action": "implementation-gated",
+              "artifact_path": "bound-plan",
+              "authority": "none",
+              "delivery": "none",
+              "plan_timing": "before-execution",
+              "preflight": "standalone",
+              "product": "none",
+              "qualification": "none"
+            },
+            "raw_trace_retained": false,
+            "result": "PASS",
+            "source_hashes": {
+              "references/local-instruction-checkpoint.md": "11e9c8db28264eb638f44198d222885df4ecf6a01c532deddd4119b27b845132",
+              "references/shared-global-governance.md": "960db63a0053c8d4311df61ff55f1534fd117868b39101d99b5666dd7e0a1977"
+            }
+          },
+          {
+            "event_audit": {
+              "agent_message_count": 1,
+              "event_count": 4,
+              "reasoning_event_count": 0,
+              "tool_event_count": 0
+            },
+            "id": "shared_discovery",
+            "instructions_delivery": "temporary-project-AGENTS",
+            "mismatched_fields": [
+              "authority"
+            ],
+            "native_skill_loading": "not-tested",
+            "observed": {
+              "action": "answer",
+              "artifact_path": "none",
+              "authority": "advisory-input",
+              "delivery": "chat",
+              "plan_timing": "none",
+              "preflight": "none",
+              "product": "codex",
+              "qualification": "discovered-only"
+            },
+            "raw_trace_retained": false,
+            "result": "FAIL",
+            "source_hashes": {
+              "references/local-instruction-checkpoint.md": "11e9c8db28264eb638f44198d222885df4ecf6a01c532deddd4119b27b845132",
+              "references/shared-global-governance.md": "960db63a0053c8d4311df61ff55f1534fd117868b39101d99b5666dd7e0a1977"
+            }
+          },
+          {
+            "event_audit": {
+              "agent_message_count": 1,
+              "event_count": 4,
+              "reasoning_event_count": 0,
+              "tool_event_count": 0
+            },
+            "id": "claude_identity",
+            "instructions_delivery": "temporary-project-AGENTS",
+            "mismatched_fields": [],
+            "native_skill_loading": "not-tested",
+            "observed": {
+              "action": "blocked",
+              "artifact_path": "none",
+              "authority": "none",
+              "delivery": "bound-attempt",
+              "plan_timing": "none",
+              "preflight": "none",
+              "product": "claude-code",
+              "qualification": "none"
+            },
+            "raw_trace_retained": false,
+            "result": "PASS",
+            "source_hashes": {
+              "references/local-instruction-checkpoint.md": "11e9c8db28264eb638f44198d222885df4ecf6a01c532deddd4119b27b845132",
+              "references/shared-global-governance.md": "960db63a0053c8d4311df61ff55f1534fd117868b39101d99b5666dd7e0a1977"
+            }
+          }
+        ],
+        "schema_version": 1,
+        "scope": "native-Codex-projected-instruction-consumption",
+        "seven_entry_acceptance": "not-tested"
+      }
+    },
+    {
+      "summary_sha256": "3a3101d7459cce39513bfd44412999dd3acdefeba01a82c37440531866cfa88f",
+      "exit_code": 0,
+      "owned_cleanup_passed": true,
+      "summary": {
+        "case_count": 7,
+        "fixture_sha256": "8d3c0c2d42e70e75125e5c95e9a14a6f395879202ba32f79ce8a95cdd16bb4b7",
+        "results": [
+          {
+            "event_audit": {
+              "agent_message_count": 1,
+              "event_count": 4,
+              "reasoning_event_count": 0,
+              "tool_event_count": 0
+            },
+            "id": "advisory_chat",
+            "instructions_delivery": "temporary-project-AGENTS",
+            "mismatched_fields": [],
+            "native_skill_loading": "not-tested",
+            "observed": {
+              "action": "answer",
+              "artifact_path": "none",
+              "authority": "advisory-input",
+              "delivery": "chat",
+              "plan_timing": "none",
+              "preflight": "none",
+              "product": "codex",
+              "qualification": "none"
+            },
+            "raw_trace_retained": false,
+            "result": "PASS",
+            "source_hashes": {
+              "references/local-instruction-checkpoint.md": "11e9c8db28264eb638f44198d222885df4ecf6a01c532deddd4119b27b845132",
+              "references/shared-global-governance.md": "960db63a0053c8d4311df61ff55f1534fd117868b39101d99b5666dd7e0a1977"
+            }
+          },
+          {
+            "event_audit": {
+              "agent_message_count": 1,
+              "event_count": 4,
+              "reasoning_event_count": 0,
+              "tool_event_count": 0
+            },
+            "id": "compact_local",
+            "instructions_delivery": "temporary-project-AGENTS",
+            "mismatched_fields": [],
+            "native_skill_loading": "not-tested",
+            "observed": {
+              "action": "implementation-gated",
+              "artifact_path": "none",
+              "authority": "none",
+              "delivery": "none",
+              "plan_timing": "none",
+              "preflight": "inline",
+              "product": "none",
+              "qualification": "none"
+            },
+            "raw_trace_retained": false,
+            "result": "PASS",
+            "source_hashes": {
+              "references/local-instruction-checkpoint.md": "11e9c8db28264eb638f44198d222885df4ecf6a01c532deddd4119b27b845132",
+              "references/shared-global-governance.md": "960db63a0053c8d4311df61ff55f1534fd117868b39101d99b5666dd7e0a1977"
+            }
+          },
+          {
+            "event_audit": {
+              "agent_message_count": 1,
+              "event_count": 4,
+              "reasoning_event_count": 0,
+              "tool_event_count": 0
+            },
+            "id": "compact_external",
+            "instructions_delivery": "temporary-project-AGENTS",
+            "mismatched_fields": [],
+            "native_skill_loading": "not-tested",
+            "observed": {
+              "action": "implementation-gated",
+              "artifact_path": "bound-attempt",
+              "authority": "none",
+              "delivery": "bound-attempt",
+              "plan_timing": "before-execution",
+              "preflight": "standalone",
+              "product": "none",
+              "qualification": "none"
+            },
+            "raw_trace_retained": false,
+            "result": "PASS",
+            "source_hashes": {
+              "references/local-instruction-checkpoint.md": "11e9c8db28264eb638f44198d222885df4ecf6a01c532deddd4119b27b845132",
+              "references/shared-global-governance.md": "960db63a0053c8d4311df61ff55f1534fd117868b39101d99b5666dd7e0a1977"
+            }
+          },
+          {
+            "event_audit": {
+              "agent_message_count": 1,
+              "event_count": 4,
+              "reasoning_event_count": 0,
+              "tool_event_count": 0
+            },
+            "id": "unapproved_major",
+            "instructions_delivery": "temporary-project-AGENTS",
+            "mismatched_fields": [],
+            "native_skill_loading": "not-tested",
+            "observed": {
+              "action": "proposal-only",
+              "artifact_path": "none",
+              "authority": "none",
+              "delivery": "none",
+              "plan_timing": "none",
+              "preflight": "none",
+              "product": "none",
+              "qualification": "none"
+            },
+            "raw_trace_retained": false,
+            "result": "PASS",
+            "source_hashes": {
+              "references/local-instruction-checkpoint.md": "11e9c8db28264eb638f44198d222885df4ecf6a01c532deddd4119b27b845132",
+              "references/shared-global-governance.md": "960db63a0053c8d4311df61ff55f1534fd117868b39101d99b5666dd7e0a1977"
+            }
+          },
+          {
+            "event_audit": {
+              "agent_message_count": 1,
+              "event_count": 4,
+              "reasoning_event_count": 0,
+              "tool_event_count": 0
+            },
+            "id": "bound_plan",
+            "instructions_delivery": "temporary-project-AGENTS",
+            "mismatched_fields": [],
+            "native_skill_loading": "not-tested",
+            "observed": {
+              "action": "implementation-gated",
+              "artifact_path": "bound-plan",
+              "authority": "none",
+              "delivery": "none",
+              "plan_timing": "before-execution",
+              "preflight": "standalone",
+              "product": "none",
+              "qualification": "none"
+            },
+            "raw_trace_retained": false,
+            "result": "PASS",
+            "source_hashes": {
+              "references/local-instruction-checkpoint.md": "11e9c8db28264eb638f44198d222885df4ecf6a01c532deddd4119b27b845132",
+              "references/shared-global-governance.md": "960db63a0053c8d4311df61ff55f1534fd117868b39101d99b5666dd7e0a1977"
+            }
+          },
+          {
+            "event_audit": {
+              "agent_message_count": 1,
+              "event_count": 4,
+              "reasoning_event_count": 0,
+              "tool_event_count": 0
+            },
+            "id": "shared_discovery",
+            "instructions_delivery": "temporary-project-AGENTS",
+            "mismatched_fields": [],
+            "native_skill_loading": "not-tested",
+            "observed": {
+              "action": "answer",
+              "artifact_path": "none",
+              "authority": "none",
+              "delivery": "none",
+              "plan_timing": "none",
+              "preflight": "none",
+              "product": "codex",
+              "qualification": "discovered-only"
+            },
+            "raw_trace_retained": false,
+            "result": "PASS",
+            "source_hashes": {
+              "references/local-instruction-checkpoint.md": "11e9c8db28264eb638f44198d222885df4ecf6a01c532deddd4119b27b845132",
+              "references/shared-global-governance.md": "960db63a0053c8d4311df61ff55f1534fd117868b39101d99b5666dd7e0a1977"
+            }
+          },
+          {
+            "event_audit": {
+              "agent_message_count": 1,
+              "event_count": 4,
+              "reasoning_event_count": 0,
+              "tool_event_count": 0
+            },
+            "id": "claude_identity",
+            "instructions_delivery": "temporary-project-AGENTS",
+            "mismatched_fields": [],
+            "native_skill_loading": "not-tested",
+            "observed": {
+              "action": "blocked",
+              "artifact_path": "bound-attempt",
+              "authority": "none",
+              "delivery": "bound-attempt",
+              "plan_timing": "none",
+              "preflight": "none",
+              "product": "claude-code",
+              "qualification": "none"
+            },
+            "raw_trace_retained": false,
+            "result": "PASS",
+            "source_hashes": {
+              "references/local-instruction-checkpoint.md": "11e9c8db28264eb638f44198d222885df4ecf6a01c532deddd4119b27b845132",
+              "references/shared-global-governance.md": "960db63a0053c8d4311df61ff55f1534fd117868b39101d99b5666dd7e0a1977"
+            }
+          }
+        ],
+        "schema_version": 1,
+        "scope": "native-Codex-projected-instruction-consumption",
+        "seven_entry_acceptance": "not-tested"
+      }
+    }
+  ]
+}

@@ -1,0 +1,656 @@
+{
+  "schema_version": 1,
+  "change_id": "align-native-agent-governance",
+  "scope": "approved-source-and-existing-four-target-sync",
+  "control_plane_instance": "align-native-root",
+  "source_files": {
+    "references/shared-global-governance.md": "960db63a0053c8d4311df61ff55f1534fd117868b39101d99b5666dd7e0a1977",
+    "references/local-instruction-checkpoint.md": "11e9c8db28264eb638f44198d222885df4ecf6a01c532deddd4119b27b845132",
+    "references/superpowers-adapter.md": "851cbff37e5407c8c0c5c2872baa07b398f0d097aabcbe50eb29cb4c5b8b734f",
+    "references/cross-cli-sync.md": "f52a9d7a3caabc265c8a2b059179096f86567a75d6e704543fd5e14b8b9dc4ec",
+    "references/sync-checklist.md": "366f272094a2c24d8840c94159483636624b24cd1629219f7114959848905028",
+    "scripts/validate_core_gates.py": "be8a6b215b0b8b408ba9cb66036e98be97bd9c6872630aa0b8972969a91f54ea",
+    "scripts/validate_cross_cli_sync.py": "640402ec081b2ceee22d515f8f97ee93bbae75ab102b1b2607c2024c44f607b9",
+    "tests/test_workflow_rules.py": "ba2e486af4d0ab0f0286e5561826208728e7d404ab96faf4716afcda27471a14",
+    "tests/test_cross_cli_sync.py": "4abec2ef2d907637efe8dbdb3fa5e8645222cb20dbaaba6fcde01d0a93930863",
+    "docs/engineering-invariants.md": "f24f3f9cdc4e23f874fa900c477c27e22e8b3518b74e48b628ac980024589c1b",
+    "CHANGELOG.md": "9e1f1a594033ae42542c3e74bff4ee06723907f05532167d9d4fdf513ce1739b",
+    "tests/fixtures/native-agent-governance-cases.json": "8d3c0c2d42e70e75125e5c95e9a14a6f395879202ba32f79ce8a95cdd16bb4b7",
+    "tests/run_native_agent_governance_forward_tests.py": "20411c173bfe905a96355831578cdd5cfd454e184ab133a895e84276590eb4b4"
+  },
+  "source_full_checks": [
+    {
+      "name": "root-final-fallback-unittest.log",
+      "tests": 492,
+      "seconds": 34.014,
+      "exit_code": 0,
+      "log_sha256": "d9bdd641cc68da1799c20037a0cad5ac4931f1254c9f7cbf8aa901413438dd6b"
+    },
+    {
+      "name": "root-final-yaml-unittest.log",
+      "tests": 492,
+      "seconds": 34.315,
+      "exit_code": 0,
+      "log_sha256": "fe98390e64d79c2e95ce1d910c3deaa541280bd2afe3f4a44b8e7c12cdc0fef6"
+    }
+  ],
+  "source_quick_core_strict": "PASS; source executable hashes unchanged since checks",
+  "companion_source": {
+    "quick_templates": "PASS",
+    "unittest_count": 91,
+    "unittest_exit": 0,
+    "all_baseline_files_preserved": 23
+  },
+  "unrelated_source_baseline_files_preserved": 540,
+  "preexisting_dirty_content": "preserved",
+  "runtime_plan": {
+    "path": "docs/review/2026-10-10-align-native-agent-governance-sync-plan.json",
+    "sha256": "6b96b7fa7a8e727cfe55a79f1eace532f4960e53d6748b1b12ff736e56d64376"
+  },
+  "target_order": [
+    "codex",
+    "pi",
+    "antigravity-cli",
+    "grok-cli"
+  ],
+  "targets": {
+    "codex": {
+      "portable_file_count": 40,
+      "selected_files": 7,
+      "assertions": 33,
+      "result": "PASS",
+      "managed_version": 6,
+      "managed_body_sha256": "91e97f0cb9a7ac226ae2f13f748841fe22bfc7bb22319b1a26acd8f59030b448",
+      "rule_sha256": "b049858a8d7d0716d2c97a93fc7f9f2f33eead8b6a33e35525b226dbd6a5605f",
+      "outside_sha256": "fbca6e2a79f7bcac27372caa96559d3fc0f50487730df6c31985630d4a664821",
+      "outside_bytes_unchanged": true,
+      "receipt_sha256": "b200916b57f905202f2322b57b0cc68998a27f91a6f7a96f006c02b4d2e763a1",
+      "receipt_state": "verified",
+      "receipt_fields": [
+        "backup_manifest_sha256",
+        "candidate_sha256",
+        "content_verification_sha256",
+        "destination_preimage_sha256",
+        "discovery_verification_sha256",
+        "plan_sha256",
+        "previous_receipt_sha256",
+        "revision",
+        "schema_version",
+        "state",
+        "target",
+        "transaction_id"
+      ],
+      "checks": [
+        {
+          "command": [
+            "python3",
+            "/Users/elvis/file/develop/opensource/openspec-superpower-change/scripts/validate_cross_cli_sync.py",
+            "apply",
+            "--target",
+            "codex",
+            "--plan",
+            "/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/align-native-agent-governance-b763154v/sync-plan.json",
+            "--transaction-receipt",
+            "/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/align-native-agent-governance-b763154v/runtime-transactions/codex.json",
+            "--backup-root",
+            "/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/align-native-agent-governance-b763154v/runtime-backups"
+          ],
+          "exit_code": 0,
+          "stdout_sha256": "0b9ce81a8a9bf36893ff3e5b3437cbb0108bf37b644dd151f3f69ea15ef98f54"
+        },
+        {
+          "command": [
+            "python3",
+            "/Users/elvis/file/develop/opensource/openspec-superpower-change/scripts/validate_cross_cli_sync.py",
+            "verify",
+            "--target",
+            "codex",
+            "--plan",
+            "/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/align-native-agent-governance-b763154v/sync-plan.json",
+            "--transaction-receipt",
+            "/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/align-native-agent-governance-b763154v/runtime-transactions/codex.json"
+          ],
+          "exit_code": 0,
+          "stdout_sha256": "dfd2dbe0bbd8565e1aebd6ab22000fa806d68cea63639c831405fe71b2160faf"
+        },
+        {
+          "command": [
+            "/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/align-native-agent-governance-b763154v/yaml-env/bin/python",
+            "/Users/elvis/.codex-account-a/skills/.system/skill-creator/scripts/quick_validate.py",
+            "/Users/elvis/.codex/skills/openspec-superpower-change"
+          ],
+          "exit_code": 0,
+          "stdout_sha256": "db349825903d66adffea3ecf1bd8e1803043e8a71cf1a051235dabc5371f5bb0"
+        },
+        {
+          "command": [
+            "/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/align-native-agent-governance-b763154v/yaml-env/bin/python",
+            "/Users/elvis/.codex-account-a/skills/.system/skill-creator/scripts/quick_validate.py",
+            "/Users/elvis/.codex/skills/codex-brief-antigravity-review"
+          ],
+          "exit_code": 0,
+          "stdout_sha256": "db349825903d66adffea3ecf1bd8e1803043e8a71cf1a051235dabc5371f5bb0"
+        },
+        {
+          "command": [
+            "python3",
+            "/Users/elvis/.codex/skills/openspec-superpower-change/scripts/validate_core_gates.py",
+            "/Users/elvis/.codex/skills/openspec-superpower-change"
+          ],
+          "exit_code": 0,
+          "stdout_sha256": "ee476d351f7c7780323780889818bf66dbc22cb184cadfb0dd4ba9716b4457c0"
+        },
+        {
+          "command": [
+            "/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/align-native-agent-governance-b763154v/yaml-env/bin/python",
+            "/Users/elvis/.codex/skills/openspec-superpower-change/scripts/validate_core_gates.py",
+            "/Users/elvis/.codex/skills/openspec-superpower-change"
+          ],
+          "exit_code": 0,
+          "stdout_sha256": "ee476d351f7c7780323780889818bf66dbc22cb184cadfb0dd4ba9716b4457c0"
+        },
+        {
+          "command": [
+            "python3",
+            "/Users/elvis/.codex/skills/codex-brief-antigravity-review/scripts/validate_templates.py",
+            "/Users/elvis/.codex/skills/codex-brief-antigravity-review"
+          ],
+          "exit_code": 0,
+          "stdout_sha256": "d345f275ebc91e1cda2d1d6365cc769809694f4b9b2448daab8f151a1df68d81"
+        },
+        {
+          "command": [
+            "python3",
+            "/Users/elvis/file/develop/opensource/openspec-superpower-change/scripts/validate_cross_cli_sync.py",
+            "verify-discovery",
+            "--target",
+            "codex",
+            "--plan",
+            "/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/align-native-agent-governance-b763154v/sync-plan.json",
+            "--transaction-receipt",
+            "/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/align-native-agent-governance-b763154v/runtime-transactions/codex.json"
+          ],
+          "exit_code": 0,
+          "stdout_sha256": "4d3490dd2d46e9a1478ffc6e4777ef82cfbf864cfabe2c2b8ad7780e4f779a0c"
+        },
+        {
+          "command": [
+            "python3",
+            "/Users/elvis/file/develop/opensource/openspec-superpower-change/scripts/validate_cross_cli_sync.py",
+            "commit-target",
+            "--target",
+            "codex",
+            "--plan",
+            "/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/align-native-agent-governance-b763154v/sync-plan.json",
+            "--transaction-receipt",
+            "/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/align-native-agent-governance-b763154v/runtime-transactions/codex.json"
+          ],
+          "exit_code": 0,
+          "stdout_sha256": "0b5297f1053dfa27435dd70cf24d064ffc14264addf6d3694c18c6c993ca0ebb"
+        }
+      ]
+    },
+    "pi": {
+      "portable_file_count": 40,
+      "selected_files": 7,
+      "assertions": 33,
+      "result": "PASS",
+      "managed_version": 6,
+      "managed_body_sha256": "91e97f0cb9a7ac226ae2f13f748841fe22bfc7bb22319b1a26acd8f59030b448",
+      "rule_sha256": "c03b5adee70765417aed2ace874293314d0c6ecca9db55bd63c149fdaa275477",
+      "outside_sha256": "f79263d72687d3cd66558acd25831dbdb2edd1fb96e19d590d0e65b7aab32f28",
+      "outside_bytes_unchanged": true,
+      "receipt_sha256": "4613a285c8328ca626a55ec41e15d347152d6fbddcf85cbdfcd5914da5884a06",
+      "receipt_state": "verified",
+      "receipt_fields": [
+        "backup_manifest_sha256",
+        "candidate_sha256",
+        "content_verification_sha256",
+        "destination_preimage_sha256",
+        "discovery_verification_sha256",
+        "plan_sha256",
+        "previous_receipt_sha256",
+        "revision",
+        "schema_version",
+        "state",
+        "target",
+        "transaction_id"
+      ],
+      "checks": [
+        {
+          "command": [
+            "python3",
+            "/Users/elvis/file/develop/opensource/openspec-superpower-change/scripts/validate_cross_cli_sync.py",
+            "apply",
+            "--target",
+            "pi",
+            "--plan",
+            "/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/align-native-agent-governance-b763154v/sync-plan.json",
+            "--transaction-receipt",
+            "/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/align-native-agent-governance-b763154v/runtime-transactions/pi.json",
+            "--backup-root",
+            "/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/align-native-agent-governance-b763154v/runtime-backups"
+          ],
+          "exit_code": 0,
+          "stdout_sha256": "d0dc4106ca5f385e68b46c626e11f8e28629dc4979d995bb782d0963ab84a035"
+        },
+        {
+          "command": [
+            "python3",
+            "/Users/elvis/file/develop/opensource/openspec-superpower-change/scripts/validate_cross_cli_sync.py",
+            "verify",
+            "--target",
+            "pi",
+            "--plan",
+            "/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/align-native-agent-governance-b763154v/sync-plan.json",
+            "--transaction-receipt",
+            "/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/align-native-agent-governance-b763154v/runtime-transactions/pi.json"
+          ],
+          "exit_code": 0,
+          "stdout_sha256": "c3c2cd2bebe798217c3839756c95146ca9bcab9275c53a3dd14180b973197a11"
+        },
+        {
+          "command": [
+            "/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/align-native-agent-governance-b763154v/yaml-env/bin/python",
+            "/Users/elvis/.codex-account-a/skills/.system/skill-creator/scripts/quick_validate.py",
+            "/Users/elvis/.pi/agent/skills/openspec-superpower-change"
+          ],
+          "exit_code": 0,
+          "stdout_sha256": "db349825903d66adffea3ecf1bd8e1803043e8a71cf1a051235dabc5371f5bb0"
+        },
+        {
+          "command": [
+            "/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/align-native-agent-governance-b763154v/yaml-env/bin/python",
+            "/Users/elvis/.codex-account-a/skills/.system/skill-creator/scripts/quick_validate.py",
+            "/Users/elvis/.pi/agent/skills/codex-brief-antigravity-review"
+          ],
+          "exit_code": 0,
+          "stdout_sha256": "db349825903d66adffea3ecf1bd8e1803043e8a71cf1a051235dabc5371f5bb0"
+        },
+        {
+          "command": [
+            "python3",
+            "/Users/elvis/.pi/agent/skills/openspec-superpower-change/scripts/validate_core_gates.py",
+            "/Users/elvis/.pi/agent/skills/openspec-superpower-change"
+          ],
+          "exit_code": 0,
+          "stdout_sha256": "a389f7ae9347810796918b173f088232dd6079ac843da4980704f4eb98b5df35"
+        },
+        {
+          "command": [
+            "/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/align-native-agent-governance-b763154v/yaml-env/bin/python",
+            "/Users/elvis/.pi/agent/skills/openspec-superpower-change/scripts/validate_core_gates.py",
+            "/Users/elvis/.pi/agent/skills/openspec-superpower-change"
+          ],
+          "exit_code": 0,
+          "stdout_sha256": "a389f7ae9347810796918b173f088232dd6079ac843da4980704f4eb98b5df35"
+        },
+        {
+          "command": [
+            "python3",
+            "/Users/elvis/.pi/agent/skills/codex-brief-antigravity-review/scripts/validate_templates.py",
+            "/Users/elvis/.pi/agent/skills/codex-brief-antigravity-review"
+          ],
+          "exit_code": 0,
+          "stdout_sha256": "e1e0bfab990a6ae6de908db114f28d8ec036f3def14c6b4c093787e4cbdc6a33"
+        },
+        {
+          "command": [
+            "python3",
+            "/Users/elvis/file/develop/opensource/openspec-superpower-change/scripts/validate_cross_cli_sync.py",
+            "verify-discovery",
+            "--target",
+            "pi",
+            "--plan",
+            "/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/align-native-agent-governance-b763154v/sync-plan.json",
+            "--transaction-receipt",
+            "/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/align-native-agent-governance-b763154v/runtime-transactions/pi.json"
+          ],
+          "exit_code": 0,
+          "stdout_sha256": "d86e0e839b9358c5fe1a972a444a1156272a456127806548d568eed1e40a4454"
+        },
+        {
+          "command": [
+            "python3",
+            "/Users/elvis/file/develop/opensource/openspec-superpower-change/scripts/validate_cross_cli_sync.py",
+            "commit-target",
+            "--target",
+            "pi",
+            "--plan",
+            "/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/align-native-agent-governance-b763154v/sync-plan.json",
+            "--transaction-receipt",
+            "/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/align-native-agent-governance-b763154v/runtime-transactions/pi.json"
+          ],
+          "exit_code": 0,
+          "stdout_sha256": "cfda3d536b7864adad1c782823f0ebf105905651cb6ef9fb8432fc388eb7ca66"
+        }
+      ]
+    },
+    "antigravity-cli": {
+      "portable_file_count": 40,
+      "selected_files": 7,
+      "assertions": 33,
+      "result": "PASS",
+      "managed_version": 6,
+      "managed_body_sha256": "91e97f0cb9a7ac226ae2f13f748841fe22bfc7bb22319b1a26acd8f59030b448",
+      "rule_sha256": "a4233879fca11e4fd6e75b813e655086c92fa1dcb9e97a4b0ba77955a8b65a99",
+      "outside_sha256": "3085d33a7d53b7d428e572821ab315f1226f13527dd012738d11ca864fdfab89",
+      "outside_bytes_unchanged": true,
+      "receipt_sha256": "9e20835d2a611af22bba41442b84831060f3db0cfbeef3c6864d870e46d0e7c7",
+      "receipt_state": "verified",
+      "receipt_fields": [
+        "backup_manifest_sha256",
+        "candidate_sha256",
+        "content_verification_sha256",
+        "destination_preimage_sha256",
+        "discovery_verification_sha256",
+        "plan_sha256",
+        "previous_receipt_sha256",
+        "revision",
+        "schema_version",
+        "state",
+        "target",
+        "transaction_id"
+      ],
+      "checks": [
+        {
+          "command": [
+            "python3",
+            "/Users/elvis/file/develop/opensource/openspec-superpower-change/scripts/validate_cross_cli_sync.py",
+            "apply",
+            "--target",
+            "antigravity-cli",
+            "--plan",
+            "/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/align-native-agent-governance-b763154v/sync-plan.json",
+            "--transaction-receipt",
+            "/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/align-native-agent-governance-b763154v/runtime-transactions/antigravity-cli.json",
+            "--backup-root",
+            "/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/align-native-agent-governance-b763154v/runtime-backups"
+          ],
+          "exit_code": 0,
+          "stdout_sha256": "256f219ea2852fba23fdc0e6ffe7c9fd2bfeb02387378f3286e7c36f29083d68"
+        },
+        {
+          "command": [
+            "python3",
+            "/Users/elvis/file/develop/opensource/openspec-superpower-change/scripts/validate_cross_cli_sync.py",
+            "verify",
+            "--target",
+            "antigravity-cli",
+            "--plan",
+            "/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/align-native-agent-governance-b763154v/sync-plan.json",
+            "--transaction-receipt",
+            "/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/align-native-agent-governance-b763154v/runtime-transactions/antigravity-cli.json"
+          ],
+          "exit_code": 0,
+          "stdout_sha256": "5928145ca5e61e786c4563539507785f5eba33af976f2b5c4c7c1f3713b7e483"
+        },
+        {
+          "command": [
+            "/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/align-native-agent-governance-b763154v/yaml-env/bin/python",
+            "/Users/elvis/.codex-account-a/skills/.system/skill-creator/scripts/quick_validate.py",
+            "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change"
+          ],
+          "exit_code": 0,
+          "stdout_sha256": "db349825903d66adffea3ecf1bd8e1803043e8a71cf1a051235dabc5371f5bb0"
+        },
+        {
+          "command": [
+            "/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/align-native-agent-governance-b763154v/yaml-env/bin/python",
+            "/Users/elvis/.codex-account-a/skills/.system/skill-creator/scripts/quick_validate.py",
+            "/Users/elvis/.gemini/antigravity-cli/skills/codex-brief-antigravity-review"
+          ],
+          "exit_code": 0,
+          "stdout_sha256": "db349825903d66adffea3ecf1bd8e1803043e8a71cf1a051235dabc5371f5bb0"
+        },
+        {
+          "command": [
+            "python3",
+            "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change/scripts/validate_core_gates.py",
+            "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change"
+          ],
+          "exit_code": 0,
+          "stdout_sha256": "e21a03d3821631569b9dcb71d6c71a743049951d34040189387a381d0062af4f"
+        },
+        {
+          "command": [
+            "/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/align-native-agent-governance-b763154v/yaml-env/bin/python",
+            "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change/scripts/validate_core_gates.py",
+            "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change"
+          ],
+          "exit_code": 0,
+          "stdout_sha256": "e21a03d3821631569b9dcb71d6c71a743049951d34040189387a381d0062af4f"
+        },
+        {
+          "command": [
+            "python3",
+            "/Users/elvis/.gemini/antigravity-cli/skills/codex-brief-antigravity-review/scripts/validate_templates.py",
+            "/Users/elvis/.gemini/antigravity-cli/skills/codex-brief-antigravity-review"
+          ],
+          "exit_code": 0,
+          "stdout_sha256": "cb04c5b7ff03bcb21ac0da0712e7c21910230936e02e44a0d2980bf7571ac1ca"
+        },
+        {
+          "command": [
+            "python3",
+            "/Users/elvis/file/develop/opensource/openspec-superpower-change/scripts/validate_cross_cli_sync.py",
+            "verify-discovery",
+            "--target",
+            "antigravity-cli",
+            "--plan",
+            "/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/align-native-agent-governance-b763154v/sync-plan.json",
+            "--transaction-receipt",
+            "/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/align-native-agent-governance-b763154v/runtime-transactions/antigravity-cli.json"
+          ],
+          "exit_code": 0,
+          "stdout_sha256": "20bf95ded509358f26dd2ba0b187b5bce44955ebed59b4ca77ece20c8066747e"
+        },
+        {
+          "command": [
+            "python3",
+            "/Users/elvis/file/develop/opensource/openspec-superpower-change/scripts/validate_cross_cli_sync.py",
+            "commit-target",
+            "--target",
+            "antigravity-cli",
+            "--plan",
+            "/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/align-native-agent-governance-b763154v/sync-plan.json",
+            "--transaction-receipt",
+            "/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/align-native-agent-governance-b763154v/runtime-transactions/antigravity-cli.json"
+          ],
+          "exit_code": 0,
+          "stdout_sha256": "eb89e7965bc4e441fdb5e2ef1ca75edf326c70732607d58270efdfff092f46b5"
+        }
+      ]
+    },
+    "grok-cli": {
+      "portable_file_count": 40,
+      "selected_files": 7,
+      "assertions": 33,
+      "result": "PASS",
+      "managed_version": 6,
+      "managed_body_sha256": "91e97f0cb9a7ac226ae2f13f748841fe22bfc7bb22319b1a26acd8f59030b448",
+      "rule_sha256": "a85888d8b6a10b24bb6608b48155de65aff7848d9de6dad7a78c0b751c198dd3",
+      "outside_sha256": "0e062eac761e7d11801848dfe86438f24a62301181f8ef6076b56a6cf1287e8c",
+      "outside_bytes_unchanged": true,
+      "receipt_sha256": "6589cdc2165c61b72b48df921381b3d15f85e7b11a0c536f85c1124554254bc4",
+      "receipt_state": "verified",
+      "receipt_fields": [
+        "backup_manifest_sha256",
+        "candidate_sha256",
+        "content_verification_sha256",
+        "destination_preimage_sha256",
+        "discovery_verification_sha256",
+        "plan_sha256",
+        "previous_receipt_sha256",
+        "revision",
+        "schema_version",
+        "state",
+        "target",
+        "transaction_id"
+      ],
+      "checks": [
+        {
+          "command": [
+            "python3",
+            "/Users/elvis/file/develop/opensource/openspec-superpower-change/scripts/validate_cross_cli_sync.py",
+            "apply",
+            "--target",
+            "grok-cli",
+            "--plan",
+            "/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/align-native-agent-governance-b763154v/sync-plan.json",
+            "--transaction-receipt",
+            "/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/align-native-agent-governance-b763154v/runtime-transactions/grok-cli.json",
+            "--backup-root",
+            "/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/align-native-agent-governance-b763154v/runtime-backups"
+          ],
+          "exit_code": 0,
+          "stdout_sha256": "0b2c20619e986c8aaa88d0e64d656d3efa3272671e6c67b45bb7edaedccc014e"
+        },
+        {
+          "command": [
+            "python3",
+            "/Users/elvis/file/develop/opensource/openspec-superpower-change/scripts/validate_cross_cli_sync.py",
+            "verify",
+            "--target",
+            "grok-cli",
+            "--plan",
+            "/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/align-native-agent-governance-b763154v/sync-plan.json",
+            "--transaction-receipt",
+            "/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/align-native-agent-governance-b763154v/runtime-transactions/grok-cli.json"
+          ],
+          "exit_code": 0,
+          "stdout_sha256": "cd05070c328068455f3e1edba17784693ce36eda1e3c8bdab1defcaa3c85ea00"
+        },
+        {
+          "command": [
+            "/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/align-native-agent-governance-b763154v/yaml-env/bin/python",
+            "/Users/elvis/.codex-account-a/skills/.system/skill-creator/scripts/quick_validate.py",
+            "/Users/elvis/.grok/skills/openspec-superpower-change"
+          ],
+          "exit_code": 0,
+          "stdout_sha256": "db349825903d66adffea3ecf1bd8e1803043e8a71cf1a051235dabc5371f5bb0"
+        },
+        {
+          "command": [
+            "/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/align-native-agent-governance-b763154v/yaml-env/bin/python",
+            "/Users/elvis/.codex-account-a/skills/.system/skill-creator/scripts/quick_validate.py",
+            "/Users/elvis/.grok/skills/codex-brief-antigravity-review"
+          ],
+          "exit_code": 0,
+          "stdout_sha256": "db349825903d66adffea3ecf1bd8e1803043e8a71cf1a051235dabc5371f5bb0"
+        },
+        {
+          "command": [
+            "python3",
+            "/Users/elvis/.grok/skills/openspec-superpower-change/scripts/validate_core_gates.py",
+            "/Users/elvis/.grok/skills/openspec-superpower-change"
+          ],
+          "exit_code": 0,
+          "stdout_sha256": "657d3cc83e444d8c97d2f0cbe280366e1ae808a04a9998bb7ede74a7fb1b3697"
+        },
+        {
+          "command": [
+            "/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/align-native-agent-governance-b763154v/yaml-env/bin/python",
+            "/Users/elvis/.grok/skills/openspec-superpower-change/scripts/validate_core_gates.py",
+            "/Users/elvis/.grok/skills/openspec-superpower-change"
+          ],
+          "exit_code": 0,
+          "stdout_sha256": "657d3cc83e444d8c97d2f0cbe280366e1ae808a04a9998bb7ede74a7fb1b3697"
+        },
+        {
+          "command": [
+            "python3",
+            "/Users/elvis/.grok/skills/codex-brief-antigravity-review/scripts/validate_templates.py",
+            "/Users/elvis/.grok/skills/codex-brief-antigravity-review"
+          ],
+          "exit_code": 0,
+          "stdout_sha256": "9ba735d08784d5dcfdd3d18f31f9dc6e880fff1eae13f422536d3956d7800ae1"
+        },
+        {
+          "command": [
+            "python3",
+            "/Users/elvis/file/develop/opensource/openspec-superpower-change/scripts/validate_cross_cli_sync.py",
+            "verify-discovery",
+            "--target",
+            "grok-cli",
+            "--plan",
+            "/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/align-native-agent-governance-b763154v/sync-plan.json",
+            "--transaction-receipt",
+            "/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/align-native-agent-governance-b763154v/runtime-transactions/grok-cli.json",
+            "--inspect-json",
+            "/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/align-native-agent-governance-b763154v/grok-inspect-private.json",
+            "--consume"
+          ],
+          "exit_code": 0,
+          "stdout_sha256": "60877a4de40ad8cc68cb823d6a8d9723f40921a1f222e4e75c59cea9344f7254"
+        },
+        {
+          "command": [
+            "python3",
+            "/Users/elvis/file/develop/opensource/openspec-superpower-change/scripts/validate_cross_cli_sync.py",
+            "commit-target",
+            "--target",
+            "grok-cli",
+            "--plan",
+            "/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/align-native-agent-governance-b763154v/sync-plan.json",
+            "--transaction-receipt",
+            "/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/align-native-agent-governance-b763154v/runtime-transactions/grok-cli.json"
+          ],
+          "exit_code": 0,
+          "stdout_sha256": "ad7bc584ff597fe27f43e3a3704935b9ee4bbb6b69beb802246d09e84c66c2c7"
+        }
+      ]
+    }
+  },
+  "durable_receipts": {
+    "codex": {
+      "path": "docs/review/2026-10-10-align-native-agent-governance-receipt-codex.json",
+      "sha256": "b200916b57f905202f2322b57b0cc68998a27f91a6f7a96f006c02b4d2e763a1"
+    },
+    "pi": {
+      "path": "docs/review/2026-10-10-align-native-agent-governance-receipt-pi.json",
+      "sha256": "4613a285c8328ca626a55ec41e15d347152d6fbddcf85cbdfcd5914da5884a06"
+    },
+    "antigravity-cli": {
+      "path": "docs/review/2026-10-10-align-native-agent-governance-receipt-antigravity-cli.json",
+      "sha256": "9e20835d2a611af22bba41442b84831060f3db0cfbeef3c6864d870e46d0e7c7"
+    },
+    "grok-cli": {
+      "path": "docs/review/2026-10-10-align-native-agent-governance-receipt-grok-cli.json",
+      "sha256": "6589cdc2165c61b72b48df921381b3d15f85e7b11a0c536f85c1124554254bc4"
+    }
+  },
+  "verify_all": "PASS",
+  "native_forward": {
+    "path": "docs/review/2026-10-10-align-native-agent-governance-forward.json",
+    "sha256": "c15b4e52e8af47655af7384270fbde5edb077ac382671dcbb1ab0c43718da1cc",
+    "final_case_count": 7,
+    "final_matched_cases": 7,
+    "exit_code": 0,
+    "owned_cleanup": true,
+    "scope": "Codex temporary project AGENTS projection; no Skill-body loading/other-entry proof"
+  },
+  "grok_inspect_raw_retained": false,
+  "pi_process_invoked": false,
+  "learning": {
+    "path": "docs/review/2026-10-10-align-native-agent-governance-learning-closeout.md",
+    "sha256": "ef3f9bc9e9cd76c79adbb30a4df70c55d74a15f854782aa30ea8bcd1532afef8"
+  },
+  "next_native_plan": {
+    "path": "docs/superpowers/plans/2026-10-10-native-agent-adaptation-next.md",
+    "sha256": "962de1d729d7c0d876d71b88e82a1953b6cd5c4b1c61d203e1bd670e54d1760c",
+    "implementation_approved": false,
+    "grok_selective_hook_mechanism": "not-established"
+  },
+  "final_review": "pending",
+  "backup_cleanup": "pending-final-review",
+  "git_publication": "not-authorized",
+  "archive": "not-authorized",
+  "seven_actual_entries": "not-tested",
+  "generated_bytecode_removed": [
+    "scripts/__pycache__/validate_cross_cli_sync.cpython-314.pyc",
+    "scripts/__pycache__/validate_core_gates.cpython-314.pyc",
+    "tests/__pycache__/run_superpowers_routing_forward_tests.cpython-314.pyc",
+    "tests/__pycache__/run_superpowers_routing_forward_tests.cpython-314.pyc"
+  ]
+}

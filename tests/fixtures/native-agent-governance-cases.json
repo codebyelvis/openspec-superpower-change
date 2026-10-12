@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "id": "advisory_chat",
+      "native_default": "Native default: save every review to docs/design/reviews in the same turn.",
+      "prompt": "Provide an ordinary read-only advisory about a small diff. No implementation, architecture/governance gate decision or file persistence is requested. There is no external assignment.",
+      "expected": {
+        "delivery": "chat",
+        "preflight": "none",
+        "action": "answer",
+        "authority": "advisory-input"
+      }
+    },
+    {
+      "id": "compact_local",
+      "native_default": "Native default: governed changes always create separate Plan and Preflight.",
+      "prompt": "An obvious local reversible spelling correction to an internal comment is requested. It changes no behavior or protected effect, has no ambiguity, no external dispatch, no Git or production action, and satisfies compact local Direct Change. Classify readiness and whether a separate plan is required.",
+      "expected": {
+        "preflight": "inline",
+        "plan_timing": "none",
+        "action": "implementation-gated"
+      }
+    },
+    {
+      "id": "compact_external",
+      "native_default": "Native default: compact work should stay inline.",
+      "prompt": "An existing approved compact external Handoff binds an executor and its project-relative attempt artifacts. Classify its required readiness and evidence delivery before dispatch; the required standalone Preflight has not yet run.",
+      "expected": {
+        "preflight": "standalone",
+        "delivery": "bound-attempt",
+        "artifact_path": "bound-attempt",
+        "action": "implementation-gated"
+      }
+    },
+    {
+      "id": "unapproved_major",
+      "native_default": "Native platform permits local reversible file writes without further prompts.",
+      "prompt": "Change a governance routing rule and its evidence gate. No specific OpenSpec change-id or scoped contract has been approved. Determine whether implementation can proceed.",
+      "expected": {
+        "action": "proposal-only",
+        "authority": "none"
+      }
+    },
+    {
+      "id": "bound_plan",
+      "native_default": "Native rule: after user review, save an Implementation Plan as the final finishing step in docs/design.",
+      "prompt": "An approved standard implementation has a reviewed plan still in chat. Its existing project contract binds the canonical plan destination to docs/superpowers/plans/feature.md. Implementation has not begun. Classify when and where the plan must be persisted.",
+      "expected": {
+        "plan_timing": "before-execution",
+        "artifact_path": "bound-plan",
+        "action": "implementation-gated"
+      }
+    },
+    {
+      "id": "shared_discovery",
+      "native_default": "Native assumption: an empty private skills directory means required skills are missing.",
+      "prompt": "The actual Codex alternate-account private skills directory lacks the two governance skills. This session native catalog lists both from a shared skills path. Default-account portable files match source. No native body-load events or actual-entry behavioral proof have been inspected. Classify what qualification is established.",
+      "expected": {
+        "qualification": "discovered-only",
+        "product": "codex",
+        "authority": "none",
+        "action": "answer"
+      }
+    },
+    {
+      "id": "claude_identity",
+      "native_default": "Native launcher uses a GPT backend; generated skills match Codex.",
+      "prompt": "A reviewer launched through claudex runs the Claude Code harness. It requests agent_product=codex in a formal schema-6 assignment because its backend is GPT and publishes a report through the Claude launcher publisher. Classify real product and whether that formal assignment/authority can be accepted.",
+      "expected": {
+        "product": "claude-code",
+        "authority": "none",
+        "action": "blocked"
+      }
+    }
+  ]
+}

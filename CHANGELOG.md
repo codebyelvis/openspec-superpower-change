@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+- Align shared native instruction consumption: expose the compact-local
+  Preflight exception and ordinary advisory route, preserve required plan timing
+  and bound artifact paths, and distinguish actual-entry qualification from
+  four-target portable parity. Keep both skills, schema/product sets and native
+  hook/config exclusions; add owner-bound negative regressions and a bounded
+  native Codex projected-instruction probe.
+
 - S8: resolve ordinary document placement from explicit project contracts and
   established conventions before purpose-directory fallbacks. Centralize the
   ownership rule and engineering learning target; preserve protected artifact

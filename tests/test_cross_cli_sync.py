@@ -5,6 +5,7 @@ import hashlib
 import errno
 import io
 import inspect
+import re
 import os
 import stat
 import subprocess
@@ -22,6 +23,49 @@ from scripts import validate_cross_cli_sync as sync
 SKILLS = ["openspec-superpower-change", "codex-brief-antigravity-review"]
 INVARIANTS = [f"CCG-{number:03d}" for number in range(1, 9)]
 V6_INVARIANTS = [f"CCG-{number:03d}" for number in range(1, 17)]
+
+
+class NativeConsumptionManagedRulesTests(unittest.TestCase):
+    def body(self):
+        return (Path(__file__).parents[1] / "references/shared-global-governance.md").read_text()
+
+    def test_hidden_governance_cannot_be_installed_as_valid_managed_rules(self):
+        body = self.body()
+        for hidden in ("<!--\n" + body + "\n-->", "```text\n" + body + "\n```"):
+            with self.subTest(form=hidden[:10]):
+                with self.assertRaises(ValueError):
+                    sync.validate_managed_rule_semantics(hidden, version=6)
+                installed = sync.install_managed_block("Unmanaged prefix.\n", hidden, version=6)
+                with self.assertRaises(ValueError):
+                    sync.validate_managed_rule_parity(hidden, installed, version=6, invariant_ids=V6_INVARIANTS)
+
+    def test_universal_preflight_is_rejected_by_real_semantic_validator(self):
+        body = self.body()
+        old = (
+            "- [CCG-004] Governed work follows Preflight Review -> Implement -> Verify ->\n"
+            "  Review, and every actionable finding returns to Fix -> Verify -> Review.\n"
+        )
+        mutated = re.sub(
+            r"(?ms)^- \[CCG-004\].*?(?=^- \[CCG-005\])", old, body
+        )
+        with self.assertRaises(ValueError):
+            sync.validate_managed_rule_semantics(mutated, version=6)
+
+    def test_missing_advisory_exception_is_rejected(self):
+        body = self.body()
+        old = re.sub(
+            r"(?s)  Ordinary questions and standalone read-only advisory review.*?"
+            r"Router classification before writing\.\n", "", body
+        )
+        with self.assertRaises(ValueError):
+            sync.validate_managed_rule_semantics(old, version=6)
+
+    def test_contradictory_compact_external_waiver_is_rejected(self):
+        body = self.body().replace(
+            "- [CCG-005]", "  Compact external execution also skips Preflight.\n- [CCG-005]"
+        )
+        with self.assertRaises(ValueError):
+            sync.validate_managed_rule_semantics(body, version=6)
 
 V6_SEMANTIC_BODIES = {
     "CCG-001": (
@@ -54,6 +98,28 @@ V6_SEMANTIC_BODIES = {
         "A missing or blank purpose, unresolved “other agent” destination, product "
         "substitution, self-review, or missing required independent instance is "
         "fail-closed."
+    ),
+    'CCG-004': (
+        'Governed implementation outside the compact local Direct Change exception follows '
+        'Preflight Review -> Implement -> Verify -> Review, and every actionable finding '
+        'returns to Fix -> Verify -> Review. Compact local Direct Change follows '
+        '`references/direct-change-rule.md`: inline readiness, required verification and '
+        'inline self-review suffice when its bounded conditions hold. This exception does '
+        'not waive required behavioral evidence or apply to compact external execution, '
+        'standard/strict work, multi-slice work or protected effects.'
+    ),
+    'CCG-014': (
+        'Governed state-changing, Git-mutating, or whole-task-completion work enters '
+        '`openspec-superpower-change` Gate 0 through exactly one applicable Router before '
+        'broad Superpowers metadata or any user-explicit `$superpowers:*` method proceeds. '
+        'Generic create/modify wording alone does not activate a sub-skill; a user-explicit '
+        'method request grants no independent workflow, business, Git, or completion '
+        'authority; inability to load exactly one applicable Router is `BLOCKED`; once '
+        "selected, each sub-skill's full rules remain in force. Ordinary questions and "
+        'standalone read-only advisory review do not enter the Router or the Superpowers '
+        'meta-entry merely because native defaults request planning or saved reports. '
+        'Explicitly requested file persistence returns to Router classification before '
+        'writing.'
     ),
 }
 
