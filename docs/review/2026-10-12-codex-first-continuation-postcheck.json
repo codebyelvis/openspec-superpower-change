@@ -1,0 +1,134 @@
+{
+  "author": "elvis",
+  "change": "align-native-consumer-projections",
+  "stage": "post-native-run-integrity",
+  "integrity_result": "PASS",
+  "native_process_exit_code": 1,
+  "native_acceptance": "FAIL",
+  "passed": 7,
+  "failed_case": {
+    "entry": "codex-default",
+    "case": "P2",
+    "observed": "publisher-advisory",
+    "expected": "stop-publication-conflict"
+  },
+  "not_executed": 12,
+  "native_report_sha256": "13ae3d484a1deb0bb0d9447d8f6335e2035b2a197c728de38b3fbeea0ca205b7",
+  "installed_targets": [
+    {
+      "path": "/Users/elvis/.codex-account-a/AGENTS.md",
+      "sha256": "180e503c7e6cdb50e2b85cc6aea84c5c0bb261a9a9448fafbf9611657ccc7097",
+      "mode": "0o644",
+      "identity": {
+        "device": 16777231,
+        "inode": 198118698,
+        "type": 32768,
+        "mode": 420,
+        "uid": 501,
+        "gid": 20,
+        "nlink": 1
+      },
+      "receipt_match": true
+    },
+    {
+      "path": "/Users/elvis/.codex/model_instructions.md",
+      "sha256": "39dc7af01eb236f1c83799a989b6e61565e3f712a1623543aa4982e139e37c44",
+      "mode": "0o644",
+      "identity": {
+        "device": 16777231,
+        "inode": 198118705,
+        "type": 32768,
+        "mode": 420,
+        "uid": 501,
+        "gid": 20,
+        "nlink": 1
+      },
+      "receipt_match": true
+    }
+  ],
+  "excluded_objects_verified": 244,
+  "dependencies": [
+    {
+      "path": "/Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/qualify.py",
+      "sha256": "eb4dba4dda383aa3751971a8b706b13e2ed55915cb1e8b1035baa0fadf3bf1ac",
+      "identity": {
+        "device": 16777231,
+        "inode": 197905404,
+        "type": 32768,
+        "mode": 384,
+        "uid": 501,
+        "gid": 20,
+        "nlink": 1
+      }
+    },
+    {
+      "path": "/Users/elvis/file/develop/opensource/openspec-superpower-change/tests/run_superpowers_routing_forward_tests.py",
+      "sha256": "8ecd72b43f9edd475728cd1e3339277ad697b9f89979d5702d0a555675d6a401",
+      "identity": {
+        "device": 16777231,
+        "inode": 170228114,
+        "type": 32768,
+        "mode": 420,
+        "uid": 501,
+        "gid": 20,
+        "nlink": 1
+      }
+    },
+    {
+      "path": "/Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/behavior.py",
+      "sha256": "fb14f9f126774e531f614c116ec19d409ad3f0d164572a78ad52c7a57f94ad4f",
+      "identity": {
+        "device": 16777231,
+        "inode": 197909680,
+        "type": 32768,
+        "mode": 384,
+        "uid": 501,
+        "gid": 20,
+        "nlink": 1
+      }
+    },
+    {
+      "path": "/Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/cases.json",
+      "sha256": "a3fb887f8dd380d321c7f510e80a23a3e6fcd192c510610ffee495d45e56dd8f",
+      "identity": {
+        "device": 16777231,
+        "inode": 197909146,
+        "type": 32768,
+        "mode": 384,
+        "uid": 501,
+        "gid": 20,
+        "nlink": 1
+      }
+    },
+    {
+      "path": "/Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/classification.schema.json",
+      "sha256": "5be7e58aa1279ed7b295dacaa85b65bfa0cd8a02a8fa12e313e38d0f58806bb2",
+      "identity": {
+        "device": 16777231,
+        "inode": 198138395,
+        "type": 32768,
+        "mode": 384,
+        "uid": 501,
+        "gid": 20,
+        "nlink": 1
+      }
+    },
+    {
+      "path": "/Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/format_qualify.py",
+      "sha256": "8476dd1f243a773d561449986c4618b8abe7a55a5abca66004facfa6c754332a",
+      "identity": {
+        "device": 16777231,
+        "inode": 198151221,
+        "type": 32768,
+        "mode": 384,
+        "uid": 501,
+        "gid": 20,
+        "nlink": 1
+      }
+    }
+  ],
+  "package_sha256": "fd6d76c69478c48286076992acde1a31c68a688c950afafbfba3e623ff416185",
+  "owned_raw_stdout_stderr_active_absent": true,
+  "recoverable_backups_retained_while_blocked": true,
+  "whole_task_pass": false
+}

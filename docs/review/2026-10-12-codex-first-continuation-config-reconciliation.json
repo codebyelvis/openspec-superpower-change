@@ -1,0 +1,52 @@
+{
+  "author": "elvis",
+  "change": "align-native-consumer-projections",
+  "phase": "post-write-current-excluded-config-reconciliation",
+  "owner": {
+    "agent_product": "codex",
+    "agent_instance_id": "align-native-root",
+    "agent_role": "control-plane",
+    "capability_profile": "control-plane-high"
+  },
+  "takeover_authorization": "docs/review/2026-10-12-codex-first-takeover-authorization.json",
+  "decision": "Preserve current external config for remaining read-only native acceptance. Bind exact current bytes/mode/inode; any later drift still blocks. No retroactive Preflight, installation authorization, config restoration or configuration modification.",
+  "path": "/Users/elvis/.codex-account-a/config.toml",
+  "previous_binding": {
+    "path": "/Users/elvis/.codex-account-a/config.toml",
+    "label": "excluded-native-object",
+    "mode": "0600",
+    "device": 16777231,
+    "inode": 197774844,
+    "kind": "file",
+    "sha256": "75d9a7d2e8df0ad543a043b0ff0e38e3c9c920a912f3d40ad6ac497535c540b3",
+    "previous_sha256": "cc20886e5db221058fa903669b71f7bd00c7c11efda1f908d97bfb8692aec3b3",
+    "drift_owner_decision": "preserve present bytes; cause unestablished; independently review before writing"
+  },
+  "current_binding": {
+    "sha256": "c44cecdd871f30721369e27d10924813abfdd60cdf8dc87371d2c5779c4ba531",
+    "device": 16777231,
+    "inode": 198147144,
+    "mode": 384,
+    "uid": 501,
+    "gid": 20,
+    "nlink": 1
+  },
+  "evidence": {
+    "other_243_exclusions_unchanged": true,
+    "selected_receipts_hash_mode_identity_match": true,
+    "same_bytes_as_last_handoff_observation": true,
+    "native_effective_hook_definitions_and_trust_unchanged": "docs/review/2026-10-12-codex-first-continuation-hook-discovery.json",
+    "notify_argv_and_binary_boundary_unchanged": true,
+    "features_hooks": true,
+    "account_a_model_instructions_key_absent": true,
+    "native_controls": "same binary/provider/auth inheritance; explicit read-only sandbox, never approval, zero model tools, unchanged schema and oracles; fresh format qualification required"
+  },
+  "residual_risk": {
+    "exact_writer_and_prior_changed_fields": "unobserved; no baseline credential/config contents copied",
+    "impact": "cannot claim prior config semantic equivalence or all-host side-effect absence; test claims bind current roots and current configuration only",
+    "owner": "align-native-root",
+    "decision": "accept current external configuration as preserved input after fresh native discovery; require source-body/format/20-case proof and independent Implementation Review; do not infer historical qualification"
+  },
+  "package_predecessor_sha256": "9d94530f8dfb24eb9ff7d9d183213152b5deeff48d8071d7e75516964ce835d9",
+  "config_writes": 0
+}

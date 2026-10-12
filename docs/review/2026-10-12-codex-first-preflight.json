@@ -1,0 +1,575 @@
+{
+  "author": "elvis",
+  "date": "2026-10-12",
+  "change": "align-native-consumer-projections",
+  "result": "BLOCKED",
+  "result_authority": "governed-review-evidence",
+  "reviewer_identity": {
+    "agent_product": "codex",
+    "agent_instance_id": "native-consumer-preflight-review",
+    "agent_role": "independent-reviewer",
+    "capability_profile": "control-plane-high"
+  },
+  "author_identity": {
+    "agent_product": "codex",
+    "agent_instance_id": "align-native-root"
+  },
+  "executor_identity": {
+    "agent_product": "codex",
+    "agent_instance_id": "align-native-root"
+  },
+  "independence_requirement": {
+    "kind": "distinct-contract-instance",
+    "distinct_from": [
+      "author_identity",
+      "executor_identity"
+    ]
+  },
+  "review_mode": "FULL_PREFLIGHT",
+  "attempt": 1,
+  "lineage_root_revision": {
+    "path": "docs/superpowers/plans/2026-10-12-codex-first-native-consumer-projections.md",
+    "sha256": "f3a92474d1b08f0a6d878ced65fd9afda51e2e40fb267a86b8920cc178669358"
+  },
+  "reviewed_revision": {
+    "path": "docs/superpowers/plans/2026-10-12-codex-first-native-consumer-projections.md",
+    "sha256": "f3a92474d1b08f0a6d878ced65fd9afda51e2e40fb267a86b8920cc178669358"
+  },
+  "parent_review": null,
+  "same_reviewer_instance": "not-applicable-full-root",
+  "finding_completeness": true,
+  "review_purpose": {
+    "object": "docs/superpowers/plans/2026-10-12-codex-first-native-consumer-projections.md",
+    "decision": "whether native two-file implementation under this concrete plan may proceed"
+  },
+  "protected_boundaries": {
+    "scope": {
+      "result": "definition-verified-enforcement-BLOCKED-F4",
+      "evidence": [
+        "openspec/changes/align-native-consumer-projections/amendments/codex-first-approval.md",
+        "openspec/changes/align-native-consumer-projections/amendments/codex-first-draft-v1.md",
+        "docs/superpowers/plans/2026-10-12-codex-first-native-consumer-projections.md"
+      ],
+      "observation": "Only original rows 01 then 05; four deferred targets remain assertions. CLI restricts indices, but declared run interface permits index 0 and bypasses order."
+    },
+    "contract_spec": {
+      "result": "verified",
+      "evidence": [
+        "openspec/changes/align-native-consumer-projections/amendments/codex-first-approval.md",
+        "openspec/changes/align-native-consumer-projections/amendments/codex-first-draft-v1.md",
+        "openspec/changes/align-native-consumer-projections/revisions/draft-v2/design.md",
+        "openspec/changes/align-native-consumer-projections/revisions/draft-v2/specs/skill-workflow-governance/spec.md"
+      ],
+      "observation": "Specific user approval narrows immutable draft-v2 scope and supersedes only observed account-A model source assumption. No new policy or full-host audit requirement."
+    },
+    "acceptance": {
+      "result": "verified-defined-not-yet-executed",
+      "evidence": [
+        "docs/superpowers/plans/2026-10-12-codex-first-native-consumer-projections.md",
+        "docs/review/2026-10-12-codex-first-qualified-mechanisms.json",
+        "docs/review/2026-10-12-codex-first-qualification-runs.json"
+      ],
+      "observation": "Two actual roots require post-write native global bodies and A-F/P1-P4: 20 fresh probes, zero model tools/unknown events, preservation, publisher/offline invariance and separate reviews."
+    },
+    "risk_evidence_profile": {
+      "result": "verified",
+      "evidence": [
+        "openspec/changes/align-native-consumer-projections/amendments/codex-first-approval.md",
+        "docs/superpowers/plans/2026-10-12-codex-first-native-consumer-projections.md",
+        "docs/review/2026-10-12-codex-first-native-startup-boundary.json",
+        "docs/review/2026-10-12-codex-first-native-hook-discovery.json"
+      ],
+      "observation": "Strict; real pre-write evidence is distinct from pending candidate acceptance. Bounded existing callback effects expressly declared."
+    },
+    "authority": {
+      "result": "definition-verified-enforcement-BLOCKED-F1-F2-F3",
+      "evidence": [
+        "openspec/changes/align-native-consumer-projections/amendments/codex-first-approval.md",
+        "docs/superpowers/plans/2026-10-12-codex-first-native-consumer-projections.md",
+        "references/agent-capability-routing.md"
+      ],
+      "observation": "Reviewer emits governed evidence only; owner accepts gates/canonical transitions; no self-approval. Current native write gate remains BLOCKED."
+    },
+    "assignments": {
+      "result": "definition-verified-enforcement-BLOCKED-F3",
+      "evidence": [
+        "openspec/changes/align-native-consumer-projections/amendments/codex-first-approval.md",
+        "docs/superpowers/plans/2026-10-12-codex-first-native-consumer-projections.md"
+      ],
+      "observation": "Fixed preflight reviewer native-consumer-preflight-review differs from author/executor align-native-root; distinct implementation and final reviewers remain unsigned."
+    },
+    "allowed_forbidden_files": {
+      "result": "verified",
+      "evidence": [
+        "openspec/changes/align-native-consumer-projections/amendments/codex-first-approval.md",
+        "docs/superpowers/plans/2026-10-12-codex-first-native-consumer-projections.md",
+        "docs/review/2026-10-12-codex-first-preparation.json"
+      ],
+      "observation": "Exactly two native targets, private package and sanitized existing task/evidence docs allowed. All 220 prior exclusion paths retained; 244 current exclusions. Only two user-reconciled JSON identities differ; 24 callback controls added. No bridge binary was an original exclusion."
+    },
+    "branch_worktree": {
+      "result": "verified",
+      "evidence": [
+        "openspec/changes/align-native-consumer-projections/amendments/codex-first-approval.md",
+        "docs/superpowers/plans/2026-10-12-codex-first-native-consumer-projections.md"
+      ],
+      "observation": "No source implementation, Git/worktree/branch operation; private sealed execution package outside discovery. Existing dirty/untracked project and Companion content preserved."
+    },
+    "database_production": {
+      "result": "verified",
+      "evidence": [
+        "openspec/changes/align-native-consumer-projections/amendments/codex-first-approval.md",
+        "docs/superpowers/plans/2026-10-12-codex-first-native-consumer-projections.md"
+      ],
+      "observation": "No database, production, credential or service/configuration operation; no real scenario execution by classifier."
+    },
+    "Git_publication_deployment": {
+      "result": "verified",
+      "evidence": [
+        "openspec/changes/align-native-consumer-projections/amendments/codex-first-approval.md",
+        "docs/superpowers/plans/2026-10-12-codex-first-native-consumer-projections.md"
+      ],
+      "observation": "No Git writes, push, publisher invocation, deployment or external publication authority."
+    }
+  },
+  "declared_correction_set": [],
+  "mechanical_self_check": {
+    "result": "PASS",
+    "checks": [
+      "current regular non-symlink Plan exact SHA matched requested revision",
+      "root/current revisions identical; full attempt1; parent null",
+      "fixed reviewer identity distinct from author/executor; review authority/purpose preserved",
+      "all ten protected categories present and auditable",
+      "evidence references verified regular non-symlink project paths with whole-file SHA",
+      "current package/command/preparation/qualification hashes match Plan and request",
+      "JSON parse and required-field checks executed after write"
+    ],
+    "qualification": "Mechanical PASS is shape/current-input validation only; it does not waive F1-F4 or authorize writes."
+  },
+  "blocking_findings": [
+    {
+      "id": "F1",
+      "severity": "P1",
+      "category": "evidence-integrity",
+      "location": "exact_commands.py:validate_preflight_lineage/load",
+      "problem": "Focused lineage permits unverified parent bytes and invalid historical revision metadata. load() checks an expected digest only when truthy; the parent and inherited historical root are not required to contain valid whole-file SHA-256 values. A same-byte parent at another logical path is also accepted without anchoring the original immutable parent path.",
+      "independent_evidence": {
+        "probe": "private lineage fixture",
+        "accepted_parent_sha_values": [
+          "missing",
+          null,
+          "",
+          false,
+          0
+        ],
+        "accepted_historical_root_sha_values": [
+          null,
+          "",
+          "not-a-sha"
+        ],
+        "same_byte_parent_path_swap": "ACCEPTED",
+        "wrong_nonempty_parent_sha": "REJECTED"
+      },
+      "impact": "A terminal focused PASS can lose its immutable parent/revision anchor, violating the governing Preflight lineage contract.",
+      "required_correction": "Require exact hashed-reference shapes and nonempty 64-hex digests before reading or comparing current/root/parent metadata, always verify parent digest over parsed descriptor bytes, and bind the parent to the immutable first Review logical path plus SHA rather than accepting an arbitrary equivalent path. Add negative regressions for all reproduced cases.",
+      "contract_evidence": [
+        "references/approved-implementation-workflow.md",
+        "docs/engineering-invariants.md",
+        "docs/superpowers/plans/2026-10-12-codex-first-native-consumer-projections.md"
+      ]
+    },
+    {
+      "id": "F2",
+      "severity": "P1",
+      "category": "evidence-integrity",
+      "location": "exact_commands.py:read_bound/load/validate_preflight_lineage -> scripts/validate_cross_cli_sync.py:_verified_parent",
+      "problem": "Project-relative parent Review evidence can escape the bound project through an intermediate directory symlink. _verified_parent resolves the logical parent first, then guards the resolved chain; it does not reject the original intermediate symlink.",
+      "independent_evidence": {
+        "probe": "private temporary project docs/review symlink to a sibling outside directory; parent.json has the expected whole-file SHA",
+        "observed": "validate_preflight_lineage ACCEPTED",
+        "native_calls": 0
+      },
+      "impact": "A syntactically safe docs/review reference can consume evidence outside the project, contrary to the non-symlink evidence boundary.",
+      "required_correction": "Use a project-root-bound evidence reader that refuses symlinks in every directory and leaf component, retains the descriptor and parses the same hashed bytes. Apply it to governed project evidence references without changing native session symlink policy. Add intermediate/leaf symlink negative regressions.",
+      "contract_evidence": [
+        "references/approved-implementation-workflow.md",
+        "docs/engineering-invariants.md"
+      ]
+    },
+    {
+      "id": "F3",
+      "severity": "P1",
+      "category": "assignment-authority",
+      "location": "exact_commands.py:write_ready",
+      "problem": "The gate accepts any nonblank independent Codex high-capability instance except align-native-root, although the approved contract fixes native-consumer-preflight-review.",
+      "independent_evidence": {
+        "probe": "real write_ready over isolated synthetic full-root evidence and gates",
+        "unassigned-independent-instance": "ACCEPTED",
+        "advisory-reviewer": "REJECTED",
+        "align-native-root": "REJECTED"
+      },
+      "impact": "A different unassigned Review can authorize execution without the immutable reviewer assignment or an approved assignment change.",
+      "required_correction": "Compare the complete reviewer identity to the exact approved preflight assignment, including native-consumer-preflight-review, while retaining author/executor and purpose/authority/independence checks. Add a correct-product/role/profile but wrong-instance negative regression.",
+      "contract_evidence": [
+        "openspec/changes/align-native-consumer-projections/amendments/codex-first-approval.md",
+        "docs/superpowers/plans/2026-10-12-codex-first-native-consumer-projections.md",
+        "references/agent-capability-routing.md"
+      ]
+    },
+    {
+      "id": "F4",
+      "severity": "P1",
+      "category": "scope-order",
+      "location": "exact_commands.py:run(action,index)",
+      "problem": "The declared callable interface indexes files[index-1] before validating index. run(apply,0) selects original row05, skips row01 prerequisites and creates 00.receipt.json. The CLI index whitelist does not protect this interface.",
+      "independent_evidence": {
+        "probe": "full isolated two-file shadow package with synthetic authority only, using actual run/package/write_ready/replacement code",
+        "internal_call": "run(apply,0)",
+        "observed_result": "done",
+        "row01_shadow_unchanged": true,
+        "row05_shadow_candidate_installed": true,
+        "receipt_names": [
+          "00.receipt.json"
+        ],
+        "native_calls": 0,
+        "native_writes": 0
+      },
+      "impact": "The reviewed command package can violate explicitly approved row01 -> row05 ordering through its advertised internal interface.",
+      "required_correction": "Validate action and exact integer index in {1,2} at entry, before package access, indexing, receipts or mutations; reject bools and unsupported indices. Add internal-interface negative probes asserting no receipt or target mutation for 0, negative, 3 and malformed values.",
+      "contract_evidence": [
+        "openspec/changes/align-native-consumer-projections/amendments/codex-first-approval.md",
+        "docs/superpowers/plans/2026-10-12-codex-first-native-consumer-projections.md"
+      ]
+    }
+  ],
+  "non_blocking_recommendations": [],
+  "accepted_residual_risks": [
+    {
+      "risk": "Existing native local lifecycle callbacks can execute outside model-event audit. Compiled receivers and individual handler success/exact syscall writer remain unobserved.",
+      "evidence": [
+        "openspec/changes/align-native-consumer-projections/revisions/draft-v2/design.md",
+        "docs/review/2026-10-12-codex-first-native-startup-boundary.json",
+        "docs/review/2026-10-12-codex-first-native-hook-discovery.json",
+        "docs/review/2026-10-12-codex-first-qualification-runs.json"
+      ],
+      "impact": "Source-body/model-event acceptance cannot establish all-host-read-only, zero-hook or every handler success. No actual forbidden owner action was observed in bounded qualification.",
+      "owner_decision": "align-native-root applies approved design lines111-124 declared hook/session boundary; retain explicit limitations and reject actual forbidden effects without adding an unapproved full-host audit gate."
+    },
+    {
+      "risk": "CodeIsland bridge same-byte0755 inode refresh and excluded external configuration writer not fully attributed.",
+      "evidence": [
+        "docs/review/2026-10-12-codex-first-native-startup-boundary.json",
+        "docs/review/2026-10-12-codex-first-preparation.json",
+        "openspec/changes/align-native-consumer-projections/amendments/codex-first-approval.md"
+      ],
+      "impact": "No claim of who refreshed cache/settings or every mid-run binary syscall. Changed callback bytes/mode/type or further excluded drift blocks; native targets remain strict inode-bound.",
+      "owner_decision": "User confirmed separate upgrade/config adjustment completed; owner preserves current metadata and original exclusions, with cache identity separated from native recovery preconditions."
+    },
+    {
+      "risk": "Default native catalogue startup fallback warning and cwd-limited consumption.",
+      "evidence": [
+        "openspec/changes/align-native-consumer-projections/amendments/codex-first-draft-v1.md",
+        "docs/review/2026-10-12-codex-first-qualified-mechanisms.json",
+        "docs/review/2026-10-12-codex-first-qualification-runs.json"
+      ],
+      "impact": "Two-root observed HOME-descendant acceptance does not qualify arbitrary projects, IDEs, Skill bodies, deferred platform slices or eight-config equivalence.",
+      "owner_decision": "Specific two-file scope approval retains those explicit limitations and required post-write two-root probes."
+    }
+  ],
+  "reviewed_complete_matrix": [
+    {
+      "area": "approval and complete contract coverage",
+      "result": "PASS",
+      "evidence": [
+        "openspec/changes/align-native-consumer-projections/amendments/codex-first-approval.md",
+        "openspec/changes/align-native-consumer-projections/amendments/codex-first-draft-v1.md",
+        "openspec/changes/align-native-consumer-projections/revisions/draft-v2/design.md",
+        "openspec/changes/align-native-consumer-projections/revisions/draft-v2/specs/skill-workflow-governance/spec.md"
+      ]
+    },
+    {
+      "area": "exact two-file paths/candidates/modes/preserved bytes",
+      "result": "PASS",
+      "evidence": [
+        "docs/superpowers/plans/2026-10-12-codex-first-native-consumer-projections.md",
+        "docs/review/2026-10-12-codex-first-preparation.json"
+      ],
+      "observation": "Fixtures independently rebuild both candidates from original edits/canonical managed body; exact hash and apply/restore equality/mode pass."
+    },
+    {
+      "area": "callable command scope and order",
+      "result": "BLOCKED",
+      "findings": [
+        "F4"
+      ]
+    },
+    {
+      "area": "real source/event qualification and current dependency binding",
+      "result": "PASS-limited-pre-write",
+      "evidence": [
+        "docs/review/2026-10-12-codex-first-qualified-mechanisms.json",
+        "docs/review/2026-10-12-codex-first-qualification-runs.json",
+        "docs/review/2026-10-12-codex-first-preparation.json"
+      ],
+      "observation": "Actual two entry names/roots, distinct native threads/cwds, Custom base provenance, source/Rust trim-rendered equality, AGENTS complete once, exit0 and tool-event count0. Executed observer/parser/behavior/case digests match current package and Plan."
+    },
+    {
+      "area": "unknown/tool/error/terminal/source-attribution fail-closed audits",
+      "result": "PASS",
+      "evidence": [
+        "docs/superpowers/plans/2026-10-12-codex-first-native-consumer-projections.md",
+        "docs/review/2026-10-12-codex-first-qualification-runs.json"
+      ],
+      "observation": "Independent observer fixtures reject invalid JSONL, unknown/tool/incomplete/out-of-order events, unexpected errors and duplicate/wrong probe input."
+    },
+    {
+      "area": "existing native hook trust/source/startup boundary",
+      "result": "PASS-limited",
+      "evidence": [
+        "docs/review/2026-10-12-codex-first-native-startup-boundary.json",
+        "docs/review/2026-10-12-codex-first-native-hook-discovery.json",
+        "openspec/changes/align-native-consumer-projections/revisions/draft-v2/design.md"
+      ],
+      "observation": "Actual hooks/list: default22 (10 trusted12 untrusted), A32 (10 user trusted17 ancestor trusted5 untrusted). Independently read wrapper/CodeIsland dispatcher and backup source; local JSON/IPC/temp stdin behavior matches declared scope. Primary rust-v0.162.1 confirms hook-event filtering and Interrupt clamping. No claim of zero hooks or exhaustive host effects."
+    },
+    {
+      "area": "same-byte callback inode allowance versus exclusion integrity",
+      "result": "PASS-limited",
+      "evidence": [
+        "docs/review/2026-10-12-codex-first-native-startup-boundary.json",
+        "docs/review/2026-10-12-codex-first-preparation.json"
+      ],
+      "observation": "Separate bridge/Helper content/mode guards retain regular type; cache inode observational only. Original220 exclusions preserved. Target/source/backup/receipt inode guards unchanged."
+    },
+    {
+      "area": "recovery/drift/type/symlink/mode/receipt/failure-stop mechanics",
+      "result": "PASS",
+      "evidence": [
+        "docs/review/2026-10-12-codex-first-preparation.json",
+        "docs/superpowers/plans/2026-10-12-codex-first-native-consumer-projections.md"
+      ],
+      "observation": "Independently reran actual isolated command pipeline and candidate/receipt substitution tests. Exact preimages and modes restored; concurrent objects preserved; pending receipt substitution records blocker and stops second write. No live restore."
+    },
+    {
+      "area": "governed review identity/purpose/authority",
+      "result": "BLOCKED",
+      "findings": [
+        "F3"
+      ],
+      "observation": "Advisory/low-capability/self-review rejected, but unassigned high reviewer accepted."
+    },
+    {
+      "area": "immutable lineage/reference/root constraints",
+      "result": "BLOCKED",
+      "findings": [
+        "F1",
+        "F2"
+      ]
+    },
+    {
+      "area": "excluded current-state reconciliation and remaining drift stops",
+      "result": "PASS",
+      "evidence": [
+        "openspec/changes/align-native-consumer-projections/amendments/codex-first-approval.md",
+        "docs/review/2026-10-12-codex-first-preparation.json"
+      ],
+      "observation": "Account-A config current metadata preserved; Claude settings/Grok CodeIsland JSON reconciliation recorded explicitly after user confirmation. No content copy or owner configuration write; further drift rejects."
+    },
+    {
+      "area": "publisher whitelist/formal-attempt/P4 invariance",
+      "result": "PASS-offline",
+      "evidence": [
+        "openspec/changes/align-native-consumer-projections/revisions/draft-v2/design.md",
+        "docs/superpowers/plans/2026-10-12-codex-first-native-consumer-projections.md",
+        "docs/review/2026-10-12-codex-first-preparation.json"
+      ],
+      "observation": "Read-only publisher module static fixtures preserve claudex/claudeg whitelist, protected final filename and exact first-line rejection. Real publication remains forbidden."
+    },
+    {
+      "area": "Plan executability and exact required checks",
+      "result": "BLOCKED-four-local-command-findings",
+      "evidence": [
+        "docs/superpowers/plans/2026-10-12-codex-first-native-consumer-projections.md",
+        "docs/review/2026-10-12-codex-first-preparation.json"
+      ],
+      "observation": "Concrete commands, paths, hashes, two-root timeout/termination, acceptance labels, reviews and stop conditions exist; command gate findings must close before apply."
+    },
+    {
+      "area": "post-write acceptance, independent implementation/final review and completion limits",
+      "result": "PASS-defined-pending",
+      "evidence": [
+        "openspec/changes/align-native-consumer-projections/amendments/codex-first-approval.md",
+        "docs/superpowers/plans/2026-10-12-codex-first-native-consumer-projections.md"
+      ],
+      "observation": "20 real candidate classifiers, publisher/offline assertions, required source/OpenSpec checks, implementation Review, learning audit, fresh final verification and distinct Final Review remain required. No completion or candidate PASS yet."
+    },
+    {
+      "area": "private backup/raw cleanup and deferred ownership",
+      "result": "PASS-defined-pending",
+      "evidence": [
+        "docs/superpowers/plans/2026-10-12-codex-first-native-consumer-projections.md",
+        "openspec/changes/align-native-consumer-projections/tasks.md",
+        "docs/engineering-invariants.md"
+      ],
+      "observation": "Keep recoverable backups while BLOCKED. Owner final cleanup only after gates and ownership checks; retained sanitized receipts and old six-file package/history remain. Name-based target/recovery cleanup cannot waive exact-owner invariant. Raw successful qualification traces already attributed/disposed; no owned raw trace remains in current root."
+    },
+    {
+      "area": "dirty workspace, branch, database/production and Git/publication authority",
+      "result": "PASS",
+      "evidence": [
+        "openspec/changes/align-native-consumer-projections/amendments/codex-first-approval.md",
+        "docs/superpowers/plans/2026-10-12-codex-first-native-consumer-projections.md"
+      ],
+      "observation": "Read-only/private shadow review; only this review artifact written in repository. No source/Plan/status/Companion changes, Git write or native launch."
+    }
+  ],
+  "independently_executed_commands": [
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 /Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/scope_red_test.py",
+      "exit_code": 0,
+      "observed": "4 tests PASS",
+      "native_calls": 0,
+      "native_writes": 0
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 /Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/fixture_tests.py",
+      "exit_code": 0,
+      "observed": "16 command/recovery regressions PASS; publisher static-only PASS; no publisher call",
+      "native_calls": 0,
+      "native_writes": 0
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 /Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/lineage_test.py",
+      "exit_code": 0,
+      "observed": "1 unittest PASS, covering 1 positive and 7 negative variants",
+      "native_calls": 0,
+      "native_writes": 0
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 /Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/qualify.py --fixtures-only",
+      "exit_code": 0,
+      "observed": "parser positive1/negative6; native negative2; transform2; attribution3 PASS",
+      "native_calls": 0,
+      "native_writes": 0
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 /Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/behavior.py --fixtures-only",
+      "exit_code": 0,
+      "observed": "classifier positive1/negative3 PASS",
+      "native_calls": 0,
+      "native_writes": 0
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 /Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/exact_commands.py check",
+      "exit_code": 0,
+      "observed": "prepared_files2/native_writes0; current 244 exclusion bindings PASS",
+      "native_calls": 0,
+      "native_writes": 0
+    }
+  ],
+  "adversarial_probe": {
+    "scope": "isolated temporary fixtures and synthetic gate data only; no native/model/app-server/hook/publisher invocation",
+    "executed_dependency_sha256": "74870e08086879586d22cd3700c2ca193e37b7554e102c0b78e803055c4bd4af",
+    "lineage_cases": {
+      "valid_focused": "ACCEPTED",
+      "missing_null_empty_false_zero_parent_sha": "ACCEPTED (F1)",
+      "malformed_nonempty_parent_sha": "REJECTED",
+      "same_byte_parent_path_swap": "ACCEPTED (F1)",
+      "null_empty_malformed_historical_root_sha": "ACCEPTED (F1)",
+      "intermediate_directory_symlink_outside_project": "ACCEPTED (F2)"
+    },
+    "authority_cases": {
+      "bound_full_reviewer": "ACCEPTED",
+      "unassigned_independent_instance": "ACCEPTED (F3)",
+      "advisory_role": "REJECTED",
+      "self_review": "REJECTED"
+    },
+    "internal_index_case": {
+      "call": "run(apply,0)",
+      "actual_shadow_replacement": "row05 installed; row01 untouched; 00.receipt.json written",
+      "result": "ACCEPTED (F4)"
+    },
+    "cleanup": "all independent TemporaryDirectory shadow fixtures cleaned on exit",
+    "native_calls": 0,
+    "native_writes": 0
+  },
+  "input_evidence": [
+    {
+      "path": "openspec/changes/align-native-consumer-projections/amendments/codex-first-approval.md",
+      "sha256": "8afce1947b01761f50ff9558b4de318d2f73e516cd0f8a7df207a0516e5b21e3"
+    },
+    {
+      "path": "openspec/changes/align-native-consumer-projections/amendments/codex-first-draft-v1.md",
+      "sha256": "8008f85aff9c2b8b0414fed3bd63c11755a116516153ec70d9a0d72b0bf4a6a9"
+    },
+    {
+      "path": "openspec/changes/align-native-consumer-projections/revisions/draft-v2/design.md",
+      "sha256": "ef9b214e3757de94ab4460a8974875b609821458db69bff76dfdb708aa2f0c69"
+    },
+    {
+      "path": "openspec/changes/align-native-consumer-projections/revisions/draft-v2/specs/skill-workflow-governance/spec.md",
+      "sha256": "bd2cbb8dd6ed1baf78d977564adc2d9b9c904f4ef6e3e11f88d9f606f6abaf8b"
+    },
+    {
+      "path": "docs/review/2026-10-12-codex-first-preparation.json",
+      "sha256": "409b6f9bf8a39ad1bf301e9735534a4e9a24988efaf69eb796d3790e92dfec69"
+    },
+    {
+      "path": "docs/review/2026-10-12-codex-first-qualified-mechanisms.json",
+      "sha256": "3b469015f2d9cbe54fd175fecadc3e55d55449e458633c07c2bbf8ef4a3d2f33"
+    },
+    {
+      "path": "docs/review/2026-10-12-codex-first-qualification-runs.json",
+      "sha256": "ddffc27a3a315ca9c2456175be25577bde1c5a1d3ed140695e44f8f844bc5305"
+    },
+    {
+      "path": "docs/review/2026-10-12-codex-first-native-startup-boundary.json",
+      "sha256": "031228712086b7c2d7fc528f16aaa9a9a5bc94426f46c4b39bb694430c032cef"
+    },
+    {
+      "path": "docs/review/2026-10-12-codex-first-native-hook-discovery.json",
+      "sha256": "c371492e5bd5ee46acfc2d68702fcaa68c00b0efd6c5b44d19a9d994164cb6ad"
+    },
+    {
+      "path": "references/approved-implementation-workflow.md",
+      "sha256": "dfe2e62423123f559dae184e823282b31d1dd05afeab517fa482d939166b3b8a"
+    },
+    {
+      "path": "references/agent-capability-routing.md",
+      "sha256": "0ab10182bcabe5743cd16f5c7a262fdfeb6a7b029285767f0cd8033fefc4ebf7"
+    },
+    {
+      "path": "references/superpowers-adapter.md",
+      "sha256": "851cbff37e5407c8c0c5c2872baa07b398f0d097aabcbe50eb29cb4c5b8b734f"
+    },
+    {
+      "path": "docs/engineering-invariants.md",
+      "sha256": "f24f3f9cdc4e23f874fa900c477c27e22e8b3518b74e48b628ac980024589c1b"
+    },
+    {
+      "path": "references/project-learning-closeout.md",
+      "sha256": "64a2c446445ca88134672677022f854975bee752adf1778ee5dfbfac237f1014"
+    }
+  ],
+  "source_provenance_verified": [
+    {
+      "url": "https://github.com/openai/codex/blob/rust-v0.162.1/codex-rs/exec/src/event_processor_with_jsonl_output.rs",
+      "finding": "HookStarted/HookCompleted notifications do not produce JSONL events."
+    },
+    {
+      "url": "https://github.com/openai/codex/blob/rust-v0.162.1/codex-rs/rollout/src/policy.rs",
+      "finding": "HookStarted/HookCompleted fall in nonpersisted event branch."
+    },
+    {
+      "url": "https://github.com/openai/codex/blob/rust-v0.162.1/codex-rs/hooks/src/engine/discovery.rs",
+      "finding": "SessionEnd/Interrupt timeout normalization caps values to3 seconds; configured5 yields the declared startup clamp warning."
+    }
+  ],
+  "verification_limits": {
+    "native_qualifications": "independently audited fresh owner-produced actual evidence; reviewer did not rerun native launches",
+    "source_full_suites": "owner preparation records492 PASS each fallback/PyYAML plus quick/core/OpenSpec PASS; reviewer reran current critical private fixtures, not redundant full source suite",
+    "candidate_behavior": "not-run; no native mutation or candidate acceptance claimed",
+    "canonical_authority": "Review cannot change scope/status, accept owner gate, approve native writes or claim completion"
+  },
+  "stop_conditions": "F1-F4 must close under declared same-boundary correction, current exact evidence must be rebound, and same independent reviewer may perform at most one terminal FOCUSED_RECHECK. Owner keeps native write gates BLOCKED; no automatic R3 or self-approval."
+}

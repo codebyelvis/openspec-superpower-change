@@ -1,0 +1,130 @@
+{
+  "author": "elvis",
+  "scope": "isolated execution preparation; existing primitives only; no native apply/restore driver",
+  "candidate_manifest": {
+    "path": "docs/review/2026-10-10-native-agent-adaptation-r2-candidates.json",
+    "sha256": "662c5fc5547f610b5175dad81a8c0cd59f9eeebc0f03f15f7a361d9279a768f9"
+  },
+  "primitive_source": {
+    "path": "scripts/validate_cross_cli_sync.py",
+    "sha256": "640402ec081b2ceee22d515f8f97ee93bbae75ab102b1b2607c2024c44f607b9"
+  },
+  "preserved_digest_definition": {
+    "encoding": "decode UTF-8 then encode UTF-8 without newline normalization",
+    "step_1": "For each exact-text edit, remove its unique original old text once, in edit order.",
+    "step_2": "If original managed markers remain, remove only the body between the version-6 start/end markers via _marker_parts; retain both marker strings and all prefix/suffix bytes.",
+    "step_3": "SHA-256 and length cover the resulting bytes. This is an outside-body digest, not the complete unchanged-byte proof.",
+    "separate_obligation": "For unchanged Grok CCG, require original/candidate managed-body byte equality plus canonical parity."
+  },
+  "six_file_fixtures": [
+    {
+      "path": "/Users/elvis/.codex-account-a/AGENTS.md",
+      "prestate_match": true,
+      "candidate_match": true,
+      "preserved_digest_match": true,
+      "excluded_original_managed_body_sha256": null,
+      "unmodified_grok_managed_body_byte_equal": "not-applicable",
+      "fixture_apply_restore": "pass",
+      "original_mode_restored": "0644",
+      "fixture_backup_mode": "0600",
+      "native_target_written": false
+    },
+    {
+      "path": "/Users/elvis/.claude/CLAUDE.md",
+      "prestate_match": true,
+      "candidate_match": true,
+      "preserved_digest_match": true,
+      "excluded_original_managed_body_sha256": null,
+      "unmodified_grok_managed_body_byte_equal": "not-applicable",
+      "fixture_apply_restore": "pass",
+      "original_mode_restored": "0600",
+      "fixture_backup_mode": "0600",
+      "native_target_written": false
+    },
+    {
+      "path": "/Users/elvis/.cursor/rules/cross-cli-governance.mdc",
+      "prestate_match": true,
+      "candidate_match": true,
+      "preserved_digest_match": true,
+      "excluded_original_managed_body_sha256": "40c89d510a07a325d7c9eedc47078d743ced66b9cbb9b4c9679366cba7d9f11b",
+      "unmodified_grok_managed_body_byte_equal": "not-applicable",
+      "fixture_apply_restore": "pass",
+      "original_mode_restored": "0644",
+      "fixture_backup_mode": "0600",
+      "native_target_written": false
+    },
+    {
+      "path": "/Users/elvis/.cursor/rules/codex-global-core.mdc",
+      "prestate_match": true,
+      "candidate_match": true,
+      "preserved_digest_match": true,
+      "excluded_original_managed_body_sha256": null,
+      "unmodified_grok_managed_body_byte_equal": "not-applicable",
+      "fixture_apply_restore": "pass",
+      "original_mode_restored": "0644",
+      "fixture_backup_mode": "0600",
+      "native_target_written": false
+    },
+    {
+      "path": "/Users/elvis/.codex/model_instructions.md",
+      "prestate_match": true,
+      "candidate_match": true,
+      "preserved_digest_match": true,
+      "excluded_original_managed_body_sha256": null,
+      "unmodified_grok_managed_body_byte_equal": "not-applicable",
+      "fixture_apply_restore": "pass",
+      "original_mode_restored": "0644",
+      "fixture_backup_mode": "0600",
+      "native_target_written": false
+    },
+    {
+      "path": "/Users/elvis/.grok/AGENTS.md",
+      "prestate_match": true,
+      "candidate_match": true,
+      "preserved_digest_match": true,
+      "excluded_original_managed_body_sha256": "91e97f0cb9a7ac226ae2f13f748841fe22bfc7bb22319b1a26acd8f59030b448",
+      "unmodified_grok_managed_body_byte_equal": true,
+      "fixture_apply_restore": "pass",
+      "original_mode_restored": "0644",
+      "fixture_backup_mode": "0600",
+      "native_target_written": false
+    }
+  ],
+  "focused_existing_regressions": {
+    "run": 9,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "names": [
+      "BackupAtomicAndCleanupTests.test_destination_prestate_rejects_existing_and_absent_drift",
+      "BackupAtomicAndCleanupTests.test_install_rejects_post_check_existing_file_drift_at_swap_boundary",
+      "BackupAtomicAndCleanupTests.test_install_rejects_post_check_symlink_substitution_at_swap_boundary",
+      "BackupAtomicAndCleanupTests.test_atomic_replace_rejects_parent_mapping_change_before_candidate_write",
+      "BackupAtomicAndCleanupTests.test_atomic_replace_preserves_live_mode_and_leaves_no_temp_file",
+      "BackupAtomicAndCleanupTests.test_atomic_replace_rejects_candidate_substitution_before_swap",
+      "BackupAtomicAndCleanupTests.test_atomic_replace_restores_destination_after_post_swap_candidate_mismatch",
+      "BackupAtomicAndCleanupTests.test_atomic_replace_requires_both_exchange_bindings_for_rollback",
+      "DurableTargetTransactionTests.test_restore_rejects_post_check_existing_file_drift_at_swap_boundary"
+    ],
+    "output_sha256": "7f7abc3ff3e14d5e3600ab0802d0c776e70920f286fbeefc02411f1536b6f51f",
+    "result": "pass"
+  },
+  "private_fixture_directory_removed": true,
+  "stages": {
+    "event-mechanism-qualified": "pending per entry; native prompt construction partially observed for two Codex roots",
+    "native-load/behavior-accepted": "pending; no candidate native model run",
+    "recovery-executable-package": "pending; tested existing primitives are not a complete native command/receipt package"
+  },
+  "prefix_negative_case": {
+    "id": "P4",
+    "products": [
+      "codex",
+      "cursor",
+      "grok-cli"
+    ],
+    "candidate_first_line": "亮哥：# Review Result: PASS",
+    "expected": "reject-bound-report-first-line",
+    "model_probe_run": false,
+    "personal_prefix_rules_change": false
+  }
+}

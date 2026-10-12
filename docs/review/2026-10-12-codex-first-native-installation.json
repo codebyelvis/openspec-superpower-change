@@ -1,0 +1,89 @@
+{
+  "author": "elvis",
+  "change": "align-native-consumer-projections",
+  "stage": "implemented-awaiting-native-acceptance",
+  "result": "PASS",
+  "plan_path": "docs/superpowers/plans/2026-10-12-codex-first-native-consumer-projections.md",
+  "plan_sha256": "935019d8c78500c07f4967aa41a0fccbbc8d8d3ffcc4cbd2dd1df6ee893795cb",
+  "package_sha256": "1f77e5eff6adef5f7c1ad4809e5d42444875b7b71e161aadbcfc61ba487b3811",
+  "command_sha256": "14ce3d64a85590f6c9b24f0f9b9d5dd4e85a27fdeed15e96a471a4b6fe2d686a",
+  "applied_original_rows": [
+    1,
+    5
+  ],
+  "results": [
+    {
+      "original_row": 1,
+      "path": "/Users/elvis/.codex-account-a/AGENTS.md",
+      "candidate_sha256": "180e503c7e6cdb50e2b85cc6aea84c5c0bb261a9a9448fafbf9611657ccc7097",
+      "mode": "0644",
+      "installed_identity": {
+        "device": 16777231,
+        "inode": 198118698,
+        "type": 32768,
+        "mode": 420,
+        "uid": 501,
+        "gid": 20,
+        "nlink": 1
+      },
+      "preservation": "exact approved transform, original personal/outside bytes preserved",
+      "receipt": {
+        "status": "applied",
+        "index": 1,
+        "path": "/Users/elvis/.codex-account-a/AGENTS.md",
+        "preimage_sha256": "13dfabe1152adb00b3f924fb96fac676d257db87ecd0658f23a8ac8b6e6a35e6",
+        "candidate_sha256": "180e503c7e6cdb50e2b85cc6aea84c5c0bb261a9a9448fafbf9611657ccc7097",
+        "installed_identity": {
+          "device": 16777231,
+          "inode": 198118698,
+          "type": 32768,
+          "mode": 420,
+          "uid": 501,
+          "gid": 20,
+          "nlink": 1
+        },
+        "mode": 420
+      },
+      "private_receipt_sha256": "cfa0830e5c7ae1fc448a3a082dc815949f57bbf224248bc2b7822536a0cf2a60"
+    },
+    {
+      "original_row": 5,
+      "path": "/Users/elvis/.codex/model_instructions.md",
+      "candidate_sha256": "39dc7af01eb236f1c83799a989b6e61565e3f712a1623543aa4982e139e37c44",
+      "mode": "0644",
+      "installed_identity": {
+        "device": 16777231,
+        "inode": 198118705,
+        "type": 32768,
+        "mode": 420,
+        "uid": 501,
+        "gid": 20,
+        "nlink": 1
+      },
+      "preservation": "exact approved transform, original personal/outside bytes preserved",
+      "receipt": {
+        "status": "applied",
+        "index": 2,
+        "path": "/Users/elvis/.codex/model_instructions.md",
+        "preimage_sha256": "bbc10422f2916c0e29205c46071d4d424190f71b4610e7d56c27ae6673fca04b",
+        "candidate_sha256": "39dc7af01eb236f1c83799a989b6e61565e3f712a1623543aa4982e139e37c44",
+        "installed_identity": {
+          "device": 16777231,
+          "inode": 198118705,
+          "type": 32768,
+          "mode": 420,
+          "uid": 501,
+          "gid": 20,
+          "nlink": 1
+        },
+        "mode": 420
+      },
+      "private_receipt_sha256": "95389ea5bc83372a3c988417534fc6e0ce584e03bb3e05f9e30b636c941ce61c"
+    }
+  ],
+  "excluded_objects_verified": 244,
+  "deferred_four_targets": "original byte/mode/type/inode assertions PASS",
+  "native_rule_writes": 2,
+  "native_behavior": "not-run",
+  "scope": "two-file Codex slice only; no other native/config/hook/auth/publisher/portable/source/Git write"
+}

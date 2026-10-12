@@ -1,0 +1,101 @@
+{
+  "author": "elvis",
+  "change": "align-native-consumer-projections",
+  "stage": "approved-preparation-checkpoint",
+  "result": "BLOCKED-readiness-not-completion",
+  "approval_recorded": true,
+  "native_files_unchanged": [
+    {
+      "path": "/Users/elvis/.codex-account-a/AGENTS.md",
+      "sha256": "13dfabe1152adb00b3f924fb96fac676d257db87ecd0658f23a8ac8b6e6a35e6",
+      "mode": "0644",
+      "identity_unchanged": true
+    },
+    {
+      "path": "/Users/elvis/.claude/CLAUDE.md",
+      "sha256": "926e0722c826791e05e235e060af0952fc1cde424331259650c0ceca08dcde92",
+      "mode": "0600",
+      "identity_unchanged": true
+    },
+    {
+      "path": "/Users/elvis/.cursor/rules/cross-cli-governance.mdc",
+      "sha256": "2eede0c92f6382146da89658f894de0da9542caa389748b32bf3342ae682a812",
+      "mode": "0644",
+      "identity_unchanged": true
+    },
+    {
+      "path": "/Users/elvis/.cursor/rules/codex-global-core.mdc",
+      "sha256": "4a5272f237b4197df42b9be57317b4225b84f080d2afb9a7f305a54c0c562060",
+      "mode": "0644",
+      "identity_unchanged": true
+    },
+    {
+      "path": "/Users/elvis/.codex/model_instructions.md",
+      "sha256": "bbc10422f2916c0e29205c46071d4d424190f71b4610e7d56c27ae6673fca04b",
+      "mode": "0644",
+      "identity_unchanged": true
+    },
+    {
+      "path": "/Users/elvis/.grok/AGENTS.md",
+      "sha256": "a85888d8b6a10b24bb6608b48155de65aff7848d9de6dad7a78c0b751c198dd3",
+      "mode": "0644",
+      "identity_unchanged": true
+    }
+  ],
+  "excluded_objects_unchanged": 216,
+  "portable_files_unchanged": 160,
+  "source_files_unchanged": 40,
+  "bindings": [
+    {
+      "path": "openspec/changes/align-native-consumer-projections/approval.md",
+      "sha256": "a5e7c35476dd72541becdbc662962b23c423b1670aba373f20bb283070ee4a80"
+    },
+    {
+      "path": "docs/superpowers/plans/2026-10-10-native-consumer-projections-implementation.md",
+      "sha256": "de66b91216d0412a80e08fcddf404d54097c269f82b1e7bc54d6a3d3026b340d"
+    },
+    {
+      "path": "docs/review/2026-10-10-native-consumer-mechanisms.json",
+      "sha256": "86b2668d816742f0cbd8e76897f5d84c20742cca508e9450df5ec8a2c0e884bd"
+    },
+    {
+      "path": "docs/review/2026-10-10-native-consumer-execution-preparation.json",
+      "sha256": "ec0ca6ad03c186397e1c422fd7b67b44cb350ca73ac398d38f967f42ddaa3dca"
+    },
+    {
+      "path": "openspec/changes/align-native-consumer-projections/amendments/codex-first-draft-v1.md",
+      "sha256": "a417ae192f32355fcedb1a93485e8ff8d2a8444f0a358708e1d9f32cc7e625c0"
+    }
+  ],
+  "checks": {
+    "openspec_strict": "PASS",
+    "core_gates": "PASS",
+    "private_package_check": "PASS",
+    "private_command_fixtures": "20/20",
+    "existing_source_suite": "492/492",
+    "independent_command_advisory_findings": "3/3 closed; no Preflight"
+  },
+  "remaining": {
+    "event_mechanism_qualified": "BLOCKED Cursor observer/Claude startup boundary; other facilities unrun",
+    "native_load_behavior_accepted": "pending",
+    "Preflight": "pending-not-requested",
+    "Implementation Review": "pending",
+    "Final Review": "pending",
+    "scope_amendment": "proposed, user decision required"
+  },
+  "learning_audit": "Private candidate-reopen/receipt/authority findings map to existing consumed-byte, identity and Review invariants; task-level negative regressions retained in owned private suite. No new shared rule/hidden promotion or whole-task learning completion claimed. Native-startup evidence retained with this change.",
+  "cleanup": {
+    "private_root": "/Users/elvis/Library/Caches/native-agent-adaptation/project-native-r2-20261010",
+    "mode": "0700",
+    "all_children_mode": "0600",
+    "raw_native_debug_traces": 0,
+    "owner": "align-native-root",
+    "reason": "backups/command artifacts retained while readiness is blocked, outside discovery; no unrelated cleanup",
+    "resume": "qualified contract and final gates, or specifically authorized disposition"
+  },
+  "native_rule_writes": 0,
+  "native_model_calls": 0,
+  "Git_writes": 0,
+  "publisher_calls": 0,
+  "limits": "Preparation/checkpoint only. No original-scope or amendment-scope implementation readiness/acceptance/closure claim."
+}

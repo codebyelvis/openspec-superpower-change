@@ -1,0 +1,198 @@
+{
+  "author": "elvis",
+  "date": "2026-10-12",
+  "change": "align-native-consumer-projections",
+  "scope": "Owner verification of chat-supplied claudex advisory; factual preparation only, no scope approval or native mutation",
+  "advisory_input": {
+    "source": "User-pasted Claude Code / claudex review in current conversation; no independently retained original file or file hash",
+    "authority": "advisory-input",
+    "recommendation": "Approve the two-file scope amendment subject to new package, baseline, qualification and independent Preflight; not immediate native writing"
+  },
+  "reviewed_amendment": {
+    "path": "openspec/changes/align-native-consumer-projections/amendments/codex-first-draft-v1.md",
+    "sha256": "8008f85aff9c2b8b0414fed3bd63c11755a116516153ec70d9a0d72b0bf4a6a9",
+    "approval": "proposed, not approved; original draft-v2 approval unchanged"
+  },
+  "finding_disposition": [
+    {
+      "id": "C1-consumer-fact",
+      "type": "verified documentary conflict",
+      "stage": "specific scope approval / new two-file plan",
+      "decision": "Retain immutable draft-v2. The proposed amendment's HOME-descendant observed cwd qualifies both Codex roots as consumers of row 05, replacing the old assumption only in that tested scope. Record this explicitly in the new approval and plan; do not infer all cwd or IDE equivalence.",
+      "closure": "Factual clarification recorded; new approval and two-file plan pending"
+    },
+    {
+      "id": "C2-parser-dependency",
+      "type": "verified dynamic-import binding gap",
+      "stage": "before native qualification / complete-package Preflight",
+      "decision": "Bind both current observer and tests/run_superpowers_routing_forward_tests.py in the new package; verify the actual executed dependency bytes before qualification and Preflight, and rerun relevant negatives on code drift.",
+      "closure": "Current hashes and pure fixtures verified below. No code changed, no historical proof rebound, and no new package enforcement claimed."
+    },
+    {
+      "id": "C3-transaction-binding",
+      "type": "required future preparation",
+      "stage": "after specific approval, before native writes",
+      "decision": "Use a fresh two-file root and exact plan/package for rows 01 then 05. Rows 02/03/04/06 are unchanged excluded assertions, not callable native write rows. Bind recovery commands, candidates, preimages, modes, identities, receipts and current code; test drift/link/identity/receipt/failure-stop/recovery in private fixtures; independent full-package Preflight required.",
+      "closure": "Pending specific amendment approval. Old six-file package remains intact and cannot substitute for a two-file transaction or live recovery."
+    },
+    {
+      "id": "C4-excluded-config-drift",
+      "type": "verified external-state drift; cause unestablished",
+      "stage": "new package and independent Preflight, before writes",
+      "decision": "Owner preserves the current account A config bytes/mode/object; no restore or config write authorized. Retain the unexplained old-to-current delta, bind the current excluded snapshot in the new package and submit it to Preflight. Further drift stops execution and requires reconciliation rather than automatic hash refresh.",
+      "closure": "Current object verified below; not a replacement approval or accepted new execution baseline."
+    }
+  ],
+  "current_code_binding": [
+    {
+      "path": "/Users/elvis/Library/Caches/native-agent-adaptation/codex-mechanism-20261012/qualify.py",
+      "sha256": "b4ea7ad2b399ca5daa56bd045d8bb51a4b6fabe1716ec464cabee5b176978a2c",
+      "mode": "0600",
+      "device": 16777231,
+      "inode": 197837778,
+      "kind": "file"
+    },
+    {
+      "path": "/Users/elvis/file/develop/opensource/openspec-superpower-change/tests/run_superpowers_routing_forward_tests.py",
+      "sha256": "8ecd72b43f9edd475728cd1e3339277ad697b9f89979d5702d0a555675d6a401",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 170228114,
+      "kind": "file"
+    }
+  ],
+  "offline_verification": {
+    "command": "PYTHONDONTWRITEBYTECODE=1 python3 /Users/elvis/Library/Caches/native-agent-adaptation/codex-mechanism-20261012/qualify.py --fixtures-only",
+    "fixture_checks": {
+      "parser_positive": 1,
+      "parser_negative": 6,
+      "native_negative": 2,
+      "render_transform": 2,
+      "attribution": 3
+    },
+    "additional_owner_negative_cases": [
+      "unknown_startup_error",
+      "in_turn_error",
+      "failed_terminal",
+      "unknown_event",
+      "mcp_tool",
+      "command_tool",
+      "duplicate_terminal",
+      "missing_terminal",
+      "out_of_order_terminal"
+    ],
+    "additional_owner_negative_result": "all nine rejected by current audit_stream",
+    "execution": "Current observer imported without __main__; only fixture_checks and audit_stream called. Observer and parser hashes/modes/identities unchanged before/after checks. No native launcher, callback, subprocess or model run.",
+    "limitations": "Historical native raw logs were cleaned, so current pure checks do not independently replay historical runs. Historical proof retains its original observer hashes; current callback-binding observer has not yet been qualified in a new native run."
+  },
+  "native_target_snapshots": [
+    {
+      "row": "01",
+      "selected": true,
+      "path": "/Users/elvis/.codex-account-a/AGENTS.md",
+      "sha256": "13dfabe1152adb00b3f924fb96fac676d257db87ecd0658f23a8ac8b6e6a35e6",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 185944023,
+      "kind": "file"
+    },
+    {
+      "row": "02",
+      "selected": false,
+      "path": "/Users/elvis/.claude/CLAUDE.md",
+      "sha256": "926e0722c826791e05e235e060af0952fc1cde424331259650c0ceca08dcde92",
+      "mode": "0600",
+      "device": 16777231,
+      "inode": 196099766,
+      "kind": "file"
+    },
+    {
+      "row": "03",
+      "selected": false,
+      "path": "/Users/elvis/.cursor/rules/cross-cli-governance.mdc",
+      "sha256": "2eede0c92f6382146da89658f894de0da9542caa389748b32bf3342ae682a812",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 187224675,
+      "kind": "file"
+    },
+    {
+      "row": "04",
+      "selected": false,
+      "path": "/Users/elvis/.cursor/rules/codex-global-core.mdc",
+      "sha256": "4a5272f237b4197df42b9be57317b4225b84f080d2afb9a7f305a54c0c562060",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 187224674,
+      "kind": "file"
+    },
+    {
+      "row": "05",
+      "selected": true,
+      "path": "/Users/elvis/.codex/model_instructions.md",
+      "sha256": "bbc10422f2916c0e29205c46071d4d424190f71b4610e7d56c27ae6673fca04b",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 107839778,
+      "kind": "file"
+    },
+    {
+      "row": "06",
+      "selected": false,
+      "path": "/Users/elvis/.grok/AGENTS.md",
+      "sha256": "a85888d8b6a10b24bb6608b48155de65aff7848d9de6dad7a78c0b751c198dd3",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 197499236,
+      "kind": "file"
+    }
+  ],
+  "excluded_observation": {
+    "regular_files_checked": 213,
+    "absence_checked": 1,
+    "symlink_identities_checked": 2,
+    "symlink_check_scope": "lstat mode/device/inode only; no followed target contents requalification",
+    "drift": [
+      {
+        "path": "/Users/elvis/.codex-account-a/config.toml",
+        "previous_sha256": "cc20886e5db221058fa903669b71f7bd00c7c11efda1f908d97bfb8692aec3b3",
+        "current": {
+          "path": "/Users/elvis/.codex-account-a/config.toml",
+          "sha256": "75d9a7d2e8df0ad543a043b0ff0e38e3c9c920a912f3d40ad6ac497535c540b3",
+          "mode": "0600",
+          "device": 16777231,
+          "inode": 197774844,
+          "kind": "file"
+        }
+      }
+    ],
+    "cause": "Not established; no attribution to callbacks, native startup or another writer",
+    "configuration_writes": 0
+  },
+  "retained_callback_boundary": {
+    "path": "docs/review/2026-10-12-codex-native-callback-boundary.json",
+    "sha256": "0f96150173ea0ce250d2ae8f8d5be80cfc5d736c85226d8bb2ffe254e6ab31da",
+    "decision": "Existing trusted native app completion callbacks remain bounded harness state; no full-host read-only, callback success or all-auth-files-unchanged claim. No new syscall-audit gate or callback/config changes."
+  },
+  "pending_sequence": [
+    "Explicit user scope approval naming codex-first-draft-v1 and reviewed amendment bytes",
+    "Fresh two-file plan/package with current parser dependency, native controls, excluded baseline and recovery binding",
+    "New package fixture regressions and both actual Codex mechanism qualifications under the bound current code",
+    "Independent complete-package Preflight",
+    "Native applications in row 01 then row 05 order with per-file verified receipts",
+    "Both entries' candidate native body and A-F/P1-P4 behavioral acceptance",
+    "Implementation Review, project learning audit, fresh final verification, Final Review and owner reconciliation"
+  ],
+  "claims": {
+    "native_rule_writes": 0,
+    "native_model_runs_this_followup": 0,
+    "observer_or_parser_edits": 0,
+    "scope_amendment_approval": "pending",
+    "new_two_file_package": "not created",
+    "preflight": "pending",
+    "candidate_behavior": "not-run",
+    "whole_task_completion": false
+  },
+  "required_approval_clarification": "Codex-first scope approval must state that row 05 is consumed by both entries in the observed HOME-descendant cwd; preserve immutable history. It must not authorize settings/authentication/hooks/dependencies/binaries/publisher/Git/publication changes.",
+  "self_review": "Bound hashes, current source facts, offline rejection cases and all six prestate hashes/modes checked; followup is preparation evidence only, not independent signoff."
+}

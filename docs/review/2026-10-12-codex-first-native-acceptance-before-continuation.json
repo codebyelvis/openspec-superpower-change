@@ -1,0 +1,182 @@
+{
+  "author": "elvis",
+  "change": "align-native-consumer-projections",
+  "stage": "native-load/behavior-accepted",
+  "plan_path": "docs/superpowers/plans/2026-10-12-codex-first-native-consumer-projections.md",
+  "plan_sha256": "5261f7e23748697399f17f6921482b1caca82776b18cacac2661fc5329014fef",
+  "code_dependencies": {
+    "/Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/qualify.py": "38762128cc2fb1b7b4ac220f5e28ed9d3b14baf119da96a21a4a253a2e8b1b7e",
+    "/Users/elvis/file/develop/opensource/openspec-superpower-change/tests/run_superpowers_routing_forward_tests.py": "8ecd72b43f9edd475728cd1e3339277ad697b9f89979d5702d0a555675d6a401",
+    "/Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/behavior.py": "4ec90e3fcad66576ef27411c95d0ce1ead54ae09db19e4733fa400c430edffa7",
+    "/Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/cases.json": "a3fb887f8dd380d321c7f510e80a23a3e6fcd192c510610ffee495d45e56dd8f"
+  },
+  "results": [
+    {
+      "native_thread_id": "01a12f34-50fa-71e0-b3a0-2eac0e308a3a",
+      "agents_file_sha256": "b049858a8d7d0716d2c97a93fc7f9f2f33eead8b6a33e35525b226dbd6a5605f",
+      "native_complete_agents_occurrences": 1,
+      "raw_rollout_sha256": "5b15d38d25a5fd6e5ad41052bc454d65d5a2e02c2c5a820190f3b05b6d263d57",
+      "native_base_provenance": {
+        "type": "custom"
+      },
+      "source_path": "/Users/elvis/.codex/AGENTS.md",
+      "native_cli_version": "0.162.1",
+      "model_instructions_file_sha256": "39dc7af01eb236f1c83799a989b6e61565e3f712a1623543aa4982e139e37c44",
+      "native_render_transform": "Rust str::trim() (config/mod.rs:4631)",
+      "rendered_model_instructions_sha256": "ab1b120211957c5a8a2c6d49b6b5894b59f1eb5915fb158c9b230b207664e7dc",
+      "native_model_instructions_sha256": "ab1b120211957c5a8a2c6d49b6b5894b59f1eb5915fb158c9b230b207664e7dc",
+      "native_model_body_match": true,
+      "model_instructions_source_path": "/Users/elvis/.codex/model_instructions.md",
+      "native_rollout_event_counts": {
+        "session_meta": 1,
+        "event_msg:task_started": 1,
+        "response_item": 7,
+        "world_state": 1,
+        "turn_context": 1,
+        "event_msg:item_completed": 3,
+        "token_usage_record": 1,
+        "event_msg:token_count": 1,
+        "event_msg:task_complete": 1
+      },
+      "raw_retained": false,
+      "raw_cleanup": "owned diagnostic moved into private root and removed after source inspection; not transaction inode-bound deletion",
+      "entry": "codex-default",
+      "config_root": "/Users/elvis/.codex",
+      "command": [
+        "/opt/homebrew/bin/codex",
+        "-a",
+        "never",
+        "exec",
+        "--sandbox",
+        "read-only",
+        "--json",
+        "--skip-git-repo-check",
+        "--cd",
+        "/Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/native-codex-qualified-kgzphgzi",
+        "-"
+      ],
+      "timeout_seconds": 90,
+      "CLI_exit_code": 0,
+      "stdout_sha256": "98b2b23d8507bf2be2149c542923e0d3cc0f496ec033dda207a8ae1cae691c98",
+      "stderr_sha256": "ec38607c1cb938e1300c0b83c8fe82e3d02aa732c02b2db2a5801f3dc0d64154",
+      "event_audit": {
+        "event_count": 4,
+        "agent_message_count": 1,
+        "reasoning_event_count": 0,
+        "tool_event_count": 0,
+        "qualified_startup_warning_count": 3,
+        "qualified_startup_warning_sha256": [
+          "6b28c87e70c8fc7ceba376cf03ba0d732299f873e258625f7ab747b74c5b25f9",
+          "e1f94c25dc486bf6e141bfc58f14c4bc6b340a08a9d4ad4fca554a8dc129e74f"
+        ],
+        "all_event_count": 7
+      },
+      "protected_config_rule_bytes_mode_inode_unchanged": true,
+      "phase": "native-load/behavior-accepted",
+      "result": "PASS",
+      "post_write_behavior": "PASS",
+      "native_rule_writes": 0,
+      "native_startup_boundary_sha256": "031228712086b7c2d7fc528f16aaa9a9a5bc94426f46c4b39bb694430c032cef",
+      "native_hook_discovery_sha256": "c371492e5bd5ee46acfc2d68702fcaa68c00b0efd6c5b44d19a9d994164cb6ad",
+      "hook_execution_observation": "exec and rollout filter hook events; no individual hook success or zero-hook claim",
+      "model_tool_events_only": true,
+      "callback_content_mode_unchanged": true,
+      "callback_cache_inode": "same-byte cache refresh allowed only for separately declared callback; target/source/exclusions inode protections retained",
+      "harness_callback_boundary_sha256": "0f96150173ea0ce250d2ae8f8d5be80cfc5d736c85226d8bb2ffe254e6ab31da",
+      "harness_callback_scope": "existing trusted app completion notification; child success and exhaustive host side effects not observed",
+      "case": "A",
+      "observed_classifier": {
+        "case": "A",
+        "classification": "advisory-chat"
+      },
+      "instructions_delivery": "actual native global instructions; no project injection",
+      "candidate_loading": true
+    },
+    {
+      "native_thread_id": "01a12f34-d1bc-70c1-a773-39d6fa054ac7",
+      "agents_file_sha256": "b049858a8d7d0716d2c97a93fc7f9f2f33eead8b6a33e35525b226dbd6a5605f",
+      "native_complete_agents_occurrences": 1,
+      "raw_rollout_sha256": "6f5efb217ad1b8eea06a52e0e716a87be6b79660663cbf8077cab6b2a4a999c1",
+      "native_base_provenance": {
+        "type": "custom"
+      },
+      "source_path": "/Users/elvis/.codex/AGENTS.md",
+      "native_cli_version": "0.162.1",
+      "model_instructions_file_sha256": "39dc7af01eb236f1c83799a989b6e61565e3f712a1623543aa4982e139e37c44",
+      "native_render_transform": "Rust str::trim() (config/mod.rs:4631)",
+      "rendered_model_instructions_sha256": "ab1b120211957c5a8a2c6d49b6b5894b59f1eb5915fb158c9b230b207664e7dc",
+      "native_model_instructions_sha256": "ab1b120211957c5a8a2c6d49b6b5894b59f1eb5915fb158c9b230b207664e7dc",
+      "native_model_body_match": true,
+      "model_instructions_source_path": "/Users/elvis/.codex/model_instructions.md",
+      "native_rollout_event_counts": {
+        "session_meta": 1,
+        "event_msg:task_started": 1,
+        "response_item": 7,
+        "world_state": 1,
+        "turn_context": 1,
+        "event_msg:item_completed": 3,
+        "token_usage_record": 1,
+        "event_msg:token_count": 1,
+        "event_msg:task_complete": 1
+      },
+      "raw_retained": false,
+      "raw_cleanup": "owned diagnostic moved into private root and removed after source inspection; not transaction inode-bound deletion",
+      "entry": "codex-default",
+      "config_root": "/Users/elvis/.codex",
+      "command": [
+        "/opt/homebrew/bin/codex",
+        "-a",
+        "never",
+        "exec",
+        "--sandbox",
+        "read-only",
+        "--json",
+        "--skip-git-repo-check",
+        "--cd",
+        "/Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/native-codex-qualified-0914pase",
+        "-"
+      ],
+      "timeout_seconds": 90,
+      "CLI_exit_code": 0,
+      "stdout_sha256": "44d5d20c601b54fda0ef684efdafdc9d31bfe59d1cdcf3b3cf7f8a13e0b876db",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "event_audit": {
+        "event_count": 4,
+        "agent_message_count": 1,
+        "reasoning_event_count": 0,
+        "tool_event_count": 0,
+        "qualified_startup_warning_count": 3,
+        "qualified_startup_warning_sha256": [
+          "6b28c87e70c8fc7ceba376cf03ba0d732299f873e258625f7ab747b74c5b25f9",
+          "e1f94c25dc486bf6e141bfc58f14c4bc6b340a08a9d4ad4fca554a8dc129e74f"
+        ],
+        "all_event_count": 7
+      },
+      "protected_config_rule_bytes_mode_inode_unchanged": true,
+      "phase": "native-load/behavior-accepted",
+      "result": "FAIL",
+      "post_write_behavior": "FAIL",
+      "native_rule_writes": 0,
+      "native_startup_boundary_sha256": "031228712086b7c2d7fc528f16aaa9a9a5bc94426f46c4b39bb694430c032cef",
+      "native_hook_discovery_sha256": "c371492e5bd5ee46acfc2d68702fcaa68c00b0efd6c5b44d19a9d994164cb6ad",
+      "hook_execution_observation": "exec and rollout filter hook events; no individual hook success or zero-hook claim",
+      "model_tool_events_only": true,
+      "callback_content_mode_unchanged": true,
+      "callback_cache_inode": "same-byte cache refresh allowed only for separately declared callback; target/source/exclusions inode protections retained",
+      "harness_callback_boundary_sha256": "0f96150173ea0ce250d2ae8f8d5be80cfc5d736c85226d8bb2ffe254e6ab31da",
+      "harness_callback_scope": "existing trusted app completion notification; child success and exhaustive host side effects not observed",
+      "case": "B",
+      "observed_classifier": {
+        "case": "B",
+        "classification": "advisory-chat"
+      },
+      "instructions_delivery": "actual native global instructions; no project injection",
+      "candidate_loading": true
+    }
+  ],
+  "result": "FAIL",
+  "native_rule_writes_by_probe": 0,
+  "publisher_calls": 0,
+  "scope": "two Codex roots in bound HOME-descendant private cwd; not all projects, IDEs or Skill body loading",
+  "raw_trace_retained": false
+}

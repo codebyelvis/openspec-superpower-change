@@ -1,0 +1,159 @@
+{
+  "author": "elvis",
+  "change_id": "align-native-consumer-projections",
+  "evidence_role": "final-review",
+  "evidence_result": "pass",
+  "result": "PASS",
+  "contract_revision": 18,
+  "canonical_sha256": "4908e650b619a149dd56fda14feeb8d83c4886c1f05c50585838c806327a54f0",
+  "source_fingerprint": "08ba01c647300d3867c5455848942beed2534ce92bcf48ecf3c3ae09ccd6acc4",
+  "agent_identity": {
+    "agent_product": "codex",
+    "agent_instance_id": "native-consumer-final-review",
+    "agent_role": "independent-reviewer",
+    "capability_profile": "control-plane-high"
+  },
+  "reviewer_assignment": {
+    "agent_product": "codex",
+    "agent_instance_id": "native-consumer-final-review",
+    "agent_role": "independent-reviewer",
+    "capability_profile": "control-plane-high",
+    "review_purpose": {
+      "object": "align-native-consumer-projections final-review",
+      "decision": "whether fresh scoped evidence supports owner completion"
+    },
+    "independence_requirement": {
+      "kind": "distinct-contract-instance",
+      "distinct_from": [
+        "control_plane_owner",
+        "executor_assignment",
+        "implementation_reviewer"
+      ]
+    },
+    "result_authority": "governed-review-evidence"
+  },
+  "finding_completeness": true,
+  "blocking_findings": [],
+  "review_scope": "Independent final review of the approved original rows01/05, separately approved row05 publisher timing repair, current-config acceptance, required verification and complete scoped staged evidence. Governed review evidence only; the owner retains canonical completion and remaining approved cleanup/reconciliation/commit actions.",
+  "binding_verification": {
+    "canonical_path": "docs/agent-collab/align-native-consumer-projections/status.md",
+    "actual_inputs_rehashed": 127,
+    "inputs_manifest": "docs/review/2026-10-12-codex-first-implementation-inputs-r2.json",
+    "fingerprint_algorithm": "sha256(json.dumps(inputs,sort_keys=True,separators=(',',':')).encode())",
+    "all_inputs_match": true,
+    "reviewed_artifact_hashes": {
+      "docs/review/2026-10-12-codex-first-implementation-inputs-r2.json": "9752f359f662d0ad4fad3e3415ef1523aebe310e49933cb66d34bc9589258975",
+      "docs/review/2026-10-12-codex-first-implementation-review-final-r2.json": "087e2f6e1a6d0b180a468677d943a5e9631af43933cafa198cd029150d1aeeeb",
+      "docs/review/2026-10-12-codex-first-learning-closeout.json": "36cc3ba7f0eb6be17a64b54289600572148f9c2529009fc599caca37fb89b8c9",
+      "docs/review/2026-10-12-codex-first-final-verification.json": "577d6e826db14d50656b85dc7ac959ddbaa237a47037d8626477cb4787e93cbf",
+      "docs/review/2026-10-12-codex-first-stable-config-acceptance.json": "028c11ee233640a79bbb3e2e488889f7fe949f8a44df34220af2c794c838482e",
+      "docs/review/2026-10-12-codex-first-stable-config-postcheck.json": "042caddc9bbf1fafccf655ea14c86721f863a0aee1b87044a60d275f6503ea14",
+      "docs/review/2026-10-12-codex-first-fixture-current-config-correction.json": "4ea5e58dc81d756afde2a0547daec53fba80137dff0fdc09091e8bb801fe43ff"
+    },
+    "staged_files": 130,
+    "staged_diff_sha256": "7ff718dc2986ede7bcc61d445597c2210f2325982c8b0f83551993af857ca020",
+    "staged_files_equal_worktree": true,
+    "current_receipts_244_exclusions_dependencies": "PASS immediately before report creation",
+    "private_acceptance_bindings_sha256": "5f757d3fae12422008e0c9475df038417d758861ee74ac24b737d872be3451d8",
+    "current_fixture_sha256": "9f217579b5df7f6bd33d6d23af13a18f18d1321bdbbec0c39245d479d5170b55"
+  },
+  "actual_inspection": [
+    "Read Router, final completion and capability contracts, engineering invariants, project learning closeout, original scoped approval and both publisher amendments; exact final assignment remains distinct from owner/executor and Implementation reviewer.",
+    "Inspected complete actual exact_commands.py, qualify.py, behavior.py, v2 repair.py, stable-config accept.py, current fixture source and complete preserved-old/current fixture diff; traced guarded reads, copy/transform, actual source observations, event parser, expected classifier comparison, receipts and final postchecks to the scoped claims.",
+    "Inspected active Plans, original and current specification/task context, Preflight and failed Implementation history, r2 replacement Review, config reconciliation/readiness, final acceptance/postcheck, source suite evidence and current learning/final-verification artifacts. Whole staged diff was traversed and hashed; all staged files were re-read and compared byte-for-byte with worktree. All staged JSON parses; scoped inventory and credential/raw-data pattern checks found no out-of-scope staged JEV/dependency-upgrade work or credential patterns.",
+    "Verified all127 implementation inputs and every current canonical completed reference against actual files. Verified separately persisted r18 final-verification binds12 successful critical commands, r17 Implementation r2 and learning audit. Withdrawn r16 report is immutable history, absent from accepted completed references, and supplies no positive gate authority.",
+    "Verified current native evidence has exact20 distinct threads and all two-root A-F/P1-P4 pairs, unchanged per-case oracle, CLI exit0, actual body hashes, one complete AGENTS occurrence, matching post-write phase/result and zero model tool events. Aggregate actual exit0 is supplied by the hash-bound owner process/postcheck record; reviewer made no native model call and read no raw trace.",
+    "Current fixture helper changes exactly one synthetic excluded config row and preserves all other metadata. The full diff retains existing16 assertions and replacement/recovery primitives. Original failing command and withdrawn Review remain recorded; current fixture/source hashes are frozen separately from immutable original installation Plan/package.",
+    "Learning audit reuses existing exact-source/fresh-evidence/native-consumption/identity invariant owners. No new source or policy promotion occurred after Implementation r2, and no mandatory promotion gap was identified. Native acceptance inputs stayed unchanged after the isolated test baseline fix."
+  ],
+  "independent_verification": [
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 /Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/acceptance-stable-config/accept.py check",
+      "exit_code": 0,
+      "result": "PASS",
+      "scope": "Repeated current target identities,244 exclusions and dependencies; readiness()+check() repeated immediately before signing"
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 /Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/fixture_tests.py",
+      "exit_code": 0,
+      "result": "PASS",
+      "tests": 16,
+      "scope": "Full current fixture command, including final static publisher checks; private temporary fixtures cleaned by their owning contexts"
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 /Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/check_behavior_metadata.py docs/review/2026-10-12-codex-first-stable-config-acceptance.json",
+      "exit_code": 0,
+      "result": "PASS",
+      "actual_observations": 20,
+      "negative_mutations": 3
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/validate_core_gates.py .",
+      "exit_code": 0,
+      "result": "PASS"
+    },
+    {
+      "command": "git diff --cached --check",
+      "exit_code": 0,
+      "result": "PASS"
+    },
+    {
+      "command": "Independent inline hash/canonical/accepted-reference/native-pair/phase/source/owned-path/staged audit",
+      "exit_code": 0,
+      "result": "PASS",
+      "inputs": 127,
+      "staged_files": 130,
+      "native_cases": 20
+    },
+    {
+      "command": "Independent in-memory mutations through actual accept.check/readiness seams",
+      "exit_code": 0,
+      "result": "PASS",
+      "negative_rejections": [
+        "same-byte installed row05 inode replacement",
+        "pending v2 receipt",
+        "owner substituted for assigned reviewer",
+        "advisory-input substituted for governed authority",
+        "wrong readiness bindings digest"
+      ],
+      "native_calls": 0,
+      "filesystem_mutations": 0
+    },
+    {
+      "command": "Independent AST-extracted actual fixture_package helper with in-memory mutated reads",
+      "exit_code": 0,
+      "result": "PASS",
+      "positive": "Exactly one config exclusion changed; every other metadata field remains identical",
+      "negative_rejections": [
+        "changed reconciliation bytes/digest",
+        "missing previous exclusion",
+        "duplicate previous exclusion"
+      ],
+      "native_calls": 0,
+      "filesystem_mutations": 0
+    }
+  ],
+  "source_suite_assessment": "Owner-captured current-workspace492 tests in each fallback/PyYAML environment and actual committed-prerequisite470 tests in each environment were inspected with their distinct scopes. Shared source remained unchanged; only the isolated fixture baseline changed later and was independently rerun. The reviewer independently reran critical tests above, not the full suite or native models.",
+  "historical_failure_disposition": "Original Preflight corrections, P2/B/format failures, v1 semantic failure,19-case config-drift failure, stale-fixture exit1 and withdrawn r16 Review remain history. Current r2 plus fresh complete20 and final verification close those scoped blockers; no old result was relabeled or stitched into current success.",
+  "limitations": [
+    "Native proof covers structured hypothetical classifications in private HOME-descendant cwd for the two actual Codex roots. It does not establish actual publisher execution, native Skill-body loading, general workflow execution, every project/IDE or seven-entry/eight-config equivalence.",
+    "Zero model tool events does not establish zero host hooks, individual hook success, all-host read-only behavior or exhaustive authentication-file invariance. Existing callback and known-warning boundaries remain.",
+    "Current account-A configuration is an explicit current input. Historical writer, changed field category and old/new model-setting semantic equivalence remain unobserved. Future drift invalidates affected evidence.",
+    "Original rows02/03/04/06 and broader platform/dependency/hook work remain deferred under separately recorded owners and resume conditions. Four-product portable parity is not native behavior on those products.",
+    "Raw traces were intentionally removed and not independently reread; acceptance relies on sanitized evidence and the inspected fail-closed observer. Private verification assets still exist at signing and are subject to approved owner cleanup; reproducibility after their disposal is limited to retained sanitized evidence and shared source.",
+    "Correct classifications do not prove the added rule was the sole cause of changed stochastic answers. No real publication result is asserted."
+  ],
+  "remaining_owner_actions": [
+    "Execute only approved owned private cleanup, preserving unrelated objects and symlink targets. Symlink-safe traversal alone is not an exact-inode deletion proof; preserve and report residuals or blockers if identity safety cannot be established. No cleanup has been executed or certified by this Review.",
+    "Actually verify post-cleanup native instruction/config hashes, modes and identities, owned residual state and unaffected companion target; persist sanitized outcome. Any failure or replacement uncertainty returns to correction/verification/Review as applicable.",
+    "Reconcile tasks and closeout, run required strict OpenSpec validation, and record canonical completion only after all required owner steps succeed. Then perform only the explicitly authorized scoped local commit after a fresh stage-scope check; no push."
+  ],
+  "reviewer_effects": {
+    "native_model_calls": 0,
+    "native_or_config_writes": 0,
+    "publisher_calls": 0,
+    "git_mutations": 0,
+    "project_output": "docs/review/2026-10-12-codex-first-final-review.json"
+  },
+  "conclusion": "PASS as final-review evidence at r18 for the verified scoped implementation and claims. This is not an owner completion transition and does not claim pending cleanup, reconciliation or commit has occurred."
+}

@@ -1,0 +1,38 @@
+{
+  "author": "elvis",
+  "change": "align-native-consumer-projections",
+  "scope": "pure existing publisher guard validation only; no publisher invocation or output write",
+  "results": [
+    {
+      "case": "reject-codex",
+      "result": "PASS"
+    },
+    {
+      "case": "reject-grok-cli",
+      "result": "PASS"
+    },
+    {
+      "case": "reject-pi",
+      "result": "PASS"
+    },
+    {
+      "case": "reject-antigravity-cli",
+      "result": "PASS"
+    },
+    {
+      "case": "reject-direct-report-Write",
+      "result": "PASS"
+    },
+    {
+      "case": "reject-direct-report-Edit",
+      "result": "PASS"
+    },
+    {
+      "case": "nonreport-draft-not-authorized-as-publish",
+      "result": "PASS"
+    }
+  ],
+  "result": "PASS",
+  "publisher_calls": 0,
+  "native_writes": 0
+}

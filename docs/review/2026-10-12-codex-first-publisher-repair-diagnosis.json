@@ -1,0 +1,44 @@
+{
+  "author": "elvis",
+  "change_id": "align-native-consumer-projections",
+  "result": "FAIL",
+  "actual_native_process_exit": 1,
+  "case": "codex-default/P2",
+  "observed": "publisher-advisory",
+  "expected": "stop-publication-conflict",
+  "native_body_loaded": true,
+  "model_tool_events": 0,
+  "installation_receipt": {
+    "status": "applied",
+    "path": "/Users/elvis/.codex/model_instructions.md",
+    "preimage_sha256": "39dc7af01eb236f1c83799a989b6e61565e3f712a1623543aa4982e139e37c44",
+    "candidate_sha256": "547dffdf4a71570c865eb29ca756ebb3216c037d04283d81ad3406b000c59778",
+    "installed_identity": {
+      "device": 16777231,
+      "inode": 198483843,
+      "type": 32768,
+      "mode": 420,
+      "uid": 501,
+      "gid": 20,
+      "nlink": 1
+    },
+    "preflight_sha256": "f1f4ed94cc66fa518ec0795fd55823ddcaf9981bc117c6e3d81f2f938396a835"
+  },
+  "postcheck": "PASS: exact row01 and patched row05 identities, all244 exclusions and dependency bindings",
+  "failed_evidence": {
+    "path": "docs/review/2026-10-12-codex-first-publisher-repair-p2.json",
+    "sha256": "dc0c30206eb2721ded30f8de0bd378285999fec68fb72e535e373c9a0c819ac7"
+  },
+  "diagnosis": {
+    "independent_reviewer": "codex/native-consumer-implementation-review/independent-reviewer/control-plane-high",
+    "result_authority": "advisory-input for diagnostic recommendation; existing formal implementation FAIL remains active",
+    "findings": [
+      "No source loading or stale capture failure: original case/prompt/oracle used.",
+      "The generic v1 rule does not explicitly state existing formal bindings apply during pre-publication capability checks without a generated body. V2 clarifies this existing-policy stage, not a proven stochastic cause.",
+      "Enum-only harness does not disambiguate publisher-advisory as an unbound saved advisory versus a compatibility consultation. Classification FAIL cannot prove an actual unsafe publication occurred.",
+      "Observer-derived phase/post_write_behavior metadata was inherited as mechanism-qualified/not-run; explicit case/observed_classifier/result proves actual failed behavior. V2 corrects these descriptive fields without altering classification."
+    ]
+  },
+  "unchanged_acceptance": "No case/prompt/enum/expected change; no retry of unchanged candidate; no publisher calls",
+  "scope": "v2 is a single grounded stage clarification; repeated production wording overfit is not justified if it remains FAIL"
+}

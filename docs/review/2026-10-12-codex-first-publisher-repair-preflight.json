@@ -1,0 +1,262 @@
+{
+  "author": "elvis",
+  "date": "2026-10-12",
+  "change_id": "align-native-consumer-projections",
+  "result": "PASS",
+  "review_mode": "FULL_PREFLIGHT",
+  "attempt": 1,
+  "parent_review": null,
+  "lineage_root_revision": {
+    "path": "docs/superpowers/plans/2026-10-12-codex-first-publisher-repair.md",
+    "sha256": "78f4e1a36be2edf712f9807c87b6b6ad354f7bfc50fac83efb107d107aaaaae5"
+  },
+  "reviewed_revision": {
+    "path": "docs/superpowers/plans/2026-10-12-codex-first-publisher-repair.md",
+    "sha256": "78f4e1a36be2edf712f9807c87b6b6ad354f7bfc50fac83efb107d107aaaaae5"
+  },
+  "finding_completeness": true,
+  "same_reviewer_instance": null,
+  "reviewer_identity": {
+    "agent_product": "codex",
+    "agent_instance_id": "native-consumer-publisher-preflight-review",
+    "agent_role": "independent-reviewer",
+    "capability_profile": "control-plane-high"
+  },
+  "review_purpose": {
+    "object": "row05 publisher repair",
+    "decision": "whether the exact appended publisher rule and current repair package may be applied"
+  },
+  "result_authority": "governed-review-evidence",
+  "independence_requirement": {
+    "kind": "distinct-contract-instance",
+    "distinct_from": [
+      "control_plane_owner",
+      "executor_assignment"
+    ]
+  },
+  "author_identity": {
+    "agent_product": "codex",
+    "agent_instance_id": "align-native-root"
+  },
+  "executor_identity": {
+    "agent_product": "codex",
+    "agent_instance_id": "align-native-root"
+  },
+  "bindings_sha256": "801ae8c232a6a5ff225ae9c243adcfdddc0797313a3ef5d7837d2d34a99d9998",
+  "approval_sha256": "b3b2e84ecd43f711dfcb8e0c8421c9355a643b1a735039e2d44918388165759a",
+  "scope": "New approved row05 publisher-rule candidate and complete supplemental private repair/acceptance package. Bounded readiness evidence only; no canonical transition, native semantic acceptance or whole-task completion.",
+  "gate_0": {
+    "mode": "approved-implementation strict independent Preflight",
+    "router": "SKILL.md",
+    "contract": "openspec/changes/align-native-consumer-projections/amendments/publisher-repair-approval.md",
+    "reason": "Protected row05 candidate changes under explicit supplemental approval, creating one new FULL_PREFLIGHT lineage; original two-file lineage remains immutable",
+    "selected_methods": "Router-assigned independent Review; no implementation method or native execution",
+    "next_action": "Persist only this assigned Review report; controller decides evidence acceptance and authorized apply",
+    "new_confirmation_required": false
+  },
+  "protected_boundaries": {
+    "scope": "One exact append to original row05; original row01 stays installed, rows02/03/04/06 stay deferred; private repair package plus explicitly assigned review output only.",
+    "contract_spec": "Supplemental approval explicitly replaces only the old row05 candidate for this repair; original contract/receipts/Preflight preserved.",
+    "acceptance": "Focused actual P2 on both roots followed by all20 unchanged scenarios/oracles, source-body and no-model-tool event checks; semantic failures remain failures.",
+    "risk_evidence_profile": "Strict profile retained; separate Implementation and Final Review assignments retained.",
+    "authority": "User supplemental approval authorizes bounded repair and scoped commits; no push. This reviewer signs bounded readiness evidence only.",
+    "assignments": "Codex native-consumer-publisher-preflight-review is distinct from controller/executor align-native-root; original implementation and final reviewers retained.",
+    "allowed_forbidden_files": "Native apply addresses only /Users/elvis/.codex/model_instructions.md. Auth/config/model/provider/hooks/MCP/publisher/source changes forbidden; existing package verifies 244 excluded objects.",
+    "branch_worktree": "Existing main checkout retained for this continuation; native executable fixtures are private outside discovery. Review made no branch/staging/Git changes and only creates its assigned report.",
+    "database_production": "No database, production service or remote operation. Isolated reviewer fixtures use only temporary local files.",
+    "Git_publication_deployment": "Supplemental scoped commit authorization is controller-owned; no reviewer Git mutation, push, publisher invocation or deployment."
+  },
+  "declared_correction_set": [],
+  "mechanical_self_check": {
+    "result": "PASS",
+    "actual_private_root_mode": "0700",
+    "bound_children_mode": "0600",
+    "native_prestate_mode": "0644",
+    "required_checks": [
+      {
+        "command": "PYTHONDONTWRITEBYTECODE=1 python3 /Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/publisher-repair-v1/regression.py",
+        "exit_code": 0,
+        "result": "PASS",
+        "detail": "3 tests: exact append, eight invalid Review variants, actual filesystem replacement/restore and same-byte inode substitution"
+      },
+      {
+        "command": "PYTHONDONTWRITEBYTECODE=1 python3 /Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/publisher-repair-v1/repair.py check",
+        "exit_code": 0,
+        "result": "PASS",
+        "detail": "Actual native prestate, current package/dependencies and all 244 exclusions; repeated immediately before report persistence"
+      },
+      {
+        "command": "PYTHONDONTWRITEBYTECODE=1 python3 /Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/fixture_tests.py",
+        "exit_code": 0,
+        "result": "PASS",
+        "detail": "16 inherited isolated command/recovery checks and offline publisher/first-line checks"
+      },
+      {
+        "command": "PYTHONDONTWRITEBYTECODE=1 python3 /Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/qualify.py --fixtures-only",
+        "exit_code": 0,
+        "result": "PASS",
+        "detail": "Event parser 1 positive/6 negative, rollout 2 negative, render transforms 2, prompt attribution 3"
+      },
+      {
+        "command": "PYTHONDONTWRITEBYTECODE=1 python3 /Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/behavior.py --fixtures-only",
+        "exit_code": 0,
+        "result": "PASS",
+        "detail": "Classifier 1 positive/3 negative"
+      }
+    ]
+  },
+  "inspection": {
+    "rules_read": [
+      "SKILL.md",
+      "references/approved-implementation-workflow.md",
+      "references/agent-capability-routing.md",
+      "/Users/elvis/.agents/skills/superpowers/using-superpowers/references/router-governed.md",
+      "docs/engineering-invariants.md",
+      "references/project-learning-closeout.md"
+    ],
+    "actual_files": [
+      "/Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/publisher-repair-v1/repair.py",
+      "/Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/publisher-repair-v1/regression.py",
+      "/Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/publisher-repair-v1/patch.json",
+      "/Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/publisher-repair-v1/bindings.json",
+      "/Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/publisher-repair-v1/preimage",
+      "/Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/publisher-repair-v1/candidate",
+      "/Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/exact_commands.py",
+      "/Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/qualify.py",
+      "/Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/behavior.py",
+      "/Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/cases.json",
+      "/Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/classification.schema.json",
+      "/Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/fixture_tests.py",
+      "/Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/package.json",
+      "/Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/01.receipt.json",
+      "/Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/02.receipt.json",
+      "openspec/changes/align-native-consumer-projections/amendments/publisher-repair-approval.md",
+      "docs/superpowers/plans/2026-10-12-codex-first-publisher-repair.md",
+      "docs/superpowers/plans/2026-10-12-codex-first-native-consumer-projections.md",
+      "scripts/validate_cross_cli_sync.py",
+      "docs/review/2026-10-12-codex-first-implementation-review-continuation.json"
+    ],
+    "complete_candidate_diff": "Exactly preimage plus patch.json addition_utf8; all prior bytes preserved; candidate SHA547dffdf4a71570c865eb29ca756ebb3216c037d04283d81ad3406b000c59778; no other native body changes.",
+    "production_wiring": "repair.check -> original package verifies six current observer/parser/behavior/schema dependencies, historical candidate/backup identities, 244 exclusions and source-bound replacement primitives. apply checks supplemental Review, writes exclusive pending receipt, replaces exact native prestate, updates only the retained pending receipt identity, and reruns postchecks.",
+    "rollback_stop": "restore requires applied supplemental receipt, exact candidate hash/mode/installed target identity and verified preimage, then uses original replace_bound. Existing receipt blocks apply replay. Pending receipt cannot authorize restore. Drift preserves the unrelated replacement and blocks execution for controller reconciliation.",
+    "native_acceptance_wiring": "New runner reuses actual behavior cases, parser, labels and schema plus unchanged qualified q.run. Independent AST comparison proves prompt expression identical except equivalent b.LABELS module qualification. Expected answer is used only after response, never injected into prompt. Each probe binds fresh patched model body and expected AGENTS body; per-probe and final package/receipt/exclusion checks precede aggregate PASS. Failure writes a distinct FAIL artifact and stops.",
+    "qualified_observer_compatibility": "Existing observer snapshots native model body dynamically and verifies exact Rust-trim-rendered native base instructions; it is compatible with this append. Both-root schema format qualification uses unchanged observer code. Fresh patched-body/native semantic evidence remains required after apply.",
+    "cleanup": "Qualified observer retains existing attributed diagnostic ownership/cleanup rules; failure leaves controller-owned private diagnostic evidence for investigation. Independent temporary fixture directories were all removed by their owning contexts; no raw logs were read or copied."
+  },
+  "binding_verification": {
+    "old_package_sha256": "fd6d76c69478c48286076992acde1a31c68a688c950afafbfba3e623ff416185",
+    "original_command_sha256": "14ce3d64a85590f6c9b24f0f9b9d5dd4e85a27fdeed15e96a471a4b6fe2d686a",
+    "supplemental_package_files": {
+      "repair.py": "ecbe3b783e12fe4abb72e7c2a879f066dbeb9b803e5f207f02f4a4607db6d1e4",
+      "regression.py": "c4fb4ae2b56cc1717c4d06772e30ea5d3cca01c3e7aff87d8e29306ddf0cced1",
+      "patch.json": "6c0e9c78c17ebdad5b03f812cb0ee8e3f12f5a48613bd5a61c7a75c687735927",
+      "bindings.json": "801ae8c232a6a5ff225ae9c243adcfdddc0797313a3ef5d7837d2d34a99d9998",
+      "preimage": "39dc7af01eb236f1c83799a989b6e61565e3f712a1623543aa4982e139e37c44",
+      "candidate": "547dffdf4a71570c865eb29ca756ebb3216c037d04283d81ad3406b000c59778"
+    },
+    "original_receipts_sha256": {
+      "01.receipt.json": "cfa0830e5c7ae1fc448a3a082dc815949f57bbf224248bc2b7822536a0cf2a60",
+      "02.receipt.json": "95389ea5bc83372a3c988417534fc6e0ce584e03bb3e05f9e30b636c941ce61c"
+    },
+    "native_preimage_sha256": "39dc7af01eb236f1c83799a989b6e61565e3f712a1623543aa4982e139e37c44",
+    "approved_candidate_sha256": "547dffdf4a71570c865eb29ca756ebb3216c037d04283d81ad3406b000c59778",
+    "all_244_exclusions_verified": true,
+    "native_repair_unapplied": true
+  },
+  "independent_evidence": {
+    "commands": [
+      {
+        "command": "PYTHONDONTWRITEBYTECODE=1 python3 /Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/publisher-repair-v1/regression.py",
+        "exit_code": 0,
+        "result": "PASS",
+        "detail": "3 tests: exact append, eight invalid Review variants, actual filesystem replacement/restore and same-byte inode substitution"
+      },
+      {
+        "command": "PYTHONDONTWRITEBYTECODE=1 python3 /Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/publisher-repair-v1/repair.py check",
+        "exit_code": 0,
+        "result": "PASS",
+        "detail": "Actual native prestate, current package/dependencies and all 244 exclusions; repeated immediately before report persistence"
+      },
+      {
+        "command": "PYTHONDONTWRITEBYTECODE=1 python3 /Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/fixture_tests.py",
+        "exit_code": 0,
+        "result": "PASS",
+        "detail": "16 inherited isolated command/recovery checks and offline publisher/first-line checks"
+      },
+      {
+        "command": "PYTHONDONTWRITEBYTECODE=1 python3 /Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/qualify.py --fixtures-only",
+        "exit_code": 0,
+        "result": "PASS",
+        "detail": "Event parser 1 positive/6 negative, rollout 2 negative, render transforms 2, prompt attribution 3"
+      },
+      {
+        "command": "PYTHONDONTWRITEBYTECODE=1 python3 /Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/behavior.py --fixtures-only",
+        "exit_code": 0,
+        "result": "PASS",
+        "detail": "Classifier 1 positive/3 negative"
+      }
+    ],
+    "adversarial_probes": [
+      {
+        "probe": "Complete actual supplemental apply/check/restore functions against fully isolated shadow original and supplemental packages using real descriptor-bound filesystem primitives",
+        "result": "PASS",
+        "assertions": "Exact preimage and mode restored; original package and both original receipts byte-preserved; synthetic Review data existed only inside the temporary fixture."
+      },
+      {
+        "probe": "After isolated full apply, hold original descriptor and replace native fixture with same-byte/same-mode different inode, then invoke actual supplemental restore",
+        "result": "PASS",
+        "assertions": "Restore rejected at identity check; unrelated new inode/content preserved; historical receipts unchanged."
+      },
+      {
+        "probe": "Inject same-byte pending receipt substitution immediately before actual supplemental receipt replacement",
+        "result": "PASS",
+        "assertions": "Identity-bound receipt update rejected; substituted pending receipt preserved; actual restore refused pending status; no replay or false applied status; historical receipts unchanged."
+      },
+      {
+        "probe": "Compare full old/new q.PROMPT expressions with Python AST and actual source snapshots",
+        "result": "PASS",
+        "assertions": "Equivalent expression including classification-object declaration, no-tool limits, case ID and all shared labels; no expected-answer injection."
+      }
+    ],
+    "reviewer_native_model_calls": 0,
+    "reviewer_native_or_config_writes": 0,
+    "reviewer_publisher_calls": 0,
+    "reviewer_git_writes": 0,
+    "temporary_fixture_cleanup": "complete"
+  },
+  "prior_red": {
+    "path": "docs/review/2026-10-12-codex-first-native-acceptance-attempt4.json",
+    "sha256": "13ae3d484a1deb0bb0d9447d8f6335e2035b2a197c728de38b3fbeea0ca205b7",
+    "actual_result": "FAIL",
+    "passed": 7,
+    "failed": 1,
+    "not_executed": 12,
+    "failed_case": "codex-default/P2",
+    "expected": "stop-publication-conflict",
+    "observed": "publisher-advisory",
+    "status": "Retained RED; this readiness PASS does not close semantic failure."
+  },
+  "blocking_findings": [],
+  "non_blocking_recommendations": [],
+  "accepted_residual_risks": [
+    {
+      "risk": "Prior configuration writer and historical field delta remain unobserved.",
+      "evidence": "docs/review/2026-10-12-codex-first-continuation-config-reconciliation.json and current exact 244-object check.",
+      "impact": "Only explicit current-input reconciliation is established; historical equivalence cannot be claimed. Further drift blocks.",
+      "owner_or_decision": "Existing align-native-root reconciliation retained; no new configuration authority."
+    },
+    {
+      "risk": "Failure after native replacement but before receipt finalization can leave pending receipt and installed candidate.",
+      "evidence": "Independent pending-receipt substitution probe reproduced safe stop and refused automatic restore.",
+      "impact": "Controller inspection is required; this state does not authorize fabricated applied receipt, blind restore or replay.",
+      "owner_or_decision": "Existing approved pending/failed stop boundary; align-native-root owns reconciliation."
+    }
+  ],
+  "limitations": [
+    "Preflight verifies readiness only. Actual patched P2/full20 GREEN, Implementation Review, learning closeout, fresh final verification and distinct Final Review remain pending.",
+    "No native model run was performed by this reviewer; no claim that this append alone causally guarantees P2 success.",
+    "No all-project/IDE/Skill-body-loading, zero-host-hook or individual-hook-success claim.",
+    "Fixtures use temporary synthetic packages/approval data solely to exercise mechanics; they are not native loading or production acceptance evidence."
+  ],
+  "conclusion": "PASS for applying this exact approved row05 candidate using this bound repair package after controller acceptance. No implementation acceptance, final completion or canonical transition is signed."
+}

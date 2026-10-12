@@ -1,0 +1,118 @@
+{
+  "author": "elvis",
+  "evidence_role": "final-verification",
+  "evidence_result": "pass",
+  "change_id": "align-native-consumer-projections",
+  "contract_revision": 18,
+  "source_fingerprint": "08ba01c647300d3867c5455848942beed2534ce92bcf48ecf3c3ae09ccd6acc4",
+  "agent_identity": {
+    "agent_product": "codex",
+    "agent_instance_id": "align-native-root",
+    "agent_role": "control-plane",
+    "capability_profile": "control-plane-high"
+  },
+  "commands": {
+    "openspec validate align-native-consumer-projections --strict": 0,
+    "PYTHONDONTWRITEBYTECODE=1 python3 scripts/validate_core_gates.py .": 0,
+    "PYTHONDONTWRITEBYTECODE=1 python3 /Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/fixture_tests.py": 0,
+    "/Users/elvis/Library/Caches/native-agent-adaptation/codex-first-validation-20261012/bin/python /Users/elvis/.codex-account-a/skills/.system/skill-creator/scripts/quick_validate.py .": 0,
+    "PYTHONDONTWRITEBYTECODE=1 python3 /Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/gate_regression_test.py": 0,
+    "PYTHONDONTWRITEBYTECODE=1 python3 /Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/scope_red_test.py": 0,
+    "PYTHONDONTWRITEBYTECODE=1 python3 /Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/lineage_test.py": 0,
+    "PYTHONDONTWRITEBYTECODE=1 python3 /Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/discovery_test.py": 0,
+    "PYTHONDONTWRITEBYTECODE=1 python3 /Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/qualify.py --fixtures-only": 0,
+    "PYTHONDONTWRITEBYTECODE=1 python3 /Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/behavior.py --fixtures-only": 0,
+    "PYTHONDONTWRITEBYTECODE=1 python3 /Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/check_behavior_metadata.py docs/review/2026-10-12-codex-first-stable-config-acceptance.json": 0,
+    "PYTHONDONTWRITEBYTECODE=1 python3 /Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/acceptance-stable-config/accept.py check": 0
+  },
+  "critical_records": [
+    {
+      "command": "openspec validate align-native-consumer-projections --strict",
+      "exit_code": 0,
+      "log_sha256": "93871ede93bc75ba9d9501873bccf8b121a121d539eded59e43ba3bcfe8ea898"
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/validate_core_gates.py .",
+      "exit_code": 0,
+      "log_sha256": "d0c3710506d14833fcb03a19decc83a24dd1cb9739786182fcbd9496df6a3bc0"
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 /Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/fixture_tests.py",
+      "exit_code": 0,
+      "log_sha256": "78b0ec052d7ca70b2cf50c142213df1277ed1166a7d5ae23e2339ec2fa45a93a"
+    },
+    {
+      "command": "/Users/elvis/Library/Caches/native-agent-adaptation/codex-first-validation-20261012/bin/python /Users/elvis/.codex-account-a/skills/.system/skill-creator/scripts/quick_validate.py .",
+      "exit_code": 0,
+      "log_sha256": "db349825903d66adffea3ecf1bd8e1803043e8a71cf1a051235dabc5371f5bb0"
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 /Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/gate_regression_test.py",
+      "exit_code": 0,
+      "log_sha256": "eb8c88bdf6d7bffd457b38469078be30b7e97db745e82c5f24162939bad78be2"
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 /Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/scope_red_test.py",
+      "exit_code": 0,
+      "log_sha256": "f8ddc3f944eb1f66d649ee1a85cc521a1f16f7c215eecfeda4255b14a99e32fc"
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 /Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/lineage_test.py",
+      "exit_code": 0,
+      "log_sha256": "c346f1228fe88f4ab3cb336ffa610dc3a34ec7c7bb7d05df7a1c222f2d928881"
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 /Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/discovery_test.py",
+      "exit_code": 0,
+      "log_sha256": "30b7db73967acdb055ef826f6af2556d423ce2ebb08c1494e1a654e3b2b89a3a"
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 /Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/qualify.py --fixtures-only",
+      "exit_code": 0,
+      "log_sha256": "5e80d84a00418ba7923212bb0b472862a9a0eea6ea6a9d84091ea2b68cf47ba6"
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 /Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/behavior.py --fixtures-only",
+      "exit_code": 0,
+      "log_sha256": "9ec65dec9c263fab53e2f3037ba4da1b3ec1dfeaf372f1f56dd0600c912dbb65"
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 /Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/check_behavior_metadata.py docs/review/2026-10-12-codex-first-stable-config-acceptance.json",
+      "exit_code": 0,
+      "log_sha256": "5bd11c8cf70ee8da737e1f7196008e2c74779d89f1c8f2012bdfcd914ba5ebb8"
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 /Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/acceptance-stable-config/accept.py check",
+      "exit_code": 0,
+      "log_sha256": "887a24383c9931cf4a1017644624308b7235c83cfb4b468dade2b8de6396137e"
+    }
+  ],
+  "scoped_inputs_manifest": {
+    "path": "docs/review/2026-10-12-codex-first-implementation-inputs-r2.json",
+    "sha256": "9752f359f662d0ad4fad3e3415ef1523aebe310e49933cb66d34bc9589258975"
+  },
+  "implementation_review": {
+    "path": "docs/review/2026-10-12-codex-first-implementation-review-final-r2.json",
+    "sha256": "087e2f6e1a6d0b180a468677d943a5e9631af43933cafa198cd029150d1aeeeb"
+  },
+  "learning_audit": {
+    "path": "docs/review/2026-10-12-codex-first-learning-closeout.json",
+    "sha256": "36cc3ba7f0eb6be17a64b54289600572148f9c2529009fc599caca37fb89b8c9"
+  },
+  "native_acceptance": {
+    "path": "docs/review/2026-10-12-codex-first-stable-config-acceptance.json",
+    "sha256": "028c11ee233640a79bbb3e2e488889f7fe949f8a44df34220af2c794c838482e"
+  },
+  "native_process_exit": 0,
+  "native_count": 20,
+  "current_native_postcheck": "final accept.py check exit0; fresh source, current config, all244 exclusions and receipt identities",
+  "source_suites": {
+    "path": "docs/review/2026-10-12-codex-first-stable-config-source-checks.json",
+    "sha256": "140887e7cf793a3d2988cd2a8aa889948883df9c163250921eade713aa7d1e5e"
+  },
+  "source_suite_freshness": "492x2 ran after current acceptance adapter implementation; no shared source change since. Later fixture-only current-input fix rerun independently and above; learning audit introduced no implementation/promotion change. Committed-scope470x2 separately passed.",
+  "new_fixture_sha256": "9f217579b5df7f6bd33d6d23af13a18f18d1321bdbbec0c39245d479d5170b55",
+  "raw_active_absent": true,
+  "scope": "Two actual roots under current approved input, structured hypothetical native classifications and controlled event/source evidence; no actual publisher/Skill-body/all-host claim",
+  "remaining_owner_actions": "After independent Final Review: owned private cleanup, exact final native metadata recheck, OpenSpec task reconciliation and scoped Git commit; no push."
+}

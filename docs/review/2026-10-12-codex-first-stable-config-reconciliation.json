@@ -1,0 +1,49 @@
+{
+  "author": "elvis",
+  "change_id": "align-native-consumer-projections",
+  "owner": {
+    "agent_product": "codex",
+    "agent_instance_id": "align-native-root",
+    "agent_role": "control-plane",
+    "capability_profile": "control-plane-high"
+  },
+  "user_confirmation": "\u8c03\u6574\u5df2\u5b8c\u6210\uff0c\u53ef\u4ee5\u7ee7\u7eed",
+  "decision": "Preserve user-adjusted config unchanged as exact current input for fresh full20 read-only acceptance. Keep original package/Plan/receipts immutable; a separately reviewed acceptance-only checker replaces exactly one expected exclusion binding, with all other validations retained. This is not retroactive acceptance of the failed last probe.",
+  "previous": {
+    "path": "/Users/elvis/.codex-account-a/config.toml",
+    "label": "excluded-native-object",
+    "mode": "0600",
+    "device": 16777231,
+    "inode": 198147144,
+    "kind": "file",
+    "sha256": "c44cecdd871f30721369e27d10924813abfdd60cdf8dc87371d2c5779c4ba531",
+    "previous_sha256": "cc20886e5db221058fa903669b71f7bd00c7c11efda1f908d97bfb8692aec3b3",
+    "drift_owner_decision": "preserve present bytes; cause unestablished; independently review before writing"
+  },
+  "current": {
+    "sha256": "5cde3200f2f170c1068ba6bdee4e24872c8f5ae09046ff88b418da6af1601833",
+    "device": 16777231,
+    "inode": 198616821,
+    "type": 32768,
+    "mode": 384,
+    "uid": 501,
+    "gid": 20,
+    "nlink": 1
+  },
+  "old_package_sha256": "fd6d76c69478c48286076992acde1a31c68a688c950afafbfba3e623ff416185",
+  "native_candidate_sha256": "64cd339e06db8d886722466ab72895bbbb0cf9a6972c6a607de0afae30be45e8",
+  "discovery": "docs/review/2026-10-12-codex-first-stable-config-hook-discovery.json",
+  "discovery_sha256": "6edf8d3496582b6fed6c2062dd2dd03b70c59bcfaaed691f20d9d8a6d4e52bea",
+  "unchanged_effective_hooks": "22/32 definitions, enabled/trust/hash/warnings unchanged; no hook execution proof",
+  "safe_controls": {
+    "notify_argv_hash_matches": true,
+    "features_hooks": true,
+    "account_a_model_instructions_key_absent": true,
+    "model_settings_semantic_equivalence": "not established: baseline full config deliberately not copied",
+    "exact_writer_and_changed_field_category": "unobserved"
+  },
+  "residual": "Exact writer/changed field category and old/new model-setting semantic equivalence remain unobserved. User confirms adjustment finished; new actual runs qualify only this current configuration. Preserve further drift and stop.",
+  "authorization": "Same user delegated closed-loop scope plus explicit configuration-stability confirmation; no config/native/publisher/Git push write granted",
+  "native_writes": 0,
+  "config_writes": 0
+}

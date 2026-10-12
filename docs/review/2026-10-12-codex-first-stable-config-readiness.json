@@ -1,0 +1,88 @@
+{
+  "author": "elvis",
+  "change_id": "align-native-consumer-projections",
+  "result": "PASS",
+  "blocking_findings": [],
+  "reviewer_instance": "native-consumer-implementation-review",
+  "reviewer_product": "codex",
+  "role": "independent-reviewer",
+  "capability_profile": "control-plane-high",
+  "review_purpose": "Read-only current-config acceptance readiness; no installation or completion authority",
+  "result_authority": "governed-review-evidence",
+  "independence_requirement": {
+    "kind": "distinct-contract-instance",
+    "distinct_from": [
+      "control_plane_owner",
+      "executor_assignment"
+    ]
+  },
+  "bindings_sha256": "5f757d3fae12422008e0c9475df038417d758861ee74ac24b737d872be3451d8",
+  "plan_sha256": "4b9c1841a5a491da32e48b683d82814e4007ff3bc95c7f66cc953d6c1a1cf8a1",
+  "review_scope": "Bounded readiness of the new read-only acceptance adapter under explicit user configuration-stability confirmation; not original installation Preflight, formal Implementation Review PASS, native acceptance or completion.",
+  "actual_inspection": [
+    "Complete accept.py and bindings.json; stable-config Plan, current reconciliation, sanitized configuration-drift and hook-discovery evidence.",
+    "Complete original exact_commands.py package() versus current_package(); AST comparison proves identical statements after only m.ROOT/m.PROJECT/m.PLAN qualification and wrapping the exclusions iterator with reconcile().",
+    "Complete v2 repair.py native() versus accept.py native(); AST-rendered diff changes only the immutable output filename and report provenance fields. Prompt expression, classifier parser, expected oracle comparison, root/case loops, source observations, per-case and final postchecks, fail-closed exception path and exact20 completion condition remain identical.",
+    "check() retains all bound acceptance inputs, immutable old package hash, candidate hash, and actual v2 r.check(True); temporary package-function substitution is restored in finally. CLI dispatcher permits only check/all, invokes readiness before all, and has no apply/restore dispatch.",
+    "reconcile() matches exactly one full historical exclusion object, deep-copies inputs, changes only current binding fields, and preserves all243 other exclusions. Actual old/new difference is exactly account-A config SHA and inode; mode remains0600.",
+    "Current and prior sanitized hooks/list definitions, trust, warnings, errors and counts independently compared by entry:22 default/32 account-A equal. This compares reported discovery, not hook execution."
+  ],
+  "independent_verification": [
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 /Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/acceptance-stable-config/accept.py check",
+      "exit_code": 0,
+      "result": "PASS",
+      "scope": "actual current candidates, receipts,244 exclusions and dependencies; repeated immediately before signing"
+    },
+    {
+      "command": "inline Python AST comparison of original package/current_package and v2 native/current native",
+      "exit_code": 0,
+      "result": "PASS",
+      "scope": "complete changed production-checker and runner function inspection; no model call"
+    },
+    {
+      "command": "inline Python isolated in-memory fault injection into actual current_package bound-read seam plus reconcile() inputs",
+      "exit_code": 0,
+      "result": "PASS",
+      "positive_cases": 1,
+      "negative_cases": 7,
+      "negative_details": [
+        "config byte drift rejected",
+        "same-byte config inode drift rejected",
+        "config mode drift rejected",
+        "other excluded file inode drift rejected",
+        "observer dependency inode drift rejected",
+        "missing config reconciliation match rejected",
+        "duplicate config reconciliation match rejected"
+      ],
+      "scope": "mechanical rejection probes only; actual native/config files never modified or copied; no synthetic native behavioral evidence"
+    },
+    {
+      "command": "inline Python compare current/prior sanitized discovery by entry and rehash all declared acceptance bindings via actual check()",
+      "exit_code": 0,
+      "result": "PASS"
+    }
+  ],
+  "current_input": {
+    "path": "/Users/elvis/.codex-account-a/config.toml",
+    "sha256": "5cde3200f2f170c1068ba6bdee4e24872c8f5ae09046ff88b418da6af1601833",
+    "inode": 198616821,
+    "mode": "0600",
+    "native_candidate_sha256": "64cd339e06db8d886722466ab72895bbbb0cf9a6972c6a607de0afae30be45e8"
+  },
+  "bound_files": {
+    "docs/superpowers/plans/2026-10-12-codex-first-stable-config-acceptance.md": "4b9c1841a5a491da32e48b683d82814e4007ff3bc95c7f66cc953d6c1a1cf8a1",
+    "/Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/acceptance-stable-config/accept.py": "d9da2ea87d27759583dc18a33549591a6ce15087e58289298edbdc6d9d495712",
+    "/Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/acceptance-stable-config/bindings.json": "5f757d3fae12422008e0c9475df038417d758861ee74ac24b737d872be3451d8",
+    "docs/review/2026-10-12-codex-first-stable-config-reconciliation.json": "511a39f2aa88b9f15ce46cbef2a5a64d3ccfcbcf6b6ed7f6d6ae7fe0aa861016",
+    "docs/review/2026-10-12-codex-first-stable-config-hook-discovery.json": "6edf8d3496582b6fed6c2062dd2dd03b70c59bcfaaed691f20d9d8a6d4e52bea",
+    "docs/review/2026-10-12-codex-first-publisher-repair-v2-config-drift.json": "3dcca601d1feb31533311320d512f80c81c75d6483a02bfe412cbe61d5831291"
+  },
+  "limitations": [
+    "Exact historical config writer, changed field category and old/new model-setting semantic equivalence remain unobserved. User confirms adjustment finished; this readiness accepts the explicitly bound current input only.",
+    "Prior full20 attempt failed its protected-source guard after19 accepted classifications; observed final P4 enum is unaccepted. Neither those19 nor prior P2 results compose acceptance on the new snapshot.",
+    "Fresh full20 on this snapshot remains mandatory, with actual process exit0, native source/event attribution, unchanged oracles and final current-binding checks; any new drift must stop.",
+    "Native evidence remains structured hypothetical classification. It does not establish actual publication, Skill-body loading, hook success, all-host read-only behavior, or completion of four deferred native destinations.",
+    "This reviewer invoked no native/model/publisher/config/Git mutation. The only project write is this explicitly authorized readiness report. Formal Implementation and distinct Final Review remain outstanding."
+  ]
+}

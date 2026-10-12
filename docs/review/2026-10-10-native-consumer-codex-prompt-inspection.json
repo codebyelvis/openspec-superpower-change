@@ -1,0 +1,78 @@
+{
+  "author": "elvis",
+  "scope": "native debug prompt construction only; no model execution or project-AGENTS projection",
+  "results": [
+    {
+      "entry": "codex-default",
+      "command": [
+        "/opt/homebrew/bin/codex",
+        "debug",
+        "prompt-input"
+      ],
+      "config_root": "/Users/elvis/.codex",
+      "exit_code": 0,
+      "stdout_sha256": "2fa6768135eec9430d96b1f096f47fd57bf52764ea4405f6e8fe12582d31fec4",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_retained": false,
+      "model_behavior_proof": false,
+      "top_level_type": "list",
+      "top_level_keys": null,
+      "matches": [
+        {
+          "path": "/Users/elvis/.codex/AGENTS.md",
+          "source_sha256": "b049858a8d7d0716d2c97a93fc7f9f2f33eead8b6a33e35525b226dbd6a5605f",
+          "exact_complete_body_occurrences": 1
+        },
+        {
+          "path": "/Users/elvis/.codex-account-a/AGENTS.md",
+          "source_sha256": "13dfabe1152adb00b3f924fb96fac676d257db87ecd0658f23a8ac8b6e6a35e6",
+          "exact_complete_body_occurrences": 0
+        },
+        {
+          "path": "/Users/elvis/.codex/model_instructions.md",
+          "source_sha256": "bbc10422f2916c0e29205c46071d4d424190f71b4610e7d56c27ae6673fca04b",
+          "exact_complete_body_occurrences": 0
+        }
+      ],
+      "status": "native-prompt-assembled"
+    },
+    {
+      "entry": "codex-account-a",
+      "command": [
+        "/opt/homebrew/bin/codex",
+        "debug",
+        "prompt-input"
+      ],
+      "config_root": "/Users/elvis/.codex-account-a",
+      "exit_code": 0,
+      "stdout_sha256": "de12078ed88d63f32369dd271c61593d2155a7436d974d570c80eda5b41e49b3",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "raw_retained": false,
+      "model_behavior_proof": false,
+      "top_level_type": "list",
+      "top_level_keys": null,
+      "matches": [
+        {
+          "path": "/Users/elvis/.codex/AGENTS.md",
+          "source_sha256": "b049858a8d7d0716d2c97a93fc7f9f2f33eead8b6a33e35525b226dbd6a5605f",
+          "exact_complete_body_occurrences": 0
+        },
+        {
+          "path": "/Users/elvis/.codex-account-a/AGENTS.md",
+          "source_sha256": "13dfabe1152adb00b3f924fb96fac676d257db87ecd0658f23a8ac8b6e6a35e6",
+          "exact_complete_body_occurrences": 1
+        },
+        {
+          "path": "/Users/elvis/.codex/model_instructions.md",
+          "source_sha256": "bbc10422f2916c0e29205c46071d4d424190f71b4610e7d56c27ae6673fca04b",
+          "exact_complete_body_occurrences": 0
+        }
+      ],
+      "status": "native-prompt-assembled"
+    }
+  ],
+  "native_rule_bytes_unchanged": true,
+  "temporary_directory_removed": true,
+  "raw_output_retained": false,
+  "official_reference": "https://learn.chatgpt.com/docs/developer-commands#codex-debug-prompt-input"
+}

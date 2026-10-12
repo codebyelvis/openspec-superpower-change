@@ -1,0 +1,45 @@
+{
+  "author": "elvis",
+  "date": "2026-10-12",
+  "change": "align-native-consumer-projections",
+  "scope": "source-only salvage from one real default-Codex CLI probe; no candidate acceptance",
+  "owned_thread_id": "01a12e22-170d-7cd1-a287-7e882ccf8a61",
+  "source_file_sha256": "bbc10422f2916c0e29205c46071d4d424190f71b4610e7d56c27ae6673fca04b",
+  "native_base_body_sha256": "0a36c6375c40f4e4deb1d50627eddeae9fa0a4827dd307f146ee7d42dd391bb4",
+  "complete_model_instruction_occurrences": 0,
+  "base_equals_model_instruction_file": false,
+  "native_event_class_counts": {
+    "session_meta": 1,
+    "event_msg:task_started": 1,
+    "response_item:message": 6,
+    "world_state": 1,
+    "turn_context": 1,
+    "event_msg:item_completed": 2,
+    "token_usage_record": 1,
+    "event_msg:token_count": 1,
+    "event_msg:task_complete": 1
+  },
+  "tool_response_items": 0,
+  "raw_sha256": "5b642a2e70be553aca90df1745c2de930b9f8cd1ee073de7071ae209fd26e3c8",
+  "raw_mode": "0600",
+  "raw_private_root": "/Users/elvis/Library/Caches/native-agent-adaptation/owned-source-recovery-7fva9w8u",
+  "raw_private_path": "/Users/elvis/Library/Caches/native-agent-adaptation/owned-source-recovery-7fva9w8u/owned-native-source.jsonl",
+  "raw_retained": false,
+  "raw_cleanup": "completed: owned diagnostic-only lifecycle; directory-fd-relative unlink in verified private 0700 root after investigation ended; not inode-bound transaction cleanup",
+  "cleanup_owner": "align-native-root",
+  "resume": "Run fresh qualified no-tool source/event observation; no candidate acceptance or native write authorized.",
+  "observer_errors": [
+    "initial helper call omitted output_name",
+    "corrected helper preserved visible raw recovery because exact-owner deletion is unsupported"
+  ],
+  "qualification_result": "SOURCE OBSERVED; overall event-mechanism qualification pending a new successful audited run; this probe lost CLI exit status",
+  "CLI_exit_code": "not-retained-after-observer-exception",
+  "native_rule_writes": 0,
+  "native_render_transform": "Rust str::trim() at config/mod.rs:4631; current source differs by exactly one trailing LF",
+  "rendered_source_sha256": "0a36c6375c40f4e4deb1d50627eddeae9fa0a4827dd307f146ee7d42dd391bb4",
+  "native_body_equals_rendered_source": true,
+  "source_observation_correction": "Raw-file complete-body comparison did not account for the native trim transform; prior raw comparison was not a loading test.",
+  "native_base_provenance": {
+    "type": "custom"
+  }
+}

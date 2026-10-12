@@ -1,0 +1,22 @@
+{
+  "author": "elvis",
+  "date": "2026-10-12",
+  "scope": "fresh excluded-baseline observation, not replacement approval",
+  "objects_checked": 216,
+  "unchanged_objects": 215,
+  "drift": [
+    {
+      "path": "/Users/elvis/.codex-account-a/config.toml",
+      "previous_sha256": "cc20886e5db221058fa903669b71f7bd00c7c11efda1f908d97bfb8692aec3b3",
+      "current_sha256": "75d9a7d2e8df0ad543a043b0ff0e38e3c9c920a912f3d40ad6ac497535c540b3",
+      "current_mode": "0600",
+      "current_inode": 197774844,
+      "current_device": 16777231,
+      "mtime_utc": "2026-10-12T02:10:06.127151+00:00"
+    }
+  ],
+  "native_rule_writes": 0,
+  "configuration_writes": 0,
+  "cause": "not established; do not attribute external/native startup changes without evidence",
+  "next_action": "bind current configuration to diagnostic run; before implementation reconcile changed excluded snapshot through independent Preflight, without writing or restoring config"
+}

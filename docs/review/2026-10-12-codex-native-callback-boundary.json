@@ -1,0 +1,70 @@
+{
+  "author": "elvis",
+  "date": "2026-10-12",
+  "change": "align-native-consumer-projections",
+  "scope": "bounded native source/model-event mechanism and trusted existing harness callback; not comprehensive host syscall audit",
+  "historical_mechanism_evidence": {
+    "path": "docs/review/2026-10-12-codex-mechanism-qualification.json",
+    "sha256": "21bea24361dec4b0716c0f5535938fae23e73c0e9045ae78a75ee82a45a3c37c"
+  },
+  "callbacks": [
+    {
+      "entry": "codex-default",
+      "binary_path": "/Users/elvis/.codex/computer-use/Codex Computer Use.app/Contents/SharedSupport/SkyComputerUseClient.app/Contents/MacOS/SkyComputerUseClient",
+      "binary_sha256": "1bc7716cf9e0437caff3de3a6fc8f8988a70f853865633c7a754b409f30149e9",
+      "mode": "0755",
+      "fixed_argv_sha256": "8f6e3aa60953fb3631edad8edded6a8e0d0b099ecbafdb4f1882cea8c56c8a0e",
+      "fixed_argument_sha256": "2fad74b18c6c9173bce4b86ad86b0fabef349b09bf4da36968a79edf555964ba",
+      "bundle_identifier": "com.openai.sky.CUAService.cli",
+      "bundle_version": "26.1005.1001425",
+      "mechanism": "configured existing native app completion callback; IPCCodexTurnEndedRequest with local XPC/socket structure",
+      "observed_execution": "not observed independently; version-bound core invokes/spawns after normal completion",
+      "child_success": "not established; legacy hook does not wait",
+      "allowed_state": "normal native client startup, owned session metadata/logging and existing native app completion notification; no configuration, credential, publisher or service-management modification authorized",
+      "limitations": "callback internal writes and service-side effects not exhaustively observed; no all-host-read-only or all-auth-files-unchanged claim",
+      "source_reference": "https://github.com/openai/codex/blob/rust-v0.162.1/codex-rs/hooks/src/legacy_notify.rs#L53"
+    },
+    {
+      "entry": "codex-account-a",
+      "binary_path": "/Users/elvis/.codex-account-a/computer-use/Codex Computer Use.app/Contents/SharedSupport/SkyComputerUseClient.app/Contents/MacOS/SkyComputerUseClient",
+      "binary_sha256": "ffb39b0855fa4e590d1fcf50d92279d814d632944c193932c6b6c218463c216a",
+      "mode": "0755",
+      "fixed_argv_sha256": "81c4d863e21c8afa54ea69a3e78de56031b5ac434809153a1e7e7271ba41b3fe",
+      "fixed_argument_sha256": "2fad74b18c6c9173bce4b86ad86b0fabef349b09bf4da36968a79edf555964ba",
+      "bundle_identifier": "com.openai.sky.CUAService.cli",
+      "bundle_version": "26.804.1000633",
+      "mechanism": "configured existing native app completion callback; IPCCodexTurnEndedRequest with local XPC/socket structure",
+      "observed_execution": "not observed independently; version-bound core invokes/spawns after normal completion",
+      "child_success": "not established; legacy hook does not wait",
+      "allowed_state": "normal native client startup, owned session metadata/logging and existing native app completion notification; no configuration, credential, publisher or service-management modification authorized",
+      "limitations": "callback internal writes and service-side effects not exhaustively observed; no all-host-read-only or all-auth-files-unchanged claim",
+      "source_reference": "https://github.com/openai/codex/blob/rust-v0.162.1/codex-rs/hooks/src/legacy_notify.rs#L53"
+    }
+  ],
+  "interpretation": "Existing approved contract requires declared bounded native startup state, not exhaustive proof of every trusted app syscall. Callback identity/limits are recorded after discovery, not represented as individually bound before earlier probes. Later launches must bind these controls before starting. No positive forbidden action evidence was found; do not infer absence of every possible side effect.",
+  "advisory_review": "private_package_review confirmed this scoped interpretation; advisory only, not Preflight/signoff",
+  "qualified_claims": [
+    "native complete source bodies",
+    "native model event allowlist audit",
+    "checked rule/config snapshots unchanged"
+  ],
+  "unqualified_claims": [
+    "all host operations read-only",
+    "callback success",
+    "all authentication files unchanged"
+  ],
+  "native_rule_writes": 0,
+  "implementation_authority": "none; original six-file scope and independent Preflight remain blocked",
+  "subsequent_probe_observer": {
+    "path": "/Users/elvis/Library/Caches/native-agent-adaptation/codex-mechanism-20261012/qualify.py",
+    "sha256": "b4ea7ad2b399ca5daa56bd045d8bb51a4b6fabe1716ec464cabee5b176978a2c",
+    "controls": "bind existing callback argv/hash before launch and binary hash afterward; historical probes retain original observer hash",
+    "pure_fixture_results": {
+      "parser_positive": 1,
+      "parser_negative": 6,
+      "native_negative": 2,
+      "render_transform": 2,
+      "attribution": 3
+    }
+  }
+}

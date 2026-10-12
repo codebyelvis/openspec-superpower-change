@@ -1,0 +1,90 @@
+{
+  "author": "elvis",
+  "change": "align-native-consumer-projections",
+  "stage": "B-retest-only-not-full-acceptance",
+  "result": "PASS",
+  "actual_classifier": {
+    "case": "B",
+    "classification": "compact-local"
+  },
+  "observation": {
+    "native_thread_id": "01a12f38-cf9f-7f11-a662-30bccab46bcb",
+    "agents_file_sha256": "b049858a8d7d0716d2c97a93fc7f9f2f33eead8b6a33e35525b226dbd6a5605f",
+    "native_complete_agents_occurrences": 1,
+    "raw_rollout_sha256": "cca2b6321e89e06047c2c636eeb68f86df18cc3b707e7f5a0a71975f96be61be",
+    "native_base_provenance": {
+      "type": "custom"
+    },
+    "source_path": "/Users/elvis/.codex/AGENTS.md",
+    "native_cli_version": "0.162.1",
+    "model_instructions_file_sha256": "39dc7af01eb236f1c83799a989b6e61565e3f712a1623543aa4982e139e37c44",
+    "native_render_transform": "Rust str::trim() (config/mod.rs:4631)",
+    "rendered_model_instructions_sha256": "ab1b120211957c5a8a2c6d49b6b5894b59f1eb5915fb158c9b230b207664e7dc",
+    "native_model_instructions_sha256": "ab1b120211957c5a8a2c6d49b6b5894b59f1eb5915fb158c9b230b207664e7dc",
+    "native_model_body_match": true,
+    "model_instructions_source_path": "/Users/elvis/.codex/model_instructions.md",
+    "native_rollout_event_counts": {
+      "session_meta": 1,
+      "event_msg:task_started": 1,
+      "response_item": 7,
+      "world_state": 1,
+      "turn_context": 1,
+      "event_msg:item_completed": 3,
+      "token_usage_record": 1,
+      "event_msg:token_count": 1,
+      "event_msg:task_complete": 1
+    },
+    "raw_retained": false,
+    "raw_cleanup": "owned diagnostic moved into private root and removed after source inspection; not transaction inode-bound deletion",
+    "entry": "codex-default",
+    "config_root": "/Users/elvis/.codex",
+    "command": [
+      "/opt/homebrew/bin/codex",
+      "-a",
+      "never",
+      "exec",
+      "--sandbox",
+      "read-only",
+      "--json",
+      "--skip-git-repo-check",
+      "--cd",
+      "/Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/native-codex-qualified-zbw_47xo",
+      "-"
+    ],
+    "timeout_seconds": 90,
+    "CLI_exit_code": 0,
+    "stdout_sha256": "849a958082a493bb61ecc7607558458b79fecc5cd13bfc0fcd960ea1b4598adb",
+    "stderr_sha256": "2ad0b08efe0fb1bb72ac52b20fd051aeae8bf4f0bee1b690eaa88ba54f525eae",
+    "event_audit": {
+      "event_count": 4,
+      "agent_message_count": 1,
+      "reasoning_event_count": 0,
+      "tool_event_count": 0,
+      "qualified_startup_warning_count": 3,
+      "qualified_startup_warning_sha256": [
+        "6b28c87e70c8fc7ceba376cf03ba0d732299f873e258625f7ab747b74c5b25f9",
+        "e1f94c25dc486bf6e141bfc58f14c4bc6b340a08a9d4ad4fca554a8dc129e74f"
+      ],
+      "all_event_count": 7
+    },
+    "protected_config_rule_bytes_mode_inode_unchanged": true,
+    "phase": "event-mechanism-qualified",
+    "result": "PASS",
+    "post_write_behavior": "not-run",
+    "native_rule_writes": 0,
+    "native_startup_boundary_sha256": "031228712086b7c2d7fc528f16aaa9a9a5bc94426f46c4b39bb694430c032cef",
+    "native_hook_discovery_sha256": "c371492e5bd5ee46acfc2d68702fcaa68c00b0efd6c5b44d19a9d994164cb6ad",
+    "hook_execution_observation": "exec and rollout filter hook events; no individual hook success or zero-hook claim",
+    "model_tool_events_only": true,
+    "callback_content_mode_unchanged": true,
+    "callback_cache_inode": "same-byte cache refresh allowed only for separately declared callback; target/source/exclusions inode protections retained",
+    "harness_callback_boundary_sha256": "0f96150173ea0ce250d2ae8f8d5be80cfc5d736c85226d8bb2ffe254e6ab31da",
+    "harness_callback_scope": "existing trusted app completion notification; child success and exhaustive host side effects not observed"
+  },
+  "cases_sha256": "a3fb887f8dd380d321c7f510e80a23a3e6fcd192c510610ffee495d45e56dd8f",
+  "observer_sha256": "38762128cc2fb1b7b4ac220f5e28ed9d3b14baf119da96a21a4a253a2e8b1b7e",
+  "behavior_runner_sha256": "e904ceea89adef25089411c4961b002c26b64fb40c283aa239d8e083abd366ba",
+  "full20acceptance": "pending",
+  "native_rule_writes": 0,
+  "umask": "077 frombeforelaunch"
+}

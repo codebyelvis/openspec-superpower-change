@@ -1,0 +1,54 @@
+{
+  "author": "elvis",
+  "change": "align-native-consumer-projections",
+  "stage": "native-output-format-failure",
+  "result": "BLOCKED",
+  "reason": "Thirdfullrun A returned additional prose beside knownpersonalprefix and JSON; strict classifier refusedwrapper. Source observation/modeleventauditpassed; not accepted as scenarioPASS.",
+  "candidate_loading": {
+    "native_thread_id": "01a12f3a-9da9-7bb0-a48d-42dfa5748261",
+    "agents_file_sha256": "b049858a8d7d0716d2c97a93fc7f9f2f33eead8b6a33e35525b226dbd6a5605f",
+    "native_complete_agents_occurrences": 1,
+    "raw_rollout_sha256": "845a6cbaf1facd4ca1ea6716731f1703a53165d1af2eb7ab31c4dedf3c4eb9d7",
+    "native_base_provenance": {
+      "type": "custom"
+    },
+    "source_path": "/Users/elvis/.codex/AGENTS.md",
+    "native_cli_version": "0.162.1",
+    "model_instructions_file_sha256": "39dc7af01eb236f1c83799a989b6e61565e3f712a1623543aa4982e139e37c44",
+    "native_render_transform": "Rust str::trim() (config/mod.rs:4631)",
+    "rendered_model_instructions_sha256": "ab1b120211957c5a8a2c6d49b6b5894b59f1eb5915fb158c9b230b207664e7dc",
+    "native_model_instructions_sha256": "ab1b120211957c5a8a2c6d49b6b5894b59f1eb5915fb158c9b230b207664e7dc",
+    "native_model_body_match": true,
+    "model_instructions_source_path": "/Users/elvis/.codex/model_instructions.md",
+    "native_rollout_event_counts": {
+      "session_meta": 1,
+      "event_msg:task_started": 1,
+      "response_item": 7,
+      "world_state": 1,
+      "turn_context": 1,
+      "event_msg:item_completed": 3,
+      "token_usage_record": 1,
+      "event_msg:token_count": 1,
+      "event_msg:task_complete": 1
+    },
+    "raw_retained": false,
+    "raw_cleanup": "owned diagnostic moved into private root and removed after source inspection; not transaction inode-bound deletion"
+  },
+  "model_event_audit": {
+    "event_count": 4,
+    "agent_message_count": 1,
+    "reasoning_event_count": 0,
+    "tool_event_count": 0,
+    "qualified_startup_warning_count": 3,
+    "qualified_startup_warning_sha256": [
+      "6b28c87e70c8fc7ceba376cf03ba0d732299f873e258625f7ab747b74c5b25f9",
+      "e1f94c25dc486bf6e141bfc58f14c4bc6b340a08a9d4ad4fca554a8dc129e74f"
+    ],
+    "all_event_count": 7
+  },
+  "stdout_sha256": "4e1bf5380e679ea0555343e3a162cf87000bc8bfebb1b5063abaa21b9719c1cc",
+  "stderr_sha256": "d7f6d71f1d0b9abf9014ac0e3cef5f7b059ad0c4920a9b4df94726455f9fa501",
+  "raw_retained": false,
+  "native_rule_writes": 0,
+  "format_resolution": "pending qualifiednative structuredoutput control; no classifierloosen/oraclechange"
+}

@@ -1,0 +1,20 @@
+{
+  "author": "elvis",
+  "change": "align-native-consumer-projections",
+  "phase": "event-mechanism-qualified",
+  "result": "BLOCKED",
+  "entry_root": "/Users/elvis/.codex",
+  "observer_error_type": "ProbeFailure",
+  "cleanup_owner": "align-native-root",
+  "private_observer_root": "/Users/elvis/Library/Caches/native-agent-adaptation/codex-mechanism-20261012",
+  "resume": "inspect only fresh attributed probe artifacts; no native rule mutation",
+  "successful_results": [],
+  "owned_private_raw": [],
+  "history_status": "as-run observer failure/partial retained; corrected in fresh bound mechanism qualification",
+  "resolution_evidence": {
+    "path": "docs/review/2026-10-12-codex-mechanism-qualification.json",
+    "sha256": "21bea24361dec4b0716c0f5535938fae23e73c0e9045ae78a75ee82a45a3c37c"
+  },
+  "raw_retained": false,
+  "current_scope_limit": "two Codex mechanisms only; original six-file scope and all native mutations still blocked"
+}

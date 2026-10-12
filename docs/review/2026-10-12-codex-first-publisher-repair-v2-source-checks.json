@@ -1,0 +1,72 @@
+{
+  "source_commit": "1555108",
+  "exported_tree": "/Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/staged-prerequisite-yvs4yjcn",
+  "checks": [
+    {
+      "name": "fallback",
+      "command": "python3 -m unittest discover -s tests -v",
+      "exit_code": 0,
+      "log_sha256": "65cd37029df6e6e2a772458033931ceab4e88248cd36d15feb79fa4cebc169f7",
+      "tail": "ithout_other_role_reuse) ... ok\ntest_timeout_audit_is_blocked_only_and_cannot_satisfy_complete (test_workflow_rules.WorkflowRulesTest.test_timeout_audit_is_blocked_only_and_cannot_satisfy_complete) ... ok\n\n----------------------------------------------------------------------\nRan 470 tests in 31.900s\n\nOK\n{\"forward\": \"PASS\", \"case_count\": 1}\n{\"forward\": \"PASS\", \"case_count\": 1}\n",
+      "seconds": 32.09
+    },
+    {
+      "name": "pyyaml",
+      "command": "/Users/elvis/Library/Caches/native-agent-adaptation/codex-first-validation-20261012/bin/python -m unittest discover -s tests -v",
+      "exit_code": 0,
+      "log_sha256": "03620005adf42ed570a30cf2a14cdab2d2520ebc36b10107312012f30724af0f",
+      "tail": "ithout_other_role_reuse) ... ok\ntest_timeout_audit_is_blocked_only_and_cannot_satisfy_complete (test_workflow_rules.WorkflowRulesTest.test_timeout_audit_is_blocked_only_and_cannot_satisfy_complete) ... ok\n\n----------------------------------------------------------------------\nRan 470 tests in 32.506s\n\nOK\n{\"forward\": \"PASS\", \"case_count\": 1}\n{\"forward\": \"PASS\", \"case_count\": 1}\n",
+      "seconds": 32.7
+    }
+  ],
+  "author": "elvis",
+  "change_id": "align-native-consumer-projections",
+  "result": "PASS",
+  "additional_checks": [
+    {
+      "name": "quick",
+      "command": [
+        "/Users/elvis/Library/Caches/native-agent-adaptation/codex-first-validation-20261012/bin/python",
+        "/Users/elvis/.codex-account-a/skills/.system/skill-creator/scripts/quick_validate.py",
+        "."
+      ],
+      "exit_code": 0,
+      "log_sha256": "db349825903d66adffea3ecf1bd8e1803043e8a71cf1a051235dabc5371f5bb0"
+    },
+    {
+      "name": "core",
+      "command": [
+        "python3",
+        "scripts/validate_core_gates.py",
+        "."
+      ],
+      "exit_code": 0,
+      "log_sha256": "d0c3710506d14833fcb03a19decc83a24dd1cb9739786182fcbd9496df6a3bc0"
+    },
+    {
+      "name": "fixtures",
+      "command": [
+        "python3",
+        "/Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/fixture_tests.py"
+      ],
+      "exit_code": 0,
+      "log_sha256": "78b0ec052d7ca70b2cf50c142213df1277ed1166a7d5ae23e2339ec2fa45a93a"
+    }
+  ],
+  "source_scope": "Committed prerequisite source1555108, unchanged actual exported index tree;470 tests each, no skip/failure/error. Workspace unrelated JEV excluded.",
+  "source_inputs": {
+    "CHANGELOG.md": "9e1f1a594033ae42542c3e74bff4ee06723907f05532167d9d4fdf513ce1739b",
+    "docs/engineering-invariants.md": "f24f3f9cdc4e23f874fa900c477c27e22e8b3518b74e48b628ac980024589c1b",
+    "references/cross-cli-sync.md": "f52a9d7a3caabc265c8a2b059179096f86567a75d6e704543fd5e14b8b9dc4ec",
+    "references/local-instruction-checkpoint.md": "11e9c8db28264eb638f44198d222885df4ecf6a01c532deddd4119b27b845132",
+    "references/shared-global-governance.md": "960db63a0053c8d4311df61ff55f1534fd117868b39101d99b5666dd7e0a1977",
+    "references/superpowers-adapter.md": "851cbff37e5407c8c0c5c2872baa07b398f0d097aabcbe50eb29cb4c5b8b734f",
+    "references/sync-checklist.md": "366f272094a2c24d8840c94159483636624b24cd1629219f7114959848905028",
+    "scripts/validate_core_gates.py": "be8a6b215b0b8b408ba9cb66036e98be97bd9c6872630aa0b8972969a91f54ea",
+    "scripts/validate_cross_cli_sync.py": "640402ec081b2ceee22d515f8f97ee93bbae75ab102b1b2607c2024c44f607b9",
+    "tests/fixtures/native-agent-governance-cases.json": "8d3c0c2d42e70e75125e5c95e9a14a6f395879202ba32f79ce8a95cdd16bb4b7",
+    "tests/run_native_agent_governance_forward_tests.py": "20411c173bfe905a96355831578cdd5cfd454e184ab133a895e84276590eb4b4",
+    "tests/test_cross_cli_sync.py": "4abec2ef2d907637efe8dbdb3fa5e8645222cb20dbaaba6fcde01d0a93930863",
+    "tests/test_workflow_rules.py": "ba2e486af4d0ab0f0286e5561826208728e7d404ab96faf4716afcda27471a14"
+  }
+}

@@ -1,0 +1,203 @@
+{
+  "author": "elvis",
+  "change_id": "align-native-consumer-projections",
+  "phase": "v2-installation-and-current-binding",
+  "result": "PASS",
+  "native_acceptance": "separate required full20 result, not supplied by this postcheck",
+  "current_targets": [
+    {
+      "path": "/Users/elvis/.codex-account-a/AGENTS.md",
+      "sha256": "180e503c7e6cdb50e2b85cc6aea84c5c0bb261a9a9448fafbf9611657ccc7097",
+      "identity": {
+        "device": 16777231,
+        "inode": 198118698,
+        "type": 32768,
+        "mode": 420,
+        "uid": 501,
+        "gid": 20,
+        "nlink": 1
+      }
+    },
+    {
+      "path": "/Users/elvis/.codex/model_instructions.md",
+      "sha256": "64cd339e06db8d886722466ab72895bbbb0cf9a6972c6a607de0afae30be45e8",
+      "identity": {
+        "device": 16777231,
+        "inode": 198490047,
+        "type": 32768,
+        "mode": 420,
+        "uid": 501,
+        "gid": 20,
+        "nlink": 1
+      }
+    }
+  ],
+  "all_244_exclusions_and_dependencies": "PASS",
+  "original_package_sha256": "fd6d76c69478c48286076992acde1a31c68a688c950afafbfba3e623ff416185",
+  "current_repair_bindings_sha256": "69e09df3740f992dd3f56fd005ce679ab2df35329d3e4391beae58df2ae0dfd1",
+  "current_repair_bindings": [
+    {
+      "path": "/Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/publisher-repair-v2/repair.py",
+      "sha256": "2e009023453066d6feb6da74300861b0667eb5b8590b7895bab1286650d88f22",
+      "identity": {
+        "device": 16777231,
+        "inode": 198487691,
+        "type": 32768,
+        "mode": 384,
+        "uid": 501,
+        "gid": 20,
+        "nlink": 1
+      }
+    },
+    {
+      "path": "/Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/publisher-repair-v2/regression.py",
+      "sha256": "48fda96ff0982dab278084083a88c777060b755e74a305efde7c50a2ddf9ec94",
+      "identity": {
+        "device": 16777231,
+        "inode": 198487692,
+        "type": 32768,
+        "mode": 384,
+        "uid": 501,
+        "gid": 20,
+        "nlink": 1
+      }
+    },
+    {
+      "path": "/Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/publisher-repair-v2/patch.json",
+      "sha256": "ede4ec5a985a2c8510d4c1ba78e523e0f8428c58af11a82cc6137cfd35c8a285",
+      "identity": {
+        "device": 16777231,
+        "inode": 198487689,
+        "type": 32768,
+        "mode": 384,
+        "uid": 501,
+        "gid": 20,
+        "nlink": 1
+      }
+    },
+    {
+      "path": "/Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/publisher-repair-v2/candidate",
+      "sha256": "64cd339e06db8d886722466ab72895bbbb0cf9a6972c6a607de0afae30be45e8",
+      "identity": {
+        "device": 16777231,
+        "inode": 198487688,
+        "type": 32768,
+        "mode": 384,
+        "uid": 501,
+        "gid": 20,
+        "nlink": 1
+      }
+    },
+    {
+      "path": "/Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/publisher-repair-v2/preimage",
+      "sha256": "547dffdf4a71570c865eb29ca756ebb3216c037d04283d81ad3406b000c59778",
+      "identity": {
+        "device": 16777231,
+        "inode": 198487687,
+        "type": 32768,
+        "mode": 384,
+        "uid": 501,
+        "gid": 20,
+        "nlink": 1
+      }
+    },
+    {
+      "path": "/Users/elvis/file/develop/opensource/openspec-superpower-change/openspec/changes/align-native-consumer-projections/amendments/publisher-repair-v2-approval.md",
+      "sha256": "17a6f9e79f7fa3cadff4cf54a098dc195d7caecc7016c1ffc35237411fd23399",
+      "identity": {
+        "device": 16777231,
+        "inode": 198487690,
+        "type": 32768,
+        "mode": 384,
+        "uid": 501,
+        "gid": 20,
+        "nlink": 1
+      }
+    },
+    {
+      "path": "/Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/publisher-repair-v1/receipt.json",
+      "sha256": "581c89a88328360aa3c394ff43939fb4de3961811c6791c46a2e50bbe2ba9b42",
+      "identity": {
+        "device": 16777231,
+        "inode": 198483845,
+        "type": 32768,
+        "mode": 384,
+        "uid": 501,
+        "gid": 20,
+        "nlink": 1
+      }
+    }
+  ],
+  "receipt_chain": {
+    "original_row01": {
+      "status": "applied",
+      "index": 1,
+      "path": "/Users/elvis/.codex-account-a/AGENTS.md",
+      "preimage_sha256": "13dfabe1152adb00b3f924fb96fac676d257db87ecd0658f23a8ac8b6e6a35e6",
+      "candidate_sha256": "180e503c7e6cdb50e2b85cc6aea84c5c0bb261a9a9448fafbf9611657ccc7097",
+      "installed_identity": {
+        "device": 16777231,
+        "inode": 198118698,
+        "type": 32768,
+        "mode": 420,
+        "uid": 501,
+        "gid": 20,
+        "nlink": 1
+      },
+      "mode": 420
+    },
+    "original_row05_historical": {
+      "status": "applied",
+      "index": 2,
+      "path": "/Users/elvis/.codex/model_instructions.md",
+      "preimage_sha256": "bbc10422f2916c0e29205c46071d4d424190f71b4610e7d56c27ae6673fca04b",
+      "candidate_sha256": "39dc7af01eb236f1c83799a989b6e61565e3f712a1623543aa4982e139e37c44",
+      "installed_identity": {
+        "device": 16777231,
+        "inode": 198118705,
+        "type": 32768,
+        "mode": 420,
+        "uid": 501,
+        "gid": 20,
+        "nlink": 1
+      },
+      "mode": 420
+    },
+    "v1_row05_historical": {
+      "status": "applied",
+      "path": "/Users/elvis/.codex/model_instructions.md",
+      "preimage_sha256": "39dc7af01eb236f1c83799a989b6e61565e3f712a1623543aa4982e139e37c44",
+      "candidate_sha256": "547dffdf4a71570c865eb29ca756ebb3216c037d04283d81ad3406b000c59778",
+      "installed_identity": {
+        "device": 16777231,
+        "inode": 198483843,
+        "type": 32768,
+        "mode": 420,
+        "uid": 501,
+        "gid": 20,
+        "nlink": 1
+      },
+      "preflight_sha256": "f1f4ed94cc66fa518ec0795fd55823ddcaf9981bc117c6e3d81f2f938396a835"
+    },
+    "v2_row05_current": {
+      "status": "applied",
+      "path": "/Users/elvis/.codex/model_instructions.md",
+      "preimage_sha256": "547dffdf4a71570c865eb29ca756ebb3216c037d04283d81ad3406b000c59778",
+      "candidate_sha256": "64cd339e06db8d886722466ab72895bbbb0cf9a6972c6a607de0afae30be45e8",
+      "installed_identity": {
+        "device": 16777231,
+        "inode": 198490047,
+        "type": 32768,
+        "mode": 420,
+        "uid": 501,
+        "gid": 20,
+        "nlink": 1
+      },
+      "preflight_sha256": "967040d330b35156aa10b42d218140a29b509ee4263767b76936a907b2498c58"
+    }
+  },
+  "lineage_note": "Only original row01 and v2 row05 receipt identities describe current native files; older row05 receipts remain historical applied-state evidence, never rewritten to authorize a new target.",
+  "preservation": "Original pre-v1 row05 bytes match approved original body; only approved appended block replaced;0644 modes and unchanged row01 enforced.",
+  "native_rule_mutation_scope": "original rows01/05 plus two separately approved row05 repairs; no deferred target, config/auth/provider/model-setting/hook or publisher write",
+  "restore_scope": "current v2 exact candidate/identity to its retained v1 preimage only, via separate guarded restore; no automatic historical receipt reuse"
+}

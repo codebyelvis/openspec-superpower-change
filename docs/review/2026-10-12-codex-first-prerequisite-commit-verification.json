@@ -1,0 +1,39 @@
+{
+  "author": "elvis",
+  "change": "align-native-consumer-projections",
+  "stage": "reviewed-prerequisite-index-verification",
+  "staged_tree": "c43624b314bd77af28ce5771066b71f29dea03f5",
+  "checks": [
+    {
+      "name": "fallback",
+      "command": "python3 -m unittest discover -s tests -v",
+      "exit_code": 0,
+      "tail": "t_timeout_audit_can_bind_report_and_review_without_other_role_reuse) ... ok\ntest_timeout_audit_is_blocked_only_and_cannot_satisfy_complete (test_workflow_rules.WorkflowRulesTest.test_timeout_audit_is_blocked_only_and_cannot_satisfy_complete) ... ok\n\n----------------------------------------------------------------------\nRan 470 tests in 31.686s\n\nOK\n",
+      "log_sha256": "76662ff89fd17dae193e5de1af38c2935e1eced7640ddc8d19c172ece689265d",
+      "seconds": 31.91
+    },
+    {
+      "name": "pyyaml",
+      "command": "/Users/elvis/Library/Caches/native-agent-adaptation/codex-first-validation-20261012/bin/python -m unittest discover -s tests -v",
+      "exit_code": 0,
+      "tail": "t_timeout_audit_can_bind_report_and_review_without_other_role_reuse) ... ok\ntest_timeout_audit_is_blocked_only_and_cannot_satisfy_complete (test_workflow_rules.WorkflowRulesTest.test_timeout_audit_is_blocked_only_and_cannot_satisfy_complete) ... ok\n\n----------------------------------------------------------------------\nRan 470 tests in 32.275s\n\nOK\n",
+      "log_sha256": "d8e0d7f22ec8efe41139f647bc7f0269457236abf2e06d0a0a63a0f89eb38bc8",
+      "seconds": 32.48
+    }
+  ],
+  "exported_tree": "/Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/staged-prerequisite-yvs4yjcn",
+  "environment_correction": "read-only sibling companion path supplied via owned private symlink; no companion source edits",
+  "prior_failed_environment_evidence_sha256": "6ed431609d5b5c18ed3a0894e7a52417d14e605ec547b93b8ab544e44862288a",
+  "result": "PASS",
+  "prerequisite_commit": "1555108",
+  "code_scope": "470 committed-scope tests in each parser environment; excludes22 unrelated untracked JEV tests",
+  "core": {
+    "result": "PASS",
+    "log_sha256": "d44b10719e1601ffbdab0ae9de54269984527ccfd94809359b9dd0186f681afd"
+  },
+  "prior_environment_failure": {
+    "result": "FAIL",
+    "reason": "export lacked required read-only sibling companion dependency",
+    "sha256": "6ed431609d5b5c18ed3a0894e7a52417d14e605ec547b93b8ab544e44862288a"
+  }
+}

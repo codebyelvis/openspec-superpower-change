@@ -1,0 +1,106 @@
+{
+  "author": "elvis",
+  "change": "align-native-consumer-projections",
+  "stage": "preflight-ready-not-applied",
+  "approved_scope": {
+    "path": "openspec/changes/align-native-consumer-projections/amendments/codex-first-approval.md",
+    "sha256": "8afce1947b01761f50ff9558b4de318d2f73e516cd0f8a7df207a0516e5b21e3"
+  },
+  "plan": {
+    "path": "docs/superpowers/plans/2026-10-12-codex-first-native-consumer-projections.md",
+    "sha256": "f3a92474d1b08f0a6d878ced65fd9afda51e2e40fb267a86b8920cc178669358"
+  },
+  "package": {
+    "root": "/Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012",
+    "sha256": "458c45598b92b54bf26fc3bee20dc5684ace9f6975dcc7103aac2783b67fe45c",
+    "command_sha256": "74870e08086879586d22cd3700c2ca193e37b7554e102c0b78e803055c4bd4af",
+    "selected_original_rows": [
+      1,
+      5
+    ],
+    "excluded_count": 244,
+    "native_writes": 0
+  },
+  "checks": {
+    "actual_two_file_command_restore_regressions": {
+      "passed": 16,
+      "native_writes": 0,
+      "fixture_script_sha256": "284bbb45700e40469318e3030776188742c6e3ef4447785b874d417b8eb7afc6"
+    },
+    "scope_parser_classifier_unittests": {
+      "passed": 4,
+      "script_sha256": "3a0bbc41b9c8440f91f73f351600eb711bc8bf81a2ea797d58599dcace4ac864"
+    },
+    "immutable_preflight_lineage": {
+      "positive": 1,
+      "negative": 7,
+      "script_sha256": "5ebc8b80480159b97674c1f6a1edd3ddcba5ee171fb7fd30866e21763f3f32b1"
+    },
+    "native_hooks_discovery_tests": {
+      "passed": 2,
+      "script_sha256": "0a669538fb860be5d67f03895cc190cbcc76f5909f1b5751327a2922c9e15c1b"
+    },
+    "source_full_suite_fallback": {
+      "passed": 492,
+      "log_sha256": "577a9112f70afe03bd998668d90f0f4be45dbaf237cc6510d5f319aa3453d1b3"
+    },
+    "source_full_suite_pyyaml": {
+      "passed": 492,
+      "log_sha256": "374a9024b0b70798307cf5bbef39c318a17e050dd4548f7fb346b11a3ecf75b0"
+    },
+    "quick_validate": "PASS with isolated PyYAML6.0.3 environment",
+    "core_validate": "PASS",
+    "openspec_strict": "PASS",
+    "observer_fixtures": {
+      "parser_positive": 1,
+      "parser_negative": 6,
+      "native_negative": 2,
+      "render_transform": 2,
+      "attribution": 3
+    },
+    "classifier_fixtures": {
+      "positive": 1,
+      "negative": 3
+    }
+  },
+  "mechanism_evidence": {
+    "path": "docs/review/2026-10-12-codex-first-qualified-mechanisms.json",
+    "sha256": "3b469015f2d9cbe54fd175fecadc3e55d55449e458633c07c2bbf8ef4a3d2f33"
+  },
+  "external_reconciliation": {
+    "source": "User confirmed other configuration adjustment completed and CodeIsland upgraded to address old agy repeated-popup bug",
+    "previous_package_sha256": "9eb5177544f3aeb478c6d5e8bc364284e52c2c984e49d01c2e7c8e3ed602f95a",
+    "changes": [
+      {
+        "path": "/Users/elvis/.claude/settings.json",
+        "previous_sha256": "bce89a4b7647331d4fc49bd05675aafffe49bf8cc769f4850a2688bb4c847c5c",
+        "current_sha256": "db9b2ad5f3f916aee7d1242e7d74a120ae8356c7cc52af746dc85a66f99dd982",
+        "previous_inode": 191551328,
+        "current_inode": 197980653,
+        "mode": "0644",
+        "device": 16777231
+      },
+      {
+        "path": "/Users/elvis/.grok/hooks/codeisland.json",
+        "previous_sha256": "20151b0dd299500648b1bb7f130f47fdd15656bf926786c64f1589730bf18a1d",
+        "current_sha256": "c80737747f6fdd38a29511d0a502de0647c4a7815e16d7bc77a4628aa2305c90",
+        "previous_inode": 197597664,
+        "current_inode": 197983323,
+        "mode": "0600",
+        "device": 16777231
+      }
+    ],
+    "scope_unchanged": true,
+    "no_settings_hook_writes_by_owner": true,
+    "review_required": "fresh complete-package Preflight at rebound package/Plan before native rules"
+  },
+  "startup_boundary": {
+    "path": "docs/review/2026-10-12-codex-first-native-startup-boundary.json",
+    "sha256": "031228712086b7c2d7fc528f16aaa9a9a5bc94426f46c4b39bb694430c032cef"
+  },
+  "preflight": "pending independent complete package review",
+  "native_behavior": "not-run",
+  "native_rule_writes": 0,
+  "gate": "BLOCKED until independent Preflight accepted",
+  "historical_failures": "Unknown warning was refused then version-source classified exactly; extra callback-cache inode control detected same-byte replacement and was separated from original target/source/exclusion guards. Prior failure record remains history, not promoted."
+}

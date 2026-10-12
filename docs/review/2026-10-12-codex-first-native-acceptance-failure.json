@@ -1,0 +1,10 @@
+{
+  "author": "elvis",
+  "change": "align-native-consumer-projections",
+  "result": "BLOCKED",
+  "error_type": "AssertionError",
+  "raw_owner": "align-native-root",
+  "private_root": "/Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012",
+  "native_rule_writes_by_probe": 0,
+  "resume": "inspect owned fresh diagnostic artifacts only; do not overwrite native/config drift"
+}

@@ -1,0 +1,328 @@
+{
+  "author": "elvis",
+  "date": "2026-10-12",
+  "change": "align-native-consumer-projections",
+  "scope": "Current native startup/source boundary after user-reported completed CodeIsland upgrade; not comprehensive host audit",
+  "native_hook_discovery": {
+    "path": "docs/review/2026-10-12-codex-first-native-hook-discovery.json",
+    "sha256": "c371492e5bd5ee46acfc2d68702fcaa68c00b0efd6c5b44d19a9d994164cb6ad",
+    "method": "actual /opt/homebrew/bin/codex app-server stdio initialize + hooks/list, two actual CODEX_HOME roots and owned HOME-descendant cwd; no thread/turn/handler/model requests"
+  },
+  "features": {
+    "actual_key": "hooks",
+    "both_roots_explicit": true,
+    "version": "0.162.1",
+    "absent_codex_hooks": "not evidence of disabled feature"
+  },
+  "startup_warning": {
+    "sha256": "e1f94c25dc486bf6e141bfc58f14c4bc6b340a08a9d4ad4fca554a8dc129e74f",
+    "kind": "discovery normalization clamps default Interrupt timeout 5 seconds to 3; not an error or handler-execution proof",
+    "source_path": "/Users/elvis/.codex/hooks.json",
+    "runtime_source": "https://github.com/openai/codex/blob/rust-v0.162.1/codex-rs/hooks/src/engine/discovery.rs#L742",
+    "allowance": "only exact hash before model turn; known source/config definitions bound before and after launch; unknown/in-turn/tool/failure events still reject"
+  },
+  "actual_effective_discovery": {
+    "codex-default": {
+      "user_trusted": 10,
+      "user_untrusted": 12,
+      "total": 22
+    },
+    "codex-account-a": {
+      "user_trusted": 10,
+      "project_trusted": 17,
+      "project_untrusted": 5,
+      "total": 32
+    },
+    "limitations": "Native discovery establishes effective definitions/source/current hashes/trust, not whether each handler executes or succeeds. Static advisory projections were checked against fresh native results."
+  },
+  "trusted_hook_boundary": {
+    "permitted": "Existing local lifecycle hook JSON and IPC to cmux/CodeIsland, transient stdin files and ordinary native app session/logging state. Probe inputs are nonsensitive qualification markers and hypothetical classification scenarios.",
+    "minimum_chain": "Eight trusted cmux wrappers include SessionStart/UserPromptSubmit/Stop; save temporary stdin, call corresponding backup_before_ci script, invoke codeisland-codex-hook.sh and remove temporary input. Two Subagent wrappers differ; model probes request no tools/subagents. Account A also has trusted ancestor direct bridge lifecycle handlers; those cannot be called unused.",
+    "codeisland_script": {
+      "path": "/Users/elvis/.codeisland/codeisland-codex-hook.sh",
+      "sha256": "c50394f361d242c350af8cf41f3a9d40c11f6104cd700284624a12788e3e0280"
+    },
+    "fallback_bridge": {
+      "path": "/Users/elvis/.codeisland/codeisland-bridge",
+      "sha256": "7c2fb16341b7cc36cefd32f22e1ecf5cbc45c1a2e285894111248bb1eb0d0c8c"
+    },
+    "source_checks": "Advisory read-only inspection found JSON normalization, ps ancestry lookup, local cmux events and AF_UNIX /tmp/codeisland-<uid>.sock send; no configuration/authentication/publisher/hooks writes, launchctl or remote HTTP action in examined reachable scripts. Exact scripts/backup/bridge hashes bind the new package.",
+    "limits": "Full hook JSON is forwarded, not metadata-only. Compiled bridge and receiving service internals/actual handler success are not exhaustively observed. No broad auth/settings/service-management/third-party message authority added."
+  },
+  "observation_limits": {
+    "exec_stdout": "0.162.1 explicitly filters HookStarted/HookCompleted; cannot infer hook absence from zero model tools",
+    "rollout": "0.162.1 policy also does not persist these hook events",
+    "qualified_claims": [
+      "complete native AGENTS/model-instructions bodies",
+      "fail-closed model event audit",
+      "actual native hook discovery/source/trust",
+      "checked protected source/config snapshots unchanged"
+    ],
+    "unqualified_claims": [
+      "zero host hook execution",
+      "all individual handler execution/exit results",
+      "all host operations read-only",
+      "all authentication files unchanged",
+      "all registered sources absent"
+    ],
+    "instantaneous_hook_event_observation": "Native app-server hook/started and hook/completed supports ordinary nonbuiltin sync hooks, but no such execution proof is claimed by this source/model-event qualification."
+  },
+  "legacy_notify_boundary": {
+    "path": "docs/review/2026-10-12-codex-native-callback-boundary.json",
+    "sha256": "0f96150173ea0ce250d2ae8f8d5be80cfc5d736c85226d8bb2ffe254e6ab31da",
+    "decision": "Retain its existing OpenAI completion callback identities and bounded-trust limitations; no callback/config changes"
+  },
+  "source_provenance": [
+    "https://github.com/openai/codex/blob/rust-v0.162.1/codex-rs/features/src/lib.rs#L1296",
+    "https://github.com/openai/codex/blob/rust-v0.162.1/codex-rs/hooks/src/config_rules.rs#L23",
+    "https://github.com/openai/codex/blob/rust-v0.162.1/codex-rs/config/src/fingerprint.rs#L54",
+    "https://github.com/openai/codex/blob/rust-v0.162.1/codex-rs/rollout/src/policy.rs#L212",
+    "https://github.com/openai/codex/blob/rust-v0.162.1/codex-rs/exec/src/event_processor_with_jsonl_output.rs#L474",
+    "https://github.com/openai/codex/blob/rust-v0.162.1/codex-rs/app-server/src/request_processors/catalog_processor.rs#L613",
+    "https://learn.chatgpt.com/docs/hooks"
+  ],
+  "advisory_source": "codex_instruction_source supplied version-bound read-only source analysis; not qualification or formal Preflight",
+  "owner_interpretation": "The approved design explicitly permits bounded hook/session startup effects. Actual discovery plus source/dependency binding declares existing local JSON/IPC behavior while source/model events are audited. It does not require claiming all hook execution or full host syscall absence. Complete-package independent Preflight must assess this declared limited boundary; any actual forbidden action remains blocking.",
+  "native_rule_writes": 0,
+  "hook_or_trust_config_writes": 0,
+  "formal_preflight": "pending",
+  "protected_sources": [
+    {
+      "path": "/Users/elvis/.codex/hooks.json",
+      "label": "native-startup-bound-source",
+      "kind": "file",
+      "sha256": "87bc6b7cd08120a06d4f254a6555b1c05a3932885569c21121b06cc6645d448a",
+      "mode": "0600",
+      "device": 16777231,
+      "inode": 197983315
+    },
+    {
+      "path": "/Users/elvis/.codex-account-a/hooks.json",
+      "label": "native-startup-bound-source",
+      "kind": "file",
+      "sha256": "398182ef60e83728b1f27e0a696ece823b9e7da00d7d3314e7a338428f9b44ec",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 165300470
+    },
+    {
+      "path": "/Users/elvis/.codeisland/codeisland-codex-hook.sh",
+      "label": "native-startup-bound-source",
+      "kind": "file",
+      "sha256": "c50394f361d242c350af8cf41f3a9d40c11f6104cd700284624a12788e3e0280",
+      "mode": "0755",
+      "device": 16777231,
+      "inode": 180820233
+    },
+    {
+      "path": "/opt/homebrew/lib/node_modules/@openai/codex/bin/codex.js",
+      "label": "native-startup-bound-source",
+      "kind": "file",
+      "sha256": "61b0194f3bb6534439c8d26a3ed57d0805f84b884588b761795323eeb92fcf70",
+      "mode": "0755",
+      "device": 16777231,
+      "inode": 197776528
+    },
+    {
+      "path": "/Users/elvis/.cmux/hooks/cmux-codex-hook-persistent-feed-PermissionRequest.sh",
+      "label": "native-startup-bound-source",
+      "kind": "file",
+      "sha256": "4ed1dec5ecb80044363db5917ea374811ad6b705d446b0281f28e6610dc4577c",
+      "mode": "0755",
+      "device": 16777231,
+      "inode": 165300464
+    },
+    {
+      "path": "/Users/elvis/.cmux/hooks/cmux-codex-hook-persistent-feed-PostCompact.sh",
+      "label": "native-startup-bound-source",
+      "kind": "file",
+      "sha256": "b8542cb0c0af1dd8f393a32a22d64e8c109c6f9ff8353477409872675b9825eb",
+      "mode": "0755",
+      "device": 16777231,
+      "inode": 165300467
+    },
+    {
+      "path": "/Users/elvis/.cmux/hooks/cmux-codex-hook-persistent-feed-PostToolUse.sh",
+      "label": "native-startup-bound-source",
+      "kind": "file",
+      "sha256": "9f3529e32b0e8e166353bac084fc54913453d6aa57f8edaf8b1f100058d263f3",
+      "mode": "0755",
+      "device": 16777231,
+      "inode": 165300465
+    },
+    {
+      "path": "/Users/elvis/.cmux/hooks/cmux-codex-hook-persistent-feed-PreCompact.sh",
+      "label": "native-startup-bound-source",
+      "kind": "file",
+      "sha256": "06ed5cef4d28989f97d18037f26f8739655021aa8b3859f3a3a6b24defbd82d2",
+      "mode": "0755",
+      "device": 16777231,
+      "inode": 165300466
+    },
+    {
+      "path": "/Users/elvis/.cmux/hooks/cmux-codex-hook-persistent-feed-PreToolUse.sh",
+      "label": "native-startup-bound-source",
+      "kind": "file",
+      "sha256": "6193730c8b0d5223eaa06e38ffa15dd19ff61424b0fd4229130c700447f26730",
+      "mode": "0755",
+      "device": 16777231,
+      "inode": 165300463
+    },
+    {
+      "path": "/Users/elvis/.cmux/hooks/cmux-codex-hook-persistent-feed-SubagentStart.sh",
+      "label": "native-startup-bound-source",
+      "kind": "file",
+      "sha256": "5ca73268a599bb2daa9fd07302e9fe8ed830932381afab078b3e30b2c0a93865",
+      "mode": "0755",
+      "device": 16777231,
+      "inode": 165300468
+    },
+    {
+      "path": "/Users/elvis/.cmux/hooks/cmux-codex-hook-persistent-feed-SubagentStop.sh",
+      "label": "native-startup-bound-source",
+      "kind": "file",
+      "sha256": "a101ada581e9953defef0ef6a63d05cad361923b4bd0859c4799d3adaee74a5d",
+      "mode": "0755",
+      "device": 16777231,
+      "inode": 165300469
+    },
+    {
+      "path": "/Users/elvis/.cmux/hooks/cmux-codex-hook-persistent-prompt-submit.sh",
+      "label": "native-startup-bound-source",
+      "kind": "file",
+      "sha256": "253340d16901e9b38920d28590845cece966b4a3341d0277ad3a84c7c1a471af",
+      "mode": "0755",
+      "device": 16777231,
+      "inode": 165300461
+    },
+    {
+      "path": "/Users/elvis/.cmux/hooks/cmux-codex-hook-persistent-session-start.sh",
+      "label": "native-startup-bound-source",
+      "kind": "file",
+      "sha256": "b41d8bef43383e69c8078381703ee4c09a17313b7e99e2d134c25abc651dcc7c",
+      "mode": "0755",
+      "device": 16777231,
+      "inode": 165300460
+    },
+    {
+      "path": "/Users/elvis/.cmux/hooks/cmux-codex-hook-persistent-stop.sh",
+      "label": "native-startup-bound-source",
+      "kind": "file",
+      "sha256": "ad7ed64a3d4ffd08179d0e146b760e8b5eb0c5dfe28d5433856e25496ea0ade7",
+      "mode": "0755",
+      "device": 16777231,
+      "inode": 165300462
+    },
+    {
+      "path": "/Users/elvis/.cmux/hooks/backup_before_ci/cmux-codex-hook-persistent-feed-PermissionRequest.sh",
+      "label": "native-startup-bound-source",
+      "kind": "file",
+      "sha256": "3da7987524be500c2ef8510df7053d8a10da761f22bfb030b7494405fd7528cd",
+      "mode": "0755",
+      "device": 16777231,
+      "inode": 180820389
+    },
+    {
+      "path": "/Users/elvis/.cmux/hooks/backup_before_ci/cmux-codex-hook-persistent-feed-PostCompact.sh",
+      "label": "native-startup-bound-source",
+      "kind": "file",
+      "sha256": "ae6f0eee6a3856b9181374fbfa6c0ae8ed6a6a55b48f75acc672f9ba2933b7e6",
+      "mode": "0755",
+      "device": 16777231,
+      "inode": 180820390
+    },
+    {
+      "path": "/Users/elvis/.cmux/hooks/backup_before_ci/cmux-codex-hook-persistent-feed-PostToolUse.sh",
+      "label": "native-startup-bound-source",
+      "kind": "file",
+      "sha256": "6bf285acd470067b73c1e36c134fd85a8db9eec5150a3dcd2d31b28f8696f904",
+      "mode": "0755",
+      "device": 16777231,
+      "inode": 180820391
+    },
+    {
+      "path": "/Users/elvis/.cmux/hooks/backup_before_ci/cmux-codex-hook-persistent-feed-PreCompact.sh",
+      "label": "native-startup-bound-source",
+      "kind": "file",
+      "sha256": "f600bdb0d43bb919e2d77a47cd7c61d7aa7b6ebfa93208c6c3299e44e02c65fc",
+      "mode": "0755",
+      "device": 16777231,
+      "inode": 180820392
+    },
+    {
+      "path": "/Users/elvis/.cmux/hooks/backup_before_ci/cmux-codex-hook-persistent-feed-PreToolUse.sh",
+      "label": "native-startup-bound-source",
+      "kind": "file",
+      "sha256": "abdffa82a6053e61380ac42c6bfd44c23bda42f7badab5de87b32d631bd82ff7",
+      "mode": "0755",
+      "device": 16777231,
+      "inode": 180820393
+    },
+    {
+      "path": "/Users/elvis/.cmux/hooks/backup_before_ci/cmux-codex-hook-persistent-feed-SubagentStart.sh",
+      "label": "native-startup-bound-source",
+      "kind": "file",
+      "sha256": "5ca73268a599bb2daa9fd07302e9fe8ed830932381afab078b3e30b2c0a93865",
+      "mode": "0755",
+      "device": 16777231,
+      "inode": 180820394
+    },
+    {
+      "path": "/Users/elvis/.cmux/hooks/backup_before_ci/cmux-codex-hook-persistent-feed-SubagentStop.sh",
+      "label": "native-startup-bound-source",
+      "kind": "file",
+      "sha256": "a101ada581e9953defef0ef6a63d05cad361923b4bd0859c4799d3adaee74a5d",
+      "mode": "0755",
+      "device": 16777231,
+      "inode": 180820395
+    },
+    {
+      "path": "/Users/elvis/.cmux/hooks/backup_before_ci/cmux-codex-hook-persistent-prompt-submit.sh",
+      "label": "native-startup-bound-source",
+      "kind": "file",
+      "sha256": "6424d516a0801aa88e234ffc8402019a986fe063b2c7dad0b228e3a61764408c",
+      "mode": "0755",
+      "device": 16777231,
+      "inode": 180820396
+    },
+    {
+      "path": "/Users/elvis/.cmux/hooks/backup_before_ci/cmux-codex-hook-persistent-session-start.sh",
+      "label": "native-startup-bound-source",
+      "kind": "file",
+      "sha256": "c53b0ac9f701787391ac82668514a1432dd6120c419e1818615c3fc644dbb3d8",
+      "mode": "0755",
+      "device": 16777231,
+      "inode": 180820397
+    },
+    {
+      "path": "/Users/elvis/.cmux/hooks/backup_before_ci/cmux-codex-hook-persistent-stop.sh",
+      "label": "native-startup-bound-source",
+      "kind": "file",
+      "sha256": "fd560ba51739eaf24d8ce28c2674eaabd9b7f4fe74adc7a5521c1855141f46f0",
+      "mode": "0755",
+      "device": 16777231,
+      "inode": 180820398
+    }
+  ],
+  "content_bound_callbacks": [
+    {
+      "path": "/Users/elvis/.codeisland/codeisland-bridge",
+      "sha256": "7c2fb16341b7cc36cefd32f22e1ecf5cbc45c1a2e285894111248bb1eb0d0c8c",
+      "mode": "0755"
+    },
+    {
+      "path": "/Applications/CodeIsland.app/Contents/Helpers/codeisland-bridge",
+      "sha256": "7c2fb16341b7cc36cefd32f22e1ecf5cbc45c1a2e285894111248bb1eb0d0c8c",
+      "mode": "0755"
+    }
+  ],
+  "bridge_cache_observation": {
+    "current_app_version": "1.0.38",
+    "same_bytes_modes_before_after": true,
+    "inode_changes_observed": true,
+    "exact_writer": "unobserved; user confirms CodeIsland upgraded",
+    "owner_action": "no binary/config writes; only existing callback content/mode binding, analogous notify. Keep all original220 exclusions and selected target inode/recovery bindings unchanged.",
+    "native_discovery": "default direct bridge untrusted; A ancestor-project trusted SessionStart/End/UserPromptSubmit/Stop (also pre/post tool/permission) can execute, so not unused.",
+    "limits": "callback snapshot digest does not prove every mid-run syscall; same-byte inode refresh is observed, not a forbidden owner binary write. Changed bytes/mode/type remain blocking."
+  }
+}

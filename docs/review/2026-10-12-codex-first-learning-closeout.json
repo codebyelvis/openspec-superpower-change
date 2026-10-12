@@ -1,0 +1,62 @@
+{
+  "author": "elvis",
+  "change_id": "align-native-consumer-projections",
+  "result": "PASS",
+  "phase": "Project Learning Closeout after independent Implementation PASS",
+  "implementation_review": {
+    "path": "docs/review/2026-10-12-codex-first-implementation-review-final-r2.json",
+    "sha256": "087e2f6e1a6d0b180a468677d943a5e9631af43933cafa198cd029150d1aeeeb"
+  },
+  "rules_read": [
+    "docs/engineering-invariants.md",
+    "references/project-learning-closeout.md"
+  ],
+  "promotion_decision": "No new mandatory project-local promotion; confirmed generalized mechanisms are already promoted and mechanically enforced, remaining corrections are bounded task-local observations. No global skill/source behavior changed in this audit.",
+  "existing_candidate": "docs/learning-candidates/2026-10-10-native-governance-evidence.md",
+  "findings": [
+    {
+      "signals": "Original Preflight F1/F2 parent-hash, revision and symlink/path lineage findings",
+      "classification": "duplicate-covered",
+      "durable_owner": "docs/engineering-invariants.md hashed Review lineage / exact snapshot invariants; references/approved-implementation-workflow.md",
+      "enforcement": "tests/test_workflow_rules.py::test_focused_preflight_semantic_fixture_fails_closed plus task-private gate_regression_test.py concrete binding cases",
+      "limit": "Shared fixture enforces generalized rule; it does not execute every private task command."
+    },
+    {
+      "signals": "F3 reviewer authority; F4 invalid two-target index",
+      "classification": "Existing exact-assignment rule plus task-local input validation",
+      "durable_owner": "references/agent-capability-routing.md and existing schema6/resume validators",
+      "enforcement": "Shared schema6/resume identity tests; task-private gate regression rejects wrong instance and invalid_sequence_index before package access",
+      "limit": "No shared indexing API was added; no new global indexing rule is promoted."
+    },
+    {
+      "signals": "Native observer/schema/source snapshots, actual exit/cleanup and externally adjusted configuration",
+      "classification": "duplicate-covered",
+      "durable_owner": "docs/engineering-invariants.md Behavioral forward proofs and Native consumption; references/local-instruction-checkpoint.md",
+      "enforcement": "NativeAgentConsumptionTests byte-snapshot/tool/unknown-event/cleanup tests; parse_event_trace; actual current-config guard and independent drift negatives",
+      "limit": "Syntax is not semantic acceptance; prior19 is not a complete result on the new config. Writer/old-new config semantic equivalence remains unobserved."
+    },
+    {
+      "signals": "P2/B scenario phase/classification object and v1 not-run metadata",
+      "classification": "task-local, generalized stochastic cause not established",
+      "durable_owner": "Current task Plans, immutable failed evidence, approved v2 rule and separate reconciliation; existing publisher binding vs advisory ownership remains in local-instruction-checkpoint.md",
+      "enforcement": "Unchanged real20 oracles on fresh native bodies; private check_behavior_metadata.py checks20 actual observations and rejects3 inherited/contradictory metadata mutations",
+      "limit": "No actual publisher operation, native Skill-body invocation, cross-project equivalence or inference that classifier failure proved unsafe publication."
+    },
+    {
+      "signals": "Late current-config shadow-fixture failure and withdrawn r16 Implementation PASS",
+      "classification": "duplicate-covered freshness/evidence invariant; local test baseline correction",
+      "durable_owner": "Existing exact-snapshot and fresh verification rules in engineering invariants, approved workflow and completion contract",
+      "enforcement": "Actual required fixture RED exit1; same16 assertions GREEN after only two shadow metadata initializations use hash-bound current input; withdrawn report never entered canonical completed evidence",
+      "provenance": "docs/review/2026-10-12-codex-first-fixture-current-config-correction.json",
+      "limit": "Prior fixture PASS cannot establish current-environment PASS; intermediate seven-case GREEN is not process success. No new native or shared behavior introduced."
+    }
+  ],
+  "independent_audit_inputs": [
+    "native-consumer-implementation-review advisory audit and final implementation report",
+    "native-consumer-final-review preparation audit, final signature remains separately required"
+  ],
+  "new_shared_behavior_or_policy_changes": 0,
+  "required_new_candidate_cards": 0,
+  "mandatory_promotion_gaps": [],
+  "scope": "Audit covers this approved two-row native slice; other four native rows and wider seven-entry/eight-config work remain deferred with owners/resume conditions in tasks."
+}

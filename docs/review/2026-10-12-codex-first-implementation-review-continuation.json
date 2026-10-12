@@ -1,0 +1,258 @@
+{
+  "author": "elvis",
+  "evidence_role": "implementation-review",
+  "evidence_result": "fail",
+  "result": "FAIL",
+  "change_id": "align-native-consumer-projections",
+  "contract_revision": 11,
+  "canonical_sha256": "fdf9685610130a83d94f4780c6af617008f4773f3fcff0104cf2a94709e1730c",
+  "source_fingerprint": "46152c85edc39e94c78b3c383d7d8bf43dbbe4537f95283a9abe8a242adf02cd",
+  "agent_identity": {
+    "agent_product": "codex",
+    "agent_instance_id": "native-consumer-implementation-review",
+    "agent_role": "independent-reviewer",
+    "capability_profile": "control-plane-high"
+  },
+  "reviewer_assignment": {
+    "agent_product": "codex",
+    "agent_instance_id": "native-consumer-implementation-review",
+    "agent_role": "independent-reviewer",
+    "capability_profile": "control-plane-high",
+    "review_purpose": {
+      "object": "align-native-consumer-projections implementation-review",
+      "decision": "whether scoped implementation findings are closed before final verification"
+    },
+    "independence_requirement": {
+      "kind": "distinct-contract-instance",
+      "distinct_from": [
+        "control_plane_owner",
+        "executor_assignment"
+      ]
+    },
+    "result_authority": "governed-review-evidence"
+  },
+  "review_scope": "Original approved rows 01 and 05, actual installed files, private execution and acceptance package, current configuration reconciliation and complete relevant uncommitted correction artifacts. Bounded independent evidence only; no canonical transition or completion authority.",
+  "binding_verification": {
+    "canonical_path": "docs/agent-collab/align-native-consumer-projections/status.md",
+    "actual_inputs_rehashed": 29,
+    "inputs": {
+      "SKILL.md": "4bc91eb0eb29973e5dd1ed76b9e7ec4414f04b05f812f00f6a7d0690968181b1",
+      "docs/engineering-invariants.md": "f24f3f9cdc4e23f874fa900c477c27e22e8b3518b74e48b628ac980024589c1b",
+      "docs/review/2026-10-10-native-agent-adaptation-r2-candidates.json": "662c5fc5547f610b5175dad81a8c0cd59f9eeebc0f03f15f7a361d9279a768f9",
+      "docs/review/2026-10-12-codex-first-advisory-followup.json": "4fe5988b7bb479bf3f723dad02c7515cb53f2a6c83748a29fdc8c0ea96c0715e",
+      "docs/review/2026-10-12-codex-first-continuation-config-reconciliation.json": "0b726db1013efa660e724c4bdf229f95956285f5237836ab8fa7f9552767e5cf",
+      "docs/review/2026-10-12-codex-first-continuation-hook-discovery.json": "372805fadca680bd3a64975c1737d33541620f2cdc91785132b4d927a986a323",
+      "docs/review/2026-10-12-codex-first-continuation-postcheck.json": "fac6bfe464a81540d4867a71454b3d77910b665a54478205d1005124c4cd5bc4",
+      "docs/review/2026-10-12-codex-first-continuation-publisher-guards.json": "8e32860f4de87308b56180194284d2e612a03a4275d1911d6a1bae7ebf6b55b6",
+      "docs/review/2026-10-12-codex-first-continuation-source-checks.json": "ea7ad9fa318ca7076573fc6ea1b5cafbe59642313e254f1ddf8dcbbd5cae1598",
+      "docs/review/2026-10-12-codex-first-native-acceptance-attempt4.json": "13ae3d484a1deb0bb0d9447d8f6335e2035b2a197c728de38b3fbeea0ca205b7",
+      "docs/review/2026-10-12-codex-first-native-hook-discovery.json": "c371492e5bd5ee46acfc2d68702fcaa68c00b0efd6c5b44d19a9d994164cb6ad",
+      "docs/review/2026-10-12-codex-first-native-startup-boundary.json": "031228712086b7c2d7fc528f16aaa9a9a5bc94426f46c4b39bb694430c032cef",
+      "docs/review/2026-10-12-codex-first-post-write-format-qualified.json": "db1fe14a21e17a481fa95b59ba1140b859e85086cbc6588827964c9de6ddc35b",
+      "docs/review/2026-10-12-codex-first-preflight.json": "76335e13fedc99e17129b07afc77193d022ebd1fd9b98336b968fc7786a1886b",
+      "docs/review/2026-10-12-codex-first-takeover-authorization.json": "71197da4401da9ea706901ae6f6ee061abdea25909123f8d398ccf7400c6727d",
+      "docs/review/2026-10-12-codex-native-callback-boundary.json": "0f96150173ea0ce250d2ae8f8d5be80cfc5d736c85226d8bb2ffe254e6ab31da",
+      "docs/superpowers/plans/2026-10-12-codex-first-native-consumer-projections.md": "59cd052c1c287062539ab6422780175a4bf400a1bb8190d080c27cf1f4d6bda4",
+      "openspec/changes/align-native-consumer-projections/amendments/codex-first-approval.md": "8afce1947b01761f50ff9558b4de318d2f73e516cd0f8a7df207a0516e5b21e3",
+      "openspec/changes/align-native-consumer-projections/amendments/codex-first-draft-v1.md": "8008f85aff9c2b8b0414fed3bd63c11755a116516153ec70d9a0d72b0bf4a6a9",
+      "openspec/changes/align-native-consumer-projections/approval.md": "a5e7c35476dd72541becdbc662962b23c423b1670aba373f20bb283070ee4a80",
+      "openspec/changes/align-native-consumer-projections/revisions/draft-v2/design.md": "ef9b214e3757de94ab4460a8974875b609821458db69bff76dfdb708aa2f0c69",
+      "openspec/changes/align-native-consumer-projections/revisions/draft-v2/proposal.md": "ec14b519e47e6e4c459f6a3aa511c1c0ecc26d73534b03b2bb683c7f75c816c6",
+      "openspec/changes/align-native-consumer-projections/revisions/draft-v2/specs/skill-workflow-governance/spec.md": "bd2cbb8dd6ed1baf78d977564adc2d9b9c904f4ef6e3e11f88d9f606f6abaf8b",
+      "openspec/changes/align-native-consumer-projections/revisions/draft-v2/tasks.md": "aa678998ed2653f007cde3baf77c37cfde45c5465f42e8d9055226e8f87a7867",
+      "openspec/changes/align-native-consumer-projections/tasks.md": "7e42fca21e4bfdf23e76e7a24fa949e3078040e2ff08bc8319495551e6354298",
+      "references/local-instruction-checkpoint.md": "11e9c8db28264eb638f44198d222885df4ecf6a01c532deddd4119b27b845132",
+      "references/shared-global-governance.md": "960db63a0053c8d4311df61ff55f1534fd117868b39101d99b5666dd7e0a1977",
+      "scripts/validate_cross_cli_sync.py": "640402ec081b2ceee22d515f8f97ee93bbae75ab102b1b2607c2024c44f607b9",
+      "tests/run_superpowers_routing_forward_tests.py": "8ecd72b43f9edd475728cd1e3339277ad697b9f89979d5702d0a555675d6a401"
+    },
+    "private_package_sha256": "fd6d76c69478c48286076992acde1a31c68a688c950afafbfba3e623ff416185",
+    "private_command_sha256": "14ce3d64a85590f6c9b24f0f9b9d5dd4e85a27fdeed15e96a471a4b6fe2d686a",
+    "all_current_package_dependencies_and_244_exclusions_verified": true,
+    "installed_targets": [
+      {
+        "original_row": 1,
+        "sha256": "180e503c7e6cdb50e2b85cc6aea84c5c0bb261a9a9448fafbf9611657ccc7097",
+        "mode": "0644",
+        "receipt_identity_verified": true
+      },
+      {
+        "original_row": 5,
+        "sha256": "39dc7af01eb236f1c83799a989b6e61565e3f712a1623543aa4982e139e37c44",
+        "mode": "0644",
+        "receipt_identity_verified": true
+      }
+    ]
+  },
+  "inspection": {
+    "actual_files": [
+      "SKILL.md",
+      "references/agent-capability-routing.md",
+      "references/approved-implementation-workflow.md",
+      "references/local-instruction-checkpoint.md",
+      "references/shared-global-governance.md",
+      "references/project-learning-closeout.md",
+      "docs/engineering-invariants.md",
+      "scripts/validate_cross_cli_sync.py",
+      "tests/run_superpowers_routing_forward_tests.py",
+      "approved contract, canonical status, Plan and continuation handoff",
+      "actual default/account-A AGENTS and default model instructions",
+      "actual Claude review_report_guard.py",
+      "private exact_commands.py, qualify.py, behavior.py, cases.json, classification.schema.json, format_qualify.py, package.json, receipts, fixtures and hook discovery"
+    ],
+    "complete_relevant_diffs": [
+      "commands-full-preflight.py -> exact_commands.py (F1-F4 corrections)",
+      "fixtures-full-preflight.py -> fixture_tests.py",
+      "observer-before-output-schema.py -> qualify.py",
+      "behavior-before-classification-target.py -> behavior-before-output-schema.py -> behavior.py",
+      "cases-before-P2.json -> cases.json",
+      "all preserved package steps through current package; current continuation adds one format runner, three authority/reconciliation artifacts and only account-A config exclusion rebind",
+      "approved manifest row01 append and row05 exact replacement; actual candidates equal installed bytes; row01 personal prefix and row05 reverse equality independently checked"
+    ],
+    "harness_assessment": "P2 phase clarification and shared classification-object declaration preserve all expected labels. Schema equals only the common object shape and shared enums, with no case-answer pair. Format qualification remains separate from semantic acceptance and does not retroactively authorize writes.",
+    "authority_assessment": "Specific user takeover binds current root to existing align-native-root contract slot; distinct implementation/final reviewer assignments preserved. Historical full and terminal Preflight remain immutable; no R3 or reinstall occurred in review.",
+    "configuration_assessment": "Only account-A config differs from the old 244-object binding; current bytes/mode/inode are exact current inputs. Fresh two-root hooks discovery records identical effective definitions/trust. Writer and prior field delta remain unknown; historical configuration equivalence is not established."
+  },
+  "independent_verification": {
+    "commands": [
+      {
+        "command": "PYTHONDONTWRITEBYTECODE=1 python3 /Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/fixture_tests.py",
+        "exit_code": 0,
+        "result": "pass",
+        "detail": "16 isolated command regressions; publisher/first-line static checks"
+      },
+      {
+        "command": "PYTHONDONTWRITEBYTECODE=1 python3 /Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/gate_regression_test.py",
+        "exit_code": 0,
+        "result": "pass",
+        "detail": "7 tests"
+      },
+      {
+        "command": "PYTHONDONTWRITEBYTECODE=1 python3 /Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/lineage_test.py",
+        "exit_code": 0,
+        "result": "pass",
+        "detail": "1 test with 7 negative variants"
+      },
+      {
+        "command": "PYTHONDONTWRITEBYTECODE=1 python3 /Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/scope_red_test.py",
+        "exit_code": 0,
+        "result": "pass",
+        "detail": "4 tests"
+      },
+      {
+        "command": "PYTHONDONTWRITEBYTECODE=1 python3 /Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/discovery_test.py",
+        "exit_code": 0,
+        "result": "pass",
+        "detail": "2 tests"
+      },
+      {
+        "command": "PYTHONDONTWRITEBYTECODE=1 python3 /Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/qualify.py --fixtures-only",
+        "exit_code": 0,
+        "result": "pass",
+        "detail": "event parser 1 positive/6 negative, rollout2 negative, render2, attribution3"
+      },
+      {
+        "command": "PYTHONDONTWRITEBYTECODE=1 python3 /Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/behavior.py --fixtures-only",
+        "exit_code": 0,
+        "result": "pass",
+        "detail": "classifier1 positive/3 negative"
+      }
+    ],
+    "additional_adversarial_probes": [
+      {
+        "probe": "Import actual behavior and parse syntactically valid P2/reject-bound-report-first-line; compare against unchanged P2 oracle",
+        "result": "pass",
+        "checks": 1,
+        "native_model_calls": 0
+      },
+      {
+        "probe": "Insert command_execution, mcp_tool_call, web_search and file_change into otherwise valid in-turn JSONL; actual audit_stream rejects all",
+        "result": "pass",
+        "checks": 4,
+        "native_model_calls": 0
+      },
+      {
+        "probe": "Actual read_project_reference rejects same-byte leaf symlink in isolated temporary project",
+        "result": "pass",
+        "checks": 1
+      },
+      {
+        "probe": "Actual installed candidate bytes, modes, receipt identities and personal-byte preservation independently checked; all244 package exclusions verified",
+        "result": "pass",
+        "checks": 2
+      },
+      {
+        "probe": "Actual pure publisher decide denies formal Write/Edit; validate_publish cannot emit bound attempt filename; validate_identity rejects Grok/Codex/Pi launchers",
+        "result": "pass",
+        "checks": 6,
+        "publisher_calls": 0,
+        "publisher_sha256": "3ec6d1fd6945b619368794374b90a87c3c1abdc3c0f2b079fd186b135d9e5522"
+      },
+      {
+        "probe": "Read actual publish implementation origin-prefix write; source inspection only",
+        "result": "pass",
+        "publisher_calls": 0
+      }
+    ],
+    "reviewer_native_probes": 0,
+    "reviewer_native_or_config_writes": 0,
+    "fixture_cleanup": "isolated temporary fixture directories removed by their owning contexts"
+  },
+  "native_evidence": {
+    "path": "docs/review/2026-10-12-codex-first-native-acceptance-attempt4.json",
+    "sha256": "13ae3d484a1deb0bb0d9447d8f6335e2035b2a197c728de38b3fbeea0ca205b7",
+    "native_process_exit_code": 1,
+    "passed": 7,
+    "failed": 1,
+    "not_executed": 12,
+    "failed_entry": "codex-default",
+    "failed_case": "P2",
+    "observed": "publisher-advisory",
+    "expected": "stop-publication-conflict",
+    "source_body_and_no_model_tools_for_executed_cases": "PASS",
+    "format_qualification_both_roots": "PASS; semantic acceptance not tested by format qualification",
+    "post_run_integrity": "PASS, does not change native failure"
+  },
+  "blocking_findings": [
+    {
+      "id": "IR-P2",
+      "severity": "high",
+      "kind": "required-native-acceptance-failure",
+      "title": "Default Codex P2 fails the unchanged required publisher-conflict oracle; full two-root acceptance is incomplete",
+      "locations": [
+        {
+          "path": "docs/review/2026-10-12-codex-first-native-acceptance-attempt4.json",
+          "field": "results[7].observed_classifier"
+        },
+        {
+          "path": "openspec/changes/align-native-consumer-projections/amendments/codex-first-draft-v1.md",
+          "line": 90
+        },
+        {
+          "path": "/Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/cases.json",
+          "line": 41
+        },
+        {
+          "path": "/Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/behavior.py",
+          "line": 75
+        }
+      ],
+      "evidence": "Current actual run stops after seven passing default-root cases when P2 selects publisher-advisory instead of stop-publication-conflict. Twelve required cases remain unexecuted. CLI exit1 and actual source/body/no-tool audit are consistent; this is not a schema rejection or installation drift.",
+      "coverage_gap": "All three attested native instruction bodies contain no publisher/claudex/claudeg/review-origin policy. The loaded CCG is generic and model_instructions.md:89 changes only plan timing/path. The explicit publisher conflict rule is in references/local-instruction-checkpoint.md:71-82, outside the body loading proven by this no-tool classifier; the runner prohibits tools at behavior.py:68.",
+      "causal_limit": "Policy absence is a verified delivery/coverage gap and plausible contributor, not proof that it alone caused this stochastic model answer. No model reasoning or causal intervention was used to establish a sole cause.",
+      "required_resolution": "Retain FAIL and existing exact installed bytes/backups. Resolve candidate/native-delivery or acceptance-contract changes through specific approval; then fresh required semantic evidence and this Review stage. Do not substitute historical single-P2 PASS, static publisher guards, answer-injected prompts, changed expected labels or blind retries for the current failed oracle.",
+      "owner": "align-native-root",
+      "status": "open"
+    }
+  ],
+  "non_blocking_recommendations": [],
+  "limitations": [
+    "Evidence covers structured hypothetical classification in the bound HOME-descendant cwd, not ordinary chat, real publication/execution, all projects/IDEs, Skill-body loading or seven-name/eight-config equivalence.",
+    "Model tool event absence does not establish absent host hooks, individual hook success, all-host read-only behavior or exhaustive authentication-file invariance.",
+    "Current config writer/prior field delta remain unobserved; only reconciled current bytes and discovery are bound.",
+    "behavior.py persists aggregate semantic PASS before its final package check. A printed/report PASS alone is insufficient; actual successful process exit plus final receipt/exclusion checks must compose any later positive acceptance. This run is correctly FAIL with actual exit1 and no positive gate acceptance.",
+    "Source validation and both492-test suites were examined as owner-captured source evidence; reviewer independently reran the critical private fixtures/probes above rather than duplicating the unrelated full suite.",
+    "No independent native model rerun, native installation, Preflight restart, configuration write, Git write or publisher invocation was performed."
+  ],
+  "conclusion": "FAIL. Required P2 and full20-case semantic acceptance remain unresolved. Final verification/completion cannot proceed as passing; no Final Review or whole-task completion is signed."
+}

@@ -1,0 +1,82 @@
+{
+  "author": "elvis",
+  "date": "2026-10-12",
+  "change": "align-native-consumer-projections",
+  "phase": "source-mechanism-diagnostic-not-native-acceptance",
+  "results": [
+    {
+      "entry": "codex-default",
+      "config_root": "/Users/elvis/.codex",
+      "command": [
+        "/opt/homebrew/bin/codex",
+        "app-server",
+        "--stdio"
+      ],
+      "request_methods": [
+        "initialize",
+        "initialized",
+        "thread/start"
+      ],
+      "runtime_controls": {
+        "ephemeral": true,
+        "approvalPolicy": "never",
+        "sandbox": "read-only"
+      },
+      "thread_response": true,
+      "native_instruction_sources": [
+        "/Users/elvis/.codex/AGENTS.md"
+      ],
+      "other_instruction_source_count": 0,
+      "notification_methods": [
+        "account/updated",
+        "configWarning",
+        "remoteControl/status/changed"
+      ],
+      "error_code": null,
+      "raw_stdout_sha256": "a24143fa7c7faf3a153552d4eabe952940b308c7efbd42769bb57b22c9a9bdc9",
+      "model_calls": 0,
+      "turn_start_calls": 0,
+      "raw_retained": false,
+      "source_body_scope": "native thread reports loaded paths; no model-input/base-body observation unless independently corroborated"
+    },
+    {
+      "entry": "codex-account-a",
+      "config_root": "/Users/elvis/.codex-account-a",
+      "command": [
+        "/opt/homebrew/bin/codex",
+        "app-server",
+        "--stdio"
+      ],
+      "request_methods": [
+        "initialize",
+        "initialized",
+        "thread/start"
+      ],
+      "runtime_controls": {
+        "ephemeral": true,
+        "approvalPolicy": "never",
+        "sandbox": "read-only"
+      },
+      "thread_response": true,
+      "native_instruction_sources": [
+        "/Users/elvis/.codex-account-a/AGENTS.md"
+      ],
+      "other_instruction_source_count": 0,
+      "notification_methods": [
+        "configWarning",
+        "remoteControl/status/changed"
+      ],
+      "error_code": null,
+      "raw_stdout_sha256": "233da638dede157a6b9d5fc68d604f3fc81135ce3e8170c5bb744ec2365d0199",
+      "model_calls": 0,
+      "turn_start_calls": 0,
+      "raw_retained": false,
+      "source_body_scope": "native thread reports loaded paths; no model-input/base-body observation unless independently corroborated"
+    }
+  ],
+  "protected_rule_config_bytes_unchanged": true,
+  "temporary_observer_directories_cleaned": true,
+  "no_native_rule_mutation": true,
+  "allowed_startup_state": "native client startup and ephemeral thread metadata/logging only; no config overrides, model/provider changes, task/tool calls or persistence request",
+  "qualification_result": "partial-unless-loaded-required-source-is-observed"
+}

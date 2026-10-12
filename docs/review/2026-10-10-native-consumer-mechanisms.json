@@ -1,0 +1,137 @@
+{
+  "author": "elvis",
+  "date": "2026-10-10",
+  "change": "align-native-consumer-projections",
+  "stage": "source-event-mechanism-investigation",
+  "native_writes": 0,
+  "model_launches": 0,
+  "raw_traces_retained": false,
+  "qualified_all_entries": false,
+  "entries": [
+    {
+      "entry": "codex-default",
+      "product": "codex",
+      "launcher": "/opt/homebrew/bin/codex",
+      "config_root": "/Users/elvis/.codex",
+      "status": "partial-not-qualified",
+      "observed": "native debug prompt-input exposes respective exact AGENTS body; app-server initialize/config-read succeeds without model/thread-start",
+      "default_model_instructions": "config-bound but body facility not qualified",
+      "possible_source_observer": "native rollout session_meta.base_instructions; historical samples only, no current model proof",
+      "post_write_acceptance": "pending"
+    },
+    {
+      "entry": "codex-account-a",
+      "product": "codex",
+      "launcher": "/opt/homebrew/bin/codex",
+      "config_root": "/Users/elvis/.codex-account-a",
+      "status": "partial-not-qualified",
+      "observed": "native debug prompt-input exposes respective exact AGENTS body; app-server initialize/config-read succeeds without model/thread-start",
+      "default_model_instructions": "not bound by this root",
+      "possible_source_observer": "native rollout session_meta.base_instructions; historical samples only, no current model proof",
+      "post_write_acceptance": "pending"
+    },
+    {
+      "entry": "claudex",
+      "product": "claude-code",
+      "launcher": "/Users/elvis/.local/bin/claudex",
+      "config_root": "/Users/elvis/.claude",
+      "status": "BLOCKED-native-launcher-startup-config-boundary",
+      "source_observer": "OTEL_LOG_RAW_API_BODIES=file:private directory; native index joins actual session/request; no new exporter/proxy",
+      "native_version": "2.1.296",
+      "native_binary_sha256": "c9b5341637becbd423ddffc5b254afb645682a3868cb708bbc6cc0e7bb419937",
+      "required_parser": "native Instructions section, HTML-comment/frontmatter-stripped body; strict session/terminal/hook/tool/unknown audit",
+      "side_effects": "CodeIsland native local bridge lifecycle hooks plus existing startup MCP/cache state must be bound before launch",
+      "source": "https://code.claude.com/docs/en/monitoring-usage#api-request-body-event",
+      "post_write_acceptance": "pending",
+      "verified_startup_changes": [
+        "/Users/elvis/.cli-proxy-api/claudex-settings.runtime.json (unconditional credential-bearing settings regeneration)",
+        "conditional existing com.elvis.cliproxyapi service bootstrap/kickstart when health recovery branch is reached"
+      ],
+      "launcher_sha256": "2349d6330e2fe05750b8b50ec72a8a96e923eb8e732abddf1a360524c5c1b988",
+      "launch_performed": false,
+      "boundary": "Approved draft-v2 excludes settings/auth changes; cannot classify real launcher as read-only",
+      "resume": "separately approved bounded native-startup side-effect design, not backend/launcher substitution"
+    },
+    {
+      "entry": "claudeg",
+      "product": "claude-code",
+      "launcher": "/Users/elvis/.local/bin/claudeg",
+      "config_root": "/Users/elvis/.claude",
+      "status": "BLOCKED-native-launcher-startup-config-boundary",
+      "source_observer": "OTEL_LOG_RAW_API_BODIES=file:private directory; native index joins actual session/request; no new exporter/proxy",
+      "native_version": "2.1.296",
+      "native_binary_sha256": "c9b5341637becbd423ddffc5b254afb645682a3868cb708bbc6cc0e7bb419937",
+      "required_parser": "native Instructions section, HTML-comment/frontmatter-stripped body; strict session/terminal/hook/tool/unknown audit",
+      "side_effects": "CodeIsland native local bridge lifecycle hooks plus existing startup MCP/cache state must be bound before launch",
+      "source": "https://code.claude.com/docs/en/monitoring-usage#api-request-body-event",
+      "post_write_acceptance": "pending",
+      "verified_startup_changes": [
+        "/Users/elvis/.cli-proxy-api/claudeg-settings.runtime.json (unconditional credential-bearing settings regeneration)",
+        "conditional existing com.elvis.cliproxyapi service bootstrap/kickstart when health recovery branch is reached"
+      ],
+      "launcher_sha256": "ed469cd57763822884a1701b9f07919c45206ef4f0fbbd904eccc88e06e856c5",
+      "launch_performed": false,
+      "boundary": "Approved draft-v2 excludes settings/auth changes; cannot classify real launcher as read-only",
+      "resume": "separately approved bounded native-startup side-effect design, not backend/launcher substitution"
+    },
+    {
+      "entry": "cursor",
+      "product": "cursor",
+      "launcher": "/Users/elvis/.local/bin/cursor agent",
+      "config_root": "/Users/elvis/.cursor",
+      "native_version": "2026.10.01-e373342",
+      "status": "BLOCKED-source-observation-unavailable-within-approved-controls",
+      "static_discovery": "LocalCursorRulesService walks cwd ancestors and reads .cursor/rules/**/*.mdc; private cwd must be below /Users/elvis, not /tmp",
+      "static_source_files": [
+        {
+          "path": "/Users/elvis/.local/share/cursor-agent/versions/2026.10.01-e373342/index.js",
+          "sha256": "f6bd8dece34b56431ee74f1ac827e032d054381085e7da7088e85abdd1008330"
+        },
+        {
+          "path": "/Users/elvis/.local/share/cursor-agent/versions/2026.10.01-e373342/9969.index.js",
+          "sha256": "7d62ffa7d2ce4c39cd791a6f592f6bcf856f23533f51ff8e9b931e68f85816ad"
+        },
+        {
+          "path": "/Users/elvis/.local/share/cursor-agent/versions/2026.10.01-e373342/9577.index.js",
+          "sha256": "11012c38e49eab1dae6e38c07729daa3c6987c629c6c1536588474c39914a317"
+        }
+      ],
+      "native_stream": "init provides cwd/session/model/permissionMode, no rule source/body",
+      "rejected_debug_control": "native debug logs automatically prune unrelated session logs older than 7 days or beyond 50; no pruning-only disable switch found",
+      "additional_static_search": "No supported raw API body/prompt logger independent of debug initialization found in current installed JS or official documents",
+      "scope_limitation": "Current version and examined controls only; no universal unsupported-platform assertion",
+      "official_sources": [
+        "https://cursor.com/docs/cli/using",
+        "https://cursor.com/docs/cli/reference/output-format",
+        "https://cursor.com/docs/cli/reference/configuration"
+      ],
+      "post_write_acceptance": "pending"
+    },
+    {
+      "entry": "grok-cli",
+      "product": "grok-cli",
+      "launcher": "/Users/elvis/.grok/bin/grok",
+      "config_root": "/Users/elvis/.grok",
+      "status": "supported-facility-not-fresh-qualified",
+      "native_version": "1.0.50",
+      "inspect_observed": [
+        "native global Agents.md",
+        "Claude compatibility Claude.md",
+        "project Agents.md"
+      ],
+      "case_alias_note": "APFS native discovery paths differ only in basename case from approved files",
+      "actual_native_source_facility": "existing prompt_context.json agents_md_files[].content contains exact current Grok and Claude complete bodies; historical observation only",
+      "grok_body_sha256": "a85888d8b6a10b24bb6608b48155de65aff7848d9de6dad7a78c0b751c198dd3",
+      "claude_body_sha256": "926e0722c826791e05e235e060af0952fc1cde424331259650c0ceca08dcde92",
+      "cursor_cross_consumer": "current inspect does not list home .mdc; cannot assert all compatibility surfaces consume these files",
+      "post_write_acceptance": "pending"
+    }
+  ],
+  "required_stop": {
+    "owner": "align-native-root",
+    "gate": "event-mechanism-qualified before native mutation",
+    "reason": "Cursor source observation remains unavailable under examined controls; both real Claude launchers unconditionally rewrite credential-bearing runtime settings outside approved exclusion; other native qualification remains pending.",
+    "resume": "supported observable Cursor facility, independently supplied native source/event evidence, or specifically approved scope/acceptance amendment; no silent waiver",
+    "proposed_amendment": "openspec/changes/align-native-consumer-projections/amendments/codex-first-draft-v1.md (proposed only)"
+  }
+}

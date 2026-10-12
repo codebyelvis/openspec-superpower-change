@@ -1,0 +1,14 @@
+{
+  "author": "elvis",
+  "change": "align-native-consumer-projections",
+  "stage": "classification-object-correction-verified",
+  "result": "PASS",
+  "actual_retest": {
+    "path": "docs/review/2026-10-12-codex-first-B-retest.json",
+    "sha256": "0182cf4dac4cb5b092b22e77d1e3e5f0b3d7ae2e2af76976220d3f344cc1b148"
+  },
+  "decision": "Generic classification target, same facts/oracle/enum andno-tool controls; olddefaultBFAIL retained. This is probeframing, not a governancechange or policywaiver.",
+  "advisory": "Codex independent private_package_review advisory-input supportsobjectclarification; cannot signacceptance",
+  "full20acceptance": "pending",
+  "native_rule_writes_by_correction": 0
+}

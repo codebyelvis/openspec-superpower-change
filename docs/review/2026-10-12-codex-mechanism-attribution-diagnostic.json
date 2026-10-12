@@ -1,0 +1,37 @@
+{
+  "owned_thread_id": "01a12e48-df08-7a01-a9f6-5e8be2ddb04b",
+  "cwd_match": true,
+  "raw_sha256": "b51eb0b1b5898b4cfe082e22d0198cdef191f6fe4105f49d0203f3a82afb5913",
+  "raw_private_path": "/Users/elvis/Library/Caches/native-agent-adaptation/codex-mechanism-20261012/owned-01a12e48-df08-7a01-a9f6-5e8be2ddb04b.jsonl",
+  "counts": {
+    "session_meta": 1,
+    "event_msg:task_started": 1,
+    "response_item:message": 6,
+    "world_state": 1,
+    "turn_context": 1,
+    "event_msg:item_completed": 3,
+    "response_item:reasoning": 1,
+    "token_usage_record": 1,
+    "event_msg:token_count": 1,
+    "event_msg:task_complete": 1
+  },
+  "prompt_occurrence_containers": [
+    {
+      "type": "response_item",
+      "payload_type": "message",
+      "role": "user"
+    },
+    {
+      "type": "event_msg",
+      "payload_type": "item_completed",
+      "role": null
+    }
+  ],
+  "raw_retained": false,
+  "cleanup_owner": "align-native-root",
+  "result": "observer failure diagnostic only",
+  "corrected_attribution": "exactly one matching user response_item; reasoning repetition permitted",
+  "corrected_native_event_audit": "PASS for this source-only trace",
+  "raw_cleanup": "completed after reproduction; diagnostic private artifact only",
+  "qualification_result": "not promoted: lost original CLI exit audit; fresh probe still required"
+}

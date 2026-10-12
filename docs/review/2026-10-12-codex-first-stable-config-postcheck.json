@@ -1,0 +1,134 @@
+{
+  "author": "elvis",
+  "change_id": "align-native-consumer-projections",
+  "result": "PASS",
+  "actual_acceptance_process_exit": 0,
+  "native_acceptance": {
+    "path": "docs/review/2026-10-12-codex-first-stable-config-acceptance.json",
+    "sha256": "028c11ee233640a79bbb3e2e488889f7fe949f8a44df34220af2c794c838482e",
+    "accepted": 20,
+    "expected": 20,
+    "unique_current_native_threads": 20
+  },
+  "current_targets": [
+    {
+      "path": "/Users/elvis/.codex-account-a/AGENTS.md",
+      "sha256": "180e503c7e6cdb50e2b85cc6aea84c5c0bb261a9a9448fafbf9611657ccc7097",
+      "identity": {
+        "device": 16777231,
+        "inode": 198118698,
+        "type": 32768,
+        "mode": 420,
+        "uid": 501,
+        "gid": 20,
+        "nlink": 1
+      }
+    },
+    {
+      "path": "/Users/elvis/.codex/model_instructions.md",
+      "sha256": "64cd339e06db8d886722466ab72895bbbb0cf9a6972c6a607de0afae30be45e8",
+      "identity": {
+        "device": 16777231,
+        "inode": 198490047,
+        "type": 32768,
+        "mode": 420,
+        "uid": 501,
+        "gid": 20,
+        "nlink": 1
+      }
+    }
+  ],
+  "current_receipt_chain": "docs/review/2026-10-12-codex-first-publisher-repair-v2-installation.json",
+  "current_config_reconciliation": "docs/review/2026-10-12-codex-first-stable-config-reconciliation.json",
+  "current_acceptance_bindings": [
+    {
+      "path": "/Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/acceptance-stable-config/accept.py",
+      "sha256": "d9da2ea87d27759583dc18a33549591a6ce15087e58289298edbdc6d9d495712",
+      "identity": {
+        "device": 16777231,
+        "inode": 198625998,
+        "type": 32768,
+        "mode": 384,
+        "uid": 501,
+        "gid": 20,
+        "nlink": 1
+      }
+    },
+    {
+      "path": "/Users/elvis/file/develop/opensource/openspec-superpower-change/docs/review/2026-10-12-codex-first-stable-config-reconciliation.json",
+      "sha256": "511a39f2aa88b9f15ce46cbef2a5a64d3ccfcbcf6b6ed7f6d6ae7fe0aa861016",
+      "identity": {
+        "device": 16777231,
+        "inode": 198625997,
+        "type": 32768,
+        "mode": 384,
+        "uid": 501,
+        "gid": 20,
+        "nlink": 1
+      }
+    },
+    {
+      "path": "/Users/elvis/file/develop/opensource/openspec-superpower-change/docs/review/2026-10-12-codex-first-stable-config-hook-discovery.json",
+      "sha256": "6edf8d3496582b6fed6c2062dd2dd03b70c59bcfaaed691f20d9d8a6d4e52bea",
+      "identity": {
+        "device": 16777231,
+        "inode": 198624767,
+        "type": 32768,
+        "mode": 384,
+        "uid": 501,
+        "gid": 20,
+        "nlink": 1
+      }
+    },
+    {
+      "path": "/Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/publisher-repair-v2/repair.py",
+      "sha256": "2e009023453066d6feb6da74300861b0667eb5b8590b7895bab1286650d88f22",
+      "identity": {
+        "device": 16777231,
+        "inode": 198487691,
+        "type": 32768,
+        "mode": 384,
+        "uid": 501,
+        "gid": 20,
+        "nlink": 1
+      }
+    },
+    {
+      "path": "/Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/publisher-repair-v2/bindings.json",
+      "sha256": "69e09df3740f992dd3f56fd005ce679ab2df35329d3e4391beae58df2ae0dfd1",
+      "identity": {
+        "device": 16777231,
+        "inode": 198487693,
+        "type": 32768,
+        "mode": 384,
+        "uid": 501,
+        "gid": 20,
+        "nlink": 1
+      }
+    },
+    {
+      "path": "/Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/publisher-repair-v2/receipt.json",
+      "sha256": "c2b08dcde07a86ad2624f7eb388281bd68834c41ec66e1ffa82414dbc0c173b5",
+      "identity": {
+        "device": 16777231,
+        "inode": 198490049,
+        "type": 32768,
+        "mode": 384,
+        "uid": 501,
+        "gid": 20,
+        "nlink": 1
+      }
+    }
+  ],
+  "acceptance_bindings_sha256": "5f757d3fae12422008e0c9475df038417d758861ee74ac24b737d872be3451d8",
+  "all_244_exclusions_dependencies_and_receipt_identities": "PASS",
+  "post_behavior_metadata": {
+    "actual_records": 20,
+    "negative_mutations_rejected": 3,
+    "checker_sha256": "570ecc5dbee8485a4740c9045ae807d2d272bed7477a3782db4882b8a1f03c80"
+  },
+  "owned_active_stdout_stderr_absent": true,
+  "raw_rollouts_retained": false,
+  "scope": "Actual two Codex roots, structured hypothetical A\u2013F/P1\u2013P4, unchanged cases/prompts/oracles/schema, current exact config; no native Skill-body loading or actual publisher execution/all-host hook claim",
+  "unaccepted_history": "Prior19 at older config remain rejected overall; no result stitching, blind retry or relabeled oracle."
+}

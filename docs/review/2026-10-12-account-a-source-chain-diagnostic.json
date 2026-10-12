@@ -1,0 +1,47 @@
+{
+  "author": "elvis",
+  "change": "align-native-consumer-projections",
+  "entry": "codex-account-a",
+  "owned_thread_id": "01a12e52-76bc-7152-8e05-7a67a3dbd483",
+  "CLI_exit_code": 0,
+  "source_observation": {
+    "native_thread_id": "01a12e52-76bc-7152-8e05-7a67a3dbd483",
+    "agents_file_sha256": "13dfabe1152adb00b3f924fb96fac676d257db87ecd0658f23a8ac8b6e6a35e6",
+    "native_complete_agents_occurrences": 1,
+    "raw_rollout_sha256": "e6b4d8697bf365f863c837b60a26461adf89f9e49a03e71356f3b852901718c8",
+    "native_base_provenance": {
+      "type": "custom"
+    },
+    "source_path": "/Users/elvis/.codex-account-a/AGENTS.md",
+    "native_cli_version": "0.162.1",
+    "native_rollout_event_counts": {
+      "session_meta": 1,
+      "event_msg:task_started": 1,
+      "response_item": 7,
+      "world_state": 1,
+      "turn_context": 1,
+      "event_msg:item_completed": 3,
+      "token_usage_record": 1,
+      "event_msg:token_count": 1,
+      "event_msg:task_complete": 1
+    },
+    "raw_retained": false,
+    "raw_cleanup": "owned diagnostic moved into private root and removed after source inspection; not transaction inode-bound deletion"
+  },
+  "event_audit": {
+    "event_count": 4,
+    "agent_message_count": 1,
+    "reasoning_event_count": 0,
+    "tool_event_count": 0,
+    "qualified_startup_warning_count": 4,
+    "qualified_startup_warning_sha256": [
+      "8abd062454d2ab20e80dc2bdb5e2fff3cab4dcb56832562f6dcaf0bab4f5cf29",
+      "c02277a46e2c4145b694c110a9ef52bdd6628420622f97a13594de1359a0c680"
+    ],
+    "all_event_count": 8
+  },
+  "phase": "pre-write mechanism partial",
+  "pending": "complete native body of inherited default model_instructions.md must be observed and bound; custom provenance alone is insufficient",
+  "raw_retained": false,
+  "native_rule_writes": 0
+}

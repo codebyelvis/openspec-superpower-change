@@ -1,0 +1,110 @@
+{
+  "author": "elvis",
+  "date": "2026-10-12",
+  "change": "align-native-consumer-projections",
+  "result": "BLOCKED-original-scope-not-completion",
+  "native_files_unchanged": [
+    {
+      "path": "/Users/elvis/.codex-account-a/AGENTS.md",
+      "sha256": "13dfabe1152adb00b3f924fb96fac676d257db87ecd0658f23a8ac8b6e6a35e6",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 185944023
+    },
+    {
+      "path": "/Users/elvis/.claude/CLAUDE.md",
+      "sha256": "926e0722c826791e05e235e060af0952fc1cde424331259650c0ceca08dcde92",
+      "mode": "0600",
+      "device": 16777231,
+      "inode": 196099766
+    },
+    {
+      "path": "/Users/elvis/.cursor/rules/cross-cli-governance.mdc",
+      "sha256": "2eede0c92f6382146da89658f894de0da9542caa389748b32bf3342ae682a812",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 187224675
+    },
+    {
+      "path": "/Users/elvis/.cursor/rules/codex-global-core.mdc",
+      "sha256": "4a5272f237b4197df42b9be57317b4225b84f080d2afb9a7f305a54c0c562060",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 187224674
+    },
+    {
+      "path": "/Users/elvis/.codex/model_instructions.md",
+      "sha256": "bbc10422f2916c0e29205c46071d4d424190f71b4610e7d56c27ae6673fca04b",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 107839778
+    },
+    {
+      "path": "/Users/elvis/.grok/AGENTS.md",
+      "sha256": "a85888d8b6a10b24bb6608b48155de65aff7848d9de6dad7a78c0b751c198dd3",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 197499236
+    }
+  ],
+  "native_rule_writes": 0,
+  "qualified_mechanisms": [
+    "codex-default",
+    "codex-account-a"
+  ],
+  "qualification_evidence": {
+    "path": "docs/review/2026-10-12-codex-mechanism-qualification.json",
+    "sha256": "21bea24361dec4b0716c0f5535938fae23e73c0e9045ae78a75ee82a45a3c37c"
+  },
+  "fixture_regressions_passed": 20,
+  "observer_regressions": {
+    "parser_positive": 1,
+    "parser_negative": 6,
+    "native_negative": 2,
+    "render_transform": 2,
+    "attribution": 3
+  },
+  "checks": {
+    "private_six_file_check": 0,
+    "core_gates": 0,
+    "strict_openspec": 0,
+    "resume_record": {
+      "change_id": "align-native-consumer-projections",
+      "record_kind": "local",
+      "state": "blocked",
+      "next_action": {
+        "action": "wait",
+        "owner": "user",
+        "permission": "none",
+        "inputs": [
+          {
+            "path": "openspec/changes/align-native-consumer-projections/amendments/codex-first-draft-v1.md",
+            "sha256": "8008f85aff9c2b8b0414fed3bd63c11755a116516153ec70d9a0d72b0bf4a6a9"
+          }
+        ]
+      },
+      "verified_revision": null,
+      "authority_granted": false
+    }
+  },
+  "remaining_scope_blockers": [
+    "Cursor body observation unavailable under reviewed mechanism",
+    "Real Claude launchers rewrite excluded credential-bearing settings",
+    "Codex-first amendment has no specific user decision",
+    "Independent Preflight and native candidate acceptance not started"
+  ],
+  "startup_limitations": [
+    "Default Codex model-catalogue refresh timeout; real task nevertheless completed",
+    "Account A imports default model instructions through HOME ancestor project config in observed cwd",
+    "One excluded config drift predates fresh snapshots; no causal attribution"
+  ],
+  "raw_trace_or_active_probe_retained": false,
+  "diagnostic_metadata_marker_retained": {
+    "path": "/Users/elvis/.codex-shared/sessions/2026/10/12/rollout-2026-10-12T11-22-33-01a12e22-170d-7cd1-a287-7e882ccf8a61.jsonl.transaction-blocked.9f952447c67641b88156c94c1d027e04",
+    "sha256": "eacd2abb70d4cef223bb5b0b18f97c9ffcc6720ad4db9baba974dd69d24bcf4a",
+    "mode": "0600",
+    "nature": "metadata only from misapplied diagnostic cleanup helper; no raw input or installation transaction; left intact, not a current scoped-rule completion claim"
+  },
+  "Git_operations": false,
+  "next_action": "User scope decision on proposed Codex-first; then new scoped executable package and independent Preflight before any native write"
+}

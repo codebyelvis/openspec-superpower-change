@@ -1,0 +1,98 @@
+{
+  "author": "elvis",
+  "change_id": "align-native-consumer-projections",
+  "result": "FAIL",
+  "acceptance_process_exit": 1,
+  "completed_classifications": 19,
+  "last_case": "codex-account-a/P4",
+  "last_case_acceptance": "rejected by protected-source postcheck; not an oracle mismatch and not accepted PASS",
+  "observed_but_unaccepted_classifier": {
+    "case": "P4",
+    "classification": "reject-bound-report-first-line"
+  },
+  "actual_native_exit": 0,
+  "event_audit": {
+    "event_count": 4,
+    "agent_message_count": 1,
+    "reasoning_event_count": 0,
+    "tool_event_count": 0,
+    "qualified_startup_warning_count": 5,
+    "qualified_startup_warning_sha256": [
+      "8abd062454d2ab20e80dc2bdb5e2fff3cab4dcb56832562f6dcaf0bab4f5cf29",
+      "c02277a46e2c4145b694c110a9ef52bdd6628420622f97a13594de1359a0c680",
+      "e1f94c25dc486bf6e141bfc58f14c4bc6b340a08a9d4ad4fca554a8dc129e74f"
+    ],
+    "all_event_count": 9
+  },
+  "source_observation": {
+    "native_thread_id": "01a12f85-4d6c-7012-9fbf-5f4a1269ad72",
+    "agents_file_sha256": "180e503c7e6cdb50e2b85cc6aea84c5c0bb261a9a9448fafbf9611657ccc7097",
+    "native_complete_agents_occurrences": 1,
+    "raw_rollout_sha256": "927402127262625c178c51328e3c45c4b3fc205a54cb5e1b9b48e0b47f6b74c9",
+    "native_base_provenance": {
+      "type": "custom"
+    },
+    "source_path": "/Users/elvis/.codex-account-a/AGENTS.md",
+    "native_cli_version": "0.162.1",
+    "model_instructions_file_sha256": "64cd339e06db8d886722466ab72895bbbb0cf9a6972c6a607de0afae30be45e8",
+    "native_render_transform": "Rust str::trim() (config/mod.rs:4631)",
+    "rendered_model_instructions_sha256": "ccfb86eb4785cffcc82712677e747525b0abfbbf9dc478a4f4f0010443d39fab",
+    "native_model_instructions_sha256": "ccfb86eb4785cffcc82712677e747525b0abfbbf9dc478a4f4f0010443d39fab",
+    "native_model_body_match": true,
+    "model_instructions_source_path": "/Users/elvis/.codex/model_instructions.md",
+    "native_rollout_event_counts": {
+      "session_meta": 1,
+      "event_msg:task_started": 1,
+      "response_item": 6,
+      "world_state": 1,
+      "turn_context": 1,
+      "event_msg:item_completed": 2,
+      "token_usage_record": 1,
+      "event_msg:token_count": 1,
+      "event_msg:task_complete": 1
+    },
+    "raw_retained": false,
+    "raw_cleanup": "owned diagnostic moved into private root and removed after source inspection; not transaction inode-bound deletion"
+  },
+  "drift": [
+    {
+      "path": "/Users/elvis/.codex-account-a/config.toml",
+      "previous": {
+        "path": "/Users/elvis/.codex-account-a/config.toml",
+        "label": "excluded-native-object",
+        "mode": "0600",
+        "device": 16777231,
+        "inode": 198147144,
+        "kind": "file",
+        "sha256": "c44cecdd871f30721369e27d10924813abfdd60cdf8dc87371d2c5779c4ba531",
+        "previous_sha256": "cc20886e5db221058fa903669b71f7bd00c7c11efda1f908d97bfb8692aec3b3",
+        "drift_owner_decision": "preserve present bytes; cause unestablished; independently review before writing"
+      },
+      "current": {
+        "sha256": "5cde3200f2f170c1068ba6bdee4e24872c8f5ae09046ff88b418da6af1601833",
+        "device": 16777231,
+        "inode": 198616821,
+        "type": 32768,
+        "mode": 384,
+        "uid": 501,
+        "gid": 20,
+        "nlink": 1
+      }
+    }
+  ],
+  "other_243_excluded_objects": "unchanged",
+  "current_safe_controls": {
+    "notify_argv_hash_matches": true,
+    "features_hooks": true,
+    "account_a_model_instructions_key_absent": true,
+    "model_settings_semantic_equivalence": "not established: baseline full config deliberately not copied",
+    "exact_writer_and_changed_field_category": "unobserved"
+  },
+  "raw_stream_sha256": {
+    "stdout": "46e1719277d4a51c7e0dfbff94f37b695142efc0be837832615662e12c128e67",
+    "stderr": "7053dfb95f22dddc89d428322a27439ec0b0d99d5a485aa08ba89f5626a4ac76"
+  },
+  "config_writes": 0,
+  "remaining_action": "preserve current config; reconcile current input only after native discovery and independent readiness review; old19 cannot supply a full20 result for a changed configuration",
+  "owned_raw_cleanup": "attributed active/stdout/stderr identity and hashes rechecked then removed; rollout already removed by observer"
+}

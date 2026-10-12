@@ -1,0 +1,224 @@
+{
+  "author": "elvis",
+  "evidence_role": "implementation-review",
+  "evidence_result": "pass",
+  "result": "PASS",
+  "change_id": "align-native-consumer-projections",
+  "contract_revision": 16,
+  "canonical_sha256": "95722ab89dd5ecf7dfcfb7f862ab537ed780b1c6acc6d06eca5c57a9b8735636",
+  "source_fingerprint": "511ebb43985d11617ec60b279fb3641c022bd3bed3c9b9088dd649faa58594d0",
+  "agent_identity": {
+    "agent_product": "codex",
+    "agent_instance_id": "native-consumer-implementation-review",
+    "agent_role": "independent-reviewer",
+    "capability_profile": "control-plane-high"
+  },
+  "reviewer_assignment": {
+    "agent_product": "codex",
+    "agent_instance_id": "native-consumer-implementation-review",
+    "agent_role": "independent-reviewer",
+    "capability_profile": "control-plane-high",
+    "review_purpose": {
+      "object": "align-native-consumer-projections implementation-review",
+      "decision": "whether scoped implementation findings are closed before final verification"
+    },
+    "independence_requirement": {
+      "kind": "distinct-contract-instance",
+      "distinct_from": [
+        "control_plane_owner",
+        "executor_assignment"
+      ]
+    },
+    "result_authority": "governed-review-evidence"
+  },
+  "finding_completeness": true,
+  "blocking_findings": [],
+  "review_scope": "Original approved rows01/05, separately approved row05 publisher repairs, exact current-config read-only acceptance continuation, private execution/verification mechanisms, related source prerequisite and staged evidence. Scoped implementation findings closed before final verification; no whole-task completion authority.",
+  "binding_verification": {
+    "canonical_path": "docs/agent-collab/align-native-consumer-projections/status.md",
+    "canonical_revision": 16,
+    "canonical_sha256": "95722ab89dd5ecf7dfcfb7f862ab537ed780b1c6acc6d06eca5c57a9b8735636",
+    "inputs_manifest": "docs/review/2026-10-12-codex-first-implementation-inputs.json",
+    "inputs_manifest_sha256": "45114a1d6c517c621890f3c0bb947b5d4a48a0097f3f6e3850524499e5930f8a",
+    "actual_inputs_rehashed": 125,
+    "fingerprint_algorithm": "sha256(json.dumps(inputs,sort_keys=True,separators=(comma,colon)).encode())",
+    "all_inputs_match": true,
+    "private_acceptance_bindings_sha256": "5f757d3fae12422008e0c9475df038417d758861ee74ac24b737d872be3451d8",
+    "original_package_sha256": "fd6d76c69478c48286076992acde1a31c68a688c950afafbfba3e623ff416185",
+    "v2_bindings_sha256": "69e09df3740f992dd3f56fd005ce679ab2df35329d3e4391beae58df2ae0dfd1",
+    "current_check": "PASS immediately before signing; both current target receipt identities,244 exclusions and all dependencies verified"
+  },
+  "supersedes": {
+    "path": "docs/review/2026-10-12-codex-first-implementation-review-continuation.json",
+    "sha256": "19900ff7f48736470ceba9243ef2847945ec080fe9567705cd9098f5348f5ecf",
+    "prior_result": "FAIL",
+    "semantics": "This current repaired-snapshot review closes IR-P2 and later scoped blockers. The original FAIL, v1 FAIL and configuration-drift failed acceptance remain immutable historical results; none is relabeled or stitched into current success."
+  },
+  "inspection": {
+    "prior_complete_actual_inspection": {
+      "actual_files": [
+        "SKILL.md",
+        "references/agent-capability-routing.md",
+        "references/approved-implementation-workflow.md",
+        "references/local-instruction-checkpoint.md",
+        "references/shared-global-governance.md",
+        "references/project-learning-closeout.md",
+        "docs/engineering-invariants.md",
+        "scripts/validate_cross_cli_sync.py",
+        "tests/run_superpowers_routing_forward_tests.py",
+        "approved contract, canonical status, Plan and continuation handoff",
+        "actual default/account-A AGENTS and default model instructions",
+        "actual Claude review_report_guard.py",
+        "private exact_commands.py, qualify.py, behavior.py, cases.json, classification.schema.json, format_qualify.py, package.json, receipts, fixtures and hook discovery"
+      ],
+      "complete_relevant_diffs": [
+        "commands-full-preflight.py -> exact_commands.py (F1-F4 corrections)",
+        "fixtures-full-preflight.py -> fixture_tests.py",
+        "observer-before-output-schema.py -> qualify.py",
+        "behavior-before-classification-target.py -> behavior-before-output-schema.py -> behavior.py",
+        "cases-before-P2.json -> cases.json",
+        "all preserved package steps through current package; current continuation adds one format runner, three authority/reconciliation artifacts and only account-A config exclusion rebind",
+        "approved manifest row01 append and row05 exact replacement; actual candidates equal installed bytes; row01 personal prefix and row05 reverse equality independently checked"
+      ],
+      "harness_assessment": "P2 phase clarification and shared classification-object declaration preserve all expected labels. Schema equals only the common object shape and shared enums, with no case-answer pair. Format qualification remains separate from semantic acceptance and does not retroactively authorize writes.",
+      "authority_assessment": "Specific user takeover binds current root to existing align-native-root contract slot; distinct implementation/final reviewer assignments preserved. Historical full and terminal Preflight remain immutable; no R3 or reinstall occurred in review.",
+      "configuration_assessment": "Only account-A config differs from the old 244-object binding; current bytes/mode/inode are exact current inputs. Fresh two-root hooks discovery records identical effective definitions/trust. Writer and prior field delta remain unknown; historical configuration equivalence is not established."
+    },
+    "additional_complete_scope_inspection": [
+      "Actual original/v1/v2 candidate and preimage bytes, installed native destinations and current/historical receipts; original pre-v1 model body retained, row05 appended block changed under separate explicit approval/independent full Preflights; row01 unchanged.",
+      "Complete v1/v2 repair.py and regression.py diff, v1/v2 approvals/Plans/bindings/patches, both independent full Preflights, P2 failures and v2 current observations. Current installed row05 SHA64cd339e06db8d886722466ab72895bbbb0cf9a6972c6a607de0afae30be45e8; row01 SHA180e503c7e6cdb50e2b85cc6aea84c5c0bb261a9a9448fafbf9611657ccc7097;0644, current receipt identities checked.",
+      "Complete stable-config accept.py, bindings and reconciliation. AST comparison proves copied package() retains all statements after namespace qualification and exactly one exclusions iterator reconciliation; no original package or protected native mutation. Exactly one of244 exclusion entries changes its current SHA/inode. Missing/duplicate prior match fails closed.",
+      "Complete v2 native()/stable native() AST-rendered diff changes only output path and provenance fields; original prompt expression, cases, labels, expected answers, source/event audit and per-case/final checks retained. No apply/restore CLI entrypoint in acceptance continuation.",
+      "All20 new native observations and final owner actual process-exit evidence, current postcheck, phase metadata, owned raw/temp absence, latest source-check reports and prerequisite committed-scope reports.",
+      "122 staged paths matched private commit manifest and exact worktree bytes; staged whitespace check clean. Related prior source13files equal commit1555108 and independently reviewed source hashes. Unrelated JEV/old dependency-upgrade excluded. Final evidence additions/staging remain owner work."
+    ]
+  },
+  "closed_findings": [
+    {
+      "id": "IR-P2",
+      "closure": "Approved production rule now explicitly binds formal path/first-line requirements from publisher capability-check time and distinguishes separately authorized unbound advice. Exact v2 body was freshly observed in both roots. Both P2 results and all20 unchanged current-snapshot classifications PASS. Prior policy absence was a coverage gap, not a proven sole stochastic cause; no actual publisher action was tested."
+    },
+    {
+      "id": "current-config-drift",
+      "closure": "Last prior full20 attempt remains FAIL with19 accepted classifications and unaccepted final P4 source guard. User confirmed adjustment finished; owner explicitly bound current config5cde320...inode198616821/0600 without writing it. Independent readiness verified only this reconciliation. Fresh complete20 uses new unique threads, no historical result stitching, and final exclusions/identities PASS."
+    },
+    {
+      "id": "v1-observation-phase",
+      "closure": "V2/stable runner writes native-post-write-behavior and matching actual PASS/FAIL. All20 current records independently checked; three inherited/contradictory metadata mutations rejected. Historical v1 FAIL retained."
+    },
+    {
+      "id": "aggregate-pass-before-postcheck",
+      "closure": "New v2/stable runner calls exact check after each observation and before aggregate PASS; current acceptance additionally has actual owner-recorded process exit0 and independently rerun current postcheck. Historical original runner output alone never supplies completion."
+    },
+    {
+      "id": "original-preflight-F1-F4-and-observer-corrections",
+      "closure": "Prior reviewed lineage/identity/scope/observer/schema corrections remain hash-bound, critical private fixtures independently rerun and negative probes retained; syntax schema does not encode expected pair answers."
+    }
+  ],
+  "independent_verification": [
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 /Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/publisher-repair-v2/regression.py",
+      "result": "PASS",
+      "exit_code": 0,
+      "tests": 3
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 /Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/fixture_tests.py",
+      "result": "PASS",
+      "exit_code": 0,
+      "tests": 16,
+      "scope": "private command/recovery fixtures; publisher first-line fixture is static-only, no publish invocation"
+    },
+    {
+      "command": "inline independent actual validate_review current positive plus actual v1 Preflight replay / wrong role / profile / product / independence negatives",
+      "result": "PASS",
+      "positive": 1,
+      "negative": 5
+    },
+    {
+      "command": "inline original package/current-package and v2-native/current-native AST comparisons; actual current checker with7 bound-read/reconciliation fault injections",
+      "result": "PASS",
+      "negative": 7,
+      "details": [
+        "config byte drift",
+        "same-byte config inode drift",
+        "config permission drift",
+        "other excluded inode drift",
+        "observer dependency inode drift",
+        "missing old config match",
+        "duplicate old config match"
+      ],
+      "scope": "in-memory mechanical probes, zero native/config writes; details and immutable report in stable-config-readiness"
+    },
+    {
+      "command": "actual verify_target with committed sync-plan for codex/pi/antigravity-cli/grok-cli",
+      "result": "PASS",
+      "targets": 4,
+      "scope": "read-only portable content and managed-rule parity only; no native discovery/model/sync"
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 /Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/acceptance-stable-config/accept.py check",
+      "result": "PASS",
+      "exit_code": 0,
+      "scope": "fresh independent check after latest full20; repeated at signing"
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 /Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/check_behavior_metadata.py docs/review/2026-10-12-codex-first-stable-config-acceptance.json",
+      "result": "PASS",
+      "exit_code": 0,
+      "actual_records": 20,
+      "negative_mutations": 3
+    },
+    {
+      "command": "inline hash/canonical/staged-scope/native-result integrity audit",
+      "result": "PASS",
+      "inputs": 125,
+      "staged_files": 122,
+      "observations": 20,
+      "scope": "all exact root/case pairs,20 unique fresh threads disjoint from failed run, unchanged oracle, CLI0, model tools0, complete AGENTS and model-body source match, schema hash, protected postchecks, phases and owned active/stdout/stderr/temp paths absent; no raw read"
+    },
+    {
+      "command": "git diff --cached --check",
+      "result": "PASS",
+      "exit_code": 0
+    }
+  ],
+  "native_acceptance": {
+    "path": "docs/review/2026-10-12-codex-first-stable-config-acceptance.json",
+    "sha256": "028c11ee233640a79bbb3e2e488889f7fe949f8a44df34220af2c794c838482e",
+    "cases_per_entry": 10,
+    "entries": [
+      "codex-default",
+      "codex-account-a"
+    ],
+    "accepted": 20,
+    "unique_current_threads": 20,
+    "model_tool_events": 0,
+    "actual_aggregate_process_exit": 0,
+    "aggregate_exit_evidence": "Owner executed process; exact report-bound actual exit0 recorded in stable-config-postcheck. Reviewer did not rerun native models.",
+    "postcheck_path": "docs/review/2026-10-12-codex-first-stable-config-postcheck.json",
+    "postcheck_sha256": "042caddc9bbf1fafccf655ea14c86721f863a0aee1b87044a60d275f6503ea14"
+  },
+  "source_validation": "Reviewed fresh owner full-workspace492/492 in both fallback/PyYAML and prior committed-prerequisite470/470 in both environments;22 unrelated JEV cases distinguish the scopes. Source13 hashes equal reviewed commit1555108. Required quick/core/strict checks remain represented in bound reports and fresh final verification remains owner obligation.",
+  "learning_advisory": {
+    "decision": "No mandatory new shared invariant identified; owner must still persist scoped Project Learning Closeout before whole completion.",
+    "basis": "Existing engineering-invariants native-consumption/exact-source/no-follow/fresh-evidence rules and existing committed NativeAgentConsumption/lineage/resume regression owners cover generalized failures. Original F4 exact-index and current phase metadata are task-local private regressions. Publisher boundary already exists in local-instruction-checkpoint and native governance clause tests; v2 adds delivery/timing clarity. Shared tests do not claim to exercise private English labels/metadata. Avoid duplicating existing promoted native-governance learning card."
+  },
+  "limitations": [
+    "PASS is only implementation-review evidence before final verification. Distinct assigned Final Review, learning closeout, owner canonical transition/cleanup and authorized scoped commit remain outstanding.",
+    "Two actual Codex roots ran structured hypothetical A-F/P1-P4 classifications; no actual publisher execution, publication durability, native Skill-body loading or general end-to-end workflow execution was established.",
+    "Four deferred native destinations and the broader seven-entry runtime acceptance are outside this scope. Portable file parity of four products does not establish native consumption on those products.",
+    "Current config is explicitly approved as current input. Exact historical writer, changed field category and old/new model-setting semantic equivalence remain unobserved; no retrospective equivalence claim.",
+    "Native event audits prove zero model tool events, not zero host hooks. Existing callbacks and qualified warnings remain; individual hook success/all-host read-only/full auth-file stability were not observed.",
+    "Sanitized source/event evidence and inspected fail-closed observers support acceptance; raw traces were deliberately removed and not read by this reviewer. Cleanup proves owned-path absence, not exhaustive host artifact absence.",
+    "Bounded enum success does not independently define label semantics or prove the production clause was the sole cause of changed stochastic outcomes. Original failures remain inspectable.",
+    "Private package/receipts and native personal configuration stay outside Git; repository evidence records exact hashes and sanitized bindings. Reproduction requires those retained authorized local assets."
+  ],
+  "reviewer_effects": {
+    "native_model_calls": 0,
+    "native_or_config_writes": 0,
+    "publisher_calls": 0,
+    "git_mutations": 0,
+    "authorized_output": "docs/review/2026-10-12-codex-first-implementation-review-final.json"
+  }
+}

@@ -1,0 +1,157 @@
+{
+  "author": "elvis",
+  "date": "2026-10-12",
+  "change": "align-native-consumer-projections",
+  "scope": "Codex-only pre-write source/event mechanism; original six-entry scope remains pending",
+  "script_sha256": "e265091b4f2fca6b4c453442eea9646887f16eec4eb90d7c1bf1da95f6b86948",
+  "parser_fixture_checks": {
+    "parser_positive": 1,
+    "parser_negative": 6,
+    "native_negative": 2,
+    "render_transform": 2,
+    "attribution": 3
+  },
+  "results": [
+    {
+      "native_thread_id": "01a12e4d-a822-7753-bfb5-374b91e42915",
+      "agents_file_sha256": "b049858a8d7d0716d2c97a93fc7f9f2f33eead8b6a33e35525b226dbd6a5605f",
+      "native_complete_agents_occurrences": 1,
+      "raw_rollout_sha256": "7d568df6d5e5f7a45763f9435075dce93717753be043799c947662a599aa09ed",
+      "native_base_provenance": {
+        "type": "custom"
+      },
+      "source_path": "/Users/elvis/.codex/AGENTS.md",
+      "native_cli_version": "0.162.1",
+      "model_instructions_file_sha256": "bbc10422f2916c0e29205c46071d4d424190f71b4610e7d56c27ae6673fca04b",
+      "native_render_transform": "Rust str::trim() (config/mod.rs:4631)",
+      "rendered_model_instructions_sha256": "0a36c6375c40f4e4deb1d50627eddeae9fa0a4827dd307f146ee7d42dd391bb4",
+      "native_model_instructions_sha256": "0a36c6375c40f4e4deb1d50627eddeae9fa0a4827dd307f146ee7d42dd391bb4",
+      "native_model_body_match": true,
+      "native_rollout_event_counts": {
+        "session_meta": 1,
+        "event_msg:task_started": 1,
+        "response_item": 6,
+        "world_state": 1,
+        "turn_context": 1,
+        "event_msg:item_completed": 2,
+        "token_usage_record": 1,
+        "event_msg:token_count": 1,
+        "event_msg:task_complete": 1
+      },
+      "raw_retained": false,
+      "raw_cleanup": "owned diagnostic moved into private root and removed after source inspection; not transaction inode-bound deletion",
+      "entry": "codex-default",
+      "config_root": "/Users/elvis/.codex",
+      "command": [
+        "/opt/homebrew/bin/codex",
+        "-a",
+        "never",
+        "exec",
+        "--sandbox",
+        "read-only",
+        "--json",
+        "--skip-git-repo-check",
+        "--cd",
+        "/Users/elvis/Library/Caches/native-agent-adaptation/codex-mechanism-20261012/native-codex-qualified-slwfti4f",
+        "-"
+      ],
+      "timeout_seconds": 90,
+      "CLI_exit_code": 0,
+      "stdout_sha256": "ce0a315b757d62d26a026e70ebb7159c45903235cfdd01dd79576c7446e9f198",
+      "stderr_sha256": "d53c26f82d08660558f4e7dfd86aee50d87ddc441b45a2a8b3c1e215b3c512c4",
+      "event_audit": {
+        "event_count": 4,
+        "agent_message_count": 1,
+        "reasoning_event_count": 0,
+        "tool_event_count": 0,
+        "qualified_startup_warning_count": 2,
+        "qualified_startup_warning_sha256": [
+          "6b28c87e70c8fc7ceba376cf03ba0d732299f873e258625f7ab747b74c5b25f9"
+        ],
+        "all_event_count": 6
+      },
+      "protected_config_rule_bytes_mode_inode_unchanged": true,
+      "phase": "event-mechanism-qualified",
+      "result": "PASS",
+      "post_write_behavior": "not-run",
+      "native_rule_writes": 0,
+      "evidence_method": "replay retained fresh native output after scoped warning classification; source/config snapshots unchanged",
+      "stderr_startup_diagnostics": {
+        "model_catalogue_refresh_timeouts": 3,
+        "task_or_tool_failure_observed": false,
+        "scope": "catalogue fallback, not credential/provider/config remediation"
+      },
+      "native_version_source_reference": "https://github.com/openai/codex/blob/rust-v0.162.1/codex-rs/exec/src/event_processor_with_jsonl_output.rs#L427",
+      "native_invocation_observer_sha256": "7de05c752e65bad0ec548c18b2b2506a7b32839bd08f7c501d4b69bc67c363c2"
+    },
+    {
+      "native_thread_id": "01a12e58-49fb-7b63-b432-1792675214eb",
+      "agents_file_sha256": "13dfabe1152adb00b3f924fb96fac676d257db87ecd0658f23a8ac8b6e6a35e6",
+      "native_complete_agents_occurrences": 1,
+      "raw_rollout_sha256": "1ec54ab13fe79587bbbaccaa86bee5b683f7aa2fb6774bf41588eda3b1ec0003",
+      "native_base_provenance": {
+        "type": "custom"
+      },
+      "source_path": "/Users/elvis/.codex-account-a/AGENTS.md",
+      "native_cli_version": "0.162.1",
+      "model_instructions_file_sha256": "bbc10422f2916c0e29205c46071d4d424190f71b4610e7d56c27ae6673fca04b",
+      "native_render_transform": "Rust str::trim() (config/mod.rs:4631)",
+      "rendered_model_instructions_sha256": "0a36c6375c40f4e4deb1d50627eddeae9fa0a4827dd307f146ee7d42dd391bb4",
+      "native_model_instructions_sha256": "0a36c6375c40f4e4deb1d50627eddeae9fa0a4827dd307f146ee7d42dd391bb4",
+      "native_model_body_match": true,
+      "model_instructions_source_path": "/Users/elvis/.codex/model_instructions.md",
+      "native_rollout_event_counts": {
+        "session_meta": 1,
+        "event_msg:task_started": 1,
+        "response_item": 6,
+        "world_state": 1,
+        "turn_context": 1,
+        "event_msg:item_completed": 2,
+        "token_usage_record": 1,
+        "event_msg:token_count": 1,
+        "event_msg:task_complete": 1
+      },
+      "raw_retained": false,
+      "raw_cleanup": "owned diagnostic moved into private root and removed after source inspection; not transaction inode-bound deletion",
+      "entry": "codex-account-a",
+      "config_root": "/Users/elvis/.codex-account-a",
+      "command": [
+        "/opt/homebrew/bin/codex",
+        "-a",
+        "never",
+        "exec",
+        "--sandbox",
+        "read-only",
+        "--json",
+        "--skip-git-repo-check",
+        "--cd",
+        "/Users/elvis/Library/Caches/native-agent-adaptation/codex-mechanism-20261012/native-codex-qualified-7engg94f",
+        "-"
+      ],
+      "timeout_seconds": 90,
+      "CLI_exit_code": 0,
+      "stdout_sha256": "195e58584a575a781961c47045e78da1396cc5d377a106193ca582838f3d8d52",
+      "stderr_sha256": "e637fbd06f5464cd3baff56b694d08316ab5f0cb37945a603140fa47a1e3ef8e",
+      "event_audit": {
+        "event_count": 4,
+        "agent_message_count": 1,
+        "reasoning_event_count": 0,
+        "tool_event_count": 0,
+        "qualified_startup_warning_count": 4,
+        "qualified_startup_warning_sha256": [
+          "8abd062454d2ab20e80dc2bdb5e2fff3cab4dcb56832562f6dcaf0bab4f5cf29",
+          "c02277a46e2c4145b694c110a9ef52bdd6628420622f97a13594de1359a0c680"
+        ],
+        "all_event_count": 8
+      },
+      "protected_config_rule_bytes_mode_inode_unchanged": true,
+      "phase": "event-mechanism-qualified",
+      "result": "PASS",
+      "post_write_behavior": "not-run",
+      "native_rule_writes": 0,
+      "native_invocation_observer_sha256": "e265091b4f2fca6b4c453442eea9646887f16eec4eb90d7c1bf1da95f6b86948"
+    }
+  ],
+  "model_provider_config_overrides": false,
+  "native_rule_writes": 0
+}

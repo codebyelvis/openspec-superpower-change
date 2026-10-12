@@ -1,0 +1,273 @@
+{
+  "author": "elvis",
+  "date": "2026-10-12",
+  "change_id": "align-native-consumer-projections",
+  "result": "PASS",
+  "review_mode": "FULL_PREFLIGHT",
+  "attempt": 1,
+  "parent_review": null,
+  "lineage_root_revision": {
+    "path": "docs/superpowers/plans/2026-10-12-codex-first-publisher-repair-v2.md",
+    "sha256": "e2ee4b8e6ca48d48b52349f9c9b3989800c49f150c39c1412e3482c68fc53eeb"
+  },
+  "reviewed_revision": {
+    "path": "docs/superpowers/plans/2026-10-12-codex-first-publisher-repair-v2.md",
+    "sha256": "e2ee4b8e6ca48d48b52349f9c9b3989800c49f150c39c1412e3482c68fc53eeb"
+  },
+  "same_reviewer_instance": null,
+  "finding_completeness": true,
+  "reviewer_identity": {
+    "agent_product": "codex",
+    "agent_instance_id": "native-consumer-publisher-preflight-review",
+    "agent_role": "independent-reviewer",
+    "capability_profile": "control-plane-high"
+  },
+  "author_identity": {
+    "agent_product": "codex",
+    "agent_instance_id": "align-native-root"
+  },
+  "executor_identity": {
+    "agent_product": "codex",
+    "agent_instance_id": "align-native-root"
+  },
+  "review_purpose": {
+    "object": "row05 publisher repair",
+    "decision": "whether the exact appended publisher rule and current repair package may be applied"
+  },
+  "result_authority": "governed-review-evidence",
+  "independence_requirement": {
+    "kind": "distinct-contract-instance",
+    "distinct_from": [
+      "control_plane_owner",
+      "executor_assignment"
+    ]
+  },
+  "bindings_sha256": "69e09df3740f992dd3f56fd005ce679ab2df35329d3e4391beae58df2ae0dfd1",
+  "approval_sha256": "17a6f9e79f7fa3cadff4cf54a098dc195d7caecc7016c1ffc35237411fd23399",
+  "gate_0": {
+    "mode": "approved-implementation strict independent FULL_PREFLIGHT",
+    "router": "SKILL.md",
+    "contract": "openspec/changes/align-native-consumer-projections/amendments/publisher-repair-v2-approval.md",
+    "reason": "Explicitly approved protected row05 candidate replacement starts a new full lineage; old v1 and original reviews remain immutable",
+    "selected_methods": "Router-assigned independent Review only",
+    "next_action": "Write only the assigned v2 Preflight report; controller accepts evidence before apply",
+    "new_confirmation_required": false
+  },
+  "scope": "Complete current v2 candidate/package and retained dependencies/receipt chain. Readiness only; no native semantic acceptance, canonical transition, implementation completion or final completion.",
+  "protected_boundaries": {
+    "scope": "Only replace v1 appended publisher block in original row05, retain0644 and byte-identical pre-v1 body. Row01 unchanged; rows02/03/04/06 deferred.",
+    "contract_spec": "New v2 supplemental approval binds exact preimage/candidate and separate v2 receipt. Old original/v1 approvals, reports and receipts remain history.",
+    "acceptance": "Same case bytes, prompt construction, schema, shared labels and per-case oracles. Actual P2 both roots then full20 with no-tool/source-body audit; failure stays failure.",
+    "risk_evidence_profile": "Strict; actual behavioral verification, separate original Implementation/Final Review and learning gates retained.",
+    "authority": "Delegated user approval recorded in supplemental contract; this reviewer provides only governed-review-evidence, not controller signing or canonical transition.",
+    "assignments": "Reviewer native-consumer-publisher-preflight-review distinct from controller/executor align-native-root; original distinct later Review assignments remain.",
+    "allowed_forbidden_files": "Only native row05 replacement plus private package/evidence. All244 exclusions, auth/config/provider/model/hooks/MCP/publisher boundaries preserved.",
+    "branch_worktree": "Existing continuation checkout; reviewer fixture files only in owned temporary private directories. No reviewer branch, staging or Git action.",
+    "database_production": "No database/production service, remote mutation or publisher operation.",
+    "Git_publication_deployment": "Scoped commit authority belongs to controller under explicit user instruction; no reviewer Git mutation, push or deployment."
+  },
+  "declared_correction_set": [],
+  "mechanical_self_check": {
+    "result": "PASS",
+    "commands": [
+      {
+        "command": "PYTHONDONTWRITEBYTECODE=1 python3 /Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/publisher-repair-v2/regression.py",
+        "exit_code": 0,
+        "result": "PASS",
+        "detail": "3 tests, exact suffix replacement and base preservation, eight invalid Review variants, filesystem apply/restore and inode substitution"
+      },
+      {
+        "command": "PYTHONDONTWRITEBYTECODE=1 python3 /Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/publisher-repair-v2/repair.py check",
+        "exit_code": 0,
+        "result": "PASS",
+        "detail": "Actual v1 installed prestate, prior-v1 receipt binding, original package and all244 exclusions; repeated before report"
+      },
+      {
+        "command": "PYTHONDONTWRITEBYTECODE=1 python3 /Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/fixture_tests.py",
+        "exit_code": 0,
+        "result": "PASS",
+        "detail": "16 isolated command/recovery regressions and publisher/first-line static checks"
+      },
+      {
+        "command": "PYTHONDONTWRITEBYTECODE=1 python3 /Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/qualify.py --fixtures-only",
+        "exit_code": 0,
+        "result": "PASS",
+        "detail": "Event parser1positive/6negative, rollout2negative, render2, attribution3"
+      },
+      {
+        "command": "PYTHONDONTWRITEBYTECODE=1 python3 /Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/behavior.py --fixtures-only",
+        "exit_code": 0,
+        "result": "PASS",
+        "detail": "Classifier1positive/3negative"
+      }
+    ],
+    "private_root_mode": "0700",
+    "bound_children_mode": "0600",
+    "native_prestate_mode": "0644"
+  },
+  "actual_inspection": {
+    "rules_reused_from_same_review_session": [
+      "SKILL.md",
+      "references/approved-implementation-workflow.md",
+      "references/agent-capability-routing.md",
+      "/Users/elvis/.agents/skills/superpowers/using-superpowers/references/router-governed.md",
+      "docs/engineering-invariants.md",
+      "references/project-learning-closeout.md"
+    ],
+    "new_actual_files": [
+      "openspec/changes/align-native-consumer-projections/amendments/publisher-repair-v2-approval.md",
+      "docs/superpowers/plans/2026-10-12-codex-first-publisher-repair-v2.md",
+      "/Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/publisher-repair-v2/repair.py",
+      "/Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/publisher-repair-v2/regression.py",
+      "/Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/publisher-repair-v2/patch.json",
+      "/Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/publisher-repair-v2/bindings.json",
+      "/Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/publisher-repair-v2/candidate",
+      "/Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/publisher-repair-v2/preimage",
+      "/Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/publisher-repair-v1/receipt.json",
+      "docs/review/2026-10-12-codex-first-publisher-repair-p2.json"
+    ],
+    "complete_diff": "Full preimage/candidate diff changes only the one appended publisher paragraph. Full v1/v2 repair.py diff changes bound artifact paths, prior-v1 receipt guard, new output names and accurate phase/post_write_behavior fields. Regression diff checks exact suffix replacement and original-base hash. No prompt/oracle change.",
+    "base_preservation": "New preimage equals v1 installed candidate. Removing exact v1 suffix yields original pre-v1 SHA39dc7af01eb236f1c83799a989b6e61565e3f712a1623543aa4982e139e37c44. Candidate equals that base plus exact approved v2 suffix.",
+    "receipt_chain": "V2 preimage identity equals v1 applied installed_identity and preimage hash equals v1 candidate hash. V1 receipt hash and full identity are pinned in v2 bindings. Original package and original receipts retained. V2 separate receipt owns replacement and rollback only to v1.",
+    "apply_restore_wiring": "Actual functions retain prior reviewed descriptor-bound replace_bound, exclusive pending receipt before native write, bound pending-receipt replacement, postchecks, replay rejection and exact installed-identity restore. Underlying original command source and package remain unchanged and reverified.",
+    "native_wiring": "Unchanged qualified observer dynamically snapshots and proves patched native body; actual q.run requires process exit0 and complete source/event audits. Cases/parser/schema come from unchanged bound behavior package. Check runs before and after every probe and before aggregate PASS. New output paths preserve v1 FAIL. Failures stop and persist FAIL.",
+    "metadata_correction": "After classification, actual observation.update sets phase=native-post-write-behavior and post_write_behavior equal actual PASS/FAIL; independently executed the exact AST statement for both outcomes.",
+    "qualified_observer_scope": "Existing source-body/structured-format qualification supports observation mechanism only. Fresh v2 source-body and semantic evidence still required on both actual roots. No all-project, Skill-body, individual-hook-success or zero-host-effect claim.",
+    "cleanup": "No raw trace accessed; no native model or publisher run. Isolated reviewer fixtures removed by their owning context. Runtime observer failures remain controller-owned cleanup/investigation under existing plan."
+  },
+  "binding_verification": {
+    "old_package_sha256": "fd6d76c69478c48286076992acde1a31c68a688c950afafbfba3e623ff416185",
+    "old_command_sha256": "14ce3d64a85590f6c9b24f0f9b9d5dd4e85a27fdeed15e96a471a4b6fe2d686a",
+    "v2_package_files": {
+      "repair.py": "2e009023453066d6feb6da74300861b0667eb5b8590b7895bab1286650d88f22",
+      "regression.py": "48fda96ff0982dab278084083a88c777060b755e74a305efde7c50a2ddf9ec94",
+      "patch.json": "ede4ec5a985a2c8510d4c1ba78e523e0f8428c58af11a82cc6137cfd35c8a285",
+      "bindings.json": "69e09df3740f992dd3f56fd005ce679ab2df35329d3e4391beae58df2ae0dfd1",
+      "candidate": "64cd339e06db8d886722466ab72895bbbb0cf9a6972c6a607de0afae30be45e8",
+      "preimage": "547dffdf4a71570c865eb29ca756ebb3216c037d04283d81ad3406b000c59778"
+    },
+    "historical_receipts_sha256": {
+      "01.receipt.json": "cfa0830e5c7ae1fc448a3a082dc815949f57bbf224248bc2b7822536a0cf2a60",
+      "02.receipt.json": "95389ea5bc83372a3c988417534fc6e0ce584e03bb3e05f9e30b636c941ce61c",
+      "publisher-repair-v1/receipt.json": "581c89a88328360aa3c394ff43939fb4de3961811c6791c46a2e50bbe2ba9b42"
+    },
+    "dependencies": {
+      "/Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/qualify.py": "eb4dba4dda383aa3751971a8b706b13e2ed55915cb1e8b1035baa0fadf3bf1ac",
+      "/Users/elvis/file/develop/opensource/openspec-superpower-change/tests/run_superpowers_routing_forward_tests.py": "8ecd72b43f9edd475728cd1e3339277ad697b9f89979d5702d0a555675d6a401",
+      "/Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/behavior.py": "fb14f9f126774e531f614c116ec19d409ad3f0d164572a78ad52c7a57f94ad4f",
+      "/Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/cases.json": "a3fb887f8dd380d321c7f510e80a23a3e6fcd192c510610ffee495d45e56dd8f",
+      "/Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/classification.schema.json": "5be7e58aa1279ed7b295dacaa85b65bfa0cd8a02a8fa12e313e38d0f58806bb2",
+      "/Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/format_qualify.py": "8476dd1f243a773d561449986c4618b8abe7a55a5abca66004facfa6c754332a"
+    },
+    "excluded_objects_verified": 244,
+    "v2_native_unapplied": true,
+    "exact_approved_text_and_no_enum_injection": true
+  },
+  "independent_evidence": {
+    "commands": [
+      {
+        "command": "PYTHONDONTWRITEBYTECODE=1 python3 /Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/publisher-repair-v2/regression.py",
+        "exit_code": 0,
+        "result": "PASS",
+        "detail": "3 tests, exact suffix replacement and base preservation, eight invalid Review variants, filesystem apply/restore and inode substitution"
+      },
+      {
+        "command": "PYTHONDONTWRITEBYTECODE=1 python3 /Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/publisher-repair-v2/repair.py check",
+        "exit_code": 0,
+        "result": "PASS",
+        "detail": "Actual v1 installed prestate, prior-v1 receipt binding, original package and all244 exclusions; repeated before report"
+      },
+      {
+        "command": "PYTHONDONTWRITEBYTECODE=1 python3 /Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/fixture_tests.py",
+        "exit_code": 0,
+        "result": "PASS",
+        "detail": "16 isolated command/recovery regressions and publisher/first-line static checks"
+      },
+      {
+        "command": "PYTHONDONTWRITEBYTECODE=1 python3 /Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/qualify.py --fixtures-only",
+        "exit_code": 0,
+        "result": "PASS",
+        "detail": "Event parser1positive/6negative, rollout2negative, render2, attribution3"
+      },
+      {
+        "command": "PYTHONDONTWRITEBYTECODE=1 python3 /Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/behavior.py --fixtures-only",
+        "exit_code": 0,
+        "result": "PASS",
+        "detail": "Classifier1positive/3negative"
+      }
+    ],
+    "adversarial_probes": [
+      {
+        "probe": "Run actual v2 check against isolated copied package/approval/receipt history, retaining real read-only original dependency/exclusion verification",
+        "result": "PASS",
+        "details": "Shadow package initially passes; no native target change or model call."
+      },
+      {
+        "probe": "Replace copied prior-v1 receipt by same-byte/same-mode different inode with original descriptor retained",
+        "result": "PASS",
+        "details": "Actual v2 check rejects repair input drift; replacement inode and bytes preserved."
+      },
+      {
+        "probe": "Replace copied prior-v1 receipt by same-byte symlink",
+        "result": "PASS",
+        "details": "Actual v2 bound read rejects it; symlink and backing object preserved."
+      },
+      {
+        "probe": "Compare behavior/v1/v2 prompt expressions by AST",
+        "result": "PASS",
+        "details": "Identical after equivalent b.LABELS module qualification; no per-case expected answer in prompt."
+      },
+      {
+        "probe": "Execute exact actual observation.update AST with accepted true and false",
+        "result": "PASS",
+        "details": "Both outcomes replace inherited not-run/qualification fields with truthful phase and behavior result."
+      }
+    ],
+    "native_model_calls": 0,
+    "native_writes": 0,
+    "config_writes": 0,
+    "publisher_calls": 0,
+    "git_writes": 0,
+    "all_temporary_fixtures_removed": true
+  },
+  "retained_red": {
+    "path": "docs/review/2026-10-12-codex-first-publisher-repair-p2.json",
+    "sha256": "dc0c30206eb2721ded30f8de0bd378285999fec68fb72e535e373c9a0c819ac7",
+    "result": "FAIL",
+    "failed_case": "codex-default/P2",
+    "observed": "publisher-advisory",
+    "expected": "stop-publication-conflict",
+    "v1_body_loaded": true,
+    "model_tool_count": 0,
+    "interpretation": "Actual classifier mismatch remains RED. Inherited phase/not-run fields in that immutable report were inconsistent; explicit case/result and observed_classifier identify the executed failed behavior. No actual publication or violation was performed."
+  },
+  "blocking_findings": [],
+  "non_blocking_recommendations": [],
+  "accepted_residual_risks": [
+    {
+      "risk": "P2 still failed after v1 actual body loading. Shared enum labels have no separate semantic definitions.",
+      "evidence": "Retained v1 P2 FAIL and unchanged cases/schema/prompt inspection.",
+      "impact": "Classifier mismatch does not by itself prove an actual publication violation or prove one causal policy gap. V2 may still fail; positive source inspection cannot replace actual acceptance.",
+      "owner_or_decision": "Controller chooses this single approved timing clarification; later failure must remain failing and enter diagnosis, not retry/text overfitting or oracle relaxation."
+    },
+    {
+      "risk": "Prior config writer/field delta unknown.",
+      "evidence": "Existing current-state reconciliation and fresh all244 binding checks.",
+      "impact": "Only current input equality established; further drift blocks.",
+      "owner_or_decision": "Retained align-native-root reconciliation, no new configuration authority."
+    },
+    {
+      "risk": "Pending receipt after native replacement blocks automatic replay and restore.",
+      "evidence": "Unchanged apply/restore mechanics; prior v1 independent pending-receipt probe plus freshly passing inherited16 command regressions.",
+      "impact": "Owner must inspect exact live state; no synthetic applied receipt or blind rollback.",
+      "owner_or_decision": "Existing approved fail-closed recovery boundary; align-native-root."
+    }
+  ],
+  "limitations": [
+    "This PASS signs only v2 candidate readiness, not P2/full20 success, original finding closure or final completion.",
+    "Fresh actual v2 P2 both roots and all20, required source checks, learning, Implementation Review, final verification and distinct Final Review remain pending.",
+    "No native model rerun or native apply/restore was performed by this reviewer.",
+    "Synthetic shadow history is isolated mechanical evidence only, not production/native loading acceptance."
+  ],
+  "conclusion": "PASS for this exact approved v2 block replacement and bound repair package after controller evidence acceptance. No canonical transition or whole-task completion is signed."
+}

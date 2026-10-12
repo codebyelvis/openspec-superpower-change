@@ -1,0 +1,18 @@
+{
+  "author": "elvis",
+  "change": "align-native-consumer-projections",
+  "kind": "same-scope-probe-object-clarification",
+  "failed_evidence": {
+    "path": "docs/review/2026-10-12-codex-first-native-acceptance-attempt2.json",
+    "sha256": "34f66d54daa58367695a4eb134bc8802f654315c6faea3939a489cc807a1d032"
+  },
+  "observed": "B expectedcompact-local, actualadvisory-chat; actualsourcebodymatched and0tools",
+  "correction": "Sharedprompt explicitlyclassifiesdepictedwork/disposition; originalno-tool/JSONenumcontrol retained",
+  "old_runner_sha256": "4ec90e3fcad66576ef27411c95d0ce1ead54ae09db19e4733fa400c430edffa7",
+  "new_runner_sha256": "e904ceea89adef25089411c4961b002c26b64fb40c283aa239d8e083abd366ba",
+  "old_plan_sha256": "5261f7e23748697399f17f6921482b1caca82776b18cacac2661fc5329014fef",
+  "new_plan_sha256": "181c8516f71a065131c692244dceae3bb2af1324a6d93d1cb105cf749b293eba",
+  "unchanged": "all10expectedlabels, cases facts inclverifiedP2phase, candidate bytes, source/parser/commands/receipts/exclusions/roles/authority/risk",
+  "native_rule_writes": 0,
+  "retest": "pending"
+}

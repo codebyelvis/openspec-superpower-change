@@ -1,0 +1,17 @@
+{
+  "author": "elvis",
+  "change": "align-native-consumer-projections",
+  "stage": "same-scope-native-output-format-correction",
+  "result": "pending",
+  "old_observer_sha256": "38762128cc2fb1b7b4ac220f5e28ed9d3b14baf119da96a21a4a253a2e8b1b7e",
+  "new_observer_sha256": "eb4dba4dda383aa3751971a8b706b13e2ed55915cb1e8b1035baa0fadf3bf1ac",
+  "old_behavior_sha256": "e904ceea89adef25089411c4961b002c26b64fb40c283aa239d8e083abd366ba",
+  "new_behavior_sha256": "fb14f9f126774e531f614c116ec19d409ad3f0d164572a78ad52c7a57f94ad4f",
+  "schema_sha256": "5be7e58aa1279ed7b295dacaa85b65bfa0cd8a02a8fa12e313e38d0f58806bb2",
+  "schema_purpose": "Shared syntacticshape/enums only; wrong case/label pair stillfails oracle; no rule/golden mappings",
+  "native_facility_evidence": "Localbound Codex0.162.1 exec --help --output-schema FILE",
+  "historical_preflight": "validauthorizationforalreadydone2writes; unchangedscope/candidates/acceptance/authority/risk",
+  "new_control": "format-onlyoutput-schema, read-only/no-modeltools/90s unchanged; boundfreshbeforepostwriteacceptance",
+  "facility_qualification": "pending actualbothroots",
+  "native_rule_writes_by_correction": 0
+}

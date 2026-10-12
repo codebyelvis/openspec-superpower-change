@@ -1,0 +1,11 @@
+{
+  "author": "elvis",
+  "change": "align-native-consumer-projections",
+  "stage": "P2-single-probe-operational-failure",
+  "result": "BLOCKED",
+  "cause": "Inline retest caller omitted077umask; observer correctly refused raw native rollout mode0644. Bound thread/cwd/prompt attribution verified before tightening owned trace and disposing; not counted as qualification or acceptance.",
+  "native_rule_writes": 0,
+  "raw_cleanup": "attributed rollout/stdout/stderr removed; no rawquoted/copied",
+  "fix": "Use explicit077before any inline native launch; production behavior.py main already applies077. Nativecontrols/candidates/oracle unchanged.",
+  "fresh_retest": "pending"
+}

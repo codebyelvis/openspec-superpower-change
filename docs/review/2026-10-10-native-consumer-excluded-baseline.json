@@ -1,0 +1,1950 @@
+{
+  "author": "elvis",
+  "change": "align-native-consumer-projections",
+  "status": "excluded-object-baseline-before-native-apply",
+  "note": "hash/path/mode/identity only; config bodies not retained",
+  "objects": [
+    {
+      "path": "/Users/elvis/file/develop/opensource/openspec-superpower-change/SKILL.md",
+      "label": "skill-source",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 182827270,
+      "kind": "file",
+      "sha256": "4bc91eb0eb29973e5dd1ed76b9e7ec4414f04b05f812f00f6a7d0690968181b1"
+    },
+    {
+      "path": "/Users/elvis/.codex/skills/openspec-superpower-change/SKILL.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 195564872,
+      "kind": "file",
+      "sha256": "4bc91eb0eb29973e5dd1ed76b9e7ec4414f04b05f812f00f6a7d0690968181b1"
+    },
+    {
+      "path": "/Users/elvis/.pi/agent/skills/openspec-superpower-change/SKILL.md",
+      "label": "portable-target",
+      "mode": "0600",
+      "device": 16777231,
+      "inode": 195565114,
+      "kind": "file",
+      "sha256": "4bc91eb0eb29973e5dd1ed76b9e7ec4414f04b05f812f00f6a7d0690968181b1"
+    },
+    {
+      "path": "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change/SKILL.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 195565217,
+      "kind": "file",
+      "sha256": "4bc91eb0eb29973e5dd1ed76b9e7ec4414f04b05f812f00f6a7d0690968181b1"
+    },
+    {
+      "path": "/Users/elvis/.grok/skills/openspec-superpower-change/SKILL.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 195565292,
+      "kind": "file",
+      "sha256": "4bc91eb0eb29973e5dd1ed76b9e7ec4414f04b05f812f00f6a7d0690968181b1"
+    },
+    {
+      "path": "/Users/elvis/file/develop/opensource/openspec-superpower-change/references/approved-implementation-workflow.md",
+      "label": "skill-source",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 182827315,
+      "kind": "file",
+      "sha256": "dfe2e62423123f559dae184e823282b31d1dd05afeab517fa482d939166b3b8a"
+    },
+    {
+      "path": "/Users/elvis/.codex/skills/openspec-superpower-change/references/approved-implementation-workflow.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 194459890,
+      "kind": "file",
+      "sha256": "dfe2e62423123f559dae184e823282b31d1dd05afeab517fa482d939166b3b8a"
+    },
+    {
+      "path": "/Users/elvis/.pi/agent/skills/openspec-superpower-change/references/approved-implementation-workflow.md",
+      "label": "portable-target",
+      "mode": "0600",
+      "device": 16777231,
+      "inode": 194459923,
+      "kind": "file",
+      "sha256": "dfe2e62423123f559dae184e823282b31d1dd05afeab517fa482d939166b3b8a"
+    },
+    {
+      "path": "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change/references/approved-implementation-workflow.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 194459959,
+      "kind": "file",
+      "sha256": "dfe2e62423123f559dae184e823282b31d1dd05afeab517fa482d939166b3b8a"
+    },
+    {
+      "path": "/Users/elvis/.grok/skills/openspec-superpower-change/references/approved-implementation-workflow.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 194459982,
+      "kind": "file",
+      "sha256": "dfe2e62423123f559dae184e823282b31d1dd05afeab517fa482d939166b3b8a"
+    },
+    {
+      "path": "/Users/elvis/file/develop/opensource/openspec-superpower-change/references/agent-capability-routing.md",
+      "label": "skill-source",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 164003915,
+      "kind": "file",
+      "sha256": "0ab10182bcabe5743cd16f5c7a262fdfeb6a7b029285767f0cd8033fefc4ebf7"
+    },
+    {
+      "path": "/Users/elvis/.codex/skills/openspec-superpower-change/references/agent-capability-routing.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 189814971,
+      "kind": "file",
+      "sha256": "0ab10182bcabe5743cd16f5c7a262fdfeb6a7b029285767f0cd8033fefc4ebf7"
+    },
+    {
+      "path": "/Users/elvis/.pi/agent/skills/openspec-superpower-change/references/agent-capability-routing.md",
+      "label": "portable-target",
+      "mode": "0600",
+      "device": 16777231,
+      "inode": 189815172,
+      "kind": "file",
+      "sha256": "0ab10182bcabe5743cd16f5c7a262fdfeb6a7b029285767f0cd8033fefc4ebf7"
+    },
+    {
+      "path": "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change/references/agent-capability-routing.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 189815384,
+      "kind": "file",
+      "sha256": "0ab10182bcabe5743cd16f5c7a262fdfeb6a7b029285767f0cd8033fefc4ebf7"
+    },
+    {
+      "path": "/Users/elvis/.grok/skills/openspec-superpower-change/references/agent-capability-routing.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 189815581,
+      "kind": "file",
+      "sha256": "0ab10182bcabe5743cd16f5c7a262fdfeb6a7b029285767f0cd8033fefc4ebf7"
+    },
+    {
+      "path": "/Users/elvis/file/develop/opensource/openspec-superpower-change/references/confirmation-lease.md",
+      "label": "skill-source",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 164003917,
+      "kind": "file",
+      "sha256": "c91d17fd84a217808825515eefa50db0619a11bfdd2517e00fd5990bf2836164"
+    },
+    {
+      "path": "/Users/elvis/.codex/skills/openspec-superpower-change/references/confirmation-lease.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 189814973,
+      "kind": "file",
+      "sha256": "c91d17fd84a217808825515eefa50db0619a11bfdd2517e00fd5990bf2836164"
+    },
+    {
+      "path": "/Users/elvis/.pi/agent/skills/openspec-superpower-change/references/confirmation-lease.md",
+      "label": "portable-target",
+      "mode": "0600",
+      "device": 16777231,
+      "inode": 189815174,
+      "kind": "file",
+      "sha256": "c91d17fd84a217808825515eefa50db0619a11bfdd2517e00fd5990bf2836164"
+    },
+    {
+      "path": "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change/references/confirmation-lease.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 189815386,
+      "kind": "file",
+      "sha256": "c91d17fd84a217808825515eefa50db0619a11bfdd2517e00fd5990bf2836164"
+    },
+    {
+      "path": "/Users/elvis/.grok/skills/openspec-superpower-change/references/confirmation-lease.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 189815583,
+      "kind": "file",
+      "sha256": "c91d17fd84a217808825515eefa50db0619a11bfdd2517e00fd5990bf2836164"
+    },
+    {
+      "path": "/Users/elvis/file/develop/opensource/openspec-superpower-change/references/completion-contract.md",
+      "label": "skill-source",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 182827316,
+      "kind": "file",
+      "sha256": "31647becd38c76221d2adc0f38771113963f20e7334f4437157d7e835bafc69e"
+    },
+    {
+      "path": "/Users/elvis/.codex/skills/openspec-superpower-change/references/completion-contract.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 189814975,
+      "kind": "file",
+      "sha256": "31647becd38c76221d2adc0f38771113963f20e7334f4437157d7e835bafc69e"
+    },
+    {
+      "path": "/Users/elvis/.pi/agent/skills/openspec-superpower-change/references/completion-contract.md",
+      "label": "portable-target",
+      "mode": "0600",
+      "device": 16777231,
+      "inode": 189815176,
+      "kind": "file",
+      "sha256": "31647becd38c76221d2adc0f38771113963f20e7334f4437157d7e835bafc69e"
+    },
+    {
+      "path": "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change/references/completion-contract.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 189815388,
+      "kind": "file",
+      "sha256": "31647becd38c76221d2adc0f38771113963f20e7334f4437157d7e835bafc69e"
+    },
+    {
+      "path": "/Users/elvis/.grok/skills/openspec-superpower-change/references/completion-contract.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 189815585,
+      "kind": "file",
+      "sha256": "31647becd38c76221d2adc0f38771113963f20e7334f4437157d7e835bafc69e"
+    },
+    {
+      "path": "/Users/elvis/file/develop/opensource/openspec-superpower-change/references/cross-cli-sync.md",
+      "label": "skill-source",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 197373050,
+      "kind": "file",
+      "sha256": "f52a9d7a3caabc265c8a2b059179096f86567a75d6e704543fd5e14b8b9dc4ec"
+    },
+    {
+      "path": "/Users/elvis/.codex/skills/openspec-superpower-change/references/cross-cli-sync.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 197499020,
+      "kind": "file",
+      "sha256": "f52a9d7a3caabc265c8a2b059179096f86567a75d6e704543fd5e14b8b9dc4ec"
+    },
+    {
+      "path": "/Users/elvis/.pi/agent/skills/openspec-superpower-change/references/cross-cli-sync.md",
+      "label": "portable-target",
+      "mode": "0600",
+      "device": 16777231,
+      "inode": 197499088,
+      "kind": "file",
+      "sha256": "f52a9d7a3caabc265c8a2b059179096f86567a75d6e704543fd5e14b8b9dc4ec"
+    },
+    {
+      "path": "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change/references/cross-cli-sync.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 197499153,
+      "kind": "file",
+      "sha256": "f52a9d7a3caabc265c8a2b059179096f86567a75d6e704543fd5e14b8b9dc4ec"
+    },
+    {
+      "path": "/Users/elvis/.grok/skills/openspec-superpower-change/references/cross-cli-sync.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 197499222,
+      "kind": "file",
+      "sha256": "f52a9d7a3caabc265c8a2b059179096f86567a75d6e704543fd5e14b8b9dc4ec"
+    },
+    {
+      "path": "/Users/elvis/file/develop/opensource/openspec-superpower-change/references/direct-change-rule.md",
+      "label": "skill-source",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 182827317,
+      "kind": "file",
+      "sha256": "0aae205d1cb8db56d6cfd04746d84fe0b9c9b59820ce87ef30cf82c9b8be8dae"
+    },
+    {
+      "path": "/Users/elvis/.codex/skills/openspec-superpower-change/references/direct-change-rule.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 193908165,
+      "kind": "file",
+      "sha256": "0aae205d1cb8db56d6cfd04746d84fe0b9c9b59820ce87ef30cf82c9b8be8dae"
+    },
+    {
+      "path": "/Users/elvis/.pi/agent/skills/openspec-superpower-change/references/direct-change-rule.md",
+      "label": "portable-target",
+      "mode": "0600",
+      "device": 16777231,
+      "inode": 193908207,
+      "kind": "file",
+      "sha256": "0aae205d1cb8db56d6cfd04746d84fe0b9c9b59820ce87ef30cf82c9b8be8dae"
+    },
+    {
+      "path": "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change/references/direct-change-rule.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 193908245,
+      "kind": "file",
+      "sha256": "0aae205d1cb8db56d6cfd04746d84fe0b9c9b59820ce87ef30cf82c9b8be8dae"
+    },
+    {
+      "path": "/Users/elvis/.grok/skills/openspec-superpower-change/references/direct-change-rule.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 193908291,
+      "kind": "file",
+      "sha256": "0aae205d1cb8db56d6cfd04746d84fe0b9c9b59820ce87ef30cf82c9b8be8dae"
+    },
+    {
+      "path": "/Users/elvis/file/develop/opensource/openspec-superpower-change/references/handoff-contract.md",
+      "label": "skill-source",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 164003919,
+      "kind": "file",
+      "sha256": "01e558079c96ab1f9893cffd202fb2c07f84eedaf5c0ad5f1da6c79a0deec143"
+    },
+    {
+      "path": "/Users/elvis/.codex/skills/openspec-superpower-change/references/handoff-contract.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 189814981,
+      "kind": "file",
+      "sha256": "01e558079c96ab1f9893cffd202fb2c07f84eedaf5c0ad5f1da6c79a0deec143"
+    },
+    {
+      "path": "/Users/elvis/.pi/agent/skills/openspec-superpower-change/references/handoff-contract.md",
+      "label": "portable-target",
+      "mode": "0600",
+      "device": 16777231,
+      "inode": 189815182,
+      "kind": "file",
+      "sha256": "01e558079c96ab1f9893cffd202fb2c07f84eedaf5c0ad5f1da6c79a0deec143"
+    },
+    {
+      "path": "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change/references/handoff-contract.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 189815394,
+      "kind": "file",
+      "sha256": "01e558079c96ab1f9893cffd202fb2c07f84eedaf5c0ad5f1da6c79a0deec143"
+    },
+    {
+      "path": "/Users/elvis/.grok/skills/openspec-superpower-change/references/handoff-contract.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 189815591,
+      "kind": "file",
+      "sha256": "01e558079c96ab1f9893cffd202fb2c07f84eedaf5c0ad5f1da6c79a0deec143"
+    },
+    {
+      "path": "/Users/elvis/file/develop/opensource/openspec-superpower-change/references/learning-candidate-pipeline.md",
+      "label": "skill-source",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 165144726,
+      "kind": "file",
+      "sha256": "65c16f267802874d397aabae3cb8f43224a3a1a60f76935c3a672e27ee4afdd8"
+    },
+    {
+      "path": "/Users/elvis/.codex/skills/openspec-superpower-change/references/learning-candidate-pipeline.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 189814983,
+      "kind": "file",
+      "sha256": "65c16f267802874d397aabae3cb8f43224a3a1a60f76935c3a672e27ee4afdd8"
+    },
+    {
+      "path": "/Users/elvis/.pi/agent/skills/openspec-superpower-change/references/learning-candidate-pipeline.md",
+      "label": "portable-target",
+      "mode": "0600",
+      "device": 16777231,
+      "inode": 189815184,
+      "kind": "file",
+      "sha256": "65c16f267802874d397aabae3cb8f43224a3a1a60f76935c3a672e27ee4afdd8"
+    },
+    {
+      "path": "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change/references/learning-candidate-pipeline.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 189815396,
+      "kind": "file",
+      "sha256": "65c16f267802874d397aabae3cb8f43224a3a1a60f76935c3a672e27ee4afdd8"
+    },
+    {
+      "path": "/Users/elvis/.grok/skills/openspec-superpower-change/references/learning-candidate-pipeline.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 189815593,
+      "kind": "file",
+      "sha256": "65c16f267802874d397aabae3cb8f43224a3a1a60f76935c3a672e27ee4afdd8"
+    },
+    {
+      "path": "/Users/elvis/file/develop/opensource/openspec-superpower-change/references/local-instruction-checkpoint.md",
+      "label": "skill-source",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 197373048,
+      "kind": "file",
+      "sha256": "11e9c8db28264eb638f44198d222885df4ecf6a01c532deddd4119b27b845132"
+    },
+    {
+      "path": "/Users/elvis/.codex/skills/openspec-superpower-change/references/local-instruction-checkpoint.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 197499022,
+      "kind": "file",
+      "sha256": "11e9c8db28264eb638f44198d222885df4ecf6a01c532deddd4119b27b845132"
+    },
+    {
+      "path": "/Users/elvis/.pi/agent/skills/openspec-superpower-change/references/local-instruction-checkpoint.md",
+      "label": "portable-target",
+      "mode": "0600",
+      "device": 16777231,
+      "inode": 197499090,
+      "kind": "file",
+      "sha256": "11e9c8db28264eb638f44198d222885df4ecf6a01c532deddd4119b27b845132"
+    },
+    {
+      "path": "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change/references/local-instruction-checkpoint.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 197499155,
+      "kind": "file",
+      "sha256": "11e9c8db28264eb638f44198d222885df4ecf6a01c532deddd4119b27b845132"
+    },
+    {
+      "path": "/Users/elvis/.grok/skills/openspec-superpower-change/references/local-instruction-checkpoint.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 197499224,
+      "kind": "file",
+      "sha256": "11e9c8db28264eb638f44198d222885df4ecf6a01c532deddd4119b27b845132"
+    },
+    {
+      "path": "/Users/elvis/file/develop/opensource/openspec-superpower-change/references/openspec-decision-rule.md",
+      "label": "skill-source",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 160041920,
+      "kind": "file",
+      "sha256": "e2e41158cbaea9fb2328d8937e8885856119b23c66ac4db843814f1c58f08d5f"
+    },
+    {
+      "path": "/Users/elvis/.codex/skills/openspec-superpower-change/references/openspec-decision-rule.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 189814987,
+      "kind": "file",
+      "sha256": "e2e41158cbaea9fb2328d8937e8885856119b23c66ac4db843814f1c58f08d5f"
+    },
+    {
+      "path": "/Users/elvis/.pi/agent/skills/openspec-superpower-change/references/openspec-decision-rule.md",
+      "label": "portable-target",
+      "mode": "0600",
+      "device": 16777231,
+      "inode": 189815188,
+      "kind": "file",
+      "sha256": "e2e41158cbaea9fb2328d8937e8885856119b23c66ac4db843814f1c58f08d5f"
+    },
+    {
+      "path": "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change/references/openspec-decision-rule.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 189815400,
+      "kind": "file",
+      "sha256": "e2e41158cbaea9fb2328d8937e8885856119b23c66ac4db843814f1c58f08d5f"
+    },
+    {
+      "path": "/Users/elvis/.grok/skills/openspec-superpower-change/references/openspec-decision-rule.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 189815597,
+      "kind": "file",
+      "sha256": "e2e41158cbaea9fb2328d8937e8885856119b23c66ac4db843814f1c58f08d5f"
+    },
+    {
+      "path": "/Users/elvis/file/develop/opensource/openspec-superpower-change/references/proposal-workflow.md",
+      "label": "skill-source",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 165144729,
+      "kind": "file",
+      "sha256": "0f66e4e41a449002d3d2a19f308b0675027683199e2ac8cc37166e66da926141"
+    },
+    {
+      "path": "/Users/elvis/.codex/skills/openspec-superpower-change/references/proposal-workflow.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 189814989,
+      "kind": "file",
+      "sha256": "0f66e4e41a449002d3d2a19f308b0675027683199e2ac8cc37166e66da926141"
+    },
+    {
+      "path": "/Users/elvis/.pi/agent/skills/openspec-superpower-change/references/proposal-workflow.md",
+      "label": "portable-target",
+      "mode": "0600",
+      "device": 16777231,
+      "inode": 189815190,
+      "kind": "file",
+      "sha256": "0f66e4e41a449002d3d2a19f308b0675027683199e2ac8cc37166e66da926141"
+    },
+    {
+      "path": "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change/references/proposal-workflow.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 189815402,
+      "kind": "file",
+      "sha256": "0f66e4e41a449002d3d2a19f308b0675027683199e2ac8cc37166e66da926141"
+    },
+    {
+      "path": "/Users/elvis/.grok/skills/openspec-superpower-change/references/proposal-workflow.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 189815599,
+      "kind": "file",
+      "sha256": "0f66e4e41a449002d3d2a19f308b0675027683199e2ac8cc37166e66da926141"
+    },
+    {
+      "path": "/Users/elvis/file/develop/opensource/openspec-superpower-change/references/project-learning-closeout.md",
+      "label": "skill-source",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 165144728,
+      "kind": "file",
+      "sha256": "64a2c446445ca88134672677022f854975bee752adf1778ee5dfbfac237f1014"
+    },
+    {
+      "path": "/Users/elvis/.codex/skills/openspec-superpower-change/references/project-learning-closeout.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 195564874,
+      "kind": "file",
+      "sha256": "64a2c446445ca88134672677022f854975bee752adf1778ee5dfbfac237f1014"
+    },
+    {
+      "path": "/Users/elvis/.pi/agent/skills/openspec-superpower-change/references/project-learning-closeout.md",
+      "label": "portable-target",
+      "mode": "0600",
+      "device": 16777231,
+      "inode": 195565116,
+      "kind": "file",
+      "sha256": "64a2c446445ca88134672677022f854975bee752adf1778ee5dfbfac237f1014"
+    },
+    {
+      "path": "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change/references/project-learning-closeout.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 195565219,
+      "kind": "file",
+      "sha256": "64a2c446445ca88134672677022f854975bee752adf1778ee5dfbfac237f1014"
+    },
+    {
+      "path": "/Users/elvis/.grok/skills/openspec-superpower-change/references/project-learning-closeout.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 195565294,
+      "kind": "file",
+      "sha256": "64a2c446445ca88134672677022f854975bee752adf1778ee5dfbfac237f1014"
+    },
+    {
+      "path": "/Users/elvis/file/develop/opensource/openspec-superpower-change/references/request-modes.md",
+      "label": "skill-source",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 182827318,
+      "kind": "file",
+      "sha256": "ef4c3378c196e32cfe01b21ff20fce3f67ba3b0c14b1f7c8800bd2878754a416"
+    },
+    {
+      "path": "/Users/elvis/.codex/skills/openspec-superpower-change/references/request-modes.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 189814993,
+      "kind": "file",
+      "sha256": "ef4c3378c196e32cfe01b21ff20fce3f67ba3b0c14b1f7c8800bd2878754a416"
+    },
+    {
+      "path": "/Users/elvis/.pi/agent/skills/openspec-superpower-change/references/request-modes.md",
+      "label": "portable-target",
+      "mode": "0600",
+      "device": 16777231,
+      "inode": 189815194,
+      "kind": "file",
+      "sha256": "ef4c3378c196e32cfe01b21ff20fce3f67ba3b0c14b1f7c8800bd2878754a416"
+    },
+    {
+      "path": "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change/references/request-modes.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 189815406,
+      "kind": "file",
+      "sha256": "ef4c3378c196e32cfe01b21ff20fce3f67ba3b0c14b1f7c8800bd2878754a416"
+    },
+    {
+      "path": "/Users/elvis/.grok/skills/openspec-superpower-change/references/request-modes.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 189815603,
+      "kind": "file",
+      "sha256": "ef4c3378c196e32cfe01b21ff20fce3f67ba3b0c14b1f7c8800bd2878754a416"
+    },
+    {
+      "path": "/Users/elvis/file/develop/opensource/openspec-superpower-change/references/response-patterns.md",
+      "label": "skill-source",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 167191221,
+      "kind": "file",
+      "sha256": "c98eda749f9e5c2bd48f4303cf587d2259fcafbd1971a4794e88044f26fa31e9"
+    },
+    {
+      "path": "/Users/elvis/.codex/skills/openspec-superpower-change/references/response-patterns.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 189814995,
+      "kind": "file",
+      "sha256": "c98eda749f9e5c2bd48f4303cf587d2259fcafbd1971a4794e88044f26fa31e9"
+    },
+    {
+      "path": "/Users/elvis/.pi/agent/skills/openspec-superpower-change/references/response-patterns.md",
+      "label": "portable-target",
+      "mode": "0600",
+      "device": 16777231,
+      "inode": 189815196,
+      "kind": "file",
+      "sha256": "c98eda749f9e5c2bd48f4303cf587d2259fcafbd1971a4794e88044f26fa31e9"
+    },
+    {
+      "path": "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change/references/response-patterns.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 189815408,
+      "kind": "file",
+      "sha256": "c98eda749f9e5c2bd48f4303cf587d2259fcafbd1971a4794e88044f26fa31e9"
+    },
+    {
+      "path": "/Users/elvis/.grok/skills/openspec-superpower-change/references/response-patterns.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 189815605,
+      "kind": "file",
+      "sha256": "c98eda749f9e5c2bd48f4303cf587d2259fcafbd1971a4794e88044f26fa31e9"
+    },
+    {
+      "path": "/Users/elvis/file/develop/opensource/openspec-superpower-change/references/self-evolution-rule.md",
+      "label": "skill-source",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 164003921,
+      "kind": "file",
+      "sha256": "b2662a04256903d509ae6cf0ec0fb462a03c0e85457293bf5629dc86f824e090"
+    },
+    {
+      "path": "/Users/elvis/.codex/skills/openspec-superpower-change/references/self-evolution-rule.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 193084370,
+      "kind": "file",
+      "sha256": "b2662a04256903d509ae6cf0ec0fb462a03c0e85457293bf5629dc86f824e090"
+    },
+    {
+      "path": "/Users/elvis/.pi/agent/skills/openspec-superpower-change/references/self-evolution-rule.md",
+      "label": "portable-target",
+      "mode": "0600",
+      "device": 16777231,
+      "inode": 193084392,
+      "kind": "file",
+      "sha256": "b2662a04256903d509ae6cf0ec0fb462a03c0e85457293bf5629dc86f824e090"
+    },
+    {
+      "path": "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change/references/self-evolution-rule.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 193084422,
+      "kind": "file",
+      "sha256": "b2662a04256903d509ae6cf0ec0fb462a03c0e85457293bf5629dc86f824e090"
+    },
+    {
+      "path": "/Users/elvis/.grok/skills/openspec-superpower-change/references/self-evolution-rule.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 193084452,
+      "kind": "file",
+      "sha256": "b2662a04256903d509ae6cf0ec0fb462a03c0e85457293bf5629dc86f824e090"
+    },
+    {
+      "path": "/Users/elvis/file/develop/opensource/openspec-superpower-change/references/skill-iteration-loop.md",
+      "label": "skill-source",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 192625299,
+      "kind": "file",
+      "sha256": "9b6347be43661e8571a0b75ec27cdceef316db3e2e052134153a8123391ddc66"
+    },
+    {
+      "path": "/Users/elvis/.codex/skills/openspec-superpower-change/references/skill-iteration-loop.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 193198379,
+      "kind": "file",
+      "sha256": "9b6347be43661e8571a0b75ec27cdceef316db3e2e052134153a8123391ddc66"
+    },
+    {
+      "path": "/Users/elvis/.pi/agent/skills/openspec-superpower-change/references/skill-iteration-loop.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 193198407,
+      "kind": "file",
+      "sha256": "9b6347be43661e8571a0b75ec27cdceef316db3e2e052134153a8123391ddc66"
+    },
+    {
+      "path": "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change/references/skill-iteration-loop.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 193198426,
+      "kind": "file",
+      "sha256": "9b6347be43661e8571a0b75ec27cdceef316db3e2e052134153a8123391ddc66"
+    },
+    {
+      "path": "/Users/elvis/.grok/skills/openspec-superpower-change/references/skill-iteration-loop.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 193198447,
+      "kind": "file",
+      "sha256": "9b6347be43661e8571a0b75ec27cdceef316db3e2e052134153a8123391ddc66"
+    },
+    {
+      "path": "/Users/elvis/file/develop/opensource/openspec-superpower-change/references/shared-global-governance.md",
+      "label": "skill-source",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 197373047,
+      "kind": "file",
+      "sha256": "960db63a0053c8d4311df61ff55f1534fd117868b39101d99b5666dd7e0a1977"
+    },
+    {
+      "path": "/Users/elvis/.codex/skills/openspec-superpower-change/references/shared-global-governance.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 197499024,
+      "kind": "file",
+      "sha256": "960db63a0053c8d4311df61ff55f1534fd117868b39101d99b5666dd7e0a1977"
+    },
+    {
+      "path": "/Users/elvis/.pi/agent/skills/openspec-superpower-change/references/shared-global-governance.md",
+      "label": "portable-target",
+      "mode": "0600",
+      "device": 16777231,
+      "inode": 197499092,
+      "kind": "file",
+      "sha256": "960db63a0053c8d4311df61ff55f1534fd117868b39101d99b5666dd7e0a1977"
+    },
+    {
+      "path": "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change/references/shared-global-governance.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 197499157,
+      "kind": "file",
+      "sha256": "960db63a0053c8d4311df61ff55f1534fd117868b39101d99b5666dd7e0a1977"
+    },
+    {
+      "path": "/Users/elvis/.grok/skills/openspec-superpower-change/references/shared-global-governance.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 197499226,
+      "kind": "file",
+      "sha256": "960db63a0053c8d4311df61ff55f1534fd117868b39101d99b5666dd7e0a1977"
+    },
+    {
+      "path": "/Users/elvis/file/develop/opensource/openspec-superpower-change/references/step-evidence-gate.md",
+      "label": "skill-source",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 182827319,
+      "kind": "file",
+      "sha256": "82ddadd792c4f607b9699811d8b64889d7555150422f91e05cf5126b987a3f11"
+    },
+    {
+      "path": "/Users/elvis/.codex/skills/openspec-superpower-change/references/step-evidence-gate.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 189815001,
+      "kind": "file",
+      "sha256": "82ddadd792c4f607b9699811d8b64889d7555150422f91e05cf5126b987a3f11"
+    },
+    {
+      "path": "/Users/elvis/.pi/agent/skills/openspec-superpower-change/references/step-evidence-gate.md",
+      "label": "portable-target",
+      "mode": "0600",
+      "device": 16777231,
+      "inode": 189815202,
+      "kind": "file",
+      "sha256": "82ddadd792c4f607b9699811d8b64889d7555150422f91e05cf5126b987a3f11"
+    },
+    {
+      "path": "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change/references/step-evidence-gate.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 189815414,
+      "kind": "file",
+      "sha256": "82ddadd792c4f607b9699811d8b64889d7555150422f91e05cf5126b987a3f11"
+    },
+    {
+      "path": "/Users/elvis/.grok/skills/openspec-superpower-change/references/step-evidence-gate.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 189815611,
+      "kind": "file",
+      "sha256": "82ddadd792c4f607b9699811d8b64889d7555150422f91e05cf5126b987a3f11"
+    },
+    {
+      "path": "/Users/elvis/file/develop/opensource/openspec-superpower-change/references/superpowers-adapter.md",
+      "label": "skill-source",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 197373049,
+      "kind": "file",
+      "sha256": "851cbff37e5407c8c0c5c2872baa07b398f0d097aabcbe50eb29cb4c5b8b734f"
+    },
+    {
+      "path": "/Users/elvis/.codex/skills/openspec-superpower-change/references/superpowers-adapter.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 197499026,
+      "kind": "file",
+      "sha256": "851cbff37e5407c8c0c5c2872baa07b398f0d097aabcbe50eb29cb4c5b8b734f"
+    },
+    {
+      "path": "/Users/elvis/.pi/agent/skills/openspec-superpower-change/references/superpowers-adapter.md",
+      "label": "portable-target",
+      "mode": "0600",
+      "device": 16777231,
+      "inode": 197499094,
+      "kind": "file",
+      "sha256": "851cbff37e5407c8c0c5c2872baa07b398f0d097aabcbe50eb29cb4c5b8b734f"
+    },
+    {
+      "path": "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change/references/superpowers-adapter.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 197499159,
+      "kind": "file",
+      "sha256": "851cbff37e5407c8c0c5c2872baa07b398f0d097aabcbe50eb29cb4c5b8b734f"
+    },
+    {
+      "path": "/Users/elvis/.grok/skills/openspec-superpower-change/references/superpowers-adapter.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 197499228,
+      "kind": "file",
+      "sha256": "851cbff37e5407c8c0c5c2872baa07b398f0d097aabcbe50eb29cb4c5b8b734f"
+    },
+    {
+      "path": "/Users/elvis/file/develop/opensource/openspec-superpower-change/references/sync-checklist.md",
+      "label": "skill-source",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 197373051,
+      "kind": "file",
+      "sha256": "366f272094a2c24d8840c94159483636624b24cd1629219f7114959848905028"
+    },
+    {
+      "path": "/Users/elvis/.codex/skills/openspec-superpower-change/references/sync-checklist.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 197499028,
+      "kind": "file",
+      "sha256": "366f272094a2c24d8840c94159483636624b24cd1629219f7114959848905028"
+    },
+    {
+      "path": "/Users/elvis/.pi/agent/skills/openspec-superpower-change/references/sync-checklist.md",
+      "label": "portable-target",
+      "mode": "0600",
+      "device": 16777231,
+      "inode": 197499096,
+      "kind": "file",
+      "sha256": "366f272094a2c24d8840c94159483636624b24cd1629219f7114959848905028"
+    },
+    {
+      "path": "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change/references/sync-checklist.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 197499161,
+      "kind": "file",
+      "sha256": "366f272094a2c24d8840c94159483636624b24cd1629219f7114959848905028"
+    },
+    {
+      "path": "/Users/elvis/.grok/skills/openspec-superpower-change/references/sync-checklist.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 197499230,
+      "kind": "file",
+      "sha256": "366f272094a2c24d8840c94159483636624b24cd1629219f7114959848905028"
+    },
+    {
+      "path": "/Users/elvis/file/develop/opensource/openspec-superpower-change/scripts/validate_core_gates.py",
+      "label": "skill-source",
+      "mode": "0755",
+      "device": 16777231,
+      "inode": 197373052,
+      "kind": "file",
+      "sha256": "be8a6b215b0b8b408ba9cb66036e98be97bd9c6872630aa0b8972969a91f54ea"
+    },
+    {
+      "path": "/Users/elvis/.codex/skills/openspec-superpower-change/scripts/validate_core_gates.py",
+      "label": "portable-target",
+      "mode": "0755",
+      "device": 16777231,
+      "inode": 197499030,
+      "kind": "file",
+      "sha256": "be8a6b215b0b8b408ba9cb66036e98be97bd9c6872630aa0b8972969a91f54ea"
+    },
+    {
+      "path": "/Users/elvis/.pi/agent/skills/openspec-superpower-change/scripts/validate_core_gates.py",
+      "label": "portable-target",
+      "mode": "0700",
+      "device": 16777231,
+      "inode": 197499098,
+      "kind": "file",
+      "sha256": "be8a6b215b0b8b408ba9cb66036e98be97bd9c6872630aa0b8972969a91f54ea"
+    },
+    {
+      "path": "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change/scripts/validate_core_gates.py",
+      "label": "portable-target",
+      "mode": "0755",
+      "device": 16777231,
+      "inode": 197499163,
+      "kind": "file",
+      "sha256": "be8a6b215b0b8b408ba9cb66036e98be97bd9c6872630aa0b8972969a91f54ea"
+    },
+    {
+      "path": "/Users/elvis/.grok/skills/openspec-superpower-change/scripts/validate_core_gates.py",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 197499232,
+      "kind": "file",
+      "sha256": "be8a6b215b0b8b408ba9cb66036e98be97bd9c6872630aa0b8972969a91f54ea"
+    },
+    {
+      "path": "/Users/elvis/file/develop/opensource/openspec-superpower-change/scripts/validate_cross_cli_sync.py",
+      "label": "skill-source",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 197373053,
+      "kind": "file",
+      "sha256": "640402ec081b2ceee22d515f8f97ee93bbae75ab102b1b2607c2024c44f607b9"
+    },
+    {
+      "path": "/Users/elvis/.codex/skills/openspec-superpower-change/scripts/validate_cross_cli_sync.py",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 197499032,
+      "kind": "file",
+      "sha256": "640402ec081b2ceee22d515f8f97ee93bbae75ab102b1b2607c2024c44f607b9"
+    },
+    {
+      "path": "/Users/elvis/.pi/agent/skills/openspec-superpower-change/scripts/validate_cross_cli_sync.py",
+      "label": "portable-target",
+      "mode": "0600",
+      "device": 16777231,
+      "inode": 197499100,
+      "kind": "file",
+      "sha256": "640402ec081b2ceee22d515f8f97ee93bbae75ab102b1b2607c2024c44f607b9"
+    },
+    {
+      "path": "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change/scripts/validate_cross_cli_sync.py",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 197499165,
+      "kind": "file",
+      "sha256": "640402ec081b2ceee22d515f8f97ee93bbae75ab102b1b2607c2024c44f607b9"
+    },
+    {
+      "path": "/Users/elvis/.grok/skills/openspec-superpower-change/scripts/validate_cross_cli_sync.py",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 197499234,
+      "kind": "file",
+      "sha256": "640402ec081b2ceee22d515f8f97ee93bbae75ab102b1b2607c2024c44f607b9"
+    },
+    {
+      "path": "/Users/elvis/file/develop/opensource/openspec-superpower-change/templates/design-template.md",
+      "label": "skill-source",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 159874321,
+      "kind": "file",
+      "sha256": "5482c75976d3aab973e61fb3cdf57619959836715e4ba61d15f321f8af43d155"
+    },
+    {
+      "path": "/Users/elvis/.codex/skills/openspec-superpower-change/templates/design-template.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 189815011,
+      "kind": "file",
+      "sha256": "5482c75976d3aab973e61fb3cdf57619959836715e4ba61d15f321f8af43d155"
+    },
+    {
+      "path": "/Users/elvis/.pi/agent/skills/openspec-superpower-change/templates/design-template.md",
+      "label": "portable-target",
+      "mode": "0600",
+      "device": 16777231,
+      "inode": 189815212,
+      "kind": "file",
+      "sha256": "5482c75976d3aab973e61fb3cdf57619959836715e4ba61d15f321f8af43d155"
+    },
+    {
+      "path": "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change/templates/design-template.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 189815424,
+      "kind": "file",
+      "sha256": "5482c75976d3aab973e61fb3cdf57619959836715e4ba61d15f321f8af43d155"
+    },
+    {
+      "path": "/Users/elvis/.grok/skills/openspec-superpower-change/templates/design-template.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 189815621,
+      "kind": "file",
+      "sha256": "5482c75976d3aab973e61fb3cdf57619959836715e4ba61d15f321f8af43d155"
+    },
+    {
+      "path": "/Users/elvis/file/develop/opensource/openspec-superpower-change/templates/evidence-template.md",
+      "label": "skill-source",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 159874323,
+      "kind": "file",
+      "sha256": "25f6a94c87ce9b0db664c14c12decfd2f089dc12be126a83fe1db95a87de1c05"
+    },
+    {
+      "path": "/Users/elvis/.codex/skills/openspec-superpower-change/templates/evidence-template.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 189815013,
+      "kind": "file",
+      "sha256": "25f6a94c87ce9b0db664c14c12decfd2f089dc12be126a83fe1db95a87de1c05"
+    },
+    {
+      "path": "/Users/elvis/.pi/agent/skills/openspec-superpower-change/templates/evidence-template.md",
+      "label": "portable-target",
+      "mode": "0600",
+      "device": 16777231,
+      "inode": 189815214,
+      "kind": "file",
+      "sha256": "25f6a94c87ce9b0db664c14c12decfd2f089dc12be126a83fe1db95a87de1c05"
+    },
+    {
+      "path": "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change/templates/evidence-template.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 189815426,
+      "kind": "file",
+      "sha256": "25f6a94c87ce9b0db664c14c12decfd2f089dc12be126a83fe1db95a87de1c05"
+    },
+    {
+      "path": "/Users/elvis/.grok/skills/openspec-superpower-change/templates/evidence-template.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 189815623,
+      "kind": "file",
+      "sha256": "25f6a94c87ce9b0db664c14c12decfd2f089dc12be126a83fe1db95a87de1c05"
+    },
+    {
+      "path": "/Users/elvis/file/develop/opensource/openspec-superpower-change/templates/final-report-template.md",
+      "label": "skill-source",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 164003928,
+      "kind": "file",
+      "sha256": "3f02c3ea076002ddc0d3c5a11b195442b115e2e7cbc871d05c498226ee92de27"
+    },
+    {
+      "path": "/Users/elvis/.codex/skills/openspec-superpower-change/templates/final-report-template.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 189815015,
+      "kind": "file",
+      "sha256": "3f02c3ea076002ddc0d3c5a11b195442b115e2e7cbc871d05c498226ee92de27"
+    },
+    {
+      "path": "/Users/elvis/.pi/agent/skills/openspec-superpower-change/templates/final-report-template.md",
+      "label": "portable-target",
+      "mode": "0600",
+      "device": 16777231,
+      "inode": 189815216,
+      "kind": "file",
+      "sha256": "3f02c3ea076002ddc0d3c5a11b195442b115e2e7cbc871d05c498226ee92de27"
+    },
+    {
+      "path": "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change/templates/final-report-template.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 189815428,
+      "kind": "file",
+      "sha256": "3f02c3ea076002ddc0d3c5a11b195442b115e2e7cbc871d05c498226ee92de27"
+    },
+    {
+      "path": "/Users/elvis/.grok/skills/openspec-superpower-change/templates/final-report-template.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 189815625,
+      "kind": "file",
+      "sha256": "3f02c3ea076002ddc0d3c5a11b195442b115e2e7cbc871d05c498226ee92de27"
+    },
+    {
+      "path": "/Users/elvis/file/develop/opensource/openspec-superpower-change/templates/final-verification-template.md",
+      "label": "skill-source",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 164003929,
+      "kind": "file",
+      "sha256": "ddb69e1182b3e6c20e233f7dacb802e9b623a6951086b5f6ced1ffee76fd8ea6"
+    },
+    {
+      "path": "/Users/elvis/.codex/skills/openspec-superpower-change/templates/final-verification-template.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 189815017,
+      "kind": "file",
+      "sha256": "ddb69e1182b3e6c20e233f7dacb802e9b623a6951086b5f6ced1ffee76fd8ea6"
+    },
+    {
+      "path": "/Users/elvis/.pi/agent/skills/openspec-superpower-change/templates/final-verification-template.md",
+      "label": "portable-target",
+      "mode": "0600",
+      "device": 16777231,
+      "inode": 189815218,
+      "kind": "file",
+      "sha256": "ddb69e1182b3e6c20e233f7dacb802e9b623a6951086b5f6ced1ffee76fd8ea6"
+    },
+    {
+      "path": "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change/templates/final-verification-template.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 189815430,
+      "kind": "file",
+      "sha256": "ddb69e1182b3e6c20e233f7dacb802e9b623a6951086b5f6ced1ffee76fd8ea6"
+    },
+    {
+      "path": "/Users/elvis/.grok/skills/openspec-superpower-change/templates/final-verification-template.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 189815627,
+      "kind": "file",
+      "sha256": "ddb69e1182b3e6c20e233f7dacb802e9b623a6951086b5f6ced1ffee76fd8ea6"
+    },
+    {
+      "path": "/Users/elvis/file/develop/opensource/openspec-superpower-change/templates/learning-candidate-template.md",
+      "label": "skill-source",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 165144736,
+      "kind": "file",
+      "sha256": "ead199a25903b29e3fc778d068c9251d00fbb20a59007ab6f913720dd1812d47"
+    },
+    {
+      "path": "/Users/elvis/.codex/skills/openspec-superpower-change/templates/learning-candidate-template.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 195564878,
+      "kind": "file",
+      "sha256": "ead199a25903b29e3fc778d068c9251d00fbb20a59007ab6f913720dd1812d47"
+    },
+    {
+      "path": "/Users/elvis/.pi/agent/skills/openspec-superpower-change/templates/learning-candidate-template.md",
+      "label": "portable-target",
+      "mode": "0600",
+      "device": 16777231,
+      "inode": 195565120,
+      "kind": "file",
+      "sha256": "ead199a25903b29e3fc778d068c9251d00fbb20a59007ab6f913720dd1812d47"
+    },
+    {
+      "path": "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change/templates/learning-candidate-template.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 195565223,
+      "kind": "file",
+      "sha256": "ead199a25903b29e3fc778d068c9251d00fbb20a59007ab6f913720dd1812d47"
+    },
+    {
+      "path": "/Users/elvis/.grok/skills/openspec-superpower-change/templates/learning-candidate-template.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 195565298,
+      "kind": "file",
+      "sha256": "ead199a25903b29e3fc778d068c9251d00fbb20a59007ab6f913720dd1812d47"
+    },
+    {
+      "path": "/Users/elvis/file/develop/opensource/openspec-superpower-change/templates/proposal-template.md",
+      "label": "skill-source",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 159874320,
+      "kind": "file",
+      "sha256": "6f8739babf5269b7d229cfff498f84debf0e38e09223f6b19fcd45e7d99f5e57"
+    },
+    {
+      "path": "/Users/elvis/.codex/skills/openspec-superpower-change/templates/proposal-template.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 189815021,
+      "kind": "file",
+      "sha256": "6f8739babf5269b7d229cfff498f84debf0e38e09223f6b19fcd45e7d99f5e57"
+    },
+    {
+      "path": "/Users/elvis/.pi/agent/skills/openspec-superpower-change/templates/proposal-template.md",
+      "label": "portable-target",
+      "mode": "0600",
+      "device": 16777231,
+      "inode": 189815222,
+      "kind": "file",
+      "sha256": "6f8739babf5269b7d229cfff498f84debf0e38e09223f6b19fcd45e7d99f5e57"
+    },
+    {
+      "path": "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change/templates/proposal-template.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 189815434,
+      "kind": "file",
+      "sha256": "6f8739babf5269b7d229cfff498f84debf0e38e09223f6b19fcd45e7d99f5e57"
+    },
+    {
+      "path": "/Users/elvis/.grok/skills/openspec-superpower-change/templates/proposal-template.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 189815631,
+      "kind": "file",
+      "sha256": "6f8739babf5269b7d229cfff498f84debf0e38e09223f6b19fcd45e7d99f5e57"
+    },
+    {
+      "path": "/Users/elvis/file/develop/opensource/openspec-superpower-change/templates/tasks-template.md",
+      "label": "skill-source",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 159874322,
+      "kind": "file",
+      "sha256": "45512dd5c1cc90761742115bc8e972d1bd4914d3b0e212809e2646ee093ccf8f"
+    },
+    {
+      "path": "/Users/elvis/.codex/skills/openspec-superpower-change/templates/tasks-template.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 189815023,
+      "kind": "file",
+      "sha256": "45512dd5c1cc90761742115bc8e972d1bd4914d3b0e212809e2646ee093ccf8f"
+    },
+    {
+      "path": "/Users/elvis/.pi/agent/skills/openspec-superpower-change/templates/tasks-template.md",
+      "label": "portable-target",
+      "mode": "0600",
+      "device": 16777231,
+      "inode": 189815224,
+      "kind": "file",
+      "sha256": "45512dd5c1cc90761742115bc8e972d1bd4914d3b0e212809e2646ee093ccf8f"
+    },
+    {
+      "path": "/Users/elvis/.gemini/antigravity-cli/skills/openspec-superpower-change/templates/tasks-template.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 189815436,
+      "kind": "file",
+      "sha256": "45512dd5c1cc90761742115bc8e972d1bd4914d3b0e212809e2646ee093ccf8f"
+    },
+    {
+      "path": "/Users/elvis/.grok/skills/openspec-superpower-change/templates/tasks-template.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 189815633,
+      "kind": "file",
+      "sha256": "45512dd5c1cc90761742115bc8e972d1bd4914d3b0e212809e2646ee093ccf8f"
+    },
+    {
+      "path": "/Users/elvis/file/develop/opensource/codex-brief-antigravity-review/SKILL.md",
+      "label": "skill-source",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 166261209,
+      "kind": "file",
+      "sha256": "fcf3f3f94edd0a669b5563f974b15237ae8e667db8de509c73a397bababc4de1"
+    },
+    {
+      "path": "/Users/elvis/.codex/skills/codex-brief-antigravity-review/SKILL.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 189815025,
+      "kind": "file",
+      "sha256": "fcf3f3f94edd0a669b5563f974b15237ae8e667db8de509c73a397bababc4de1"
+    },
+    {
+      "path": "/Users/elvis/.pi/agent/skills/codex-brief-antigravity-review/SKILL.md",
+      "label": "portable-target",
+      "mode": "0600",
+      "device": 16777231,
+      "inode": 189815226,
+      "kind": "file",
+      "sha256": "fcf3f3f94edd0a669b5563f974b15237ae8e667db8de509c73a397bababc4de1"
+    },
+    {
+      "path": "/Users/elvis/.gemini/antigravity-cli/skills/codex-brief-antigravity-review/SKILL.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 189815438,
+      "kind": "file",
+      "sha256": "fcf3f3f94edd0a669b5563f974b15237ae8e667db8de509c73a397bababc4de1"
+    },
+    {
+      "path": "/Users/elvis/.grok/skills/codex-brief-antigravity-review/SKILL.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 189815635,
+      "kind": "file",
+      "sha256": "fcf3f3f94edd0a669b5563f974b15237ae8e667db8de509c73a397bababc4de1"
+    },
+    {
+      "path": "/Users/elvis/file/develop/opensource/codex-brief-antigravity-review/references/agy-dispatch-template.md",
+      "label": "skill-source",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 164003945,
+      "kind": "file",
+      "sha256": "e3339650fcfa7aedabb16deb34b5dfd41915a0d04fec18ad8ba7195f4fd95909"
+    },
+    {
+      "path": "/Users/elvis/.codex/skills/codex-brief-antigravity-review/references/agy-dispatch-template.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 189815027,
+      "kind": "file",
+      "sha256": "e3339650fcfa7aedabb16deb34b5dfd41915a0d04fec18ad8ba7195f4fd95909"
+    },
+    {
+      "path": "/Users/elvis/.pi/agent/skills/codex-brief-antigravity-review/references/agy-dispatch-template.md",
+      "label": "portable-target",
+      "mode": "0600",
+      "device": 16777231,
+      "inode": 189815228,
+      "kind": "file",
+      "sha256": "e3339650fcfa7aedabb16deb34b5dfd41915a0d04fec18ad8ba7195f4fd95909"
+    },
+    {
+      "path": "/Users/elvis/.gemini/antigravity-cli/skills/codex-brief-antigravity-review/references/agy-dispatch-template.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 189815440,
+      "kind": "file",
+      "sha256": "e3339650fcfa7aedabb16deb34b5dfd41915a0d04fec18ad8ba7195f4fd95909"
+    },
+    {
+      "path": "/Users/elvis/.grok/skills/codex-brief-antigravity-review/references/agy-dispatch-template.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 189815637,
+      "kind": "file",
+      "sha256": "e3339650fcfa7aedabb16deb34b5dfd41915a0d04fec18ad8ba7195f4fd95909"
+    },
+    {
+      "path": "/Users/elvis/file/develop/opensource/codex-brief-antigravity-review/references/brief-template.md",
+      "label": "skill-source",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 164003946,
+      "kind": "file",
+      "sha256": "8a4a14bfbcf223f1842bd0761a1d5ddfb0bd6db55511c0440de50a3eb4d6a398"
+    },
+    {
+      "path": "/Users/elvis/.codex/skills/codex-brief-antigravity-review/references/brief-template.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 189815029,
+      "kind": "file",
+      "sha256": "8a4a14bfbcf223f1842bd0761a1d5ddfb0bd6db55511c0440de50a3eb4d6a398"
+    },
+    {
+      "path": "/Users/elvis/.pi/agent/skills/codex-brief-antigravity-review/references/brief-template.md",
+      "label": "portable-target",
+      "mode": "0600",
+      "device": 16777231,
+      "inode": 189815230,
+      "kind": "file",
+      "sha256": "8a4a14bfbcf223f1842bd0761a1d5ddfb0bd6db55511c0440de50a3eb4d6a398"
+    },
+    {
+      "path": "/Users/elvis/.gemini/antigravity-cli/skills/codex-brief-antigravity-review/references/brief-template.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 189815442,
+      "kind": "file",
+      "sha256": "8a4a14bfbcf223f1842bd0761a1d5ddfb0bd6db55511c0440de50a3eb4d6a398"
+    },
+    {
+      "path": "/Users/elvis/.grok/skills/codex-brief-antigravity-review/references/brief-template.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 189815639,
+      "kind": "file",
+      "sha256": "8a4a14bfbcf223f1842bd0761a1d5ddfb0bd6db55511c0440de50a3eb4d6a398"
+    },
+    {
+      "path": "/Users/elvis/file/develop/opensource/codex-brief-antigravity-review/references/handed-off-external-execution.md",
+      "label": "skill-source",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 166261210,
+      "kind": "file",
+      "sha256": "0931999b997b93da601d443b5bdf7a3486f950ab47ef7d96c31c19a6911fc1fe"
+    },
+    {
+      "path": "/Users/elvis/.codex/skills/codex-brief-antigravity-review/references/handed-off-external-execution.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 189815031,
+      "kind": "file",
+      "sha256": "0931999b997b93da601d443b5bdf7a3486f950ab47ef7d96c31c19a6911fc1fe"
+    },
+    {
+      "path": "/Users/elvis/.pi/agent/skills/codex-brief-antigravity-review/references/handed-off-external-execution.md",
+      "label": "portable-target",
+      "mode": "0600",
+      "device": 16777231,
+      "inode": 189815232,
+      "kind": "file",
+      "sha256": "0931999b997b93da601d443b5bdf7a3486f950ab47ef7d96c31c19a6911fc1fe"
+    },
+    {
+      "path": "/Users/elvis/.gemini/antigravity-cli/skills/codex-brief-antigravity-review/references/handed-off-external-execution.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 189815444,
+      "kind": "file",
+      "sha256": "0931999b997b93da601d443b5bdf7a3486f950ab47ef7d96c31c19a6911fc1fe"
+    },
+    {
+      "path": "/Users/elvis/.grok/skills/codex-brief-antigravity-review/references/handed-off-external-execution.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 189815641,
+      "kind": "file",
+      "sha256": "0931999b997b93da601d443b5bdf7a3486f950ab47ef7d96c31c19a6911fc1fe"
+    },
+    {
+      "path": "/Users/elvis/file/develop/opensource/codex-brief-antigravity-review/references/handoff-contract.md",
+      "label": "skill-source",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 164003947,
+      "kind": "file",
+      "sha256": "01e558079c96ab1f9893cffd202fb2c07f84eedaf5c0ad5f1da6c79a0deec143"
+    },
+    {
+      "path": "/Users/elvis/.codex/skills/codex-brief-antigravity-review/references/handoff-contract.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 189815033,
+      "kind": "file",
+      "sha256": "01e558079c96ab1f9893cffd202fb2c07f84eedaf5c0ad5f1da6c79a0deec143"
+    },
+    {
+      "path": "/Users/elvis/.pi/agent/skills/codex-brief-antigravity-review/references/handoff-contract.md",
+      "label": "portable-target",
+      "mode": "0600",
+      "device": 16777231,
+      "inode": 189815234,
+      "kind": "file",
+      "sha256": "01e558079c96ab1f9893cffd202fb2c07f84eedaf5c0ad5f1da6c79a0deec143"
+    },
+    {
+      "path": "/Users/elvis/.gemini/antigravity-cli/skills/codex-brief-antigravity-review/references/handoff-contract.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 189815446,
+      "kind": "file",
+      "sha256": "01e558079c96ab1f9893cffd202fb2c07f84eedaf5c0ad5f1da6c79a0deec143"
+    },
+    {
+      "path": "/Users/elvis/.grok/skills/codex-brief-antigravity-review/references/handoff-contract.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 189815643,
+      "kind": "file",
+      "sha256": "01e558079c96ab1f9893cffd202fb2c07f84eedaf5c0ad5f1da6c79a0deec143"
+    },
+    {
+      "path": "/Users/elvis/file/develop/opensource/codex-brief-antigravity-review/references/report-template.md",
+      "label": "skill-source",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 164003948,
+      "kind": "file",
+      "sha256": "13af325d55792e166936033e3be75c5fa5fe00b370bf03f1e57b9e8df42de1c7"
+    },
+    {
+      "path": "/Users/elvis/.codex/skills/codex-brief-antigravity-review/references/report-template.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 189815035,
+      "kind": "file",
+      "sha256": "13af325d55792e166936033e3be75c5fa5fe00b370bf03f1e57b9e8df42de1c7"
+    },
+    {
+      "path": "/Users/elvis/.pi/agent/skills/codex-brief-antigravity-review/references/report-template.md",
+      "label": "portable-target",
+      "mode": "0600",
+      "device": 16777231,
+      "inode": 189815236,
+      "kind": "file",
+      "sha256": "13af325d55792e166936033e3be75c5fa5fe00b370bf03f1e57b9e8df42de1c7"
+    },
+    {
+      "path": "/Users/elvis/.gemini/antigravity-cli/skills/codex-brief-antigravity-review/references/report-template.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 189815448,
+      "kind": "file",
+      "sha256": "13af325d55792e166936033e3be75c5fa5fe00b370bf03f1e57b9e8df42de1c7"
+    },
+    {
+      "path": "/Users/elvis/.grok/skills/codex-brief-antigravity-review/references/report-template.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 189815645,
+      "kind": "file",
+      "sha256": "13af325d55792e166936033e3be75c5fa5fe00b370bf03f1e57b9e8df42de1c7"
+    },
+    {
+      "path": "/Users/elvis/file/develop/opensource/codex-brief-antigravity-review/references/review-template.md",
+      "label": "skill-source",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 164003949,
+      "kind": "file",
+      "sha256": "5e67927047924e46193fd0180982c01f28da2e8291a598ea7dda06d9383bb42b"
+    },
+    {
+      "path": "/Users/elvis/.codex/skills/codex-brief-antigravity-review/references/review-template.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 189815037,
+      "kind": "file",
+      "sha256": "5e67927047924e46193fd0180982c01f28da2e8291a598ea7dda06d9383bb42b"
+    },
+    {
+      "path": "/Users/elvis/.pi/agent/skills/codex-brief-antigravity-review/references/review-template.md",
+      "label": "portable-target",
+      "mode": "0600",
+      "device": 16777231,
+      "inode": 189815238,
+      "kind": "file",
+      "sha256": "5e67927047924e46193fd0180982c01f28da2e8291a598ea7dda06d9383bb42b"
+    },
+    {
+      "path": "/Users/elvis/.gemini/antigravity-cli/skills/codex-brief-antigravity-review/references/review-template.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 189815450,
+      "kind": "file",
+      "sha256": "5e67927047924e46193fd0180982c01f28da2e8291a598ea7dda06d9383bb42b"
+    },
+    {
+      "path": "/Users/elvis/.grok/skills/codex-brief-antigravity-review/references/review-template.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 189815647,
+      "kind": "file",
+      "sha256": "5e67927047924e46193fd0180982c01f28da2e8291a598ea7dda06d9383bb42b"
+    },
+    {
+      "path": "/Users/elvis/file/develop/opensource/codex-brief-antigravity-review/references/timeout-audit-template.md",
+      "label": "skill-source",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 164003950,
+      "kind": "file",
+      "sha256": "bf2a6d9b4927c6ae08787aef33388639f0e19fa121813987e639650d11c3ac28"
+    },
+    {
+      "path": "/Users/elvis/.codex/skills/codex-brief-antigravity-review/references/timeout-audit-template.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 189815039,
+      "kind": "file",
+      "sha256": "bf2a6d9b4927c6ae08787aef33388639f0e19fa121813987e639650d11c3ac28"
+    },
+    {
+      "path": "/Users/elvis/.pi/agent/skills/codex-brief-antigravity-review/references/timeout-audit-template.md",
+      "label": "portable-target",
+      "mode": "0600",
+      "device": 16777231,
+      "inode": 189815240,
+      "kind": "file",
+      "sha256": "bf2a6d9b4927c6ae08787aef33388639f0e19fa121813987e639650d11c3ac28"
+    },
+    {
+      "path": "/Users/elvis/.gemini/antigravity-cli/skills/codex-brief-antigravity-review/references/timeout-audit-template.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 189815452,
+      "kind": "file",
+      "sha256": "bf2a6d9b4927c6ae08787aef33388639f0e19fa121813987e639650d11c3ac28"
+    },
+    {
+      "path": "/Users/elvis/.grok/skills/codex-brief-antigravity-review/references/timeout-audit-template.md",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 189815649,
+      "kind": "file",
+      "sha256": "bf2a6d9b4927c6ae08787aef33388639f0e19fa121813987e639650d11c3ac28"
+    },
+    {
+      "path": "/Users/elvis/file/develop/opensource/codex-brief-antigravity-review/scripts/validate_templates.py",
+      "label": "skill-source",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 166261211,
+      "kind": "file",
+      "sha256": "1fda4ff10571800b9d3b7aba93839208ee7f2ab9144b34e8887a22ad62c65f0b"
+    },
+    {
+      "path": "/Users/elvis/.codex/skills/codex-brief-antigravity-review/scripts/validate_templates.py",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 189815041,
+      "kind": "file",
+      "sha256": "1fda4ff10571800b9d3b7aba93839208ee7f2ab9144b34e8887a22ad62c65f0b"
+    },
+    {
+      "path": "/Users/elvis/.pi/agent/skills/codex-brief-antigravity-review/scripts/validate_templates.py",
+      "label": "portable-target",
+      "mode": "0600",
+      "device": 16777231,
+      "inode": 189815242,
+      "kind": "file",
+      "sha256": "1fda4ff10571800b9d3b7aba93839208ee7f2ab9144b34e8887a22ad62c65f0b"
+    },
+    {
+      "path": "/Users/elvis/.gemini/antigravity-cli/skills/codex-brief-antigravity-review/scripts/validate_templates.py",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 189815454,
+      "kind": "file",
+      "sha256": "1fda4ff10571800b9d3b7aba93839208ee7f2ab9144b34e8887a22ad62c65f0b"
+    },
+    {
+      "path": "/Users/elvis/.grok/skills/codex-brief-antigravity-review/scripts/validate_templates.py",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 189815651,
+      "kind": "file",
+      "sha256": "1fda4ff10571800b9d3b7aba93839208ee7f2ab9144b34e8887a22ad62c65f0b"
+    },
+    {
+      "path": "/Users/elvis/file/develop/opensource/codex-brief-antigravity-review/agents/openai.yaml",
+      "label": "skill-source",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 164003943,
+      "kind": "file",
+      "sha256": "4da5d5101c5e54ea38412021775befc1991e5f5757ce7d2644e214aae78c1364"
+    },
+    {
+      "path": "/Users/elvis/.codex/skills/codex-brief-antigravity-review/agents/openai.yaml",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 189815043,
+      "kind": "file",
+      "sha256": "4da5d5101c5e54ea38412021775befc1991e5f5757ce7d2644e214aae78c1364"
+    },
+    {
+      "path": "/Users/elvis/.pi/agent/skills/codex-brief-antigravity-review/agents/openai.yaml",
+      "label": "portable-target",
+      "mode": "0600",
+      "device": 16777231,
+      "inode": 189815244,
+      "kind": "file",
+      "sha256": "4da5d5101c5e54ea38412021775befc1991e5f5757ce7d2644e214aae78c1364"
+    },
+    {
+      "path": "/Users/elvis/.gemini/antigravity-cli/skills/codex-brief-antigravity-review/agents/openai.yaml",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 189815456,
+      "kind": "file",
+      "sha256": "4da5d5101c5e54ea38412021775befc1991e5f5757ce7d2644e214aae78c1364"
+    },
+    {
+      "path": "/Users/elvis/.grok/skills/codex-brief-antigravity-review/agents/openai.yaml",
+      "label": "portable-target",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 189815653,
+      "kind": "file",
+      "sha256": "4da5d5101c5e54ea38412021775befc1991e5f5757ce7d2644e214aae78c1364"
+    },
+    {
+      "path": "/Users/elvis/.codex/AGENTS.md",
+      "label": "excluded-native-object",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 197499034,
+      "kind": "file",
+      "sha256": "b049858a8d7d0716d2c97a93fc7f9f2f33eead8b6a33e35525b226dbd6a5605f"
+    },
+    {
+      "path": "/Users/elvis/.pi/agent/APPEND_SYSTEM.md",
+      "label": "excluded-native-object",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 197499102,
+      "kind": "file",
+      "sha256": "c03b5adee70765417aed2ace874293314d0c6ecca9db55bd63c149fdaa275477"
+    },
+    {
+      "path": "/Users/elvis/.gemini/GEMINI.md",
+      "label": "excluded-native-object",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 197499167,
+      "kind": "file",
+      "sha256": "a4233879fca11e4fd6e75b813e655086c92fa1dcb9e97a4b0ba77955a8b65a99"
+    },
+    {
+      "path": "/Users/elvis/.codex/config.toml",
+      "label": "excluded-native-object",
+      "mode": "0600",
+      "device": 16777231,
+      "inode": 197602104,
+      "kind": "file",
+      "sha256": "ca41bec275c2b12e7ed871141272557edcdb68c3c11d804727824a6dced1ca72"
+    },
+    {
+      "path": "/Users/elvis/.codex-account-a/config.toml",
+      "label": "excluded-native-object",
+      "mode": "0600",
+      "device": 16777231,
+      "inode": 196103645,
+      "kind": "file",
+      "sha256": "cc20886e5db221058fa903669b71f7bd00c7c11efda1f908d97bfb8692aec3b3"
+    },
+    {
+      "path": "/Users/elvis/.claude/hooks/review_report_guard.py",
+      "label": "excluded-native-object",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 183557771,
+      "kind": "file",
+      "sha256": "3ec6d1fd6945b619368794374b90a87c3c1abdc3c0f2b079fd186b135d9e5522"
+    },
+    {
+      "path": "/Users/elvis/.claude/settings.json",
+      "label": "excluded-native-object",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 191551328,
+      "kind": "file",
+      "sha256": "bce89a4b7647331d4fc49bd05675aafffe49bf8cc769f4850a2688bb4c847c5c"
+    },
+    {
+      "path": "/Users/elvis/.grok/config.toml",
+      "label": "excluded-native-object",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 194007107,
+      "kind": "file",
+      "sha256": "a7f1bce29c1d090b8f4c9b102ff4eb6de489f86193b9f8ed3cc7d2c53994a45a"
+    },
+    {
+      "path": "/Users/elvis/.grok/disabled-hooks",
+      "kind": "absent",
+      "label": "excluded-native-object"
+    },
+    {
+      "path": "/Users/elvis/.grok/hooks/codeisland.json",
+      "label": "excluded-native-object",
+      "mode": "0600",
+      "device": 16777231,
+      "inode": 197597664,
+      "kind": "file",
+      "sha256": "20151b0dd299500648b1bb7f130f47fdd15656bf926786c64f1589730bf18a1d"
+    },
+    {
+      "path": "/Users/elvis/.cursor/skills/using-superpowers",
+      "label": "excluded-native-object",
+      "mode": "0755",
+      "device": 16777231,
+      "inode": 187224605,
+      "kind": "symlink",
+      "target": "/Users/elvis/.codex/superpowers/skills/using-superpowers"
+    },
+    {
+      "path": "/Users/elvis/.agents/skills/superpowers",
+      "label": "excluded-native-object",
+      "mode": "0755",
+      "device": 16777231,
+      "inode": 191556957,
+      "kind": "symlink",
+      "target": "/Users/elvis/.codex/superpowers-v6.4.2-router/skills"
+    },
+    {
+      "path": "/Users/elvis/.codex/superpowers-v6.4.2-router/skills/using-superpowers/SKILL.md",
+      "label": "excluded-native-object",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 191553165,
+      "kind": "file",
+      "sha256": "82c5c8866ad7f5dd4440ce66bd7806ba48a2f13771beae5cf112e53f08fe36ba"
+    },
+    {
+      "path": "/Users/elvis/.local/bin/claudex",
+      "label": "excluded-native-object",
+      "mode": "0755",
+      "device": 16777231,
+      "inode": 196099765,
+      "kind": "file",
+      "sha256": "2349d6330e2fe05750b8b50ec72a8a96e923eb8e732abddf1a360524c5c1b988"
+    },
+    {
+      "path": "/Users/elvis/.local/bin/claudeg",
+      "label": "excluded-native-object",
+      "mode": "0755",
+      "device": 16777231,
+      "inode": 183552448,
+      "kind": "file",
+      "sha256": "ed469cd57763822884a1701b9f07919c45206ef4f0fbbd904eccc88e06e856c5"
+    },
+    {
+      "path": "/Users/elvis/file/develop/opensource/openspec-superpower-change/references/cross-cli-portable-manifest.json",
+      "label": "manifest",
+      "mode": "0644",
+      "device": 16777231,
+      "inode": 170793610,
+      "kind": "file",
+      "sha256": "d8389bf24b9fb3bc22bde69f1b2ba5cfee0fb6245d38ff4dcb5fe2f7649d4116"
+    }
+  ],
+  "portable_files": 160,
+  "source_files": 40
+}

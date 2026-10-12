@@ -1,0 +1,25 @@
+{
+  "author": "elvis",
+  "change_id": "align-native-consumer-projections",
+  "result": "PASS",
+  "working_directory": "/Users/elvis/file/develop/opensource/openspec-superpower-change",
+  "checks": [
+    {
+      "name": "fallback",
+      "command": "python3 -m unittest discover -s tests -v",
+      "exit_code": 0,
+      "log_sha256": "66a0978ca6baf46440f307e1e1457d08171123b186c7d15f823af8a74495114f",
+      "tail": "ules.WorkflowRulesTest.test_timeout_audit_can_bind_report_and_review_without_other_role_reuse) ... ok\ntest_timeout_audit_is_blocked_only_and_cannot_satisfy_complete (test_workflow_rules.WorkflowRulesTest.test_timeout_audit_is_blocked_only_and_cannot_satisfy_complete) ... ok\n\n----------------------------------------------------------------------\nRan 492 tests in 30.179s\n\nOK\n{\"forward\": \"PASS\", \"case_count\": 1}\n{\"forward\": \"PASS\", \"case_count\": 1}\n",
+      "seconds": 30.43
+    },
+    {
+      "name": "pyyaml",
+      "command": "/Users/elvis/Library/Caches/native-agent-adaptation/codex-first-validation-20261012/bin/python -m unittest discover -s tests -v",
+      "exit_code": 0,
+      "log_sha256": "700438cda96cc5a7b3d1bae6df560dbae66d23aca4c6a4b4540c9ff1b1ec0a29",
+      "tail": "ules.WorkflowRulesTest.test_timeout_audit_can_bind_report_and_review_without_other_role_reuse) ... ok\ntest_timeout_audit_is_blocked_only_and_cannot_satisfy_complete (test_workflow_rules.WorkflowRulesTest.test_timeout_audit_is_blocked_only_and_cannot_satisfy_complete) ... ok\n\n----------------------------------------------------------------------\nRan 492 tests in 30.514s\n\nOK\n{\"forward\": \"PASS\", \"case_count\": 1}\n{\"forward\": \"PASS\", \"case_count\": 1}\n",
+      "seconds": 30.72
+    }
+  ],
+  "scope": "492 whole-workspace tests each, including22 unrelated JEV tests; committed prerequisite scope470 each separately passed. JEV files are not staged or altered."
+}

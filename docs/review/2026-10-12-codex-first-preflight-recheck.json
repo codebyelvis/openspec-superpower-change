@@ -1,0 +1,584 @@
+{
+  "author": "elvis",
+  "date": "2026-10-12",
+  "change": "align-native-consumer-projections",
+  "result": "PASS",
+  "result_authority": "governed-review-evidence",
+  "reviewer_identity": {
+    "agent_product": "codex",
+    "agent_instance_id": "native-consumer-preflight-review",
+    "agent_role": "independent-reviewer",
+    "capability_profile": "control-plane-high"
+  },
+  "author_identity": {
+    "agent_product": "codex",
+    "agent_instance_id": "align-native-root"
+  },
+  "executor_identity": {
+    "agent_product": "codex",
+    "agent_instance_id": "align-native-root"
+  },
+  "independence_requirement": {
+    "kind": "distinct-contract-instance",
+    "distinct_from": [
+      "author_identity",
+      "executor_identity"
+    ]
+  },
+  "review_mode": "FOCUSED_RECHECK",
+  "attempt": 2,
+  "terminal": true,
+  "lineage_root_revision": {
+    "path": "docs/superpowers/plans/2026-10-12-codex-first-native-consumer-projections.md",
+    "sha256": "f3a92474d1b08f0a6d878ced65fd9afda51e2e40fb267a86b8920cc178669358"
+  },
+  "reviewed_revision": {
+    "path": "docs/superpowers/plans/2026-10-12-codex-first-native-consumer-projections.md",
+    "sha256": "935019d8c78500c07f4967aa41a0fccbbc8d8d3ffcc4cbd2dd1df6ee893795cb"
+  },
+  "parent_review": {
+    "path": "docs/review/2026-10-12-codex-first-preflight.json",
+    "sha256": "76335e13fedc99e17129b07afc77193d022ebd1fd9b98336b968fc7786a1886b"
+  },
+  "same_reviewer_instance": true,
+  "same_reviewer_instance_evidence": "Exact comparison with parsed SHA-verified immutable parent reviewer_identity; instance remains distinct from author/executor.",
+  "finding_completeness": true,
+  "review_purpose": {
+    "object": "docs/superpowers/plans/2026-10-12-codex-first-native-consumer-projections.md",
+    "decision": "whether native two-file implementation under this concrete plan may proceed"
+  },
+  "protected_boundaries": {
+    "scope": {
+      "result": "verified-unchanged",
+      "evidence": [
+        "openspec/changes/align-native-consumer-projections/amendments/codex-first-approval.md",
+        "openspec/changes/align-native-consumer-projections/amendments/codex-first-draft-v1.md",
+        "docs/superpowers/plans/2026-10-12-codex-first-native-consumer-projections.md",
+        "docs/review/2026-10-12-codex-first-preflight-corrections.json",
+        "docs/review/2026-10-12-codex-first-preparation-r2.json"
+      ],
+      "observation": "Actual package file entries, target paths, unchanged candidates/preimages/native identities/modes and original rows [1,5] equal full-root package. F4 now enforces exactly integer1/2 before package access; order row01 then05 retained."
+    },
+    "contract_spec": {
+      "result": "verified-unchanged",
+      "evidence": [
+        "openspec/changes/align-native-consumer-projections/amendments/codex-first-approval.md",
+        "openspec/changes/align-native-consumer-projections/amendments/codex-first-draft-v1.md",
+        "openspec/changes/align-native-consumer-projections/revisions/draft-v2/design.md",
+        "openspec/changes/align-native-consumer-projections/revisions/draft-v2/specs/skill-workflow-governance/spec.md",
+        "docs/review/2026-10-12-codex-first-preflight-corrections.json",
+        "docs/review/2026-10-12-codex-first-preparation-r2.json"
+      ],
+      "observation": "Specific approval and immutable draft-v2 contract bytes exactly match full-root inputs. Actual Plan diff adds F1-F4 correction record, separate terminal Review/evidence paths and revised hashes only; no scope/spec/design reapproval or new requirement."
+    },
+    "acceptance": {
+      "result": "verified-unchanged",
+      "evidence": [
+        "docs/superpowers/plans/2026-10-12-codex-first-native-consumer-projections.md",
+        "docs/review/2026-10-12-codex-first-qualified-mechanisms.json",
+        "docs/review/2026-10-12-codex-first-qualification-runs.json",
+        "openspec/changes/align-native-consumer-projections/amendments/codex-first-approval.md",
+        "docs/review/2026-10-12-codex-first-preflight-corrections.json",
+        "docs/review/2026-10-12-codex-first-preparation-r2.json"
+      ],
+      "observation": "Actual observer/parser/behavior/cases and native qualification results unchanged. Twenty post-write A-F/P1-P4 probes, exact global-body/receipt/exclusion checks and required later review/verification/completion gates retained."
+    },
+    "risk_evidence_profile": {
+      "result": "verified-unchanged",
+      "evidence": [
+        "openspec/changes/align-native-consumer-projections/amendments/codex-first-approval.md",
+        "docs/superpowers/plans/2026-10-12-codex-first-native-consumer-projections.md",
+        "docs/review/2026-10-12-codex-first-native-startup-boundary.json",
+        "docs/review/2026-10-12-codex-first-native-hook-discovery.json",
+        "docs/review/2026-10-12-codex-first-preflight-corrections.json",
+        "docs/review/2026-10-12-codex-first-preparation-r2.json"
+      ],
+      "observation": "Strict unchanged. Original qualification is reused only for unchanged native/source controls; no native rerun claimed. Current command/fixtures verified afresh. Existing limited callback residual risks retained exactly."
+    },
+    "authority": {
+      "result": "verified-unchanged",
+      "evidence": [
+        "openspec/changes/align-native-consumer-projections/amendments/codex-first-approval.md",
+        "docs/superpowers/plans/2026-10-12-codex-first-native-consumer-projections.md",
+        "references/agent-capability-routing.md",
+        "docs/review/2026-10-12-codex-first-preflight-corrections.json",
+        "docs/review/2026-10-12-codex-first-preparation-r2.json"
+      ],
+      "observation": "Current native write gate remains BLOCKED, with no native receipts/writes. F1/F2 now bind and safely read qualified mechanism, Review and parent evidence. Reviewer still governed evidence only; owner acceptance/canonical transitions unchanged."
+    },
+    "assignments": {
+      "result": "verified-unchanged",
+      "evidence": [
+        "openspec/changes/align-native-consumer-projections/amendments/codex-first-approval.md",
+        "docs/superpowers/plans/2026-10-12-codex-first-native-consumer-projections.md",
+        "docs/review/2026-10-12-codex-first-preflight-corrections.json",
+        "docs/review/2026-10-12-codex-first-preparation-r2.json"
+      ],
+      "observation": "Approved reviewer product/instance/role/profile, author/executor and separate implementation/final assignments unchanged. Same reviewer exactly matches immutable parent. F3 rejects unassigned high reviewer, advisory role and owner identity."
+    },
+    "allowed_forbidden_files": {
+      "result": "verified-unchanged",
+      "evidence": [
+        "openspec/changes/align-native-consumer-projections/amendments/codex-first-approval.md",
+        "docs/superpowers/plans/2026-10-12-codex-first-native-consumer-projections.md",
+        "docs/review/2026-10-12-codex-first-preparation.json",
+        "docs/review/2026-10-12-codex-first-preflight-corrections.json",
+        "docs/review/2026-10-12-codex-first-preparation-r2.json"
+      ],
+      "observation": "Full-root and revised package files/dependencies/excluded_objects match byte-for-byte JSON values; all244 current bindings pass. Added only immutable first Review artifact reference and parent pin. Private tests/history/reconstructed source snapshots are supporting correction artifacts, no native/source/Companion/config writes."
+    },
+    "branch_worktree": {
+      "result": "verified-unchanged",
+      "evidence": [
+        "openspec/changes/align-native-consumer-projections/amendments/codex-first-approval.md",
+        "docs/superpowers/plans/2026-10-12-codex-first-native-consumer-projections.md",
+        "docs/review/2026-10-12-codex-first-preflight-corrections.json",
+        "docs/review/2026-10-12-codex-first-preparation-r2.json"
+      ],
+      "observation": "Approved sealed private package remains execution isolation. Current dirty project/source workspace preserved. No branch/worktree/Git operation introduced; snapshot identity matches full-root package."
+    },
+    "database_production": {
+      "result": "verified-unchanged",
+      "evidence": [
+        "openspec/changes/align-native-consumer-projections/amendments/codex-first-approval.md",
+        "docs/superpowers/plans/2026-10-12-codex-first-native-consumer-projections.md",
+        "docs/review/2026-10-12-codex-first-preflight-corrections.json",
+        "docs/review/2026-10-12-codex-first-preparation-r2.json"
+      ],
+      "observation": "No database/production/service/credential permission or operation added. Adversarial tests use private synthetic fixtures only; no native/model/hook process launched by reviewer."
+    },
+    "Git_publication_deployment": {
+      "result": "verified-unchanged",
+      "evidence": [
+        "openspec/changes/align-native-consumer-projections/amendments/codex-first-approval.md",
+        "docs/superpowers/plans/2026-10-12-codex-first-native-consumer-projections.md",
+        "docs/review/2026-10-12-codex-first-preflight-corrections.json",
+        "docs/review/2026-10-12-codex-first-preparation-r2.json"
+      ],
+      "observation": "No Git write, publisher invocation, publication or deployment step introduced. Static publisher/recovery fixtures still pass."
+    }
+  },
+  "declared_correction_set": [
+    "F1",
+    "F2",
+    "F3",
+    "F4",
+    "necessary adjacent synthetic fixtures, lineage/gate regressions and Plan/package/evidence hash bindings only"
+  ],
+  "mechanical_self_check": {
+    "result": "PASS",
+    "checks": [
+      "immutable first full Review regular path/hash exactly matches76335e13; not overwritten or relocated",
+      "current regular Plan path/hash exactly matches935019d8; historical root inherited from immutable parent f3a92474",
+      "same product/instance/role/capability exact match to parent; independent from author/executor",
+      "actual correction diffs recomputed and equal declared hashes/text",
+      "all ten protected boundaries audited against actual diff and unchanged approval/package values",
+      "only declared F1-F4/necessary adjacent correction changes; no changed native targets/candidates/exclusions/observer/parser/cases/authority/risk/acceptance",
+      "all current project evidence references resolve to regular non-symlink files and current whole-file digests",
+      "fresh private critical regressions and33 independent adversarial cases pass",
+      "separate terminal artifact JSON/lineage/required fields validated after write"
+    ],
+    "qualification": "PASS is terminal scoped readiness evidence only. Owner must accept exact hashes and gate before native apply; candidate acceptance and completion remain pending."
+  },
+  "finding_closure": [
+    {
+      "finding": "F1",
+      "result": "CLOSED",
+      "actual_change": "Strict exact {path,sha256} reference shapes, lowercase64-hex digests, validated historical root revision, package-pinned immutable original full path/hash, and descriptor-byte hash/parse binding.",
+      "independent_evidence": "Missing/null/empty/false/zero/malformed/uppercase parent hashes, malformed historical root hashes and same-byte parent path swap all rejected; legitimate terminal focused lineage accepted."
+    },
+    {
+      "finding": "F2",
+      "result": "CLOSED",
+      "actual_change": "Native gate mechanism/Review/parent JSON evidence is read from project-root retained directory descriptors with O_DIRECTORY/O_NOFOLLOW at each component, nonblocking regular leaf validation, stable file snapshot and retained namespace checks before parsing same hashed bytes.",
+      "independent_evidence": "Intermediate and leaf symlink escape, FIFO evidence, same-byte leaf replacement after open and intermediate-directory replacement after open all rejected."
+    },
+    {
+      "finding": "F3",
+      "result": "CLOSED",
+      "actual_change": "write_ready requires native-consumer-preflight-review in addition to Codex product, independent-reviewer role, control-plane-high capability, unchanged purpose/authority/independence/author/executor and parent identity.",
+      "independent_evidence": "Actual isolated write_ready accepts assigned focused evidence; rejects different independent instance, advisory role and align-native-root."
+    },
+    {
+      "finding": "F4",
+      "result": "CLOSED",
+      "actual_change": "run validates action and exact integer index1/2 before package access, indexing or receipts.",
+      "independent_evidence": "Invalid indices0/-1/3/True/False/string1/float1/None and invalid actions are rejected before a sentinel package reader can run. Actual two-file command pipeline and receipt/recovery fixtures still pass."
+    },
+    {
+      "finding": "necessary-adjacent-edits",
+      "result": "CLOSED",
+      "actual_change": "Synthetic fixtures use the fixed reviewer and omit immutable real full artifact binding only inside shadow package; lineage/gate regression tests, separate r2 proof/preparation, Plan hashes and package parent pin updated. Original full artifact/proof/preparation retained.",
+      "independent_evidence": "Computed actual command/fixture/Plan diffs exactly equal hashed correction artifact; package only changes artifacts/preflight_lineage_root. Revised qualification only changes Plan SHA and explicit reuse explanation. Reconstructed old command/fixture bytes match exact original full-root digests and are correctly described as reconstruction, not pre-edit backups."
+    }
+  ],
+  "blocking_findings": [],
+  "non_blocking_recommendations": [],
+  "accepted_residual_risks": [
+    {
+      "risk": "Existing native local lifecycle callbacks can execute outside model-event audit. Compiled receivers and individual handler success/exact syscall writer remain unobserved.",
+      "evidence": [
+        "openspec/changes/align-native-consumer-projections/revisions/draft-v2/design.md",
+        "docs/review/2026-10-12-codex-first-native-startup-boundary.json",
+        "docs/review/2026-10-12-codex-first-native-hook-discovery.json",
+        "docs/review/2026-10-12-codex-first-qualification-runs.json"
+      ],
+      "impact": "Source-body/model-event acceptance cannot establish all-host-read-only, zero-hook or every handler success. No actual forbidden owner action was observed in bounded qualification.",
+      "owner_decision": "align-native-root applies approved design lines111-124 declared hook/session boundary; retain explicit limitations and reject actual forbidden effects without adding an unapproved full-host audit gate."
+    },
+    {
+      "risk": "CodeIsland bridge same-byte0755 inode refresh and excluded external configuration writer not fully attributed.",
+      "evidence": [
+        "docs/review/2026-10-12-codex-first-native-startup-boundary.json",
+        "docs/review/2026-10-12-codex-first-preparation.json",
+        "openspec/changes/align-native-consumer-projections/amendments/codex-first-approval.md"
+      ],
+      "impact": "No claim of who refreshed cache/settings or every mid-run binary syscall. Changed callback bytes/mode/type or further excluded drift blocks; native targets remain strict inode-bound.",
+      "owner_decision": "User confirmed separate upgrade/config adjustment completed; owner preserves current metadata and original exclusions, with cache identity separated from native recovery preconditions."
+    },
+    {
+      "risk": "Default native catalogue startup fallback warning and cwd-limited consumption.",
+      "evidence": [
+        "openspec/changes/align-native-consumer-projections/amendments/codex-first-draft-v1.md",
+        "docs/review/2026-10-12-codex-first-qualified-mechanisms.json",
+        "docs/review/2026-10-12-codex-first-qualification-runs.json"
+      ],
+      "impact": "Two-root observed HOME-descendant acceptance does not qualify arbitrary projects, IDEs, Skill bodies, deferred platform slices or eight-config equivalence.",
+      "owner_decision": "Specific two-file scope approval retains those explicit limitations and required post-write two-root probes."
+    }
+  ],
+  "reviewed_complete_matrix": [
+    {
+      "area": "approval and complete contract coverage",
+      "result": "PASS",
+      "evidence": [
+        "openspec/changes/align-native-consumer-projections/amendments/codex-first-approval.md",
+        "openspec/changes/align-native-consumer-projections/amendments/codex-first-draft-v1.md",
+        "openspec/changes/align-native-consumer-projections/revisions/draft-v2/design.md",
+        "openspec/changes/align-native-consumer-projections/revisions/draft-v2/specs/skill-workflow-governance/spec.md"
+      ],
+      "verification_scope": "Reuse complete full-root assessment only for unchanged boundary; current package/exclusions/dependency hashes and correction diff verified."
+    },
+    {
+      "area": "exact two-file paths/candidates/modes/preserved bytes",
+      "result": "PASS",
+      "evidence": [
+        "docs/superpowers/plans/2026-10-12-codex-first-native-consumer-projections.md",
+        "docs/review/2026-10-12-codex-first-preparation.json"
+      ],
+      "observation": "Fixtures independently rebuild both candidates from original edits/canonical managed body; exact hash and apply/restore equality/mode pass.",
+      "verification_scope": "Reuse complete full-root assessment only for unchanged boundary; current package/exclusions/dependency hashes and correction diff verified."
+    },
+    {
+      "area": "callable command scope and order",
+      "result": "PASS-focused-corrections-verified",
+      "closed_findings": [
+        "F4"
+      ],
+      "evidence": [
+        "docs/review/2026-10-12-codex-first-preflight-corrections.json",
+        "docs/review/2026-10-12-codex-first-preparation-r2.json"
+      ],
+      "observation": "Original blockers closed by corrected actual code and independent probes; see finding_closure."
+    },
+    {
+      "area": "real source/event qualification and current dependency binding",
+      "result": "PASS-limited-pre-write",
+      "evidence": [
+        "docs/review/2026-10-12-codex-first-qualified-mechanisms-r2.json",
+        "docs/review/2026-10-12-codex-first-preparation-r2.json",
+        "docs/review/2026-10-12-codex-first-qualification-runs.json"
+      ],
+      "observation": "Actual two entry names/roots, distinct native threads/cwds, Custom base provenance, source/Rust trim-rendered equality, AGENTS complete once, exit0 and tool-event count0. Executed observer/parser/behavior/case digests match current package and Plan.",
+      "verification_scope": "Reuse complete full-root assessment only for unchanged boundary; current package/exclusions/dependency hashes and correction diff verified."
+    },
+    {
+      "area": "unknown/tool/error/terminal/source-attribution fail-closed audits",
+      "result": "PASS",
+      "evidence": [
+        "docs/superpowers/plans/2026-10-12-codex-first-native-consumer-projections.md",
+        "docs/review/2026-10-12-codex-first-qualification-runs.json"
+      ],
+      "observation": "Independent observer fixtures reject invalid JSONL, unknown/tool/incomplete/out-of-order events, unexpected errors and duplicate/wrong probe input.",
+      "verification_scope": "Reuse complete full-root assessment only for unchanged boundary; current package/exclusions/dependency hashes and correction diff verified."
+    },
+    {
+      "area": "existing native hook trust/source/startup boundary",
+      "result": "PASS-limited",
+      "evidence": [
+        "docs/review/2026-10-12-codex-first-native-startup-boundary.json",
+        "docs/review/2026-10-12-codex-first-native-hook-discovery.json",
+        "openspec/changes/align-native-consumer-projections/revisions/draft-v2/design.md"
+      ],
+      "observation": "Actual hooks/list: default22 (10 trusted12 untrusted), A32 (10 user trusted17 ancestor trusted5 untrusted). Independently read wrapper/CodeIsland dispatcher and backup source; local JSON/IPC/temp stdin behavior matches declared scope. Primary rust-v0.162.1 confirms hook-event filtering and Interrupt clamping. No claim of zero hooks or exhaustive host effects.",
+      "verification_scope": "Reuse complete full-root assessment only for unchanged boundary; current package/exclusions/dependency hashes and correction diff verified."
+    },
+    {
+      "area": "same-byte callback inode allowance versus exclusion integrity",
+      "result": "PASS-limited",
+      "evidence": [
+        "docs/review/2026-10-12-codex-first-native-startup-boundary.json",
+        "docs/review/2026-10-12-codex-first-preparation.json"
+      ],
+      "observation": "Separate bridge/Helper content/mode guards retain regular type; cache inode observational only. Original220 exclusions preserved. Target/source/backup/receipt inode guards unchanged.",
+      "verification_scope": "Reuse complete full-root assessment only for unchanged boundary; current package/exclusions/dependency hashes and correction diff verified."
+    },
+    {
+      "area": "recovery/drift/type/symlink/mode/receipt/failure-stop mechanics",
+      "result": "PASS",
+      "evidence": [
+        "docs/review/2026-10-12-codex-first-preparation.json",
+        "docs/superpowers/plans/2026-10-12-codex-first-native-consumer-projections.md"
+      ],
+      "observation": "Independently reran actual isolated command pipeline and candidate/receipt substitution tests. Exact preimages and modes restored; concurrent objects preserved; pending receipt substitution records blocker and stops second write. No live restore.",
+      "verification_scope": "Reuse complete full-root assessment only for unchanged boundary; current package/exclusions/dependency hashes and correction diff verified."
+    },
+    {
+      "area": "governed review identity/purpose/authority",
+      "result": "PASS-focused-corrections-verified",
+      "observation": "Original blockers closed by corrected actual code and independent probes; see finding_closure.",
+      "closed_findings": [
+        "F3"
+      ],
+      "evidence": [
+        "docs/review/2026-10-12-codex-first-preflight-corrections.json",
+        "docs/review/2026-10-12-codex-first-preparation-r2.json"
+      ]
+    },
+    {
+      "area": "immutable lineage/reference/root constraints",
+      "result": "PASS-focused-corrections-verified",
+      "closed_findings": [
+        "F1",
+        "F2"
+      ],
+      "evidence": [
+        "docs/review/2026-10-12-codex-first-preflight-corrections.json",
+        "docs/review/2026-10-12-codex-first-preparation-r2.json"
+      ],
+      "observation": "Original blockers closed by corrected actual code and independent probes; see finding_closure."
+    },
+    {
+      "area": "excluded current-state reconciliation and remaining drift stops",
+      "result": "PASS",
+      "evidence": [
+        "openspec/changes/align-native-consumer-projections/amendments/codex-first-approval.md",
+        "docs/review/2026-10-12-codex-first-preparation.json"
+      ],
+      "observation": "Account-A config current metadata preserved; Claude settings/Grok CodeIsland JSON reconciliation recorded explicitly after user confirmation. No content copy or owner configuration write; further drift rejects.",
+      "verification_scope": "Reuse complete full-root assessment only for unchanged boundary; current package/exclusions/dependency hashes and correction diff verified."
+    },
+    {
+      "area": "publisher whitelist/formal-attempt/P4 invariance",
+      "result": "PASS-offline",
+      "evidence": [
+        "openspec/changes/align-native-consumer-projections/revisions/draft-v2/design.md",
+        "docs/superpowers/plans/2026-10-12-codex-first-native-consumer-projections.md",
+        "docs/review/2026-10-12-codex-first-preparation.json"
+      ],
+      "observation": "Read-only publisher module static fixtures preserve claudex/claudeg whitelist, protected final filename and exact first-line rejection. Real publication remains forbidden.",
+      "verification_scope": "Reuse complete full-root assessment only for unchanged boundary; current package/exclusions/dependency hashes and correction diff verified."
+    },
+    {
+      "area": "Plan executability and exact required checks",
+      "result": "PASS-focused-corrections-verified",
+      "evidence": [
+        "docs/superpowers/plans/2026-10-12-codex-first-native-consumer-projections.md",
+        "docs/review/2026-10-12-codex-first-preflight-corrections.json",
+        "docs/review/2026-10-12-codex-first-preparation-r2.json"
+      ],
+      "observation": "Actual Plan diff contains declared F1-F4 closures and necessary hashes/separate immutable evidence paths only. Required apply/recovery/20-probe/Review/verification/cleanup/stop steps remain executable with owner acceptance of this Review."
+    },
+    {
+      "area": "post-write acceptance, independent implementation/final review and completion limits",
+      "result": "PASS-defined-pending",
+      "evidence": [
+        "openspec/changes/align-native-consumer-projections/amendments/codex-first-approval.md",
+        "docs/superpowers/plans/2026-10-12-codex-first-native-consumer-projections.md"
+      ],
+      "observation": "20 real candidate classifiers, publisher/offline assertions, required source/OpenSpec checks, implementation Review, learning audit, fresh final verification and distinct Final Review remain required. No completion or candidate PASS yet.",
+      "verification_scope": "Reuse complete full-root assessment only for unchanged boundary; current package/exclusions/dependency hashes and correction diff verified."
+    },
+    {
+      "area": "private backup/raw cleanup and deferred ownership",
+      "result": "PASS-defined-pending",
+      "evidence": [
+        "docs/superpowers/plans/2026-10-12-codex-first-native-consumer-projections.md",
+        "openspec/changes/align-native-consumer-projections/tasks.md",
+        "docs/engineering-invariants.md"
+      ],
+      "observation": "Keep recoverable backups while BLOCKED. Owner final cleanup only after gates and ownership checks; retained sanitized receipts and old six-file package/history remain. Name-based target/recovery cleanup cannot waive exact-owner invariant. Raw successful qualification traces already attributed/disposed; no owned raw trace remains in current root.",
+      "verification_scope": "Reuse complete full-root assessment only for unchanged boundary; current package/exclusions/dependency hashes and correction diff verified."
+    },
+    {
+      "area": "dirty workspace, branch, database/production and Git/publication authority",
+      "result": "PASS",
+      "evidence": [
+        "openspec/changes/align-native-consumer-projections/amendments/codex-first-approval.md",
+        "docs/superpowers/plans/2026-10-12-codex-first-native-consumer-projections.md"
+      ],
+      "observation": "Read-only/private shadow review; only this review artifact written in repository. No source/Plan/status/Companion changes, Git write or native launch.",
+      "verification_scope": "Reuse complete full-root assessment only for unchanged boundary; current package/exclusions/dependency hashes and correction diff verified."
+    }
+  ],
+  "independently_executed_commands": [
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 /Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/gate_regression_test.py",
+      "exit_code": 0,
+      "observed": "7 tests PASS, including actual focused write_ready positive and missing mechanism/review digest negatives",
+      "native_calls": 0,
+      "native_writes": 0
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 /Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/fixture_tests.py",
+      "exit_code": 0,
+      "observed": "16 actual shadow command/recovery regressions and publisher static-only PASS",
+      "native_calls": 0,
+      "native_writes": 0
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 /Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/scope_red_test.py",
+      "exit_code": 0,
+      "observed": "4 tests PASS",
+      "native_calls": 0,
+      "native_writes": 0
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 /Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/lineage_test.py",
+      "exit_code": 0,
+      "observed": "1 unittest PASS, 1 positive/7 negative variants",
+      "native_calls": 0,
+      "native_writes": 0
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 /Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/qualify.py --fixtures-only",
+      "exit_code": 0,
+      "observed": "parser positive1/negative6; native negative2; render2; attribution3 PASS",
+      "native_calls": 0,
+      "native_writes": 0
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 /Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/behavior.py --fixtures-only",
+      "exit_code": 0,
+      "observed": "classifier positive1/negative3 PASS",
+      "native_calls": 0,
+      "native_writes": 0
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 /Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/exact_commands.py check",
+      "exit_code": 0,
+      "observed": "prepared_files2/native_writes0; all244 current exclusions PASS",
+      "native_calls": 0,
+      "native_writes": 0
+    }
+  ],
+  "adversarial_probe": {
+    "result": "PASS",
+    "executed_cases": 33,
+    "scope": "independent private temporary shadow fixtures, synthetic gate data only",
+    "executed_command_sha256": "14ce3d64a85590f6c9b24f0f9b9d5dd4e85a27fdeed15e96a471a4b6fe2d686a",
+    "positive_cases": [
+      "valid terminal focused lineage",
+      "actual focused write_ready with assigned reviewer and bound parent/qualification/recheck"
+    ],
+    "negative_cases": {
+      "F1": [
+        "parent SHA missing/null/empty/false/zero/malformed/uppercase",
+        "same-byte parent at another path",
+        "historical root SHA null/empty/malformed"
+      ],
+      "F2": [
+        "intermediate-directory symlink outside project",
+        "leaf symlink outside project",
+        "nonregular FIFO",
+        "same-byte leaf namespace substitution after open",
+        "intermediate-directory namespace substitution after open"
+      ],
+      "F3": [
+        "unassigned independent instance",
+        "advisory role",
+        "author/executor align-native-root"
+      ],
+      "F4": [
+        "indices0/-1/3/True/False/string1/float1/None before package",
+        "invalid actions check/unknown/empty/None before package"
+      ]
+    },
+    "observed": "Both legitimate positives accepted; all31 invalid variants rejected. No invalid run reached package reader.",
+    "fixtures_cleaned_on_exit": true,
+    "native_calls": 0,
+    "native_writes": 0
+  },
+  "input_evidence": [
+    {
+      "path": "docs/review/2026-10-12-codex-first-preflight.json",
+      "sha256": "76335e13fedc99e17129b07afc77193d022ebd1fd9b98336b968fc7786a1886b"
+    },
+    {
+      "path": "docs/superpowers/plans/2026-10-12-codex-first-native-consumer-projections.md",
+      "sha256": "935019d8c78500c07f4967aa41a0fccbbc8d8d3ffcc4cbd2dd1df6ee893795cb"
+    },
+    {
+      "path": "openspec/changes/align-native-consumer-projections/amendments/codex-first-approval.md",
+      "sha256": "8afce1947b01761f50ff9558b4de318d2f73e516cd0f8a7df207a0516e5b21e3"
+    },
+    {
+      "path": "docs/review/2026-10-12-codex-first-preflight-corrections.json",
+      "sha256": "a3a9d7bfb3f23c4c4e94247208e79cfaa7eff765714249fd5217c3898c4449d2"
+    },
+    {
+      "path": "docs/review/2026-10-12-codex-first-preparation-r2.json",
+      "sha256": "1a395e810f9f87f837ad432093eb465aa5a5d9c60dcc0f0ea6ac0ebfcd075c12"
+    },
+    {
+      "path": "docs/review/2026-10-12-codex-first-qualified-mechanisms-r2.json",
+      "sha256": "cefffad92888e9fe196d11d7201f179b14d13ccf179d1dda5987e8e254bfcec1"
+    },
+    {
+      "path": "docs/review/2026-10-12-codex-first-qualified-mechanisms.json",
+      "sha256": "3b469015f2d9cbe54fd175fecadc3e55d55449e458633c07c2bbf8ef4a3d2f33"
+    },
+    {
+      "path": "docs/review/2026-10-12-codex-first-qualification-runs.json",
+      "sha256": "ddffc27a3a315ca9c2456175be25577bde1c5a1d3ed140695e44f8f844bc5305"
+    },
+    {
+      "path": "docs/review/2026-10-12-codex-first-native-startup-boundary.json",
+      "sha256": "031228712086b7c2d7fc528f16aaa9a9a5bc94426f46c4b39bb694430c032cef"
+    },
+    {
+      "path": "docs/review/2026-10-12-codex-first-native-hook-discovery.json",
+      "sha256": "c371492e5bd5ee46acfc2d68702fcaa68c00b0efd6c5b44d19a9d994164cb6ad"
+    }
+  ],
+  "diff_audit": {
+    "actual_diff_matches_hashed_correction_record": true,
+    "changed_package_keys": [
+      "artifacts",
+      "preflight_lineage_root"
+    ],
+    "package_added_artifact": {
+      "path": "docs/review/2026-10-12-codex-first-preflight.json",
+      "sha256": "76335e13fedc99e17129b07afc77193d022ebd1fd9b98336b968fc7786a1886b"
+    },
+    "candidate_preimage_paths_modes_native_identities_unchanged": true,
+    "selected_original_rows_unchanged": [
+      1,
+      5
+    ],
+    "all244_excluded_objects_unchanged": true,
+    "actual_observer_parser_behavior_cases_dependencies_unchanged": true,
+    "reused_qualification_changed_fields": [
+      "plan_sha256",
+      "reused_unaffected_observations"
+    ],
+    "historical_reconstruction": "Private reconstructed command/fixture snapshots match original full-root SHA exactly; no claim that they were captured pre-edit backups."
+  },
+  "verification_limits": {
+    "native_qualifications": "Unaffected actual observations reused with exact unchanged observer/parser/source/hooks/callback controls and explicit separate r2 binding; reviewer did not launch native process.",
+    "source_full_suites": "Unchanged source policy/code suite evidence from full root reused. Corrected private command/gate/fixture tests rerun independently.",
+    "candidate_behavior": "Not run; actual native receipts absent and native rule writes0.",
+    "authority": "Only governed execution-readiness evidence. Owner accepts gate/hash/canonical state; implementation/final Reviews,20-probe native acceptance, fresh verification and completion contract remain required."
+  },
+  "stop_conditions": "Terminal recheck; no R3 for this unchanged lineage. Any actual later failure, drift or forbidden effect stops writes/recovery according to Plan. This PASS permits owner acceptance of scoped execution readiness only, never automatic scope expansion, production/Git/publication or completion."
+}

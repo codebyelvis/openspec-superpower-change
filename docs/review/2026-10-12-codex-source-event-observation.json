@@ -1,0 +1,101 @@
+{
+  "author": "elvis",
+  "change": "align-native-consumer-projections",
+  "scope": "source observed but stdout error blocks event-mechanism qualification",
+  "owned_thread_id": "01a12e4d-a822-7753-bfb5-374b91e42915",
+  "CLI_exit_code": 0,
+  "source_observation": {
+    "native_thread_id": "01a12e4d-a822-7753-bfb5-374b91e42915",
+    "agents_file_sha256": "b049858a8d7d0716d2c97a93fc7f9f2f33eead8b6a33e35525b226dbd6a5605f",
+    "native_complete_agents_occurrences": 1,
+    "raw_rollout_sha256": "7d568df6d5e5f7a45763f9435075dce93717753be043799c947662a599aa09ed",
+    "native_base_provenance": {
+      "type": "custom"
+    },
+    "source_path": "/Users/elvis/.codex/AGENTS.md",
+    "native_cli_version": "0.162.1",
+    "model_instructions_file_sha256": "bbc10422f2916c0e29205c46071d4d424190f71b4610e7d56c27ae6673fca04b",
+    "native_render_transform": "Rust str::trim() (config/mod.rs:4631)",
+    "rendered_model_instructions_sha256": "0a36c6375c40f4e4deb1d50627eddeae9fa0a4827dd307f146ee7d42dd391bb4",
+    "native_model_instructions_sha256": "0a36c6375c40f4e4deb1d50627eddeae9fa0a4827dd307f146ee7d42dd391bb4",
+    "native_model_body_match": true,
+    "native_rollout_event_counts": {
+      "session_meta": 1,
+      "event_msg:task_started": 1,
+      "response_item": 6,
+      "world_state": 1,
+      "turn_context": 1,
+      "event_msg:item_completed": 2,
+      "token_usage_record": 1,
+      "event_msg:token_count": 1,
+      "event_msg:task_complete": 1
+    },
+    "raw_retained": false,
+    "raw_cleanup": "owned diagnostic moved into private root and removed after source inspection; not transaction inode-bound deletion"
+  },
+  "event_types": [
+    {
+      "type": "thread.started",
+      "item_type": null
+    },
+    {
+      "type": "item.completed",
+      "item_type": "error"
+    },
+    {
+      "type": "item.completed",
+      "item_type": "error"
+    },
+    {
+      "type": "turn.started",
+      "item_type": null
+    },
+    {
+      "type": "item.completed",
+      "item_type": "agent_message"
+    },
+    {
+      "type": "turn.completed",
+      "item_type": null
+    }
+  ],
+  "error_summaries": [
+    {
+      "item_keys": [
+        "id",
+        "message",
+        "type"
+      ],
+      "message_sha256": "6b28c87e70c8fc7ceba376cf03ba0d732299f873e258625f7ab747b74c5b25f9",
+      "message_length": 344,
+      "keyword_categories": [
+        "mcp",
+        "config"
+      ]
+    },
+    {
+      "item_keys": [
+        "id",
+        "message",
+        "type"
+      ],
+      "message_sha256": "6b28c87e70c8fc7ceba376cf03ba0d732299f873e258625f7ab747b74c5b25f9",
+      "message_length": 344,
+      "keyword_categories": [
+        "mcp",
+        "config"
+      ]
+    }
+  ],
+  "raw_retained": false,
+  "cleanup_owner": "align-native-root",
+  "phase": "event-mechanism-qualified",
+  "result": "BLOCKED",
+  "native_rule_writes": 0,
+  "history_status": "as-run observer failure/partial retained; corrected in fresh bound mechanism qualification",
+  "resolution_evidence": {
+    "path": "docs/review/2026-10-12-codex-mechanism-qualification.json",
+    "sha256": "21bea24361dec4b0716c0f5535938fae23e73c0e9045ae78a75ee82a45a3c37c"
+  },
+  "current_scope_limit": "two Codex mechanisms only; original six-file scope and all native mutations still blocked"
+}

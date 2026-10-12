@@ -1,0 +1,13 @@
+{
+  "author": "elvis",
+  "change": "align-native-consumer-projections",
+  "phase": "related-prerequisite-current-parity",
+  "source_module_sha256": "640402ec081b2ceee22d515f8f97ee93bbae75ab102b1b2607c2024c44f607b9",
+  "results": {
+    "codex": true,
+    "pi": true,
+    "antigravity-cli": true,
+    "grok-cli": true
+  },
+  "scope": "read-only current portable content and managed-rule parity; prior independent discovery/receipt evidence remains historical; no sync performed"
+}

@@ -1,0 +1,31 @@
+{
+  "author": "elvis",
+  "change_id": "align-native-consumer-projections",
+  "type": "test-only current-input reconciliation",
+  "authorization": "User delegated same-goal closure fixes and confirmed external config adjustment finished. No native production change.",
+  "prior_required_command_actual_exit": 1,
+  "prior_failure": "Isolated package pipeline inherited old excluded config and correctly stopped at excluded config/runtime/source drift before its expected qualified-gate assertion. Printed first7 GREEN was not accepted as command PASS.",
+  "old_fixture_sha256": "f03b2b143232ab9c51056a8b761c82f8ac53feb386abc6521bf82292966054bb",
+  "new_fixture_sha256": "9f217579b5df7f6bd33d6d23af13a18f18d1321bdbbec0c39245d479d5170b55",
+  "preserved_backup_sha256": "f03b2b143232ab9c51056a8b761c82f8ac53feb386abc6521bf82292966054bb",
+  "current_reconciliation": {
+    "path": "docs/review/2026-10-12-codex-first-stable-config-reconciliation.json",
+    "sha256": "511a39f2aa88b9f15ce46cbef2a5a64d3ccfcbcf6b6ed7f6d6ae7fe0aa861016"
+  },
+  "change": "Only two shadow-package metadata initializations now use the hash-bound current config exclusion binding. All existing tests/assertions/native replacement primitives unchanged; real current package validates exact config bytes/mode/inode.",
+  "historical_plan_fixture_hash": "Original Plan Fixture SHA remains historical; this approved test-only continuation supersedes it for the exact required fixture command. Original Plan/private package/receipts are not rewritten.",
+  "command": "PYTHONDONTWRITEBYTECODE=1 python3 /Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/fixture_tests.py",
+  "exit_code": 0,
+  "stdout_sha256": "78b0ec052d7ca70b2cf50c142213df1277ed1166a7d5ae23e2339ec2fa45a93a",
+  "native_model_observer_cases_oracles_changed": false,
+  "native_writes": 0,
+  "config_writes": 0,
+  "new_full20_needed": false,
+  "reason": "Only isolated fixture input metadata changed after full20; native execution code, candidate, inputs and current config remain unchanged and independently postchecked.",
+  "superseded_review": {
+    "path": "docs/review/2026-10-12-codex-first-implementation-review-final.json",
+    "sha256": "7bfe5c886c72bb5f8ae1fa94d37cc343e201d4580f612205448ef453d865b06f",
+    "current_acceptability": "withdrawn by independent reviewer after the late fixture-baseline finding; not added to canonical completed evidence and never authorized transition",
+    "replacement_required": "new independent report on current fixture and r17 freeze"
+  }
+}

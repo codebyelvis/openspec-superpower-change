@@ -1,0 +1,29 @@
+{
+  "author": "elvis",
+  "change": "align-native-consumer-projections",
+  "kind": "explicit-user-authorized-control-plane-continuation",
+  "user_authorization": "明确授权",
+  "authorized_request": "当前会话以 Codex、control-plane / control-plane-high 接管原两文件范围，保留既有独立 reviewer 分工。",
+  "runtime_thread_id": "01a12f54-0fb7-72d3-a069-a5b5b510423a",
+  "runtime_agent": "/root",
+  "assignment": {
+    "agent_product": "codex",
+    "agent_instance_id": "align-native-root",
+    "agent_role": "control-plane",
+    "capability_profile": "control-plane-high"
+  },
+  "binding_decision": "Explicit user transfer binds this runtime to the existing contract-local control-plane slot align-native-root. No automatic product-based inheritance; earlier evidence remains attributable to its original execution.",
+  "contract": {
+    "path": "openspec/changes/align-native-consumer-projections/amendments/codex-first-approval.md",
+    "sha256": "8afce1947b01761f50ff9558b4de318d2f73e516cd0f8a7df207a0516e5b21e3"
+  },
+  "prior_canonical_sha256": "97969e5f2ce58f9751c246cdab320a221e89309b1c3efd8b2636824785ddac49",
+  "prior_revision": 9,
+  "preserved_review_assignments": [
+    "native-consumer-implementation-review",
+    "native-consumer-final-review"
+  ],
+  "scope": "remaining acceptance and closure for original rows 01 and 05 only; no reinstallation or Preflight restart",
+  "protected_boundaries": "No native/config/auth/hooks/publisher/Git writes added; unresolved external config drift remains blocked",
+  "qualification_or_completion_claim": false
+}

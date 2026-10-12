@@ -1,0 +1,227 @@
+{
+  "schema_version": 1,
+  "author": "elvis",
+  "date": "2026-10-10",
+  "status": "candidate-metadata-only-not-approval-or-native-apply",
+  "old_plan": {
+    "path": "docs/superpowers/plans/2026-10-10-native-agent-adaptation-next.md",
+    "sha256": "962de1d729d7c0d876d71b88e82a1953b6cd5c4b1c61d203e1bd670e54d1760c"
+  },
+  "canonical_ccg": {
+    "path": "references/shared-global-governance.md",
+    "sha256": "960db63a0053c8d4311df61ff55f1534fd117868b39101d99b5666dd7e0a1977",
+    "version": 6
+  },
+  "existing_primitives": [
+    "install_managed_block",
+    "replace_managed_block",
+    "validate_managed_rule_parity"
+  ],
+  "files": [
+    {
+      "path": "/Users/elvis/.codex-account-a/AGENTS.md",
+      "type": "regular-file",
+      "prestate_sha256": "13dfabe1152adb00b3f924fb96fac676d257db87ecd0658f23a8ac8b6e6a35e6",
+      "original_mode": "0644",
+      "candidate_sha256": "180e503c7e6cdb50e2b85cc6aea84c5c0bb261a9a9448fafbf9611657ccc7097",
+      "preserved_bytes_sha256": "13dfabe1152adb00b3f924fb96fac676d257db87ecd0658f23a8ac8b6e6a35e6",
+      "preserved_bytes_length": 4201,
+      "edits": [
+        {
+          "kind": "append-managed-block",
+          "added_bytes": 5307
+        }
+      ],
+      "backup_name": "01.preimage",
+      "checks": {
+        "unique_replacements": true,
+        "owned_edit_reverse_equals_original": true,
+        "mode_0600_candidate_and_backup": true,
+        "managed_parity": true
+      }
+    },
+    {
+      "path": "/Users/elvis/.claude/CLAUDE.md",
+      "type": "regular-file",
+      "prestate_sha256": "926e0722c826791e05e235e060af0952fc1cde424331259650c0ceca08dcde92",
+      "original_mode": "0600",
+      "candidate_sha256": "556450f81e70425254f50473f7e3a897e87565727dc4cc4a5dd3f1631886b233",
+      "preserved_bytes_sha256": "fcd9750c1d57623d1ba7cd27ce8c6ce9bc3b14ac4ce7fd11a46838a03a93dad3",
+      "preserved_bytes_length": 9429,
+      "edits": [
+        {
+          "kind": "exact-text",
+          "old": "- 送审入口写死另一 reviewer 或无会话后缀的报告路径时，先说明冲突，输出到本会话独立路径；路径已存在不等于有覆盖授权。身份缺失或 hook 未生效时暂停报告发布，不降级到普通写入。",
+          "new": "- 仅对尚未绑定合同或证据、且用户授权范围允许的咨询报告，可在说明冲突后选择 publisher 允许的本会话独立路径；已绑定 attempt 路径、首行格式或用户限定的目标与 publisher 不兼容时，停止发布并报告冲突，不改名、不重写绑定、不降级为直接写入。路径已存在不等于有覆盖授权。身份缺失或 hook 未生效时暂停报告发布。",
+          "old_sha256": "f621b501083650ab854b92c3034c47076c37af53778e9ded1ab5facb782df78c",
+          "new_sha256": "17c2cf3a565733a0b8f05d3192478d86281b9965dd45ea668701b1ef07ee5d8f"
+        },
+        {
+          "kind": "append-managed-block",
+          "added_bytes": 5307
+        }
+      ],
+      "backup_name": "02.preimage",
+      "checks": {
+        "unique_replacements": true,
+        "owned_edit_reverse_equals_original": true,
+        "mode_0600_candidate_and_backup": true,
+        "managed_parity": true
+      }
+    },
+    {
+      "path": "/Users/elvis/.cursor/rules/cross-cli-governance.mdc",
+      "type": "regular-file",
+      "prestate_sha256": "2eede0c92f6382146da89658f894de0da9542caa389748b32bf3342ae682a812",
+      "original_mode": "0644",
+      "candidate_sha256": "53f9037c7b178cd72f866780d1e12e8102b7df504f4a66e4395b6eb6aa4e12d5",
+      "preserved_bytes_sha256": "898557ff30f3f556cfe4b6c3dcc575021a9b57c71303abdd3c5f2e5491a2cc1d",
+      "preserved_bytes_length": 200,
+      "edits": [
+        {
+          "kind": "replace-managed-block",
+          "outside_sha256": "898557ff30f3f556cfe4b6c3dcc575021a9b57c71303abdd3c5f2e5491a2cc1d"
+        }
+      ],
+      "backup_name": "03.preimage",
+      "checks": {
+        "unique_replacements": true,
+        "owned_edit_reverse_equals_original": true,
+        "mode_0600_candidate_and_backup": true,
+        "managed_parity": true
+      }
+    },
+    {
+      "path": "/Users/elvis/.cursor/rules/codex-global-core.mdc",
+      "type": "regular-file",
+      "prestate_sha256": "4a5272f237b4197df42b9be57317b4225b84f080d2afb9a7f305a54c0c562060",
+      "original_mode": "0644",
+      "candidate_sha256": "c647a0e98de7b8a3e9faa54d29c2abb10c171bc2e988ca8b786e2136c511a3a8",
+      "preserved_bytes_sha256": "4ae0de1ef7d5b9a27ebe49e0d2510025c51d9b443ea6c379c34a5fc40601e5e2",
+      "preserved_bytes_length": 1716,
+      "edits": [
+        {
+          "kind": "exact-text",
+          "old": "- 架构探讨、Bug 分析、Implementation Plan 经用户确认后，收尾写入对应项目 `docs/design/`，文档头标明文档类型与版本。",
+          "new": "- 需要 Implementation Plan 时，先在执行前形成或复用适用的已审计划；路径先服从用户授权范围、项目约定与已绑定合同，只有没有更具体约定时才使用 `docs/design/`。不得为收尾归档迁移或复制已绑定计划与证据。架构探讨与 Bug 分析的归档仍按用户确认的范围办理，文档头保留类型与版本。",
+          "old_sha256": "fd060947f06554f68ce698cf23ce754277e23d590fe802572da7c04981259dc5",
+          "new_sha256": "d193e2294d43c414dc6b1750b4ae8401a315ba407a9ddb308353914cb6628086"
+        }
+      ],
+      "backup_name": "04.preimage",
+      "checks": {
+        "unique_replacements": true,
+        "owned_edit_reverse_equals_original": true,
+        "mode_0600_candidate_and_backup": true,
+        "managed_parity": "not-applicable"
+      }
+    },
+    {
+      "path": "/Users/elvis/.codex/model_instructions.md",
+      "type": "regular-file",
+      "prestate_sha256": "bbc10422f2916c0e29205c46071d4d424190f71b4610e7d56c27ae6673fca04b",
+      "original_mode": "0644",
+      "candidate_sha256": "39dc7af01eb236f1c83799a989b6e61565e3f712a1623543aa4982e139e37c44",
+      "preserved_bytes_sha256": "e59f79a11791aba339de48e57f874db77ca2640827d73aeb856f04db470111d9",
+      "preserved_bytes_length": 3045,
+      "edits": [
+        {
+          "kind": "exact-text",
+          "old": "1. 所有的架构探讨、Bug分析或制定的 Implementation Plan（包括 `.resolved` 的归档结构），在用户复核确认后，**必须作为最后收尾的一步，将其核心逻辑、主要结论及待办转化为 `.md` 格式文本，落地存储至对应项目内的 `docs/design` 目录**。",
+          "new": "1. 需要 Implementation Plan 时，先在执行前形成或复用适用的已审计划；路径先服从用户授权范围、项目约定与已绑定合同，只有没有更具体约定时才使用 `docs/design/`。不得为收尾归档迁移或复制已绑定计划与证据。架构探讨与 Bug 分析的归档仍按用户确认的范围办理，文档头保留类型与版本。",
+          "old_sha256": "1c03ad8807ac786e23577d8307a609cbf699ed22d66026767e3f28f353ffafec",
+          "new_sha256": "cf8b2657540fe44ef357177933dffa073a9a5538ddb7ccfa64cfc62cfdcd935c"
+        }
+      ],
+      "backup_name": "05.preimage",
+      "checks": {
+        "unique_replacements": true,
+        "owned_edit_reverse_equals_original": true,
+        "mode_0600_candidate_and_backup": true,
+        "managed_parity": "not-applicable"
+      }
+    },
+    {
+      "path": "/Users/elvis/.grok/AGENTS.md",
+      "type": "regular-file",
+      "prestate_sha256": "a85888d8b6a10b24bb6608b48155de65aff7848d9de6dad7a78c0b751c198dd3",
+      "original_mode": "0644",
+      "candidate_sha256": "bbd30c111f397fe76bfe5d5bfc60fe043aa22b680fd27635d963be8aff183396",
+      "preserved_bytes_sha256": "bd5c042b0bc80436a43fc63bbf22e36899abaab85240457adf253887c348765c",
+      "preserved_bytes_length": 6808,
+      "edits": [
+        {
+          "kind": "exact-text",
+          "old": "## Review 结论落盘（全局，强制）\n\n凡完成任一类 review，**结论必须落盘为 `.md`**，不得只留在对话里。本规则对所有项目通用。\n\n### 适用范围\n\n- code review / diff review / PR review\n- 架构 review、方案/spec 评审\n- 分析材料 / 文档 / 第三方 agent 产出物 review\n- 自检式 verification review（`/check-work`、交付前核对等，只要输出了正式结论）\n\n### 落盘时机\n\n1. **与对话结论同一轮收尾完成**，默认**不需**等用户二次确认。\n2. 对比：架构探讨、Implementation Plan 等「制品」仍可按「用户复核确认后再归档」；**review 结论例外，强制即时落盘**。\n\n### 默认路径\n\n1. 优先：`<repo>/docs/design/reviews/YYYY-MM-DD-<topic>-review.md`\n2. 若项目 `Agents.md` / 既有目录约定了更具体路径（如 `docs/superpowers/reviews/`、`docs/bugfix/...`），以**项目更具体规则**为准。\n3. 若仓库尚无 `docs/design/reviews/`，创建该目录后写入。\n4. 若用户明确要求本地阅读材料且已 gitignore（如 `*-analysis/`），可写入该忽略目录，但须在回复中写明绝对/相对路径。\n\n### 文档格式\n\n1. 头部必含：\n   - 文档类型（如：Code Review / 分析材料 Review / PR Review）\n   - 日志及版本（日期 + 简要版本或会话标识）\n   - 结论：`通过` | `有风险` | `需修改`\n   - 验证范围（对照了哪些路径、命令、文档）\n2. 正文至少含：\n   - 问题与风险（先列问题；无阻塞则明确写「未发现阻塞问题」）\n   - 事实偏差 / 遗漏（若有）\n   - 摘要\n   - 后续建议或待办（若有）\n3. 不落敏感信息（密钥、token、密码、完整 `.env`）。\n\n### 对话侧要求\n\n1. 回复仍先给结论口径（`通过` / `有风险` / `需修改`）。\n2. 落盘完成后，在回复中给出**落盘文件路径**。\n3. 禁止以「太短不用写」「仅口头说一下」为由跳过落盘。\n\n",
+          "new": "## Review 结论交付（全局默认）\n\n1. 普通问题和 standalone 只读咨询默认在对话交付，不仅因平台默认要求落盘而进入 Router 或 Superpowers meta-entry。\n2. 用户明确要求保存咨询报告时，先回到 Router 分类；路径服从用户授权范围、项目约定与适用的 publisher。未绑定咨询才可选择 publisher 允许的会话独立路径；保存不升级为 gate-bearing evidence。\n3. governed external batch 只写合同绑定的 attempt 路径、格式和真实产品身份。已绑定目标或首行格式与 publisher 不兼容时，停止发布并报告冲突，不改名、不重写、不绕过保护。\n4. 原生 Grok 不得冒用 `claudex` / `claudeg` launcher，亦不得使用只接受这两项的 Claude publisher。兼容 hook 的注册不等于已执行；不在此条款中关闭或绕过 hook。\n5. 未绑定且无更具体路径约定的已获授权报告，可使用 `docs/design/reviews/`；已有项目与 Obsidian 所有权覆盖继续优先。\n6. 已获授权保存的普通 Review 标明类型、日期/版本、结论和验证范围；先列问题与风险，再给依据和待办。正式证据按其绑定合同的标题和元数据格式，不能用此默认格式覆盖合同。\n7. 对话结论应说明实际交付方式；落盘成功时给出路径，发布停止时明确冲突。不得以聊天结论宣称文件已经发布。\n\n",
+          "old_sha256": "faf43ff0b60b5f25e7a7d1836fd1cf57faed4a2fd0c0397232fb2ab48cd24cf6",
+          "new_sha256": "3648ba03f9424d3e072559701b2add152ef8f31d72f71adc986ee71664005941"
+        },
+        {
+          "kind": "exact-text",
+          "old": "1. **Review 结论**：见上文「Review 结论落盘（全局，强制）」——即时落盘，不依赖二次确认。",
+          "new": "1. **Review 结论**：按上文「Review 结论交付（全局默认）」区分聊天咨询、授权保存与绑定 attempt。",
+          "old_sha256": "f833bed309a573bb8446738afcaa6bdc9413177eec8309b00cccb2cd0137dd4c",
+          "new_sha256": "692734a1f6050c1c5c67e4212d97b3fce7c2579baaf958960ec7c7e493cdb5b4"
+        },
+        {
+          "kind": "exact-text",
+          "old": "2. 架构探讨、Bug 分析或 Implementation Plan（含 `.resolved` 归档），在用户复核确认后，作为收尾一步将核心逻辑、主要结论及待办写成 `.md`，落到对应项目的 `docs/design` 目录。",
+          "new": "2. 需要 Implementation Plan 时，先在执行前形成或复用适用的已审计划；路径先服从用户授权范围、项目约定与已绑定合同，只有没有更具体约定时才使用 `docs/design/`。不得为收尾归档迁移或复制已绑定计划与证据。架构探讨与 Bug 分析的归档仍按用户确认的范围办理，文档头保留类型与版本。",
+          "old_sha256": "d7f0eef9d230aa653cf20d1d5c5703de946c2b861e697c40a8d6157a91a9a678",
+          "new_sha256": "bbdfc2c7f943c661c64ad350f8753495240330a9c340f7a3c16a62c36f819b2d"
+        }
+      ],
+      "backup_name": "06.preimage",
+      "checks": {
+        "unique_replacements": true,
+        "owned_edit_reverse_equals_original": true,
+        "mode_0600_candidate_and_backup": true,
+        "managed_parity": "not-applicable"
+      }
+    }
+  ],
+  "publisher": {
+    "path": "/Users/elvis/.claude/hooks/review_report_guard.py",
+    "sha256": "3ec6d1fd6945b619368794374b90a87c3c1abdc3c0f2b079fd186b135d9e5522",
+    "launchers": [
+      "claudex",
+      "claudeg"
+    ],
+    "pure_guard_decide_probes": [
+      {
+        "filename": "docs/review/2026-10-10-example-step-01-attempt-01-review.md",
+        "guard_denies_direct_Write": true
+      },
+      {
+        "filename": "docs/design/reviews/2026-10-10-example-review.md",
+        "guard_denies_direct_Write": true
+      },
+      {
+        "filename": "topic.claudex.example.r1.review.md",
+        "guard_denies_direct_Write": true
+      },
+      {
+        "filename": "body.draft.md",
+        "guard_denies_direct_Write": false
+      }
+    ],
+    "publish_called": false
+  },
+  "verification": {
+    "candidate_files": 6,
+    "native_files_written": 0,
+    "all_existing_project_files_unchanged": 586,
+    "all_target_bytes_and_modes_unchanged": true,
+    "private_candidate_directory_removed": true,
+    "raw_trace_retained": false
+  },
+  "excluded": [
+    "skills symlinks",
+    "grok config.toml",
+    "grok disabled-hooks",
+    "publisher implementation",
+    "settings/auth/session/MCP/permissions",
+    "portable manifest target extension"
+  ]
+}

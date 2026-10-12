@@ -1,0 +1,13 @@
+{
+  "author": "elvis",
+  "change": "align-native-consumer-projections",
+  "phase": "event-mechanism-qualified",
+  "result": "BLOCKED",
+  "entry_root": "/Users/elvis/.codex",
+  "observer_error_type": "AssertionError",
+  "cleanup_owner": "align-native-root",
+  "private_observer_root": "/Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012",
+  "resume": "inspect only fresh attributed probe artifacts; no native rule mutation",
+  "successful_results": [],
+  "owned_private_raw": []
+}

@@ -1,0 +1,45 @@
+{
+  "author": "elvis",
+  "change": "align-native-consumer-projections",
+  "phase": "handoff-current-excluded-drift",
+  "result": "BLOCKED",
+  "changes": [
+    {
+      "path": "/Users/elvis/.codex-account-a/config.toml",
+      "previous_sha256": "75d9a7d2e8df0ad543a043b0ff0e38e3c9c920a912f3d40ad6ac497535c540b3",
+      "current_sha256": "50d358aaf6799ae74cc9eb5bbb81fecfb8758886cad88e5cfb935883d1acecf1",
+      "previous_inode": 197774844,
+      "current_inode": 198138801,
+      "previous_mode": "0600",
+      "current_mode": "0600"
+    }
+  ],
+  "selected_native_targets": [
+    {
+      "path": "/Users/elvis/.codex-account-a/AGENTS.md",
+      "sha256": "180e503c7e6cdb50e2b85cc6aea84c5c0bb261a9a9448fafbf9611657ccc7097",
+      "mode": "0644",
+      "installed_receipt_binding": "PASS"
+    },
+    {
+      "path": "/Users/elvis/.codex/model_instructions.md",
+      "sha256": "39dc7af01eb236f1c83799a989b6e61565e3f712a1623543aa4982e139e37c44",
+      "mode": "0644",
+      "installed_receipt_binding": "PASS"
+    }
+  ],
+  "owner_action": "preserve current externalobjects; no rebind/restore/configwrite; receivingagent must reconcile actualdrift usingexistingownerapprovalscope",
+  "structured_output_qualification": "not-run",
+  "native_rule_writes_by_audit": 0,
+  "subsequent_observation": {
+    "path": "/Users/elvis/.codex-account-a/config.toml",
+    "sha256": "c44cecdd871f30721369e27d10924813abfdd60cdf8dc87371d2c5779c4ba531",
+    "inode": 198140894,
+    "mode": "0600",
+    "callback_fixed_argv_hash_matches_original_boundary": true,
+    "features_hooks": true,
+    "explicit_model_instructions_file_key": false,
+    "auth_values_extracted_or_printed": false,
+    "conclusion": "Further externalbytes/inode changes observed without rootnativeprobe; do not treat baseline asstable orautomaticallyrefresh."
+  }
+}

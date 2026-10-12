@@ -1,0 +1,181 @@
+{
+  "author": "elvis",
+  "change_id": "align-native-consumer-projections",
+  "result": "PASS_WITH_RETAINED_PRIVATE_RECOVERY",
+  "operation": "Read-only owned cleanup audit; no deletion attempted in this closeout step",
+  "reason": "Bound cleanup invariant requires exact-owner deletion across namespace transitions. Darwin name-based unlink/rmtree does not provide that guarantee; preserve private recovery rather than claim complete deletion. Raw native traces were already disposed by the owning probes.",
+  "private_root": {
+    "path": "/Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012",
+    "device": 16777231,
+    "inode": 197905402,
+    "mode": "0700",
+    "uid": 501
+  },
+  "retained_inventory": {
+    "regular_files": 657,
+    "directories": 142,
+    "symlinks": 1
+  },
+  "retained_inventory_metadata_sha256": "3e6e77a7fae1f9724e7c8956a3831815d89f5ce7d6b3f28c935136c3522130b9",
+  "symlinks_not_followed_or_removed": [
+    {
+      "path": "/Users/elvis/Library/Caches/native-agent-adaptation/project-codex-first-20261012/codex-brief-antigravity-review",
+      "target": "/Users/elvis/file/develop/opensource/codex-brief-antigravity-review",
+      "target_identity": {
+        "device": 16777231,
+        "inode": 159979831
+      }
+    }
+  ],
+  "retained_classes": [
+    "original and repair candidates/preimages/receipts",
+    "verification scripts, fixtures, source export and sanitized command logs",
+    "fixture transaction recovery/blocker artifacts"
+  ],
+  "owned_raw_stdout_stderr_active_absent": true,
+  "current_20_raw_rollouts_absent": true,
+  "native_and_config_before": [
+    {
+      "path": "/Users/elvis/.codex/AGENTS.md",
+      "sha256": "b049858a8d7d0716d2c97a93fc7f9f2f33eead8b6a33e35525b226dbd6a5605f",
+      "identity": {
+        "device": 16777231,
+        "inode": 197499034,
+        "type": 32768,
+        "mode": 420,
+        "uid": 501,
+        "gid": 20,
+        "nlink": 1
+      }
+    },
+    {
+      "path": "/Users/elvis/.codex/config.toml",
+      "sha256": "ca41bec275c2b12e7ed871141272557edcdb68c3c11d804727824a6dced1ca72",
+      "identity": {
+        "device": 16777231,
+        "inode": 197602104,
+        "type": 32768,
+        "mode": 384,
+        "uid": 501,
+        "gid": 20,
+        "nlink": 1
+      }
+    },
+    {
+      "path": "/Users/elvis/.codex/model_instructions.md",
+      "sha256": "64cd339e06db8d886722466ab72895bbbb0cf9a6972c6a607de0afae30be45e8",
+      "identity": {
+        "device": 16777231,
+        "inode": 198490047,
+        "type": 32768,
+        "mode": 420,
+        "uid": 501,
+        "gid": 20,
+        "nlink": 1
+      }
+    },
+    {
+      "path": "/Users/elvis/.codex-account-a/AGENTS.md",
+      "sha256": "180e503c7e6cdb50e2b85cc6aea84c5c0bb261a9a9448fafbf9611657ccc7097",
+      "identity": {
+        "device": 16777231,
+        "inode": 198118698,
+        "type": 32768,
+        "mode": 420,
+        "uid": 501,
+        "gid": 20,
+        "nlink": 1
+      }
+    },
+    {
+      "path": "/Users/elvis/.codex-account-a/config.toml",
+      "sha256": "5cde3200f2f170c1068ba6bdee4e24872c8f5ae09046ff88b418da6af1601833",
+      "identity": {
+        "device": 16777231,
+        "inode": 198616821,
+        "type": 32768,
+        "mode": 384,
+        "uid": 501,
+        "gid": 20,
+        "nlink": 1
+      }
+    }
+  ],
+  "native_and_config_after": [
+    {
+      "path": "/Users/elvis/.codex/AGENTS.md",
+      "sha256": "b049858a8d7d0716d2c97a93fc7f9f2f33eead8b6a33e35525b226dbd6a5605f",
+      "identity": {
+        "device": 16777231,
+        "inode": 197499034,
+        "type": 32768,
+        "mode": 420,
+        "uid": 501,
+        "gid": 20,
+        "nlink": 1
+      }
+    },
+    {
+      "path": "/Users/elvis/.codex/config.toml",
+      "sha256": "ca41bec275c2b12e7ed871141272557edcdb68c3c11d804727824a6dced1ca72",
+      "identity": {
+        "device": 16777231,
+        "inode": 197602104,
+        "type": 32768,
+        "mode": 384,
+        "uid": 501,
+        "gid": 20,
+        "nlink": 1
+      }
+    },
+    {
+      "path": "/Users/elvis/.codex/model_instructions.md",
+      "sha256": "64cd339e06db8d886722466ab72895bbbb0cf9a6972c6a607de0afae30be45e8",
+      "identity": {
+        "device": 16777231,
+        "inode": 198490047,
+        "type": 32768,
+        "mode": 420,
+        "uid": 501,
+        "gid": 20,
+        "nlink": 1
+      }
+    },
+    {
+      "path": "/Users/elvis/.codex-account-a/AGENTS.md",
+      "sha256": "180e503c7e6cdb50e2b85cc6aea84c5c0bb261a9a9448fafbf9611657ccc7097",
+      "identity": {
+        "device": 16777231,
+        "inode": 198118698,
+        "type": 32768,
+        "mode": 420,
+        "uid": 501,
+        "gid": 20,
+        "nlink": 1
+      }
+    },
+    {
+      "path": "/Users/elvis/.codex-account-a/config.toml",
+      "sha256": "5cde3200f2f170c1068ba6bdee4e24872c8f5ae09046ff88b418da6af1601833",
+      "identity": {
+        "device": 16777231,
+        "inode": 198616821,
+        "type": 32768,
+        "mode": 384,
+        "uid": 501,
+        "gid": 20,
+        "nlink": 1
+      }
+    }
+  ],
+  "native_and_config_unchanged": true,
+  "current_244_exclusions_receipts_dependencies": "PASS before and after retention audit",
+  "companion_status_and_diff_unchanged": {
+    "status": "5770919435ec1274f0e20bd39551fa50a15fcd0b55a835dc0a5cde98da807079",
+    "diff": "81a3d98cd7eb9bf49629d25e2b0baf65a8279f8477b1ef72cc7e6f736f13c505"
+  },
+  "cleanup_owner": "codex / align-native-root / control-plane / control-plane-high",
+  "residual_disposition": "Private recovery retained outside discovery; not an installed-runtime or behavioral-acceptance blocker. No complete-erasure or atomic exact-inode deletion claim.",
+  "resume_condition": "Dispose only with an identity-preserving deletion mechanism or a separately reviewed and authorized safe disposal method; never follow companion symlink or delete replacement objects.",
+  "scope": "Original rows01/05 only; no installation, Preflight, model, publisher, config or runtime mutation"
+}

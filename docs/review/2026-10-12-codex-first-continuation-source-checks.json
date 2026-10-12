@@ -1,0 +1,54 @@
+{
+  "author": "elvis",
+  "change": "align-native-consumer-projections",
+  "phase": "continuation-source-verification",
+  "checks": [
+    {
+      "name": "openspec",
+      "command": "openspec validate align-native-consumer-projections --strict",
+      "exit_code": 0,
+      "log_sha256": "93871ede93bc75ba9d9501873bccf8b121a121d539eded59e43ba3bcfe8ea898",
+      "seconds": 1.83,
+      "tail": "Change 'align-native-consumer-projections' is valid\n"
+    },
+    {
+      "name": "core",
+      "command": "python3 scripts/validate_core_gates.py .",
+      "exit_code": 0,
+      "log_sha256": "d0c3710506d14833fcb03a19decc83a24dd1cb9739786182fcbd9496df6a3bc0",
+      "seconds": 0.12,
+      "tail": "Core gates valid: /Users/elvis/file/develop/opensource/openspec-superpower-change\n"
+    },
+    {
+      "name": "quick",
+      "command": "/Users/elvis/Library/Caches/native-agent-adaptation/codex-first-validation-20261012/bin/python /Users/elvis/.codex-account-a/skills/.system/skill-creator/scripts/quick_validate.py .",
+      "exit_code": 0,
+      "log_sha256": "db349825903d66adffea3ecf1bd8e1803043e8a71cf1a051235dabc5371f5bb0",
+      "seconds": 0.04,
+      "tail": "Skill is valid!\n"
+    },
+    {
+      "name": "fallback",
+      "command": "python3 -m unittest discover -s tests -v",
+      "exit_code": 0,
+      "log_sha256": "8711003cd8c6318cd4dfce7d4994ca2a42c3ddd1c404c950159cbf4815248223",
+      "seconds": 31.34,
+      "tail": "audit_can_bind_report_and_review_without_other_role_reuse (test_workflow_rules.WorkflowRulesTest.test_timeout_audit_can_bind_report_and_review_without_other_role_reuse) ... ok\ntest_timeout_audit_is_blocked_only_and_cannot_satisfy_complete (test_workflow_rules.WorkflowRulesTest.test_timeout_audit_is_blocked_only_and_cannot_satisfy_complete) ... ok\n\n----------------------------------------------------------------------\nRan 492 tests in 31.131s\n\nOK\n"
+    },
+    {
+      "name": "pyyaml",
+      "command": "/Users/elvis/Library/Caches/native-agent-adaptation/codex-first-validation-20261012/bin/python -m unittest discover -s tests -v",
+      "exit_code": 0,
+      "log_sha256": "bd66da092b1a805852424ff99c5ddeef2d1c57c58dc1e7b647cca851ed5906d8",
+      "seconds": 32.67,
+      "tail": "audit_can_bind_report_and_review_without_other_role_reuse (test_workflow_rules.WorkflowRulesTest.test_timeout_audit_can_bind_report_and_review_without_other_role_reuse) ... ok\ntest_timeout_audit_is_blocked_only_and_cannot_satisfy_complete (test_workflow_rules.WorkflowRulesTest.test_timeout_audit_is_blocked_only_and_cannot_satisfy_complete) ... ok\n\n----------------------------------------------------------------------\nRan 492 tests in 32.453s\n\nOK\n"
+    }
+  ],
+  "source_suite_counts": {
+    "fallback": 492,
+    "PyYAML": 492
+  },
+  "native_acceptance": "FAIL;7 PASS,1 FAIL,12 not executed",
+  "final_verification": false,
+  "scope": "source gates only; cannot substitute actual20 native acceptance or independent Review"
+}

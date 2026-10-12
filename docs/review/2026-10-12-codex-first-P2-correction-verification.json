@@ -1,0 +1,18 @@
+{
+  "author": "elvis",
+  "change": "align-native-consumer-projections",
+  "stage": "same-scope-P2-correction-verified",
+  "result": "PASS",
+  "correction_evidence": {
+    "path": "docs/review/2026-10-12-codex-first-P2-scenario-correction.json",
+    "sha256": "5605a4395c7731968e973d98dbb8cf3ea80b4e252af4169449a6c2e5b2bd7b8e"
+  },
+  "actual_retest": {
+    "path": "docs/review/2026-10-12-codex-first-P2-retest.json",
+    "sha256": "4cf817e7b37128dda8242ff3c9ac9ca536beca885a107daa3b8e9ed1e8f2bca0"
+  },
+  "decision": "Publication-before scenario fact clarification passed real native retest with unchanged enum/oracle; not a policy/acceptance waiver. OriginalFAIL stays historical and is closed by correction+fresh probe.",
+  "umask_operational_failure": "owned raw trace was separately attributed, tightened and disposed; proper077fresh probePASS. Failedoperationalrunneveraccepted.",
+  "full20acceptance": "pending",
+  "native_rule_writes_by_correction": 0
+}

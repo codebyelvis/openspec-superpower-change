@@ -1,0 +1,140 @@
+{
+  "author": "elvis",
+  "change": "align-native-consumer-projections",
+  "stage": "private-execution-preparation-not-preflight",
+  "result": "prepared-mechanisms-pending",
+  "approval": "openspec/changes/align-native-consumer-projections/approval.md",
+  "plan": {
+    "path": "docs/superpowers/plans/2026-10-10-native-consumer-projections-implementation.md",
+    "sha256": "de66b91216d0412a80e08fcddf404d54097c269f82b1e7bc54d6a3d3026b340d"
+  },
+  "private_root": "/Users/elvis/Library/Caches/native-agent-adaptation/project-native-r2-20261010",
+  "private_root_mode": "0700",
+  "private_files_mode": "0600",
+  "package_sha256": "89897ec847385ba54beb7fd141ad18ec9f35f9aa2b3f3572122bf7b81471f415",
+  "command_sha256": "4eaad002f2a7beeb9cef0456e6c5c18f9b80b37da5735ff262d056c1976af2f7",
+  "fixture_command_sha256": "bf517364e031c843c704147c041a1e3d7646047295af0471cf217e19de654a77",
+  "fixture_stdout_sha256": "d4af6fab91b0202db7b866398ee0c3976dd6b504f732293b986ee15f20ffd08c",
+  "fixtures": {
+    "scope": "private-command-regressions",
+    "passed": 20,
+    "failures": 0,
+    "native_writes": 0,
+    "cases": [
+      {
+        "case": "exact six-file apply/restore 01",
+        "result": "PASS"
+      },
+      {
+        "case": "exact six-file apply/restore 02",
+        "result": "PASS"
+      },
+      {
+        "case": "exact six-file apply/restore 03",
+        "result": "PASS"
+      },
+      {
+        "case": "exact six-file apply/restore 04",
+        "result": "PASS"
+      },
+      {
+        "case": "exact six-file apply/restore 05",
+        "result": "PASS"
+      },
+      {
+        "case": "exact six-file apply/restore 06",
+        "result": "PASS"
+      },
+      {
+        "case": "same-byte new inode recovery preserves concurrent object",
+        "result": "PASS"
+      },
+      {
+        "case": "content drift stops without overwrite",
+        "result": "PASS"
+      },
+      {
+        "case": "symlink drift stops without overwrite",
+        "result": "PASS"
+      },
+      {
+        "case": "directory drift stops without overwrite",
+        "result": "PASS"
+      },
+      {
+        "case": "same-byte inode race at binding seam stops",
+        "result": "PASS"
+      },
+      {
+        "case": "complete command rejects unqualified mechanisms before live fixture mutation",
+        "result": "PASS"
+      },
+      {
+        "case": "complete six-file fixture sequence creates bound receipts in order",
+        "result": "PASS"
+      },
+      {
+        "case": "completed target replay rejected",
+        "result": "PASS"
+      },
+      {
+        "case": "complete receipt checks reject same-byte inode drift and restoration",
+        "result": "PASS"
+      },
+      {
+        "case": "complete restore commands recover exact fixture preimages and modes",
+        "result": "PASS"
+      },
+      {
+        "case": "private backup drift stops package validation",
+        "result": "PASS"
+      },
+      {
+        "case": "advisory/wrong product/low capability cannot authorize command",
+        "result": "PASS"
+      },
+      {
+        "case": "candidate drift after validation cannot alter approved installed bytes",
+        "result": "PASS"
+      },
+      {
+        "case": "receipt inode substitution preserves concurrent pending object and stops later writes",
+        "result": "PASS"
+      }
+    ],
+    "fixtures_cleaned": true
+  },
+  "six_preimages": 6,
+  "six_candidates": 6,
+  "backup_cleanup_owner": "align-native-root",
+  "backup_resume": "retain while readiness is blocked; remove only identity-bound owned files after authorized disposition/final gates",
+  "source_suite": {
+    "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s tests -v",
+    "count": 492,
+    "exit": 0,
+    "elapsed_seconds": 32.494,
+    "scope": "existing source suite, no new native behavioral proof"
+  },
+  "openspec_strict_exit": 0,
+  "core_gate_exit": 0,
+  "native_writes": 0,
+  "native_model_calls": 0,
+  "real_preflight": "pending-not-requested-for-unqualified-package",
+  "event_mechanism_qualified": "pending; Cursor observer BLOCKED",
+  "native_load_behavior_accepted": "pending",
+  "raw_native_trace_retained": false,
+  "advisory_findings": {
+    "old_command_sha256": "7c448b07cf4db93e0bbb4b80bb10dd5dc1e266016d5867ebf077d42ee447c6bf",
+    "candidate_reopen_drift": "closed by verified in-memory byte consumption",
+    "review_identity_authority": "closed by full identity/role/capability/purpose/lineage and qualified-evidence binding",
+    "pending_receipt_inode": "closed by descriptor-bound replace and failure blocker; retain known installed identity",
+    "focused_recheck": "all three closed by distinct-instance Codex advisory reviewer; independent 20/20 rerun and adversarial checks; no Preflight signed"
+  },
+  "advisory_reviewer": "private_package_review",
+  "additional_blocker": "real Claude launchers regenerate credential-bearing runtime settings outside approved startup boundary",
+  "source_mechanism_evidence": {
+    "path": "docs/review/2026-10-10-native-consumer-mechanisms.json",
+    "sha256": "86b2668d816742f0cbd8e76897f5d84c20742cca508e9450df5ec8a2c0e884bd"
+  },
+  "proposed_scope_amendment": "openspec/changes/align-native-consumer-projections/amendments/codex-first-draft-v1.md (unapproved)"
+}

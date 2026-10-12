@@ -1,0 +1,29 @@
+{
+  "author": "elvis",
+  "change": "align-native-consumer-projections",
+  "type": "same-scope-test-scenario-clarification",
+  "failed_evidence": {
+    "path": "docs/review/2026-10-12-codex-first-native-acceptance-attempt1.json",
+    "sha256": "e5b19a52c111cb095f566f93b556e9d6624c0b09d39acc1873636a244f45d488"
+  },
+  "observed": "P2 actual reject-bound-report-first-line versus stop-publication-conflict; correct source body and0model tools",
+  "root_cause_status": "scenario phase ambiguous; new actual retest required before closure",
+  "advisory": {
+    "product": "codex",
+    "role": "advisory-reviewer",
+    "capability": "control-plane-high",
+    "independence": "private_package_review distinctfromalign-native-root",
+    "authority": "advisory-input",
+    "decision": "Only clarify publication-before vs completed-document facts; same oracle/enum/contract; do not accept both labels"
+  },
+  "old_cases_sha256": "8ae61a8051377b5ac32ab0f7d45583c725e3ea7e4a19277bd784b15faf5dcfe6",
+  "new_cases_sha256": "a3fb887f8dd380d321c7f510e80a23a3e6fcd192c510610ffee495d45e56dd8f",
+  "old_plan_sha256": "935019d8c78500c07f4967aa41a0fccbbc8d8d3ffcc4cbd2dd1df6ee893795cb",
+  "new_plan_sha256": "5261f7e23748697399f17f6921482b1caca82776b18cacac2661fc5329014fef",
+  "changed_case_ids": [
+    "P2"
+  ],
+  "unchanged": "all expected labels/enums, other9prompt bytes, nativecandidates, controls, observer/parser/runner/command, roles/risk/approvedscope",
+  "native_rule_writes_by_correction": 0,
+  "new_retest": "pending"
+}
