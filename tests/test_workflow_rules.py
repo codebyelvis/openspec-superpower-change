@@ -4612,6 +4612,49 @@ class WorkflowRulesTest(unittest.TestCase):
                 "business_authorized": False,
             })
 
+    def test_explicit_external_action_reuses_only_its_covered_authority(self):
+        lease = self._valid_lease()
+        lease["approved_actions"] = ["external-message"]
+        context = {
+            "action": "external-message", "artifact_revision": 2,
+            "artifact_sha256": "a" * 64,
+            "scope": lease["approved_scope"], "risk_profile": "standard",
+            "platform_authorized": True, "business_authorized": True,
+        }
+        self.assertEqual("reuse", self.validator.validate_confirmation_lease(lease, context))
+        with self.assertRaisesRegex(AssertionError, "business/production authorization"):
+            self.validator.validate_confirmation_lease(
+                lease, {**context, "business_authorized": False})
+        with self.assertRaisesRegex(AssertionError, "invalidated"):
+            self.validator.validate_confirmation_lease(self._valid_lease(), context)
+
+    def test_authorization_reuse_preserves_exact_bindings_and_invalidation(self):
+        lease = self._valid_lease()
+        context = {
+            "action": "fix-review-finding", "artifact_revision": 2,
+            "artifact_sha256": "a" * 64,
+            "scope": lease["approved_scope"], "risk_profile": "standard",
+        }
+        self.assertEqual("reuse", self.validator.validate_confirmation_lease(lease, context))
+        mutations = {
+            "artifact_revision": 3, "artifact_sha256": "b" * 64,
+            "scope": "another publication target", "risk_profile": "strict",
+            "action": "unapproved-action",
+            **{flag: True for flag in (
+                "scope_changed", "acceptance_changed", "risk_changed",
+                "production_impact_changed", "credentials_changed",
+                "external_side_effect_changed", "destructive_git_changed",
+                "contradictory_evidence", "user_decision_changed",
+            )},
+        }
+        for key, value in mutations.items():
+            with self.subTest(key=key), self.assertRaisesRegex(AssertionError, "invalidated"):
+                self.validator.validate_confirmation_lease(lease, {**context, key: value})
+        for key, value in (("decision_source", "revoked"),
+                           ("decision_source", "deferred"), ("status", "revoked")):
+            with self.subTest(key=key, value=value), self.assertRaises(AssertionError):
+                self.validator.validate_confirmation_lease({**lease, key: value}, context)
+
     def test_tiered_03_ai_proposed_user_approved_provenance_is_preserved(self):
         validate = getattr(self.validator, "validate_decision_source", None)
         self.assertTrue(callable(validate), "decision provenance behavior is not implemented")
@@ -5217,11 +5260,37 @@ class ProjectSessionResumeTests(unittest.TestCase):
     def test_stale_verified_inputs_preserve_checkpoint_and_edits(self):
         record = self._record(True)
         prior = copy.deepcopy(record)
+        contract = record["progress"]["contract"]
+        lease = {
+            "decision_id": "approved-fix", "artifact_revision": 1,
+            "artifact_sha256": contract["sha256"],
+            "approved_scope": "contract.md: existing local correction",
+            "approved_actions": ["fix-review-finding"], "risk_profile": "compact",
+            "decision_source": "ai-proposed/user-approved",
+            "owner_instance_id": self.owner["agent_instance_id"],
+            "status": "valid", "invalidation_conditions": ["scope-change"],
+        }
+        context = {
+            "action": "fix-review-finding", "artifact_revision": 1,
+            "artifact_sha256": contract["sha256"],
+            "scope": lease["approved_scope"], "risk_profile": "compact",
+        }
+        plan_before = self._write("plan.md", "Run misspelled test command.\n")
+        plan_after = self._write("plan.md", "Run the existing test module.\n")
+        self.assertNotEqual(plan_before["sha256"], plan_after["sha256"])
         self._write("app.py", "def value():\n    return 9\n")
+        actual_contract_hash = hashlib.sha256((self.root / "contract.md").read_bytes()).hexdigest()
+        self.assertEqual(contract["sha256"], actual_contract_hash)
+        self.assertEqual("reuse", self.validator.validate_confirmation_lease(
+            lease, {**context, "artifact_sha256": actual_contract_hash}))
         with self.assertRaisesRegex(AssertionError, "fingerprint|changed|verify"):
             self._validate(record)
         self.assertEqual(record, prior)
         self.assertIn("return 9", (self.root / "app.py").read_text())
+        changed = self._write("contract.md", "Changed approved scope.\n")
+        with self.assertRaisesRegex(AssertionError, "invalidated"):
+            self.validator.validate_confirmation_lease(
+                lease, {**context, "artifact_sha256": changed["sha256"]})
 
     def test_hashed_result_must_cover_command_revision_owner_and_fingerprint(self):
         record = self._record(True)

@@ -1,0 +1,68 @@
+{
+  "result": "BLOCKED",
+  "review_mode": "FULL_PREFLIGHT",
+  "lineage_root_revision": {
+    "path": "docs/superpowers/plans/2026-10-22-reduce-redundant-confirmation-and-review-overhead.md",
+    "sha256": "e50c9e124204edd65d4b7387b8dd50e215612b751a61cd93ea10125adabafb30"
+  },
+  "reviewed_revision": {
+    "path": "docs/superpowers/plans/2026-10-22-reduce-redundant-confirmation-and-review-overhead.md",
+    "sha256": "e50c9e124204edd65d4b7387b8dd50e215612b751a61cd93ea10125adabafb30"
+  },
+  "parent_review": null,
+  "attempt": 1,
+  "reviewer_identity": {
+    "agent_product": "codex",
+    "agent_instance_id": "/root/continuation_preflight",
+    "role": "independent-reviewer",
+    "capability_profile": "control-plane-high"
+  },
+  "review_purpose": "Pre-implementation readiness of the approved Router-only Major change",
+  "authority": "governed-review-evidence",
+  "author_executor_control_plane_instance": "01a1630a-a96a-7721-84c6-b04d13d7107a",
+  "same_reviewer_instance": false,
+  "declared_correction_set": [],
+  "mechanical_self_check": false,
+  "finding_completeness": true,
+  "protected_boundaries": {
+    "scope_contract": "Approved draft-v2 and all four receipt hashes match actual bytes",
+    "acceptance": "Nine approved acceptance points; Claude Code remains advisory",
+    "risk_evidence": "strict; separate Preflight, Implementation and Final Reviews",
+    "authority_assignments": "Original controller owns decisions; distinct reviewer supplies evidence only",
+    "allowed_forbidden_files": "Task 2 Router files and scoped artifacts; no grok-cc, Companion, native config or unrelated edits",
+    "branch_worktree": "Base 1242605fc4bb52c5644027697d71587e4a9dcc74; external archive candidate before owned-delta integration",
+    "database_production": "No production, database, credential or deployment authority",
+    "git_publication": "Explicit scoped ordinary origin/main push; no force-push or unrelated commits",
+    "runtime_sync": "Four declared targets through reviewed schema-v2 selection, preserving unselected parity and native bytes",
+    "rollback_ownership": "Exact owned delta and reviewed prestates only; preserve dirty work and recovery evidence"
+  },
+  "blocking_findings": [
+    {
+      "id": "F1",
+      "path": "docs/superpowers/plans/2026-10-22-reduce-redundant-confirmation-and-review-overhead.md",
+      "finding": "Verification commands are not executable in their declared archive context: git diff --check exits 129 without .git; named OpenSpec validation exits 1 because the approved untracked change is absent.",
+      "correction": "Prepare the candidate with unchanged approved governance artifacts; bind archive, integration, Companion and runtime command scopes. Use archive-compatible baseline comparison for whitespace and ordinary diff checking only in a Git checkout."
+    },
+    {
+      "id": "F2",
+      "finding": "Before-agent runs consume integration workflow hash faac4074f948a7236d15bfde36d1894ec1fbc33c0b3e9bd8a9f9d1bf7d2c92d1, while planned after runs consume clean workflow hash dfe2e62423123f559dae184e823282b31d1dd05afeab517fa482d939166b3b8a. Unrelated rebind/return instructions differ.",
+      "correction": "Preserve the same integration instruction preimage in an isolated before/after fixture and apply only the owned rule delta, or collect a matched clean baseline before edits. Do not claim mixed-input runs isolate this change."
+    },
+    {
+      "id": "D1",
+      "finding": "The required cloud opinion has not been completely recovered and integrity checked.",
+      "correction": "Collect and evaluate the existing task's complete report before implementation; retain the existing target and authorization."
+    }
+  ],
+  "independent_checks": [
+    "Plan hash, regular-file references and placeholder scan passed",
+    "Approved artifact hashes all match",
+    "Clean archive core passed in fallback and PyYAML modes",
+    "Clean fallback suite: 470 passed in 35.229 seconds",
+    "Integration quick validator, strict OpenSpec and git diff --check passed",
+    "Actual lease validator: authorized external-message reuse passed and 17 adversarial counterexamples rejected"
+  ],
+  "non_blocking_recommendations": [],
+  "accepted_residual_risks": [],
+  "next": "Correct F1/F2 and recover D1 before the same reviewer's one terminal FOCUSED_RECHECK; implementation remains gated."
+}

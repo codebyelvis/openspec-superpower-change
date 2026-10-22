@@ -1,0 +1,132 @@
+{
+  "schema": "task-local-sanitized-evidence",
+  "change_level": "Major",
+  "source_of_truth": "integration source with pre-existing user changes preserved; clean release is base plus owned delta only",
+  "plan_sha256": "85dc464363e60c8bd523573b7332ba3e98e460ef716dc469c304dc9b6b8660ef",
+  "plan_review": {
+    "result": "PASS",
+    "reviewer_product": "codex",
+    "reviewer_instance": "/root/continuation_implementation_review",
+    "role": "independent-reviewer",
+    "capability": "control-plane-high",
+    "authority": "governed-review-evidence",
+    "independence": "distinct from author/executor",
+    "findings": [],
+    "independent_negative_checks": [
+      "duplicate selector",
+      "missing assertion",
+      "file destination drift",
+      "coherent rule/prestate retargeting",
+      "forged prestate"
+    ]
+  },
+  "selection": {
+    "files": [
+      {
+        "path": "SKILL.md",
+        "skill": "openspec-superpower-change"
+      },
+      {
+        "path": "references/approved-implementation-workflow.md",
+        "skill": "openspec-superpower-change"
+      },
+      {
+        "path": "references/confirmation-lease.md",
+        "skill": "openspec-superpower-change"
+      },
+      {
+        "path": "references/local-instruction-checkpoint.md",
+        "skill": "openspec-superpower-change"
+      },
+      {
+        "path": "references/step-evidence-gate.md",
+        "skill": "openspec-superpower-change"
+      }
+    ],
+    "managed_rule": false
+  },
+  "managed_rule": {
+    "version": 6,
+    "sha256": "eb9ec85b426d1ff3c12ae6fc7572ee3c7bdb8cd74ad62d008e3d6cfb2bec28a8",
+    "modified": false
+  },
+  "legacy_drain": {
+    "known_canonical_statuses": 4,
+    "schema6_complete": 3,
+    "schema6_blocked_other_work": 1,
+    "active_schema4_or_schema5": 0,
+    "checked_immediately_before_first_apply": true,
+    "unrelated_statuses_unchanged": true
+  },
+  "codex_target": "catalog-discovered shared .codex/skills root, not the empty account-private skills directory",
+  "target_order": [
+    "codex",
+    "pi",
+    "antigravity-cli",
+    "grok-cli"
+  ],
+  "targets": [
+    {
+      "target": "codex",
+      "result": "PASS",
+      "receipt_sha256": "6d11e17f3367803edbb120ba12fda13ab7e59d8f791bc8714c48e6ac8bfdab3e",
+      "content_verification_sha256": "9e3e663337d2601eff4e394874f13d716b898980eda1f1900fceada753d643db",
+      "discovery_verification_sha256": "9a071080bee48b7f041e9a73523c015907e9c47a80c88f06ae9eab71dea13334",
+      "selected_operations": 5,
+      "assertions": 35,
+      "quick_router": "PASS",
+      "quick_companion": "PASS",
+      "core_fallback": "PASS",
+      "core_pyyaml": "PASS",
+      "companion_templates": "PASS"
+    },
+    {
+      "target": "pi",
+      "result": "PASS",
+      "receipt_sha256": "4773160f7f5e94348a87aaf20e4cdff429a0eb060b09882d9671d4d838b64289",
+      "content_verification_sha256": "102ab5a9d0c7a39ea06f6eecd5ffead5dc3fc2db0fbf1756321da8a5710bc146",
+      "discovery_verification_sha256": "4124359dd05ff3731dc999e3071686a58fb6cd9a6576cfb7c34cacce69885096",
+      "selected_operations": 5,
+      "assertions": 35,
+      "quick_router": "PASS",
+      "quick_companion": "PASS",
+      "core_fallback": "PASS",
+      "core_pyyaml": "PASS",
+      "companion_templates": "PASS"
+    },
+    {
+      "target": "antigravity-cli",
+      "result": "PASS",
+      "receipt_sha256": "4689d9a5b07d32b24caa322b28b76f05f22285b34957acb657b9e4b8ed17176b",
+      "content_verification_sha256": "1204f59237d6479440f29ecf8f27f905a61ea4c38e55cd04e35bc3f42b71b10e",
+      "discovery_verification_sha256": "bef979a345beb128f10bfc2650ea3dafca20ad5a1ea44d8523a473d893b200ea",
+      "selected_operations": 5,
+      "assertions": 35,
+      "quick_router": "PASS",
+      "quick_companion": "PASS",
+      "core_fallback": "PASS",
+      "core_pyyaml": "PASS",
+      "companion_templates": "PASS"
+    },
+    {
+      "target": "grok-cli",
+      "result": "PASS",
+      "receipt_sha256": "c8f0b894d7df43d152dd0599ea94f4adfe7c51a9e645e86aea51980398fc4e3b",
+      "content_verification_sha256": "5618056b0051da5d271afebd9b8eb7993910508e523420b25afa1c970daad7cd",
+      "discovery_verification_sha256": "073014ca269334df074f356a2208fc41faa8ae9271d9c5273294e87de58edb3c",
+      "selected_operations": 5,
+      "assertions": 35,
+      "quick_router": "PASS",
+      "quick_companion": "PASS",
+      "core_fallback": "PASS",
+      "core_pyyaml": "PASS",
+      "companion_templates": "PASS"
+    }
+  ],
+  "verify_all": "PASS",
+  "raw_grok_inspect": "consumed and removed by verifier; stderr empty",
+  "native_loading_claim": false,
+  "runtime_equals_published_head_claim": false,
+  "backup_cleanup": "pending publication; private plan/receipts/preimages retained only until required gates and push are verified",
+  "residual_risks": []
+}

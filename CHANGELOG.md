@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+- Reuse exact existing authorization before asking again; distinguish immutable
+  approval bindings from refreshed execution evidence and scoped blocker repair
+  from gate advancement. Accept complete inline facts where compact reporting
+  already applies, and keep grok-cc advice separate from implementation handoff.
+  Preserve approval, actor, transport, independent Review and completion gates.
+
 - Align shared native instruction consumption: expose the compact-local
   Preflight exception and ordinary advisory route, preserve required plan timing
   and bound artifact paths, and distinguish actual-entry qualification from

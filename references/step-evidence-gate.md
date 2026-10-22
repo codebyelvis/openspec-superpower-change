@@ -255,8 +255,12 @@ Do not use the audit to justify continuing implementation without user confirmat
 
 Only allow the next step when all conditions hold:
 
-- Code fact table was produced.
-- Every fact has `path:line` evidence.
+- Code facts were recorded. When compact reporting is already permitted above,
+  complete inline facts satisfy this condition without a separate table or
+  twelve-part report; this is a presentation choice, not a profile downgrade.
+  Required full reporting retains the code-fact table and full template.
+- Every fact has `path:line` evidence or a path-anchored diff hunk; required full
+  reporting retains its `path:line` evidence.
 - Positive checks are complete.
 - Negative searches are complete.
 - Formal verification has run with the repository's required commands.

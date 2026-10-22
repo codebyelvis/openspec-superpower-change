@@ -84,17 +84,25 @@ still do not enter implementation.
 
 Before asking for approval or a clarifying question, finish the already
 authorized work that makes the next step concrete and reviewable. The user
-approves a concrete result. Git writes, production, publication, external
-writes, and destructive actions still stop at existing boundaries. Do not
-invent extra warnings, disclaimers, or approval checklists from hypothetical
-risk.
+approves a concrete result. Check existing explicit authorization against the
+action, exact target, scope, conditions and current actor assignment. This
+applies to every route, including a Direct Change rule that stops at a protected
+boundary or approval gate: check whether that gate is already satisfied and
+request only missing authority. Git, production, publication, external writes
+and destructive actions retain their actual authority and evidence gates; their
+category alone does not require repeating an unchanged explicit approval.
+Closed-loop wording alone grants none of that authority. Do not invent extra
+warnings, disclaimers, or approval checklists from hypothetical risk.
 
 For approved work, continue safe same-scope reads, edits, relevant local checks
 and fixes for failures introduced by this change without stepwise confirmation.
 Reuse completed Plan/Preflight and unaffected evidence; retain pending required
-gates. Stop for scope/protected-boundary changes, an explicit approval boundary,
-production/credential/destructive or separately authorized external actions,
-Git writes, conflicting contracts or missing required evidence.
+gates. Stop the affected action for scope/protected-boundary changes, missing
+or invalid approval/assignment, conflicting contracts or missing required
+evidence. An already authorized same-scope correction may continue while its
+gate stays closed; it does not authorize implementation before Preflight PASS.
+Each necessary question names the uncovered decision or authority, prior
+approval, material delta, exact blocking rule and action the answer enables.
 
 Superpowers methods are selected by current phase and actual unresolved
 decisions, not generic create/modify metadata. Once selected, preserve their

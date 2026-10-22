@@ -191,8 +191,10 @@ presented once as one focused question and is not reopened after selection unles
 scope or risk changes. A status report is a status update and is
 non-confirmation progress, not a confirmation request. Continue to the next
 approved pending task while no blocker or new human decision exists.
-Finish reversible preparation first so Git, publication, and external writes are
-handed to the user as a concrete, reviewable result.
+Finish reversible preparation first. For Git, publication and external writes,
+compare the exact action, target, scope, conditions and actor with existing
+explicit authority before requesting a decision. Reuse matching authority once
+its required gates pass; ask only for an uncovered delta, not the same permission.
 
 When several options differ only in implementation detail and an obvious minimal
 recommendation satisfies the approved need, adopt that recommendation directly;
@@ -203,17 +205,24 @@ acceptance, or an approved contract. Once the solution and terminology are
 closed, a long task does not re-enter `grill-with-docs`; only a new material
 decision does.
 
-Stop only when all approved tasks are complete; when a new human decision is
-required because scope, risk, acceptance, product, business, architecture,
-security, credentials, resources, compatibility, or another contract choice
-changes. This includes a new product, business, or architecture decision;
-missing permission, credentials, or required resources; and any high-risk,
-irreversible, or outside the approved scope step. Stop also when the next step
-requires production writes or deletion, database writes, production
-operations, external effects/messages, release, publication, deployment,
-destructive actions, destructive Git, or any other Git authority; when the
-contract is contradictory, recovery is not reversible, scope would expand,
-canonical state is `BLOCKED`, or the user explicitly pauses or cancels.
+Stop when all approved tasks are complete or the user explicitly pauses or
+cancels. Stop the affected action for a new product, business, or architecture
+decision; missing permission, credentials, or required resources; changed
+scope, risk, acceptance, security, compatibility or another contract choice;
+contradictory contracts; or non-reversible recovery. A high-risk, irreversible,
+or outside the approved scope step requires its applicable explicit approval
+and evidence. Production/database writes, external effects/messages, release,
+publication, deployment, destructive actions or Git operations stop when that
+specific authority or a required gate is unsatisfied, not solely by category.
+
+When canonical state is `BLOCKED`, keep the gated transition closed and identify
+its blocker owner and resume condition. The assigned controller may perform
+already authorized same-scope remediation and required recheck; no implementation
+before required Preflight PASS, erased blocker or third unchanged-contract
+Preflight is permitted. The independent recheck verifies correction scope and
+the unchanged protected-boundary matrix. New authority/material decisions return
+to the user; missing resources or unknown remote outcomes require actual evidence,
+not another generic approval. Continue authorized independent work where possible.
 
 After Context Compaction, session recovery, a model or agent switch, or `继续`,
 including a new window, recover from the canonical Plan, Status, Handoff, or
@@ -410,6 +419,11 @@ does not sign readiness, alter historical evidence or close the target change.
 
 ### Read-only recovery and identity
 
+Preserve recorded user design/action decisions separately from actor assignment.
+An assignment blocker does not reopen the approved design. Reuse current
+canonical approval records while refreshing affected evidence; do not reconstruct
+authority from a chat summary or treat source changes as changed approval bytes.
+
 Every loaded agent may read selected state. A new unassigned instance cannot
 impersonate the recorded control plane or inherit signing/completion rights.
 A model switch in the same bound instance does not change assignment. Reuse
@@ -577,7 +591,9 @@ Route capability through `agent-capability-routing.md`. Platform permission,
 workflow scope, and business/production authorization are independent layers.
 Reuse an unchanged Confirmation Lease for safe checks and same-finding loops;
 request a new user decision for any invalidating production, risk, scope,
-credential, external-effect, destructive-Git, evidence, or user-decision change.
+credential, external-effect, destructive-Git, approved-evidence-assumption, or
+user-decision change. Routine evidence refresh follows `confirmation-lease.md`
+and does not itself change the bound authorization artifact.
 
 For standard/strict work, High Review inspects actual files and the complete
 diff, traces copy/transform/production wiring and every behavior claim to its

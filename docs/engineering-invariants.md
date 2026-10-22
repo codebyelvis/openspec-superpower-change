@@ -319,3 +319,46 @@ scope and never upgrades that evidence to native Skill loading.
 Loading pointer: `references/local-instruction-checkpoint.md` (Native agent
 consumption), reachable from SKILL's existing affected-instructions row; existing
 adapter and synchronization references point to this same owner.
+
+## Authorization, evidence freshness and presentation are separate checks
+
+Scope: approved continuation, confirmation leases, compact slice signoff and
+bounded cloud advisory review.
+
+Invariant:
+
+- Ask again only when the actual action, target, scope, conditions or actor is
+  not covered. A protected category still needs its explicit authority; its
+  name alone does not invalidate authority already granted for that action.
+- New approval leases bind the immutable approved decision, not a mutable
+  execution Plan. Preserve every historical exact binding. Refresh stale
+  implementation evidence without relabeling it as a changed user decision;
+  changed approved assumptions or contract bytes still invalidate reuse.
+- A closed gate forbids advancement, not authorized same-scope remediation.
+  Existing reviewer independence and convergence limits remain binding.
+- Compact evidence may be inline only when every required fact and regression
+  check is present and the existing risk/contract allows compact reporting.
+  A table adds no evidence. High-risk/full-contract reporting is not compact.
+- Bounded CC advice is an evidence input. Local adjudication and formal reviews
+  still decide acceptance; an accepted send, idle terminal or advisory verdict
+  never establishes formal PASS.
+
+Counterexamples: asking the user to repeat an exact approved normal push;
+silently re-signing a legacy Plan-bound lease after editing that Plan;
+accepting stale verification because authorization remains valid; rejecting
+complete eligible inline evidence solely for lacking a table; accepting CC
+advice as final completion.
+
+Mechanical enforcement: the production-lease and stale-resume tests in
+`tests/test_workflow_rules.py` exercise exact bindings, authority, invalidation
+and separate implementation fingerprints. Natural-language routing and
+evidence sufficiency additionally need fresh-agent adversarial review: keyword
+presence cannot establish a model's decision. The matched forward record
+proves the observed compact-table regression without inventing baseline
+failures for cases the old rules already handled correctly.
+
+Loading pointer: this file is linked from AGENTS. Normative owners remain
+`SKILL.md`, `references/confirmation-lease.md`,
+`references/approved-implementation-workflow.md`,
+`references/step-evidence-gate.md` and
+`references/local-instruction-checkpoint.md`.
