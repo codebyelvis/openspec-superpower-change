@@ -1,0 +1,52 @@
+--- a/SKILL.md
++++ b/SKILL.md
+@@ -75,15 +75,25 @@
+ evidence and compact business-slice signoff. A separate Plan, Preflight or full
+ TDD cycle is not universally required for this bounded path.
+ 
+-After classification and authorization, infer the current goal from the request
+-and prior context, then keep going until that goal is done. Treat "help me",
+-"can you", and "I want to" as instructions to do the work. Do not stop at
+-acknowledging capability, proposing a plan, or asking whether to continue
+-already authorized same-scope work. Ordinary questions and read-only diagnosis
+-still do not enter implementation.
++After classification and authorization, the current goal is only the deliverable
++the user literally requested in the current turn. Do not infer a broader goal
++from prior context, and do not upgrade verification into a fix. Keep going until
++that literal deliverable is done. Treat "help me", "can you", and "I want to" as
++instructions to do that literal deliverable. Do not stop at acknowledging
++capability, proposing a plan, or asking whether to continue already authorized
++same-scope work. Ordinary questions and read-only diagnosis still do not enter
++implementation.
++
++When reproduction or diagnosis is complete, emit a user-visible checkpoint
++report and stop. Enter one single-hypothesis fix only after the user confirms
++that slice. A slice the user already named in the current literal request counts
++as confirmed; do not ask again for that same slice. If the same slice's fix fails
++twice, stop and report.
+ 
+ Before asking for approval or a clarifying question, finish the already
+-authorized work that makes the next step concrete and reviewable. The user
++authorized work that makes the next step concrete and reviewable. Making the
++next step concrete means a report plus one suggested slice, and excludes
++implementing that slice. The user
+ approves a concrete result. Check existing explicit authorization against the
+ action, exact target, scope, conditions and current actor assignment. This
+ applies to every route, including a Direct Change rule that stops at a protected
+@@ -96,10 +106,13 @@
+ 
+ For approved work, continue safe same-scope reads, edits, relevant local checks
+ and fixes for failures introduced by this change without stepwise confirmation.
++That phrase does not include pre-existing failures found during verification.
+ Reuse completed Plan/Preflight and unaffected evidence; retain pending required
+-gates. Stop the affected action for scope/protected-boundary changes, missing
+-or invalid approval/assignment, conflicting contracts or missing required
+-evidence. An already authorized same-scope correction may continue while its
++gates. Stop the affected action for scope/protected-boundary changes, a task-type
++change, a new root cause outside the original slice, reaching the round budget,
++consulting an advisor more than once on the same slice, a suggested fix outside
++the files or modules recorded at Gate 0, missing or invalid approval/assignment,
++conflicting contracts or missing required evidence. An already authorized same-scope correction may continue while its
+ gate stays closed; it does not authorize implementation before Preflight PASS.
+ Each necessary question names the uncovered decision or authority, prior
+ approval, material delta, exact blocking rule and action the answer enables.

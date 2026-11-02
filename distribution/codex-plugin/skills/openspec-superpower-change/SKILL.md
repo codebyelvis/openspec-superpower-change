@@ -74,15 +74,25 @@ checks and focused inline diff/self-review. Behavioral fixes retain regression
 evidence and compact business-slice signoff. A separate Plan, Preflight or full
 TDD cycle is not universally required for this bounded path.
 
-After classification and authorization, infer the current goal from the request
-and prior context, then keep going until that goal is done. Treat "help me",
-"can you", and "I want to" as instructions to do the work. Do not stop at
-acknowledging capability, proposing a plan, or asking whether to continue
-already authorized same-scope work. Ordinary questions and read-only diagnosis
-still do not enter implementation.
+After classification and authorization, the current goal is only the deliverable
+the user literally requested in the current turn. Do not infer a broader goal
+from prior context, and do not upgrade verification into a fix. Keep going until
+that literal deliverable is done. Treat "help me", "can you", and "I want to" as
+instructions to do that literal deliverable. Do not stop at acknowledging
+capability, proposing a plan, or asking whether to continue already authorized
+same-scope work. Ordinary questions and read-only diagnosis still do not enter
+implementation.
+
+When reproduction or diagnosis is complete, emit a user-visible checkpoint
+report and stop. Enter one single-hypothesis fix only after the user confirms
+that slice. A slice the user already named in the current literal request counts
+as confirmed; do not ask again for that same slice. If the same slice's fix fails
+twice, stop and report.
 
 Before asking for approval or a clarifying question, finish the already
-authorized work that makes the next step concrete and reviewable. The user
+authorized work that makes the next step concrete and reviewable. Making the
+next step concrete means a report plus one suggested slice, and excludes
+implementing that slice. The user
 approves a concrete result. Git writes, production, publication, external
 writes, and destructive actions still stop at existing boundaries. Do not
 invent extra warnings, disclaimers, or approval checklists from hypothetical
@@ -90,8 +100,12 @@ risk.
 
 For approved work, continue safe same-scope reads, edits, relevant local checks
 and fixes for failures introduced by this change without stepwise confirmation.
+That phrase does not include pre-existing failures found during verification.
 Reuse completed Plan/Preflight and unaffected evidence; retain pending required
-gates. Stop for scope/protected-boundary changes, an explicit approval boundary,
+gates. Stop for scope/protected-boundary changes, a task-type change, a new root
+cause outside the original slice, reaching the round budget, consulting an
+advisor more than once on the same slice, a suggested fix outside the files or
+modules recorded at Gate 0, an explicit approval boundary,
 production/credential/destructive or separately authorized external actions,
 Git writes, conflicting contracts or missing required evidence.
 
