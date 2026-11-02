@@ -2704,6 +2704,46 @@ class WorkflowRulesTest(unittest.TestCase):
         self.assertIn("entry-discoverable and artifact-bound", normalized)
         self.assertIn("deterministic negative regression", normalized)
 
+    def test_packaged_copies_keep_approved_boundaries(self):
+        continuation = (
+            "An already authorized same-scope correction may continue while its"
+        )
+        marker = "CODEX_ANTI_DRIFT_ROUND_BUDGET"
+        root_skill = (ROOT / "SKILL.md").read_text(encoding="utf-8")
+        self.assertIn(continuation, root_skill)
+        self.assertNotIn(marker, root_skill)
+        short_paths = (
+            ROOT / "skills" / "openspec-superpower-change" / "SKILL.md",
+            ROOT
+            / "distribution"
+            / "codex-plugin"
+            / "skills"
+            / "openspec-superpower-change"
+            / "SKILL.md",
+        )
+        for path in short_paths:
+            text = path.read_text(encoding="utf-8")
+            self.assertNotIn(continuation, text, str(path))
+            self.assertIn("Stop for scope/protected-boundary changes", text, str(path))
+            self.assertNotIn(marker, text, str(path))
+        managed = (ROOT / "references" / "shared-global-governance.md").read_text(
+            encoding="utf-8"
+        )
+        self.assertNotIn(marker, managed)
+        invariants = (ROOT / "docs" / "engineering-invariants.md").read_text(
+            encoding="utf-8"
+        )
+        normalized = " ".join(invariants.split()).lower()
+        for required in (
+            "shorter packaged copy keeps the sentence approved for that copy",
+            "completed record of one item type once",
+            "end marker names the current task",
+            "does not relabel advisory review as control-plane pass",
+            "newer than the published commit",
+        ):
+            with self.subTest(required=required):
+                self.assertIn(required, normalized)
+
     def test_hashed_review_lineage_parses_exact_verified_bytes(self):
         invariants = (ROOT / "docs" / "engineering-invariants.md").read_text(
             encoding="utf-8"

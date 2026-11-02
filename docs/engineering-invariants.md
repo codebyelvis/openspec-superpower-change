@@ -362,3 +362,48 @@ Loading pointer: this file is linked from AGENTS. Normative owners remain
 `references/approved-implementation-workflow.md`,
 `references/step-evidence-gate.md` and
 `references/local-instruction-checkpoint.md`.
+
+## Approved copy boundaries and closure facts stay distinct
+
+Scope: packaged skill copies, portable sync selection, evidence writeups,
+runtime refresh, and a user-ordered delivery close for this repository.
+
+Invariant:
+
+- A shorter packaged copy keeps the sentence approved for that copy. A
+  continuation present only in the canonical long file is not copied across.
+- Portable sync selects only the approved artifact. Text that lives outside
+  the managed governance block is not selected into that block. A pre-existing
+  symlink of an instruction file is not a managed-block copy and is not repaired
+  by breaking the link.
+- A local refresh compares each destination with the published bytes. A
+  destination that already matches stays. A destination newer than the
+  published commit, when it still matches the current worktree, stays in place.
+- Evidence counts a completed record of one item type once. A scripted non-zero
+  exit is the scenario's reported stop, not a measured wall-clock timeout.
+- An advisor patch is applied only when its end marker names the current task
+  and the hash matches those bytes.
+- When the user orders the delivery loop closed, perform the remaining
+  user-gated record they named. Do not answer again with an open risk whose
+  only cause is that this ordered step is still undone. That order does not
+  relabel advisory review as control-plane PASS, does not set learning status
+  to `promoted`, and does not authorize Git. An unrelated hunk in a shared
+  file stays out of that authorized commit.
+
+Counterexample: the long-file continuation is inserted into both short
+`SKILL.md` copies; started and completed command events are added together; a
+patch whose end marker names the previous task is applied; after the user asks
+how to close, the reply repeats an open risk without doing the ordered check;
+published bytes are copied over runtime files that are newer than that commit.
+
+Mechanical enforcement: `tests/test_workflow_rules.py` rejects the long-file-only
+continuation in both packaged short copies and rejects the user-owned round-budget
+marker in the live skill copies and the managed governance source. Runtime trees,
+native event logs, advisor envelopes, and the Git index have no deterministic
+in-repo fixture; those comparisons use the adversarial scenarios on the
+2026-11-02 candidate card.
+
+Loading pointer: agents read this file through `AGENTS.md`. Approved long and
+short sentences remain in the published `SKILL.md` copies and
+`openspec/changes/archive/2026-11-02-add-verify-anti-drift-round-budget/`.
+This section does not restate user-owned round-budget text.
