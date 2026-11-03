@@ -12,9 +12,10 @@ Ordinary questions and read-only diagnosis do not enter implementation.
 ## Mandatory Entry Gate
 
 Before edits, state-changing commands, proposal creation or implementation,
-record Gate 0: mode and references read; OpenSpec decision and reason; required
-Superpowers methods (or none); risk/evidence profile, next action and whether
-confirmation is required. Inspection-only reads may establish classification.
+record Gate 0: mode, task (VERIFY, DIAGNOSE, FIX, or REVIEW), and references read;
+OpenSpec decision and reason; required Superpowers methods (or none);
+risk/evidence profile, next action and whether confirmation is required.
+Inspection-only reads may establish classification.
 
 An obvious local reversible change outside protected boundaries uses one line
 for all Gate 0 facts. Read applicable local instructions and the current task's
@@ -109,10 +110,18 @@ and fixes for failures introduced by this change without stepwise confirmation.
 That phrase does not include pre-existing failures found during verification.
 Reuse completed Plan/Preflight and unaffected evidence; retain pending required
 gates. Stop the affected action for scope/protected-boundary changes, a task-type
-change, a new root cause outside the original slice, reaching the round budget,
-consulting an advisor more than once on the same slice, a suggested fix outside
-the files or modules recorded at Gate 0, missing or invalid approval/assignment,
-conflicting contracts or missing required evidence.
+change, a new root cause outside the original slice, reaching the round budget
+(if local instructions define no numeric round budget, numeric stops are
+skipped; boundary, new root cause, advisor-repeat, and two-failure stops remain
+binding), consulting an advisor more than once on the same slice, a suggested
+fix outside the files or modules recorded at Gate 0, missing or invalid
+approval/assignment, conflicting contracts or missing required evidence.
+When the user explicitly instructs closed-loop execution or delegates
+intermediate approvals/reviews to an advisory reviewer, intermediate stages
+proceed continuously once review/verification PASS evidence is established,
+without pausing for conversational confirmation. Stop only for genuine blockers,
+breaker fires (two failures on the same slice), or user-reserved Git and production
+boundaries.
 An already authorized same-scope correction may continue while its
 gate stays closed; it does not authorize implementation before Preflight PASS.
 Each necessary question names the uncovered decision or authority, prior

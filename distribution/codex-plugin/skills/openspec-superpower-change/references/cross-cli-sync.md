@@ -144,3 +144,7 @@ Before schema-6 deployment, active schema-4/schema-5 contracts drain under their
 frozen runtime. Complete legacy history remains immutable and never authorizes a
 schema-6 transition. Do not claim global Skill optimization complete until all
 four required targets and the final bound-control-plane Review pass.
+
+## Native entry qualification boundary
+
+Portable parity covers the declared four targets and selected files/managed blocks only. It does not qualify an alternate account or linked consumer, prove native Skill loading or establish seven-entry behavior. Use `references/local-instruction-checkpoint.md` (Native agent consumption) for actual-entry qualification and separate native adaptation; native configuration outside managed blocks remains excluded.

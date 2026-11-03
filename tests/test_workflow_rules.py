@@ -5933,6 +5933,63 @@ class SkillIterationEntryTests(unittest.TestCase):
             with self.assertRaisesRegex(AssertionError, error):
                 _validate_iteration_entry(root)
 
+    def test_gate_0_task_type_and_round_budget_fallback(self):
+        skill = " ".join((ROOT / "SKILL.md").read_text(encoding="utf-8").split())
+        self.assertIn("record Gate 0: mode, task (VERIFY, DIAGNOSE, FIX, or REVIEW), and references read;", skill)
+        self.assertIn(
+            "if local instructions define no numeric round budget, numeric stops are skipped; "
+            "boundary, new root cause, advisor-repeat, and two-failure stops remain binding",
+            skill,
+        )
+        gate_ref = (ROOT / "references/step-evidence-gate.md").read_text(encoding="utf-8")
+        self.assertIn("- Task: (VERIFY | DIAGNOSE | FIX | REVIEW)", gate_ref)
+
+    def test_completion_contract_preexisting_debt_and_two_failure_bound(self):
+        completion = " ".join((ROOT / "references/completion-contract.md").read_text(encoding="utf-8").split())
+        self.assertIn(
+            "A required-check failure classified as pre-existing debt (`OUT_OF_SCOPE_PREEXISTING_DEBT`) "
+            "must not enter self-repair; it transitions to `BLOCKED`, `blocker_owner: user`",
+            completion,
+        )
+        self.assertIn(
+            "SKILL.md's two-failure and round-budget stops bound every fix -> verify -> Review loop in this contract;",
+            completion,
+        )
+        self.assertIn("reaching two failed attempts on the same slice stops completion as `BLOCKED`.", completion)
+        self.assertIn("An attempt is defined as one edit of code or configuration plus its verification.", completion)
+        self.assertIn("A named fix slice has symptom and location explicitly stated in the user's literal request.", completion)
+
+    def test_delegated_review_and_closed_loop_continuity(self):
+        skill = " ".join((ROOT / "SKILL.md").read_text(encoding="utf-8").split())
+        self.assertIn(
+            "When the user explicitly instructs closed-loop execution or delegates "
+            "intermediate approvals/reviews to an advisory reviewer, intermediate stages "
+            "proceed continuously once review/verification PASS evidence is established",
+            skill,
+        )
+        confirmation = " ".join((ROOT / "references/confirmation-lease.md").read_text(encoding="utf-8").split())
+        self.assertIn("delegates intermediate approvals/reviews to an advisory reviewer", confirmation)
+        approved = " ".join((ROOT / "references/approved-implementation-workflow.md").read_text(encoding="utf-8").split())
+        self.assertIn("需要让我审批或者授权的改为询问 grok-cc", approved)
+        self.assertIn("establishing review/verification PASS evidence satisfies that intermediate gate and advances immediately", approved)
+
+    def test_negative_regressions_for_hanging_states_and_deadlocks(self):
+        # 1. Negative test: if Gate 0 lacks task type
+        gate_ref = (ROOT / "references/step-evidence-gate.md").read_text(encoding="utf-8")
+        mutated_gate = gate_ref.replace("- Task: (VERIFY | DIAGNOSE | FIX | REVIEW)\n", "")
+        self.assertNotIn("- Task: (VERIFY | DIAGNOSE | FIX | REVIEW)", mutated_gate)
+
+        # 2. Negative test: if completion contract removes preexisting debt BLOCKED guard
+        completion = (ROOT / "references/completion-contract.md").read_text(encoding="utf-8")
+        mutated_completion = completion.replace("OUT_OF_SCOPE_PREEXISTING_DEBT", "UNKNOWN_DEBT")
+        self.assertNotIn("OUT_OF_SCOPE_PREEXISTING_DEBT", mutated_completion)
+
+        # 3. Negative test: if two-failure bound is removed from completion loops
+        mutated_bound = completion.replace("SKILL.md's two-failure and round-budget stops bound every fix", "unbounded fix")
+        self.assertNotIn("two-failure and round-budget stops bound every fix", mutated_bound)
+
+
+
 
 if __name__ == "__main__":
     unittest.main()

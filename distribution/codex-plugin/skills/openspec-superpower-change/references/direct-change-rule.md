@@ -35,6 +35,11 @@ gate applies, or required evidence/authority is missing. Use
 
 ## Other applicable gates
 
+Unfinished authorized work crossing a window or intentional pause uses
+`approved-implementation-workflow.md` -> Project Session Resume in the existing
+canonical project status. An already finished compact single-turn change needs
+no checkpoint. Continuation alone creates no OpenSpec change or external Handoff.
+
 - Proceed without OpenSpec artifacts.
 - Direct change means no proposal gate; it does not mean skipping code facts, scoped evidence, TDD/debugging, or verification when those gates apply.
 - Still read applicable local instructions such as `AGENTS.md`.

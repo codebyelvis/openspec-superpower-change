@@ -66,6 +66,43 @@ Git 租约仅覆盖本切片的 add、commit 和本仓库当前分支 push，一
     下一句口令。成功后下一句可为 `迭代优化skill：收敛 Superpowers 选择证据`；
     未完成时下一句恢复当前切片。
 
+## Source, generated adapters and runtime workspaces
+
+起轮先核对已给定工作目录是真源克隆的仓库根：当前目录应与
+`git rev-parse --show-toplevel` 一致，根目录 SKILL.md 是编辑入口。
+复用已确认的真源路径，不为自改重新搜索仓库或跳到运行时目录。
+
+| 位置 | 角色 | 本轮编辑约束 |
+|---|---|---|
+| 仓库根 SKILL.md 及其 references/scripts/templates | 真源 | 仅改当前合同允许的文件；本仓库历史管理长期版本 |
+| distribution/ 与 skills/openspec-superpower-change/SKILL.md | 生成的分发／兼容适配器 | 不是第二真源；按既有生成与校验流程更新，不手工改生成物来替代真源编辑 |
+| 已声明 CLI 的安装 skill 目录 | 运行时副本 | 只通过已审查的 sync apply 事务写入；回滚仍使用该事务的既有恢复路径，不绕过 plan 手工复制 |
+
+若入口落在生成物或运行时副本，先回到用户给定的真源路径再编辑；
+若真源无法确认，记录阻塞与需要恢复的路径，不在错误副本继续修改。
+临时备份和 forward-test 仍放在发现目录之外，测试副本不能成为同步源。
+本说明不新增 worktree 强制命令；已有隔离能力按当前实际需要使用，
+不改变 Git、Major 审批或跨 CLI 同步的授权边界。
+
+## Reading budget for one round
+
+复用已读且未变的 SKILL.md 与本地 AGENTS 指令；入口参考正文只加载本协议、
+`self-evolution-rule.md` 和 BACKLOG，CURRENT 作为恢复状态读取。
+下面是按当前决策取行的阅读预算，不是起轮时要通读的文件清单。
+
+| 当前决策 | 本轮允许阅读 | 加载条件 |
+|---|---|---|
+| 起轮或恢复 | 本协议、self-evolution-rule、BACKLOG、CURRENT | 建立当前切片、类别及已有状态，不预加载其余 references |
+| 分类与实现 | 当前切片的合同、受影响文件及 SKILL 路由中匹配的参考行 | 仅为当前未解决决策；不是全仓库或全 references 扫描 |
+| 收录学习候选 | learning-candidate-pipeline、现有 Candidate Card 模板 | 实际出现修正信号；保留原有项目学习晋升门禁 |
+| 便携同步 | sync-checklist、cross-cli-sync、portable manifest 与本轮选中内容 | portable 或治理块变化，仍覆盖全部 required 目标的验证 |
+| 评估完成 | completion-contract；有学习触发时再读 project-learning-closeout 和项目已有工程经验 | 保留必需完成与学习门禁，不因预算跳过 required 检查 |
+
+`scripts/validate_core_gates.py` 对入口做轻量静态检查：路由须保留
+按当前决策取行的可见阅读规则，肯定式全量 references 预加载指令会失败。
+反例文本放在代码示例中不构成入口指令；静态检查不证明模型实际加载量，
+也不设置虚构 token 阈值或改变业务证据门禁。
+
 ## Persistent state
 
 - BACKLOG：每项记录 id、优先级、Patch/Minor/Major、来源、完成定义与状态。
@@ -74,3 +111,78 @@ Git 租约仅覆盖本切片的 add、commit 和本仓库当前分支 push，一
 - LOG：追加式，一轮一行，字段为日期、切片、结果、commit、残留。
 
 状态记录不替代 OpenSpec、现有证据或 Completion Contract，不签发新的完成权。
+
+## Iteration candidate capture
+
+本节只收录本 skill 自身的后续优化候选，不替代
+`learning-candidate-pipeline.md` 的 scope 分类或
+`project-learning-closeout.md` 的项目知识晋升；已触发的必需晋升照常执行。
+业务项目的 task-local / project-local 教训不能仅因重复就升级为全局 skill 规则。
+
+Self-Evolution 或 Review 修正中，两个以上独立信号指向同一机制和适用范围时，
+在本轮已授权的仓库文件范围内向 `docs/iteration/BACKLOG.md` 追加一条候选。
+同一来源的转述、同一 finding 的反复提醒、同一失败的重跑不算独立信号。
+未达阈值时保留当前 Plan/Review 中的证据，不为凑数建立 backlog 项。
+高严重度事件仍走已有学习门禁，本节不新增也不降低其批准条件。
+
+收录步骤：
+
+1. 按同一机制、范围和拟议目标查重；已存在时只向该候选补充脱敏证据，
+   不重复建项、不改既有状态或优先级。与现有规则冲突时标记候选 `blocked`，
+   保留双方证据，交回控制面或用户决定。
+2. 新项使用下一个空闲 S 编号，排在现有项之后；保留所有已有项的范围、
+   优先级和推进约定。写齐 BACKLOG 六列，状态为“candidate／待用户选片；
+   暂不实现”，类别按拟议实际影响填写；不确定或涉及受保护边界为 Major，
+   状态为“Major／待提案，暂不实现”。
+3. 在 BACKLOG 对应详情中使用
+   `../templates/learning-candidate-template.md` 的字段子集：`status`、
+   `event_kind`、`severity`、`scope`、`symptom`、`correction_or_evidence`、
+   `generalized_invariant`、`independent_reproductions`、`independence_rationale`、
+   `duplicate_or_conflict_result`、`target_artifacts`、`mechanical_enforcement`、
+   `review_result`、`decision_owner`、`decision_provenance`。
+   只保留摘要、项目相对证据路径及已有 SHA-256，不复制对话或 Review 原文，
+   不保存凭据、客户数据或私有提示词。
+4. 追加候选不覆盖 CURRENT，不插入或扩展当前切片，不自动合入 SKILL.md，
+   不自动改写规则，不触发候选的运行时同步、Git 或生产操作。
+   候选先等待用户后续选片；未选片候选不参与无切片口令的自动取项。
+   Major 的实现仍须具体 change-id 批准。
+   收录本身不授予提案审批、证据签发、学习晋升或完成权。
+
+### Example: correction signals to a backlog candidate
+
+以下是隔离示例，不是实际发现，不加入真实队列。两个独立来源分别记录
+一次相同机制的修正：一个 Self-Evolution 验证发现示例文件的相对导航断链，
+另一份独立 Review 在另一个示例中发现同一断链机制。完成当前授权修正后，
+把“示例导航回归覆盖”收为后续候选，不顺手扩展本轮实现。
+
+示例行（`S<n>` 在真实收录时替换为下一个空闲编号；优先级排在既有项之后）：
+
+| id / 切片 | 优先级 | 类别 | 来源 | 完成定义 | 状态 |
+|---|---|---|---|---|---|
+| S<n> 示例导航回归覆盖 | 既有项之后 | Minor | 下方两项独立修正证据 | 后续独立切片用隔离示例验证相对导航可解析 | candidate／待用户选片；暂不实现 |
+
+对应详情沿用 Candidate Card 字段子集：
+
+```yaml
+status: candidate
+event_kind: correction
+severity: low
+scope: project-local
+symptom: 两个独立示例的相对导航断链
+correction_or_evidence:
+  - tests/fixtures/example-a/review.md（隔离示例来源，非真实文件）
+  - tests/fixtures/example-b/review.md（隔离示例来源，非真实文件）
+generalized_invariant: 示例导航应在各自目录下解析到有效目标
+independent_reproductions: 2
+independence_rationale: 不同示例的独立验证与 Review，不是同一 finding 的转述或重跑
+duplicate_or_conflict_result: 示例假定未发现重复或冲突；真实收录须先核对
+target_artifacts:
+  - docs/iteration/BACKLOG.md
+mechanical_enforcement: required
+review_result: pending
+decision_owner: codex
+decision_provenance: 当前控制面仅收录候选；后续选片后按既有 Self-Evolution 流程分类验证
+```
+
+反例：同一个 Review finding 被提醒两次仍只有一个来源，不新增候选；
+阈值达成也不意味着可以直接修改 SKILL.md 或实现 Major。

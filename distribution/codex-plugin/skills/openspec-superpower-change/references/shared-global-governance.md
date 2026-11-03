@@ -3,14 +3,27 @@
   `control-plane-high`, instance identity, and contract. That instance is the sole
   owner of routing, approval, canonical state transitions, evidence acceptance,
   final verification, and final completion; no product name alone grants authority.
+  One pinned task-scoped rebind, change-id `allow-task-scoped-grok-control-plane-rebind`,
+  may name a non-Codex schema-6 product as that change's local control-plane only when
+  the runtime pin has exactly one entry, the previous owner remains Codex, the executor
+  native equals the pin native_session_id and the new owner's instance id, and both
+  reviewer instances differ from that executor native and from each other. The field
+  comparison does not authenticate a caller. Git, production, deployment, and
+  completion evidence gates stay unchanged. Without that single pin entry,
+  Codex-only control-plane ownership remains in force.
 - [CCG-002] Under schema 6, Codex, Pi, Antigravity CLI, and Grok CLI are equally
   eligible for explicitly assigned executor or independent-reviewer roles. Their
   outputs remain bounded evidence under the assigned role, profile, instance, and
   contract and cannot self-authorize a canonical transition or final completion.
 - [CCG-003] Standard and strict external work separates the executor from the
   independent reviewer; an agent cannot independently review its own work.
-- [CCG-004] Governed work follows Preflight Review -> Implement -> Verify ->
-  Review, and every actionable finding returns to Fix -> Verify -> Review.
+- [CCG-004] Governed implementation outside the compact local Direct Change
+  exception follows Preflight Review -> Implement -> Verify -> Review, and every
+  actionable finding returns to Fix -> Verify -> Review. Compact local Direct
+  Change follows `references/direct-change-rule.md`: inline readiness, required
+  verification and inline self-review suffice when its bounded conditions hold.
+  This exception does not waive required behavioral evidence or apply to compact
+  external execution, standard/strict work, multi-slice work or protected effects.
 - [CCG-005] Completion requires fresh evidence and Review PASS; missing, stale,
   failed, blocked, or unresolved evidence cannot be promoted to completion.
 - [CCG-006] Git staging, commit, destructive commands, and push remain subject
@@ -18,6 +31,10 @@
 - [CCG-007] A portable core-skill or shared-rule optimization is incomplete
   until every declared required runtime passes synchronization, validation,
   discovery, parity, and final Codex Review.
+  The sole exception is change-id `allow-task-scoped-grok-control-plane-rebind`:
+  its own final review may be completed by one other independent Grok CLI
+  instance. Every other portable skill optimization still requires final Codex
+  Review.
 - [CCG-008] Cross-CLI synchronization excludes credentials, auth and token
   files, sessions, history, logs, caches, model settings, hooks, MCP secrets,
   CLI binaries, and every CLI-native configuration outside the managed block.
@@ -46,6 +63,10 @@
   workflow, business, Git, or completion authority; inability to load exactly
   one applicable Router is `BLOCKED`; once selected, each sub-skill's full rules
   remain in force.
+  Ordinary questions and standalone read-only advisory review do not enter the
+  Router or the Superpowers meta-entry merely because native defaults request
+  planning or saved reports. Explicitly requested file persistence returns to
+  Router classification before writing.
 - [CCG-015] Governed work conditionally resolves affected project language
   before material-choice routing. Corrections and Review findings enter Project
   Learning Closeout; mandatory or explicitly requested project-local promotion

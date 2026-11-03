@@ -1,0 +1,23 @@
+--- a/SKILL.md
++++ b/SKILL.md
+@@ -14,4 +14,5 @@
+ Before edits, state-changing commands, proposal creation or implementation,
+-record Gate 0: mode and references read; OpenSpec decision and reason; required
+-Superpowers methods (or none); risk/evidence profile, next action and whether
+-confirmation is required. Inspection-only reads may establish classification.
++record Gate 0: mode, task (VERIFY, DIAGNOSE, FIX, or REVIEW), and references read;
++OpenSpec decision and reason; required Superpowers methods (or none);
++risk/evidence profile, next action and whether confirmation is required.
++Inspection-only reads may establish classification.
+@@ -111,5 +112,8 @@
+ Stop the affected action for scope/protected-boundary changes, a task-type
+-change, a new root cause outside the original slice, reaching the round budget,
+-consulting an advisor more than once on the same slice, a suggested fix outside
+-the files or modules recorded at Gate 0, missing or invalid approval/assignment,
+-conflicting contracts or missing required evidence.
++change, a new root cause outside the original slice, reaching the round budget
++(if local instructions define no numeric round budget, numeric stops are
++skipped; boundary, new root cause, advisor-repeat, and two-failure stops remain
++binding), consulting an advisor more than once on the same slice, a suggested
++fix outside the files or modules recorded at Gate 0, missing or invalid
++approval/assignment, conflicting contracts or missing required evidence.

@@ -40,6 +40,7 @@ Preflight Review is required.
 ### Gate 0: Before action
 
 - Mode:
+- Task: (VERIFY | DIAGNOSE | FIX | REVIEW)
 - References read:
 - OpenSpec decision:
 - Required Superpowers sub-skills:

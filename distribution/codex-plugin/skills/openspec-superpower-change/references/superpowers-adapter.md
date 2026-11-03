@@ -179,3 +179,7 @@ An unchanged Confirmation Lease avoids duplicate prompts for safe commands and
 the same finding's fix/verify/Review loop. Material revision, scope, risk,
 production, credential, external-effect, destructive-Git, evidence, or user
 changes invalidate the lease.
+
+## Native consumption
+
+When native platform defaults conflict with request classification or plan/report placement, use `references/local-instruction-checkpoint.md` (Native agent consumption). Router-selected methods keep their full gates; an ordinary question or standalone advisory does not acquire an implementation workflow from native defaults.

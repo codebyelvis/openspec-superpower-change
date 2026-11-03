@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+- Close anti-drift hanging references, task type recording, and completion deadlocks:
+  record Gate 0 task type (`task: VERIFY|DIAGNOSE|FIX|REVIEW`); add fallback for
+  missing local numeric round budgets; route pre-existing debt to `BLOCKED` instead
+  of self-repair; bound completion loops by the two-failure stop across re-entries;
+  and enable uninterrupted closed-loop execution when delegated review or closed-loop
+  intent is authorized.
+
 - Reuse exact existing authorization before asking again; distinguish immutable
   approval bindings from refreshed execution evidence and scoped blocker repair
   from gate advancement. Accept complete inline facts where compact reporting

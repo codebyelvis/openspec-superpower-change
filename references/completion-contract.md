@@ -57,10 +57,18 @@ combined shortcut.
 ## Stop conditions
 
 Any verification or Review `FAIL` returns to the same scope for correction,
-fresh verification, and Review. Any `BLOCKED` result records the blocker owner
-and resume condition and stops completion. Scope expansion, invalid approval,
-missing required evidence, unresolved sensitive-data concerns, or an
-incompatible active lifecycle also stop the claim.
+fresh verification, and Review. A required-check failure classified as pre-existing
+debt (`OUT_OF_SCOPE_PREEXISTING_DEBT`) must not enter self-repair; it transitions
+to `BLOCKED`, `blocker_owner: user`, resume = user confirms an authorized fix
+slice or records an approved baseline exception. SKILL.md's two-failure and
+round-budget stops bound every fix -> verify -> Review loop in this contract;
+reaching two failed attempts on the same slice stops completion as `BLOCKED`.
+An attempt is defined as one edit of code or configuration plus its verification.
+A named fix slice has symptom and location explicitly stated in the user's
+literal request. Any `BLOCKED` result records the blocker owner and resume
+condition and stops completion. Scope expansion, invalid approval, missing
+required evidence, unresolved sensitive-data concerns, or an incompatible active
+lifecycle also stop the claim.
 
 ## Learning and reconciliation
 

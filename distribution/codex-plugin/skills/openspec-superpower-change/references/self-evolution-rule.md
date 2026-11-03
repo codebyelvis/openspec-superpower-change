@@ -186,3 +186,8 @@ to propose Self-Evolution. Implementation still requires the specific approved
 OpenSpec Change, backup, TDD, forward-tests, Review, runtime synchronization, and
 separate publication authorization. Prefer deterministic validators/tests over
 repeating mechanical prose.
+
+For repeated corrections to this skill itself, use the narrow backlog capture
+rule and Candidate Card subset in `skill-iteration-loop.md` (Iteration candidate
+capture). This records a future candidate only; it neither replaces required
+project-local promotion nor approves implementation or global rule changes.

@@ -1,0 +1,8 @@
+--- a/references/step-evidence-gate.md
++++ b/references/step-evidence-gate.md
+@@ -41,4 +41,5 @@
+ ### Gate 0: Before action
+ 
+ - Mode:
++- Task: (VERIFY | DIAGNOSE | FIX | REVIEW)
+ - References read:

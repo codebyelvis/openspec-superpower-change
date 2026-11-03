@@ -55,9 +55,14 @@ or platform permission alone is not business/production authorization. Changed
 targets or effects require their own coverage; generic continuation is not it.
 
 Closed-loop continuation reuses this same matrix for approved safe work; it does
-not create a per-continue Lease or require a new Lease for each safe step. The
-complete continuation rule and its stop boundaries live in
-`references/approved-implementation-workflow.md`.
+not create a per-continue Lease or require a new Lease for each safe step.
+When the user explicitly instructs closed-loop execution (e.g. "闭环推进") or
+delegates intermediate approvals/reviews to an advisory reviewer (e.g. "改为询问 grok-cc"),
+intermediate transitions between approved slices continue without repeating
+confirmation once review/verification PASS evidence is recorded. Pauses remain
+reserved for genuine blockers, breaker fires (two failures on the same slice),
+or explicit Git and production boundaries. The complete continuation rule and
+its stop boundaries live in `references/approved-implementation-workflow.md`.
 
 The lease expires when its bound authorization revision/hash, scope, acceptance,
 risk, production impact, credentials, external side effects, destructive Git

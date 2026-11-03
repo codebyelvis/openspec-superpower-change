@@ -4,9 +4,11 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import importlib.util
 import json
 import os
 import re
+import stat
 import sys
 from pathlib import Path, PurePosixPath
 
@@ -2194,6 +2196,135 @@ def validate_governed_caveman_lite(
             )
 
 
+def validate_native_agent_consumption(
+    governance: str, checkpoint: str, adapter: str, cross_cli: str, checklist: str,
+) -> None:
+    """Validate each native-consumption obligation only in its owning artifact."""
+    module_spec = importlib.util.spec_from_file_location(
+        "_native_managed_governance", Path(__file__).with_name("validate_cross_cli_sync.py")
+    )
+    module = importlib.util.module_from_spec(module_spec)
+    module_spec.loader.exec_module(module)
+    try:
+        module.validate_managed_rule_semantics(
+            _markdown_visible_content(governance), version=6
+        )
+    except ValueError as exc:
+        raise AssertionError(f"shared-global-governance.md: {exc}") from exc
+
+    section, _, _ = _markdown_owned_section(
+        checkpoint, "## Native agent consumption", "local-instruction-checkpoint.md"
+    )
+    owned = " ".join(_markdown_visible_content(section).split())
+    for obligation in (
+        "active configuration root", "native instruction sources", "discovered skill paths",
+        "Superpowers dependency path and SHA-256", "delivery policy and observed evidence",
+        "A missing private skill directory does not prove missing shared discovery",
+        "does not prove native loading, behavior or authority",
+        "Only the existing bound instance and contract grants control-plane authority",
+        "Claude Code and Cursor are content consumers and advisory reviewers, not schema-6 products",
+        "`claudex` and `claudeg` are Claude Code launchers",
+        "model backends do not change product identity",
+        "Sharing content does not share credentials, sessions, instances or permissions",
+        "form or reuse the applicable reviewed plan before execution",
+        "Resolve its destination from the user's authorized scope, project conventions and existing contract",
+        "A native `docs/design/` default is only a fallback",
+        "cannot relocate or duplicate an already-bound plan or evidence",
+        "requires a newly approved contract, never silent path replacement",
+        "Standalone read-only advisory output defaults to chat",
+        "persistence returns to Router classification",
+        "then respects the user's destination and the native publisher, when that publisher applies",
+        "Saving an advisory does not make it gate-bearing",
+        "bound project-relative attempt artifacts with the assigned real product, instance, role and evidence format",
+        "cannot substitute for each other or rewrite already-bound evidence",
+        "Check publisher applicability before constructing a saved advisory path",
+        "If the required publisher cannot represent the authorized path and format, report the conflict",
+        "Chat advisory, saved advisory and formal attempt evidence retain their separate authority boundaries",
+        "do not bypass its guard or claim publication",
+        "not a fifth portable target",
+        "Native rules, hooks and configuration outside the four managed blocks",
+        "separate exact path/prestate adaptation plan",
+        "appropriate approval, backup, supported mechanism, acceptance and rollback",
+        "Do not retarget the portable manifest or widen a publisher whitelist",
+        "registered compatibility hooks do not prove runtime enforcement",
+        "a selective isolation mechanism must be verified before changing unrelated protections",
+    ):
+        require(owned, obligation, "local-instruction-checkpoint.md native consumption")
+
+    for name, text, heading in (
+        ("superpowers-adapter.md", adapter, "## Native consumption"),
+        ("cross-cli-sync.md", cross_cli, "## Native entry qualification boundary"),
+        ("sync-checklist.md", checklist, "## Native entry qualification boundary"),
+    ):
+        pointer, _, _ = _markdown_owned_section(text, heading, name)
+        normalized = " ".join(_markdown_visible_content(pointer).split())
+        require(normalized, "`references/local-instruction-checkpoint.md`", name)
+    cross_owner, _, _ = _markdown_owned_section(
+        cross_cli, "## Native entry qualification boundary", "cross-cli-sync.md"
+    )
+    require(
+        " ".join(_markdown_visible_content(cross_owner).split()),
+        "native configuration outside managed blocks remains excluded",
+        "cross-cli-sync.md native boundary",
+    )
+
+
+def validate_project_document_ownership(skill: str, closeout: str, template: str) -> None:
+    label = "project-learning-closeout.md document ownership"
+    owner, _, _ = _markdown_owned_section(closeout, "## Project Document Ownership", label)
+    owner = " ".join(_markdown_visible_content(owner).split())
+    for needle in (
+        "Reading ownership alone does not trigger learning promotion",
+        "explicit user/project path contracts first",
+        "Reuse established purpose/domain conventions",
+        "Directory existence alone is not evidence",
+        "With no applicable contract or convention",
+        "Reserve the docs root for index entry points and explicitly contracted files",
+        "equally plausible destinations", "resolved before writes",
+        "docs/engineering-invariants.md", "AGENTS.md", "CONTEXT.md", "CONTEXT-MAP.md",
+        "OpenSpec artifacts", "docs/agent-collab/<change-id>/status.md", "docs/iteration/",
+        "exact path/hash bindings", "owner, authorization, revision and evidence rules",
+        "Creation authority is not blanket migration authority",
+        "inbound/outbound references", "AGENTS navigation", "before any mutation",
+        "destination collision", "bound-project paths", "symlinks", "unresolved links",
+        "Preserve substantive content except necessary link edits",
+        "before/after file inventories, content and link resolution",
+        "unrelated historical documents",
+    ):
+        require(owner, needle, label)
+
+    resolver, _, _ = _markdown_owned_section(closeout, "## Target resolver", label)
+    rows = [line for line in _markdown_visible_content(resolver).splitlines()
+            if line.startswith("| Easy-to-miss implementation or agent operating invariant |")]
+    if len(rows) != 1:
+        raise AssertionError(f"{label}: exactly one engineering resolver row required")
+    target = rows[0].split("|")[2]
+    require(target, "contracted or established guidance under Project Document Ownership", label)
+    require(target, "otherwise `docs/engineering/engineering-invariants.md`", label)
+    if "docs/engineering-invariants.md" in target:
+        raise AssertionError(f"{label}: old root fallback in engineering resolver")
+
+    routing, _, _ = _markdown_owned_section(skill, "## Routing Boundary", "SKILL.md placement pointer")
+    rows = [line for line in _markdown_visible_content(routing).splitlines()
+            if line.startswith("| Create or move ordinary project documents |")]
+    if len(rows) != 1:
+        raise AssertionError("SKILL.md placement pointer: exactly one conditional navigation row required")
+    require(rows[0], "references/project-learning-closeout.md", "SKILL.md placement pointer")
+    require(rows[0], "Project Document Ownership only; placement does not trigger promotion", "SKILL.md placement pointer")
+    if "## Project Document Ownership" in _markdown_visible_content(skill):
+        raise AssertionError("SKILL.md placement pointer: copied ownership policy")
+
+    rules, _, _ = _markdown_owned_section(template, "## Rules", "learning-candidate-template.md resolver pointer")
+    require(_markdown_visible_content(rules),
+            "[Target resolver](../references/project-learning-closeout.md#target-resolver)",
+            "learning-candidate-template.md resolver pointer")
+    if any(path in _markdown_visible_content(template) for path in (
+        "docs/engineering-invariants.md", "docs/engineering/engineering-invariants.md",
+        "## Project Document Ownership",
+    )):
+        raise AssertionError("learning-candidate-template.md: copied ownership/default instead of resolver pointer")
+
+
 def validate_project_learning_gate(
     skill: str,
     approved: str,
@@ -2201,6 +2332,7 @@ def validate_project_learning_gate(
     learning_closeout: str,
     learning_template: str,
 ) -> None:
+    validate_project_document_ownership(skill, learning_closeout, learning_template)
     try:
         frontmatter = skill.split("---", 2)[1]
     except IndexError as exc:
@@ -2349,6 +2481,36 @@ def validate_completion_contract(
     require(evidence, "whole-task decision is deferred", "step-evidence-gate.md")
 
 
+def validate_reference_read_budget(skill: str) -> None:
+    """Lint the entry's visible phase-selected reading rule, not model behavior."""
+    routing, _, _ = _markdown_owned_section(
+        skill, "## Routing Boundary", "reference reading budget"
+    )
+    visible_routing = " ".join(_markdown_visible_content(routing).split())
+    require(
+        visible_routing,
+        "Read the matching rows only when their decisions arise;",
+        "reference reading budget",
+    )
+    visible = _markdown_visible_content(skill)
+    preload = re.compile(
+        r"\b(?:read|load|scan|review)\s+(?:the\s+)?(?:all|every|entire|whole)\s+"
+        r"(?:references?\b|(?:files?|documents?)\s+(?:under|in)\s+references\b)"
+        r"|\b(?:read|load)\s+references\s+in\s+full\b"
+        r"|(?:先)?(?:读|阅读|读取|加载)(?:完|遍)?\s*(?:全部|所有|整个)\s*"
+        r"(?:references\b|参考(?:文件|文档|资料))",
+        re.I,
+    )
+    for match in preload.finditer(visible):
+        prefix = visible[max(0, match.start() - 25):match.start()]
+        if re.search(r"(?:do not|don't|never|avoid)\s*$|(?:不要|不得|禁止)\s*$", prefix, re.I):
+            continue
+        suffix = visible[match.end():]
+        if re.match(r"\s+selected\s+for\s+(?:the\s+)?current\s+phase\b", suffix, re.I):
+            continue
+        raise AssertionError("reference reading budget: whole-reference preload instruction")
+
+
 def validate_skill_iteration_entry(skill: str, loop: str, self_rule: str) -> None:
     """Validate the iteration entry's existing approval and repository scope."""
     description = skill.split("---", 2)[1]
@@ -2379,21 +2541,701 @@ def validate_skill_iteration_entry(skill: str, loop: str, self_rule: str) -> Non
             raise AssertionError("iteration push scope or approval guard missing")
     for phrase in ("固定迭代口令", "本仓库一轮 push 的明确批准"):
         require(self_rule, phrase, "self-evolution-rule.md iteration lease")
+    validate_reference_read_budget(skill)
+
+
+RESUME_LOCAL_FIELDS = {
+    "schema_version", "change_id", "mode", "approval_status", "risk_profile",
+    "contract_revision", "lifecycle_state", "control_plane_owner", "blocked_reason",
+    "blocker_owner", "resume_condition", "next_owner", "readonly_fields",
+}
+RESUME_CONTEXT_FIELDS = {
+    "change_id", "record_kind", "mode", "approval_status", "risk_profile",
+    "control_plane_owner", "allowed_actions", "verification_commands", "reviewer_assignment",
+}
+RESUME_REVIEW_PHASES = {"implementation-review", "final-review"}
+
+
+def _resume_bytes(root: Path, path: str, label: str, *, missing=False) -> bytes | None:
+    """Bind every component and hash/parse the same regular-file bytes."""
+    _validate_artifact_ref({"path": path, "sha256": "0" * 64}, True, "reference", label)
+    descriptors = []
+    try:
+        flags = os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW
+        descriptor = os.open(root.resolve(), flags)
+        descriptors.append(descriptor)
+        parts = path.split("/")
+        for part in parts[:-1]:
+            descriptor = os.open(part, flags, dir_fd=descriptor)
+            descriptors.append(descriptor)
+        leaf = os.open(parts[-1], os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK,
+                       dir_fd=descriptor)
+        with os.fdopen(leaf, "rb") as stream:
+            if not stat.S_ISREG(os.fstat(stream.fileno()).st_mode):
+                raise AssertionError(f"{label}: reference must be a regular file")
+            return stream.read()
+    except FileNotFoundError as exc:
+        if missing:
+            return None
+        raise AssertionError(f"{label}: missing reference") from exc
+    except (OSError, AttributeError) as exc:
+        raise AssertionError(f"{label}: unsafe/symlink reference or unsupported secure reader") from exc
+    finally:
+        for descriptor in reversed(descriptors):
+            os.close(descriptor)
+
+
+def _resume_json(text: str, label: str) -> dict:
+    def unique(pairs):
+        value = {}
+        for key, item in pairs:
+            if key in value:
+                raise AssertionError(f"{label}: duplicate JSON key")
+            value[key] = item
+        return value
+    try:
+        data = json.loads(text, object_pairs_hook=unique)
+    except (ValueError, UnicodeError) as exc:
+        raise AssertionError(f"{label}: invalid JSON record") from exc
+    if not isinstance(data, dict):
+        raise AssertionError(f"{label}: record must be a mapping")
+    return data
+
+
+def _resume_section(text: str, heading: str, label: str) -> dict:
+    body, _, _ = _markdown_owned_section(text, "## " + heading, label)
+    fence = re.fullmatch(r"\s*```json[ \t]*\n(.*?)\n```[ \t]*\s*", body, re.S)
+    if fence is None:
+        raise AssertionError(f"{label}: expected exactly one JSON fence")
+    return _resume_json(fence[1], label)
+
+
+def extract_resume_record(text: str, label: str) -> dict:
+    return _resume_section(text, "Session Resume", label)
+
+
+def _resume_keys(data, keys: set[str], label: str) -> None:
+    if not isinstance(data, dict) or set(data) != keys:
+        raise AssertionError(f"{label}: expected exactly {sorted(keys)}")
+
+
+def _resume_ref(ref, root: Path, label: str) -> bytes:
+    _validate_artifact_ref(ref, True, "reference", label)
+    payload = _resume_bytes(root, ref["path"], label)
+    if not payload or hashlib.sha256(payload).hexdigest() != ref["sha256"]:
+        raise AssertionError(f"{label}: reference sha256 mismatch or empty artifact")
+    return payload
+
+
+REBIND_PIN_KEYS = {
+    "amendment_kind", "change_id", "previous_control_plane_owner",
+    "control_plane_owner", "native_session_id", "previous_contract",
+    "implementation_reviewer_instance_id", "final_reviewer_instance_id", "scope",
+}
+REBIND_CONTEXT_DIFF = {"control_plane_owner", "reviewer_assignment"}
+REBIND_GOVERNANCE_DIFF = {
+    "control_plane_owner", "contract_revision", "blocked_reason", "resume_condition",
+}
+
+
+def _rebind_pin_path() -> Path:
+    return Path(__file__).resolve().parent.parent / "references" / "task-scoped-control-plane-rebinds.json"
+
+
+def _load_rebind_pin() -> dict | None:
+    """Read the one local rebind entry. Absence keeps Codex-only behavior."""
+    path = _rebind_pin_path()
+    try:
+        metadata = path.lstat()
+    except FileNotFoundError:
+        return None
+    if stat.S_ISLNK(metadata.st_mode) or not stat.S_ISREG(metadata.st_mode):
+        raise AssertionError("control-plane rebind: pin must be a regular non-symlink file")
+    if stat.S_IMODE(metadata.st_mode) != 0o600:
+        raise AssertionError("control-plane rebind: pin mode must be 0600")
+    payload = path.read_bytes()
+    if not payload.strip():
+        return None
+    def unique(pairs):
+        value = {}
+        for key, item in pairs:
+            if key in value:
+                raise AssertionError("control-plane rebind pin: duplicate JSON key")
+            value[key] = item
+        return value
+    try:
+        data = json.loads(payload.decode(), object_pairs_hook=unique)
+    except (ValueError, UnicodeError) as exc:
+        raise AssertionError("control-plane rebind pin: invalid JSON") from exc
+    if isinstance(data, list):
+        if len(data) != 1:
+            return None
+        _validate_rebind_entry(data[0])
+        return data[0]
+    raise AssertionError("control-plane rebind: pin must be a one-entry JSON array")
+
+
+def _validate_rebind_entry(entry) -> None:
+    if not isinstance(entry, dict) or set(entry) != REBIND_PIN_KEYS:
+        raise AssertionError("control-plane rebind: pin entry keys are invalid")
+    if entry["amendment_kind"] != "strict-local-control-plane-rebind" or entry["scope"] != "this-change-only":
+        raise AssertionError("control-plane rebind: kind and scope must stay task-scoped")
+    if not isinstance(entry["change_id"], str) or re.fullmatch(r"[a-z0-9][a-z0-9-]*", entry["change_id"]) is None:
+        raise AssertionError("control-plane rebind: invalid change_id")
+    _validate_assignment(
+        entry["previous_control_plane_owner"], "previous_control_plane_owner",
+        "control-plane", {"control-plane-high"}, {"codex"}, "control-plane rebind",
+    )
+    _validate_assignment(
+        entry["control_plane_owner"], "control_plane_owner",
+        "control-plane", {"control-plane-high"}, {"grok-cli"}, "control-plane rebind",
+    )
+    owner_id = entry["control_plane_owner"]["agent_instance_id"]
+    previous_id = entry["previous_control_plane_owner"]["agent_instance_id"]
+    native = entry["native_session_id"]
+    implementation_id = entry["implementation_reviewer_instance_id"]
+    final_id = entry["final_reviewer_instance_id"]
+    if not isinstance(native, str) or not isinstance(implementation_id, str) or not isinstance(final_id, str) or native != owner_id:
+        raise AssertionError("control-plane rebind: executor native must equal native_session_id and the new owner")
+    if any(re.fullmatch(r"[a-z0-9][a-z0-9._-]{2,63}", item) is None for item in (implementation_id, final_id)):
+        raise AssertionError("control-plane rebind: reviewer instance id is invalid")
+    if implementation_id == native or final_id == native:
+        raise AssertionError("control-plane rebind: reviewer instance must differ from the executor native")
+    if len({owner_id, previous_id, implementation_id, final_id}) != 4:
+        raise AssertionError("control-plane rebind: owner and reviewer instances must be distinct")
+    _validate_artifact_ref(entry["previous_contract"], True, "previous_contract", "control-plane rebind")
+
+
+def _local_owner_products(data: dict) -> set[str]:
+    """Codex remains the only owner product unless one pin entry names this record."""
+    products = {"codex"}
+    entry = _load_rebind_pin()
+    if entry is not None and entry["change_id"] == data["change_id"] and entry["control_plane_owner"] == data["control_plane_owner"]:
+        products.add("grok-cli")
+    return products
+
+
+def _matching_rebind_native(context: dict) -> str | None:
+    """Executor native is the pinned native_session_id, which equals the new owner."""
+    entry = _load_rebind_pin()
+    if entry is None or entry["change_id"] != context.get("change_id"):
+        return None
+    if context.get("control_plane_owner") != entry["control_plane_owner"]:
+        return None
+    return entry["native_session_id"]
+
+
+def _require_rebind_reviewers(context: dict, entry: dict) -> None:
+    assignment = context["reviewer_assignment"]
+    if not isinstance(assignment, dict) or set(assignment) != RESUME_REVIEW_PHASES:
+        raise AssertionError("control-plane rebind: strict stage reviewers required")
+    executor_native = entry["native_session_id"]
+    expected = {
+        "implementation-review": entry["implementation_reviewer_instance_id"],
+        "final-review": entry["final_reviewer_instance_id"],
+    }
+    for phase, instance in expected.items():
+        reviewer = assignment[phase]
+        if reviewer["agent_instance_id"] == executor_native:
+            raise AssertionError("control-plane rebind: reviewer instance must differ from the executor native")
+        if reviewer["agent_product"] != "grok-cli" or reviewer["agent_instance_id"] != instance:
+            raise AssertionError("control-plane rebind: reviewers must match the pin")
+
+
+def _bind_rebind_contract(context: dict, contract_text: str, root: Path) -> None:
+    entry = _load_rebind_pin()
+    if entry is None or context["change_id"] != entry["change_id"] or context["control_plane_owner"] != entry["control_plane_owner"]:
+        return
+    observed = _resume_section(contract_text, "Control Plane Rebind", "control-plane rebind")
+    if observed != entry:
+        raise AssertionError("control-plane rebind: contract section must equal the single pin entry")
+    previous_text = _resume_ref(entry["previous_contract"], root, "control-plane rebind previous contract").decode()
+    previous_context = _resume_section(previous_text, "Resume Context", "control-plane rebind previous context")
+    _resume_keys(previous_context, RESUME_CONTEXT_FIELDS, "control-plane rebind previous context")
+    if previous_context["control_plane_owner"] != entry["previous_control_plane_owner"]:
+        raise AssertionError("control-plane rebind: previous contract owner changed")
+    previous_facts = {key: value for key, value in previous_context.items() if key not in REBIND_CONTEXT_DIFF}
+    current_facts = {key: value for key, value in context.items() if key not in REBIND_CONTEXT_DIFF}
+    if previous_facts != current_facts:
+        raise AssertionError("control-plane rebind: context facts other than owner and reviewers must remain equal")
+    _require_rebind_reviewers(context, entry)
+
+
+def _control_plane_rebind_transition(data: dict, progress: dict, previous: dict, previous_record: dict) -> bool:
+    entry = _load_rebind_pin()
+    owners_match = (
+        entry is not None
+        and data["change_id"] == entry["change_id"]
+        and data["control_plane_owner"] == entry["control_plane_owner"]
+        and previous["control_plane_owner"] == entry["previous_control_plane_owner"]
+    )
+    if not owners_match:
+        return False
+    if data["lifecycle_state"] != "blocked" or previous["lifecycle_state"] != "blocked":
+        raise AssertionError("control-plane rebind: lifecycle must stay blocked")
+    old_progress = previous_record["progress"]
+    if progress["verified_revision"] is not None or old_progress["verified_revision"] is not None:
+        raise AssertionError("control-plane rebind: verified_revision must stay null")
+    if data["contract_revision"] != previous["contract_revision"] + 1:
+        raise AssertionError("control-plane rebind: revision must increase by exactly one")
+    for key in RESUME_LOCAL_FIELDS:
+        if key not in REBIND_GOVERNANCE_DIFF and previous[key] != data[key]:
+            raise AssertionError(f"control-plane rebind: unexpected governance change: {key}")
+    if old_progress["contract"] != entry["previous_contract"] or progress["contract"] == old_progress["contract"]:
+        raise AssertionError("control-plane rebind: contract reference must move off the previous contract")
+    for key in ("goal", "plan", "completed", "next_action"):
+        if old_progress[key] != progress[key]:
+            raise AssertionError(f"control-plane rebind: progress.{key} must stay unchanged")
+    return True
+
+
+def _resume_local_assignment(context: dict) -> None:
+    """Validate both strict stage entries; legacy shapes retain their meaning."""
+    assignment = context["reviewer_assignment"]
+    if context["risk_profile"] == "compact":
+        if assignment is not None:
+            raise AssertionError("local compact: use existing inline Review applicability")
+        return
+    stages = isinstance(assignment, dict) and set(assignment) == RESUME_REVIEW_PHASES
+    if stages and context["risk_profile"] != "strict":
+        raise AssertionError("local Review: stage assignments require strict risk")
+    entries = assignment.items() if stages else [(None, assignment)]
+    executor_native = _matching_rebind_native(context)
+    identities = []
+    for phase, entry in entries:
+        _resume_keys(entry, REVIEWER_ASSIGNMENT_FIELDS, "local independent Review")
+        _validate_review_purpose(entry["review_purpose"], "local Review")
+        targets = {"control_plane_owner", "executor_assignment"}
+        if phase == "final-review":
+            targets.add("implementation_reviewer")
+        _validate_independence(entry["independence_requirement"], targets, "local Review")
+        identity = {key: entry[key] for key in ("agent_product", "agent_instance_id", "agent_role", "capability_profile")}
+        _validate_assignment(identity, "reviewer", "independent-reviewer", {"control-plane-high"}, SCHEMA6_AGENT_PRODUCTS, "local Review")
+        instance = identity["agent_instance_id"]
+        if executor_native is not None and instance == executor_native:
+            raise AssertionError("control-plane rebind: reviewer instance must differ from the executor native")
+        if instance == context["control_plane_owner"]["agent_instance_id"] or instance in identities or entry["result_authority"] != "governed-review-evidence":
+            raise AssertionError("local Review: independent identity and governed authority required")
+        identities.append(instance)
+
+
+def _resume_control_plane_return(record: dict, context: dict, previous_text: str,
+                                 root: Path, payload: str) -> None:
+    """Validate a specifically approved reversal; metadata never authenticates."""
+    authorization = _resume_section(payload, "Resume Return Authorization", "resume return authorization")
+    _resume_keys(authorization, {
+        "amendment_kind", "change_id", "previous_status_sha256", "previous_contract",
+        "original_contract", "control_plane_owner", "native_session_id", "pin_sha256",
+    }, "resume return authorization")
+    entry = _load_rebind_pin()
+    if entry is None:
+        raise AssertionError("resume return: exact active single-entry pin required")
+    old_record, old_data, old_progress, _, _ = _resume_loaded(previous_text, root)
+    data, progress = record["governance"], record["progress"]
+    for current in (old_record, record):
+        if current["record_kind"] != "local" or any(current["governance"].get(k) != v for k, v in (
+            ("mode", "approved-implementation"), ("risk_profile", "strict"),
+            ("approval_status", "approved"), ("lifecycle_state", "blocked"),
+        )) or current["progress"]["verified_revision"] is not None:
+            raise AssertionError("resume return: approved strict local blocked unverified states required")
+    if (old_data["control_plane_owner"] != entry["control_plane_owner"]
+            or data["control_plane_owner"] != entry["previous_control_plane_owner"]
+            or progress["contract"] != entry["previous_contract"]):
+        raise AssertionError("resume return: restore only the pinned original Codex owner and contract")
+    for key, expected in (
+        ("amendment_kind", "strict-local-control-plane-return"), ("change_id", data["change_id"]),
+        ("previous_status_sha256", hashlib.sha256(previous_text.encode()).hexdigest()),
+        ("previous_contract", old_progress["contract"]), ("original_contract", entry["previous_contract"]),
+        ("control_plane_owner", entry["previous_control_plane_owner"]),
+        ("pin_sha256", hashlib.sha256(_rebind_pin_path().read_bytes()).hexdigest()),
+    ):
+        if authorization[key] != expected:
+            raise AssertionError(f"resume return: mismatched approval {key}")
+    if entry["change_id"] != data["change_id"] or not _is_nonblank(authorization["native_session_id"]):
+        raise AssertionError("resume return: exact task and nonblank original native metadata required")
+    if data["contract_revision"] != old_data["contract_revision"] + 1:
+        raise AssertionError("resume return: revision must increase by exactly one")
+    for key in RESUME_LOCAL_FIELDS - REBIND_GOVERNANCE_DIFF:
+        if data[key] != old_data[key]:
+            raise AssertionError(f"resume return: unexpected governance change: {key}")
+    if {k: v for k, v in progress.items() if k != "contract"} != {
+        k: v for k, v in old_progress.items() if k != "contract"
+    }:
+        raise AssertionError("resume return: preserve all progress except original contract reference")
+
+    parent = _resume_section(payload, "Resume Context", "return approving context")
+    _resume_keys(parent, RESUME_CONTEXT_FIELDS, "return approving context")
+    if any(parent[k] != v for k, v in (
+        ("record_kind", "local"), ("mode", "self-evolution"), ("approval_status", "approved"),
+        ("risk_profile", "strict"), ("control_plane_owner", data["control_plane_owner"]),
+    )) or not isinstance(parent["change_id"], str) or not re.fullmatch(r"[a-z0-9][a-z0-9-]*", parent["change_id"]):
+        raise AssertionError("resume return: approved strict self-evolution context with original owner required")
+    actions = parent["allowed_actions"]
+    if not isinstance(actions, dict) or not all(_is_nonblank(k) and _is_nonblank(v) for k, v in actions.items()) or actions.get("return-control-plane") != "local-edit":
+        raise AssertionError("resume return: explicit return-control-plane/local-edit required")
+    _validate_string_list(parent["verification_commands"], "verification_commands", "return approving context")
+    if len(parent["verification_commands"]) != len(set(parent["verification_commands"])):
+        raise AssertionError("resume return: duplicate approving verification commands")
+    _resume_local_assignment(parent)
+    _resume_keys(parent["reviewer_assignment"], RESUME_REVIEW_PHASES, "return approving reviewers")
+    _resume_keys(context["reviewer_assignment"], RESUME_REVIEW_PHASES, "original reviewers")
+    identity_keys = ("agent_product", "agent_instance_id", "agent_role", "capability_profile")
+    for phase in RESUME_REVIEW_PHASES:
+        if any(parent["reviewer_assignment"][phase][key] != context["reviewer_assignment"][phase][key] for key in identity_keys):
+            raise AssertionError("resume return: preserve the original independent reviewer identities")
+
+
+def _resume_amendment(record: dict, context: dict, previous_text: str,
+                      root: Path, approval: dict) -> bool:
+    """Check a scoped blocked binding amendment, without granting authority."""
+    payload = _resume_ref(approval, root, "amendment approval").decode()
+    if re.search(r"^## Resume Return Authorization[ \t]*$", payload, re.M):
+        if re.search(r"^## Resume Amendment Authorization[ \t]*$", payload, re.M):
+            raise AssertionError("resume amendment: mixed authorization kinds are forbidden")
+        _resume_control_plane_return(record, context, previous_text, root, payload)
+        return True
+    old_record, old_data, old_progress, old_context, _ = _resume_loaded(previous_text, root)
+    data, progress = record["governance"], record["progress"]
+    for current in (old_record, record):
+        governance = current.get("governance", {})
+        if current["record_kind"] != "local" or any(governance.get(k) != v for k, v in (
+            ("risk_profile", "strict"), ("approval_status", "approved"), ("lifecycle_state", "blocked"),
+        )) or current["progress"]["verified_revision"] is not None:
+            raise AssertionError("resume amendment: only approved strict local blocked unverified states")
+    _resume_keys(old_context["reviewer_assignment"], REVIEWER_ASSIGNMENT_FIELDS, "previous amendment assignment")
+    _resume_keys(context["reviewer_assignment"], RESUME_REVIEW_PHASES, "next amendment assignment")
+    if context["reviewer_assignment"]["implementation-review"] != old_context["reviewer_assignment"]:
+        raise AssertionError("resume amendment: preserve the original Implementation assignment")
+    if {k: v for k, v in old_context.items() if k != "reviewer_assignment"} != {k: v for k, v in context.items() if k != "reviewer_assignment"}:
+        raise AssertionError("resume amendment: context facts other than reviewer_assignment must remain equal")
+    expected = {**old_record,
+                "governance": {**old_data, "contract_revision": old_data["contract_revision"] + 1},
+                "progress": {**old_progress, "contract": progress["contract"]}}
+    if record != expected or old_progress["contract"] == progress["contract"]:
+        raise AssertionError("resume amendment: preserve canonical facts except contract ref and revision+1")
+    parent = _resume_section(payload, "Resume Context", "amendment approving context")
+    _resume_keys(parent, RESUME_CONTEXT_FIELDS, "amendment approving context")
+    if any(parent[k] != v for k, v in (
+        ("record_kind", "local"), ("mode", "self-evolution"), ("approval_status", "approved"),
+        ("risk_profile", "strict"), ("control_plane_owner", data["control_plane_owner"]),
+    )) or not isinstance(parent["change_id"], str) or not re.fullmatch(r"[a-z0-9][a-z0-9-]*", parent["change_id"]):
+        raise AssertionError("resume amendment: approved strict self-evolution context with same owner required")
+    actions = parent["allowed_actions"]
+    if not isinstance(actions, dict) or not all(_is_nonblank(k) and _is_nonblank(v) for k, v in actions.items()) or actions.get("amend-review-binding") != "local-edit":
+        raise AssertionError("resume amendment: approving context must explicitly allow amend-review-binding/local-edit")
+    _validate_string_list(parent["verification_commands"], "verification_commands", "amendment approving context")
+    if len(parent["verification_commands"]) != len(set(parent["verification_commands"])):
+        raise AssertionError("resume amendment: duplicate approving verification commands")
+    _resume_local_assignment(parent)
+    authorization = _resume_section(payload, "Resume Amendment Authorization", "resume amendment authorization")
+    _resume_keys(authorization, {"amendment_kind", "change_id", "previous_contract", "next_contract_path", "reviewer_assignment"}, "resume amendment authorization")
+    next_path = authorization["next_contract_path"]
+    _validate_artifact_ref({"path": next_path, "sha256": progress["contract"]["sha256"]}, True, "reference", "amendment next path")
+    if any(authorization[k] != v for k, v in (
+        ("amendment_kind", "strict-local-reviewer-binding"), ("change_id", data["change_id"]),
+        ("previous_contract", old_progress["contract"]), ("next_contract_path", progress["contract"]["path"]),
+        ("reviewer_assignment", context["reviewer_assignment"]),
+    )) or next_path == old_progress["contract"]["path"]:
+        raise AssertionError("resume amendment: approval must bind exact target, old contract, new path and stage assignments")
+    return False
+
+
+def _resume_governance(record: dict, text: str) -> dict:
+    kind = record.get("record_kind")
+    if kind == "external":
+        _resume_keys(record, {"record_kind", "contract_revision", "progress"}, "external resume")
+        data = extract_handoff_contract(text, "external resume")
+        validate_handoff_contract(data, "external resume")
+        if type(record["contract_revision"]) is not int or record["contract_revision"] != data["contract_revision"]:
+            raise AssertionError("external resume: stale contract revision")
+        return data
+    if kind != "local" or START in text or END in text:
+        raise AssertionError("local resume: invalid kind or external marker; no downgrade")
+    _resume_keys(record, {"record_kind", "governance", "progress"}, "local resume")
+    data = record["governance"]
+    _resume_keys(data, RESUME_LOCAL_FIELDS, "local governance")
+    if data["schema_version"] != 6 or type(data["schema_version"]) is not int:
+        raise AssertionError("local governance: schema 6 subset required")
+    if not _is_nonblank(data["change_id"]) or not re.fullmatch(r"[a-z0-9][a-z0-9-]*", data["change_id"]):
+        raise AssertionError("local governance: invalid change_id")
+    for field, choices in (("mode", MODES), ("approval_status", APPROVAL_STATUSES),
+                           ("risk_profile", RISK_PROFILES), ("lifecycle_state", LIFECYCLE_STATES),
+                           ("next_owner", NEXT_OWNERS), ("blocker_owner", BLOCKER_OWNERS)):
+        if not isinstance(data[field], str) or data[field] not in choices:
+            raise AssertionError(f"local governance: invalid {field}")
+    _require_positive_int(data, "contract_revision", "local governance")
+    _validate_assignment(data["control_plane_owner"], "control_plane_owner", "control-plane",
+                         {"control-plane-high"}, _local_owner_products(data), "local governance")
+    immutable = RESUME_LOCAL_FIELDS & SCHEMA6_IMMUTABLE_FIELDS
+    readonly = data["readonly_fields"]
+    if not isinstance(readonly, list) or not all(isinstance(key, str) for key in readonly) or len(readonly) != len(set(readonly)) or set(readonly) != immutable:
+        raise AssertionError("local governance: readonly_fields must match applicable immutable subset")
+    if data["lifecycle_state"] == "blocked":
+        if not all(_is_nonblank(data[k]) for k in ("blocked_reason", "resume_condition")) or data["blocker_owner"] == "none":
+            raise AssertionError("local governance: blocker reason/owner/resume_condition required")
+    elif data["blocked_reason"] is not None or data["resume_condition"] is not None or data["blocker_owner"] != "none":
+        raise AssertionError("local governance: nonblocked state has contradictory blocker")
+    return data
+
+
+def _resume_verification(progress: dict, data: dict, context: dict, root: Path) -> dict | None:
+    verified = progress["verified_revision"]
+    if verified is None:
+        return None
+    _resume_keys(verified, {"revision", "inputs", "fingerprint", "commands"}, "verified_revision")
+    if type(verified["revision"]) is not int or not 1 <= verified["revision"] <= data["contract_revision"]:
+        raise AssertionError("verified_revision: invalid revision")
+    inputs = verified["inputs"]
+    if not isinstance(inputs, dict) or not inputs:
+        raise AssertionError("verified_revision: nonempty scoped inputs required")
+    command_records = verified["commands"]
+    if not isinstance(command_records, list) or not command_records:
+        raise AssertionError("verified_revision: commands required")
+    excluded = {f"docs/agent-collab/{data['change_id']}/status.md"}
+    commands = set()
+    for entry in command_records:
+        _resume_keys(entry, {"command", "result", "evidence"}, "verification command")
+        if not _is_nonblank(entry["command"]) or entry["command"] in commands or entry["result"] != "pass":
+            raise AssertionError("verification: duplicate/invalid command result")
+        commands.add(entry["command"])
+        evidence = _resume_json(_resume_ref(entry["evidence"], root, "verification evidence"), "verification evidence")
+        excluded.add(entry["evidence"]["path"])
+        for key, value in (("evidence_role", "final-verification"), ("evidence_result", "pass"),
+                           ("change_id", data["change_id"]), ("contract_revision", verified["revision"]),
+                           ("source_fingerprint", verified["fingerprint"]),
+                           ("agent_identity", data["control_plane_owner"])):
+            if evidence.get(key) != value:
+                raise AssertionError(f"verification evidence: mismatched {key}")
+        exits = evidence.get("commands")
+        if not isinstance(exits, dict) or type(exits.get(entry["command"])) is not int or exits[entry["command"]] != 0:
+            raise AssertionError("verification evidence: command exit must be 0")
+    if not set(context["verification_commands"]) <= commands:
+        raise AssertionError("verification: missing required command coverage")
+    digest = hashlib.sha256(json.dumps(inputs, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
+    if verified["fingerprint"] != digest:
+        raise AssertionError("verified_revision: fingerprint mismatch")
+    for path, expected in inputs.items():
+        if path in excluded:
+            raise AssertionError("verified_revision: self/evidence input creates hash cycle")
+        if expected is not None and (not isinstance(expected, str) or not re.fullmatch(r"[a-f0-9]{64}", expected)):
+            raise AssertionError("verified_revision: invalid input hash/absence")
+        payload = _resume_bytes(root, path, "verified input", missing=True)
+        actual = hashlib.sha256(payload).hexdigest() if payload is not None else None
+        if actual != expected:
+            raise AssertionError("verified inputs changed: preserve checkpoint/edits; verify current inputs before resume")
+    return verified
+
+
+def _resume_review(refs: list, role: str, data: dict, context: dict, root: Path,
+                   fingerprint: str, previous_text: str | None = None) -> dict:
+    found = []
+    for ref in refs:
+        payload = _resume_ref(ref, root, "completed reference")
+        if not payload.lstrip().startswith(b"{"):
+            continue
+        evidence = _resume_json(payload, "local Review")
+        if evidence.get("evidence_role") != role:
+            continue
+        found.append(evidence)
+    if len(found) != 1:
+        raise AssertionError(f"local Review: exactly one {role} PASS required")
+    evidence = found[0]
+    expected = context["reviewer_assignment"]
+    if isinstance(expected, dict) and set(expected) == RESUME_REVIEW_PHASES:
+        expected = expected[role]
+    identity = data["control_plane_owner"] if expected is None else {
+        key: expected[key] for key in ("agent_product", "agent_instance_id", "agent_role", "capability_profile")
+    }
+    if evidence.get("reviewer_assignment") != expected or evidence.get("agent_identity") != identity:
+        raise AssertionError("local Review: identity/independent assignment mismatch")
+    if evidence.get("change_id") != data["change_id"] or evidence.get("evidence_result") != "pass" or evidence.get("source_fingerprint") != fingerprint:
+        raise AssertionError("local Review: stale or non-PASS evidence")
+    revision = evidence.get("contract_revision")
+    if type(revision) is not int or not 1 <= revision < data["contract_revision"] or not isinstance(evidence.get("canonical_sha256"), str) or not re.fullmatch(r"[a-f0-9]{64}", evidence["canonical_sha256"]):
+        raise AssertionError("local Review: prior revision and canonical SHA required")
+    if previous_text is not None:
+        previous = _resume_governance(extract_resume_record(previous_text, "previous"), previous_text)
+        if evidence.get("contract_revision") != previous["contract_revision"] or evidence.get("canonical_sha256") != hashlib.sha256(previous_text.encode()).hexdigest():
+            raise AssertionError("local Review: actual previous revision/SHA required")
+    return evidence
+
+
+def _resume_loaded(text: str, root: Path, actor: dict | None = None) -> tuple:
+    """Validate recorded facts/references, including read-only terminal inventory."""
+    root = root.resolve()
+    record = extract_resume_record(text, "session resume")
+    data = _resume_governance(record, text)
+    progress = record["progress"]
+    _resume_keys(progress, {"goal", "contract", "plan", "completed", "next_action", "verified_revision"}, "progress/next_action")
+    if not _is_nonblank(progress["goal"]):
+        raise AssertionError("progress: goal required")
+    contract_payload = _resume_ref(progress["contract"], root, "contract context")
+    context = _resume_section(contract_payload.decode(), "Resume Context", "contract context")
+    _resume_keys(context, RESUME_CONTEXT_FIELDS, "contract context")
+    for key in ("change_id", "mode", "approval_status", "risk_profile", "control_plane_owner"):
+        if context[key] != data[key]:
+            raise AssertionError(f"contract context: mismatched {key}")
+    if context["record_kind"] != record["record_kind"]:
+        raise AssertionError("contract context: external/local kind cannot downgrade")
+    _validate_string_list(context["verification_commands"], "verification_commands", "contract context")
+    if len(context["verification_commands"]) != len(set(context["verification_commands"])):
+        raise AssertionError("contract context: duplicate verification command")
+    if not isinstance(context["allowed_actions"], dict) or not context["allowed_actions"] or not all(_is_nonblank(k) and _is_nonblank(v) for k, v in context["allowed_actions"].items()):
+        raise AssertionError("contract context: explicit allowed actions/permissions required")
+    assignment = context["reviewer_assignment"]
+    if record["record_kind"] == "external":
+        if assignment != data["reviewer_assignment"]:
+            raise AssertionError("external contract context: reviewer_assignment must match full Handoff")
+    else:
+        _resume_local_assignment(context)
+        _bind_rebind_contract(context, contract_payload.decode(), root)
+    if progress["plan"] is not None:
+        _resume_ref(progress["plan"], root, "plan")
+    if not isinstance(progress["completed"], list):
+        raise AssertionError("progress: completed references must be a list")
+    for ref in progress["completed"]:
+        payload = _resume_ref(ref, root, "completed")
+        if record["record_kind"] == "local" and (b"COOP_EVIDENCE_MANIFEST_START" in payload or b"COOP_EVIDENCE_MANIFEST_END" in payload or START.encode() in payload or END.encode() in payload):
+            raise AssertionError("local resume: retained external artifact cannot downgrade")
+    action = progress["next_action"]
+    if data["lifecycle_state"] == "complete":
+        if action is not None:
+            raise AssertionError("complete: no pending next_action")
+    else:
+        _resume_keys(action, {"action", "owner", "permission", "inputs"}, "next_action")
+        if not all(_is_nonblank(action[key]) for key in ("action", "owner", "permission")):
+            raise AssertionError("next_action: nonblank action/owner/permission required")
+        if action["owner"] != data["next_owner"] or context["allowed_actions"].get(action["action"]) != action["permission"]:
+            raise AssertionError("next_action: owner/action/permission not authorized by context")
+        if not isinstance(action["inputs"], list):
+            raise AssertionError("next_action: inputs must be hashed references")
+        for ref in action["inputs"]:
+            _resume_ref(ref, root, "next_action input")
+        if data["lifecycle_state"] == "blocked" and action["action"] != "wait":
+            raise AssertionError("blocked: next_action must wait for resume_condition")
+    if data["approval_status"] not in {"approved", "not-required"} and data["lifecycle_state"] != "blocked":
+        raise AssertionError("approval: cannot advance proposed/blocked scope")
+    if actor is not None and actor != data["control_plane_owner"]:
+        raise AssertionError("resume assignment: new actor cannot impersonate owner")
+    verified = _resume_verification(progress, data, context, root)
+    if record["record_kind"] == "local" and data["risk_profile"] != "compact" and data["lifecycle_state"] in {"awaiting-final-verification", "complete"}:
+        if verified is None:
+            raise AssertionError("local Review: verified scoped inputs required")
+        _resume_review(progress["completed"], "implementation-review", data, context, root, verified["fingerprint"])
+        if data["lifecycle_state"] == "complete" and set(context["reviewer_assignment"]) == RESUME_REVIEW_PHASES:
+            final = _resume_review(progress["completed"], "final-review", data, context, root, verified["fingerprint"])
+            if final["contract_revision"] != verified["revision"]:
+                raise AssertionError("local Review: Final revision must match persisted verified revision")
+    return record, data, progress, context, verified
+
+
+def validate_resume_record(text: str, root: Path, *, previous_text: str | None = None,
+                           actor: dict | None = None, amendment_approval: dict | None = None) -> dict:
+    """Read/validate facts; never authenticate an actor or grant write/signoff."""
+    root = root.resolve()
+    record, data, progress, context, verified = _resume_loaded(text, root, actor)
+    action = progress["next_action"]
+    previous = None
+    control_plane_return = False
+    if amendment_approval is not None:
+        if previous_text is None:
+            raise AssertionError("resume amendment: actual previous canonical text required")
+        if record["record_kind"] != "local":
+            raise AssertionError("resume amendment: external records cannot select local amendment")
+        control_plane_return = _resume_amendment(record, context, previous_text, root, amendment_approval)
+    if previous_text is not None:
+        previous_record = extract_resume_record(previous_text, "previous resume")
+        previous = _resume_governance(previous_record, previous_text)
+        rebind = (
+            amendment_approval is None
+            and record["record_kind"] == "local"
+            and previous_record["record_kind"] == "local"
+            and _control_plane_rebind_transition(data, progress, previous, previous_record)
+        )
+        if previous_record["record_kind"] != record["record_kind"] or (amendment_approval is None and not rebind and previous_record["progress"]["contract"] != progress["contract"]):
+            raise AssertionError("resume: readonly kind/context cannot change in place")
+        if record["record_kind"] == "local":
+            for key in RESUME_LOCAL_FIELDS & SCHEMA6_IMMUTABLE_FIELDS:
+                if previous[key] != data[key] and not ((rebind or control_plane_return) and key == "control_plane_owner"):
+                    raise AssertionError(f"resume: readonly field changed: {key}")
+            if previous["lifecycle_state"] == "complete" or data["contract_revision"] != previous["contract_revision"] + 1:
+                raise AssertionError("resume: terminal state or invalid revision increment")
+            permitted = set(ALLOWED_TRANSITIONS[previous["lifecycle_state"]]) | {previous["lifecycle_state"]}
+            if data["risk_profile"] == "compact" and previous["lifecycle_state"] == "ready-for-execution":
+                permitted.add("awaiting-final-verification")
+            if data["lifecycle_state"] not in permitted:
+                raise AssertionError("resume: invalid lifecycle transition")
+            if data["lifecycle_state"] == "awaiting-final-verification" and previous["lifecycle_state"] != "awaiting-final-verification":
+                if verified is None:
+                    raise AssertionError("local Review: verified scoped inputs required")
+                if data["risk_profile"] != "compact":
+                    _resume_review(progress["completed"], "implementation-review", data, context, root, verified["fingerprint"], previous_text)
+    if record["record_kind"] == "external":
+        if previous is not None:
+            validate_evidence_artifacts(previous, root, "previous external")
+        validate_evidence_artifacts(data, root, "external resume", previous,
+                                    hashlib.sha256(previous_text.encode()).hexdigest() if previous_text is not None else None)
+    elif data["lifecycle_state"] == "complete":
+        if previous is None or previous["lifecycle_state"] != "awaiting-final-verification":
+            raise AssertionError("complete: actual previous persisted final-verification snapshot required")
+        old_verified = previous_record["progress"]["verified_revision"]
+        if verified is None or old_verified != verified or verified["revision"] != previous["contract_revision"]:
+            raise AssertionError("complete: verification must already be persisted at previous revision")
+        _resume_review(progress["completed"], "final-review", data, context, root, verified["fingerprint"], previous_text)
+    return {"change_id": data["change_id"], "record_kind": record["record_kind"],
+            "state": data["lifecycle_state"], "next_action": action,
+            "verified_revision": verified["revision"] if verified else None,
+            "authority_granted": False}
+
+
+def recover_project_session(root: Path, *, change_id: str | None = None,
+                            actor: dict | None = None) -> dict:
+    root = root.resolve()
+    base = root / "docs/agent-collab"
+    for parent in (root / "docs", base):
+        if parent.is_symlink():
+            raise AssertionError("resume inventory: unsafe symlink directory")
+    candidates = []
+    for path in sorted(base.glob("*/status.md")):
+        relative = path.relative_to(root).as_posix()
+        text = _resume_bytes(root, relative, "canonical status").decode()
+        record = extract_resume_record(text, "canonical status")
+        governance = _resume_governance(record, text)
+        if governance["change_id"] != path.parent.name:
+            raise AssertionError("canonical status: directory/change_id mismatch")
+        if governance["lifecycle_state"] != "complete":
+            candidates.append((governance["change_id"], text))
+        elif governance["change_id"] == change_id:
+            _resume_loaded(text, root, actor)
+            return {"change_id": change_id, "state": "recorded-complete", "next_action": None, "authority_granted": False}
+    selected = [(key, text) for key, text in candidates if change_id is None or key == change_id]
+    if len(selected) != 1:
+        raise AssertionError("resume: select one of multiple unfinished changes, or no resumable state exists")
+    return validate_resume_record(selected[0][1], root, actor=actor)
 
 
 def parse_args(argv: list[str]) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("root", nargs="?", default=".")
     parser.add_argument("--status", type=Path)
+    parser.add_argument("--resume-status", type=Path)
+    parser.add_argument("--resume-actor")
+    parser.add_argument("--resume-amendment-approval")
     parser.add_argument("--artifact-root", type=Path)
     parser.add_argument("--previous-status", type=Path)
     parser.add_argument("--legacy-inventory-root", action="append", type=Path, default=[])
     parser.add_argument("--legacy-inventory-output", type=Path)
     args = parser.parse_args(argv[1:])
-    if bool(args.status) != bool(args.artifact_root):
-        parser.error("--status and --artifact-root must be provided together")
-    if args.previous_status and not args.status:
-        parser.error("--previous-status requires --status and --artifact-root")
+    if args.status and args.resume_status:
+        parser.error("--status and --resume-status are mutually exclusive")
+    if bool(args.status or args.resume_status) != bool(args.artifact_root):
+        parser.error("--status/--resume-status and --artifact-root must be provided together")
+    if args.previous_status and not (args.status or args.resume_status):
+        parser.error("--previous-status requires a status and --artifact-root")
+    if args.resume_actor and not args.resume_status:
+        parser.error("--resume-actor requires --resume-status; it grants no identity")
+    if args.resume_amendment_approval is not None and (not args.resume_status or not args.artifact_root or not args.previous_status or args.status):
+        parser.error("--resume-amendment-approval requires --resume-status/--artifact-root/--previous-status and never --status")
     if bool(args.legacy_inventory_root) != bool(args.legacy_inventory_output):
         parser.error(
             "--legacy-inventory-root and --legacy-inventory-output are required together"
@@ -2520,6 +3362,11 @@ def main(argv: list[str] | None = None) -> int:
     ):
         require(local_checkpoint, needle, "local-instruction-checkpoint.md")
 
+    validate_native_agent_consumption(
+        read(root / "references/shared-global-governance.md"), local_checkpoint, adapter,
+        read(root / "references/cross-cli-sync.md"), read(root / "references/sync-checklist.md"),
+    )
+
     contract = extract_handoff_contract(handoff, "handoff-contract.md")
     validate_handoff_contract(contract, "handoff-contract.md")
     require(handoff, "must not embed another mutable block", "handoff-contract.md")
@@ -2553,6 +3400,34 @@ def main(argv: list[str] | None = None) -> int:
         print(json.dumps(payload, sort_keys=True, separators=(",", ":")))
         if active:
             raise AssertionError("active schema-4/schema-5 Handoff blocks schema-6 deployment")
+    if args.resume_status:
+        project_root = args.artifact_root.resolve()
+        status_path = Path(os.path.abspath(args.resume_status))
+        previous_text = None
+        if args.previous_status:
+            previous_path = Path(os.path.abspath(args.previous_status))
+            try:
+                previous_relative = previous_path.relative_to(project_root).as_posix()
+            except ValueError as exc:
+                raise AssertionError("resume: previous status must be canonical beneath project root") from exc
+            previous_text = _resume_bytes(project_root, previous_relative, "previous status").decode()
+        try:
+            relative = status_path.relative_to(project_root).as_posix()
+            text = _resume_bytes(project_root, relative, "resume status").decode()
+        except ValueError as exc:
+            if previous_text is None:
+                raise AssertionError("resume: proposed status outside project requires actual previous status") from exc
+            text = _resume_bytes(status_path.parent, status_path.name, "proposed resume status").decode()
+        record = extract_resume_record(text, "resume status")
+        data = _resume_governance(record, text)
+        canonical = f"docs/agent-collab/{data['change_id']}/status.md"
+        if (previous_text is None and relative != canonical) or (previous_text is not None and previous_relative != canonical):
+            raise AssertionError("resume: canonical directory/change_id mismatch")
+        if args.resume_actor is not None and args.resume_actor != data["control_plane_owner"]["agent_instance_id"]:
+            raise AssertionError("resume: actor diagnostic does not match assignment")
+        amendment_approval = _resume_json(args.resume_amendment_approval, "amendment approval reference") if args.resume_amendment_approval is not None else None
+        print(json.dumps(validate_resume_record(text, project_root, previous_text=previous_text,
+                                              amendment_approval=amendment_approval), sort_keys=True))
     if args.status:
         status_path = args.status.resolve()
         status = extract_handoff_contract(read(status_path), str(args.status))

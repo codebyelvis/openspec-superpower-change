@@ -179,11 +179,15 @@ verify, collect evidence, or update existing canonical state. A summary,
 recommendation, or future plan alone is not progress.
 
 Closed-loop continuation intent includes “闭环推进”, “继续闭环”, “按推荐方案推进”,
-and “完成后统一 Review”. It means continue within the already approved scope
-and current canonical Plan/Status/Handoff: safe, reversible reads, edits, tests,
-verification, same-scope Review/Fix, and existing-state updates. It does not
-expand scope or authorize database writes, production operations, external
-messages, publication, deployment, destructive actions, or Git writes.
+“需要让我审批或者授权的改为询问 grok-cc”, and “完成后统一 Review”. It means continue
+within the already approved scope and current canonical Plan/Status/Handoff: safe,
+reversible reads, edits, tests, verification, same-scope Review/Fix, and
+existing-state updates. When the user explicitly delegates intermediate approvals or
+reviews to an advisory reviewer, establishing review/verification PASS evidence
+satisfies that intermediate gate and advances immediately to the next slice
+without pausing for human conversational confirmation. It does not expand scope
+or authorize database writes, production operations, external messages,
+publication, deployment, destructive actions, or Git writes.
 
 After an accepted recommendation, continue without confirming the same option or
 asking whether to start the next approved safe step again. A material choice is
@@ -191,8 +195,10 @@ presented once as one focused question and is not reopened after selection unles
 scope or risk changes. A status report is a status update and is
 non-confirmation progress, not a confirmation request. Continue to the next
 approved pending task while no blocker or new human decision exists.
-Finish reversible preparation first so Git, publication, and external writes are
-handed to the user as a concrete, reviewable result.
+Finish reversible preparation first. For Git, publication and external writes,
+compare the exact action, target, scope, conditions and actor with existing
+explicit authority before requesting a decision. Reuse matching authority once
+its required gates pass; ask only for an uncovered delta, not the same permission.
 
 When several options differ only in implementation detail and an obvious minimal
 recommendation satisfies the approved need, adopt that recommendation directly;
@@ -203,17 +209,24 @@ acceptance, or an approved contract. Once the solution and terminology are
 closed, a long task does not re-enter `grill-with-docs`; only a new material
 decision does.
 
-Stop only when all approved tasks are complete; when a new human decision is
-required because scope, risk, acceptance, product, business, architecture,
-security, credentials, resources, compatibility, or another contract choice
-changes. This includes a new product, business, or architecture decision;
-missing permission, credentials, or required resources; and any high-risk,
-irreversible, or outside the approved scope step. Stop also when the next step
-requires production writes or deletion, database writes, production
-operations, external effects/messages, release, publication, deployment,
-destructive actions, destructive Git, or any other Git authority; when the
-contract is contradictory, recovery is not reversible, scope would expand,
-canonical state is `BLOCKED`, or the user explicitly pauses or cancels.
+Stop when all approved tasks are complete or the user explicitly pauses or
+cancels. Stop the affected action for a new product, business, or architecture
+decision; missing permission, credentials, or required resources; changed
+scope, risk, acceptance, security, compatibility or another contract choice;
+contradictory contracts; or non-reversible recovery. A high-risk, irreversible,
+or outside the approved scope step requires its applicable explicit approval
+and evidence. Production/database writes, external effects/messages, release,
+publication, deployment, destructive actions or Git operations stop when that
+specific authority or a required gate is unsatisfied, not solely by category.
+
+When canonical state is `BLOCKED`, keep the gated transition closed and identify
+its blocker owner and resume condition. The assigned controller may perform
+already authorized same-scope remediation and required recheck; no implementation
+before required Preflight PASS, erased blocker or third unchanged-contract
+Preflight is permitted. The independent recheck verifies correction scope and
+the unchanged protected-boundary matrix. New authority/material decisions return
+to the user; missing resources or unknown remote outcomes require actual evidence,
+not another generic approval. Continue authorized independent work where possible.
 
 After Context Compaction, session recovery, a model or agent switch, or `继续`,
 including a new window, recover from the canonical Plan, Status, Handoff, or
@@ -233,6 +246,265 @@ Review may satisfy both Implementation Review and Final Review under
 `references/completion-contract.md`; test-spec and test-quality concerns are
 included in that implementation/final Review by default, not mandatory
 standalone Review gates. The strict and protected paths retain separate gates.
+
+## Project Session Resume
+
+On `继续`, `继续闭环`, compaction or a new window, recover unfinished authorized
+work from `docs/agent-collab/<change-id>/status.md`, never the previous chat reply.
+Reuse the existing OpenSpec change-id; unfinished Direct Change uses its existing
+scoped ID or a stable `direct-<slug>` when a checkpoint is first needed. Finished
+single-turn compact work creates no checkpoint. Multiple unfinished changes
+require explicit selection, never modification-time or priority selection.
+Legacy schema-4/schema-5 stays on its immutable audit path, without migration.
+
+Before voluntarily stopping or ending an advancing implementation turn, persist
+the actual phase, completed evidence, one next action, blocker owner and resume
+condition in this same canonical file. Do not checkpoint every TDD micro-step.
+Keep existing Plan/tasks as the task list; add no second ledger, schema family,
+autosave hook or conversation replay. Unexpected termination may leave unverified
+edits: preserve them and the historical checkpoint, then verify/fix.
+
+### Record and contract binding
+
+Status owns exactly one `## Session Resume` section with one JSON fence.
+Its explicit `record_kind` selects these exact outer fields:
+
+- `local`: `record_kind`, `governance`, `progress`. Governance contains exactly
+  `schema_version`, `change_id`, `mode`, `approval_status`, `risk_profile`,
+  `contract_revision`, `lifecycle_state`, `control_plane_owner`, `blocked_reason`,
+  `blocker_owner`, `resume_condition`, `next_owner`, `readonly_fields`.
+  Use existing schema-6 meanings/enums and its applicable immutable subset:
+  schema version, change, mode, approval, risk, control-plane owner and readonly
+  fields. Do not invent external executor, batch or Report artifacts.
+- `external`: `record_kind`, `contract_revision`, `progress`. The same file's
+  complete Handoff remains the sole governance source; required fields, lease,
+  assignment, transitions, evidence and previous-status gates remain intact.
+  Progress stays outside the Handoff marker. Missing fields, marker deletion or
+  parse errors cannot select the local path or downgrade an external contract.
+
+`progress` has exactly `goal`, hashed `contract`, nullable hashed `plan`,
+`completed` (hashed existing work/evidence references), `next_action` and nullable
+`verified_revision`. References use safe project-relative regular files and
+whole-file `sha256`; reject duplicate keys/sections and symlinks in every path
+component. Hash and parse the same descriptor's bytes. Do not copy mutable
+progress into a Brief. An outstanding external batch keeps its already-persisted
+wait action: change progress before execution SHA capture or after ownership
+returns through the existing validated transition.
+
+Put exactly one `## Resume Context` JSON fence in the **existing scoped approved
+contract**, as immutable factual metadata, never a new approval document.
+Its exact fields are `change_id`, `record_kind`, `mode`, `approval_status`,
+`risk_profile`, `control_plane_owner`, `allowed_actions` (action -> permission),
+`verification_commands` (nonempty unique command strings), `reviewer_assignment`
+(existing full assignment for standard/strict, the strict-local stage form below,
+or null only for local compact inline Review). External context carries the exact full Handoff assignment,
+including compact's bound control-plane Review; it cannot substitute null,
+another instance or malformed metadata.
+Facts must match governance. Bare prose “approved”, metadata and validator PASS
+cannot create authorization or enlarge scope. Proposed/blocked approval stays
+blocked with a reason, owner, resume condition and `wait` action.
+
+Only local strict contexts may use an exact two-key `reviewer_assignment` mapping:
+`implementation-review` and `final-review`, each containing the complete existing
+seven-field assignment. Validate both entries on every load, including blocked
+states; reject mixed, missing, unknown or duplicate keys without shape fallback.
+Both reviewers are eligible independent-reviewer/control-plane-high instances
+with explicit purpose and governed-review-evidence authority. Implementation
+independence names exactly `control_plane_owner` and `executor_assignment`;
+Final additionally names `implementation_reviewer`. Both contract instance IDs
+must differ from the bound controller/local executor and from each other. Local
+execution does not invent an external executor assignment. Legacy single
+assignments retain their original separate-gate behavior; standard, compact and
+full external Handoff retain their existing shapes and applicability.
+
+Example progress before verification (replace hashes with actual file hashes):
+
+```json
+{
+  "goal": "Verify the authorized implementation",
+  "contract": {"path": "contract.md", "sha256": "<actual SHA-256>"},
+  "plan": null,
+  "completed": [],
+  "next_action": {
+    "action": "verify", "owner": "openspec-superpower-change",
+    "permission": "local-read", "inputs": []
+  },
+  "verified_revision": null
+}
+```
+
+Nonterminal `next_action` has exactly `action`, existing `owner`, `permission`
+and hashed `inputs`; it must match context authorization and governance's next
+owner. Blocked means wait for its persisted condition; complete has
+`next_action: null`. Continuation grants no Git, production, credential,
+destructive, external-write or completion authority.
+
+### Verified checkpoint and persisted transitions
+
+A best checkpoint is the latest **verified and persisted** scoped revision,
+not the newest edit/chat message or a required Git commit. `verified_revision`
+has exactly `revision`, `inputs` (path -> SHA-256 or null for expected absence),
+`fingerprint` (SHA-256 of sorted compact JSON inputs), `commands`. Each command
+record has `command`, `result: pass`, hashed `evidence`. Cover all context
+critical commands and verification-relevant source/config/tests; Review checks
+declared scope. Exclude canonical status and new evidence outputs to avoid
+self-hash cycles. A mismatch blocks current PASS: preserve checkpoint and edits,
+then verify current inputs before advancing.
+
+Existing JSON verification evidence records `evidence_role: final-verification`,
+`evidence_result: pass`, `change_id`, `contract_revision`, `source_fingerprint`,
+`agent_identity`, `commands` (actual command -> exit-code mapping). Required
+commands must have actual exit 0 and matching owner/revision/fingerprint.
+Validation checks binding/consistency, not whether a command ran; capture real
+process results before persistence. Synthetic unittest evidence is not signoff.
+
+Local Review JSON artifacts in `completed` use existing field concepts:
+`evidence_role: implementation-review | final-review`, `evidence_result: pass`,
+`change_id`, `contract_revision`, `source_fingerprint`, `canonical_sha256`,
+`agent_identity`, `reviewer_assignment`. Bind applicable phases to actual prior
+canonical bytes. Standard/strict Review matches the independent assignment's
+purpose, product, role, capability, independence and evidence authority; compact
+inline Review uses the bound owner and null independent assignment. The existing
+Completion Contract decides applicability; no new signoff owner is introduced.
+For the strict-local stage form, `evidence_role` selects exactly its approved
+entry. Evidence still carries one full assignment and its identity, never the
+mapping or an arbitrary eligible reviewer. Recorded-complete stage-form recovery
+rechecks both retained phase Reviews and verified consistency, including Final's
+revision matching the persisted verified revision. This read-only
+check does not recreate or claim the original actual previous canonical bytes.
+
+Validate proposed transitions against actual prior canonical bytes before the
+already-bound controller atomically replaces status. Preserve kind/context and
+immutable governance; increment revision by one. Same-phase pauses are allowed.
+Local compact may enter awaiting-final-verification from ready-for-execution
+with verified inputs; standard/strict retains implementation Review first.
+Standalone recovery and completion also validate that retained Review; checking
+only the phase-entry transition cannot establish a recovered phase is valid.
+Final verification must be persisted in awaiting-final-verification before a
+separate final Review and complete transition. Complete requires that actual
+previous revision/SHA and unchanged verified checkpoint; atomic verify/review/
+complete fails. Terminal recovery is read-only and never signs completion again.
+External transitions delegate to unchanged full Handoff validators.
+
+### Specifically approved blocked-context amendment
+
+Ordinary transitions preserve the exact immutable contract reference. The sole
+opt-in is `validate_resume_record(..., amendment_approval=<safe hashed ref>)`,
+or `--resume-amendment-approval '<hashed-reference JSON>'` together with
+`--resume-status`, `--artifact-root` and actual canonical `--previous-status`.
+Never use it with full external `--status`. The validator remains read-only and
+returns `authority_granted: false`; factual validation cannot authenticate an
+actor, establish user approval or grant signing, Git or production authority.
+The Router must first record specific approval of the scoped amendment.
+
+That approving contract owns exactly one `## Resume Amendment Authorization`
+JSON fence with exactly `amendment_kind: strict-local-reviewer-binding`, target
+`change_id`, exact hashed `previous_contract`, safe distinct `next_contract_path`
+and the complete approved stage `reviewer_assignment` map. Its own nine-field
+Resume Context is approved/self-evolution/strict/local, binds the same controller
+and explicitly permits `amend-review-binding: local-edit`.
+
+Validate the actual previous state and both immutable contexts through the
+existing duplicate-safe, descriptor-bound hash/parse and no-symlink rules. Both
+states must remain approved/strict/local/blocked with null verified revision.
+The old context has the legacy full assignment; the new Implementation entry
+equals it exactly. Preserve every other context fact, including owner, actions
+and critical commands. Preserve every canonical fact, including blocker, wait
+action, goal, Plan and completed history, except the new contract reference and
+revision increment by exactly one. Bind approval to that exact target, original
+reference, new path and full map. No silent migration or new PASS is permitted.
+
+Only the already-bound controller may perform the specifically authorized atomic
+replacement after checking that actual prior canonical bytes remain identical
+to those validated. Keep the old approved contract and immutable prior snapshot;
+concurrent drift blocks replacement. A separate authorized ordinary same-context
+transition may later resolve the blocker after fresh readiness. This amendment
+does not sign readiness, alter historical evidence or close the target change.
+
+The second opt-in is `strict-local-control-plane-rebind`. It is not selected by
+`--resume-amendment-approval`. The validator reads one local, non-portable pin at
+`references/task-scoped-control-plane-rebinds.json`. The pin is absent from
+cross-CLI sync and from `references/cross-cli-portable-manifest.json`. Missing,
+empty, or not-exactly-one content keeps the owner product set `{codex}`. A
+symlink, malformed payload, duplicate JSON key, or mode other than `0600` fails
+closed. The single entry must deep-equal the active contract heading
+`## Control Plane Rebind`. Its previous owner is Codex. Its new owner is one
+pinned schema-6 product. For this opt-in the executor native is not a separate
+field: `native_session_id` must be a string equal to the new owner's instance
+id, and that one value is the executor native. Both reviewers are distinct
+`grok-cli` `independent-reviewer` / `control-plane-high` instances with
+`governed-review-evidence` authority, and each must differ from that executor
+native and from the other reviewer. The comparison is a field check; it does
+not authenticate the caller. The previous contract bytes, `allowed_actions`,
+and `verification_commands` stay unchanged. The one owner transition stays
+`blocked`, keeps `verified_revision` null, increments revision by exactly one,
+and may change only `control_plane_owner`, the contract reference,
+`contract_revision`, `blocked_reason`, and `resume_condition`. Afterwards
+`control_plane_owner` is readonly again. This opt-in does not grant Git,
+install, deploy, or business-write authority and does not set
+`authority_granted` to true. The skill source must not hardcode a private
+session id or an industry change-id. The older reviewer-binding amendment
+remains unchanged.
+
+The reverse opt-in is `strict-local-control-plane-return`, selected only through
+the existing hashed `--resume-amendment-approval` and actual `--previous-status`.
+Specific user approval must precede implementation and application. Its safe
+project-relative artifact contains an approved strict/local/self-evolution
+`Resume Context`, explicit `return-control-plane: local-edit`, and the original
+two independent reviewer identities. One `## Resume Return Authorization` JSON
+fence has exactly `amendment_kind`, `change_id`, `previous_status_sha256`,
+`previous_contract`, `original_contract`, `control_plane_owner`,
+`native_session_id`, and `pin_sha256`. Mixed or duplicate authorizations reject.
+The actual blocked predecessor must match its hash and the active single-entry
+pin. Restore only that pin's original Codex owner and unchanged original
+contract reference, including its permissions and reviewer assignments. Preserve
+strict/local/approved/blocked, null verification, every progress field except
+contract, and all governance fields except owner, revision+1, blocked_reason and
+resume_condition. Ordinary owner changes and the older amendment stay unchanged.
+
+Native metadata and `--resume-actor` never authenticate or grant authority.
+Before application the Router must separately verify the actual original native
+through supported platform/recovery evidence, confirm the former writer is idle,
+and pass the approved tests, independent Implementation/Final Review and required
+scoped synchronization. Preserve immutable file prestates and metadata, establish
+exclusive application ownership, and prevalidate against the actual predecessor.
+Retire only the exact matched pin first, recheck for drift, atomically replace
+the single canonical file, then load it with ordinary Codex rules. These are two
+guarded operations, not an atomic two-file transaction. Never automatically
+reactivate a retired pin or overwrite foreign concurrent state. Failure after
+retirement preserves revoked authority and the known phase; uncertain outcomes
+block without blind retries. A return grants no business readiness, completion,
+Git, installation, deployment, or other production permission.
+
+### Read-only recovery and identity
+
+Preserve recorded user design/action decisions separately from actor assignment.
+An assignment blocker does not reopen the approved design. Reuse current
+canonical approval records while refreshing affected evidence; do not reconstruct
+authority from a chat summary or treat source changes as changed approval bytes.
+
+Every loaded agent may read selected state. A new unassigned instance cannot
+impersonate the recorded control plane or inherit signing/completion rights.
+A model switch in the same bound instance does not change assignment. Reuse
+approved safe actions only with the existing required assignment; any rebind
+uses existing authority rules. New instances report the boundary after read-only
+recovery. No automatic identity transfer or rollback is introduced.
+
+Use existing tooling explicitly (these commands are read-only):
+
+```bash
+python3 scripts/validate_core_gates.py . --resume-status <canonical-status> --artifact-root <project-root>
+python3 scripts/validate_core_gates.py . --resume-status <temporary-proposed-status> --artifact-root <project-root> --previous-status <actual-canonical-status>
+```
+
+Keep temporary proposed status outside the project; canonical status is the
+single ledger. Optional `--resume-actor <instance>` compares a diagnostic string
+to the assignment only; it does not authenticate the caller or grant rights.
+`--resume-status` is explicit and mutually exclusive with existing `--status`,
+which still requires complete external Handoff. Python `recover_project_session`
+inventories canonical status and requires selection when ambiguous. Invalid or
+missing context, stale inputs or assignments fail closed; never reconstruct
+authority or current PASS from chat.
 
 ## Conditional Minimal Implementation
 
@@ -378,7 +650,9 @@ Route capability through `agent-capability-routing.md`. Platform permission,
 workflow scope, and business/production authorization are independent layers.
 Reuse an unchanged Confirmation Lease for safe checks and same-finding loops;
 request a new user decision for any invalidating production, risk, scope,
-credential, external-effect, destructive-Git, evidence, or user-decision change.
+credential, external-effect, destructive-Git, approved-evidence-assumption, or
+user-decision change. Routine evidence refresh follows `confirmation-lease.md`
+and does not itself change the bound authorization artifact.
 
 For standard/strict work, High Review inspects actual files and the complete
 diff, traces copy/transform/production wiring and every behavior claim to its

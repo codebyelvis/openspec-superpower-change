@@ -74,6 +74,27 @@ Only a bound `codex` product with role `control-plane` and profile
 contract, owns routing, evidence acceptance, canonical transitions, archive,
 and completion decisions. Product or model name alone grants no authority.
 
+One task-scoped exception exists only as `strict-local-control-plane-rebind`
+in `references/approved-implementation-workflow.md`. A mode-0600 runtime pin
+with exactly one entry may name a non-Codex schema-6 product as that change's
+local control-plane only when the previous owner remains Codex, the executor
+native equals the pin `native_session_id` and the new owner's instance id, and
+both reviewer instances differ from that executor native and from each other.
+The field comparison does not authenticate a caller. There is no separate
+executor instance id. Git, production, deployment, and completion evidence
+gates stay unchanged. Without that single pin entry, the Codex-only rule above
+remains in force. A Grok CLI product name still grants no control-plane
+authority by itself.
+
+The specifically approved `strict-local-control-plane-return` in that same
+workflow may restore only the exact pinned original Codex owner and unchanged
+original contract. It requires actual predecessor/pin hashes, independent Review
+and separate supported verification of the actual original native. Validator
+metadata remains non-authoritative. Application retires the exact pin before the
+single-file canonical replacement, never automatically reactivates it, and
+preserves blocked state, original permissions, reviewers and business gates.
+This is no general owner setter, identity transfer, or Grok dispatch route.
+
 Every Review request, recommendation, or instruction resolves six concepts:
 Review purpose, reviewer product, role, capability, independence, and authority.
 Apply an existing canonical assignment first; otherwise preserve a product

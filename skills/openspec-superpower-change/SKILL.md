@@ -12,9 +12,10 @@ Ordinary questions and read-only diagnosis do not enter implementation.
 ## Mandatory Entry Gate
 
 Before edits, state-changing commands, proposal creation or implementation,
-record Gate 0: mode and references read; OpenSpec decision and reason; required
-Superpowers methods (or none); risk/evidence profile, next action and whether
-confirmation is required. Inspection-only reads may establish classification.
+record Gate 0: mode, task (VERIFY, DIAGNOSE, FIX, or REVIEW), and references read;
+OpenSpec decision and reason; required Superpowers methods (or none);
+risk/evidence profile, next action and whether confirmation is required.
+Inspection-only reads may establish classification.
 
 An obvious local reversible change outside protected boundaries uses one line
 for all Gate 0 facts. Read applicable local instructions and the current task's
@@ -28,7 +29,7 @@ Uncertain OpenSpec classification uses `references/openspec-decision-rule.md`.
 | Clear typo, formatting, comment, non-contractual docs or localized internal restoration | `references/direct-change-rule.md` |
 | Behavioral slice evidence | `references/step-evidence-gate.md` |
 | OpenSpec boundary or uncertain contract impact | `references/openspec-decision-rule.md`; when required, `references/proposal-workflow.md` |
-| Approved implementation, including unchanged continuation | Existing canonical Plan/Status and `references/approved-implementation-workflow.md` |
+| Approved implementation, including unchanged continuation or project session recovery | Existing canonical Plan/Status and `references/approved-implementation-workflow.md` (Project Session Resume) |
 | Select implementation methods for the current phase | `references/superpowers-adapter.md` |
 | Unclear request mode or domain language | `references/request-modes.md`; affected local/domain instructions use `references/local-instruction-checkpoint.md` |
 | Review architecture, OpenSpec need, authority or whole-task completion | This Router; `references/request-modes.md` |
@@ -39,6 +40,7 @@ Uncertain OpenSpec classification uses `references/openspec-decision-rule.md`.
 | Assign a reviewer or decide capability/authority | `references/agent-capability-routing.md` |
 | Edit this skill | `references/self-evolution-rule.md`; required behavioral evidence uses `references/step-evidence-gate.md` |
 | Skill iteration command | `references/skill-iteration-loop.md`; `references/self-evolution-rule.md` |
+| Create or move ordinary project documents | `references/project-learning-closeout.md` (Project Document Ownership only; placement does not trigger promotion) |
 | Correction/Review history or explicit archive and distill request | `references/project-learning-closeout.md`; candidate classification uses `references/learning-candidate-pipeline.md` |
 | Source/runtime sync | `references/sync-checklist.md`; portable changes also use `references/cross-cli-sync.md` |
 | Requested output mode or response template | `references/response-patterns.md` |
@@ -93,21 +95,37 @@ Before asking for approval or a clarifying question, finish the already
 authorized work that makes the next step concrete and reviewable. Making the
 next step concrete means a report plus one suggested slice, and excludes
 implementing that slice. The user
-approves a concrete result. Git writes, production, publication, external
-writes, and destructive actions still stop at existing boundaries. Do not
-invent extra warnings, disclaimers, or approval checklists from hypothetical
-risk.
+approves a concrete result. Check existing explicit authorization against the
+action, exact target, scope, conditions and current actor assignment. This
+applies to every route, including a Direct Change rule that stops at a protected
+boundary or approval gate: check whether that gate is already satisfied and
+request only missing authority. Git, production, publication, external writes
+and destructive actions retain their actual authority and evidence gates; their
+category alone does not require repeating an unchanged explicit approval.
+Closed-loop wording alone grants none of that authority. Do not invent extra
+warnings, disclaimers, or approval checklists from hypothetical risk.
 
 For approved work, continue safe same-scope reads, edits, relevant local checks
 and fixes for failures introduced by this change without stepwise confirmation.
 That phrase does not include pre-existing failures found during verification.
 Reuse completed Plan/Preflight and unaffected evidence; retain pending required
-gates. Stop for scope/protected-boundary changes, a task-type change, a new root
-cause outside the original slice, reaching the round budget, consulting an
-advisor more than once on the same slice, a suggested fix outside the files or
-modules recorded at Gate 0, an explicit approval boundary,
-production/credential/destructive or separately authorized external actions,
-Git writes, conflicting contracts or missing required evidence.
+gates. Stop the affected action for scope/protected-boundary changes, a task-type
+change, a new root cause outside the original slice, reaching the round budget
+(if local instructions define no numeric round budget, numeric stops are
+skipped; boundary, new root cause, advisor-repeat, and two-failure stops remain
+binding), consulting an advisor more than once on the same slice, a suggested
+fix outside the files or modules recorded at Gate 0, missing or invalid
+approval/assignment, conflicting contracts or missing required evidence.
+When the user explicitly instructs closed-loop execution or delegates
+intermediate approvals/reviews to an advisory reviewer, intermediate stages
+proceed continuously once review/verification PASS evidence is established,
+without pausing for conversational confirmation. Stop only for genuine blockers,
+breaker fires (two failures on the same slice), or user-reserved Git and production
+boundaries.
+An already authorized same-scope correction may continue while its
+gate stays closed; it does not authorize implementation before Preflight PASS.
+Each necessary question names the uncovered decision or authority, prior
+approval, material delta, exact blocking rule and action the answer enables.
 
 Superpowers methods are selected by current phase and actual unresolved
 decisions, not generic create/modify metadata. Once selected, preserve their
