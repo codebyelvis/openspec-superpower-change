@@ -5988,6 +5988,12 @@ class SkillIterationEntryTests(unittest.TestCase):
         mutated_bound = completion.replace("SKILL.md's two-failure and round-budget stops bound every fix", "unbounded fix")
         self.assertNotIn("two-failure and round-budget stops bound every fix", mutated_bound)
 
+        # 4. Invariant check in docs/engineering-invariants.md
+        invariants = " ".join((ROOT / "docs/engineering-invariants.md").read_text(encoding="utf-8").split())
+        self.assertIn("Hanging states, completion deadlocks, and delegated review continuity resolve deterministically", invariants)
+        self.assertIn("A pre-existing failure (`OUT_OF_SCOPE_PREEXISTING_DEBT`) must never enter self-repair", invariants)
+
+
 
 
 

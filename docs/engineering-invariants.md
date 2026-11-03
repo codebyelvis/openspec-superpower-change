@@ -407,3 +407,21 @@ Loading pointer: agents read this file through `AGENTS.md`. Approved long and
 short sentences remain in the published `SKILL.md` copies and
 `openspec/changes/archive/2026-11-02-add-verify-anti-drift-round-budget/`.
 This section does not restate user-owned round-budget text.
+
+## Hanging states, completion deadlocks, and delegated review continuity resolve deterministically
+
+Scope: Gate 0 task type classification, public environment budget fallbacks, pre-existing debt transitions, bounded completion loops, and delegated advisory review.
+
+Invariant:
+
+- A task-type stop condition requires an immutable objective baseline recorded at Gate 0. An agent must not infer a task-type transition without that recorded state.
+- Numeric round budgets remain private user configuration. In public or distributed runtimes lacking private instructions, numeric limits are skipped gracefully, while physical boundary, new root cause, advisor-repeat, and two-failure stops remain binding.
+- A pre-existing failure (`OUT_OF_SCOPE_PREEXISTING_DEBT`) must never enter self-repair under the current task. It must transition deterministically to `BLOCKED`, `blocker_owner: user`.
+- The two-failure stop in `SKILL.md` bounds all `fix -> verify -> Review` loops across re-entries in `completion-contract.md`. Reading completion contracts at closure cannot override that bound into an infinite live-lock.
+- When the user explicitly instructs closed-loop execution or delegates intermediate approvals to an advisory reviewer (such as grok-cc), establishing review/verification PASS evidence satisfies that intermediate gate and advances immediately to the next slice without pausing for human conversational confirmation.
+
+Counterexample: Gate 0 lacks task classification, so an agent halts arbitrarily on perceived task changes; missing local budget numbers cause the agent to invent limits or fail validation; an out-of-scope failure sends completion into an infinite repair loop; an agent repeatedly asks the user for polite permission to continue after grok-cc review already gave PASS evidence.
+
+Mechanical enforcement: `tests/test_workflow_rules.py` tests Gate 0 task type presence, budget fallback text, pre-existing debt `BLOCKED` transition, two-failure completion bounds, and delegated review continuity, along with negative mutation regressions.
+
+Loading pointer: agents read this file through `AGENTS.md`. Normative owners are `SKILL.md`, `references/step-evidence-gate.md`, `references/completion-contract.md`, `references/confirmation-lease.md`, and `references/approved-implementation-workflow.md`.
