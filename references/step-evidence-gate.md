@@ -15,7 +15,8 @@ or explicitly requested in full.
 
 “Step” means a complete business slice or explicit risk milestone. It does not
 mean every two-to-five-minute TDD checkbox. TDD owns RED/GREEN micro-steps;
-this gate decides whether the slice may advance.
+this gate decides whether the slice may advance. Inside an approved cohesive
+batch, the executor iterates freely on implementation and tests without standalone `red-green.json` or `native-green.json` files, recording a concise inline RED-to-GREEN proof (failing test name, non-zero exit code, and one-line failure summary before the fix, followed by the passing command and exit code `0`) in the final verification or Review report.
 
 
 ## Compact Gate Templates

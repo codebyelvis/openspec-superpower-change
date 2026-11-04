@@ -61,16 +61,6 @@ schema-6 products. `claudex` and `claudeg` are Claude Code launchers; model
 backends do not change product identity. Sharing content does not share
 credentials, sessions, instances or permissions.
 
-Consulting grok-cc for bounded advice does not itself delegate implementation
-or create an execution Handoff, extra Preflight or duplicate formal Review.
-Preserve already-required gates and user-required opinions. Reuse explicit
-same-task/target/payload dispatch authority for permitted collection/recovery;
-the transport still owns creation/rebind, unknown-send, export and integrity
-restrictions. Accept only the requested advisory output scope, evaluate its
-claims locally, and never treat transport completion or a no-findings report
-as formal Review PASS. A changed payload or execution delegation needs its
-applicable scope/authority check, not assumed coverage from the earlier dispatch.
-
 When a plan is required, form or reuse the applicable reviewed plan before
 execution. Resolve its destination from the user's authorized scope, project
 conventions and existing contract. A native `docs/design/` default is only a

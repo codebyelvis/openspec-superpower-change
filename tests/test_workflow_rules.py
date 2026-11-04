@@ -2723,8 +2723,8 @@ class WorkflowRulesTest(unittest.TestCase):
         )
         for path in short_paths:
             text = path.read_text(encoding="utf-8")
-            self.assertNotIn(continuation, text, str(path))
-            self.assertIn("Stop for scope/protected-boundary changes", text, str(path))
+            self.assertIn(continuation, text, str(path))
+            self.assertIn("Stop the affected action for scope/protected-boundary changes", text, str(path))
             self.assertNotIn(marker, text, str(path))
         managed = (ROOT / "references" / "shared-global-governance.md").read_text(
             encoding="utf-8"
@@ -5969,9 +5969,12 @@ class SkillIterationEntryTests(unittest.TestCase):
         )
         confirmation = " ".join((ROOT / "references/confirmation-lease.md").read_text(encoding="utf-8").split())
         self.assertIn("delegates intermediate approvals/reviews to an advisory reviewer", confirmation)
+        self.assertNotIn("grok-cc", confirmation)
         approved = " ".join((ROOT / "references/approved-implementation-workflow.md").read_text(encoding="utf-8").split())
-        self.assertIn("需要让我审批或者授权的改为询问 grok-cc", approved)
+        self.assertNotIn("grok-cc", approved)
         self.assertIn("establishing review/verification PASS evidence satisfies that intermediate gate and advances immediately", approved)
+        checkpoint = " ".join((ROOT / "references/local-instruction-checkpoint.md").read_text(encoding="utf-8").split())
+        self.assertNotIn("grok-cc", checkpoint)
 
     def test_negative_regressions_for_hanging_states_and_deadlocks(self):
         # 1. Negative test: if Gate 0 lacks task type
@@ -5993,8 +5996,37 @@ class SkillIterationEntryTests(unittest.TestCase):
         self.assertIn("Hanging states, completion deadlocks, and delegated review continuity resolve deterministically", invariants)
         self.assertIn("A pre-existing failure (`OUT_OF_SCOPE_PREEXISTING_DEBT`) must never enter self-repair", invariants)
 
+    def test_streamline_plan_anchored_execution_invariants(self):
+        skill = " ".join((ROOT / "SKILL.md").read_text(encoding="utf-8").split())
+        approved_raw = (ROOT / "references/approved-implementation-workflow.md").read_text(encoding="utf-8")
+        approved = " ".join(approved_raw.split())
+        direct = " ".join((ROOT / "references/direct-change-rule.md").read_text(encoding="utf-8").split())
+        evidence = " ".join((ROOT / "references/step-evidence-gate.md").read_text(encoding="utf-8").split())
+        completion = " ".join((ROOT / "references/completion-contract.md").read_text(encoding="utf-8").split())
 
+        # 1. Four-anchor OpenSpec/Plan unification & no standalone local Preflight JSON
+        self.assertIn(
+            "When OpenSpec `design.md` and `tasks.md` already define target files, cohesive batches, and exact verification commands, they serve as the executable plan;",
+            skill,
+        )
+        self.assertIn("Four Hard Anchors", approved)
+        self.assertIn("without standalone `preflight-full.json` or `preflight-focused.json` files", approved)
 
+        # 2. Three-condition bugfix Direct Change without requiring pre-existing spec path
+        self.assertIn(
+            "a failing-then-passing regression test, no external API/schema/permission/lifecycle change, and scope bounded by the local diff",
+            direct,
+        )
+
+        # 3. Cohesive batch freedom & inline RED-to-GREEN proof without intermediate JSON bloat
+        self.assertIn("Single Cohesive Batch", approved)
+        self.assertIn("without standalone `red-green.json` or `native-green.json` files", evidence)
+        self.assertIn("failing test name, non-zero exit code, and one-line failure summary", evidence)
+
+        # 4. Lazy status.md creation, clean verified_revision.inputs exclusions, and cold-path marker
+        self.assertIn("<!-- COLD_PATH_START", approved_raw)
+        self.assertIn("Exclude `CHANGELOG.md`, task ledgers, and historical Review/Evidence reports from `verified_revision.inputs`", approved)
+        self.assertIn("single consolidated Verification & Review report", completion)
 
 
 if __name__ == "__main__":

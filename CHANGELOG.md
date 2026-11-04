@@ -2,6 +2,18 @@
 
 ## Unreleased
 
+- Streamline plan-anchored execution (`streamline-plan-anchored-execution`):
+  unify approved four-anchor OpenSpec (`design.md` + `tasks.md`) with the
+  executable Plan without duplicate Superpowers plans or standalone local
+  Preflight JSONs; default to coarse-grained `Single Cohesive Batch` execution
+  with inline RED-to-GREEN proof instead of intermediate `red-green.json` /
+  `native-green.json` file sprawl; allow three-condition localized bugfixes to
+  use Direct Change without a pre-existing spec path; keep `status.md` lazy for
+  `compact`/`standard` work and exclude `CHANGELOG.md`/ledgers/historical
+  reports from `verified_revision.inputs`; add in-place `<!-- COLD_PATH_START`
+  partitioning in `references/approved-implementation-workflow.md`; and remove
+  deprecated `grok-cc` references.
+
 - Close anti-drift hanging references, task type recording, and completion deadlocks:
   record Gate 0 task type (`task: VERIFY|DIAGNOSE|FIX|REVIEW`); add fallback for
   missing local numeric round budgets; route pre-existing debt to `BLOCKED` instead

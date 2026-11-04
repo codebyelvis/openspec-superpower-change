@@ -18,7 +18,7 @@ planning, still-valid Preflight and unaffected evidence.
 1. OpenSpec proposal/design/spec deltas are the approved change contract.
 2. For OpenSpec-required work, that approval is the single design approval and
    does not require a duplicate `docs/superpowers/specs/` artifact or approval.
-3. After approval, invoke `superpowers:writing-plans` for multi-step work that
+3. When an approved OpenSpec (`design.md` + `tasks.md`) already defines the Four Hard Anchors—(1) allowed and forbidden file scope, (2) target interfaces and `path:line` code facts, (3) coarse-grained cohesive batches (`Single Cohesive Batch` by default), and (4) exact regression test commands and assertions—it serves directly as the executable Plan on a clean baseline (`git diff --stat` / approved baseline SHA) without standalone `preflight-full.json` or `preflight-focused.json` files for local single-agent execution. Otherwise, after approval, invoke `superpowers:writing-plans` for multi-step work that
    does not already have an applicable reviewed plan, and
    save the executable plan under the project-preferred path.
 4. OpenSpec-backed work uses
@@ -179,7 +179,7 @@ verify, collect evidence, or update existing canonical state. A summary,
 recommendation, or future plan alone is not progress.
 
 Closed-loop continuation intent includes “闭环推进”, “继续闭环”, “按推荐方案推进”,
-“需要让我审批或者授权的改为询问 grok-cc”, and “完成后统一 Review”. It means continue
+and “完成后统一 Review”. It means continue
 within the already approved scope and current canonical Plan/Status/Handoff: safe,
 reversible reads, edits, tests, verification, same-scope Review/Fix, and
 existing-state updates. When the user explicitly delegates intermediate approvals or
@@ -247,13 +247,15 @@ Review may satisfy both Implementation Review and Final Review under
 included in that implementation/final Review by default, not mandatory
 standalone Review gates. The strict and protected paths retain separate gates.
 
+<!-- COLD_PATH_START: Read the sections below only on session resume, compaction recovery, blocked-context amendment, or control-plane rebind/return -->
+
 ## Project Session Resume
 
 On `继续`, `继续闭环`, compaction or a new window, recover unfinished authorized
 work from `docs/agent-collab/<change-id>/status.md`, never the previous chat reply.
 Reuse the existing OpenSpec change-id; unfinished Direct Change uses its existing
 scoped ID or a stable `direct-<slug>` when a checkpoint is first needed. Finished
-single-turn compact work creates no checkpoint. Multiple unfinished changes
+single-turn compact or standard local work creates no checkpoint (`status.md` and `## Resume Context` are created lazily only before an intentional stop, compaction, or cross-window/external handoff; local `strict` and `self-evolution` create `status.md` once at approval and refresh only at review/completion boundaries). Multiple unfinished changes
 require explicit selection, never modification-time or priority selection.
 Legacy schema-4/schema-5 stays on its immutable audit path, without migration.
 
@@ -348,7 +350,7 @@ has exactly `revision`, `inputs` (path -> SHA-256 or null for expected absence),
 record has `command`, `result: pass`, hashed `evidence`. Cover all context
 critical commands and verification-relevant source/config/tests; Review checks
 declared scope. Exclude canonical status and new evidence outputs to avoid
-self-hash cycles. A mismatch blocks current PASS: preserve checkpoint and edits,
+self-hash cycles. Exclude `CHANGELOG.md`, task ledgers, and historical Review/Evidence reports from `verified_revision.inputs` so closeout documentation updates do not invalidate the verified source fingerprint. A mismatch blocks current PASS: preserve checkpoint and edits,
 then verify current inputs before advancing.
 
 Existing JSON verification evidence records `evidence_role: final-verification`,

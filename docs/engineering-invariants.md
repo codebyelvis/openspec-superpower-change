@@ -418,9 +418,9 @@ Invariant:
 - Numeric round budgets remain private user configuration. In public or distributed runtimes lacking private instructions, numeric limits are skipped gracefully, while physical boundary, new root cause, advisor-repeat, and two-failure stops remain binding.
 - A pre-existing failure (`OUT_OF_SCOPE_PREEXISTING_DEBT`) must never enter self-repair under the current task. It must transition deterministically to `BLOCKED`, `blocker_owner: user`.
 - The two-failure stop in `SKILL.md` bounds all `fix -> verify -> Review` loops across re-entries in `completion-contract.md`. Reading completion contracts at closure cannot override that bound into an infinite live-lock.
-- When the user explicitly instructs closed-loop execution or delegates intermediate approvals to an advisory reviewer (such as grok-cc), establishing review/verification PASS evidence satisfies that intermediate gate and advances immediately to the next slice without pausing for human conversational confirmation.
+- When the user explicitly instructs closed-loop execution or delegates intermediate approvals to an advisory reviewer, establishing review/verification PASS evidence satisfies that intermediate gate and advances immediately to the next slice without pausing for human conversational confirmation.
 
-Counterexample: Gate 0 lacks task classification, so an agent halts arbitrarily on perceived task changes; missing local budget numbers cause the agent to invent limits or fail validation; an out-of-scope failure sends completion into an infinite repair loop; an agent repeatedly asks the user for polite permission to continue after grok-cc review already gave PASS evidence.
+Counterexample: Gate 0 lacks task classification, so an agent halts arbitrarily on perceived task changes; missing local budget numbers cause the agent to invent limits or fail validation; an out-of-scope failure sends completion into an infinite repair loop; an agent repeatedly asks the user for polite permission to continue after delegated advisory review already gave PASS evidence.
 
 Mechanical enforcement: `tests/test_workflow_rules.py` tests Gate 0 task type presence, budget fallback text, pre-existing debt `BLOCKED` transition, two-failure completion bounds, and delegated review continuity, along with negative mutation regressions.
 

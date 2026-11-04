@@ -46,11 +46,11 @@ risk-appropriate adversarial or business-chain probe. Invoke
 
 For compact or standard single-slice work with no strict, external,
 multi-slice, or protected-boundary effects, one post-verification complete-diff
-Review may satisfy both Implementation Review and Final Review. This combined
+Review may satisfy both Implementation Review and Final Review in a single consolidated Verification & Review report. This combined
 path remains valid only if any required learning audit produces no later
 state-changing promotion; without a learning trigger, no audit is added.
 Strict, external, multi-slice, and protected-boundary work retains
-separate Implementation Review and Final Review gates. In particular, security,
+separate Implementation Review and Final Review gates (each consolidated into one report per gate without intermediate `red-green.json` or `native-green.json` file sprawl). In particular, security,
 recovery, integrity/data-loss, authority, and false-PASS risk never uses the
 combined shortcut.
 

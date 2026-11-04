@@ -64,7 +64,10 @@ boundary. Editorial wording that changes none of those contracts may use Direct 
 
 Localized internal restoration, small config-only work without protected effects,
 typo/comment/formatting, non-contractual docs and existing-behavior tests may use
-Direct Change. Public/user/operator-visible restoration requires an approved
+Direct Change. A localized bugfix restoring intended behavior with a
+failing-then-passing regression test, no external API/schema/permission/lifecycle
+change, and scope bounded by the local diff may also use Direct Change without a
+pre-existing spec path. Broader public/user/operator-visible restoration requires an approved
 existing spec or equivalent project-authoritative contract, its exact path in
 Gate 0, and no contract, schema, compatibility or lifecycle change; otherwise
 OpenSpec is required. This exception does not lower the evidence profile.
@@ -161,7 +164,7 @@ remain in `references/response-patterns.md`; no new mode is introduced.
 - Do not let `CONTEXT.md` replace OpenSpec artifacts.
 - Do not let required project learning remain only in chat, Review output, or
   prose-only context when deterministic regression enforcement is practical.
-- Do not let OpenSpec `tasks.md` replace a Superpowers implementation plan.
+- When OpenSpec `design.md` and `tasks.md` already define target files, cohesive batches, and exact verification commands, they serve as the executable plan; require a separate Superpowers plan only when those execution anchors are absent.
 - Do not use Superpowers planning to bypass OpenSpec approval.
 - Do not implement OpenSpec-required work before approval.
 - Do not gate every TDD micro-step; do not skip the business-slice evidence gate.

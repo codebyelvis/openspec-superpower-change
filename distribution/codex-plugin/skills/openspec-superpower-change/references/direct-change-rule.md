@@ -54,6 +54,7 @@ no checkpoint. Continuation alone creates no OpenSpec change or external Handoff
   proposal-only, docs-only, or test-only task. Low-risk work normally uses
   `compact`; approved public/API restoration remains `strict`.
 - New feature behavior still requires OpenSpec unless it is already covered by an approved spec.
+- A localized bugfix restoring intended behavior with a failing-then-passing regression test, no external API/schema/permission/lifecycle change, and scope bounded by the local diff may use Direct Change without a pre-existing spec path.
 - Public/user/operator-visible restoration requires an approved existing spec or
   equivalent project-authoritative contract whose exact path is recorded in
   Gate 0; it must not introduce schema, compatibility, or lifecycle behavior.
