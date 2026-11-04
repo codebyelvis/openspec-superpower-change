@@ -6028,6 +6028,28 @@ class SkillIterationEntryTests(unittest.TestCase):
         self.assertIn("Exclude `CHANGELOG.md`, task ledgers, and historical Review/Evidence reports from `verified_revision.inputs`", approved)
         self.assertIn("single consolidated Verification & Review report", completion)
 
+        # 5. Engineering invariants distillation & negative mutation regressions
+        invariants = " ".join((ROOT / "docs/engineering-invariants.md").read_text(encoding="utf-8").split())
+        self.assertIn(
+            "Plan-anchored cohesive execution, lazy state, and commit-style parity",
+            invariants,
+        )
+        self.assertIn(
+            "Exclude `CHANGELOG.md`, task ledgers, and historical Review/Evidence reports from `verified_revision.inputs`",
+            invariants,
+        )
+        self.assertIn(
+            "inspect `git log` to match the repository's established commit message convention",
+            invariants,
+        )
+        mutated_approved = approved_raw.replace("<!-- COLD_PATH_START", "<!-- NO_MARKER")
+        self.assertNotIn("<!-- COLD_PATH_START", mutated_approved)
+        mutated_evidence = evidence.replace(
+            "without standalone `red-green.json` or `native-green.json` files",
+            "requires standalone json files",
+        )
+        self.assertNotIn("without standalone `red-green.json` or `native-green.json` files", mutated_evidence)
+
 
 if __name__ == "__main__":
     unittest.main()

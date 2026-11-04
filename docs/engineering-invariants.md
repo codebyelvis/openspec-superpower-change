@@ -425,3 +425,22 @@ Counterexample: Gate 0 lacks task classification, so an agent halts arbitrarily 
 Mechanical enforcement: `tests/test_workflow_rules.py` tests Gate 0 task type presence, budget fallback text, pre-existing debt `BLOCKED` transition, two-failure completion bounds, and delegated review continuity, along with negative mutation regressions.
 
 Loading pointer: agents read this file through `AGENTS.md`. Normative owners are `SKILL.md`, `references/step-evidence-gate.md`, `references/completion-contract.md`, `references/confirmation-lease.md`, and `references/approved-implementation-workflow.md`.
+
+## Plan-anchored cohesive execution, lazy state, and commit-style parity
+
+Scope: OpenSpec/Plan four-anchor unification, coarse-grained cohesive batch execution, three-condition bugfix Direct Change, lazy `status.md` and `verified_revision.inputs` hygiene, in-place cold-path partitioning, deprecated advisor cleanup, and authorized Git commit message conventions.
+
+Invariant:
+
+- When an approved OpenSpec `design.md` and `tasks.md` already define the Four Hard Anchors (allowed/forbidden file scope, `path:line` interface facts, coarse-grained cohesive batches, and exact regression commands), they serve directly as the executable Plan without requiring a duplicate Superpowers `implementation-plan.md` or standalone local `preflight-full.json` / `preflight-focused.json` files on a clean baseline.
+- Execution defaults to coarse-grained cohesive business batches (`Single Cohesive Batch` for single-slice changes). Inside an approved batch, the executor iterates freely on implementation and tests without standalone `red-green.json` or `native-green.json` files, recording a concise inline RED-to-GREEN proof (failing test name, non-zero exit code, and one-line failure summary before the fix, followed by exit code `0`) in a single consolidated Verification & Review report.
+- A localized bugfix restoring intended behavior may use Direct Change without a pre-existing spec path when backed by a failing-then-passing regression test, no external API/schema/permission/lifecycle change, and scope bounded by the local diff.
+- Local `compact` and `standard` changes create `docs/agent-collab/<change-id>/status.md` lazily only before an intentional stop, compaction, or cross-window/external handoff; local `strict` and `self-evolution` changes create `status.md` at approval and refresh at review/completion boundaries rather than every micro-step. Exclude `CHANGELOG.md`, task ledgers, and historical Review/Evidence reports from `verified_revision.inputs` so closeout edits never trigger self-hash invalidation loops.
+- `references/approved-implementation-workflow.md` partitions its everyday execution trunk from cold-path recovery sections (`Project Session Resume`, blocked-context amendment, control-plane rebind/return) via `<!-- COLD_PATH_START` in place rather than adding extra portable manifest files.
+- Before executing an authorized `git commit`, always inspect `git log` to match the repository's established commit message convention (Chinese `type(变更门禁): summary` plus structured bullet points for multi-file governance changes) rather than defaulting to a terse one-line English subject.
+
+Counterexample: an agent writes duplicate `implementation-plan.md`, `preflight-full.json`, `red-green.json`, and `native-green.json` files for a single-slice local change; includes `CHANGELOG.md` and review reports in `verified_revision.inputs` so updating closeout evidence invalidates the verified revision seventeen times; splits `approved-implementation-workflow.md` into a new file that breaks 40+ routing assertions; or commits a 24-file architectural change with a one-line English commit message ignoring `git log` history.
+
+Mechanical enforcement: `tests/test_workflow_rules.py:SkillIterationEntryTests.test_streamline_plan_anchored_execution_invariants` and `test_delegated_review_and_closed_loop_continuity` verify the four-anchor rule, cohesive batch inline RED-to-GREEN proof, three-condition bugfix Direct Change, `verified_revision.inputs` exclusions, `<!-- COLD_PATH_START` marker, `grok-cc` removal, and negative mutation regressions. Commit-style parity is verified via adversarial Review scenario on the 2026-11-04 candidate card.
+
+Loading pointer: agents read this file through `AGENTS.md`. Normative owners are `SKILL.md`, `references/approved-implementation-workflow.md`, `references/direct-change-rule.md`, `references/step-evidence-gate.md`, and `references/completion-contract.md`.

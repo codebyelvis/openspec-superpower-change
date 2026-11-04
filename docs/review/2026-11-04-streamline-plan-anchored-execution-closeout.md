@@ -15,8 +15,9 @@
 | `references/step-evidence-gate.md` | Evidence Gate | Allow free cohesive batch iteration without standalone `red-green.json`/`native-green.json`, using inline RED-to-GREEN proof |
 | `references/completion-contract.md` | Completion Contract | Consolidate single-slice verification/review into a `single consolidated Verification & Review report` |
 | `references/confirmation-lease.md` & `references/local-instruction-checkpoint.md` | Advisory Routing | Remove deprecated `grok-cc` examples and consultation paragraph while preserving generic advisory reviewer support |
-| `docs/engineering-invariants.md` & `openspec/specs/skill-workflow-governance/spec.md` | Invariants & Spec | Remove deprecated `grok-cc` mentions; merge archived requirement `Plan-anchored cohesive execution and lazy state` |
-| `tests/test_workflow_rules.py` | Regression Suite | Add `test_streamline_plan_anchored_execution_invariants`, assert absence of deprecated `grok-cc` in active references, and reconcile packaged-copy parity assertion |
+| `docs/engineering-invariants.md` & `openspec/specs/skill-workflow-governance/spec.md` | Invariants & Spec | Remove deprecated `grok-cc` mentions; merge archived requirement `Plan-anchored cohesive execution and lazy state`; add Section 14 (`Plan-anchored cohesive execution, lazy state, and commit-style parity`) |
+| `docs/learning-candidates/2026-11-04-plan-anchored-execution-and-lazy-state.md` | Learning Candidate Card | Distill session learnings and commit-style parity correction (`status: promoted`) |
+| `tests/test_workflow_rules.py` | Regression Suite | Add `test_streamline_plan_anchored_execution_invariants` (including positive & negative mutation assertions for Section 14 invariants), assert absence of deprecated `grok-cc` in active references, and reconcile packaged-copy parity assertion |
 | `skills/openspec-superpower-change/SKILL.md` & `distribution/codex-plugin/...` | Generated Adapters | Rebuilt via `build_codex_plugin.py` and `build_skillsmp_adapter.py` |
 | `openspec/changes/archive/2026-11-04-streamline-plan-anchored-execution/*` | Archived OpenSpec Contract | `proposal.md`, `design.md`, `tasks.md`, `specs/skill-workflow-governance/spec.md` |
 | `CHANGELOG.md` | Release Notes | Document `streamline-plan-anchored-execution` and `grok-cc` removal under `## Unreleased` |
