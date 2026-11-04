@@ -151,6 +151,15 @@ go directly through fix -> focused verification -> the same Review stage and
 must not reopen Preflight. Reopen readiness only when a protected boundary
 changes and the corresponding approval remains valid.
 
+Under closed-loop execution (`闭环推进`), when an eligible distinct reviewer can
+be invoked via local Headless CLI (`pi -p` / `agy -p`), the active executor
+automatically chains `FULL_PREFLIGHT -> Fix -> FOCUSED_RECHECK` (reusing the
+bound reviewer session for `same_reviewer_instance`) and post-implementation
+`Review -> Fix -> Verify -> Review` until `PASS`, stopping to report only when a
+circuit breaker fires (two failed attempts on the same slice or exceeding the
+one `FOCUSED_RECHECK` ceiling), a protected boundary is reached, or direct CLI
+invocation degrades to manual copyable Review Prompt mode.
+
 Before human Review, reuse deterministic project validators to check applicable
 placeholders, undefined references, allowed/forbidden files, command and module
 origins, unauthorized Git, branch/worktree, schema/formula examples, checksums,
@@ -182,7 +191,12 @@ Closed-loop continuation intent includes “闭环推进”, “继续闭环”,
 and “完成后统一 Review”. It means continue
 within the already approved scope and current canonical Plan/Status/Handoff: safe,
 reversible reads, edits, tests, verification, same-scope Review/Fix, and
-existing-state updates. When the user explicitly delegates intermediate approvals or
+existing-state updates. When a distinct `independent-reviewer` is required and
+local Headless CLI (`pi -p` / `agy -p`) is available, the active executor
+invokes the independent reviewer session directly by default and falls back to a
+copyable Review Prompt only when explicitly requested by the user or blocked by
+CLI timeout, rate limit, or interactive prompt. When the user explicitly
+delegates intermediate approvals or
 reviews to an advisory reviewer, establishing review/verification PASS evidence
 satisfies that intermediate gate and advances immediately to the next slice
 without pausing for human conversational confirmation. It does not expand scope

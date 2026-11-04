@@ -104,6 +104,16 @@ Use this exact classification before selecting a product:
   non-blank resume condition.
 <!-- ROLE_FIRST_REVIEW_CLASSIFICATION_END -->
 
+When a distinct `independent-reviewer` instance is required (such as `pi` and
+`antigravity-cli` cross-review) and the local CLI supports non-interactive
+independent session invocation (`pi -p` / `agy -p`), the active executor
+defaults to invoking the independent review directly via Headless CLI while
+preserving dual-mode support (Headless CLI direct invocation first; emit a
+copyable Review Prompt when explicitly requested by the user or when direct CLI
+invocation hits a timeout, rate limit, or interactive blocker). Do not return
+`BLOCKED` with `blocker_owner: user` merely because a separate manual window has
+not been opened when Headless CLI invocation is available.
+
 When independent read-only search, Review, or verification can run at the same
 time, do that through existing assignment and Handoff routes. Do not add a
 framework, registry, or runner for this. Subagents remain bounded evidence;

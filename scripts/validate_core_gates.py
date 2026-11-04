@@ -144,6 +144,15 @@ STATE_TUPLES = {
     },
     "complete": {("pass", "pass", "pass")},
 }
+EXPECTED_OWNERS = {
+    "ready-for-brief": {"codex-brief-antigravity-review"},
+    "ready-for-execution": {"external-agent"},
+    "ready-for-review": {"codex-brief-antigravity-review"},
+    "needs-fix": {"codex-brief-antigravity-review", "openspec-superpower-change"},
+    "blocked": NEXT_OWNERS,
+    "awaiting-final-verification": {"openspec-superpower-change"},
+    "complete": {"user"},
+}
 
 
 def parse_scalar(value: str):
@@ -438,16 +447,7 @@ def _validate_schema4_handoff_contract(data: dict, label: str) -> None:
     result_tuple = _result_tuple(data)
     if result_tuple not in STATE_TUPLES[state]:
         raise AssertionError(f"{label}: invalid result tuple for {state}")
-    expected_owners = {
-        "ready-for-brief": {"codex-brief-antigravity-review"},
-        "ready-for-execution": {"external-agent"},
-        "ready-for-review": {"codex-brief-antigravity-review"},
-        "needs-fix": {"codex-brief-antigravity-review", "openspec-superpower-change"},
-        "blocked": NEXT_OWNERS,
-        "awaiting-final-verification": {"openspec-superpower-change"},
-        "complete": {"user"},
-    }
-    if data["next_owner"] not in expected_owners[state]:
+    if data["next_owner"] not in EXPECTED_OWNERS[state]:
         raise AssertionError(f"{label}: invalid next_owner for {state}")
 
     if state == "blocked":
@@ -1563,6 +1563,75 @@ def validate_frontmatter(skill: str) -> None:
     ]
     if keys != ["name", "description"]:
         raise AssertionError(f"SKILL.md: frontmatter keys must be name, description only; got {keys}")
+
+
+def probe_transition_candidate(before: dict, next_state: str) -> dict | None:
+    """Return a valid post-transition contract using validate_transition as sole authority."""
+    if next_state not in ALLOWED_TRANSITIONS.get(before.get("lifecycle_state"), set()):
+        return None
+    report_choices = (
+        (before["attempt_report_artifact"], None)
+        if before["attempt_report_artifact"] is not None
+        else (None, {"path": "docs/review/probe-report.md", "sha256": "a" * 64})
+    )
+    for target_tuple in sorted(STATE_TUPLES[next_state]):
+        for candidate_batch in (before["current_batch"], before["current_batch"] + 1):
+            for candidate_attempt in (1, before["attempt"], before["attempt"] + 1):
+                for report_ref in report_choices:
+                    after = dict(before)
+                    after.update({
+                        "lifecycle_state": next_state,
+                        "contract_revision": before["contract_revision"] + 1,
+                        "current_batch": candidate_batch,
+                        "attempt": candidate_attempt,
+                        "last_review_result": target_tuple[0],
+                        "final_verification": target_tuple[1],
+                        "final_review_result": target_tuple[2],
+                        "next_owner": sorted(EXPECTED_OWNERS[next_state])[0],
+                        "attempt_report_artifact": report_ref,
+                        "last_review_artifact": (
+                            None
+                            if target_tuple[0] == "not-run"
+                            else (
+                                before["last_review_artifact"]
+                                or {"path": "docs/review/probe-review.md", "sha256": "b" * 64}
+                            )
+                        ),
+                        "final_verification_artifact": (
+                            None
+                            if target_tuple[1] == "pending"
+                            else (
+                                before["final_verification_artifact"]
+                                or {"path": "docs/review/probe-verify.md", "sha256": "c" * 64}
+                            )
+                        ),
+                        "final_review_artifact": (
+                            None
+                            if target_tuple[2] == "pending"
+                            else (
+                                before["final_review_artifact"]
+                                or {"path": "docs/review/probe-final-review.md", "sha256": "d" * 64}
+                            )
+                        ),
+                    })
+                    if next_state == "blocked":
+                        after.update({
+                            "blocked_reason": "probe",
+                            "blocker_owner": "openspec-superpower-change",
+                            "resume_condition": "probe",
+                        })
+                    else:
+                        after.update({
+                            "blocked_reason": None,
+                            "blocker_owner": "none",
+                            "resume_condition": None,
+                        })
+                    try:
+                        validate_transition(before, after, "probe")
+                        return after
+                    except AssertionError:
+                        continue
+    return None
 
 
 GOVERNED_CAVEMAN_LITE_PROFILE_OBLIGATIONS = (

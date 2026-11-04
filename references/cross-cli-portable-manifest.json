@@ -27,6 +27,7 @@
         {"path": "references/superpowers-adapter.md", "targets": ["codex", "pi", "antigravity-cli", "grok-cli"]},
         {"path": "references/sync-checklist.md", "targets": ["codex", "pi", "antigravity-cli", "grok-cli"]},
         {"path": "scripts/validate_core_gates.py", "targets": ["codex", "pi", "antigravity-cli", "grok-cli"]},
+        {"path": "scripts/next_action.py", "targets": ["codex", "pi", "antigravity-cli", "grok-cli"]},
         {"path": "scripts/validate_cross_cli_sync.py", "targets": ["codex", "pi", "antigravity-cli", "grok-cli"]},
         {"path": "templates/design-template.md", "targets": ["codex", "pi", "antigravity-cli", "grok-cli"]},
         {"path": "templates/evidence-template.md", "targets": ["codex", "pi", "antigravity-cli", "grok-cli"]},

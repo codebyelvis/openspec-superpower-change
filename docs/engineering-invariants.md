@@ -444,3 +444,19 @@ Counterexample: an agent writes duplicate `implementation-plan.md`, `preflight-f
 Mechanical enforcement: `tests/test_workflow_rules.py:SkillIterationEntryTests.test_streamline_plan_anchored_execution_invariants` and `test_delegated_review_and_closed_loop_continuity` verify the four-anchor rule, cohesive batch inline RED-to-GREEN proof, three-condition bugfix Direct Change, `verified_revision.inputs` exclusions, `<!-- COLD_PATH_START` marker, `grok-cc` removal, and negative mutation regressions. Commit-style parity is verified via adversarial Review scenario on the 2026-11-04 candidate card.
 
 Loading pointer: agents read this file through `AGENTS.md`. Normative owners are `SKILL.md`, `references/approved-implementation-workflow.md`, `references/direct-change-rule.md`, `references/step-evidence-gate.md`, and `references/completion-contract.md`.
+
+## Dual-mode headless cross-review, validator-delegated next-action query, and post-receipt closeout recording
+
+Scope: `pi -p` / `agy -p` headless CLI cross-verification, read-only tool boundaries, `scripts/next_action.py` transition probing via `scripts/validate_core_gates.py`, static Plan checkbox preservation, and closeout report SHA-256 / review-receipt integrity.
+
+Invariant:
+
+- When a distinct `independent-reviewer` instance is required and local Headless CLI (`pi -p` / `agy -p`) is available, the executor invokes the independent reviewer session directly by default (chaining `FULL_PREFLIGHT -> Fix -> FOCUSED_RECHECK` and `Review -> Fix -> Verify -> Review` up to circuit breakers) and falls back to a copyable Review Prompt only when requested by the user or blocked by CLI timeout/rate-limit/interaction. Headless review invocations must enforce a verifiable read-only boundary (`pi --tools read,grep,find,ls` without `bash`/`edit`/`write`; `agy --effort high -p` without default `--dangerously-skip-permissions`; plus before/after workspace snapshot checks).
+- Read-only sibling queries such as `scripts/next_action.py` must import transition and owner tables (`ALLOWED_TRANSITIONS`, `STATE_TUPLES`, `NEXT_OWNERS`, `EXPECTED_OWNERS`, `ARTIFACT_FIELDS`) and delegate transition legality exclusively to `validate_transition` via `probe_transition_candidate` in `scripts/validate_core_gates.py`, never re-implementing batch-count or tuple-state conditionals.
+- Closeout reports must record exact 64-character SHA-256 digests computed from disk bytes (`shasum -a 256`), keep Plan checkboxes static (`[ ]`), and never pre-record a reviewer's `PASS` before that reviewer's final signoff receipt arrives.
+
+Counterexample: a headless review command passes `--dangerously-skip-permissions` or `--tools bash` as a default "read-only" flag; `next_action.py` writes its own `_is_transition_applicable` checking `current_batch == planned_batches`; or a closeout report extrapolates a 12-char hash prefix or marks an in-flight reviewer as `PASS` before the re-review completes.
+
+Mechanical enforcement: `tests/test_workflow_rules.py:ClosedLoopRuntimeRoutingTests.test_dual_mode_headless_cli_cross_review_and_closed_loop_chaining` and `tests/test_next_action.py:NextActionQueryTests` (`test_imports_single_source_of_truth_from_validate_core_gates`, `test_transition_decisions_delegate_exclusively_to_validate_transition`) enforce dual-mode routing and zero duplicated transition logic.
+
+Loading pointer: agents read this file through `AGENTS.md`. Normative owners are `references/agent-capability-routing.md`, `references/approved-implementation-workflow.md`, `scripts/validate_core_gates.py`, and `scripts/next_action.py`.

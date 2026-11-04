@@ -17,6 +17,12 @@ executor, reviewer, capability/evidence profile, approval, authority, or PASS.
   mechanical edit may use the current sufficient lower-cost mode
 - **AND** the recommendation grants no authority
 
+#### Scenario: Dual-mode cross-review via Headless CLI and manual prompt fallback
+- **GIVEN** a task requires a distinct `independent-reviewer` instance (such as `pi` and `antigravity-cli` cross-review)
+- **WHEN** the local environment supports Headless CLI (`pi -p` / `agy -p`)
+- **THEN** the active executor invokes the independent reviewer session directly via Headless CLI by default without returning `BLOCKED` (`blocker_owner: user`) merely because a manual window was not opened
+- **AND** it emits a copyable Review Prompt when explicitly requested by the user or when direct CLI invocation encounters a timeout, rate limit, or interactive blocker
+
 #### Scenario: Actual switch
 
 - **WHEN** an approved task genuinely requires a different model or reasoning
@@ -50,6 +56,13 @@ Plan/Status/Handoff rather than re-asking completed or approved work.
 - **GIVEN** option A is approved and remaining work is safe and in scope
 - **WHEN** the user requests closed-loop progress
 - **THEN** the workflow performs the next task without another confirmation
+
+#### Scenario: Closed-loop Headless CLI review-fix-recheck chaining
+
+- **GIVEN** closed-loop execution (`闭环推进`) is active and an eligible distinct reviewer is reachable via local Headless CLI (`pi -p` / `agy -p`)
+- **WHEN** Preflight Review, Implementation Review, or Final Review is required
+- **THEN** the executor automatically chains `FULL_PREFLIGHT -> Fix -> FOCUSED_RECHECK` (reusing the same reviewer session for `same_reviewer_instance`) and post-implementation `Review -> Fix -> Verify -> Review` until `PASS`
+- **AND** it stops to report only when a circuit breaker fires (two failed attempts on the same slice or exceeding the one `FOCUSED_RECHECK` ceiling), a protected boundary is reached, or CLI invocation falls back to a copyable Review Prompt
 
 #### Scenario: Material choice asks once
 

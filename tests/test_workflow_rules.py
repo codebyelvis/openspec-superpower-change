@@ -5153,6 +5153,56 @@ class ClosedLoopRuntimeRoutingTests(unittest.TestCase):
             skill,
         )
 
+    def test_dual_mode_headless_cli_cross_review_and_closed_loop_chaining(self):
+        routing = " ".join(
+            (ROOT / "references" / "agent-capability-routing.md")
+            .read_text(encoding="utf-8")
+            .split()
+        )
+        approved = " ".join(
+            (ROOT / "references" / "approved-implementation-workflow.md")
+            .read_text(encoding="utf-8")
+            .split()
+        )
+        spec = " ".join(
+            (
+                ROOT
+                / "openspec"
+                / "changes"
+                / "optimize-closed-loop-runtime-routing"
+                / "specs"
+                / "skill-workflow-governance"
+                / "spec.md"
+            )
+            .read_text(encoding="utf-8")
+            .split()
+        )
+        for phrase in (
+            "non-interactive independent session invocation (`pi -p` / `agy -p`)",
+            "invoking the independent review directly via Headless CLI while preserving dual-mode support",
+            "emit a copyable Review Prompt when explicitly requested by the user or when direct CLI invocation hits a timeout, rate limit, or interactive blocker",
+            "Do not return `BLOCKED` with `blocker_owner: user` merely because a separate manual window has not been opened when Headless CLI invocation is available",
+        ):
+            with self.subTest(surface="routing", phrase=phrase):
+                self.assertIn(phrase, routing)
+        for phrase in (
+            "local Headless CLI (`pi -p` / `agy -p`)",
+            "automatically chains `FULL_PREFLIGHT -> Fix -> FOCUSED_RECHECK`",
+            "`Review -> Fix -> Verify -> Review` until `PASS`",
+            "circuit breaker fires (two failed attempts on the same slice or exceeding the one `FOCUSED_RECHECK` ceiling)",
+            "falls back to a copyable Review Prompt only when explicitly requested by the user or blocked by CLI timeout, rate limit, or interactive prompt",
+        ):
+            with self.subTest(surface="approved", phrase=phrase):
+                self.assertIn(phrase, approved)
+        for phrase in (
+            "Scenario: Dual-mode cross-review via Headless CLI and manual prompt fallback",
+            "Scenario: Closed-loop Headless CLI review-fix-recheck chaining",
+            "Headless CLI (`pi -p` / `agy -p`)",
+            "copyable Review Prompt",
+        ):
+            with self.subTest(surface="spec", phrase=phrase):
+                self.assertIn(phrase, spec)
+
 
 def _validate_iteration_entry(root: Path) -> None:
     """Check the bounded iteration entry without changing core gate authority."""

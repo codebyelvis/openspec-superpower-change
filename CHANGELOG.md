@@ -2,6 +2,17 @@
 
 ## Unreleased
 
+- Add deterministic read-only next-action query and dual-mode Headless CLI
+  cross-review (`add-next-action-query` & `optimize-closed-loop-runtime-routing`):
+  add `scripts/next_action.py` (`--status <path>`) delegating transition
+  legality exclusively to `validate_transition` via `probe_transition_candidate`
+  and `EXPECTED_OWNERS` in `scripts/validate_core_gates.py` (with zero-transition
+  strict `blocked` resume echo, fail-closed `BLOCKED` on invalid status, and
+  advisory-only non-promotable output); and add dual-mode cross-verification
+  routing (`pi -p` / `agy -p` direct Headless CLI invocation by default with
+  copyable Review Prompt fallback and closed-loop `FULL_PREFLIGHT -> Fix ->
+  FOCUSED_RECHECK` / `Review -> Fix -> Verify -> Review` chaining).
+
 - Streamline plan-anchored execution (`streamline-plan-anchored-execution`):
   unify approved four-anchor OpenSpec (`design.md` + `tasks.md`) with the
   executable Plan without duplicate Superpowers plans or standalone local
