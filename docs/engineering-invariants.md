@@ -460,3 +460,79 @@ Counterexample: a headless review command passes `--dangerously-skip-permissions
 Mechanical enforcement: `tests/test_workflow_rules.py:ClosedLoopRuntimeRoutingTests.test_dual_mode_headless_cli_cross_review_and_closed_loop_chaining` and `tests/test_next_action.py:NextActionQueryTests` (`test_imports_single_source_of_truth_from_validate_core_gates`, `test_transition_decisions_delegate_exclusively_to_validate_transition`) enforce dual-mode routing and zero duplicated transition logic.
 
 Loading pointer: agents read this file through `AGENTS.md`. Normative owners are `references/agent-capability-routing.md`, `references/approved-implementation-workflow.md`, `scripts/validate_core_gates.py`, and `scripts/next_action.py`.
+
+## Explicit entry and lazy role context must agree with every consumer
+
+Scope: the Router description, Companion route-specific references, their
+validators, and role-classification forward-test readers.
+
+Invariant:
+
+- Autoload eligibility and obligations after entry are separate contracts.
+  Narrowing eligibility does not transfer approval, evidence, completion or
+  control-plane authority. Body routing rows apply after entry and must not
+  silently restore generic file-change triggers.
+- A route-specific body move includes every consumer: entry references,
+  content hashes, positive/negative location assertions, and forward-test
+  extraction paths. Preserve the complete governed body; do not satisfy an old
+  location assertion by duplicating it back into the lightweight entry.
+- Explicit archive/distillation remains discoverable without treating ordinary
+  implementation, typo fixes or same-scope continuation as automatic entry.
+- Textual conformance, fixture results, installed-file parity and model-observed
+  loading are different evidence. Do not claim runtime isolation or token
+  savings from a shorter file or a passing source test.
+
+Counterexample: the Companion role block moves to its Handed-off reference,
+while the forward runner still extracts markers from the main SKILL.md. Updating
+only the reference hash hides one rejection but leaves the reader broken;
+copying the block back restores the unwanted lightweight context.
+
+Mechanical enforcement: `tests/test_workflow_rules.py` checks description
+exclusions, explicit archive entry, shared classification placement, and
+`test_role_first_forward_runner_injects_reviewed_classification` through the
+actual reader. Companion `tests/test_workflow_rules.py` and
+`scripts/validate_templates.py` reject embedded role detail and bind the full
+Handed-off body hash. Existing regressions are reused; this learning adds no
+new routing behavior. Natural-language interpretation additionally needs the
+bounded adversarial scenarios in the linked candidate.
+
+Loading pointer: `AGENTS.md` already loads this guidance. Normative routing stays
+in the two SKILL.md files and the Companion Handed-off reference; provenance is
+`docs/learning-candidates/2026-11-05-narrow-skill-autoload.md`.
+
+## Publish the approved patch and preserve the installed prestate separately
+
+Scope: a bounded change in a dirty source repository whose installed files may
+already contain other task-specific work.
+
+Invariant:
+
+- A release candidate contains the authorized patch against the committed
+  baseline. Validate that exact candidate and compare staged/committed bytes
+  against it; a dirty-worktree suite does not establish release-candidate coverage.
+- Installation preserves the reviewed destination prestate. A clean publication
+  candidate must not overwrite independently installed, out-of-scope content.
+  Prove that selected runtime changes add only the authorized patch and retain
+  full unselected-file and rule parity. If that proof is unavailable, stop the
+  install rather than copy around the synchronization gate.
+- Report test counts against their actual snapshots and installation outcomes
+  against their selected targets. A verified Codex receipt is not four-target
+  verify-all or fresh model-autoload evidence. Explicitly excluded targets stay
+  unchanged; their absence is not a successful verification receipt.
+
+Counterexample: staging an entire shared validator publishes unrelated rebind
+work. Installing the clean HEAD version instead removes rebind code already
+present at the destination. Reporting the larger dirty-worktree test count
+against the smaller published snapshot conceals both scope differences.
+
+Mechanical enforcement: existing `ScopedPlanSelectionTests`,
+`ScopedPlanTamperTests`, and `ScopedTransactionTests` in
+`tests/test_cross_cli_sync.py` reject stale unselected assertions and prestate
+drift, bind selection to the reviewed plan, and verify selected-only writes.
+Publication/Git-index comparisons and existing installed-file identity depend
+on the actual local snapshots, not a stable repository fixture; use the explicit
+adversarial checks and byte comparisons recorded in the candidate for that part.
+
+Loading pointer: this section complements the existing copy-boundary and
+runtime-prestate guidance; it creates no new sync bypass or publication authority.
+See `docs/learning-candidates/2026-11-05-narrow-skill-autoload.md`.

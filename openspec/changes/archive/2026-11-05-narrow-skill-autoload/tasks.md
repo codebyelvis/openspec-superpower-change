@@ -57,3 +57,11 @@ description: "Use only when the user explicitly requests OpenSpec, change gating
 - 精确发布候选重新验证：主仓库 486 项通过，Companion 92 项通过，均无失败、错误、跳过。主仓库数量比工作区 506 少 20，是未纳入其他任务未跟踪测试所致。候选 core validator、quick_validate 和 OpenSpec strict 通过。
 - 本次暂存的 8 份源文件逐字节等于该已验证候选；此任务另外纳入四份 OpenSpec 制品。Git 推送结果由交付会话报告，不在提交前预记成功。
 - 安装内容与发现路径校验不等于新模型会话的自动加载或 token 节省实证。
+
+## Archive and project learning closeout — 2026-11-05
+
+- 用户明确要求归档、蒸馏并推送 GitHub。Router 源码提交 72ceac33c5b7f63c712566d7eb38b56d8a300bca、Companion 源码提交 8074739271021a097f56b75222a3d83dcb54d3da 已发布到各自 origin/main。
+- 本次归档只物化已批准的三项 spec 修改，不改变 SKILL、校验器、安装目录或其他活动 change。
+- 项目蒸馏已写入 docs/learning-candidates/2026-11-05-narrow-skill-autoload.md 和 docs/engineering-invariants.md 的两节，复用现有回归，不增加运行时门禁。
+- 学习验证：Router description 2/2、分类与scoped-sync 21/21、Companion角色2/2通过；独立审阅者另重跑Router7/7和Companion4/4通过，并返回学习Review PASS。
+- 归档目录校验确认只有三项批准的 requirement 被物化，proposal/design/delta 原字节保留；精确归档发布候选486项测试、核心校验、quick_validate和spec strict通过。最终独立审阅核对上述证据及完整归档diff。真实模型自动加载、上下文隔离和token节省仍不在已验证范围内。
