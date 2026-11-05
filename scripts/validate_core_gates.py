@@ -2156,13 +2156,21 @@ def validate_governed_caveman_lite(
             "description must be a string"
         )
     for trigger in (
-        "file/behavior changes", "OpenSpec/Direct Change routing", "archive/distillation",
+        "Use only when the user explicitly requests OpenSpec",
+        "change gating (变更门禁)", "routing (路由)", "迭代优化skill",
+        "explicitly requests archive/distillation",
+        "Do not auto-load for ordinary implementation, typo, formatting, "
+        "comments, non-contractual docs, already-authorized same-scope "
+        "continuation, or standalone read-only review",
     ):
         require(
             description,
             trigger,
             "SKILL.md governed Caveman Lite frontmatter",
         )
+
+    if "file/behavior changes" in description:
+        raise AssertionError("SKILL.md description: broad file/behavior changes trigger")
 
     skill_profile, _, _ = _markdown_owned_section(
         skill,
@@ -2413,7 +2421,7 @@ def validate_project_learning_gate(
     normalized_template = " ".join(learning_template.split())
 
     description = _load_governed_frontmatter(frontmatter).get("description", "")
-    require(description, "archive/distillation", "SKILL.md frontmatter description")
+    require(description, "explicitly requests archive/distillation", "SKILL.md frontmatter description")
     require(normalized_skill, "references/project-learning-closeout.md", "SKILL.md learning pointer")
 
     require(

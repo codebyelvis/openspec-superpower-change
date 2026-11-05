@@ -1357,8 +1357,13 @@ class WorkflowRulesTest(unittest.TestCase):
         self.assertIsInstance(frontmatter_data, dict)
         description = frontmatter_data["description"]
         self.assertIsInstance(description, str)
-        for trigger in ("file/behavior changes", "archive/distillation"):
+        for trigger in (
+            "Use only when the user explicitly requests OpenSpec",
+            "change gating (变更门禁)", "routing (路由)", "迭代优化skill",
+            "explicitly requests archive/distillation",
+        ):
             self.assertIn(trigger, description)
+        self.assertNotIn("file/behavior changes", description)
         self.assertNotIn("caveman 风格摘要", description)
 
         heading = "## Self-Evolution"
@@ -1411,15 +1416,29 @@ class WorkflowRulesTest(unittest.TestCase):
         self.assertIsInstance(description, str)
         for needle, error_label in (
             (
-                "file/behavior changes",
+                "Use only when the user explicitly requests OpenSpec",
                 "SKILL.md governed Caveman Lite frontmatter",
             ),
             (
-                "OpenSpec/Direct Change routing",
+                "change gating (变更门禁)",
                 "SKILL.md governed Caveman Lite frontmatter",
             ),
             (
-                "archive/distillation",
+                "routing (路由)",
+                "SKILL.md governed Caveman Lite frontmatter",
+            ),
+            (
+                "迭代优化skill",
+                "SKILL.md governed Caveman Lite frontmatter",
+            ),
+            (
+                "Do not auto-load for ordinary implementation, typo, formatting, "
+                "comments, non-contractual docs, already-authorized same-scope "
+                "continuation, or standalone read-only review",
+                "SKILL.md governed Caveman Lite frontmatter",
+            ),
+            (
+                "explicitly requests archive/distillation",
                 "SKILL.md governed Caveman Lite frontmatter",
             ),
         ):
@@ -2032,13 +2051,19 @@ class WorkflowRulesTest(unittest.TestCase):
         description = self.skill.split("---", 2)[1]
         self.assertNotIn("task or step breakdowns", description)
         self.assertNotIn("external-agent handoff", description)
-        self.assertIn("file/behavior changes", description)
+        self.assertNotIn("file/behavior changes", description)
+        self.assertIn(
+            "Do not auto-load for ordinary implementation, typo, formatting, "
+            "comments, non-contractual docs, already-authorized same-scope "
+            "continuation, or standalone read-only review",
+            description,
+        )
         self.assertIn("Excludes ordinary questions", description)
         self.assertIn("standalone wording/read-only diff review", description)
 
     def test_description_routes_explicit_archive_and_distill_requests(self):
         description = self.skill.split("---", 2)[1]
-        self.assertIn("archive/distillation", description)
+        self.assertIn("explicitly requests archive/distillation", description)
         self.assertIn("references/project-learning-closeout.md", self.skill)
 
     def test_review_and_fix_is_not_review_only(self):
@@ -2997,14 +3022,15 @@ class WorkflowRulesTest(unittest.TestCase):
                 self.assertIn("schema 6", normalized.lower())
 
     def test_role_first_review_kind_matrix_is_explicit_and_shared(self):
-        companion_skill = (
-            ROOT.parent / "codex-brief-antigravity-review" / "SKILL.md"
-        )
+        companion_root = ROOT.parent / "codex-brief-antigravity-review"
+        companion_skill = companion_root / "SKILL.md"
+        self.assertNotIn("ROLE_FIRST_REVIEW_CLASSIFICATION", companion_skill.read_text())
+        companion_governor = companion_root / "references" / "handed-off-external-execution.md"
         self.assertIn("references/agent-capability-routing.md", self.skill)
         surfaces = (
             ROOT / "references" / "agent-capability-routing.md",
             ROOT / "references" / "response-patterns.md",
-            companion_skill,
+            companion_governor,
         )
         required = (
             "A Review that decides whether implementation, execution, runtime "

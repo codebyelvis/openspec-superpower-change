@@ -1,6 +1,6 @@
 ---
 name: openspec-superpower-change
-description: "Use for file/behavior changes, change classification, OpenSpec/Direct Change routing, evidence-based completion, archive/distillation, or skill self-evolution. Excludes ordinary questions, standalone wording/read-only diff review, and valid handed-off batches. 用户说「迭代优化skill」或等价口令时，进入 skill 自身迭代闭环，读取 references/skill-iteration-loop.md。"
+description: "Use only when the user explicitly requests OpenSpec, change gating (变更门禁), or routing (路由), says「迭代优化skill」, or explicitly requests archive/distillation. Do not auto-load for ordinary implementation, typo, formatting, comments, non-contractual docs, already-authorized same-scope continuation, or standalone read-only review. Excludes ordinary questions, standalone wording/read-only diff review, and valid handed-off batches. For「迭代优化skill」, read references/skill-iteration-loop.md."
 ---
 
 # OpenSpec + Superpowers Change Gate
@@ -10,6 +10,11 @@ select implementation discipline, and own evidence-based completion.
 Ordinary questions and read-only diagnosis do not enter implementation.
 
 ## Mandatory Entry Gate
+
+Load this skill only for the explicit requests in its description. The gate and
+routing table below apply after entry; ordinary edits or an already-authorized
+same-scope continuation do not independently trigger loading. Existing approval,
+evidence, completion and authority boundaries remain unchanged after entry.
 
 Before edits, state-changing commands, proposal creation or implementation,
 record Gate 0: mode, task (VERIFY, DIAGNOSE, FIX, or REVIEW), and references read;
@@ -88,16 +93,19 @@ capability, proposing a plan, or asking whether to continue already authorized
 same-scope work. Ordinary questions and read-only diagnosis still do not enter
 implementation.
 
-When reproduction or diagnosis is complete, emit a user-visible checkpoint
-report and stop. Enter one single-hypothesis fix only after the user confirms
-that slice. A slice the user already named in the current literal request counts
-as confirmed; do not ask again for that same slice. If the same slice's fix fails
-twice, stop and report.
+When the current literal request names a defect and asks to fix it, treat that
+slice as confirmed. After diagnosis confirms that same slice, proceed directly
+to its single-hypothesis fix within existing authorization; do not stop for a
+checkpoint report or ask again for the same confirmation. If the user requests
+only diagnosis, or has not authorized the identified fix slice, emit a
+user-visible checkpoint report and stop without implementing it. If the same
+slice's fix fails twice, stop and report. Scope expansion, a new root cause,
+Git, production and destructive actions retain their existing stop conditions.
 
 Before asking for approval or a clarifying question, finish the already
 authorized work that makes the next step concrete and reviewable. Making the
-next step concrete means a report plus one suggested slice, and excludes
-implementing that slice. The user
+next step concrete, when that slice is not yet authorized, means a report plus
+one suggested slice and excludes implementing that slice. The user
 approves a concrete result. Check existing explicit authorization against the
 action, exact target, scope, conditions and current actor assignment. This
 applies to every route, including a Direct Change rule that stops at a protected

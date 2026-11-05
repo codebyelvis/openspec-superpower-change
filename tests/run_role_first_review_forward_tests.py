@@ -372,7 +372,7 @@ def load_review_classification(router_root: Path, companion_root: Path) -> str:
     paths = (
         router_root / "references" / "agent-capability-routing.md",
         router_root / "references" / "response-patterns.md",
-        companion_root / "SKILL.md",
+        companion_root / "references" / "handed-off-external-execution.md",
     )
     blocks = [extract_review_classification(path) for path in paths]
     if any(block != blocks[0] for block in blocks[1:]):
