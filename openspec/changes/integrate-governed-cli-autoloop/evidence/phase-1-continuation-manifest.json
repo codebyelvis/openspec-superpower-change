@@ -1,0 +1,23 @@
+{
+  "raw_files": {
+    "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/governed-cli-phase1-s58l8ops/continuation-20261106/agy_timeout_probe.py": "6a36b481003071d9271f34fe1232a14e2dd5351cea5fcf8bb468e653183c3d9e",
+    "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/governed-cli-phase1-s58l8ops/continuation-20261106/agy-timeout.stdout": "0f61a1d5fad10aea2fcb2d69382b03c7d57838ef2aa6b37f1caeb331cd8a2dbf",
+    "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/governed-cli-phase1-s58l8ops/continuation-20261106/agy-changelog.txt": "da58ce7bb4d7ba6de44cbd69bc81b30fb8cd629a030d30fdb8e68348740f500f",
+    "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/governed-cli-phase1-s58l8ops/continuation-20261106/after-probe.json": "a1298e8e66b8120cc0d9d10ee84d46822a6a85aa7569874cfe23e1897fa8c60a",
+    "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/governed-cli-phase1-s58l8ops/continuation-20261106/before-probe.json": "a1298e8e66b8120cc0d9d10ee84d46822a6a85aa7569874cfe23e1897fa8c60a",
+    "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/governed-cli-phase1-s58l8ops/continuation-20261106/agy-timeout-process.json": "451106f45872907b98efd10118a32130e7961afdd4e68a6c57e37234d3ccfa97",
+    "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/governed-cli-phase1-s58l8ops/continuation-20261106/agy-timeout.stderr": "23b77957f66d8cdffca403769bc7643792484f2928a043514d8e0914f18f4bad"
+  },
+  "sources": {
+    "/Users/elvis/.agent-autoloop/app/worker/worker.ts": "781a2ac9f468b36a72cd52ff3fad542694d456e0e13a1d402fdaadc4edf35499",
+    "/Users/elvis/.agent-autoloop/app/kernel/decide.ts": "c5621f5a2b179db539e3c4af5351a2328c33d39facbb1e97b41dc6566eb6bc6a",
+    "/Users/elvis/.agent-autoloop/app/cli/main.ts": "1a702f550e72a8073bc0c059113e7f9dc2314ad6786c4f08c57b6cd31bc964cf",
+    "/Users/elvis/.local/bin/agy": "d972bb48e8b98ba99479de8cd66b6f3b4e8184d95789ea8cce39dd18855d5184"
+  },
+  "change_artifacts": {
+    "evidence/phase-1-continuation-plan.md": "ac51c8c48ef64f4751af2592f367d20164b509cafb69b38478daa5445af86234",
+    "evidence/phase-1-continuation-report.md": "52d6507505608d9bd018569244098c6b3a771d6ffc61ce6e651a197e4bd206c4",
+    "evidence/phase-1-continuation-facts.json": "b87b0a4122ea99c7713e9eabcaabb57037d424acdaa9280881ba1f1ff47fcfc0",
+    "tasks.md": "be14c397ebd1a57d18e8c25eee7d71d5a4e018e41f3668b54d44e1f9f0b723f2"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "date": "2026-11-09",
+  "change_id": "integrate-governed-cli-autoloop",
+  "user_direction": "仅将 Codex + Pi 列为阶段2–3受支持自动只读入口，AGY保持受限直调/手动回退；请按已获批范围继续闭环推进",
+  "selected_path": "A / supported subset Codex + Pi",
+  "scope": "change contract/evidence and disposable phase1 probes only; no SKILL/global config/engine/plugin/production/Git changes",
+  "control_plane_native": "01a1aa6c-c4c8-7111-812f-02e1396290e7",
+  "revised_contract_sha256": {
+    "proposal.md": "25e24022ea9a76ad6d80f633eb2b00d4c8dacadb2f5582d955ef53871200df96",
+    "design.md": "978649acab944816ffbea1f561cebd42aa325f9331e32a251ac699e81caae6f6",
+    "specs/skill-workflow-governance/spec.md": "243eade737221e80e7e0e685148da67f86d511ac4d84b92352c8f43a6be34dbe"
+  }
+}

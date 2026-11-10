@@ -1,0 +1,13 @@
+{
+  "change_id": "integrate-governed-cli-autoloop",
+  "user_message": "批准",
+  "approved_at": "2026-11-06",
+  "approved_artifact_sha256": {
+    "proposal.md": "c61f09877b645d02521c4316d48c919eaeb58149f5cd122eb29f141923d3b39e",
+    "design.md": "a236d09ce2c1987040466e3fb08991bd2dcb394203ab322aa12f81b0091d4958",
+    "tasks.md": "3d0e37a60699299b6abad038190d9a99bdb367462ab76e34aca34b3dbfe4bd70",
+    "specs/skill-workflow-governance/spec.md": "b8cdd16a830266bc8c66ab9997d39767499796d08ae8a633b3f90beb21a636ad"
+  },
+  "scope": "Only closed scope in approved design; phase 1 native CLI probes and documented invocation restoration; phase 2 proof gated; no engine, global-config, source-tree installation, publication or Git write authority.",
+  "control_plane_native": "01a1aa6c-c4c8-7111-812f-02e1396290e7"
+}

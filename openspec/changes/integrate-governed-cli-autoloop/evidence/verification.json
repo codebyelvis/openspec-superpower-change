@@ -1,0 +1,81 @@
+{
+  "change_id": "integrate-governed-cli-autoloop",
+  "status": "proposal-ready-awaiting-user-approval",
+  "implementation_authorized": false,
+  "base_commit": "11e339dae5f92fc21a75cbe16bcc9b078e24b11a",
+  "worktree": "/Users/elvis/.codex-account-a/worktrees/8739/openspec-superpower-change",
+  "reviewer_product": "pi",
+  "reviewer_native_session": "69c944d7-2a95-4cf0-8dfa-16ebdffc7d2f",
+  "same_reviewer_for_focused_recheck": true,
+  "r1_result": "PASS",
+  "r2_result": "PASS",
+  "checks": [
+    {
+      "check": "strict",
+      "command": [
+        "openspec",
+        "validate",
+        "integrate-governed-cli-autoloop",
+        "--strict"
+      ],
+      "exit_code": 0,
+      "output": "Change 'integrate-governed-cli-autoloop' is valid"
+    },
+    {
+      "check": "diff-check",
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exit_code": 0,
+      "output": ""
+    }
+  ],
+  "runtime_tests_executed": false,
+  "new_test_files": 0,
+  "reviewed_file_sha256": {
+    "proposal.md": "c61f09877b645d02521c4316d48c919eaeb58149f5cd122eb29f141923d3b39e",
+    "design.md": "a236d09ce2c1987040466e3fb08991bd2dcb394203ab322aa12f81b0091d4958",
+    "tasks.md": "973ed8d6f4fee2bbff2da5e035ce693278d8f3d7eca65a8cda9a25ffd389c96e",
+    "specs/skill-workflow-governance/spec.md": "b8cdd16a830266bc8c66ab9997d39767499796d08ae8a633b3f90beb21a636ad"
+  },
+  "final_artifact_sha256": {
+    "proposal.md": "c61f09877b645d02521c4316d48c919eaeb58149f5cd122eb29f141923d3b39e",
+    "design.md": "a236d09ce2c1987040466e3fb08991bd2dcb394203ab322aa12f81b0091d4958",
+    "tasks.md": "3d0e37a60699299b6abad038190d9a99bdb367462ab76e34aca34b3dbfe4bd70",
+    "specs/skill-workflow-governance/spec.md": "b8cdd16a830266bc8c66ab9997d39767499796d08ae8a633b3f90beb21a636ad"
+  },
+  "post_review_changes": "Only tasks 0.4-0.5 outcome bookkeeping and evidence records; normative proposal/design/spec unchanged.",
+  "review_record_sha256": "9335876fd060f6355bc276f0bac947822a21e402a4a28d4ca372638993c3cd59",
+  "raw_evidence_directory": "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/integrate-cli-autoloop-review-37za4l6z",
+  "readonly_audits": [
+    {
+      "round": "r1",
+      "files_compared": 736,
+      "status_and_hashes_unchanged": true,
+      "snapshot_sha256": "466cbe8de5c5ef05ee4b6d7685b3d12ba980c46f42e5686810abaa6976c8e3d8",
+      "process": {
+        "exit_code": 0,
+        "timed_out": false,
+        "elapsed_seconds": 76.2,
+        "session_id": "69c944d7-2a95-4cf0-8dfa-16ebdffc7d2f"
+      },
+      "raw_output_sha256": "3d9c7590f2b24d57cc9dacc85a295b42a0468447389204e4c51459a6c14ea917"
+    },
+    {
+      "round": "r2",
+      "files_compared": 736,
+      "status_and_hashes_unchanged": true,
+      "snapshot_sha256": "1f76f86a3ce7f90ac265ce8cd4ea1b896f89a674c1aea877f888848a886e9f37",
+      "process": {
+        "exit_code": 0,
+        "timed_out": false,
+        "elapsed_seconds": 21.9,
+        "session_id": "69c944d7-2a95-4cf0-8dfa-16ebdffc7d2f",
+        "exact_session_path": "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/integrate-cli-autoloop-review-37za4l6z/pi-sessions/2026-11-06T08-13-00-641Z_69c944d7-2a95-4cf0-8dfa-16ebdffc7d2f.jsonl"
+      },
+      "raw_output_sha256": "4fd16de1288ce19763477aa93f092649083194dba9118038fb8c07d196d515fb"
+    }
+  ]
+}

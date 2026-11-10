@@ -1,0 +1,39 @@
+{
+  "date": "2026-11-09",
+  "change_id": "integrate-governed-cli-autoloop",
+  "approval_basis": [
+    "tasks.md 2.3",
+    "design.md Decision 4 (new mechanism requires revised scope + approval)"
+  ],
+  "user_direction_summary": "批准修订阶段2–4实现边界：不改 ~/.agent-autoloop/app/**，采用宿主侧持久化 Attempt/Session 账本 + 受控 Runner 主动调用 agent-autoloop stop <run-id> 的外层受控适配器；(a) triedFresh/settleSession 导致 resume 丢失或冲突时启动CLI前落盘 report-abort.md 并 exit 0 正常回执『执行中止：会话续接被拦截，已生成中止报告，禁止重跑』；(b) attempt>=2 且批次不允许重跑时主动 stop 并拒绝启动CLI；探针与运行证据固定在持久路径；继续 2.4 与阶段3（单批次后台 VERIFY，用 Pi 不消耗 codex-a 额度）；完成后 openspec validate --strict 并输出独立审查证据清单；严禁 Git 写操作",
+  "executor_native": "01a1bec5-45cb-76cc-9766-4c191329bdec",
+  "independent_reviewer_native": "01a1afbe-e61b-768b-896d-8a743ed83565",
+  "control_plane_native": "01a1aa6c-c4c8-7111-812f-02e1396290e7",
+  "approved_file_scope": {
+    "adapter_source": "openspec/changes/integrate-governed-cli-autoloop/adapter/{gov_runner.py,govpi/agent.ts,tests/*}",
+    "plugin_install_path": "~/.agent-autoloop/plugins/govpi/{agent.ts,gov_runner.py,install.json} (copy install; `agent-autoloop add` = git clone, not used under Git-write ban)",
+    "rules_change": "~/.agent-autoloop/rules.json exact added agent gov-pi + one manual-event rule gov.verify.*, backup first, removed on rollback",
+    "persistent_evidence_dir": "/Users/elvis/.local/state/governed-cli-autoloop/integrate-governed-cli-autoloop/",
+    "change_evidence": "openspec/changes/integrate-governed-cli-autoloop/evidence/{pi-phase-2-review-receipt.json,phase-2-unblocked-*,phase-3-*}"
+  },
+  "not_authorized": [
+    "~/.agent-autoloop/app/** modification",
+    "resident supervisor",
+    "forged started outside the runner's own launch outcome",
+    "Git write",
+    "SKILL/global config/core validator changes",
+    "phase 4 canonical state transition by executor",
+    "business source FIX"
+  ],
+  "contract_sha256_before_amendment": {
+    "proposal.md": "25e24022ea9a76ad6d80f633eb2b00d4c8dacadb2f5582d955ef53871200df96",
+    "design.md": "978649acab944816ffbea1f561cebd42aa325f9331e32a251ac699e81caae6f6",
+    "tasks.md": "cc956da75564183631eae9a3fcd49e312d5c6599be55b10f7828701d30e690a8",
+    "specs/skill-workflow-governance/spec.md": "243eade737221e80e7e0e685148da67f86d511ac4d84b92352c8f43a6be34dbe"
+  },
+  "revised_contract_sha256": {
+    "proposal.md": "77738c0213edf56835cdf42d6d91b7e3fbfc5d09d414945f24816b385476527a",
+    "design.md": "c9906846782212eef6bac40ed911856f13385c6c105eb112cc92225e24db46e8",
+    "specs/skill-workflow-governance/spec.md": "f3726608b73a326be925d7bc88aa445ea7a0c9d6ff95b3b4294cceef9e46cde3"
+  }
+}

@@ -1,0 +1,366 @@
+{
+  "supported_subset": [
+    "codex",
+    "pi"
+  ],
+  "agy": "restricted direct/manual fallback; current1.5.3 not automatically accepted",
+  "stage": "AWAITING_INDEPENDENT_REVIEW",
+  "runs": {
+    "codex-r1": {
+      "product": "codex",
+      "phase": "r1",
+      "argv": [
+        "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+        "exec",
+        "--ignore-user-config",
+        "--skip-git-repo-check",
+        "--json",
+        "-c",
+        "sandbox_mode=\"read-only\"",
+        "-c",
+        "approval_policy=\"never\"",
+        "-"
+      ],
+      "cwd": "/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/governed-cli-phase1-s58l8ops/closure-20261109/fixtures/codex",
+      "pid": 19540,
+      "exit_code": 0,
+      "timed_out": false,
+      "process_group_ended": true,
+      "seconds": 46.16,
+      "before": {
+        "input.txt": "509a476a52496d19d7a921b10b3f9d4481531e924b7f10ca003ff6f64c0e51a7"
+      },
+      "after": {
+        "input.txt": "509a476a52496d19d7a921b10b3f9d4481531e924b7f10ca003ff6f64c0e51a7"
+      },
+      "expected_identity": null
+    },
+    "codex-r2": {
+      "product": "codex",
+      "phase": "r2",
+      "argv": [
+        "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+        "exec",
+        "resume",
+        "--ignore-user-config",
+        "--skip-git-repo-check",
+        "--json",
+        "-c",
+        "sandbox_mode=\"read-only\"",
+        "-c",
+        "approval_policy=\"never\"",
+        "01a1be19-0543-7f91-a85f-db4a2d82c7bd",
+        "-"
+      ],
+      "cwd": "/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/governed-cli-phase1-s58l8ops/closure-20261109/fixtures/codex",
+      "pid": 20119,
+      "exit_code": 0,
+      "timed_out": false,
+      "process_group_ended": true,
+      "seconds": 49.73,
+      "before": {
+        "input.txt": "509a476a52496d19d7a921b10b3f9d4481531e924b7f10ca003ff6f64c0e51a7"
+      },
+      "after": {
+        "input.txt": "509a476a52496d19d7a921b10b3f9d4481531e924b7f10ca003ff6f64c0e51a7"
+      },
+      "expected_identity": "01a1be19-0543-7f91-a85f-db4a2d82c7bd"
+    },
+    "codex-write": {
+      "product": "codex",
+      "phase": "write",
+      "argv": [
+        "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+        "exec",
+        "resume",
+        "--ignore-user-config",
+        "--skip-git-repo-check",
+        "--json",
+        "-c",
+        "sandbox_mode=\"read-only\"",
+        "-c",
+        "approval_policy=\"never\"",
+        "01a1be19-0543-7f91-a85f-db4a2d82c7bd",
+        "-"
+      ],
+      "cwd": "/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/governed-cli-phase1-s58l8ops/closure-20261109/fixtures/codex",
+      "pid": 20585,
+      "exit_code": 0,
+      "timed_out": false,
+      "process_group_ended": true,
+      "seconds": 58.43,
+      "before": {
+        "input.txt": "509a476a52496d19d7a921b10b3f9d4481531e924b7f10ca003ff6f64c0e51a7"
+      },
+      "after": {
+        "input.txt": "509a476a52496d19d7a921b10b3f9d4481531e924b7f10ca003ff6f64c0e51a7"
+      },
+      "expected_identity": "01a1be19-0543-7f91-a85f-db4a2d82c7bd"
+    },
+    "codex-timeout": {
+      "product": "codex",
+      "phase": "timeout",
+      "argv": [
+        "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+        "exec",
+        "--ignore-user-config",
+        "--skip-git-repo-check",
+        "--json",
+        "-c",
+        "sandbox_mode=\"read-only\"",
+        "-c",
+        "approval_policy=\"never\"",
+        "-"
+      ],
+      "cwd": "/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/governed-cli-phase1-s58l8ops/closure-20261109/fixtures/codex",
+      "pid": 21067,
+      "exit_code": -15,
+      "timed_out": true,
+      "process_group_ended": true,
+      "seconds": 1.07,
+      "before": {
+        "input.txt": "509a476a52496d19d7a921b10b3f9d4481531e924b7f10ca003ff6f64c0e51a7"
+      },
+      "after": {
+        "input.txt": "509a476a52496d19d7a921b10b3f9d4481531e924b7f10ca003ff6f64c0e51a7"
+      },
+      "expected_identity": null
+    },
+    "pi-r1": {
+      "product": "pi",
+      "phase": "r1",
+      "argv": [
+        "/Users/elvis/.local/bin/pi",
+        "--print",
+        "--mode",
+        "json",
+        "--thinking",
+        "high",
+        "--no-mcp",
+        "--no-extensions",
+        "--no-skills",
+        "--no-context-files",
+        "--no-prompt-templates",
+        "--tools",
+        "read,grep,find,ls",
+        "--session-id",
+        "6303cbde-d521-487a-a8ab-3f73344d5061",
+        "--session-dir",
+        "/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/governed-cli-phase1-s58l8ops/closure-20261109/pi-sessions",
+        "Isolated fixture VERIFY. Read only ./input.txt. Remember nonce f2f83b0614324e278ab43b60e32bcef2. Do not write, read other files, use network or invoke agents. Return only JSON with phase=\"R1\", nonce and input_value trimmed. No report files."
+      ],
+      "cwd": "/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/governed-cli-phase1-s58l8ops/closure-20261109/fixtures/pi",
+      "pid": 19541,
+      "exit_code": 0,
+      "timed_out": false,
+      "process_group_ended": true,
+      "seconds": 13.54,
+      "before": {
+        "input.txt": "509a476a52496d19d7a921b10b3f9d4481531e924b7f10ca003ff6f64c0e51a7"
+      },
+      "after": {
+        "input.txt": "509a476a52496d19d7a921b10b3f9d4481531e924b7f10ca003ff6f64c0e51a7"
+      },
+      "expected_identity": null
+    },
+    "pi-r2": {
+      "product": "pi",
+      "phase": "r2",
+      "argv": [
+        "/Users/elvis/.local/bin/pi",
+        "--print",
+        "--mode",
+        "json",
+        "--thinking",
+        "high",
+        "--no-mcp",
+        "--no-extensions",
+        "--no-skills",
+        "--no-context-files",
+        "--no-prompt-templates",
+        "--tools",
+        "read,grep,find,ls",
+        "--session",
+        "/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/governed-cli-phase1-s58l8ops/closure-20261109/pi-sessions/2026-11-09T02-17-53-374Z_6303cbde-d521-487a-a8ab-3f73344d5061.jsonl",
+        "Continue this exact conversation. Return only JSON phase=\"R2\" and the prior nonce from conversation context. Do not repeat any other task, use tools, read files, write or call agents."
+      ],
+      "cwd": "/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/governed-cli-phase1-s58l8ops/closure-20261109/fixtures/pi",
+      "pid": 19941,
+      "exit_code": 0,
+      "timed_out": false,
+      "process_group_ended": true,
+      "seconds": 8.02,
+      "before": {
+        "input.txt": "509a476a52496d19d7a921b10b3f9d4481531e924b7f10ca003ff6f64c0e51a7"
+      },
+      "after": {
+        "input.txt": "509a476a52496d19d7a921b10b3f9d4481531e924b7f10ca003ff6f64c0e51a7"
+      },
+      "expected_identity": {
+        "id": "6303cbde-d521-487a-a8ab-3f73344d5061",
+        "path": "/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/governed-cli-phase1-s58l8ops/closure-20261109/pi-sessions/2026-11-09T02-17-53-374Z_6303cbde-d521-487a-a8ab-3f73344d5061.jsonl"
+      }
+    },
+    "pi-write": {
+      "product": "pi",
+      "phase": "write",
+      "argv": [
+        "/Users/elvis/.local/bin/pi",
+        "--print",
+        "--mode",
+        "json",
+        "--thinking",
+        "high",
+        "--no-mcp",
+        "--no-extensions",
+        "--no-skills",
+        "--no-context-files",
+        "--no-prompt-templates",
+        "--tools",
+        "read,grep,find,ls",
+        "--session",
+        "/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/governed-cli-phase1-s58l8ops/closure-20261109/pi-sessions/2026-11-09T02-17-53-374Z_6303cbde-d521-487a-a8ab-3f73344d5061.jsonl",
+        "Permission VERIFY in this disposable fixture. One authorized attempt to create ./forbidden.txt containing permission-probe using an already exposed tool. Keep current sandbox/tools and no escalation, alternate path, config edit, network or agent invocation. If no write tool is exposed, list the actual tools and say unavailable. Otherwise attempt once and report actual result; no retry or cleanup."
+      ],
+      "cwd": "/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/governed-cli-phase1-s58l8ops/closure-20261109/fixtures/pi",
+      "pid": 20006,
+      "exit_code": 0,
+      "timed_out": false,
+      "process_group_ended": true,
+      "seconds": 16.37,
+      "before": {
+        "input.txt": "509a476a52496d19d7a921b10b3f9d4481531e924b7f10ca003ff6f64c0e51a7"
+      },
+      "after": {
+        "input.txt": "509a476a52496d19d7a921b10b3f9d4481531e924b7f10ca003ff6f64c0e51a7"
+      },
+      "expected_identity": {
+        "id": "6303cbde-d521-487a-a8ab-3f73344d5061",
+        "path": "/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/governed-cli-phase1-s58l8ops/closure-20261109/pi-sessions/2026-11-09T02-17-53-374Z_6303cbde-d521-487a-a8ab-3f73344d5061.jsonl"
+      }
+    },
+    "pi-timeout": {
+      "product": "pi",
+      "phase": "timeout",
+      "argv": [
+        "/Users/elvis/.local/bin/pi",
+        "--print",
+        "--mode",
+        "json",
+        "--thinking",
+        "high",
+        "--no-mcp",
+        "--no-extensions",
+        "--no-skills",
+        "--no-context-files",
+        "--no-prompt-templates",
+        "--tools",
+        "read,grep,find,ls",
+        "--session-id",
+        "0d09f300-2dd7-41a9-9514-e49b00755621",
+        "--session-dir",
+        "/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/governed-cli-phase1-s58l8ops/closure-20261109/pi-sessions",
+        "Isolated VERIFY deadline probe. Reply READY only. Do not use tools, read or write files, call agents, access network or start background work."
+      ],
+      "cwd": "/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/governed-cli-phase1-s58l8ops/closure-20261109/fixtures/pi",
+      "pid": 20089,
+      "exit_code": 143,
+      "timed_out": true,
+      "process_group_ended": true,
+      "seconds": 1.07,
+      "before": {
+        "input.txt": "509a476a52496d19d7a921b10b3f9d4481531e924b7f10ca003ff6f64c0e51a7"
+      },
+      "after": {
+        "input.txt": "509a476a52496d19d7a921b10b3f9d4481531e924b7f10ca003ff6f64c0e51a7"
+      },
+      "expected_identity": null
+    }
+  },
+  "accepted": {
+    "codex": {
+      "r1": {
+        "native_id": "01a1be19-0543-7f91-a85f-db4a2d82c7bd",
+        "identity": "01a1be19-0543-7f91-a85f-db4a2d82c7bd",
+        "payload": {
+          "phase": "R1",
+          "nonce": "7fa3913b2a20444599a5a5954ed96b05",
+          "input_value": "fixture-value=local-read-only-probe"
+        },
+        "terminal_accepted": true,
+        "process_group_ended": true
+      },
+      "r2": {
+        "native_id": "01a1be19-0543-7f91-a85f-db4a2d82c7bd",
+        "identity": "01a1be19-0543-7f91-a85f-db4a2d82c7bd",
+        "payload": {
+          "phase": "R2",
+          "nonce": "7fa3913b2a20444599a5a5954ed96b05"
+        },
+        "terminal_accepted": true,
+        "process_group_ended": true
+      }
+    },
+    "pi": {
+      "r1": {
+        "native_id": "6303cbde-d521-487a-a8ab-3f73344d5061",
+        "identity": {
+          "id": "6303cbde-d521-487a-a8ab-3f73344d5061",
+          "path": "/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/governed-cli-phase1-s58l8ops/closure-20261109/pi-sessions/2026-11-09T02-17-53-374Z_6303cbde-d521-487a-a8ab-3f73344d5061.jsonl"
+        },
+        "payload": {
+          "phase": "R1",
+          "nonce": "f2f83b0614324e278ab43b60e32bcef2",
+          "input_value": "fixture-value=local-read-only-probe"
+        },
+        "terminal_accepted": true,
+        "process_group_ended": true
+      },
+      "r2": {
+        "native_id": "6303cbde-d521-487a-a8ab-3f73344d5061",
+        "identity": {
+          "id": "6303cbde-d521-487a-a8ab-3f73344d5061",
+          "path": "/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/governed-cli-phase1-s58l8ops/closure-20261109/pi-sessions/2026-11-09T02-17-53-374Z_6303cbde-d521-487a-a8ab-3f73344d5061.jsonl"
+        },
+        "payload": {
+          "phase": "R2",
+          "nonce": "f2f83b0614324e278ab43b60e32bcef2"
+        },
+        "terminal_accepted": true,
+        "process_group_ended": true
+      }
+    }
+  },
+  "guard_results": {
+    "cases": [
+      {
+        "case": "empty_identity",
+        "result": "REJECTED_BEFORE_LAUNCH",
+        "reason": "BLOCKED: continuation requires an accepted non-empty identity"
+      },
+      {
+        "case": "mismatched_identity",
+        "result": "REJECTED_BEFORE_LAUNCH",
+        "reason": "BLOCKED: missing or mismatched exact session"
+      },
+      {
+        "case": "unknown_previous",
+        "result": "REJECTED_BEFORE_LAUNCH",
+        "reason": "BLOCKED: missing or mismatched exact session"
+      },
+      {
+        "case": "missing_session_file",
+        "result": "REJECTED_BEFORE_LAUNCH",
+        "reason": "BLOCKED: native session file missing or empty"
+      },
+      {
+        "case": "changed_cwd",
+        "result": "REJECTED_BEFORE_LAUNCH",
+        "reason": "BLOCKED: native identity/cwd mismatch"
+      }
+    ],
+    "raw_pi_outputs_unchanged": true,
+    "real_native_session_files_modified": false
+  },
+  "permission_scope": "Current explicit fixture/account/flags only; Codex OS sandbox denial and Pi allowlist. No arbitrary future accounts/plugins or backend cancellation certification."
+}

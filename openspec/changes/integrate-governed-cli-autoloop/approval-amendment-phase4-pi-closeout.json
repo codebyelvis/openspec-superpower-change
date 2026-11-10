@@ -1,0 +1,30 @@
+{
+  "date": "2026-11-10",
+  "change_id": "integrate-governed-cli-autoloop",
+  "approval_basis": [
+    "User explicit instruction: '我想让codex把收尾交给pi'",
+    "AGENTS.md line 3: direct user instruction in current session takes precedence for this task scope",
+    "Observed Codex resume blocker: TUI does not support gpt-6.1-sol on ChatGPT account, desktop app session lock returned 'no operation was sent', and CLI -C line-wrap friction"
+  ],
+  "previous_control_plane_native": "01a1aa6c-c4c8-7111-812f-02e1396290e7",
+  "authorized_phase4_closeout_owner": {
+    "product": "pi",
+    "instance_id": "01a1bfdd-efd8-77b3-8bc6-7513429647ce",
+    "prior_executor_session": "01a1bec5-45cb-76cc-9766-4c191329bdec",
+    "role": "task-scoped-phase4-closeout-owner",
+    "scope": "integrate-governed-cli-autoloop phase 4 (4.1-4.3) read-only queue consumption, envelope/artifact verification, and change-local closeout only"
+  },
+  "independent_reviewer_native": "01a1c3e6-1465-728a-99c4-a25ee74b42ee",
+  "prior_phase_1_to_3_reviewer_native": "01a1afbe-e61b-768b-896d-8a743ed83565",
+  "not_authorized": [
+    "Modifying global CROSS_CLI_GOVERNANCE (CCG-001) or portable skill files",
+    "Mutating or deleting rows in ~/.codex-account-a/queue_1.sqlite without separate explicit user SQL command",
+    "Running openspec archive or any Git write operation (git add/commit/push/reset/clean)",
+    "Enabling AGY automatic read-only entry or retaining persistent agent-autoloop rules"
+  ],
+  "revised_contract_sha256": {
+    "proposal.md": "f9820b8e199eb5f00fcf8ff870e1a53e89884f418f6862545b684de08e80521c",
+    "design.md": "7fb835049c63b82e9790a587b698919e64866e60a5021f57a16cc6af0ffce28a",
+    "specs/skill-workflow-governance/spec.md": "f63f36e7b88597b95596eb1c19388340e67288e4c8df156b382be9185cf5e29e"
+  }
+}

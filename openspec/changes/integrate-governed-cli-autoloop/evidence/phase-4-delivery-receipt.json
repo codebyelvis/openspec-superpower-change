@@ -1,0 +1,135 @@
+{
+  "phase_4_status": "COMPLETED_VIA_USER_AUTHORIZED_PI_CLOSEOUT_HANDOFF",
+  "bound_thread_verification": {
+    "thread_id": "01a1aa6c-c4c8-7111-812f-02e1396290e7",
+    "thread_cwd": "/Users/elvis/file/develop/opensource/openspec-superpower-change",
+    "thread_name_in_index": "修正两个 Skill 主文档",
+    "first_prompt_head": "只做一次有边界的 skill 文本修正。不要开 OpenSpec proposal，不要读 superpowers-adapter，不要进入 reference",
+    "updated_at": 1794194304,
+    "in_session_index": true
+  },
+  "missing_thread_rejected": "BLOCKED: bound controller thread 00000000-0000-0000-0000-000000000000 not found in state_5.sqlite",
+  "occupied_queue_guard_result": "BLOCKED_OCCUPIED_QUEUE_REFUSED_NO_DELETE",
+  "prior_sqlite_mutation_audit": {
+    "disclosed": true,
+    "summary": "During the initial 2026-11-10 exploratory probe before P1-2 fix, two DELETE statements were executed on ~/.codex-account-a/queue_1.sqlite for thread_id 01a1aa6c-c4c8-7111-812f-02e1396290e7: (1) deleting the temporary 'test probe' row 01a1c382-bfd7-7100-a8e0-d292cc6c33d6 created seconds earlier in the same turn, and (2) an initial pre-queue DELETE in v1 of phase4_return_probe.py. No pre-existing user queued rows existed prior to 1794281488343. All SQLite DELETE/write operations have been removed from gov_return.py and phase4_return_probe.py, which open state_5.sqlite and queue_1.sqlite strictly with `?mode=ro` and fail-closed on any unexpected existing queue item."
+  },
+  "live_queue_delivery": {
+    "queue_action": "VERIFIED_EXISTING_BOUNDED_ENVELOPE_READONLY",
+    "command": [
+      "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+      "queue",
+      "--thread",
+      "01a1aa6c-c4c8-7111-812f-02e1396290e7",
+      "--cd",
+      "/Users/elvis/.codex-account-a/worktrees/8739/openspec-superpower-change",
+      "--message",
+      "<bounded-envelope-json>"
+    ],
+    "queued_item_id": "01a1c38b-9744-72b0-b07f-2e0ba5bf2f25",
+    "thread_id": "01a1aa6c-c4c8-7111-812f-02e1396290e7",
+    "queue_order": 0,
+    "created_at_ms": 1794282067780,
+    "queued_count_for_thread": 1,
+    "payload_json_sha256": "ff9e89643bae2ac0e10e69e9bf1b9ded0c487338d9d653e1c0dca0de4760dbb0",
+    "envelope_sha256": "089e51c7e847fdbeb408146fa8b55c98d600bfb283b8dc97eeb64903d9a49341",
+    "formatted_envelope_file_sha256": "9bdce28e84135624b0f0662010347b142032967697ef0b1d38f8e35f4fe1b2f7",
+    "sqlite_payload_matches_envelope_sha256": true
+  },
+  "unawake_resume_probe": {
+    "command": [
+      "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+      "queue",
+      "--thread",
+      "01a1aa6c-c4c8-7111-812f-02e1396290e7",
+      "--remote",
+      "unix:///Users/elvis/.local/state/governed-cli-autoloop/integrate-governed-cli-autoloop/phase4-20261110/unawake-owner.sock",
+      "--message",
+      "<bounded-envelope-json>"
+    ],
+    "exit_code": 1,
+    "stderr": "Error: failed to connect to remote app server: failed to connect to remote app server at `unix:///Users/elvis/.local/state/governed-cli-autoloop/integrate-governed-cli-autoloop/phase4-20261110/unawake-owner.sock`: No such file or directory (os error 2)"
+  },
+  "codex_native_resume_blocker_observed": {
+    "observed_at": "2026-11-10",
+    "reasons": [
+      "Codex TUI rejected thread model gpt-6.1-sol ('not supported when using Codex with a ChatGPT account')",
+      "Desktop app session lock reported 'session is open in another app; no operation was sent'",
+      "CLI multi-line -C argument line-split friction in user terminal"
+    ]
+  },
+  "authorized_pi_closeout_handoff": {
+    "amendment_path": "/Users/elvis/.codex-account-a/worktrees/8739/openspec-superpower-change/openspec/changes/integrate-governed-cli-autoloop/approval-amendment-phase4-pi-closeout.json",
+    "amendment_sha256": "b4a0bb1d4d5c383bb83403df388770fd34084b21474c0de6acefad1bd7f8720c",
+    "missing_amendment_rejected": "BLOCKED: approval-amendment-phase4-pi-closeout.json missing",
+    "handoff_acceptance": {
+      "status": "ACCEPTED_VIA_USER_AUTHORIZED_PI_CLOSEOUT_HANDOFF",
+      "queued_item_id": "01a1c38b-9744-72b0-b07f-2e0ba5bf2f25",
+      "thread_id": "01a1aa6c-c4c8-7111-812f-02e1396290e7",
+      "queue_order": 0,
+      "created_at_ms": 1794282067780,
+      "payload_json_sha256": "ff9e89643bae2ac0e10e69e9bf1b9ded0c487338d9d653e1c0dca0de4760dbb0",
+      "envelope_sha256": "089e51c7e847fdbeb408146fa8b55c98d600bfb283b8dc97eeb64903d9a49341",
+      "dedup_key": "integrate-governed-cli-autoloop:batch-1:attempt-1",
+      "authorized_closeout_owner": {
+        "product": "pi",
+        "instance_id": "01a1bfdd-efd8-77b3-8bc6-7513429647ce",
+        "prior_executor_session": "01a1bec5-45cb-76cc-9766-4c191329bdec",
+        "role": "task-scoped-phase4-closeout-owner",
+        "scope": "integrate-governed-cli-autoloop phase 4 (4.1-4.3) read-only queue consumption, envelope/artifact verification, and change-local closeout only"
+      },
+      "amendment_sha256": "b4a0bb1d4d5c383bb83403df388770fd34084b21474c0de6acefad1bd7f8720c"
+    }
+  },
+  "four_stage_delivery_state": {
+    "queued": true,
+    "resume_attempted_on_codex": true,
+    "codex_native_resume_outcome": "BLOCKED_BY_MODEL_AND_APP_SESSION_LOCK",
+    "consumed_via_authorized_pi_handoff": true,
+    "governance_accepted_for_change_closeout": true
+  },
+  "precheck_prototype_cases": {
+    "1_valid_first_precheck": {
+      "status": "PRECHECK_PASSED_AWAITING_BOUND_CONTROL_PLANE",
+      "eligible_for_owner_review": true,
+      "dedup_key": "integrate-governed-cli-autoloop:batch-1:attempt-1",
+      "note": "Pre-check prototype; canonical acceptance requires bound Codex control-plane or explicit user-authorized Phase 4 closeout handoff."
+    },
+    "2_duplicate_same_batch_attempt": {
+      "status": "DUPLICATE_NOOP",
+      "eligible_for_owner_review": false,
+      "dedup_key": "integrate-governed-cli-autoloop:batch-1:attempt-1",
+      "reason": "Duplicate envelope for same (change_id, current_batch, attempt) already present in accepted evidence; no re-execution"
+    },
+    "3_stale_contract_revision": {
+      "status": "REJECTED_STALE_CONTRACT",
+      "eligible_for_owner_review": false,
+      "reason": "Stale or mismatched contract_revision / canonical_sha256"
+    },
+    "4_stale_canonical_sha256": {
+      "status": "REJECTED_STALE_CONTRACT",
+      "eligible_for_owner_review": false,
+      "reason": "Stale or mismatched contract_revision / canonical_sha256"
+    },
+    "5_tampered_report_sha256": {
+      "status": "REJECTED_ARTIFACT_HASH_MISMATCH",
+      "eligible_for_owner_review": false,
+      "reason": "report_path sha256 2cc3f95e78f996c71da099a4d2d07ee5832363204a40e0a99af784d0c3db1314 != envelope ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+    },
+    "6_out_of_scope_path_traversal": {
+      "status": "REJECTED_PATH_OUT_OF_SCOPE",
+      "eligible_for_owner_review": false,
+      "reason": "report_path (/private/etc/hosts) outside allowed roots"
+    },
+    "7_mismatched_target_control_plane_native": {
+      "status": "REJECTED_TARGET_CONTROLLER_MISMATCH",
+      "eligible_for_owner_review": false,
+      "reason": "control_plane_native target mismatch"
+    },
+    "8_mismatched_previous_status": {
+      "status": "REJECTED_PREVIOUS_STATUS_MISMATCH",
+      "eligible_for_owner_review": false,
+      "reason": "previous_status 'phase-1-in-progress' != actual 'PARTIAL_QUEUED_AWAITING_OWNER'"
+    }
+  }
+}

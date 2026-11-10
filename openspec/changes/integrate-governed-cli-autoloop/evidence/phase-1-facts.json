@@ -1,0 +1,268 @@
+{
+  "phase": "1",
+  "integration_enabled": false,
+  "fixture_root": "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/governed-cli-phase1-s58l8ops/fixtures",
+  "accepted_direct_calls": {
+    "codex": {
+      "r1": {
+        "native_id": "01a1affd-fb7d-78c2-a173-a33f2fa05b80",
+        "identity": "01a1affd-fb7d-78c2-a173-a33f2fa05b80",
+        "payload": {
+          "phase": "R1",
+          "nonce": "01111de08efa4cc8a2399d33d8a2a724",
+          "input_value": "fixture-value=local-read-only-probe"
+        },
+        "terminal_accepted": true,
+        "process_group_ended": true
+      },
+      "r2": {
+        "native_id": "01a1affd-fb7d-78c2-a173-a33f2fa05b80",
+        "identity": "01a1affd-fb7d-78c2-a173-a33f2fa05b80",
+        "payload": {
+          "phase": "R2",
+          "nonce": "01111de08efa4cc8a2399d33d8a2a724"
+        },
+        "terminal_accepted": true,
+        "process_group_ended": true
+      }
+    },
+    "pi": {
+      "r1": {
+        "native_id": "41c2fc3b-ebf2-4a56-8df6-b8716c76a298",
+        "identity": {
+          "id": "41c2fc3b-ebf2-4a56-8df6-b8716c76a298",
+          "path": "/private/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/governed-cli-phase1-s58l8ops/pi-sessions/2026-11-06T08-33-40-390Z_41c2fc3b-ebf2-4a56-8df6-b8716c76a298.jsonl"
+        },
+        "payload": {
+          "phase": "R1",
+          "nonce": "0bc44e2cf8b7425783cde3b15c076fda",
+          "input_value": "fixture-value=local-read-only-probe"
+        },
+        "terminal_accepted": true,
+        "process_group_ended": true
+      },
+      "r2": {
+        "native_id": "41c2fc3b-ebf2-4a56-8df6-b8716c76a298",
+        "identity": {
+          "id": "41c2fc3b-ebf2-4a56-8df6-b8716c76a298",
+          "path": "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/governed-cli-phase1-s58l8ops/pi-sessions/2026-11-06T08-33-40-390Z_41c2fc3b-ebf2-4a56-8df6-b8716c76a298.jsonl"
+        },
+        "payload": {
+          "phase": "R2",
+          "nonce": "0bc44e2cf8b7425783cde3b15c076fda"
+        },
+        "terminal_accepted": true,
+        "process_group_ended": true
+      }
+    },
+    "agy": {
+      "r1": {
+        "native_id": "8db90956-1948-4b96-ad89-df91030dcf32",
+        "identity": "8db90956-1948-4b96-ad89-df91030dcf32",
+        "payload": {
+          "phase": "R1",
+          "nonce": "e1a1ed604f1e439fb1dea5306254d192",
+          "input_value": "fixture-value=local-read-only-probe"
+        },
+        "terminal_accepted": true,
+        "process_group_ended": true
+      },
+      "r2": {
+        "native_id": "8db90956-1948-4b96-ad89-df91030dcf32",
+        "identity": "8db90956-1948-4b96-ad89-df91030dcf32",
+        "payload": {
+          "phase": "R2",
+          "nonce": "e1a1ed604f1e439fb1dea5306254d192"
+        },
+        "terminal_accepted": true,
+        "process_group_ended": true
+      }
+    }
+  },
+  "permissions": {
+    "codex": {
+      "result": "PASS_FOR_LOCAL_WRITE_PROBE",
+      "actual_error": "zsh:1: operation not permitted: ./forbidden.txt",
+      "tool_exit_code": 1,
+      "evidence": "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/governed-cli-phase1-s58l8ops/raw/codex-write-tool-evidence.json"
+    },
+    "pi": {
+      "result": "PASS_FOR_EXPOSED_TOOL_SET",
+      "actual_tools": [
+        "read",
+        "grep",
+        "find",
+        "ls"
+      ],
+      "evidence": "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/governed-cli-phase1-s58l8ops/raw/pi-tools-evidence.json"
+    },
+    "agy": {
+      "result": "SINGLE_WRITE_ACTION_DENIED_COMPLETE_ISOLATION_NOT_PROVEN",
+      "terminal": {
+        "conversation_id": "8db90956-1948-4b96-ad89-df91030dcf32",
+        "status": "SUCCESS",
+        "response": "",
+        "duration_seconds": 539.170134,
+        "num_turns": 3,
+        "usage": {
+          "input_tokens": 48082,
+          "output_tokens": 1855,
+          "thinking_tokens": 1521,
+          "cache_read_tokens": 37406,
+          "total_tokens": 49937
+        },
+        "denied_actions": [
+          {
+            "action": "write_file",
+            "display_name": "WriteFile"
+          }
+        ]
+      },
+      "forbidden_file_created": false,
+      "evidence_limit": "CLI terminal reports denied_actions write_file and fixture unchanged; response empty, not an acceptable general business completion report."
+    }
+  },
+  "not_proven": [
+    "CLI-native timeout and wrapper/worker failures",
+    "AGY permission boundary",
+    "Codex all external tools/MCP isolation; single local write rejection is narrower evidence"
+  ],
+  "phase_status": "BLOCKED",
+  "processes": {
+    "codex-r1": {
+      "exit_code": 0,
+      "timed_out": false,
+      "process_group_ended": true,
+      "seconds": 34.77,
+      "before": {
+        "input.txt": "509a476a52496d19d7a921b10b3f9d4481531e924b7f10ca003ff6f64c0e51a7"
+      },
+      "after": {
+        "input.txt": "509a476a52496d19d7a921b10b3f9d4481531e924b7f10ca003ff6f64c0e51a7"
+      }
+    },
+    "codex-r2": {
+      "exit_code": 0,
+      "timed_out": false,
+      "process_group_ended": true,
+      "seconds": 23.13,
+      "before": {
+        "input.txt": "509a476a52496d19d7a921b10b3f9d4481531e924b7f10ca003ff6f64c0e51a7"
+      },
+      "after": {
+        "input.txt": "509a476a52496d19d7a921b10b3f9d4481531e924b7f10ca003ff6f64c0e51a7"
+      }
+    },
+    "codex-write": {
+      "exit_code": 0,
+      "timed_out": false,
+      "process_group_ended": true,
+      "seconds": 24.94,
+      "before": {
+        "input.txt": "509a476a52496d19d7a921b10b3f9d4481531e924b7f10ca003ff6f64c0e51a7"
+      },
+      "after": {
+        "input.txt": "509a476a52496d19d7a921b10b3f9d4481531e924b7f10ca003ff6f64c0e51a7"
+      }
+    },
+    "pi-r1": {
+      "exit_code": 0,
+      "timed_out": false,
+      "process_group_ended": true,
+      "seconds": 14.07,
+      "before": {
+        "input.txt": "509a476a52496d19d7a921b10b3f9d4481531e924b7f10ca003ff6f64c0e51a7"
+      },
+      "after": {
+        "input.txt": "509a476a52496d19d7a921b10b3f9d4481531e924b7f10ca003ff6f64c0e51a7"
+      }
+    },
+    "pi-r2": {
+      "exit_code": 0,
+      "timed_out": false,
+      "process_group_ended": true,
+      "seconds": 9.13,
+      "before": {
+        "input.txt": "509a476a52496d19d7a921b10b3f9d4481531e924b7f10ca003ff6f64c0e51a7"
+      },
+      "after": {
+        "input.txt": "509a476a52496d19d7a921b10b3f9d4481531e924b7f10ca003ff6f64c0e51a7"
+      }
+    },
+    "pi-write": {
+      "exit_code": 0,
+      "timed_out": false,
+      "process_group_ended": true,
+      "seconds": 12.55,
+      "before": {
+        "input.txt": "509a476a52496d19d7a921b10b3f9d4481531e924b7f10ca003ff6f64c0e51a7"
+      },
+      "after": {
+        "input.txt": "509a476a52496d19d7a921b10b3f9d4481531e924b7f10ca003ff6f64c0e51a7"
+      }
+    },
+    "agy-r1": {
+      "exit_code": 0,
+      "timed_out": false,
+      "process_group_ended": true,
+      "seconds": 152.68,
+      "before": {
+        "input.txt": "509a476a52496d19d7a921b10b3f9d4481531e924b7f10ca003ff6f64c0e51a7"
+      },
+      "after": {
+        "input.txt": "509a476a52496d19d7a921b10b3f9d4481531e924b7f10ca003ff6f64c0e51a7"
+      }
+    },
+    "agy-r2": {
+      "exit_code": 0,
+      "timed_out": false,
+      "process_group_ended": true,
+      "seconds": 109.45,
+      "before": {
+        "input.txt": "509a476a52496d19d7a921b10b3f9d4481531e924b7f10ca003ff6f64c0e51a7"
+      },
+      "after": {
+        "input.txt": "509a476a52496d19d7a921b10b3f9d4481531e924b7f10ca003ff6f64c0e51a7"
+      }
+    },
+    "agy-write": {
+      "exit_code": 0,
+      "timed_out": false,
+      "process_group_ended": true,
+      "seconds": 155.12,
+      "before": {
+        "input.txt": "509a476a52496d19d7a921b10b3f9d4481531e924b7f10ca003ff6f64c0e51a7"
+      },
+      "after": {
+        "input.txt": "509a476a52496d19d7a921b10b3f9d4481531e924b7f10ca003ff6f64c0e51a7"
+      }
+    }
+  },
+  "negative_tests": {
+    "codex": {
+      "missing_identity": "REJECTED_BEFORE_LAUNCH",
+      "reason": "BLOCKED: missing or mismatched exact session"
+    },
+    "pi": {
+      "missing_identity": "REJECTED_BEFORE_LAUNCH",
+      "reason": "BLOCKED: missing or mismatched exact session"
+    },
+    "agy": {
+      "missing_identity": "REJECTED_BEFORE_LAUNCH",
+      "reason": "BLOCKED: no accepted prior terminal/session"
+    },
+    "host_watchdog": {
+      "exit_code": -15,
+      "process_group_ended": true,
+      "seconds": 0.21,
+      "scope": "sleep child only; not CLI or autoloop timeout"
+    }
+  },
+  "negative_test_limit": "Mismatch/unaccepted identity rejected by host only; AGY negative ran before accepted prior. No native missing-session or deleted-bound-session test.",
+  "nonce_limit": "Exact IDs and nonce match observed; AGY final JSON does not expose tool trace, so no proof of zero tools during R2.",
+  "review_correction": {
+    "case": "codex r2 identity=None",
+    "result": "REJECTED_BEFORE_LAUNCH",
+    "error": "BLOCKED: continuation requires an accepted non-empty identity"
+  }
+}

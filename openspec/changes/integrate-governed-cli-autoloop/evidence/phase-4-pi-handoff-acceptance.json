@@ -1,0 +1,18 @@
+{
+  "status": "ACCEPTED_VIA_USER_AUTHORIZED_PI_CLOSEOUT_HANDOFF",
+  "queued_item_id": "01a1c38b-9744-72b0-b07f-2e0ba5bf2f25",
+  "thread_id": "01a1aa6c-c4c8-7111-812f-02e1396290e7",
+  "queue_order": 0,
+  "created_at_ms": 1794282067780,
+  "payload_json_sha256": "ff9e89643bae2ac0e10e69e9bf1b9ded0c487338d9d653e1c0dca0de4760dbb0",
+  "envelope_sha256": "089e51c7e847fdbeb408146fa8b55c98d600bfb283b8dc97eeb64903d9a49341",
+  "dedup_key": "integrate-governed-cli-autoloop:batch-1:attempt-1",
+  "authorized_closeout_owner": {
+    "product": "pi",
+    "instance_id": "01a1bfdd-efd8-77b3-8bc6-7513429647ce",
+    "prior_executor_session": "01a1bec5-45cb-76cc-9766-4c191329bdec",
+    "role": "task-scoped-phase4-closeout-owner",
+    "scope": "integrate-governed-cli-autoloop phase 4 (4.1-4.3) read-only queue consumption, envelope/artifact verification, and change-local closeout only"
+  },
+  "amendment_sha256": "b4a0bb1d4d5c383bb83403df388770fd34084b21474c0de6acefad1bd7f8720c"
+}

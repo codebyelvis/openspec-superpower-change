@@ -1,0 +1,304 @@
+{
+  "change_id": "integrate-governed-cli-autoloop",
+  "phase2_status": "BLOCKED",
+  "phase2_decision_code": "STAGE_2_BLOCKED_BY_ENGINE_MECHANISM_GAP",
+  "background_enabled": false,
+  "active_transport": "direct-cli-codex-pi",
+  "executor_identity": {
+    "product": "pi",
+    "instance_id": "01a1bec5-45cb-76cc-9766-4c191329bdec",
+    "role": "executor",
+    "separated_from_reviewer": "01a1afbe-e61b-768b-896d-8a743ed83565",
+    "canonical_control_plane": "01a1aa6c-c4c8-7111-812f-02e1396290e7"
+  },
+  "raw_root": "/var/folders/yg/pjyg7nhj2ln3kg6dks4dxhkc0000gn/T/governed-cli-phase1-s58l8ops/phase2-20261109",
+  "invariants": {
+    "autoloop_app_files_checked": 223,
+    "autoloop_app_modified": false,
+    "phase1_closure_files_modified": false,
+    "codex_a_online_tokens_spent": 0,
+    "persistent_rules_or_plugins_installed": false
+  },
+  "task_2_1_launch_and_post_output_guards": {
+    "tightened_guard_line": "if phase not in INITIAL_PHASES and not identity:",
+    "cases": [
+      {
+        "case": "pi_r2_valid_prelaunch_and_post_output",
+        "status": "ACCEPTED",
+        "detail": {
+          "prelaunch": true,
+          "post_output": {
+            "actual_native": "6303cbde-d521-487a-a8ab-3f73344d5061",
+            "expected_native": "6303cbde-d521-487a-a8ab-3f73344d5061",
+            "matched": true
+          }
+        }
+      },
+      {
+        "case": "codex_r2_valid_prelaunch_and_post_output",
+        "status": "ACCEPTED",
+        "detail": {
+          "prelaunch": true,
+          "post_output": {
+            "actual_native": "01a1be19-0543-7f91-a85f-db4a2d82c7bd",
+            "expected_native": "01a1be19-0543-7f91-a85f-db4a2d82c7bd",
+            "matched": true
+          }
+        }
+      },
+      {
+        "case": "tightened_whitelist_focused_recheck_empty_identity",
+        "status": "REJECTED_BEFORE_LAUNCH_OR_ACCEPT",
+        "reason": "BLOCKED: continuation requires an accepted non-empty identity"
+      },
+      {
+        "case": "tightened_whitelist_verify_resume_blank_identity",
+        "status": "REJECTED_BEFORE_LAUNCH_OR_ACCEPT",
+        "reason": "BLOCKED: continuation requires an accepted non-empty identity"
+      },
+      {
+        "case": "initial_phase_r1_with_unexpected_identity",
+        "status": "REJECTED_BEFORE_LAUNCH_OR_ACCEPT",
+        "reason": "BLOCKED: initial/timeout phase cannot carry pre-bound continuation identity"
+      },
+      {
+        "case": "scheduler_cleared_or_replaced_bound_resume",
+        "status": "REJECTED_BEFORE_LAUNCH_OR_ACCEPT",
+        "reason": "BLOCKED: scheduler cleared or replaced bound resume session"
+      },
+      {
+        "case": "codex_changed_cwd_mismatch",
+        "status": "REJECTED_BEFORE_LAUNCH_OR_ACCEPT",
+        "reason": "BLOCKED: native identity/cwd mismatch"
+      },
+      {
+        "case": "previous_execution_state_unknown",
+        "status": "REJECTED_BEFORE_LAUNCH_OR_ACCEPT",
+        "reason": "BLOCKED: previous execution not accepted or in unknown state"
+      },
+      {
+        "case": "post_output_silent_new_session_mismatch",
+        "status": "REJECTED_BEFORE_LAUNCH_OR_ACCEPT",
+        "reason": "BLOCKED: post-output native session mismatch (01a1be19-0543-7f91-a85f-fffffffffffe != 01a1be19-0543-7f91-a85f-db4a2d82c7bd)"
+      }
+    ]
+  },
+  "task_2_2_autoloop_fault_injection": {
+    "probe_1_business_verify_fail": {
+      "prefix_masks_failure_in_readMessage": {
+        "outcome": "done",
+        "summary": "[Grok-4.20]"
+      },
+      "raw_failed_triggers_failed_outcome": {
+        "outcome": "failed",
+        "error": "验证失败"
+      },
+      "transport_separated_message": {
+        "outcome": "done",
+        "summary": "报告已交付：治理结论 VERIFY FAIL（详见证据报告，不重跑不转FIX）"
+      },
+      "run1_seed_state": {
+        "id": 1,
+        "state": "done",
+        "session": "bound-session-001",
+        "attempts": 0
+      },
+      "run2_verify_fail_state": {
+        "id": 2,
+        "state": "done",
+        "resume": "bound-session-001",
+        "session": "bound-session-001",
+        "attempts": 0,
+        "summary": "报告已交付：治理结论 VERIFY FAIL（详见 verify-fail-report.json，不重跑不转FIX）",
+        "report_exists": true
+      }
+    },
+    "probe_2_cli_fault_triedFresh": {
+      "launches_observed_in_single_claim": [
+        "cli_fault_before_started|bound-session-001|bound-session-001|85830",
+        "cli_fault_before_started|NULL_RESUME|7a33b2e5-ab3d-43c8-8bd5-17e176139144|85842"
+      ],
+      "turn_1_had_bound_resume": true,
+      "turn_2_silently_cleared_resume_to_null": true,
+      "worker_log_evidence": [
+        "run 3 (阶段2探针) turn 1 started, pid 85828",
+        "run 3: couldn't go on in bound-session-001 (CLI startup error before turn.started); starting a new session",
+        "run 3 (阶段2探针) turn 2 started, pid 85841",
+        "run 3: failed"
+      ],
+      "run3_kernel_state_after_settle": {
+        "id": 3,
+        "state": "queued",
+        "attempts": 1,
+        "not_before": "2026-11-09T03:05:02.000Z",
+        "error": "BLOCKED_BY_WRAPPER_PRELAUNCH: expected resume=bound-session-001, got NULL_RESUME"
+      }
+    },
+    "probe_3_caller_sigkill_retries": {
+      "total_dispatches_before_stop": 10,
+      "first_attempt": {
+        "iteration": 1,
+        "state": "queued",
+        "attempts": 1,
+        "not_before": "2026-11-09T03:05:03.000Z",
+        "error": "exit 137",
+        "summary": null
+      },
+      "third_attempt_notice": {
+        "iteration": 3,
+        "state": "queued",
+        "attempts": 3,
+        "not_before": "2026-11-09T03:35:05.000Z",
+        "error": "exit 137",
+        "summary": null
+      },
+      "tenth_attempt_terminal": {
+        "iteration": 10,
+        "state": "cancelled",
+        "attempts": 10,
+        "not_before": "2026-11-09T09:15:11.000Z",
+        "error": "exit 137",
+        "summary": "连续 10 次没跑成，不再自动重试"
+      },
+      "all_attempts": [
+        {
+          "iteration": 1,
+          "state": "queued",
+          "attempts": 1,
+          "not_before": "2026-11-09T03:05:03.000Z",
+          "error": "exit 137",
+          "summary": null
+        },
+        {
+          "iteration": 2,
+          "state": "queued",
+          "attempts": 2,
+          "not_before": "2026-11-09T03:15:04.000Z",
+          "error": "exit 137",
+          "summary": null
+        },
+        {
+          "iteration": 3,
+          "state": "queued",
+          "attempts": 3,
+          "not_before": "2026-11-09T03:35:05.000Z",
+          "error": "exit 137",
+          "summary": null
+        },
+        {
+          "iteration": 4,
+          "state": "queued",
+          "attempts": 4,
+          "not_before": "2026-11-09T04:15:06.000Z",
+          "error": "exit 137",
+          "summary": null
+        },
+        {
+          "iteration": 5,
+          "state": "queued",
+          "attempts": 5,
+          "not_before": "2026-11-09T05:15:07.000Z",
+          "error": "exit 137",
+          "summary": null
+        },
+        {
+          "iteration": 6,
+          "state": "queued",
+          "attempts": 6,
+          "not_before": "2026-11-09T06:15:08.000Z",
+          "error": "exit 137",
+          "summary": null
+        },
+        {
+          "iteration": 7,
+          "state": "queued",
+          "attempts": 7,
+          "not_before": "2026-11-09T07:15:09.000Z",
+          "error": "exit 137",
+          "summary": null
+        },
+        {
+          "iteration": 8,
+          "state": "queued",
+          "attempts": 8,
+          "not_before": "2026-11-09T08:15:10.000Z",
+          "error": "exit 137",
+          "summary": null
+        },
+        {
+          "iteration": 9,
+          "state": "queued",
+          "attempts": 9,
+          "not_before": "2026-11-09T09:15:11.000Z",
+          "error": "exit 137",
+          "summary": null
+        },
+        {
+          "iteration": 10,
+          "state": "cancelled",
+          "attempts": 10,
+          "not_before": "2026-11-09T09:15:11.000Z",
+          "error": "exit 137",
+          "summary": "连续 10 次没跑成，不再自动重试"
+        }
+      ]
+    },
+    "probe_4_worker_timeout": {
+      "worker_log_evidence": [
+        "run 5 (阶段2探针) turn 1 started, pid 85980",
+        "run 5: stopping (timeout)",
+        "run 5: failed"
+      ],
+      "run5_kernel_state_after_timeout": {
+        "id": 5,
+        "state": "queued",
+        "attempts": 1,
+        "error": "超过 1 分钟还没结束，已停止",
+        "not_before": "2026-11-09T09:21:14.000Z"
+      }
+    },
+    "probe_5_unknown_and_settleSession": {
+      "run6_seeded_session": "bound-session-001",
+      "job7_claimed_session": "bound-session-001",
+      "run7_state_after_lease_sweep": "unknown",
+      "run8_before_claim_explicit_resume": {
+        "id": 8,
+        "session": null,
+        "resume": "bound-session-001"
+      },
+      "launches_for_run8": [
+        "unknown_check_launch|NULL_RESUME|97bc9f83-1773-40d8-a62b-2400f1e1c255|86081"
+      ],
+      "settleSession_wipes_explicit_resume_to_null": true,
+      "run8_after_wrapper_block_and_settle": {
+        "id": 8,
+        "state": "queued",
+        "attempts": 1,
+        "error": "BLOCKED_BY_WRAPPER_PRELAUNCH: settleSession cleared resume to NULL_RESUME",
+        "not_before": "2026-11-09T09:27:17.000Z"
+      }
+    }
+  },
+  "task_2_3_proven_engine_gaps": [
+    {
+      "gap_id": "GAP-1-WORKER-TRIED-FRESH",
+      "source": "/Users/elvis/.agent-autoloop/app/worker/worker.ts:289-303",
+      "mechanism": "When turn 1 fails with `seen.error` or empty text and `!seen.started` on a bound `entry.resume`, worker sets `entry.triedFresh = true`, `entry.resume = null`, `entry.session = randomUUID()`, and immediately launches Turn 2 in a new session."
+    },
+    {
+      "gap_id": "GAP-2-KERNEL-RETRY-LATER-10X",
+      "source": "/Users/elvis/.agent-autoloop/app/kernel/decide.ts:39,289-332,396",
+      "mechanism": "Any `outcome: \"failed\"` (including caller/wrapper SIGKILL exit 137 or wrapper pre-launch guard rejection) enters `retryLater()` and automatically re-queues the run up to `MAX_ATTEMPTS = 10` times without consulting per-rule retry limits."
+    },
+    {
+      "gap_id": "GAP-3-WORKER-TIMEOUT-HARDCODED-FAILED",
+      "source": "/Users/elvis/.agent-autoloop/app/worker/worker.ts:281-287,376-377",
+      "mechanism": "When worker timeout triggers `stop(entry, \"timeout\")`, `conclude()` checks `if (entry.why === \"timeout\")` before `resultFrom(readMessage(seen.text))`, ignoring adapter output and unconditionally returning `{ outcome: \"failed\" }`, which triggers `retryLater()`."
+    },
+    {
+      "gap_id": "GAP-4-UNKNOWN-SETTLE-SESSION-WIPES-RESUME",
+      "source": "/Users/elvis/.agent-autoloop/app/kernel/decide.ts:116-127,223-230",
+      "mechanism": "After `sweep()` marks a run `state: \"unknown\"` past `RUN_LEASE` (5m), `settleSession()` sees `going` (`claimed` or `unknown`) holding the same session and executes `put(draft, \"runs\", run.id, nulls(\"session\", \"resume\"))`, silently wiping explicit `resume` on subsequent runs."
+    }
+  ]
+}
