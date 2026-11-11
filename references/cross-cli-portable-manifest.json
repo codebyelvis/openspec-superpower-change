@@ -38,6 +38,7 @@
         {"path": "templates/final-verification-template.md", "targets": ["codex", "pi", "antigravity-cli", "grok-cli"]},
         {"path": "templates/learning-candidate-template.md", "targets": ["codex", "pi", "antigravity-cli", "grok-cli"]},
         {"path": "templates/proposal-template.md", "targets": ["codex", "pi", "antigravity-cli", "grok-cli"]},
+        {"path": "templates/req-template.md", "targets": ["codex", "pi", "antigravity-cli", "grok-cli"]},
         {"path": "templates/tasks-template.md", "targets": ["codex", "pi", "antigravity-cli", "grok-cli"]}
       ]
     },

@@ -6149,9 +6149,57 @@ class SkillIterationEntryTests(unittest.TestCase):
             "references/autoloop-req-acceptance.md",
             "scripts/autoloop_ctl.py",
             "scripts/gov_runner.py",
+            "templates/req-template.md",
         ):
             self.assertTrue((ROOT / rel).is_file(), f"missing {rel}")
             self.assertEqual(router_files.get(rel), expected_targets)
+
+        import subprocess, sys, tempfile
+        with tempfile.TemporaryDirectory() as tmp:
+            proj = Path(tmp) / "demo-proj"
+            proj.mkdir()
+            state_dir = Path(tmp) / "state"
+            env = {**os.environ, "AUTOLOOP_STATE_ROOT": str(state_dir)}
+            empty_match = json.loads(
+                subprocess.run(
+                    [sys.executable, str(ROOT / "scripts/autoloop_ctl.py"), "match", "--cwd", str(proj)],
+                    env=env, capture_output=True, text=True, check=True,
+                ).stdout
+            )
+            self.assertFalse(empty_match["matched"])
+            self.assertEqual(empty_match["fallback"], "DISTILL_FROM_CURRENT_SESSION")
+
+            init_proc = subprocess.run(
+                [
+                    sys.executable,
+                    str(ROOT / "scripts/autoloop_ctl.py"),
+                    "init-req",
+                    "--cwd", str(proj),
+                    "--slug", "order-limit",
+                    "--title", "订单导出分页限制",
+                    "--summary", "超过31天抛异常",
+                    "--cmd", "python3 -m unittest",
+                    "--accept", "1. 单测全绿；2. 超过31天返回明确错误",
+                ],
+                env=env,
+                capture_output=True,
+                text=True,
+                check=True,
+            )
+            created = json.loads(init_proc.stdout)
+            self.assertTrue(Path(created["req_path"]).is_file())
+            match_proc = subprocess.run(
+                [sys.executable, str(ROOT / "scripts/autoloop_ctl.py"), "match", "--cwd", str(proj)],
+                env=env,
+                capture_output=True,
+                text=True,
+                check=True,
+            )
+            matched = json.loads(match_proc.stdout)
+            self.assertTrue(matched["matched"])
+            self.assertEqual(Path(matched["req_path"]).resolve(), Path(created["req_path"]).resolve())
+            self.assertEqual(matched["verify_cmd"], "python3 -m unittest")
+            self.assertIn("超过31天返回明确错误", matched["accept"])
 
 
 if __name__ == "__main__":

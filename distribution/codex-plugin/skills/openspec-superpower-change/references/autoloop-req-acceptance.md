@@ -1,43 +1,45 @@
-# Requirement Markdown + Acceptance Criteria Closed-Loop (`docs/req/*.md` + `验收标准：...`)
+# Auto-Generated Requirement Markdown & Zero-Arg `/autoloop` Closed-Loop
 
 Author: elvis
 
-Use this path when the user supplies a concrete requirement document (such as `docs/req/<name>.md` or an equivalent project requirement `.md`) together with explicit acceptance criteria (`验收标准：<测试命令或业务要求>`, or acceptance rules already stated inside that `.md`).
+Eliminates manual authoring of `docs/req/*.md` and `验收标准：` while preserving governed verification and independent read-only review.
 
-## Governance & Contract Boundary
+## 1. Automatic Generation When Requirements Arrive (`init-req`)
 
-1. **Authoritative Execution Anchor**: Record the exact `.md` path, its SHA-256, and the target verification command in a single-line Gate 0 entry. When the work stays within an already-approved scope, localized bugfix/restoration, or user-authorized slice defined by that `.md`, use the `.md` + acceptance criteria directly as the execution plan—do not ask the user to hand-author `batch.json`, UUIDs, hashes, or duplicate planning files.
-2. **OpenSpec Non-Negotiables Preserved**: If the requirement introduces unapproved protected changes (new public API/schema/migration, security/permission changes, or cross-module architectural changes outside an approved spec), keep the OpenSpec approval stop before mutating production code. Never run `git add`, `git commit`, `git push`, `git reset`, or `git clean` without explicit user authorization.
-
-## Three-Step Closed-Loop Execution
-
-### Step 1: Align `docs/req/<name>.md` and `验收标准：`
-- Read the requirement `.md` and extract target files, invariants, and exact acceptance criteria.
-- Resolve one deterministic verification command `--cmd` (explicit user command takes priority; Java/Maven projects must use the configured Maven 3.6.3 baseline when applicable).
-- Ask at most one consolidated question only if a material requirement ambiguity blocks implementation.
-
-### Step 2: Minimal Local Implementation & Fast Check
-- Implement the change following the Four Anti-Bloat Principles (no speculative defense, single entry validation, inline single-use logic, no broad `try/catch` around deterministic logic).
-- Run the target verification command locally once to confirm baseline green before background signoff.
-
-### Step 3: One-Command Governed `agent-autoloop` Verification & Independent Read-Only Review
-Invoke this skill's built-in controller (`scripts/autoloop_ctl.py`, co-located next to `scripts/validate_core_gates.py` in the active skill root):
+Whenever a non-trivial requirement, feature slice, or multi-file change enters `openspec-superpower-change` (or is discussed before implementation) and no pending requirement `.md` / active OpenSpec change exists yet, automatically generate the standardized contract (`templates/req-template.md`) via `scripts/autoloop_ctl.py init-req`:
 
 ```bash
 SKILL_ROOT="$(cd "$(dirname "<path-to-this-skill>/SKILL.md")" && pwd)"
-python3 "$SKILL_ROOT/scripts/autoloop_ctl.py" run \
+python3 "$SKILL_ROOT/scripts/autoloop_ctl.py" init-req \
   --cwd "$PWD" \
-  --req "docs/req/<name>.md" \
-  --accept "<验收标准：测试命令或业务要求>" \
-  --cmd "<deterministic verification command>"
+  --slug "<short-slug>" \
+  --title "<requirement title>" \
+  --summary "<scope, target files, and explicit non-goals>" \
+  --cmd "<deterministic test or build command>" \
+  --accept "<验收标准：observable business & boundary assertions>"
 ```
 
-What `scripts/autoloop_ctl.py` enforces automatically:
-- **Idempotent plugin/rule setup**: Ensures `~/.agent-autoloop/plugins/govpi/` and the manual-event rule `gov.verify.*` in `~/.agent-autoloop/rules.json` match `scripts/gov_runner.py` (backs up `rules.json` before edits; never modifies `~/.agent-autoloop/app/**`).
-- **Per-batch isolation**: Passes a unique `batch_id` via the event `subject` (`context.json`) to `<batches_dir>/<batch_id>.json`, preventing concurrent/queued batch overwrite.
-- **Anti-runaway & session guard**: Persistent ledger blocks silent `triedFresh` session replacement and calls `agent-autoloop stop <run>` on any `attempt >= 2` re-dispatch so failed/timed-out runs never loop 10 times.
-- **Read-only independent review**: Runs `--cmd`, captures `git status -sb` / `git diff HEAD`, launches an isolated read-only Pi reviewer (`--tools read,grep,find,ls`), verifies zero workspace mutation across the review window (`reviewer_readonly_verified: true`), and writes a Schema-2 `report.md` + `receipt.json`.
-- **Bounded auto-repair (max 2 rounds)**:
-  - On `"verdict": "PASS"`: evaluate whole-task completion under `references/completion-contract.md` and reportChanged files, verification command/counts, and `report_path`.
-  - On `"verdict": "FAIL"`: read `report_path`, fix the cited defect within the same authorized scope, and re-run `autoloop_ctl.py run` (circuit-break and report to the user after at most 2 failed repair rounds or on `"BLOCKED"`).
-  - For long-running suites (>5 min), pass `--async` to return `batch_id` immediately and query later with `autoloop_ctl.py status <batch_id>`.
+- **Protected Repository Placement**: `init-req` automatically writes to `docs/req/YYYY-MM-DD-<slug>.md` in normal repositories, and redirects `ai_app` to the local Obsidian workbench (`模型开发工作台/docs/req/`) so protected repositories stay clean.
+- **OpenSpec Non-Negotiables Preserved**: If the requirement introduces unapproved Major/protected changes, keep the OpenSpec approval stop before mutating production code (`proposal-workflow.md` changes are also auto-matched directly under `openspec/changes/<change-id>/`). Never run `git add/commit/push/reset/clean` without explicit user authorization.
+
+## 2. Explicit `/autoloop` Trigger: Auto-Match or Session-Distill Fallback
+
+When the user triggers `/autoloop` (even with **zero arguments**):
+
+### Step 1: Auto-Match Pending Contract (`match`)
+Run:
+```bash
+python3 "$SKILL_ROOT/scripts/autoloop_ctl.py" match --cwd "$PWD"
+```
+1. **If `"matched": true`**: Directly bind the matched `req_path` (`project_index` -> `docs/req/*.md` with `status != passed` -> active `openspec/changes/<change-id>/`), along with its embedded `verify_cmd` and `## 验收标准`.
+2. **If `"matched": false` (`"fallback": "DISTILL_FROM_CURRENT_SESSION"`)**: Do **not** stop or ask the user to hand-write a markdown file. Immediately **distill the requirement scope, `verify_cmd`, and `## 验收标准` from the current session's conversation/context**, persist it via `autoloop_ctl.py init-req`, and proceed seamlessly. (Ask at most one consolidated question only if the current session has no clear requirement or has a blocking material ambiguity.)
+
+### Step 2: Minimal Local Implementation & Fast Check
+- Implement the slice following the Four Anti-Bloat Principles and run `verify_cmd` once locally.
+
+### Step 3: Zero-Arg Governed Background Verification & Independent Read-Only Review (`run`)
+```bash
+python3 "$SKILL_ROOT/scripts/autoloop_ctl.py" run --cwd "$PWD"
+```
+- `run` automatically resolves the matched `docs/req/*.md` (or OpenSpec change), executes `verify_cmd` via `agent-autoloop` (`govpi`), runs an isolated read-only Pi review (`--tools read,grep,find,ls`) against the `.md` + `git diff`, verifies zero workspace mutation during review, and marks the requirement `status: passed` upon `"verdict": "PASS"`.
+- On `"verdict": "FAIL"`, read `report_path`, apply minimal same-scope fixes, and re-run (at most 2 auto-repair rounds before stopping to report).

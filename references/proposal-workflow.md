@@ -22,7 +22,7 @@ Gate 0 records no implementation sub-skill for artifact drafting.
    - `openspec/changes/<change-id>/tasks.md`;
    - `openspec/changes/<change-id>/design.md` when the change is cross-cutting, performance-sensitive, migration-heavy, or architecturally meaningful;
    - one or more spec deltas under `openspec/changes/<change-id>/specs/...`.
-6. Validate with `openspec validate <change-id> --strict`.
+6. Validate with `openspec validate <change-id> --strict` (note: `scripts/autoloop_ctl.py match` natively discovers active `openspec/changes/<change-id>/` contracts alongside `docs/req/*.md`, so approved changes can also be verified via `/autoloop` without duplicate files).
 7. Present the proposal summary and exact `change-id`; record explicit user
    approval of that scoped contract before code changes.
 
