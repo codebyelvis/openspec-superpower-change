@@ -74,6 +74,15 @@ Only a bound `codex` product with role `control-plane` and profile
 contract, owns routing, evidence acceptance, canonical transitions, archive,
 and completion decisions. Product or model name alone grants no authority.
 
+A task-scoped external exception is `external-control-plane-rebind` in
+`references/handoff-contract.md`. Its pin is
+`references/external-control-plane-rebinds.json`. It may replace one external
+handoff's Codex owner with one pinned `grok-cli` owner. The new owner
+instance may equal that external handoff's executor instance and must differ
+from the bound reviewer. The move stays in `awaiting-final-verification` with
+both final gates `pending` and grants no completion authority. Without that
+exact pin, this external owner stays Codex.
+
 Every Review request, recommendation, or instruction resolves six concepts:
 Review purpose, reviewer product, role, capability, independence, and authority.
 Apply an existing canonical assignment first; otherwise preserve a product
