@@ -1,15 +1,18 @@
 #!/usr/bin/env python3
-# Author: elvis. Governed host-side runner for agent-autoloop (change integrate-governed-cli-autoloop).
-# Persistent attempt/session ledger checked before any CLI launch:
-#   a) a second turn in the same run-attempt (worker triedFresh) or a resume that differs from the batch contract
-#      (scheduler/settleSession cleared or replaced it) -> report-abort.md, exit 0, abort receipt; CLI not launched.
-#   b) attempt >= 2 when the batch forbids re-run (kernel retryLater) -> report-abort.md, `agent-autoloop stop <run>`,
-#      exit 0; CLI not launched.
-import argparse, fcntl, hashlib, json, os, signal, subprocess, sys, time
+# Author: elvis. Governed host-side runner for agent-autoloop.
+# Enforces:
+#   1. Per-event batch isolation via AGENT_AUTOLOOP_CONTEXT `events[-1].subject` -> `<batches_dir>/<subject>.json`
+#      (backward-compatible with `--batch <file>`).
+#   2. Persistent attempt/session ledger checked before any CLI launch:
+#      a) second turn in same run-attempt (worker triedFresh) or resume mismatch (settleSession) -> report-abort.md, exit 0;
+#      b) attempt >= 2 when batch forbids re-run (kernel retryLater) -> report-abort.md, `agent-autoloop stop <run>`, exit 0.
+#   3. File-backed stderr redirection to avoid stdout/stderr pipe buffer deadlocks.
+import argparse, fcntl, hashlib, json, os, re, signal, subprocess, sys, time
 from pathlib import Path
 
 ABORT_RESUME = "执行中止：会话续接被拦截，已生成中止报告，禁止重跑"
 ABORT_RERUN = "执行中止：重派被拦截，已调用 stop 并生成中止报告，禁止重跑"
+SAFE_BATCH_ID = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$")
 
 
 def meta(**fields):
@@ -20,12 +23,35 @@ def sha(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 
+def resolve_batch_file(a) -> Path:
+    if a.batch:
+        return Path(a.batch)
+    ctx_path = Path(a.context_file or os.environ.get("AGENT_AUTOLOOP_CONTEXT", ""))
+    if not ctx_path.is_file():
+        raise SystemExit(f"BLOCKED: context.json missing at {ctx_path}")
+    ctx = json.loads(ctx_path.read_text(encoding="utf-8"))
+    events = ctx.get("events") or []
+    subject = (events[-1].get("subject") if events else "") or ""
+    if not SAFE_BATCH_ID.match(subject):
+        raise SystemExit(f"BLOCKED: invalid or empty batch subject {subject!r} in context.json")
+    batch_file = (Path(a.batches_dir) / f"{subject}.json").resolve()
+    if batch_file.parent != Path(a.batches_dir).resolve() or not batch_file.is_file():
+        raise SystemExit(f"BLOCKED: batch contract missing at {batch_file}")
+    return batch_file
+
+
 def main():
     ap = argparse.ArgumentParser()
-    for name in ("batch", "folder", "session", "resume", "cwd"):
+    ap.add_argument("--batch", default="")
+    ap.add_argument("--batches-dir", default="")
+    ap.add_argument("--context-file", default="")
+    for name in ("folder", "session", "resume", "cwd"):
         ap.add_argument("--" + name, required=True)
     a = ap.parse_args()
-    batch = json.loads(Path(a.batch).read_text())
+    if not a.batch and not a.batches_dir:
+        raise SystemExit("BLOCKED: either --batch or --batches-dir is required")
+
+    batch = json.loads(resolve_batch_file(a).read_text(encoding="utf-8"))
     run = os.environ["AGENT_AUTOLOOP_RUN"]
     folder_run, attempt = Path(a.folder).name.rsplit("-", 1)
     if folder_run != run:
@@ -56,8 +82,6 @@ def main():
         tmp.write_text(json.dumps(ledger, ensure_ascii=False, indent=2) + "\n")
         tmp.replace(ledger_file)
     if action != "launch":
-        # Live hub wakes the worker's long-poll on /cancel and worker sends SIGTERM to this process group immediately;
-        # ignore SIGTERM and flush report-abort.md + stdout before invoking stop so the abort report is never truncated.
         signal.signal(signal.SIGTERM, signal.SIG_IGN)
         with open(ev / "report-abort.md", "a") as f:
             f.write(f"# 执行中止报告\n\n- batch: `{batch['batch_id']}`\n- run/attempt/turn: {run}/{attempt}/{record['turn']}\n"
@@ -76,25 +100,52 @@ def main():
     return launch(batch, a, run, attempt, resume, ev)
 
 
+def git_fingerprint(cwd: str) -> str:
+    if subprocess.run(["git", "-C", cwd, "rev-parse", "--is-inside-work-tree"], capture_output=True).returncode != 0:
+        return "non-git"
+    st = subprocess.run(["git", "-C", cwd, "status", "--porcelain"], capture_output=True, text=True).stdout
+    df = subprocess.run(["git", "-C", cwd, "diff", "HEAD"], capture_output=True, text=True).stdout
+    return hashlib.sha256((st + "\0" + df).encode("utf-8")).hexdigest()
+
+
 def launch(batch, a, run, attempt, resume, ev):
     raw = ev / f"attempt-{attempt}"
     raw.mkdir(exist_ok=True)
     v_code = 0
+    work_cwd = batch.get("verify_cwd") or a.cwd
     if batch["mode"] == "stub":
         cmd = batch["cli_cmd"] + [batch["stub_mode"], resume or "NULL_RESUME"]
-    else:  # pi-verify: run the fixed command, then read-only Pi writes the report from the raw output.
-        v = subprocess.run(batch["verify_command"], cwd=batch["verify_cwd"], capture_output=True, text=True, timeout=600)
-        v_code = v.returncode
-        (raw / "verify.stdout").write_text(v.stdout)
-        (raw / "verify.stderr").write_text(v.stderr)
-        (raw / "verify.exit").write_text(f"{v.returncode}\n")
-        prompt = batch["pi_prompt"].replace("{RAW}", str(raw))
+        fp_before_pi = "stub"
+    else:
+        v_cmd = batch.get("verify_command")
+        if v_cmd:
+            with open(raw / "verify.stdout", "w") as v_out, open(raw / "verify.stderr", "w") as v_err:
+                use_shell = isinstance(v_cmd, str)
+                v = subprocess.run(v_cmd, shell=use_shell, cwd=work_cwd, stdout=v_out, stderr=v_err, text=True,
+                                   timeout=int(batch.get("verify_timeout", 600)))
+                v_code = v.returncode
+        else:
+            (raw / "verify.stdout").write_text("(no verify_command specified)\n")
+            (raw / "verify.stderr").write_text("")
+        (raw / "verify.exit").write_text(f"{v_code}\n")
+
+        if batch.get("capture_git_diff") and subprocess.run(
+            ["git", "-C", work_cwd, "rev-parse", "--is-inside-work-tree"], capture_output=True
+        ).returncode == 0:
+            st = subprocess.run(["git", "-C", work_cwd, "status", "-sb"], capture_output=True, text=True)
+            df = subprocess.run(["git", "-C", work_cwd, "diff", "HEAD"], capture_output=True, text=True)
+            (raw / "git.status.txt").write_text(st.stdout)
+            (raw / "git.diff.patch").write_text(df.stdout[:200_000])
+
+        fp_before_pi = git_fingerprint(work_cwd)
+        prompt = batch["pi_prompt"].replace("{RAW}", str(raw)).replace("{CWD}", str(work_cwd))
         cmd = batch["pi_cmd"] + ["--session-dir", str(raw / "pi-sessions")] + \
             (["--session", resume] if resume else []) + [prompt]
+
     (raw / "cli.argv.json").write_text(json.dumps(cmd, ensure_ascii=False, indent=2) + "\n")
-    proc = subprocess.Popen(cmd, cwd=a.cwd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
     session, started, lines = None, False, []
-    with open(raw / "cli.stdout", "w") as out:
+    with open(raw / "cli.stdout", "w") as out, open(raw / "cli.stderr", "w") as err_f:
+        proc = subprocess.Popen(cmd, cwd=work_cwd, stdout=subprocess.PIPE, stderr=err_f, text=True)
         for line in proc.stdout:
             out.write(line)
             out.flush()
@@ -111,11 +162,17 @@ def launch(batch, a, run, attempt, resume, ev):
             if hit and not started:
                 started = True
                 meta(session=session or a.session, started=True)
-    err = proc.stderr.read()
-    code = proc.wait()
-    (raw / "cli.stderr").write_text(err)
+        code = proc.wait()
+
+    err = (raw / "cli.stderr").read_text(errors="replace")
     (raw / "cli.exit").write_text(f"{code}\n")
     if code != 0:
+        if started and not batch.get("allow_rerun", False):
+            with open(ev / "report-abort.md", "a") as f:
+                f.write(f"# 执行中止报告\n\n- cli exit {code}: `{err.strip()[:500]}`\n- 治理结论: BLOCKED（禁止重跑）\n\n")
+            meta(session=session or a.session, started=True, finished=True)
+            print("执行中止：CLI 异常退出，已生成中止报告，禁止重跑", flush=True)
+            return 0
         meta(session=session or a.session, started=started)
         sys.stderr.write(err or f"cli exit {code}")
         return code
@@ -126,8 +183,15 @@ def launch(batch, a, run, attempt, resume, ev):
         finals = [e["message"] for e in events if e.get("type") == "message_end" and e.get("message", {}).get("role") == "assistant"]
         last = finals[-1] if finals else {}
         if last.get("stopReason") != "stop":
+            err_msg = last.get("errorMessage") or f"stopReason={last.get('stopReason')!r}"
+            if not batch.get("allow_rerun", False):
+                with open(ev / "report-abort.md", "a") as f:
+                    f.write(f"# 执行中止报告\n\n- assistant error: `{err_msg}`\n- 治理结论: BLOCKED（禁止重跑）\n\n")
+                meta(session=session or a.session, started=True, finished=True)
+                print(f"执行中止：模型未正常完成（{err_msg[:120]}），禁止重跑", flush=True)
+                return 0
             meta(session=session, started=started)
-            sys.stderr.write("BLOCKED: assistant stopReason != stop")
+            sys.stderr.write(f"BLOCKED: assistant stopReason != stop ({err_msg})")
             return 4
         text = "".join(c.get("text", "") for c in last.get("content", []) if c.get("type") == "text").strip()
     expected = batch.get("expected_resume")
@@ -137,15 +201,26 @@ def launch(batch, a, run, attempt, resume, ev):
         meta(session=session, started=True, finished=True)
         print("执行中止：结果后会话身份不符，已生成中止报告，禁止重跑", flush=True)
         return 0
+
+    fp_after_pi = "stub" if batch["mode"] == "stub" else git_fingerprint(work_cwd)
+    readonly_ok = (fp_before_pi == fp_after_pi)
+    if not readonly_ok:
+        with open(ev / "report-abort.md", "a") as f:
+            f.write("# 执行中止报告\n\n- reason: Workspace mutated during read-only Pi review\n- 治理结论: BLOCKED\n\n")
+        meta(session=session, started=True, finished=True)
+        print("执行中止：只读审查期间工作区发生变化，结果作废", flush=True)
+        return 0
+
     first_line = text.splitlines()[0] if text else "空"
-    if batch["mode"] == "pi-verify":
-        ev_result = "pass" if (v_code == 0 and "VERIFY: PASS" in first_line) else "fail"
+    passed = (v_code == 0) and ("AUTOLOOP_VERDICT: PASS" in first_line or "VERIFY: PASS" in first_line)
+    ev_result = "pass" if passed else "fail"
+    if batch["mode"] in ("pi-verify", "pi-accept"):
         c_sha = batch.get("canonical_sha256", "0" * 64)
-        c_rev = batch.get("contract_revision", 2)
+        c_rev = batch.get("contract_revision", 1)
         manifest = (
             "<!-- COOP_EVIDENCE_MANIFEST_START -->\n```yaml\n"
             f"evidence_schema_version: 2\nevidence_role: attempt-report\nevidence_result: {ev_result}\n"
-            f"change_id: {batch.get('change_id', 'integrate-governed-cli-autoloop')}\n"
+            f"change_id: {batch.get('change_id', batch['batch_id'])}\n"
             f"current_batch: {batch.get('current_batch', 1)}\nattempt: {attempt}\n"
             f"contract_revision: {c_rev}\ncanonical_sha256: {c_sha}\n"
             f"agent_product: pi\nagent_instance_id: {session}\n"
@@ -155,12 +230,21 @@ def launch(batch, a, run, attempt, resume, ev):
         (ev / "report.md").write_text(manifest + text + "\n")
     else:
         (ev / "report.md").write_text(text + "\n")
-    receipt = {"evidence_schema_version": 2, "batch_id": batch["batch_id"], "run": run, "attempt": attempt,
-               "native_session": session, "verify_exit_code": v_code,
-               "assignment": batch.get("assignment"),
-               "canonical_status_modified": False, "business_source_modified": False,
-               "report_sha256": sha(ev / "report.md"),
-               "raw_sha256": {p.name: sha(p) for p in sorted(raw.glob("*")) if p.is_file()}}
+
+    receipt = {
+        "evidence_schema_version": 2,
+        "batch_id": batch["batch_id"],
+        "verdict": "PASS" if passed else "FAIL",
+        "run": run,
+        "attempt": attempt,
+        "native_session": session,
+        "verify_exit_code": v_code,
+        "reviewer_readonly_verified": readonly_ok,
+        "first_line": first_line,
+        "report_path": str(ev / "report.md"),
+        "report_sha256": sha(ev / "report.md"),
+        "raw_sha256": {p.name: sha(p) for p in sorted(raw.glob("*")) if p.is_file()},
+    }
     (ev / "receipt.json").write_text(json.dumps(receipt, ensure_ascii=False, indent=2) + "\n")
     meta(session=session, started=True, finished=True)
     print("报告已交付：治理结论见 report.md（" + first_line + "）", flush=True)

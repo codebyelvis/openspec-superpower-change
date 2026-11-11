@@ -1,5 +1,6 @@
 // Author: elvis. Governed host-side adapter for agent-autoloop (change integrate-governed-cli-autoloop).
-// The adapter only builds the runner argv and reads its META/text output; all governance checks live in gov_runner.py.
+// Passes turn.contextFile so gov_runner.py resolves per-event isolated batch contracts (<batches_dir>/<subject>.json)
+// without shared single-file overwrite; stays backward-compatible with static `c.batch` for mechanism fixtures.
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 
@@ -8,8 +9,22 @@ const install = () => JSON.parse(readFileSync(join(import.meta.dirname, "install
 export default {
   command(turn) {
     const c = install();
-    return [c.python, c.runner, "--batch", c.batch, "--folder", turn.folder, "--session", turn.session,
-      "--resume", turn.resume ?? "", "--cwd", turn.cwd];
+    const batchArgs = c.batches_dir ? ["--batches-dir", c.batches_dir] : ["--batch", c.batch];
+    return [
+      c.python,
+      c.runner,
+      ...batchArgs,
+      "--context-file",
+      turn.contextFile ?? "",
+      "--folder",
+      turn.folder,
+      "--session",
+      turn.session,
+      "--resume",
+      turn.resume ?? "",
+      "--cwd",
+      turn.cwd,
+    ];
   },
   read(stdout, code, stderr) {
     const lines = stdout.split("\n").filter(Boolean);
