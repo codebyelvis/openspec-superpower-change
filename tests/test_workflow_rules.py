@@ -6126,6 +6126,33 @@ class SkillIterationEntryTests(unittest.TestCase):
         )
         self.assertNotIn("without standalone `red-green.json` or `native-green.json` files", mutated_evidence)
 
+    def test_autoloop_req_acceptance_route_and_portable_scripts(self) -> None:
+        skill = (ROOT / "SKILL.md").read_text(encoding="utf-8")
+        self.assertIn("`docs/req/*.md`", skill)
+        self.assertIn("`references/autoloop-req-acceptance.md`", skill)
+
+        ref_text = (ROOT / "references/autoloop-req-acceptance.md").read_text(encoding="utf-8")
+        self.assertIn("scripts/autoloop_ctl.py", ref_text)
+        self.assertIn("验收标准：", ref_text)
+
+        manifest = json.loads(
+            (ROOT / "references/cross-cli-portable-manifest.json").read_text(encoding="utf-8")
+        )
+        router_files = {
+            item["path"]: set(item["targets"])
+            for entry in manifest["skills"]
+            if entry["name"] == "openspec-superpower-change"
+            for item in entry["files"]
+        }
+        expected_targets = {"codex", "pi", "antigravity-cli", "grok-cli"}
+        for rel in (
+            "references/autoloop-req-acceptance.md",
+            "scripts/autoloop_ctl.py",
+            "scripts/gov_runner.py",
+        ):
+            self.assertTrue((ROOT / rel).is_file(), f"missing {rel}")
+            self.assertEqual(router_files.get(rel), expected_targets)
+
 
 if __name__ == "__main__":
     unittest.main()

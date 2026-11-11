@@ -90,18 +90,6 @@ V6_MANAGED_RULE_BODIES = {
         "fail-closed."
     ),
 }
-# The only suffix that may follow the Codex-only CCG-001 sentence. Any other
-# addition remains semantic drift. Field text does not authenticate a caller.
-CCG001_REBIND_EXCEPTION = (
-    "One pinned task-scoped rebind, change-id `allow-task-scoped-grok-control-plane-rebind`, "
-    "may name a non-Codex schema-6 product as that change's local control-plane only when "
-    "the runtime pin has exactly one entry, the previous owner remains Codex, the executor "
-    "native equals the pin native_session_id and the new owner's instance id, and both "
-    "reviewer instances differ from that executor native and from each other. The field "
-    "comparison does not authenticate a caller. Git, production, deployment, and "
-    "completion evidence gates stay unchanged. Without that single pin entry, "
-    "Codex-only control-plane ownership remains in force."
-)
 
 
 V6_NATIVE_CONSUMPTION_BODIES = {
@@ -477,15 +465,6 @@ def validate_managed_rule_semantics(canonical_body: str, *, version: int) -> boo
                  if f"CCG-{number}" == invariant_id]
         if owned != [expected]:
             raise ValueError(f"managed-rule v6 consumption drift: {invariant_id}")
-    # CCG-001 keeps the Codex-only sentence. Exactly one change-id exception may
-    # follow it. A prefix count alone would accept any later waiver.
-    ccg001 = V6_MANAGED_RULE_BODIES["CCG-001"]
-    allowed_ccg001 = {ccg001, f"{ccg001} {CCG001_REBIND_EXCEPTION}"}
-    owned_ccg001 = [
-        " ".join(body.split()) for number, body in paragraphs if number == "001"
-    ]
-    if len(owned_ccg001) != 1 or owned_ccg001[0] not in allowed_ccg001:
-        raise ValueError("managed-rule v6 semantic drift: CCG-001")
     return True
 
 

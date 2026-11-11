@@ -32,6 +32,7 @@ Uncertain OpenSpec classification uses `references/openspec-decision-rule.md`.
 | Current request or decision | Read / route |
 |---|---|
 | Clear typo, formatting, comment, non-contractual docs or localized internal restoration | `references/direct-change-rule.md` |
+| Requirement doc (`docs/req/*.md`) + explicit acceptance criteria (`验收标准：...`) | `references/autoloop-req-acceptance.md` |
 | Behavioral slice evidence | `references/step-evidence-gate.md` |
 | OpenSpec boundary or uncertain contract impact | `references/openspec-decision-rule.md`; when required, `references/proposal-workflow.md` |
 | Approved implementation, including unchanged continuation or project session recovery | Existing canonical Plan/Status and `references/approved-implementation-workflow.md` (Project Session Resume) |

@@ -35,6 +35,10 @@ planning, still-valid Preflight and unaffected evidence.
    create a standalone Brief, Plan, or Preflight artifact. Single-slice
    standard/OpenSpec work uses one short Plan and no duplicate Brief; add a
    separate Brief only for external handoff or a materially distinct contract.
+   When an approved or authorized task provides `docs/req/<name>.md` +
+   `验收标准：<测试命令或业务要求>`, use `references/autoloop-req-acceptance.md`
+   (`scripts/autoloop_ctl.py`) to execute governed background verification and
+   independent read-only review without hand-authored `batch.json` ceremony.
 
 Follow `references/superpowers-adapter.md`; a generated plan does not grant Git
 permission and must not create a second design approval.

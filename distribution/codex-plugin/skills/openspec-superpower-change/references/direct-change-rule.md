@@ -58,6 +58,9 @@ no checkpoint. Continuation alone creates no OpenSpec change or external Handoff
 - Public/user/operator-visible restoration requires an approved existing spec or
   equivalent project-authoritative contract whose exact path is recorded in
   Gate 0; it must not introduce schema, compatibility, or lifecycle behavior.
+  When the user supplies `docs/req/<name>.md` + `验收标准：<测试命令或业务要求>`,
+  follow `references/autoloop-req-acceptance.md` and run `scripts/autoloop_ctl.py`
+  for one-command governed verification and independent read-only review.
 - Provide verification evidence before claiming completion.
 - Compact low-risk Direct Change does not create OpenSpec artifacts or a
   Superpowers plan. Profile-driven escalation may require one short Plan even

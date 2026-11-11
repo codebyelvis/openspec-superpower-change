@@ -7,6 +7,7 @@
       "files": [
         {"path": "SKILL.md", "targets": ["codex", "pi", "antigravity-cli", "grok-cli"]},
         {"path": "references/approved-implementation-workflow.md", "targets": ["codex", "pi", "antigravity-cli", "grok-cli"]},
+        {"path": "references/autoloop-req-acceptance.md", "targets": ["codex", "pi", "antigravity-cli", "grok-cli"]},
         {"path": "references/agent-capability-routing.md", "targets": ["codex", "pi", "antigravity-cli", "grok-cli"]},
         {"path": "references/confirmation-lease.md", "targets": ["codex", "pi", "antigravity-cli", "grok-cli"]},
         {"path": "references/completion-contract.md", "targets": ["codex", "pi", "antigravity-cli", "grok-cli"]},
@@ -26,6 +27,8 @@
         {"path": "references/step-evidence-gate.md", "targets": ["codex", "pi", "antigravity-cli", "grok-cli"]},
         {"path": "references/superpowers-adapter.md", "targets": ["codex", "pi", "antigravity-cli", "grok-cli"]},
         {"path": "references/sync-checklist.md", "targets": ["codex", "pi", "antigravity-cli", "grok-cli"]},
+        {"path": "scripts/autoloop_ctl.py", "targets": ["codex", "pi", "antigravity-cli", "grok-cli"]},
+        {"path": "scripts/gov_runner.py", "targets": ["codex", "pi", "antigravity-cli", "grok-cli"]},
         {"path": "scripts/validate_core_gates.py", "targets": ["codex", "pi", "antigravity-cli", "grok-cli"]},
         {"path": "scripts/next_action.py", "targets": ["codex", "pi", "antigravity-cli", "grok-cli"]},
         {"path": "scripts/validate_cross_cli_sync.py", "targets": ["codex", "pi", "antigravity-cli", "grok-cli"]},
