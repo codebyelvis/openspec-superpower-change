@@ -6304,6 +6304,70 @@ class SkillIterationEntryTests(unittest.TestCase):
             self.assertFalse((ev_root / "run-99/attempt-1/verify.exit").exists())
             self.assertFalse((ev_root / "run-99/report.md").exists())
 
+            # RED->GREEN 1: ai_app sibling worktree and /tmp git worktree must route reqs to workbench
+            wb_req_dir = Path(tmp) / "workbench/docs/req"
+            wb_req_dir.parent.mkdir(parents=True)
+            wb_req_dir = wb_req_dir.resolve()
+            orig_wb = ctl_mod.AI_APP_WORKBENCH_REQ_DIR
+            try:
+                ctl_mod.AI_APP_WORKBENCH_REQ_DIR = wb_req_dir
+                wt_sibling = Path(tmp) / "ai-app/ai_app-gl201-joint-selection"
+                wt_sibling.mkdir(parents=True)
+                self.assertEqual(ctl_mod.default_req_dir(wt_sibling), wb_req_dir)
+
+                other_repo_under_ai_app_parent = Path(tmp) / "ai-app/rxflow"
+                other_repo_under_ai_app_parent.mkdir(parents=True)
+                self.assertEqual(
+                    ctl_mod.default_req_dir(other_repo_under_ai_app_parent),
+                    (other_repo_under_ai_app_parent / "docs/req").resolve(),
+                )
+
+                ai_main = Path(tmp) / "ai_app"
+                ai_main.mkdir()
+                subprocess.run(["git", "-C", str(ai_main), "init", "-q"], check=True)
+                subprocess.run(["git", "-C", str(ai_main), "config", "user.email", "t@e.com"], check=True)
+                subprocess.run(["git", "-C", str(ai_main), "config", "user.name", "t"], check=True)
+                (ai_main / "README.md").write_text("base\n", encoding="utf-8")
+                subprocess.run(["git", "-C", str(ai_main), "add", "README.md"], check=True)
+                subprocess.run(["git", "-C", str(ai_main), "commit", "-qm", "init"], check=True)
+                base_branch = subprocess.run(
+                    ["git", "-C", str(ai_main), "branch", "--show-current"],
+                    capture_output=True, text=True, check=True,
+                ).stdout.strip()
+                subprocess.run(["git", "-C", str(ai_main), "remote", "add", "origin", str(ai_main)], check=True)
+                subprocess.run(["git", "-C", str(ai_main), "fetch", "-q", "origin"], check=True)
+
+                wt_tmp = Path(tmp) / "wt_isolated_216"
+                subprocess.run(
+                    ["git", "-C", str(ai_main), "worktree", "add", "-q", "-b", "feat/wt216", str(wt_tmp), f"origin/{base_branch}"],
+                    check=True,
+                )
+                self.assertEqual(ctl_mod.default_req_dir(wt_tmp), wb_req_dir)
+
+                # RED->GREEN 2: committed feature branch in worktree (clean `git diff HEAD`) must capture branch diff & log
+                (wt_tmp / "Slice1.java").write_text("class Slice1 {}\n", encoding="utf-8")
+                subprocess.run(["git", "-C", str(wt_tmp), "add", "Slice1.java"], check=True)
+                fp_before_commit = runner_mod.git_fingerprint(str(wt_tmp))
+                subprocess.run(["git", "-C", str(wt_tmp), "commit", "-qm", "feat: slice 1"], check=True)
+                fp_after_commit = runner_mod.git_fingerprint(str(wt_tmp))
+                self.assertNotEqual(fp_before_commit, fp_after_commit)
+
+                (wt_tmp / "Slice2.java").write_text("class Slice2 {}\n", encoding="utf-8")
+                subprocess.run(["git", "-C", str(wt_tmp), "add", "Slice2.java"], check=True)
+                subprocess.run(["git", "-C", str(wt_tmp), "commit", "-qm", "feat: slice 2"], check=True)
+
+                snap_dir = Path(tmp) / "snap-committed"
+                snap_dir.mkdir()
+                runner_mod.capture_git_snapshot(str(wt_tmp), snap_dir)
+                patch_txt = (snap_dir / "git.diff.patch").read_text(encoding="utf-8")
+                log_txt = (snap_dir / "git.log.txt").read_text(encoding="utf-8")
+                self.assertIn("Slice1.java", patch_txt)
+                self.assertIn("Slice2.java", patch_txt)
+                self.assertIn("feat: slice 1", log_txt)
+                self.assertIn("feat: slice 2", log_txt)
+            finally:
+                ctl_mod.AI_APP_WORKBENCH_REQ_DIR = orig_wb
+
 
 if __name__ == "__main__":
     unittest.main()

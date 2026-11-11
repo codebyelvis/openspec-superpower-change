@@ -104,9 +104,10 @@ def git_fingerprint(cwd: str) -> str:
     root = Path(cwd).resolve()
     h = hashlib.sha256()
     if subprocess.run(["git", "-C", str(root), "rev-parse", "--is-inside-work-tree"], capture_output=True).returncode == 0:
+        hd = subprocess.run(["git", "-C", str(root), "rev-parse", "--verify", "HEAD"], capture_output=True).stdout
         st = subprocess.run(["git", "-C", str(root), "status", "--porcelain", "-z"], capture_output=True).stdout
         df = subprocess.run(["git", "-C", str(root), "diff", "HEAD"], capture_output=True).stdout
-        h.update(b"GIT\0" + st + b"\0" + df + b"\0")
+        h.update(b"GIT\0" + hd + b"\0" + st + b"\0" + df + b"\0")
         others = subprocess.run(
             ["git", "-C", str(root), "ls-files", "--others", "--exclude-standard", "-z"],
             capture_output=True,
@@ -138,6 +139,40 @@ def git_fingerprint(cwd: str) -> str:
     return h.hexdigest()
 
 
+def capture_git_snapshot(work_cwd: str, raw: Path) -> None:
+    if subprocess.run(["git", "-C", work_cwd, "rev-parse", "--is-inside-work-tree"], capture_output=True).returncode != 0:
+        return
+    st = subprocess.run(["git", "-C", work_cwd, "status", "-sb"], capture_output=True, text=True)
+    (raw / "git.status.txt").write_text(st.stdout)
+
+    head_proc = subprocess.run(["git", "-C", work_cwd, "rev-parse", "--verify", "HEAD"], capture_output=True, text=True)
+    head_sha = head_proc.stdout.strip() if head_proc.returncode == 0 else ""
+    best_base, best_count = "", None
+    if head_sha:
+        for ref in ("@{upstream}", "origin/HEAD", "origin/main", "origin/master"):
+            mb = subprocess.run(["git", "-C", work_cwd, "merge-base", "HEAD", ref], capture_output=True, text=True)
+            base_cand = mb.stdout.strip() if mb.returncode == 0 else ""
+            if not base_cand or base_cand == head_sha:
+                continue
+            cnt = subprocess.run(["git", "-C", work_cwd, "rev-list", "--count", f"{base_cand}..HEAD"], capture_output=True, text=True)
+            if cnt.returncode == 0 and cnt.stdout.strip().isdigit():
+                n = int(cnt.stdout.strip())
+                if 1 <= n <= 200 and (best_count is None or n < best_count):
+                    best_base, best_count = base_cand, n
+
+    if best_base:
+        lg = subprocess.run(["git", "-C", work_cwd, "log", "--oneline", f"{best_base}..HEAD"], capture_output=True, text=True)
+        df = subprocess.run(["git", "-C", work_cwd, "diff", best_base], capture_output=True, text=True)
+    else:
+        lg = subprocess.run(["git", "-C", work_cwd, "log", "--oneline", "-n", "5", "HEAD"], capture_output=True, text=True) if head_sha else None
+        df = subprocess.run(["git", "-C", work_cwd, "diff", "HEAD"], capture_output=True, text=True)
+        if not df.stdout.strip() and subprocess.run(["git", "-C", work_cwd, "rev-parse", "--verify", "HEAD~1"], capture_output=True).returncode == 0:
+            df = subprocess.run(["git", "-C", work_cwd, "diff", "HEAD~1..HEAD"], capture_output=True, text=True)
+
+    (raw / "git.log.txt").write_text(lg.stdout if lg and lg.returncode == 0 else "")
+    (raw / "git.diff.patch").write_text(df.stdout[:200_000])
+
+
 def launch(batch, a, run, attempt, resume, ev):
     raw = ev / f"attempt-{attempt}"
     raw.mkdir(exist_ok=True)
@@ -161,13 +196,8 @@ def launch(batch, a, run, attempt, resume, ev):
             v_code = v.returncode
         (raw / "verify.exit").write_text(f"{v_code}\n")
 
-        if batch.get("capture_git_diff") and subprocess.run(
-            ["git", "-C", work_cwd, "rev-parse", "--is-inside-work-tree"], capture_output=True
-        ).returncode == 0:
-            st = subprocess.run(["git", "-C", work_cwd, "status", "-sb"], capture_output=True, text=True)
-            df = subprocess.run(["git", "-C", work_cwd, "diff", "HEAD"], capture_output=True, text=True)
-            (raw / "git.status.txt").write_text(st.stdout)
-            (raw / "git.diff.patch").write_text(df.stdout[:200_000])
+        if batch.get("capture_git_diff"):
+            capture_git_snapshot(work_cwd, raw)
 
         fp_before_pi = git_fingerprint(work_cwd)
         prompt = batch["pi_prompt"].replace("{RAW}", str(raw)).replace("{CWD}", str(work_cwd))

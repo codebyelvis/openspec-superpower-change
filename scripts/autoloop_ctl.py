@@ -74,10 +74,36 @@ def sha256_file(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def _has_ai_app_marker(path: Path) -> bool:
+    return any(
+        p == "ai_app" or p.startswith(("ai_app-", "ai_app_"))
+        for p in (part.lower() for part in path.parts)
+    )
+
+
+def _is_ai_app_repo(cwd: Path) -> bool:
+    resolved = cwd.resolve()
+    if _has_ai_app_marker(resolved):
+        return True
+    p = subprocess.run(
+        ["git", "-C", str(resolved), "rev-parse", "--git-common-dir"],
+        capture_output=True,
+        text=True,
+    )
+    if p.returncode == 0 and p.stdout.strip():
+        common = Path(p.stdout.strip())
+        if not common.is_absolute():
+            common = (resolved / common).resolve()
+        else:
+            common = common.resolve()
+        if _has_ai_app_marker(common):
+            return True
+    return False
+
+
 def default_req_dir(cwd: Path) -> Path:
-    parts = {p.lower() for p in cwd.resolve().parts}
-    if "ai_app" in parts and AI_APP_WORKBENCH_REQ_DIR.parent.is_dir():
-        return AI_APP_WORKBENCH_REQ_DIR
+    if AI_APP_WORKBENCH_REQ_DIR.parent.is_dir() and _is_ai_app_repo(cwd):
+        return AI_APP_WORKBENCH_REQ_DIR.resolve()
     return cwd.resolve() / "docs" / "req"
 
 
@@ -428,7 +454,7 @@ def cmd_run(args) -> int:
         f"1. 需求文档：`{req_path}`\n"
         f"2. 验收标准：{accept_text}\n"
         "3. 固定验证命令执行结果：`{RAW}/verify.exit`、`{RAW}/verify.stdout`、`{RAW}/verify.stderr`\n"
-        "4. 当前工作区变更快照（若存在）：`{RAW}/git.status.txt`、`{RAW}/git.diff.patch`（项目根目录 `{CWD}`）\n\n"
+        "4. 当前工作区与分支变更快照（若存在）：`{RAW}/git.status.txt`、`{RAW}/git.log.txt`、`{RAW}/git.diff.patch`（项目根目录 `{CWD}`）\n\n"
         "判定规则：\n"
         "- 仅当 `verify.exit` 为 `0`、需求与验收标准已满足、且代码无实质缺陷/无明显违背反膨胀四原则的阻塞问题时，首行严格输出 `AUTOLOOP_VERDICT: PASS`；否则首行严格输出 `AUTOLOOP_VERDICT: FAIL`。\n"
         "- 首行之后输出 Findings First（无阻塞问题写 `0 阻塞发现`；有阻塞问题逐条给出准确 `path:line`、原因与最小修复建议）以及 3 行内验证摘要。"
