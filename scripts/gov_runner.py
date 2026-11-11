@@ -101,11 +101,41 @@ def main():
 
 
 def git_fingerprint(cwd: str) -> str:
-    if subprocess.run(["git", "-C", cwd, "rev-parse", "--is-inside-work-tree"], capture_output=True).returncode != 0:
-        return "non-git"
-    st = subprocess.run(["git", "-C", cwd, "status", "--porcelain"], capture_output=True, text=True).stdout
-    df = subprocess.run(["git", "-C", cwd, "diff", "HEAD"], capture_output=True, text=True).stdout
-    return hashlib.sha256((st + "\0" + df).encode("utf-8")).hexdigest()
+    root = Path(cwd).resolve()
+    h = hashlib.sha256()
+    if subprocess.run(["git", "-C", str(root), "rev-parse", "--is-inside-work-tree"], capture_output=True).returncode == 0:
+        st = subprocess.run(["git", "-C", str(root), "status", "--porcelain", "-z"], capture_output=True).stdout
+        df = subprocess.run(["git", "-C", str(root), "diff", "HEAD"], capture_output=True).stdout
+        h.update(b"GIT\0" + st + b"\0" + df + b"\0")
+        others = subprocess.run(
+            ["git", "-C", str(root), "ls-files", "--others", "--exclude-standard", "-z"],
+            capture_output=True,
+        ).stdout.split(b"\0")
+        for raw_rel in sorted(filter(None, others)):
+            rel = raw_rel.decode("utf-8", errors="surrogateescape")
+            fp = root / rel
+            h.update(raw_rel + b"\0")
+            if fp.is_symlink():
+                h.update(b"L:" + os.readlink(fp).encode("utf-8", errors="surrogateescape") + b"\0")
+            elif fp.is_file():
+                h.update(b"F:" + hashlib.sha256(fp.read_bytes()).digest() + b"\0")
+        return h.hexdigest()
+
+    skip_dirs = {".git", "__pycache__", ".pytest_cache", "node_modules", ".mypy_cache", ".ruff_cache"}
+    h.update(b"DIR\0")
+    for base, dirs, files in os.walk(root):
+        dirs[:] = sorted(d for d in dirs if d not in skip_dirs)
+        for fn in sorted(files):
+            if fn == ".DS_Store":
+                continue
+            fp = Path(base) / fn
+            rel = str(fp.relative_to(root)).encode("utf-8", errors="surrogateescape")
+            h.update(rel + b"\0")
+            if fp.is_symlink():
+                h.update(b"L:" + os.readlink(fp).encode("utf-8", errors="surrogateescape") + b"\0")
+            elif fp.is_file():
+                h.update(b"F:" + hashlib.sha256(fp.read_bytes()).digest() + b"\0")
+    return h.hexdigest()
 
 
 def launch(batch, a, run, attempt, resume, ev):
@@ -118,15 +148,17 @@ def launch(batch, a, run, attempt, resume, ev):
         fp_before_pi = "stub"
     else:
         v_cmd = batch.get("verify_command")
-        if v_cmd:
-            with open(raw / "verify.stdout", "w") as v_out, open(raw / "verify.stderr", "w") as v_err:
-                use_shell = isinstance(v_cmd, str)
-                v = subprocess.run(v_cmd, shell=use_shell, cwd=work_cwd, stdout=v_out, stderr=v_err, text=True,
-                                   timeout=int(batch.get("verify_timeout", 600)))
-                v_code = v.returncode
-        else:
-            (raw / "verify.stdout").write_text("(no verify_command specified)\n")
-            (raw / "verify.stderr").write_text("")
+        if not v_cmd or (isinstance(v_cmd, str) and not v_cmd.strip()):
+            with open(ev / "report-abort.md", "a") as f:
+                f.write("# 执行中止报告\n\n- reason: empty verify_command is forbidden\n- 治理结论: BLOCKED（禁止空命令验收）\n\n")
+            meta(session=a.session, started=True, finished=True)
+            print("执行中止：验证命令为空，禁止无命令验收", flush=True)
+            return 0
+        with open(raw / "verify.stdout", "w") as v_out, open(raw / "verify.stderr", "w") as v_err:
+            use_shell = isinstance(v_cmd, str)
+            v = subprocess.run(v_cmd, shell=use_shell, cwd=work_cwd, stdout=v_out, stderr=v_err, text=True,
+                               timeout=int(batch.get("verify_timeout", 600)))
+            v_code = v.returncode
         (raw / "verify.exit").write_text(f"{v_code}\n")
 
         if batch.get("capture_git_diff") and subprocess.run(

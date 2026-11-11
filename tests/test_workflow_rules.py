@@ -6178,7 +6178,7 @@ class SkillIterationEntryTests(unittest.TestCase):
                     "--slug", "order-limit",
                     "--title", "订单导出分页限制",
                     "--summary", "超过31天抛异常",
-                    "--cmd", "python3 -m unittest",
+                    "--cmd", 'python3 -c "print(1)" && python3 -c \'print("hi")\'',
                     "--accept", "1. 单测全绿；2. 超过31天返回明确错误",
                 ],
                 env=env,
@@ -6198,8 +6198,111 @@ class SkillIterationEntryTests(unittest.TestCase):
             matched = json.loads(match_proc.stdout)
             self.assertTrue(matched["matched"])
             self.assertEqual(Path(matched["req_path"]).resolve(), Path(created["req_path"]).resolve())
-            self.assertEqual(matched["verify_cmd"], "python3 -m unittest")
+            self.assertEqual(matched["verify_cmd"], 'python3 -c "print(1)" && python3 -c \'print("hi")\'')
+            self.assertEqual(subprocess.run(matched["verify_cmd"], shell=True, capture_output=True).returncode, 0)
             self.assertIn("超过31天返回明确错误", matched["accept"])
+
+            # Empty --cmd must fail-closed on both init-req and run
+            empty_cmd_init = subprocess.run(
+                [
+                    sys.executable, str(ROOT / "scripts/autoloop_ctl.py"), "init-req",
+                    "--cwd", str(proj), "--slug", "bad-empty", "--title", "T",
+                    "--summary", "S", "--cmd", "   ", "--accept", "A",
+                ],
+                env=env, capture_output=True, text=True,
+            )
+            self.assertNotEqual(empty_cmd_init.returncode, 0)
+
+            import importlib.util
+            def _load_mod(name: str, path: Path):
+                spec = importlib.util.spec_from_file_location(name, path)
+                mod = importlib.util.module_from_spec(spec)
+                assert spec and spec.loader
+                spec.loader.exec_module(mod)
+                return mod
+
+            ctl_mod = _load_mod("autoloop_ctl_test", ROOT / "scripts/autoloop_ctl.py")
+            runner_mod = _load_mod("gov_runner_test", ROOT / "scripts/gov_runner.py")
+
+            # Missing `status:` line in frontmatter must still be marked `passed`
+            hand_req = proj / "docs/req/2026-11-11-handwritten.md"
+            hand_req.write_text('---\nreq_id: hand\nverify_cmd: "true"\n---\n# H\n## 验收标准\nok\n', encoding="utf-8")
+            ctl_mod.mark_req_passed(hand_req)
+            self.assertEqual(ctl_mod.parse_req_markdown(hand_req)["status"], "passed")
+            ctl_mod.mark_req_passed(Path(created["req_path"]))
+
+            # Unsafe OpenSpec change directory name must never be interpolated into shell verify_cmd
+            bad_ch = proj / "openspec/changes/foo; echo injected"
+            bad_ch.mkdir(parents=True)
+            (bad_ch / "proposal.md").write_text("# P\n", encoding="utf-8")
+            (bad_ch / "tasks.md").write_text("- [ ] 1.1 todo\n", encoding="utf-8")
+            self.assertFalse(ctl_mod.match_project_req(proj)["matched"])
+
+            good_ch = proj / "openspec/changes/add-safe-check"
+            good_ch.mkdir(parents=True)
+            (good_ch / "proposal.md").write_text("# P\n", encoding="utf-8")
+            (good_ch / "tasks.md").write_text("- [ ] 1.1 todo\n", encoding="utf-8")
+            os_match = ctl_mod.match_project_req(proj)
+            self.assertTrue(os_match["matched"])
+            self.assertEqual(os_match["verify_cmd"], "openspec validate add-safe-check --strict")
+
+            # Workspace fingerprint must detect untracked file edits in Git repos AND file edits in non-Git dirs
+            non_git = Path(tmp) / "plain-dir"
+            non_git.mkdir()
+            (non_git / "a.txt").write_text("v1", encoding="utf-8")
+            fp_ng_1 = runner_mod.git_fingerprint(str(non_git))
+            (non_git / "a.txt").write_text("v2", encoding="utf-8")
+            fp_ng_2 = runner_mod.git_fingerprint(str(non_git))
+            self.assertNotEqual(fp_ng_1, fp_ng_2)
+
+            git_dir = Path(tmp) / "git-dir"
+            git_dir.mkdir()
+            subprocess.run(["git", "-C", str(git_dir), "init", "-q"], check=True)
+            (git_dir / "new_file.txt").write_text("v1", encoding="utf-8")
+            fp_g_1 = runner_mod.git_fingerprint(str(git_dir))
+            (git_dir / "new_file.txt").write_text("v2", encoding="utf-8")
+            fp_g_2 = runner_mod.git_fingerprint(str(git_dir))
+            self.assertNotEqual(fp_g_1, fp_g_2)
+
+            # Empty verify_command in gov_runner must abort with report-abort.md and never write verify.exit=0 or report.md
+            empty_batch = Path(tmp) / "empty-batch.json"
+            ev_root = Path(tmp) / "ev"
+            empty_batch.write_text(
+                json.dumps(
+                    {
+                        "batch_id": "empty-vcmd",
+                        "mode": "pi-accept",
+                        "allow_rerun": False,
+                        "expected_resume": None,
+                        "verify_cwd": str(proj),
+                        "verify_command": "   ",
+                        "ledger_dir": str(Path(tmp) / "ledger"),
+                        "evidence_dir": str(ev_root),
+                        "stop_cmd": ["true"],
+                        "pi_cmd": ["false"],
+                        "pi_prompt": "unused",
+                    }
+                ),
+                encoding="utf-8",
+            )
+            folder = Path(tmp) / "99-1"
+            folder.mkdir()
+            r_proc = subprocess.run(
+                [
+                    sys.executable, str(ROOT / "scripts/gov_runner.py"),
+                    "--batch", str(empty_batch),
+                    "--folder", str(folder),
+                    "--session", "s-99",
+                    "--resume", "",
+                    "--cwd", str(proj),
+                ],
+                env={**os.environ, "AGENT_AUTOLOOP_RUN": "99"},
+                capture_output=True, text=True, check=True,
+            )
+            self.assertIn("验证命令为空", r_proc.stdout)
+            self.assertTrue((ev_root / "run-99/report-abort.md").is_file())
+            self.assertFalse((ev_root / "run-99/attempt-1/verify.exit").exists())
+            self.assertFalse((ev_root / "run-99/report.md").exists())
 
 
 if __name__ == "__main__":

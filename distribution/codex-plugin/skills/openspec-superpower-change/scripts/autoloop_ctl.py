@@ -25,6 +25,7 @@ PI_BIN = shutil.which("pi") or "/Users/elvis/.local/bin/pi"
 PI_ANTIGRAVITY_EXT = Path.home() / ".pi/agent/npm/node_modules/pi-antigravity/src/index.ts"
 LAUNCHD_LABEL = f"gui/{os.getuid()}/agent-autoloop"
 SAFE_SLUG = re.compile(r"[^a-zA-Z0-9\u4e00-\u9fff_-]+")
+SAFE_CHANGE_ID = re.compile(r"^[a-z0-9][a-z0-9-]{0,127}$")
 
 AGENT_TS_CODE = """// Author: elvis. Governed host-side adapter for agent-autoloop (change integrate-governed-cli-autoloop).
 // Passes turn.contextFile so gov_runner.py resolves per-event isolated batch contracts (<batches_dir>/<subject>.json)
@@ -93,8 +94,13 @@ def parse_req_markdown(path: Path) -> dict:
                 if ":" in line:
                     k, v = line.split(":", 1)
                     val = v.strip()
-                    if len(val) >= 2 and val[0] == val[-1] and val[0] in ("'", '"'):
-                        val = val[1:-1]
+                    if len(val) >= 2 and val[0] == '"' and val[-1] == '"':
+                        try:
+                            val = json.loads(val)
+                        except json.JSONDecodeError:
+                            val = val[1:-1]
+                    elif len(val) >= 2 and val[0] == "'" and val[-1] == "'":
+                        val = val[1:-1].replace("''", "'")
                     meta[k.strip()] = val
     accept = ""
     m = re.search(r"^##\s*(?:验收标准|Acceptance Criteria)\s*$([\s\S]*?)(?=^##\s+|\Z)", body, re.M)
@@ -116,8 +122,14 @@ def mark_req_passed(path: Path) -> None:
     if txt.startswith("---\n"):
         end = txt.find("\n---\n", 4)
         if end != -1:
-            fm = re.sub(r"(?m)^status:\s*\S+\s*$", "status: passed", txt[4:end])
+            fm = txt[4:end]
+            if re.search(r"(?m)^status:\s*.*$", fm):
+                fm = re.sub(r"(?m)^status:\s*.*$", "status: passed", fm)
+            else:
+                fm = fm.rstrip("\n") + "\nstatus: passed"
             path.write_text(f"---\n{fm}\n---\n{txt[end + 5:]}", encoding="utf-8")
+            return
+    path.write_text(f"---\nstatus: passed\n---\n\n{txt}", encoding="utf-8")
 
 
 def load_index() -> dict:
@@ -141,10 +153,12 @@ def cmd_init_req(args) -> int:
     req_path = req_dir / f"{req_id}.md"
 
     v_cmd = (args.cmd or "").strip()
-    escaped_cmd = v_cmd.replace('"', '\\"')
-    cmd_bullet = f"1. 命令验收：`{v_cmd}` 退出码为 `0`。\n" if v_cmd else ""
+    if not v_cmd:
+        raise SystemExit("BLOCKED: --cmd verification command must not be empty")
+    encoded_cmd = json.dumps(v_cmd, ensure_ascii=False)
+    cmd_bullet = f"1. 命令验收：`{v_cmd}` 退出码为 `0`。\n"
     content = (
-        f"---\nreq_id: {req_id}\nstatus: ready\nverify_cmd: \"{escaped_cmd}\"\n---\n\n"
+        f"---\nreq_id: {req_id}\nstatus: ready\nverify_cmd: {encoded_cmd}\n---\n\n"
         f"# {args.title.strip()}\n\n"
         f"## 需求与边界\n\n{args.summary.strip()}\n\n"
         f"## 验收标准\n\n{cmd_bullet}{args.accept.strip()}\n"
@@ -180,7 +194,10 @@ def match_project_req(cwd: Path) -> dict:
     changes_dir = cwd / "openspec" / "changes"
     if changes_dir.is_dir():
         active_dirs = sorted(
-            [d for d in changes_dir.iterdir() if d.is_dir() and d.name != "archive" and (d / "proposal.md").is_file()],
+            [
+                d for d in changes_dir.iterdir()
+                if d.is_dir() and d.name != "archive" and SAFE_CHANGE_ID.match(d.name) and (d / "proposal.md").is_file()
+            ],
             key=lambda p: p.stat().st_mtime,
             reverse=True,
         )
@@ -195,6 +212,7 @@ def match_project_req(cwd: Path) -> dict:
                 "req_id": ch_dir.name,
                 "status": "ready",
                 "verify_cmd": f"openspec validate {ch_dir.name} --strict",
+                "verify_argv": ["openspec", "validate", ch_dir.name, "--strict"],
                 "accept": f"满足 openspec/changes/{ch_dir.name}/ 下 proposal.md、design.md 与 tasks.md 的验收要求",
             }
 
@@ -391,7 +409,14 @@ def cmd_run(args) -> int:
         req_path = Path(matched["req_path"])
         parsed = matched
 
-    verify_cmd = (args.cmd if args.cmd else parsed.get("verify_cmd", "")).strip()
+    if args.cmd:
+        verify_cmd: str | list[str] = args.cmd.strip()
+    elif parsed.get("verify_argv"):
+        verify_cmd = list(parsed["verify_argv"])
+    else:
+        verify_cmd = (parsed.get("verify_cmd") or "").strip()
+    if not verify_cmd:
+        raise SystemExit(f"BLOCKED: empty verify_cmd in {req_path} is forbidden; provide --cmd or set verify_cmd in frontmatter")
     accept_text = (args.accept if args.accept else parsed.get("accept", "")).strip() or "以需求文档内的验收标准与固定验证命令退出码 0 为准"
 
     setup = ensure_installed()
@@ -470,7 +495,7 @@ def main() -> int:
     p_init.add_argument("--slug", required=True, help="Short slug for requirement filename")
     p_init.add_argument("--title", required=True, help="Requirement title")
     p_init.add_argument("--summary", required=True, help="Requirement scope & boundaries")
-    p_init.add_argument("--cmd", default="", help="Deterministic verification shell command")
+    p_init.add_argument("--cmd", required=True, help="Deterministic verification shell command (non-empty)")
     p_init.add_argument("--accept", required=True, help="Acceptance criteria items")
 
     p_match = sub.add_parser("match", help="Auto-match pending docs/req/*.md or active OpenSpec change for --cwd")
