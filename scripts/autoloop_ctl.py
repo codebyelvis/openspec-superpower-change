@@ -3,11 +3,15 @@
 
 Author: elvis
 """
+from __future__ import annotations
+
 import argparse, hashlib, json, os, re, shutil, subprocess, sys, time, uuid
 from pathlib import Path
 
 SCRIPTS_DIR = Path(__file__).resolve().parent
 RUNNER_SRC = SCRIPTS_DIR / "gov_runner.py"
+CHECKER_SRC = SCRIPTS_DIR / "check_commit_text.py"
+HUNT_REF = SCRIPTS_DIR.parent / "references" / "autoloop-review-hunt.md"
 AL_HOME = Path.home() / ".agent-autoloop"
 RULES_FILE = AL_HOME / "rules.json"
 PLUG_DIR = AL_HOME / "plugins" / "govpi"
@@ -277,6 +281,12 @@ def ensure_installed() -> dict:
         runner_dst.chmod(0o755)
         changed = True
 
+    checker_dst = PLUG_DIR / "check_commit_text.py"
+    if CHECKER_SRC.is_file() and (not checker_dst.is_file() or sha256_file(CHECKER_SRC) != sha256_file(checker_dst)):
+        shutil.copy2(CHECKER_SRC, checker_dst)
+        checker_dst.chmod(0o755)
+        changed = True
+
     install_cfg = json.dumps(
         {
             "python": "/usr/bin/python3",
@@ -445,25 +455,62 @@ def cmd_run(args) -> int:
         raise SystemExit(f"BLOCKED: empty verify_cmd in {req_path} is forbidden; provide --cmd or set verify_cmd in frontmatter")
     accept_text = (args.accept if args.accept else parsed.get("accept", "")).strip() or "以需求文档内的验收标准与固定验证命令退出码 0 为准"
 
+    review_profile = (args.review_profile or "").strip()
+    if not review_profile:
+        review_profile = "pre-mr" if (args.commit_msg_file or "").strip() else "fast"
+    model_spec = (args.model or "").strip()
+    if not model_spec:
+        model_spec = (
+            "antigravity/gemini-4-carbon:high"
+            if review_profile == "pre-mr"
+            else "antigravity/gemini-4-carbon:medium"
+        )
+
     setup = ensure_installed()
     batch_id = f"al-{time.strftime('%Y%m%d-%H%M%S')}-{uuid.uuid4().hex[:6]}"
 
-    prompt = (
-        f"你是独立只读验收与代码审查员（role=independent-reviewer，batch={batch_id}）。\n"
-        "严禁尝试任何写操作；仅用 read/grep/find/ls 检查以下材料：\n"
-        f"1. 需求文档：`{req_path}`\n"
-        f"2. 验收标准：{accept_text}\n"
-        "3. 固定验证命令执行结果：`{RAW}/verify.exit`、`{RAW}/verify.stdout`、`{RAW}/verify.stderr`\n"
-        "4. 当前工作区与分支变更快照（若存在）：`{RAW}/git.status.txt`、`{RAW}/git.log.txt`、`{RAW}/git.diff.patch`（项目根目录 `{CWD}`）\n\n"
-        "判定规则：\n"
-        "- 仅当 `verify.exit` 为 `0`、需求与验收标准已满足、且代码无实质缺陷/无明显违背反膨胀四原则的阻塞问题时，首行严格输出 `AUTOLOOP_VERDICT: PASS`；否则首行严格输出 `AUTOLOOP_VERDICT: FAIL`。\n"
-        "- 首行之后输出 Findings First（无阻塞问题写 `0 阻塞发现`；有阻塞问题逐条给出准确 `path:line`、原因与最小修复建议）以及 3 行内验证摘要。"
-    )
+    if review_profile == "pre-mr":
+        prompt = (
+            f"你是 MR 提交前独立只读审查员（role=independent-reviewer，profile=pre-mr，batch={batch_id}）。\n"
+            "严禁尝试任何写操作；仅用 read/grep/find/ls 检查以下材料：\n"
+            f"1. 需求文档：`{req_path}`\n"
+            f"2. 验收标准：{accept_text}\n"
+            "3. 固定验证命令执行结果：`{RAW}/verify.exit`、`{RAW}/verify.stdout`、`{RAW}/verify.stderr`\n"
+            "4. Git 基线与净变更证据：`{RAW}/git.meta.json`、`{RAW}/git.status.txt`、`{RAW}/git.changed_files.txt`、`{RAW}/git.branch_diff.patch`、`{RAW}/git.working_diff.patch`、`{RAW}/git.log.txt`（及若存在的 `{RAW}/commit_check.json`，项目根目录 `{CWD}`）\n"
+            f"5. 条件猎杀清单：`{HUNT_REF}`\n\n"
+            "判定规则：\n"
+            "- 若 `verify.exit` 非 `0`，或 `git.meta.json` 显示基线未解析/补丁截断/干净工作区无可见净变更，必须输出 `AUTOLOOP_VERDICT: FAIL`。\n"
+            "- 严格按条件猎杀清单核查本次变更触及的路径；未触及的类别记录 `hunt: n/a`，严禁因“未加无依据防御代码”、命名/格式偏好或目标分支未触碰旧问题判 `FAIL`。\n"
+            "- 每个 `FAIL` 发现必须同时给出本次 Diff 内的准确 `path:line`，以及仓库内真实消费者或可达的重试/分页/崩溃重入触发路径。\n"
+            "- 通过时首行严格输出 `AUTOLOOP_VERDICT: PASS`，否则首行严格输出 `AUTOLOOP_VERDICT: FAIL`；随后输出 Findings First（无阻塞写 `0 阻塞发现`）、`hunt:` 适用性摘要及 3 行内验证摘要。"
+        )
+    else:
+        prompt = (
+            f"你是独立只读验收与代码审查员（role=independent-reviewer，profile=fast，batch={batch_id}）。\n"
+            "严禁尝试任何写操作；仅用 read/grep/find/ls 检查以下材料：\n"
+            f"1. 需求文档：`{req_path}`\n"
+            f"2. 验收标准：{accept_text}\n"
+            "3. 固定验证命令执行结果：`{RAW}/verify.exit`、`{RAW}/verify.stdout`、`{RAW}/verify.stderr`\n"
+            "4. 当前工作区与分支变更快照：`{RAW}/git.meta.json`、`{RAW}/git.status.txt`、`{RAW}/git.changed_files.txt`、`{RAW}/git.branch_diff.patch`、`{RAW}/git.working_diff.patch`、`{RAW}/git.log.txt`、`{RAW}/git.diff.patch`（项目根目录 `{CWD}`）\n\n"
+            "判定规则：\n"
+            "- 若 `git.meta.json` 显示补丁截断（`truncated=true`），或工作区干净却基线未解析/无可见分支提交 Diff，不得输出 `PASS`。\n"
+            "- 仅当 `verify.exit` 为 `0`、需求与验收标准已满足、且代码无实质缺陷/无明显违背反膨胀四原则的阻塞问题时，首行严格输出 `AUTOLOOP_VERDICT: PASS`；否则首行严格输出 `AUTOLOOP_VERDICT: FAIL`。\n"
+            "- 首行之后输出 Findings First（无阻塞问题写 `0 阻塞发现`；有阻塞问题逐条给出准确 `path:line`、原因与最小修复建议）以及 3 行内验证摘要。"
+        )
+
+    commit_msg_resolved = str(Path(args.commit_msg_file).expanduser().resolve()) if (args.commit_msg_file or "").strip() else ""
+    commit_policy_resolved = str(Path(args.commit_policy).expanduser().resolve()) if (args.commit_policy or "").strip() else ""
 
     batch_payload = {
         "batch_id": batch_id,
         "change_id": parsed.get("req_id", batch_id),
         "mode": "pi-accept",
+        "review_profile": review_profile,
+        "base_ref": (args.base_ref or "").strip(),
+        "commit_msg_file": commit_msg_resolved,
+        "commit_policy": commit_policy_resolved,
+        "commit_profile": (args.commit_profile or "initial").strip() or "initial",
+        "commit_checker": str(CHECKER_SRC),
         "allow_rerun": False,
         "expected_resume": None,
         "verify_cwd": str(cwd),
@@ -475,7 +522,7 @@ def cmd_run(args) -> int:
         "ledger_dir": str(LEDGER_DIR),
         "evidence_dir": str(EVIDENCE_DIR),
         "stop_cmd": AL_CMD + ["stop"],
-        "pi_cmd": build_pi_cmd(args.model),
+        "pi_cmd": build_pi_cmd(model_spec),
         "pi_prompt": prompt,
     }
     (BATCHES_DIR / f"{batch_id}.json").write_text(json.dumps(batch_payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
@@ -532,7 +579,12 @@ def main() -> int:
     p_run.add_argument("--req", default="", help="Optional requirement markdown path (auto-matched when omitted)")
     p_run.add_argument("--accept", default="", help="Optional acceptance override (read from matched req when omitted)")
     p_run.add_argument("--cmd", default="", help="Optional verification command override (read from matched req when omitted)")
-    p_run.add_argument("--model", default="antigravity/gemini-4-carbon:medium", help="Reviewer provider/model[:thinking]")
+    p_run.add_argument("--base-ref", default="", help="Local target base ref for three-dot net diff (required in pre-mr)")
+    p_run.add_argument("--commit-msg-file", default="", help="Commit message file for deterministic check (auto-enables pre-mr)")
+    p_run.add_argument("--commit-policy", default="", help="Optional external commit policy JSON path")
+    p_run.add_argument("--commit-profile", default="initial", help="Commit policy profile name (default: initial)")
+    p_run.add_argument("--review-profile", choices=["", "fast", "pre-mr"], default="", help="Review tier: fast (default) or pre-mr")
+    p_run.add_argument("--model", default="", help="Reviewer provider/model[:thinking] (defaults to medium for fast, high for pre-mr)")
     p_run.add_argument("--timeout", type=int, default=600, help="Max verification timeout seconds")
     p_run.add_argument("--async", dest="async_mode", action="store_true", help="Dispatch and return batch_id immediately")
 

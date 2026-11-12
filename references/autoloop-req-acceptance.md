@@ -39,9 +39,17 @@ python3 "$SKILL_ROOT/scripts/autoloop_ctl.py" match --cwd "$PWD"
 ### Step 2: Minimal Local Implementation & Fast Check
 - Implement the slice following the Four Anti-Bloat Principles and run `verify_cmd` once locally.
 
-### Step 3: Zero-Arg Governed Background Verification & Independent Read-Only Review (`run`)
+### Step 3: Governed Background Verification & Independent Read-Only Review (`run`)
 ```bash
+# Default fast loop (medium reasoning, local three-tier baseline resolution)
 python3 "$SKILL_ROOT/scripts/autoloop_ctl.py" run --cwd "$PWD"
+
+# Pre-MR strict signoff (high reasoning, conditional hunt checklist, deterministic commit gate)
+python3 "$SKILL_ROOT/scripts/autoloop_ctl.py" run \
+  --cwd "$PWD" \
+  --base-ref "origin/<target_branch>" \
+  --commit-msg-file /tmp/commit_msg.txt \
+  --review-profile pre-mr
 ```
-- `run` automatically resolves the matched `docs/req/*.md` (or OpenSpec change), executes `verify_cmd` via `agent-autoloop` (`govpi`), captures working-tree plus committed feature-branch diffs (`git.status.txt`, `git.log.txt`, `git.diff.patch`), runs an isolated read-only Pi review (`--tools read,grep,find,ls`), verifies zero workspace/HEAD mutation during review, and marks the requirement `status: passed` upon `"verdict": "PASS"`.
+- `run` resolves the matched `docs/req/*.md` (or OpenSpec change), executes `verify_cmd` via `agent-autoloop` (`govpi`), captures local-ref Git metadata (`git.meta.json`, `git.status.txt`, `git.changed_files.txt`, three-dot `git.branch_diff.patch`, `git.working_diff.patch`, compatibility `git.diff.patch`, and full `git.log.txt`) under a `2,000,000`-byte per-patch ceiling (`truncated=true` fails closed), enforces deterministic pre-Pi vetoes (`missing_base_ref` when `pre-mr` omits `--base-ref`, `invalid_base_ref`, empty clean-worktree diffs, and portable `scripts/check_commit_text.py` + optional `--commit-policy` / `--commit-profile`), runs an isolated read-only Pi review (`--tools read,grep,find,ls`; `pre-mr` applies `references/autoloop-review-hunt.md` with `hunt: n/a` anti-bloat rules), verifies zero workspace/HEAD mutation during review, and marks the requirement `status: passed` upon `"verdict": "PASS"`.
 - On `"verdict": "FAIL"`, read `report_path`, apply minimal same-scope fixes, and re-run (at most 2 auto-repair rounds before stopping to report).
