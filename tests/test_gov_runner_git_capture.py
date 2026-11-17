@@ -424,6 +424,167 @@ class GovRunnerGitCaptureTests(unittest.TestCase):
             self.assertFalse(res_bad_schema["ok"])
             self.assertGreaterEqual(len(res_bad_schema["errors"]), 3)
 
+    def test_agy_stream_json_driver_and_model_header_tolerance(self) -> None:
+        ctl = _load_module("autoloop_ctl_agy_t", ROOT / "scripts/autoloop_ctl.py")
+        runner = _load_module("gov_runner_agy_t", ROOT / "scripts/gov_runner.py")
+
+        self.assertEqual(
+            ctl.build_agy_cmd("antigravity/gemini-4-carbon:medium"),
+            [
+                "/Users/elvis/.gemini/antigravity-cli/bin/agy-readonly-review",
+                "--model",
+                "gemini-4-carbon-medium",
+                "--output-format",
+                "stream-json",
+                "--disable-slash-commands",
+            ],
+        )
+        self.assertEqual(
+            ctl.build_agy_cmd("antigravity/gemini-4-carbon:high")[2],
+            "gemini-4-carbon-high",
+        )
+        self.assertEqual(
+            runner._extract_verdict_line("**模型信息**：Gemini 4 Carbon\n\nAUTOLOOP_VERDICT: PASS\n0 阻塞发现"),
+            "AUTOLOOP_VERDICT: PASS",
+        )
+        self.assertEqual(
+            runner._extract_verdict_line("普通正文\nAUTOLOOP_VERDICT: PASS"),
+            "普通正文",
+        )
+
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp_p = Path(tmp)
+            repo = tmp_p / "repo"
+            base_branch = _init_repo(repo)
+            _git(repo, "checkout", "-qb", "feat/agy-driver", base_branch)
+            (repo / "app.py").write_text("x = 1\n", encoding="utf-8")
+            _git(repo, "add", "app.py")
+            _git(repo, "commit", "-m", "feat(core): add x", "-m", "- init x for agy driver test")
+
+            req_dir = tmp_p / "req_external"
+            req_dir.mkdir()
+            req_file = req_dir / "req.md"
+            req_file.write_text("# req\n", encoding="utf-8")
+
+            fake_agy = tmp_p / "fake_agy.py"
+            fake_agy.write_text(
+                "#!/usr/bin/env python3\n"
+                "import json, os, sys\n"
+                "mode = os.environ.get('FAKE_AGY_MODE', 'pass')\n"
+                "print(json.dumps({'event': 'init', 'conversation_id': 'conv-agy-123'}), flush=True)\n"
+                "if mode == 'pass':\n"
+                "    resp = '**模型信息**：Gemini 4 Carbon\\n\\nAUTOLOOP_VERDICT: PASS\\n0 阻塞发现'\n"
+                "    print(json.dumps({'event': 'result', 'result': {'conversation_id': 'conv-agy-123', 'status': 'SUCCESS', 'response': resp}}), flush=True)\n"
+                "elif mode == 'mid_bypass':\n"
+                "    resp = '无关开场白\\nAUTOLOOP_VERDICT: PASS'\n"
+                "    print(json.dumps({'event': 'result', 'result': {'conversation_id': 'conv-agy-123', 'status': 'SUCCESS', 'response': resp}}), flush=True)\n"
+                "else:\n"
+                "    print(json.dumps({'event': 'result', 'result': {'conversation_id': 'conv-agy-123', 'status': 'ERROR', 'error': 'upstream error'}}), flush=True)\n",
+                encoding="utf-8",
+            )
+            fake_agy.chmod(0o755)
+
+            # 1. Valid AGY stream-json PASS with model header prefix and --add-dir injection
+            ev1 = tmp_p / "ev1"
+            b1 = tmp_p / "b1.json"
+            b1.write_text(
+                json.dumps(
+                    {
+                        "batch_id": "b-agy-pass",
+                        "mode": "pi-accept",
+                        "reviewer_driver": "agy",
+                        "extra_read_dirs": [str(req_dir)],
+                        "review_profile": "fast",
+                        "base_ref": base_branch,
+                        "allow_rerun": False,
+                        "expected_resume": None,
+                        "verify_cwd": str(repo),
+                        "verify_command": "true",
+                        "capture_git_diff": True,
+                        "ledger_dir": str(tmp_p / "ledger1"),
+                        "evidence_dir": str(ev1),
+                        "stop_cmd": ["true"],
+                        "pi_cmd": [sys.executable, str(fake_agy)],
+                        "pi_prompt": "check {RAW} {CWD}",
+                    }
+                ),
+                encoding="utf-8",
+            )
+            f1 = tmp_p / "201-1"
+            f1.mkdir()
+            subprocess.run(
+                [
+                    sys.executable, str(ROOT / "scripts/gov_runner.py"),
+                    "--batch", str(b1), "--folder", str(f1), "--session", "s-201", "--resume", "", "--cwd", str(repo),
+                ],
+                env={**os.environ, "AGENT_AUTOLOOP_RUN": "201", "FAKE_AGY_MODE": "pass"},
+                capture_output=True, text=True, check=True,
+            )
+            argv1 = json.loads((ev1 / "run-201/attempt-1/cli.argv.json").read_text(encoding="utf-8"))
+            self.assertIn("--add-dir", argv1)
+            self.assertIn(str(req_dir.resolve()), argv1)
+            self.assertIn(str((ev1 / "run-201/attempt-1").resolve()), argv1)
+            self.assertEqual(argv1[-2], "-p")
+            r1 = json.loads((ev1 / "run-201/receipt.json").read_text(encoding="utf-8"))
+            self.assertEqual(r1["verdict"], "PASS")
+            self.assertEqual(r1["native_session"], "conv-agy-123")
+            self.assertEqual(r1["first_line"], "AUTOLOOP_VERDICT: PASS")
+            self.assertIn("agent_product: antigravity-cli", (ev1 / "run-201/report.md").read_text(encoding="utf-8"))
+
+            # 2. Body-only AUTOLOOP_VERDICT: PASS behind unrelated first line must FAIL
+            ev2 = tmp_p / "ev2"
+            b2 = tmp_p / "b2.json"
+            b2.write_text(
+                json.dumps(
+                    {
+                        **json.loads(b1.read_text(encoding="utf-8")),
+                        "batch_id": "b-agy-bypass",
+                        "ledger_dir": str(tmp_p / "ledger2"),
+                        "evidence_dir": str(ev2),
+                    }
+                ),
+                encoding="utf-8",
+            )
+            f2 = tmp_p / "202-1"
+            f2.mkdir()
+            subprocess.run(
+                [
+                    sys.executable, str(ROOT / "scripts/gov_runner.py"),
+                    "--batch", str(b2), "--folder", str(f2), "--session", "s-202", "--resume", "", "--cwd", str(repo),
+                ],
+                env={**os.environ, "AGENT_AUTOLOOP_RUN": "202", "FAKE_AGY_MODE": "mid_bypass"},
+                capture_output=True, text=True, check=True,
+            )
+            r2 = json.loads((ev2 / "run-202/receipt.json").read_text(encoding="utf-8"))
+            self.assertEqual(r2["verdict"], "FAIL")
+
+            # 3. Non-SUCCESS status aborts fail-closed
+            ev3 = tmp_p / "ev3"
+            b3 = tmp_p / "b3.json"
+            b3.write_text(
+                json.dumps(
+                    {
+                        **json.loads(b1.read_text(encoding="utf-8")),
+                        "batch_id": "b-agy-err",
+                        "ledger_dir": str(tmp_p / "ledger3"),
+                        "evidence_dir": str(ev3),
+                    }
+                ),
+                encoding="utf-8",
+            )
+            f3 = tmp_p / "203-1"
+            f3.mkdir()
+            subprocess.run(
+                [
+                    sys.executable, str(ROOT / "scripts/gov_runner.py"),
+                    "--batch", str(b3), "--folder", str(f3), "--session", "s-203", "--resume", "", "--cwd", str(repo),
+                ],
+                env={**os.environ, "AGENT_AUTOLOOP_RUN": "203", "FAKE_AGY_MODE": "err"},
+                capture_output=True, text=True, check=True,
+            )
+            self.assertTrue((ev3 / "run-203/report-abort.md").is_file())
+            self.assertIn("upstream error", (ev3 / "run-203/report-abort.md").read_text(encoding="utf-8"))
+
 
 if __name__ == "__main__":
     unittest.main()

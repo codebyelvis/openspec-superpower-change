@@ -27,6 +27,7 @@ NODE_BIN = "/Users/elvis/.nvm/versions/node/v24.22.2/bin/node"
 AL_CMD = [NODE_BIN, "--disable-warning=ExperimentalWarning", str(AL_HOME / "app/bin/agent-autoloop.ts")]
 PI_BIN = shutil.which("pi") or "/Users/elvis/.local/bin/pi"
 PI_ANTIGRAVITY_EXT = Path.home() / ".pi/agent/npm/node_modules/pi-antigravity/src/index.ts"
+AGY_REVIEW_BIN = Path("/Users/elvis/.gemini/antigravity-cli/bin/agy-readonly-review")
 LAUNCHD_LABEL = f"gui/{os.getuid()}/agent-autoloop"
 SAFE_SLUG = re.compile(r"[^a-zA-Z0-9\u4e00-\u9fff_-]+")
 SAFE_CHANGE_ID = re.compile(r"^[a-z0-9][a-z0-9-]{0,127}$")
@@ -303,7 +304,7 @@ def ensure_installed() -> dict:
 
     rules = json.loads(RULES_FILE.read_text(encoding="utf-8"))
     desired_agent = {
-        "name": "受控验收与独立审查Pi",
+        "name": "受控验收与独立审查AGY",
         "worker": worker_name(),
         "use": "govpi",
         "access": "read",
@@ -377,6 +378,31 @@ def build_pi_cmd(model_spec: str) -> list[str]:
         cmd += ["-e", str(PI_ANTIGRAVITY_EXT)]
     cmd += ["--provider", provider, "--model", model]
     return cmd
+
+
+def build_agy_cmd(model_spec: str) -> list[str]:
+    spec = (model_spec or "").strip() or "gemini-4-carbon-medium"
+    _, rest = spec.split("/", 1) if "/" in spec else ("antigravity", spec)
+    if ":" in rest:
+        model, thinking = rest.rsplit(":", 1)
+    else:
+        model = rest
+        low_m = model.lower()
+        if low_m.endswith(("-low", "-medium", "-high", "-xhigh")) or "orchestrator" in low_m:
+            thinking = ""
+        else:
+            thinking = "low" if "flash" in low_m else "medium"
+    low_m = model.lower()
+    if thinking in ("low", "medium", "high", "xhigh") and not low_m.endswith(f"-{thinking}") and "orchestrator" not in low_m:
+        agy_model = f"{model}-{thinking}"
+    else:
+        agy_model = model
+    return [
+        str(AGY_REVIEW_BIN),
+        "--model", agy_model,
+        "--output-format", "stream-json",
+        "--disable-slash-commands",
+    ]
 
 
 def collect_result(batch_id: str) -> dict:
@@ -472,39 +498,46 @@ def cmd_run(args) -> int:
     if review_profile == "pre-mr":
         prompt = (
             f"你是 MR 提交前独立只读审查员（role=independent-reviewer，profile=pre-mr，batch={batch_id}）。\n"
-            "严禁尝试任何写操作；仅用 read/grep/find/ls 检查以下材料：\n"
+            "严禁尝试任何写操作；仅使用只读文件读取工具（read_file）检查以下材料：\n"
             f"1. 需求文档：`{req_path}`\n"
             f"2. 验收标准：{accept_text}\n"
             "3. 固定验证命令执行结果：`{RAW}/verify.exit`、`{RAW}/verify.stdout`、`{RAW}/verify.stderr`\n"
             "4. Git 基线与净变更证据：`{RAW}/git.meta.json`、`{RAW}/git.status.txt`、`{RAW}/git.changed_files.txt`、`{RAW}/git.branch_diff.patch`、`{RAW}/git.working_diff.patch`、`{RAW}/git.log.txt`（及若存在的 `{RAW}/commit_check.json`，项目根目录 `{CWD}`）\n"
             f"5. 条件猎杀清单：`{HUNT_REF}`\n\n"
             "判定规则：\n"
+            "- 判定输出格式（机器解析硬约束，本回执豁免聊天首行模型声明）：第 1 行必须直接且仅输出 `AUTOLOOP_VERDICT: PASS` 或 `AUTOLOOP_VERDICT: FAIL`；第 2 行起输出 Findings First（无阻塞写 `0 阻塞发现`）、`hunt:` 适用性摘要及 3 行内验证摘要。\n"
             "- 若 `verify.exit` 非 `0`，或 `git.meta.json` 显示基线未解析/补丁截断/干净工作区无可见净变更，必须输出 `AUTOLOOP_VERDICT: FAIL`。\n"
             "- 严格按条件猎杀清单核查本次变更触及的路径；未触及的类别记录 `hunt: n/a`，严禁因“未加无依据防御代码”、命名/格式偏好或目标分支未触碰旧问题判 `FAIL`。\n"
-            "- 每个 `FAIL` 发现必须同时给出本次 Diff 内的准确 `path:line`，以及仓库内真实消费者或可达的重试/分页/崩溃重入触发路径。\n"
-            "- 通过时首行严格输出 `AUTOLOOP_VERDICT: PASS`，否则首行严格输出 `AUTOLOOP_VERDICT: FAIL`；随后输出 Findings First（无阻塞写 `0 阻塞发现`）、`hunt:` 适用性摘要及 3 行内验证摘要。"
+            "- 每个 `FAIL` 发现必须同时给出本次 Diff 内的准确 `path:line`，以及仓库内真实消费者或可达的重试/分页/崩溃重入触发路径。"
         )
     else:
         prompt = (
             f"你是独立只读验收与代码审查员（role=independent-reviewer，profile=fast，batch={batch_id}）。\n"
-            "严禁尝试任何写操作；仅用 read/grep/find/ls 检查以下材料：\n"
+            "严禁尝试任何写操作；仅使用只读文件读取工具（read_file）检查以下材料：\n"
             f"1. 需求文档：`{req_path}`\n"
             f"2. 验收标准：{accept_text}\n"
             "3. 固定验证命令执行结果：`{RAW}/verify.exit`、`{RAW}/verify.stdout`、`{RAW}/verify.stderr`\n"
             "4. 当前工作区与分支变更快照：`{RAW}/git.meta.json`、`{RAW}/git.status.txt`、`{RAW}/git.changed_files.txt`、`{RAW}/git.branch_diff.patch`、`{RAW}/git.working_diff.patch`、`{RAW}/git.log.txt`、`{RAW}/git.diff.patch`（项目根目录 `{CWD}`）\n\n"
             "判定规则：\n"
+            "- 判定输出格式（机器解析硬约束，本回执豁免聊天首行模型声明）：第 1 行必须直接且仅输出 `AUTOLOOP_VERDICT: PASS` 或 `AUTOLOOP_VERDICT: FAIL`；第 2 行起输出 Findings First（无阻塞问题写 `0 阻塞发现`；有阻塞问题逐条给出准确 `path:line`、原因与最小修复建议）以及 3 行内验证摘要。\n"
             "- 若 `git.meta.json` 显示补丁截断（`truncated=true`），或工作区干净却基线未解析/无可见分支提交 Diff，不得输出 `PASS`。\n"
-            "- 仅当 `verify.exit` 为 `0`、需求与验收标准已满足、且代码无实质缺陷/无明显违背反膨胀四原则的阻塞问题时，首行严格输出 `AUTOLOOP_VERDICT: PASS`；否则首行严格输出 `AUTOLOOP_VERDICT: FAIL`。\n"
-            "- 首行之后输出 Findings First（无阻塞问题写 `0 阻塞发现`；有阻塞问题逐条给出准确 `path:line`、原因与最小修复建议）以及 3 行内验证摘要。"
+            "- 仅当 `verify.exit` 为 `0`、需求与验收标准已满足、且代码无实质缺陷/无明显违背反膨胀四原则的阻塞问题时输出 `PASS`，否则输出 `FAIL`。"
         )
 
     commit_msg_resolved = str(Path(args.commit_msg_file).expanduser().resolve()) if (args.commit_msg_file or "").strip() else ""
     commit_policy_resolved = str(Path(args.commit_policy).expanduser().resolve()) if (args.commit_policy or "").strip() else ""
+    extra_read_dirs = [str(req_path.parent.resolve())]
+    if review_profile == "pre-mr" and HUNT_REF.parent.is_dir():
+        hunt_dir = str(HUNT_REF.parent.resolve())
+        if hunt_dir not in extra_read_dirs:
+            extra_read_dirs.append(hunt_dir)
 
     batch_payload = {
         "batch_id": batch_id,
         "change_id": parsed.get("req_id", batch_id),
         "mode": "pi-accept",
+        "reviewer_driver": "agy",
+        "extra_read_dirs": extra_read_dirs,
         "review_profile": review_profile,
         "base_ref": (args.base_ref or "").strip(),
         "commit_msg_file": commit_msg_resolved,
@@ -522,7 +555,7 @@ def cmd_run(args) -> int:
         "ledger_dir": str(LEDGER_DIR),
         "evidence_dir": str(EVIDENCE_DIR),
         "stop_cmd": AL_CMD + ["stop"],
-        "pi_cmd": build_pi_cmd(model_spec),
+        "pi_cmd": build_agy_cmd(model_spec),
         "pi_prompt": prompt,
     }
     (BATCHES_DIR / f"{batch_id}.json").write_text(json.dumps(batch_payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
