@@ -5,7 +5,7 @@ Author: elvis
 """
 from __future__ import annotations
 
-import argparse, hashlib, json, os, re, shutil, subprocess, sys, time, uuid
+import argparse, hashlib, json, os, re, shutil, socket, subprocess, sys, time, uuid
 from pathlib import Path
 
 SCRIPTS_DIR = Path(__file__).resolve().parent
@@ -21,15 +21,60 @@ LEDGER_DIR = STATE_ROOT / "ledger"
 EVIDENCE_DIR = STATE_ROOT / "evidence"
 BACKUPS_DIR = STATE_ROOT / "backups"
 INDEX_FILE = STATE_ROOT / "project-index.json"
-AI_APP_WORKBENCH_REQ_DIR = Path("/Users/elvis/file/develop/notes/Typora/10_Projects/ai-app-docs/模型开发工作台/docs/req")
 
-NODE_BIN = "/Users/elvis/.nvm/versions/node/v24.22.2/bin/node"
+
+def _resolve_ai_app_req_dir() -> Path:
+    env_dir = (os.environ.get("AUTOLOOP_AI_APP_REQ_DIR") or "").strip()
+    if env_dir:
+        return Path(env_dir).expanduser()
+    local_cfg = AL_HOME / "local-paths.json"
+    if local_cfg.is_file():
+        try:
+            configured = (json.loads(local_cfg.read_text(encoding="utf-8")).get("ai_app_req_dir") or "").strip()
+            if configured:
+                return Path(configured).expanduser()
+        except (OSError, json.JSONDecodeError, AttributeError):
+            pass
+    return Path.home() / "file" / "develop" / "notes" / "Typora" / "10_Projects" / "ai-app-docs" / "模型开发工作台" / "docs" / "req"
+
+
+def _resolve_node_bin() -> str:
+    env_bin = (os.environ.get("AUTOLOOP_NODE_BIN") or "").strip()
+    if env_bin:
+        return env_bin
+    found = shutil.which("node")
+    if found:
+        return found
+    nvm_root = Path.home() / ".nvm" / "versions" / "node"
+    if nvm_root.is_dir():
+        for cand in sorted(nvm_root.glob("v*/bin/node"), reverse=True):
+            if cand.is_file() and os.access(cand, os.X_OK):
+                return str(cand)
+    for fallback in ("/opt/homebrew/bin/node", "/usr/local/bin/node"):
+        if os.path.isfile(fallback) and os.access(fallback, os.X_OK):
+            return fallback
+    return "node"
+
+
+AI_APP_WORKBENCH_REQ_DIR = _resolve_ai_app_req_dir()
+NODE_BIN = _resolve_node_bin()
 AL_CMD = [NODE_BIN, "--disable-warning=ExperimentalWarning", str(AL_HOME / "app/bin/agent-autoloop.ts")]
-PI_BIN = shutil.which("pi") or "/Users/elvis/.local/bin/pi"
+PI_BIN = (os.environ.get("AUTOLOOP_PI_BIN") or "").strip() or shutil.which("pi") or str(Path.home() / ".local" / "bin" / "pi")
 PI_ANTIGRAVITY_EXT = Path.home() / ".pi/agent/npm/node_modules/pi-antigravity/src/index.ts"
+AGY_REVIEW_BIN = Path(
+    (os.environ.get("AUTOLOOP_AGY_REVIEW_BIN") or "").strip()
+    or shutil.which("agy-readonly-review")
+    or (Path.home() / ".gemini" / "antigravity-cli" / "bin" / "agy-readonly-review")
+)
 LAUNCHD_LABEL = f"gui/{os.getuid()}/agent-autoloop"
 SAFE_SLUG = re.compile(r"[^a-zA-Z0-9\u4e00-\u9fff_-]+")
 SAFE_CHANGE_ID = re.compile(r"^[a-z0-9][a-z0-9-]{0,127}$")
+OPENSPEC_TEST_CMD_RE = re.compile(
+    r"^(?:PYTHONDONTWRITEBYTECODE=1\s+)?"
+    r"(?:python3?\s+(?:-m\s+(?:unittest|pytest)\b|scripts/(?:validate_[A-Za-z0-9_]+|check_[A-Za-z0-9_]+)\.py\b)"
+    r"|pytest\b|npm\s+test\b|pnpm\s+(?:test|typecheck|build)\b|cargo\s+test\b|go\s+test\b|mvn\b[^\n`]*\btest\b)"
+    r"[A-Za-z0-9_./:\s=-]*$"
+)
 
 AGENT_TS_CODE = """// Author: elvis. Governed host-side adapter for agent-autoloop (change integrate-governed-cli-autoloop).
 // Passes turn.contextFile so gov_runner.py resolves per-event isolated batch contracts (<batches_dir>/<subject>.json)
@@ -204,6 +249,34 @@ def cmd_init_req(args) -> int:
     return 0
 
 
+def _extract_openspec_verify_cmds(ch_dir: Path) -> list[str]:
+    prop = ch_dir / "proposal.md"
+    if prop.is_file():
+        fm_cmd = (parse_req_markdown(prop).get("verify_cmd") or "").strip()
+        if fm_cmd:
+            return [fm_cmd]
+    found: list[str] = []
+    for doc_name in ("tasks.md", "design.md"):
+        doc_path = ch_dir / doc_name
+        if not doc_path.is_file():
+            continue
+        raw_text = doc_path.read_text(encoding="utf-8")
+        candidates = [m.group(1).strip() for m in re.finditer(r"`([^`\n]+)`", raw_text)]
+        for block in re.finditer(r"```(?:bash|sh)\n([\s\S]*?)```", raw_text):
+            candidates.extend(line.strip() for line in block.group(1).splitlines() if line.strip())
+        for cand in candidates:
+            for seg in (part.strip() for part in cand.split("&&")):
+                if not seg or "<" in seg or ">" in seg or "..." in seg:
+                    continue
+                if seg.startswith("openspec validate"):
+                    continue
+                if OPENSPEC_TEST_CMD_RE.match(seg) and seg not in found:
+                    found.append(seg)
+        if found:
+            break
+    return found
+
+
 def match_project_req(cwd: Path) -> dict:
     cwd = cwd.resolve()
     idx = load_index().get(str(cwd)) or {}
@@ -235,16 +308,22 @@ def match_project_req(cwd: Path) -> dict:
             tasks_p = ch_dir / "tasks.md"
             if tasks_p.is_file() and "- [ ]" not in tasks_p.read_text(encoding="utf-8"):
                 continue
-            return {
+            base_validate = f"openspec validate {ch_dir.name} --strict"
+            extra_cmds = _extract_openspec_verify_cmds(ch_dir)
+            result: dict = {
                 "matched": True,
                 "source": "openspec_change",
                 "req_path": str((ch_dir / "proposal.md").resolve()),
                 "req_id": ch_dir.name,
                 "status": "ready",
-                "verify_cmd": f"openspec validate {ch_dir.name} --strict",
-                "verify_argv": ["openspec", "validate", ch_dir.name, "--strict"],
+                "verify_cmd": " && ".join([base_validate, *extra_cmds]) if extra_cmds else base_validate,
                 "accept": f"满足 openspec/changes/{ch_dir.name}/ 下 proposal.md、design.md 与 tasks.md 的验收要求",
             }
+            if extra_cmds:
+                result["extracted_test_cmds"] = extra_cmds
+            else:
+                result["verify_argv"] = ["openspec", "validate", ch_dir.name, "--strict"]
+            return result
 
     return {
         "matched": False,
@@ -259,9 +338,13 @@ def match_project_req(cwd: Path) -> dict:
 
 
 def worker_name() -> str:
-    cfg = json.loads((AL_HOME / "config.json").read_text(encoding="utf-8"))
-    w = cfg.get("worker")
-    return w["name"] if isinstance(w, dict) else "elvisdemacbook-pro"
+    cfg_path = AL_HOME / "config.json"
+    if cfg_path.is_file():
+        cfg = json.loads(cfg_path.read_text(encoding="utf-8"))
+        w = cfg.get("worker")
+        if isinstance(w, dict) and w.get("name"):
+            return str(w["name"])
+    return socket.gethostname().split(".")[0].lower() or "local-worker"
 
 
 def ensure_installed() -> dict:
@@ -303,7 +386,7 @@ def ensure_installed() -> dict:
 
     rules = json.loads(RULES_FILE.read_text(encoding="utf-8"))
     desired_agent = {
-        "name": "受控验收与独立审查Pi",
+        "name": "受控验收与独立审查AGY",
         "worker": worker_name(),
         "use": "govpi",
         "access": "read",
@@ -377,6 +460,31 @@ def build_pi_cmd(model_spec: str) -> list[str]:
         cmd += ["-e", str(PI_ANTIGRAVITY_EXT)]
     cmd += ["--provider", provider, "--model", model]
     return cmd
+
+
+def build_agy_cmd(model_spec: str) -> list[str]:
+    spec = (model_spec or "").strip() or "gemini-4-carbon-medium"
+    _, rest = spec.split("/", 1) if "/" in spec else ("antigravity", spec)
+    if ":" in rest:
+        model, thinking = rest.rsplit(":", 1)
+    else:
+        model = rest
+        low_m = model.lower()
+        if low_m.endswith(("-low", "-medium", "-high", "-xhigh")) or "orchestrator" in low_m:
+            thinking = ""
+        else:
+            thinking = "low" if "flash" in low_m else "medium"
+    low_m = model.lower()
+    if thinking in ("low", "medium", "high", "xhigh") and not low_m.endswith(f"-{thinking}") and "orchestrator" not in low_m:
+        agy_model = f"{model}-{thinking}"
+    else:
+        agy_model = model
+    return [
+        str(AGY_REVIEW_BIN),
+        "--model", agy_model,
+        "--output-format", "stream-json",
+        "--disable-slash-commands",
+    ]
 
 
 def collect_result(batch_id: str) -> dict:
@@ -472,39 +580,46 @@ def cmd_run(args) -> int:
     if review_profile == "pre-mr":
         prompt = (
             f"你是 MR 提交前独立只读审查员（role=independent-reviewer，profile=pre-mr，batch={batch_id}）。\n"
-            "严禁尝试任何写操作；仅用 read/grep/find/ls 检查以下材料：\n"
+            "严禁尝试任何写操作；仅使用只读文件读取工具（read_file）检查以下材料：\n"
             f"1. 需求文档：`{req_path}`\n"
             f"2. 验收标准：{accept_text}\n"
             "3. 固定验证命令执行结果：`{RAW}/verify.exit`、`{RAW}/verify.stdout`、`{RAW}/verify.stderr`\n"
             "4. Git 基线与净变更证据：`{RAW}/git.meta.json`、`{RAW}/git.status.txt`、`{RAW}/git.changed_files.txt`、`{RAW}/git.branch_diff.patch`、`{RAW}/git.working_diff.patch`、`{RAW}/git.log.txt`（及若存在的 `{RAW}/commit_check.json`，项目根目录 `{CWD}`）\n"
             f"5. 条件猎杀清单：`{HUNT_REF}`\n\n"
             "判定规则：\n"
+            "- 判定输出格式（机器解析硬约束，本回执豁免聊天首行模型声明）：第 1 行必须直接且仅输出 `AUTOLOOP_VERDICT: PASS` 或 `AUTOLOOP_VERDICT: FAIL`；第 2 行起输出 Findings First（无阻塞写 `0 阻塞发现`）、`hunt:` 适用性摘要及 3 行内验证摘要。\n"
             "- 若 `verify.exit` 非 `0`，或 `git.meta.json` 显示基线未解析/补丁截断/干净工作区无可见净变更，必须输出 `AUTOLOOP_VERDICT: FAIL`。\n"
             "- 严格按条件猎杀清单核查本次变更触及的路径；未触及的类别记录 `hunt: n/a`，严禁因“未加无依据防御代码”、命名/格式偏好或目标分支未触碰旧问题判 `FAIL`。\n"
-            "- 每个 `FAIL` 发现必须同时给出本次 Diff 内的准确 `path:line`，以及仓库内真实消费者或可达的重试/分页/崩溃重入触发路径。\n"
-            "- 通过时首行严格输出 `AUTOLOOP_VERDICT: PASS`，否则首行严格输出 `AUTOLOOP_VERDICT: FAIL`；随后输出 Findings First（无阻塞写 `0 阻塞发现`）、`hunt:` 适用性摘要及 3 行内验证摘要。"
+            "- 每个 `FAIL` 发现必须同时给出本次 Diff 内的准确 `path:line`，以及仓库内真实消费者或可达的重试/分页/崩溃重入触发路径。"
         )
     else:
         prompt = (
             f"你是独立只读验收与代码审查员（role=independent-reviewer，profile=fast，batch={batch_id}）。\n"
-            "严禁尝试任何写操作；仅用 read/grep/find/ls 检查以下材料：\n"
+            "严禁尝试任何写操作；仅使用只读文件读取工具（read_file）检查以下材料：\n"
             f"1. 需求文档：`{req_path}`\n"
             f"2. 验收标准：{accept_text}\n"
             "3. 固定验证命令执行结果：`{RAW}/verify.exit`、`{RAW}/verify.stdout`、`{RAW}/verify.stderr`\n"
             "4. 当前工作区与分支变更快照：`{RAW}/git.meta.json`、`{RAW}/git.status.txt`、`{RAW}/git.changed_files.txt`、`{RAW}/git.branch_diff.patch`、`{RAW}/git.working_diff.patch`、`{RAW}/git.log.txt`、`{RAW}/git.diff.patch`（项目根目录 `{CWD}`）\n\n"
             "判定规则：\n"
+            "- 判定输出格式（机器解析硬约束，本回执豁免聊天首行模型声明）：第 1 行必须直接且仅输出 `AUTOLOOP_VERDICT: PASS` 或 `AUTOLOOP_VERDICT: FAIL`；第 2 行起输出 Findings First（无阻塞问题写 `0 阻塞发现`；有阻塞问题逐条给出准确 `path:line`、原因与最小修复建议）以及 3 行内验证摘要。\n"
             "- 若 `git.meta.json` 显示补丁截断（`truncated=true`），或工作区干净却基线未解析/无可见分支提交 Diff，不得输出 `PASS`。\n"
-            "- 仅当 `verify.exit` 为 `0`、需求与验收标准已满足、且代码无实质缺陷/无明显违背反膨胀四原则的阻塞问题时，首行严格输出 `AUTOLOOP_VERDICT: PASS`；否则首行严格输出 `AUTOLOOP_VERDICT: FAIL`。\n"
-            "- 首行之后输出 Findings First（无阻塞问题写 `0 阻塞发现`；有阻塞问题逐条给出准确 `path:line`、原因与最小修复建议）以及 3 行内验证摘要。"
+            "- 仅当 `verify.exit` 为 `0`、需求与验收标准已满足、且代码无实质缺陷/无明显违背反膨胀四原则的阻塞问题时输出 `PASS`，否则输出 `FAIL`。"
         )
 
     commit_msg_resolved = str(Path(args.commit_msg_file).expanduser().resolve()) if (args.commit_msg_file or "").strip() else ""
     commit_policy_resolved = str(Path(args.commit_policy).expanduser().resolve()) if (args.commit_policy or "").strip() else ""
+    extra_read_dirs = [str(req_path.parent.resolve())]
+    if review_profile == "pre-mr" and HUNT_REF.parent.is_dir():
+        hunt_dir = str(HUNT_REF.parent.resolve())
+        if hunt_dir not in extra_read_dirs:
+            extra_read_dirs.append(hunt_dir)
 
     batch_payload = {
         "batch_id": batch_id,
         "change_id": parsed.get("req_id", batch_id),
         "mode": "pi-accept",
+        "reviewer_driver": "agy",
+        "extra_read_dirs": extra_read_dirs,
         "review_profile": review_profile,
         "base_ref": (args.base_ref or "").strip(),
         "commit_msg_file": commit_msg_resolved,
@@ -522,7 +637,7 @@ def cmd_run(args) -> int:
         "ledger_dir": str(LEDGER_DIR),
         "evidence_dir": str(EVIDENCE_DIR),
         "stop_cmd": AL_CMD + ["stop"],
-        "pi_cmd": build_pi_cmd(model_spec),
+        "pi_cmd": build_agy_cmd(model_spec),
         "pi_prompt": prompt,
     }
     (BATCHES_DIR / f"{batch_id}.json").write_text(json.dumps(batch_payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")

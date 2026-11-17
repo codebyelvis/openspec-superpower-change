@@ -2,6 +2,18 @@
 
 ## Unreleased
 
+- Align `/autoloop` OpenSpec test extraction, review manifest roles, portability,
+  and cold-path/overview docs: extract deterministic test/validator commands from
+  `openspec/changes/<id>/{proposal,tasks,design}.md` when matching active OpenSpec
+  changes; align `gov_runner.py` `pi-accept` manifest output to `batch-review` /
+  `independent-reviewer` / `control-plane-high` (and `pi-verify` to
+  `cohesive-medium`); remove hardcoded personal machine paths in
+  `scripts/autoloop_ctl.py` in favor of environment overrides and dynamic host
+  probing; extract rare blocked-context/control-plane rebind rules into
+  `references/resume-context-amendments.md`; and refresh
+  `references/workflow-overview.md` and `docs/workflow.md` for schema-6 and
+  Four Hard Anchors.
+
 - Add deterministic read-only next-action query and dual-mode Headless CLI
   cross-review (`add-next-action-query` & `optimize-closed-loop-runtime-routing`):
   add `scripts/next_action.py` (`--status <path>`) delegating transition

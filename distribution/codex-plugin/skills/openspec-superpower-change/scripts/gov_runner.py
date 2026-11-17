@@ -420,6 +420,24 @@ def evaluate_deterministic_vetoes(batch: dict, snap_meta: dict | None, raw: Path
     return errors
 
 
+def _extract_verdict_line(text: str) -> str:
+    lines = [ln.strip() for ln in (text or "").splitlines() if ln.strip()]
+    if not lines:
+        return "空"
+    first = lines[0]
+    if "AUTOLOOP_VERDICT:" in first or "VERIFY:" in first:
+        return first
+    is_model_header = (
+        first.startswith(("> **模型", "**模型"))
+        or "模型信息" in first
+        or "模型名称" in first
+        or first.lower().startswith("model:")
+    )
+    if is_model_header and len(lines) > 1:
+        return lines[1]
+    return first
+
+
 def _write_report_and_receipt(
     *,
     batch: dict,
@@ -436,18 +454,23 @@ def _write_report_and_receipt(
     veto_errors: list[str] | None = None,
 ) -> None:
     ev_result = "pass" if passed else "fail"
-    first_line = text.splitlines()[0] if text else "空"
+    first_line = _extract_verdict_line(text)
+    agent_prod = "antigravity-cli" if batch.get("reviewer_driver") == "agy" else "pi"
     if batch["mode"] in ("pi-verify", "pi-accept"):
         c_sha = batch.get("canonical_sha256", "0" * 64)
         c_rev = batch.get("contract_revision", 1)
+        is_review = batch["mode"] == "pi-accept"
+        ev_role = "batch-review" if is_review else "attempt-report"
+        ag_role = "independent-reviewer" if is_review else "executor"
+        cap_prof = "control-plane-high" if is_review else "cohesive-medium"
         manifest = (
             "<!-- COOP_EVIDENCE_MANIFEST_START -->\n```yaml\n"
-            f"evidence_schema_version: 2\nevidence_role: attempt-report\nevidence_result: {ev_result}\n"
+            f"evidence_schema_version: 2\nevidence_role: {ev_role}\nevidence_result: {ev_result}\n"
             f"change_id: {batch.get('change_id', batch['batch_id'])}\n"
             f"current_batch: {batch.get('current_batch', 1)}\nattempt: {attempt}\n"
             f"contract_revision: {c_rev}\ncanonical_sha256: {c_sha}\n"
-            f"agent_product: pi\nagent_instance_id: {session or 'pre-cli-deterministic-gate'}\n"
-            f"agent_role: executor\ncapability_profile: implementation-high\n```\n"
+            f"agent_product: {agent_prod}\nagent_instance_id: {session or 'pre-cli-deterministic-gate'}\n"
+            f"agent_role: {ag_role}\ncapability_profile: {cap_prof}\n```\n"
             "<!-- COOP_EVIDENCE_MANIFEST_END -->\n\n"
         )
         (ev / "report.md").write_text(manifest + text + "\n", encoding="utf-8")
@@ -596,8 +619,31 @@ def launch(batch, a, run, attempt, resume, ev):
 
         fp_before_pi = git_fingerprint(work_cwd)
         prompt = batch["pi_prompt"].replace("{RAW}", str(raw)).replace("{CWD}", str(work_cwd))
-        cmd = batch["pi_cmd"] + ["--session-dir", str(raw / "pi-sessions")] + \
-            (["--session", resume] if resume else []) + [prompt]
+        if batch.get("reviewer_driver") == "agy":
+            add_dirs: list[str] = []
+            work_real = os.path.realpath(work_cwd)
+            for cand_dir in [str(raw), *(batch.get("extra_read_dirs") or [])]:
+                if not cand_dir:
+                    continue
+                real_d = os.path.realpath(cand_dir)
+                if os.path.isdir(real_d) and os.path.commonpath([real_d, work_real]) != work_real and real_d not in add_dirs:
+                    add_dirs.append(real_d)
+            dir_flags: list[str] = []
+            for d in add_dirs:
+                dir_flags.extend(["--add-dir", d])
+            cmd = (
+                list(batch["pi_cmd"])
+                + dir_flags
+                + (["--conversation", resume] if resume else [])
+                + ["-p", prompt]
+            )
+        else:
+            cmd = (
+                list(batch["pi_cmd"])
+                + ["--session-dir", str(raw / "pi-sessions")]
+                + (["--session", resume] if resume else [])
+                + [prompt]
+            )
 
     (raw / "cli.argv.json").write_text(json.dumps(cmd, ensure_ascii=False, indent=2) + "\n")
     session, started, lines = None, False, []
@@ -615,7 +661,12 @@ def launch(batch, a, run, attempt, resume, ev):
                 event = json.loads(line) if line.startswith("{") else {}
                 if event.get("type") == "session":
                     session = event.get("id")
-                hit = event.get("type") == "session"
+                    hit = True
+                elif event.get("event") == "init":
+                    session = event.get("conversation_id") or (event.get("init") or {}).get("conversation_id")
+                    hit = True
+                else:
+                    hit = False
             if hit and not started:
                 started = True
                 meta(session=session or a.session, started=True)
@@ -637,20 +688,39 @@ def launch(batch, a, run, attempt, resume, ev):
         text = "\n".join(l for l in lines if not l.startswith(("STARTED", "SESSION:")))
     else:
         events = [json.loads(l) for l in lines if l.startswith("{")]
-        finals = [e["message"] for e in events if e.get("type") == "message_end" and e.get("message", {}).get("role") == "assistant"]
-        last = finals[-1] if finals else {}
-        if last.get("stopReason") != "stop":
-            err_msg = last.get("errorMessage") or f"stopReason={last.get('stopReason')!r}"
-            if not batch.get("allow_rerun", False):
-                with open(ev / "report-abort.md", "a") as f:
-                    f.write(f"# 执行中止报告\n\n- assistant error: `{err_msg}`\n- 治理结论: BLOCKED（禁止重跑）\n\n")
-                meta(session=session or a.session, started=True, finished=True)
-                print(f"执行中止：模型未正常完成（{err_msg[:120]}），禁止重跑", flush=True)
-                return 0
-            meta(session=session, started=started)
-            sys.stderr.write(f"BLOCKED: assistant stopReason != stop ({err_msg})")
-            return 4
-        text = "".join(c.get("text", "") for c in last.get("content", []) if c.get("type") == "text").strip()
+        res_events = [e for e in events if e.get("event") == "result"]
+        if batch.get("reviewer_driver") == "agy" or res_events:
+            res_ev = res_events[-1] if res_events else {}
+            res_obj = res_ev.get("result") or {}
+            if res_obj.get("conversation_id"):
+                session = res_obj["conversation_id"]
+            if not res_ev or res_obj.get("status") != "SUCCESS":
+                err_msg = res_obj.get("error") or f"status={res_obj.get('status')!r}"
+                if not batch.get("allow_rerun", False):
+                    with open(ev / "report-abort.md", "a") as f:
+                        f.write(f"# 执行中止报告\n\n- assistant error: `{err_msg}`\n- 治理结论: BLOCKED（禁止重跑）\n\n")
+                    meta(session=session or a.session, started=True, finished=True)
+                    print(f"执行中止：模型未正常完成（{err_msg[:120]}），禁止重跑", flush=True)
+                    return 0
+                meta(session=session, started=started)
+                sys.stderr.write(f"BLOCKED: assistant status != SUCCESS ({err_msg})")
+                return 4
+            text = (res_obj.get("response") or "").strip()
+        else:
+            finals = [e["message"] for e in events if e.get("type") == "message_end" and e.get("message", {}).get("role") == "assistant"]
+            last = finals[-1] if finals else {}
+            if last.get("stopReason") != "stop":
+                err_msg = last.get("errorMessage") or f"stopReason={last.get('stopReason')!r}"
+                if not batch.get("allow_rerun", False):
+                    with open(ev / "report-abort.md", "a") as f:
+                        f.write(f"# 执行中止报告\n\n- assistant error: `{err_msg}`\n- 治理结论: BLOCKED（禁止重跑）\n\n")
+                    meta(session=session or a.session, started=True, finished=True)
+                    print(f"执行中止：模型未正常完成（{err_msg[:120]}），禁止重跑", flush=True)
+                    return 0
+                meta(session=session, started=started)
+                sys.stderr.write(f"BLOCKED: assistant stopReason != stop ({err_msg})")
+                return 4
+            text = "".join(c.get("text", "") for c in last.get("content", []) if c.get("type") == "text").strip()
     expected = batch.get("expected_resume")
     if expected and session != expected:
         with open(ev / "report-abort.md", "a") as f:
@@ -663,12 +733,12 @@ def launch(batch, a, run, attempt, resume, ev):
     readonly_ok = (fp_before_pi == fp_after_pi)
     if not readonly_ok:
         with open(ev / "report-abort.md", "a") as f:
-            f.write("# 执行中止报告\n\n- reason: Workspace mutated during read-only Pi review\n- 治理结论: BLOCKED\n\n")
+            f.write("# 执行中止报告\n\n- reason: Workspace mutated during read-only review\n- 治理结论: BLOCKED\n\n")
         meta(session=session, started=True, finished=True)
         print("执行中止：只读审查期间工作区发生变化，结果作废", flush=True)
         return 0
 
-    first_line = text.splitlines()[0] if text else "空"
+    first_line = _extract_verdict_line(text)
     passed = (
         (v_code == 0)
         and not veto_errors

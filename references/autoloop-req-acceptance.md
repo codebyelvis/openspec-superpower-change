@@ -2,7 +2,7 @@
 
 Author: elvis
 
-Eliminates manual authoring of `docs/req/*.md` and `验收标准：` while preserving governed verification and independent read-only review.
+Eliminates manual authoring of `docs/req/*.md` and `验收标准：` while preserving governed verification and independent read-only review. Daily feature/bugfix work may invoke standalone `/autoloop` directly without pre-loading the full `openspec-superpower-change` router, escalating to the OpenSpec proposal gate whenever unapproved Major or protected boundaries are touched.
 
 ## 1. Automatic Generation When Requirements Arrive (`init-req`)
 
@@ -33,7 +33,7 @@ Run:
 ```bash
 python3 "$SKILL_ROOT/scripts/autoloop_ctl.py" match --cwd "$PWD"
 ```
-1. **If `"matched": true`**: Directly bind the matched `req_path` (`project_index` -> `docs/req/*.md` with `status != passed` -> active `openspec/changes/<change-id>/`), along with its embedded `verify_cmd` and `## 验收标准`.
+1. **If `"matched": true`**: Directly bind the matched `req_path` (`project_index` -> `docs/req/*.md` with `status != passed` -> active `openspec/changes/<change-id>/`), along with its embedded `verify_cmd` and `## 验收标准` (when matching `openspec/changes/<change-id>/`, `match` automatically chains deterministic test/validator commands declared in `proposal.md` frontmatter, `tasks.md`, or `design.md` after `openspec validate <change-id> --strict`).
 2. **If `"matched": false` (`"fallback": "DISTILL_FROM_CURRENT_SESSION"`)**: Do **not** stop or ask the user to hand-write a markdown file. Immediately **distill the requirement scope, `verify_cmd`, and `## 验收标准` from the current session's conversation/context**, persist it via `autoloop_ctl.py init-req`, and proceed seamlessly. (Ask at most one consolidated question only if the current session has no clear requirement or has a blocking material ambiguity.)
 
 ### Step 2: Minimal Local Implementation & Fast Check

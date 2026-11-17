@@ -2,7 +2,7 @@
 
 Author: elvis
 
-Eliminates manual authoring of `docs/req/*.md` and `验收标准：` while preserving governed verification and independent read-only review.
+Eliminates manual authoring of `docs/req/*.md` and `验收标准：` while preserving governed verification and independent read-only review. Daily feature/bugfix work may invoke standalone `/autoloop` directly without pre-loading the full `openspec-superpower-change` router, escalating to the OpenSpec proposal gate whenever unapproved Major or protected boundaries are touched.
 
 ## 1. Automatic Generation When Requirements Arrive (`init-req`)
 
@@ -33,7 +33,7 @@ Run:
 ```bash
 python3 "$SKILL_ROOT/scripts/autoloop_ctl.py" match --cwd "$PWD"
 ```
-1. **If `"matched": true`**: Directly bind the matched `req_path` (`project_index` -> `docs/req/*.md` with `status != passed` -> active `openspec/changes/<change-id>/`), along with its embedded `verify_cmd` and `## 验收标准`.
+1. **If `"matched": true`**: Directly bind the matched `req_path` (`project_index` -> `docs/req/*.md` with `status != passed` -> active `openspec/changes/<change-id>/`), along with its embedded `verify_cmd` and `## 验收标准` (when matching `openspec/changes/<change-id>/`, `match` automatically chains deterministic test/validator commands declared in `proposal.md` frontmatter, `tasks.md`, or `design.md` after `openspec validate <change-id> --strict`).
 2. **If `"matched": false` (`"fallback": "DISTILL_FROM_CURRENT_SESSION"`)**: Do **not** stop or ask the user to hand-write a markdown file. Immediately **distill the requirement scope, `verify_cmd`, and `## 验收标准` from the current session's conversation/context**, persist it via `autoloop_ctl.py init-req`, and proceed seamlessly. (Ask at most one consolidated question only if the current session has no clear requirement or has a blocking material ambiguity.)
 
 ### Step 2: Minimal Local Implementation & Fast Check
@@ -51,5 +51,5 @@ python3 "$SKILL_ROOT/scripts/autoloop_ctl.py" run \
   --commit-msg-file /tmp/commit_msg.txt \
   --review-profile pre-mr
 ```
-- `run` resolves the matched `docs/req/*.md` (or OpenSpec change), executes `verify_cmd` via `agent-autoloop` (`govpi`), captures local-ref Git metadata (`git.meta.json`, `git.status.txt`, `git.changed_files.txt`, three-dot `git.branch_diff.patch`, `git.working_diff.patch`, compatibility `git.diff.patch`, and full `git.log.txt`) under a `2,000,000`-byte per-patch ceiling (`truncated=true` fails closed), enforces deterministic pre-Pi vetoes (`missing_base_ref` when `pre-mr` omits `--base-ref`, `invalid_base_ref`, empty clean-worktree diffs, and portable `scripts/check_commit_text.py` + optional `--commit-policy` / `--commit-profile`), runs an isolated read-only Pi review (`--tools read,grep,find,ls`; `pre-mr` applies `references/autoloop-review-hunt.md` with `hunt: n/a` anti-bloat rules), verifies zero workspace/HEAD mutation during review, and marks the requirement `status: passed` upon `"verdict": "PASS"`.
+- `run` resolves the matched `docs/req/*.md` (or OpenSpec change), executes `verify_cmd` via `agent-autoloop` (`govpi`), captures local-ref Git metadata (`git.meta.json`, `git.status.txt`, `git.changed_files.txt`, three-dot `git.branch_diff.patch`, `git.working_diff.patch`, compatibility `git.diff.patch`, and full `git.log.txt`) under a `2,000,000`-byte per-patch ceiling (`truncated=true` fails closed), enforces deterministic pre-reviewer vetoes (`missing_base_ref` when `pre-mr` omits `--base-ref`, `invalid_base_ref`, empty clean-worktree diffs, and portable `scripts/check_commit_text.py` + optional `--commit-policy` / `--commit-profile`), runs an isolated read-only AGY review via `agy-readonly-review` (`--output-format stream-json`, `--disable-slash-commands`, `--add-dir` scoped to evidence/req dirs; `pre-mr` applies `references/autoloop-review-hunt.md` with `hunt: n/a` anti-bloat rules), verifies zero workspace/HEAD mutation during review, and marks the requirement `status: passed` upon `"verdict": "PASS"`.
 - On `"verdict": "FAIL"`, read `report_path`, apply minimal same-scope fixes, and re-run (at most 2 auto-repair rounds before stopping to report).

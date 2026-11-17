@@ -459,14 +459,18 @@ def _write_report_and_receipt(
     if batch["mode"] in ("pi-verify", "pi-accept"):
         c_sha = batch.get("canonical_sha256", "0" * 64)
         c_rev = batch.get("contract_revision", 1)
+        is_review = batch["mode"] == "pi-accept"
+        ev_role = "batch-review" if is_review else "attempt-report"
+        ag_role = "independent-reviewer" if is_review else "executor"
+        cap_prof = "control-plane-high" if is_review else "cohesive-medium"
         manifest = (
             "<!-- COOP_EVIDENCE_MANIFEST_START -->\n```yaml\n"
-            f"evidence_schema_version: 2\nevidence_role: attempt-report\nevidence_result: {ev_result}\n"
+            f"evidence_schema_version: 2\nevidence_role: {ev_role}\nevidence_result: {ev_result}\n"
             f"change_id: {batch.get('change_id', batch['batch_id'])}\n"
             f"current_batch: {batch.get('current_batch', 1)}\nattempt: {attempt}\n"
             f"contract_revision: {c_rev}\ncanonical_sha256: {c_sha}\n"
             f"agent_product: {agent_prod}\nagent_instance_id: {session or 'pre-cli-deterministic-gate'}\n"
-            f"agent_role: executor\ncapability_profile: implementation-high\n```\n"
+            f"agent_role: {ag_role}\ncapability_profile: {cap_prof}\n```\n"
             "<!-- COOP_EVIDENCE_MANIFEST_END -->\n\n"
         )
         (ev / "report.md").write_text(manifest + text + "\n", encoding="utf-8")

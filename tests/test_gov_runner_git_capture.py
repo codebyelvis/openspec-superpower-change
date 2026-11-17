@@ -585,6 +585,174 @@ class GovRunnerGitCaptureTests(unittest.TestCase):
             self.assertTrue((ev3 / "run-203/report-abort.md").is_file())
             self.assertIn("upstream error", (ev3 / "run-203/report-abort.md").read_text(encoding="utf-8"))
 
+    def test_workflow_review_optimizations_and_manifest_alignment(self) -> None:
+        # 1. Portability: no hardcoded personal home/machine strings in autoloop_ctl.py
+        ctl_text = (ROOT / "scripts/autoloop_ctl.py").read_text(encoding="utf-8")
+        self.assertNotIn("/Users/elvis", ctl_text)
+        self.assertNotIn("elvisdemacbook-pro", ctl_text)
+
+        # 2. OpenSpec change match extracts real test commands from tasks.md / frontmatter while keeping plain fallback
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp_p = Path(tmp)
+            proj = tmp_p / "os-proj"
+            ch = proj / "openspec/changes/add-feature-x"
+            ch.mkdir(parents=True)
+            (ch / "proposal.md").write_text("# Proposal\n", encoding="utf-8")
+            (ch / "tasks.md").write_text(
+                "- [ ] 1.1 Run `openspec validate <change-id> --strict`\n"
+                "- [ ] 2.1 Run `PYTHONDONTWRITEBYTECODE=1 python3 scripts/validate_core_gates.py .`\n"
+                "- [ ] 2.2 Run `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest tests.test_gov_runner_git_capture`\n",
+                encoding="utf-8",
+            )
+            env = {
+                **os.environ,
+                "AUTOLOOP_STATE_ROOT": str(tmp_p / "state"),
+                "AUTOLOOP_NODE_BIN": "/custom/bin/node",
+                "AUTOLOOP_AI_APP_REQ_DIR": str(tmp_p / "custom-ai-req"),
+            }
+            matched = json.loads(
+                subprocess.run(
+                    [sys.executable, str(ROOT / "scripts/autoloop_ctl.py"), "match", "--cwd", str(proj)],
+                    env=env,
+                    capture_output=True,
+                    text=True,
+                    check=True,
+                ).stdout
+            )
+            self.assertTrue(matched["matched"])
+            self.assertEqual(matched["source"], "openspec_change")
+            self.assertEqual(
+                matched["verify_cmd"],
+                "openspec validate add-feature-x --strict && "
+                "PYTHONDONTWRITEBYTECODE=1 python3 scripts/validate_core_gates.py . && "
+                "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest tests.test_gov_runner_git_capture",
+            )
+            self.assertNotIn("verify_argv", matched)
+
+            # Custom AUTOLOOP_AI_APP_REQ_DIR redirection works without hardcoded personal path
+            ai_proj = tmp_p / "ai_app-feature"
+            ai_proj.mkdir()
+            (tmp_p / "custom-ai-req").mkdir(parents=True)
+            init_out = json.loads(
+                subprocess.run(
+                    [
+                        sys.executable,
+                        str(ROOT / "scripts/autoloop_ctl.py"),
+                        "init-req",
+                        "--cwd",
+                        str(ai_proj),
+                        "--slug",
+                        "portability-check",
+                        "--title",
+                        "Portability",
+                        "--summary",
+                        "Scope",
+                        "--cmd",
+                        "true",
+                        "--accept",
+                        "ok",
+                    ],
+                    env=env,
+                    capture_output=True,
+                    text=True,
+                    check=True,
+                ).stdout
+            )
+            self.assertEqual(Path(init_out["req_path"]).parent.resolve(), (tmp_p / "custom-ai-req").resolve())
+
+            # 3. gov_runner manifest role & capability profile alignment (pi-accept vs pi-verify)
+            repo = tmp_p / "repo"
+            _init_repo(repo)
+            (repo / "app.py").write_text("x = 2\n", encoding="utf-8")
+            fake_agy = tmp_p / "fake-agy.py"
+            fake_agy.write_text(
+                "#!/usr/bin/env python3\n"
+                "import json\n"
+                "print(json.dumps({'event': 'init', 'conversation_id': 'conv-role-1'}), flush=True)\n"
+                "print(json.dumps({'event': 'result', 'result': {'conversation_id': 'conv-role-1', 'status': 'SUCCESS', 'response': 'AUTOLOOP_VERDICT: PASS\\n0 阻塞发现'}}), flush=True)\n",
+                encoding="utf-8",
+            )
+            fake_agy.chmod(0o755)
+            for idx, (mode, exp_ev_role, exp_ag_role, exp_prof) in enumerate(
+                [
+                    ("pi-accept", "batch-review", "independent-reviewer", "control-plane-high"),
+                    ("pi-verify", "attempt-report", "executor", "cohesive-medium"),
+                ],
+                start=301,
+            ):
+                ev_dir = tmp_p / f"ev-{idx}"
+                b_file = tmp_p / f"b-{idx}.json"
+                b_file.write_text(
+                    json.dumps(
+                        {
+                            "batch_id": f"b-{idx}",
+                            "mode": mode,
+                            "reviewer_driver": "agy",
+                            "review_profile": "fast",
+                            "allow_rerun": False,
+                            "expected_resume": None,
+                            "verify_cwd": str(repo),
+                            "verify_command": "true",
+                            "capture_git_diff": True,
+                            "ledger_dir": str(tmp_p / f"ledger-{idx}"),
+                            "evidence_dir": str(ev_dir),
+                            "stop_cmd": ["true"],
+                            "pi_cmd": [sys.executable, str(fake_agy)],
+                            "pi_prompt": "check {RAW} {CWD}",
+                        }
+                    ),
+                    encoding="utf-8",
+                )
+                f_dir = tmp_p / f"{idx}-1"
+                f_dir.mkdir()
+                subprocess.run(
+                    [
+                        sys.executable,
+                        str(ROOT / "scripts/gov_runner.py"),
+                        "--batch",
+                        str(b_file),
+                        "--folder",
+                        str(f_dir),
+                        "--session",
+                        f"s-{idx}",
+                        "--resume",
+                        "",
+                        "--cwd",
+                        str(repo),
+                    ],
+                    env={**os.environ, "AGENT_AUTOLOOP_RUN": str(idx)},
+                    capture_output=True,
+                    text=True,
+                    check=True,
+                )
+                rep = (ev_dir / f"run-{idx}/report.md").read_text(encoding="utf-8")
+                self.assertIn(f"evidence_role: {exp_ev_role}\n", rep)
+                self.assertIn(f"agent_role: {exp_ag_role}\n", rep)
+                self.assertIn(f"capability_profile: {exp_prof}\n", rep)
+                self.assertNotIn("implementation-high", rep)
+
+        # 4. Cold-path amendment extraction & overview refresh
+        amend_ref = ROOT / "references/resume-context-amendments.md"
+        self.assertTrue(amend_ref.is_file(), "missing references/resume-context-amendments.md")
+        amend_text = amend_ref.read_text(encoding="utf-8")
+        for key in (
+            "strict-local-reviewer-binding",
+            "strict-local-control-plane-rebind",
+            "strict-local-control-plane-return",
+        ):
+            self.assertIn(key, amend_text)
+        approved_text = (ROOT / "references/approved-implementation-workflow.md").read_text(encoding="utf-8")
+        self.assertIn("references/resume-context-amendments.md", approved_text)
+        self.assertLess(len(approved_text.splitlines()), 610)
+
+        overview_text = (ROOT / "references/workflow-overview.md").read_text(encoding="utf-8")
+        doc_wf_text = (ROOT / "docs/workflow.md").read_text(encoding="utf-8")
+        self.assertNotIn("schema-3", overview_text)
+        self.assertIn("schema-6", overview_text)
+        self.assertIn("Four Hard Anchors", overview_text)
+        self.assertIn("autoloop", overview_text)
+        self.assertIn("Four Hard Anchors", doc_wf_text)
+
 
 if __name__ == "__main__":
     unittest.main()

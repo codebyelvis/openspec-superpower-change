@@ -2,55 +2,58 @@
 
 ## Purpose
 
-`openspec-superpower-change` is the single entry gate for AI-assisted development changes.
+`openspec-superpower-change` is the project-level change gate for explicitly requested OpenSpec, change-gating, routing, skill self-evolution, and archive/distillation work. Ordinary questions, standalone read-only reviews, and everyday unconstrained edits do not auto-load this router.
 
-It decides:
+When loaded, it decides:
 
-- whether the request is review-only, discovery, proposal, approved implementation, or direct change;
-- whether OpenSpec is required;
-- whether Superpowers planning, TDD, debugging, review, and verification are required;
-- which Step Evidence Gate level applies;
-- when the agent is allowed to claim completion.
+- whether the request is review-only, discovery, proposal, approved implementation, `/autoloop` requirement verification, or direct change;
+- whether OpenSpec approval is required;
+- which Superpowers methods (if any) apply to the current phase;
+- which Step Evidence Gate profile (`compact`, `standard`, `strict`) governs verification and review;
+- when the bound control plane is allowed to claim whole-task completion.
 
-## Main flow
+## Four proportional lanes
 
 ```text
-read local instructions
--> inspect existing specs, changes, docs, and context when relevant
--> read required references from the Reference Read Matrix
--> complete Gate 0 before state-changing action
--> classify request mode
--> clarify domain language when needed
--> create or update OpenSpec proposal when required
--> wait for approval before implementation
--> create Superpowers implementation plan for approved work
--> Preflight Review the current Plan/Brief revision before execution
--> execute business slices with TDD/debugging and Step Evidence Gate
--> verify -> Review -> fix and repeat until Review PASS
--> persist fresh final verification evidence and run final diff/scope Review
--> reconcile OpenSpec tasks, archive when appropriate, and validate after archive
--> report changed files, evidence, risks, and next steps
+read applicable local instructions & task-relevant code/docs
+-> record Gate 0 before state-changing action (one line for obvious local reversible work)
+-> route into the matching proportional lane:
+
+  1. Compact Direct Change (`references/direct-change-rule.md`)
+     -> minimum edit -> relevant required checks -> focused inline diff/self-review (no standalone Plan, Preflight, or status.md)
+
+  2. Requirement Closed-Loop (`docs/req/*.md` + `/autoloop`, `references/autoloop-req-acceptance.md`)
+     -> auto-match or session-distill `docs/req/*.md` -> minimal implementation & local fast check
+     -> `scripts/autoloop_ctl.py run` (governed background verification + isolated read-only AGY review, <= 2 repair rounds)
+
+  3. OpenSpec-Backed Implementation (`references/proposal-workflow.md` -> `references/approved-implementation-workflow.md`)
+     -> clarify domain language when needed (`grill-with-docs` / `brainstorming`)
+     -> draft & `openspec validate <change-id> --strict` -> stop for explicit user approval
+     -> execute directly when OpenSpec `design.md` + `tasks.md` define the Four Hard Anchors; otherwise create a Superpowers plan and run bounded Preflight (`FULL_PREFLIGHT` + at most one `FOCUSED_RECHECK`)
+     -> execute cohesive business slices -> verify -> distinct Review -> Project Learning Closeout when triggered
+     -> fresh final verification & Final Review (or single consolidated post-verification Review on eligible single-slice standard work)
+     -> reconcile `tasks.md`, archive when appropriate, and strict-validate after archive
+
+  4. External Handoff / Cross-Window Session Resume (`references/handoff-contract.md` + `status.md`)
+     -> lazy `docs/agent-collab/<change-id>/status.md` checkpoint on pause/compaction/handoff (schema-6 Handoff + schema-2 hashed evidence manifests)
 ```
 
 ## Orchestration model
 
 ```text
-grill-with-docs when domain language or boundaries are unclear
-  -> OpenSpec when the change needs an approved contract
-  -> Superpowers when approved work needs planning, implementation, and verification
+grill-with-docs / brainstorming when domain language or material boundaries are unclear
+  -> OpenSpec as the single approved design contract when protected boundaries change
+  -> Four Hard Anchors (or Superpowers plan + bounded Preflight) + `/autoloop` / Step Evidence Gate for disciplined execution and verification
 ```
-
-OpenSpec defines the approved change contract. Superpowers defines the execution discipline. `grill-with-docs` sharpens language and decision context before the contract is written.
 
 ## Artifact boundaries
 
-For OpenSpec-backed work:
+For OpenSpec-backed and governed external work:
 
-- OpenSpec artifacts: `openspec/changes/<change-id>/proposal.md`, `tasks.md`, optional `design.md`, and spec deltas.
-- Superpowers implementation plan: `docs/superpowers/plans/YYYY-MM-DD-<change-id>.md`.
-- Step Evidence Gate signoff notes for gated implementation steps.
-- Verification evidence and Review PASS before completion.
-- For external work, schema-3 hashed Report/Review/final evidence references.
+- OpenSpec artifacts: `openspec/changes/<change-id>/proposal.md`, `tasks.md`, optional `design.md`, and spec deltas (serving directly as the executable plan when the Four Hard Anchors are present).
+- Separate Superpowers plan (`docs/superpowers/plans/YYYY-MM-DD-<change-id>.md`): required only when OpenSpec execution anchors are absent or multi-step non-anchored planning is needed.
+- Canonical collaboration / resume ledger: `docs/agent-collab/<change-id>/status.md` (created lazily on pause/compaction/handoff for compact/standard local work; created at approval for strict/self-evolution and schema-6 external handoff).
+- For external or `autoloop` work: schema-6 Handoff Contract and schema-2 `COOP_EVIDENCE_MANIFEST` hashed attempt/review/final evidence artifacts.
 
 Optional discovery artifacts:
 
@@ -60,13 +63,10 @@ Optional discovery artifacts:
 ## Governance boundaries
 
 - OpenSpec defines what changes, why it changes, and what acceptance scenarios must hold.
-- Superpowers defines how approved work is planned, implemented, tested, debugged, reviewed, and verified.
-- Step Evidence Gate defines progress evidence and signoff conditions.
-- This skill defines routing, ordering, and gate enforcement.
+- Superpowers and `/autoloop` provide proportional planning, TDD, debugging, verification, and independent read-only review discipline.
+- Step Evidence Gate (`references/step-evidence-gate.md`) defines slice-level progress evidence and signoff conditions.
+- Completion Contract (`references/completion-contract.md`) owns whole-task completion claims.
 
 ## Companion Skill Boundary
 
-`codex-brief-antigravity-review` may work standalone for task prompts, briefs,
-checklists, and read-only diff/evidence review. It consumes the Handoff Contract
-only when governing external execution. It never replaces this skill as the
-entry gate for file changes or as the final completion owner.
+`codex-brief-antigravity-review` works standalone for task prompts, briefs, checklists, and read-only diff/evidence review, and consumes the schema-6 Handoff Contract when governing external execution. Daily feature slices without protected OpenSpec contract changes can also enter `/autoloop` directly while escalating to this router whenever unapproved Major or protected boundaries are touched.

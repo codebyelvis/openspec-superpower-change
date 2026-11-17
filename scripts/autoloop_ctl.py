@@ -5,7 +5,7 @@ Author: elvis
 """
 from __future__ import annotations
 
-import argparse, hashlib, json, os, re, shutil, subprocess, sys, time, uuid
+import argparse, hashlib, json, os, re, shutil, socket, subprocess, sys, time, uuid
 from pathlib import Path
 
 SCRIPTS_DIR = Path(__file__).resolve().parent
@@ -21,16 +21,60 @@ LEDGER_DIR = STATE_ROOT / "ledger"
 EVIDENCE_DIR = STATE_ROOT / "evidence"
 BACKUPS_DIR = STATE_ROOT / "backups"
 INDEX_FILE = STATE_ROOT / "project-index.json"
-AI_APP_WORKBENCH_REQ_DIR = Path("/Users/elvis/file/develop/notes/Typora/10_Projects/ai-app-docs/模型开发工作台/docs/req")
 
-NODE_BIN = "/Users/elvis/.nvm/versions/node/v24.22.2/bin/node"
+
+def _resolve_ai_app_req_dir() -> Path:
+    env_dir = (os.environ.get("AUTOLOOP_AI_APP_REQ_DIR") or "").strip()
+    if env_dir:
+        return Path(env_dir).expanduser()
+    local_cfg = AL_HOME / "local-paths.json"
+    if local_cfg.is_file():
+        try:
+            configured = (json.loads(local_cfg.read_text(encoding="utf-8")).get("ai_app_req_dir") or "").strip()
+            if configured:
+                return Path(configured).expanduser()
+        except (OSError, json.JSONDecodeError, AttributeError):
+            pass
+    return Path.home() / "file" / "develop" / "notes" / "Typora" / "10_Projects" / "ai-app-docs" / "模型开发工作台" / "docs" / "req"
+
+
+def _resolve_node_bin() -> str:
+    env_bin = (os.environ.get("AUTOLOOP_NODE_BIN") or "").strip()
+    if env_bin:
+        return env_bin
+    found = shutil.which("node")
+    if found:
+        return found
+    nvm_root = Path.home() / ".nvm" / "versions" / "node"
+    if nvm_root.is_dir():
+        for cand in sorted(nvm_root.glob("v*/bin/node"), reverse=True):
+            if cand.is_file() and os.access(cand, os.X_OK):
+                return str(cand)
+    for fallback in ("/opt/homebrew/bin/node", "/usr/local/bin/node"):
+        if os.path.isfile(fallback) and os.access(fallback, os.X_OK):
+            return fallback
+    return "node"
+
+
+AI_APP_WORKBENCH_REQ_DIR = _resolve_ai_app_req_dir()
+NODE_BIN = _resolve_node_bin()
 AL_CMD = [NODE_BIN, "--disable-warning=ExperimentalWarning", str(AL_HOME / "app/bin/agent-autoloop.ts")]
-PI_BIN = shutil.which("pi") or "/Users/elvis/.local/bin/pi"
+PI_BIN = (os.environ.get("AUTOLOOP_PI_BIN") or "").strip() or shutil.which("pi") or str(Path.home() / ".local" / "bin" / "pi")
 PI_ANTIGRAVITY_EXT = Path.home() / ".pi/agent/npm/node_modules/pi-antigravity/src/index.ts"
-AGY_REVIEW_BIN = Path("/Users/elvis/.gemini/antigravity-cli/bin/agy-readonly-review")
+AGY_REVIEW_BIN = Path(
+    (os.environ.get("AUTOLOOP_AGY_REVIEW_BIN") or "").strip()
+    or shutil.which("agy-readonly-review")
+    or (Path.home() / ".gemini" / "antigravity-cli" / "bin" / "agy-readonly-review")
+)
 LAUNCHD_LABEL = f"gui/{os.getuid()}/agent-autoloop"
 SAFE_SLUG = re.compile(r"[^a-zA-Z0-9\u4e00-\u9fff_-]+")
 SAFE_CHANGE_ID = re.compile(r"^[a-z0-9][a-z0-9-]{0,127}$")
+OPENSPEC_TEST_CMD_RE = re.compile(
+    r"^(?:PYTHONDONTWRITEBYTECODE=1\s+)?"
+    r"(?:python3?\s+(?:-m\s+(?:unittest|pytest)\b|scripts/(?:validate_[A-Za-z0-9_]+|check_[A-Za-z0-9_]+)\.py\b)"
+    r"|pytest\b|npm\s+test\b|pnpm\s+(?:test|typecheck|build)\b|cargo\s+test\b|go\s+test\b|mvn\b[^\n`]*\btest\b)"
+    r"[A-Za-z0-9_./:\s=-]*$"
+)
 
 AGENT_TS_CODE = """// Author: elvis. Governed host-side adapter for agent-autoloop (change integrate-governed-cli-autoloop).
 // Passes turn.contextFile so gov_runner.py resolves per-event isolated batch contracts (<batches_dir>/<subject>.json)
@@ -205,6 +249,34 @@ def cmd_init_req(args) -> int:
     return 0
 
 
+def _extract_openspec_verify_cmds(ch_dir: Path) -> list[str]:
+    prop = ch_dir / "proposal.md"
+    if prop.is_file():
+        fm_cmd = (parse_req_markdown(prop).get("verify_cmd") or "").strip()
+        if fm_cmd:
+            return [fm_cmd]
+    found: list[str] = []
+    for doc_name in ("tasks.md", "design.md"):
+        doc_path = ch_dir / doc_name
+        if not doc_path.is_file():
+            continue
+        raw_text = doc_path.read_text(encoding="utf-8")
+        candidates = [m.group(1).strip() for m in re.finditer(r"`([^`\n]+)`", raw_text)]
+        for block in re.finditer(r"```(?:bash|sh)\n([\s\S]*?)```", raw_text):
+            candidates.extend(line.strip() for line in block.group(1).splitlines() if line.strip())
+        for cand in candidates:
+            for seg in (part.strip() for part in cand.split("&&")):
+                if not seg or "<" in seg or ">" in seg or "..." in seg:
+                    continue
+                if seg.startswith("openspec validate"):
+                    continue
+                if OPENSPEC_TEST_CMD_RE.match(seg) and seg not in found:
+                    found.append(seg)
+        if found:
+            break
+    return found
+
+
 def match_project_req(cwd: Path) -> dict:
     cwd = cwd.resolve()
     idx = load_index().get(str(cwd)) or {}
@@ -236,16 +308,22 @@ def match_project_req(cwd: Path) -> dict:
             tasks_p = ch_dir / "tasks.md"
             if tasks_p.is_file() and "- [ ]" not in tasks_p.read_text(encoding="utf-8"):
                 continue
-            return {
+            base_validate = f"openspec validate {ch_dir.name} --strict"
+            extra_cmds = _extract_openspec_verify_cmds(ch_dir)
+            result: dict = {
                 "matched": True,
                 "source": "openspec_change",
                 "req_path": str((ch_dir / "proposal.md").resolve()),
                 "req_id": ch_dir.name,
                 "status": "ready",
-                "verify_cmd": f"openspec validate {ch_dir.name} --strict",
-                "verify_argv": ["openspec", "validate", ch_dir.name, "--strict"],
+                "verify_cmd": " && ".join([base_validate, *extra_cmds]) if extra_cmds else base_validate,
                 "accept": f"满足 openspec/changes/{ch_dir.name}/ 下 proposal.md、design.md 与 tasks.md 的验收要求",
             }
+            if extra_cmds:
+                result["extracted_test_cmds"] = extra_cmds
+            else:
+                result["verify_argv"] = ["openspec", "validate", ch_dir.name, "--strict"]
+            return result
 
     return {
         "matched": False,
@@ -260,9 +338,13 @@ def match_project_req(cwd: Path) -> dict:
 
 
 def worker_name() -> str:
-    cfg = json.loads((AL_HOME / "config.json").read_text(encoding="utf-8"))
-    w = cfg.get("worker")
-    return w["name"] if isinstance(w, dict) else "elvisdemacbook-pro"
+    cfg_path = AL_HOME / "config.json"
+    if cfg_path.is_file():
+        cfg = json.loads(cfg_path.read_text(encoding="utf-8"))
+        w = cfg.get("worker")
+        if isinstance(w, dict) and w.get("name"):
+            return str(w["name"])
+    return socket.gethostname().split(".")[0].lower() or "local-worker"
 
 
 def ensure_installed() -> dict:
