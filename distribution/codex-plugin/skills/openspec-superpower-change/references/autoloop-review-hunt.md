@@ -1,13 +1,13 @@
-# Pre-MR Read-Only Hunt Reference (`review_profile=pre-mr`)
+# Conditional Read-Only Hunt Reference (`pre-mr` & Risk-Escalated `fast`)
 
 Author: elvis
 
-Use this reference only in `pre-mr` read-only reviews. Keep strict Scope Lock and Anti-Bloat discipline:
+Use this reference in `pre-mr` read-only reviews and in `fast` reviews escalated by high-risk business paths. Keep strict Scope Lock and Anti-Bloat discipline:
 
 1. **Changed-Hunk Attribution Only**: Every `FAIL` finding MUST anchor to an exact `path:line` modified in `git.branch_diff.patch` or `git.working_diff.patch`, and prove a concrete failure path that did not exist on the target baseline before this change.
 2. **Conditional Activation (`hunt: n/a`)**: Evaluate each lens below **only** when the diff actually touches that mechanism. When a lens does not apply to the diff, record `hunt: n/a` for that lens. Never fail a change for "missing defensive guards" without a real in-repo caller or reachable runtime trigger, never emit naming/formatting/style nitpicks, and never report untouched pre-existing issues on the target branch.
 
-## Four Conditional Hunt Lenses
+## Five Conditional Hunt Lenses
 
 1. **Consumer Symmetry (`consumer_symmetry`)**
    - **Activate when**: Diff adds, removes, relaxes, or renames an enum value, schema constraint (`minItems`, nullable, field type), status/error code, event payload, or shared configuration flag.
@@ -33,3 +33,9 @@ Use this reference only in `pre-mr` read-only reviews. Keep strict Scope Lock an
    - **Check**:
      - Inputs outside the new branch must preserve exact target-branch return values, nullability, and exception behavior (no silent exception swallowing);
      - Regression tests must cover the primary failure case plus applicable retry/recovery or boundary/multi-step cases so a direct one-line patch cannot be immediately bypassed by an adjacent state combination.
+
+5. **External & Exception Diagnosability (`diagnosability_context`)**
+   - **Activate when**: Diff adds or alters external I/O calls (HTTP/RPC/DB/MQ/CLI) or `catch`/`except` error-handling blocks.
+   - **Check**:
+     - Error paths must not silently swallow root-cause exceptions or log external/state failures without an available in-scope business identifier or error status/code needed for production triage;
+     - Logs and error payloads must never output raw credentials, tokens, secrets, or connection passwords.

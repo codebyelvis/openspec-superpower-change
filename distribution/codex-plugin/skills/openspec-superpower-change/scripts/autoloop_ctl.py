@@ -522,6 +522,12 @@ def collect_result(batch_id: str) -> dict:
             "state": state,
             "verdict": rc.get("verdict", "FAIL"),
             "verify_exit_code": rc.get("verify_exit_code"),
+            "cli_launched": rc.get("cli_launched", True),
+            "failure_kind": rc.get("failure_kind"),
+            "failure_signature": rc.get("failure_signature"),
+            "veto_errors": rc.get("veto_errors") or [],
+            "verify_error_excerpt": rc.get("verify_error_excerpt", ""),
+            "risk_escalated_paths": rc.get("risk_escalated_paths") or [],
             "reviewer_readonly_verified": rc.get("reviewer_readonly_verified", True),
             "reviewer_session": rc.get("native_session"),
             "report_path": rc.get("report_path"),
@@ -590,7 +596,7 @@ def cmd_run(args) -> int:
             "- 判定输出格式（机器解析硬约束，本回执豁免聊天首行模型声明）：第 1 行必须直接且仅输出 `AUTOLOOP_VERDICT: PASS` 或 `AUTOLOOP_VERDICT: FAIL`；第 2 行起输出 Findings First（无阻塞写 `0 阻塞发现`）、`hunt:` 适用性摘要及 3 行内验证摘要。\n"
             "- 若 `verify.exit` 非 `0`，或 `git.meta.json` 显示基线未解析/补丁截断/干净工作区无可见净变更，必须输出 `AUTOLOOP_VERDICT: FAIL`。\n"
             "- 严格按条件猎杀清单核查本次变更触及的路径；未触及的类别记录 `hunt: n/a`，严禁因“未加无依据防御代码”、命名/格式偏好或目标分支未触碰旧问题判 `FAIL`。\n"
-            "- 每个 `FAIL` 发现必须同时给出本次 Diff 内的准确 `path:line`，以及仓库内真实消费者或可达的重试/分页/崩溃重入触发路径。"
+            "- 每个 `FAIL` 发现必须同时给出本次 Diff 内的准确 `path:line`，以及仓库内真实消费者或可达的重试/分页/崩溃重入/异常黑盒触发路径。"
         )
     else:
         prompt = (
@@ -631,6 +637,10 @@ def cmd_run(args) -> int:
         "verify_cwd": str(cwd),
         "verify_command": verify_cmd,
         "verify_timeout": args.timeout,
+        "verify_env_path": os.environ.get("PATH", ""),
+        "model_explicit": bool((args.model or "").strip()),
+        "hunt_ref": str(HUNT_REF.resolve()),
+        "hunt_dir": str(HUNT_REF.parent.resolve()) if HUNT_REF.parent.is_dir() else "",
         "capture_git_diff": True,
         "canonical_sha256": sha256_file(req_path),
         "contract_revision": 1,

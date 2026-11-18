@@ -753,6 +753,404 @@ class GovRunnerGitCaptureTests(unittest.TestCase):
         self.assertIn("autoloop", overview_text)
         self.assertIn("Four Hard Anchors", doc_wf_text)
 
+    def test_verify_short_circuit_failure_kind_timeout_killpg_and_redaction(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp_p = Path(tmp)
+            repo = tmp_p / "repo"
+            _init_repo(repo)
+            (repo / "app.py").write_text("x = 2\n", encoding="utf-8")
+
+            fake_agy = tmp_p / "fake-agy.py"
+            fake_agy.write_text(
+                "#!/usr/bin/env python3\n"
+                "import json\n"
+                "print(json.dumps({'event': 'init', 'conversation_id': 'conv-pass-1'}), flush=True)\n"
+                "print(json.dumps({'event': 'result', 'result': {'conversation_id': 'conv-pass-1', 'status': 'SUCCESS', 'response': 'AUTOLOOP_VERDICT: PASS\\n0 阻塞发现'}}), flush=True)\n",
+                encoding="utf-8",
+            )
+            fake_agy.chmod(0o755)
+
+            def _run_batch(run_no: int, extra: dict) -> tuple[dict, Path]:
+                ev_dir = tmp_p / f"ev-{run_no}"
+                b_file = tmp_p / f"b-{run_no}.json"
+                payload = {
+                    "batch_id": f"b-{run_no}",
+                    "mode": "pi-accept",
+                    "reviewer_driver": "agy",
+                    "review_profile": "fast",
+                    "allow_rerun": False,
+                    "expected_resume": None,
+                    "verify_cwd": str(repo),
+                    "verify_command": "true",
+                    "verify_timeout": 10,
+                    "capture_git_diff": True,
+                    "ledger_dir": str(tmp_p / f"ledger-{run_no}"),
+                    "evidence_dir": str(ev_dir),
+                    "stop_cmd": ["true"],
+                    "pi_cmd": [sys.executable, str(fake_agy), "--model", "gemini-4-carbon-medium"],
+                    "pi_prompt": "check {RAW} {CWD}",
+                    **extra,
+                }
+                b_file.write_text(json.dumps(payload), encoding="utf-8")
+                f_dir = tmp_p / f"{run_no}-1"
+                f_dir.mkdir()
+                subprocess.run(
+                    [
+                        sys.executable,
+                        str(ROOT / "scripts/gov_runner.py"),
+                        "--batch",
+                        str(b_file),
+                        "--folder",
+                        str(f_dir),
+                        "--session",
+                        f"s-{run_no}",
+                        "--resume",
+                        "",
+                        "--cwd",
+                        str(repo),
+                    ],
+                    env={**os.environ, "AGENT_AUTOLOOP_RUN": str(run_no)},
+                    capture_output=True,
+                    text=True,
+                    check=True,
+                )
+                rc = json.loads((ev_dir / f"run-{run_no}/receipt.json").read_text(encoding="utf-8"))
+                return rc, ev_dir / f"run-{run_no}"
+
+            # A. Missing executable (127) -> setup_or_env_error, short-circuited before CLI
+            rc_env, run_env = _run_batch(401, {"verify_command": "nonexistent_cli_bin_xyz_99"})
+            self.assertEqual(rc_env["verdict"], "FAIL")
+            self.assertFalse(rc_env["cli_launched"])
+            self.assertEqual(rc_env["failure_kind"], "setup_or_env_error")
+            self.assertFalse((run_env / "attempt-1/cli.argv.json").exists())
+
+            # B. ModuleNotFoundError (exit 1) -> verification_failed + full secret redaction (R2 + quoted space)
+            leak_script = tmp_p / "leak_fail.py"
+            leak_script.write_text(
+                "import sys\n"
+                "sys.stderr.write(\n"
+                "    'conn=postgres://admin:p@ss@127.0.0.1:5432/db '\n"
+                "    'headers={\"Authorization\": \"Bearer sk-abc 123\", \"api_key\":\"k1_sec\"} '\n"
+                "    \"password: 'x y'\\n\"\n"
+                ")\n"
+                "raise ModuleNotFoundError(\"No module named 'missing_dep_q9'\")\n",
+                encoding="utf-8",
+            )
+            rc_mod, run_mod = _run_batch(402, {"verify_command": f'"{sys.executable}" "{leak_script}"'})
+            self.assertEqual(rc_mod["verdict"], "FAIL")
+            self.assertFalse(rc_mod["cli_launched"])
+            self.assertEqual(rc_mod["failure_kind"], "verification_failed")
+            rep_mod = (run_mod / "report.md").read_text(encoding="utf-8")
+            raw_rc_mod = (run_mod / "receipt.json").read_text(encoding="utf-8")
+            for secret_sub in ("p@ss", "ss@", "sk-abc", "123", "k1_sec", "x y", " y'"):
+                self.assertNotIn(secret_sub, rep_mod)
+                self.assertNotIn(secret_sub, raw_rc_mod)
+
+            # C. Process-group timeout kills background grandchild (R5)
+            pid_file = tmp_p / "grandchild.pid"
+            sleep_spawner = tmp_p / "spawn_sleep.py"
+            sleep_spawner.write_text(
+                "import pathlib, subprocess, sys, time\n"
+                f"p = subprocess.Popen([sys.executable, '-c', 'import time; time.sleep(30)'])\n"
+                f"pathlib.Path({str(pid_file)!r}).write_text(str(p.pid), encoding='utf-8')\n"
+                "time.sleep(30)\n",
+                encoding="utf-8",
+            )
+            rc_to, _ = _run_batch(
+                403,
+                {"verify_command": f'"{sys.executable}" "{sleep_spawner}"', "verify_timeout": 1},
+            )
+            self.assertEqual(rc_to["verdict"], "FAIL")
+            self.assertEqual(rc_to["verify_exit_code"], 124)
+            self.assertEqual(rc_to["failure_kind"], "timeout")
+            self.assertFalse(rc_to["cli_launched"])
+            grandchild_pid = int(pid_file.read_text(encoding="utf-8").strip())
+            with self.assertRaises(ProcessLookupError):
+                os.kill(grandchild_pid, 0)
+
+            # D. Non-collapsing failure_signature on distinct unittest failures sharing FAILED (failures=1) footer (R1)
+            runner_mod = _load_module("gov_runner_sig_test", ROOT / "scripts/gov_runner.py")
+            sig_fn = runner_mod._compute_failure_signature
+            out_a1 = (
+                "======================================================================\n"
+                "FAIL: test_alpha (tests.test_demo.DemoTest)\n"
+                "AssertionError: 1 != 2 in /tmp/run_1/work\n"
+                "Ran 2 tests in 0.014s\n\nFAILED (failures=1)\n"
+            )
+            out_a2 = (
+                "======================================================================\n"
+                "FAIL: test_alpha (tests.test_demo.DemoTest)\n"
+                "AssertionError: 1 != 2 in /private/tmp/run_99/work\n"
+                "Ran 2 tests in 1.932s\n\nFAILED (failures=1)\n"
+            )
+            out_b = (
+                "======================================================================\n"
+                "FAIL: test_beta (tests.test_demo.DemoTest)\n"
+                "AssertionError: 'left' != 'right'\n"
+                "Ran 2 tests in 0.014s\n\nFAILED (failures=1)\n"
+            )
+            self.assertEqual(
+                sig_fn("verification_failed", 1, out_a1),
+                sig_fn("verification_failed", 1, out_a2),
+            )
+            self.assertNotEqual(
+                sig_fn("verification_failed", 1, out_a1),
+                sig_fn("verification_failed", 1, out_b),
+            )
+
+            # E. Caller verify_env_path passthrough resolves custom tool (S6)
+            custom_bin = tmp_p / "custom-bin"
+            custom_bin.mkdir()
+            tool = custom_bin / "custom_verify_ok_tool"
+            tool.write_text("#!/bin/sh\necho 'Ran 3 tests in 0.01s'\nexit 0\n", encoding="utf-8")
+            tool.chmod(0o755)
+            rc_path, _ = _run_batch(
+                404,
+                {
+                    "verify_command": "custom_verify_ok_tool",
+                    "verify_env_path": f"{custom_bin}:{os.environ.get('PATH', '')}",
+                },
+            )
+            self.assertEqual(rc_path["verdict"], "PASS")
+            self.assertTrue(rc_path["cli_launched"])
+
+    def test_zero_test_execution_veto_positive_exemption_and_pytest_exit5(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp_p = Path(tmp)
+            repo = tmp_p / "repo"
+            _init_repo(repo)
+            (repo / "app.py").write_text("x = 3\n", encoding="utf-8")
+
+            fake_agy = tmp_p / "fake-agy.py"
+            fake_agy.write_text(
+                "#!/usr/bin/env python3\n"
+                "import json\n"
+                "print(json.dumps({'event': 'init', 'conversation_id': 'conv-z-1'}), flush=True)\n"
+                "print(json.dumps({'event': 'result', 'result': {'conversation_id': 'conv-z-1', 'status': 'SUCCESS', 'response': 'AUTOLOOP_VERDICT: PASS\\n0 阻塞发现'}}), flush=True)\n",
+                encoding="utf-8",
+            )
+            fake_agy.chmod(0o755)
+
+            def _exec_verify(run_no: int, cmd_str: str) -> dict:
+                ev_dir = tmp_p / f"ev-{run_no}"
+                b_file = tmp_p / f"b-{run_no}.json"
+                b_file.write_text(
+                    json.dumps(
+                        {
+                            "batch_id": f"b-{run_no}",
+                            "mode": "pi-accept",
+                            "reviewer_driver": "agy",
+                            "review_profile": "fast",
+                            "allow_rerun": False,
+                            "expected_resume": None,
+                            "verify_cwd": str(repo),
+                            "verify_command": cmd_str,
+                            "capture_git_diff": True,
+                            "ledger_dir": str(tmp_p / f"ledger-{run_no}"),
+                            "evidence_dir": str(ev_dir),
+                            "stop_cmd": ["true"],
+                            "pi_cmd": [sys.executable, str(fake_agy)],
+                            "pi_prompt": "check {RAW} {CWD}",
+                        }
+                    ),
+                    encoding="utf-8",
+                )
+                f_dir = tmp_p / f"{run_no}-1"
+                f_dir.mkdir()
+                subprocess.run(
+                    [
+                        sys.executable,
+                        str(ROOT / "scripts/gov_runner.py"),
+                        "--batch",
+                        str(b_file),
+                        "--folder",
+                        str(f_dir),
+                        "--session",
+                        f"s-{run_no}",
+                        "--resume",
+                        "",
+                        "--cwd",
+                        str(repo),
+                    ],
+                    env={**os.environ, "AGENT_AUTOLOOP_RUN": str(run_no)},
+                    capture_output=True,
+                    text=True,
+                    check=True,
+                )
+                return json.loads((ev_dir / f"run-{run_no}/receipt.json").read_text(encoding="utf-8"))
+
+            # 1. Single-suite zero tests with exit 0 -> vetoed before CLI
+            r_zero = _exec_verify(501, "printf 'Ran 0 tests in 0.000s\\n\\nOK\\n'")
+            self.assertEqual(r_zero["verdict"], "FAIL")
+            self.assertFalse(r_zero["cli_launched"])
+            self.assertEqual(r_zero["failure_kind"], "empty_test_execution")
+
+            # 2. Multi-module output with 0 tests in module A and 4 tests in module B -> exempted
+            r_multi = _exec_verify(502, "printf 'Tests run: 0, Failures: 0\\nTests run: 4, Failures: 0\\n'")
+            self.assertEqual(r_multi["verdict"], "PASS")
+            self.assertTrue(r_multi["cli_launched"])
+
+            # 3. Pytest exit 5 collected 0 items -> empty_test_execution
+            r_py0 = _exec_verify(503, "sh -c 'echo \"collected 0 items\"; exit 5'")
+            self.assertEqual(r_py0["verdict"], "FAIL")
+            self.assertFalse(r_py0["cli_launched"])
+            self.assertEqual(r_py0["failure_kind"], "empty_test_execution")
+
+            # 4. Pytest exit 5 all deselected (-k mismatch, R8) -> empty_test_execution
+            r_desel = _exec_verify(504, "sh -c 'echo \"=== 5 deselected in 0.02s ===\"; exit 5'")
+            self.assertEqual(r_desel["verdict"], "FAIL")
+            self.assertFalse(r_desel["cli_launched"])
+            self.assertEqual(r_desel["failure_kind"], "empty_test_execution")
+
+    def test_fast_high_risk_path_escalation_from_changed_files_snapshot(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp_p = Path(tmp)
+            fake_agy = tmp_p / "fake-agy.py"
+            fake_agy.write_text(
+                "#!/usr/bin/env python3\n"
+                "import json\n"
+                "print(json.dumps({'event': 'init', 'conversation_id': 'conv-esc-1'}), flush=True)\n"
+                "print(json.dumps({'event': 'result', 'result': {'conversation_id': 'conv-esc-1', 'status': 'SUCCESS', 'response': 'AUTOLOOP_VERDICT: PASS\\n0 阻塞发现\\nhunt: n/a'}}), flush=True)\n",
+                encoding="utf-8",
+            )
+            fake_agy.chmod(0o755)
+
+            # Repo 1: Clean committed feature branch touching SQL migration + auth/security stems without --base-ref
+            repo_risk = tmp_p / "repo-risk"
+            base_branch = _init_repo(repo_risk)
+            subprocess.run(["git", "-C", str(repo_risk), "checkout", "-qb", "feat/risk", base_branch], check=True)
+            (repo_risk / "db/migration").mkdir(parents=True)
+            (repo_risk / "src").mkdir(parents=True)
+            (repo_risk / "db/migration/V1__init.sql").write_text("CREATE TABLE t(id INT);\n", encoding="utf-8")
+            (repo_risk / "src/auth.py").write_text("def check(): return True\n", encoding="utf-8")
+            (repo_risk / "src/SecurityConfig.java").write_text("class SecurityConfig {}\n", encoding="utf-8")
+            subprocess.run(["git", "-C", str(repo_risk), "add", "."], check=True)
+            subprocess.run(["git", "-C", str(repo_risk), "commit", "-qm", "feat: add migration and auth"], check=True)
+
+            ev_risk = tmp_p / "ev-risk"
+            b_risk = tmp_p / "b-risk.json"
+            hunt_ref = ROOT / "references/autoloop-review-hunt.md"
+            b_risk.write_text(
+                json.dumps(
+                    {
+                        "batch_id": "b-risk",
+                        "mode": "pi-accept",
+                        "reviewer_driver": "agy",
+                        "extra_read_dirs": [],
+                        "review_profile": "fast",
+                        "base_ref": "",
+                        "model_explicit": False,
+                        "hunt_ref": str(hunt_ref.resolve()),
+                        "hunt_dir": str(hunt_ref.parent.resolve()),
+                        "allow_rerun": False,
+                        "expected_resume": None,
+                        "verify_cwd": str(repo_risk),
+                        "verify_command": "printf 'Ran 2 tests in 0.01s\\n'",
+                        "capture_git_diff": True,
+                        "ledger_dir": str(tmp_p / "ledger-risk"),
+                        "evidence_dir": str(ev_risk),
+                        "stop_cmd": ["true"],
+                        "pi_cmd": [
+                            sys.executable,
+                            str(fake_agy),
+                            "--model",
+                            "gemini-4-carbon-medium",
+                            "--output-format",
+                            "stream-json",
+                        ],
+                        "pi_prompt": "fast base prompt {RAW} {CWD}",
+                    }
+                ),
+                encoding="utf-8",
+            )
+            f_risk = tmp_p / "601-1"
+            f_risk.mkdir()
+            subprocess.run(
+                [
+                    sys.executable,
+                    str(ROOT / "scripts/gov_runner.py"),
+                    "--batch",
+                    str(b_risk),
+                    "--folder",
+                    str(f_risk),
+                    "--session",
+                    "s-601",
+                    "--resume",
+                    "",
+                    "--cwd",
+                    str(repo_risk),
+                ],
+                env={**os.environ, "AGENT_AUTOLOOP_RUN": "601"},
+                capture_output=True,
+                text=True,
+                check=True,
+            )
+            rc_risk = json.loads((ev_risk / "run-601/receipt.json").read_text(encoding="utf-8"))
+            self.assertEqual(rc_risk["verdict"], "PASS")
+            self.assertEqual(
+                rc_risk["risk_escalated_paths"],
+                ["db/migration/V1__init.sql", "src/SecurityConfig.java", "src/auth.py"],
+            )
+            argv_risk = json.loads((ev_risk / "run-601/attempt-1/cli.argv.json").read_text(encoding="utf-8"))
+            self.assertIn("gemini-4-carbon-high", argv_risk)
+            self.assertNotIn("gemini-4-carbon-medium", argv_risk)
+            self.assertIn(str(hunt_ref.parent.resolve()), argv_risk)
+            self.assertIn("补充材料（高敏业务路径自动升档核查）", argv_risk[-1])
+
+            # Repo 2: Docs and test seed SQL only -> must NOT escalate
+            repo_safe = tmp_p / "repo-safe"
+            base_safe = _init_repo(repo_safe)
+            subprocess.run(["git", "-C", str(repo_safe), "checkout", "-qb", "feat/safe", base_safe], check=True)
+            (repo_safe / "docs").mkdir(parents=True)
+            (repo_safe / "src/test/resources").mkdir(parents=True)
+            (repo_safe / "docs/note.md").write_text("# Doc\n", encoding="utf-8")
+            (repo_safe / "src/test/resources/seed.sql").write_text("SELECT 1;\n", encoding="utf-8")
+            subprocess.run(["git", "-C", str(repo_safe), "add", "."], check=True)
+            subprocess.run(["git", "-C", str(repo_safe), "commit", "-qm", "docs: add note and test seed"], check=True)
+
+            ev_safe = tmp_p / "ev-safe"
+            b_safe = tmp_p / "b-safe.json"
+            b_safe.write_text(
+                json.dumps(
+                    {
+                        **json.loads(b_risk.read_text(encoding="utf-8")),
+                        "batch_id": "b-safe",
+                        "verify_cwd": str(repo_safe),
+                        "ledger_dir": str(tmp_p / "ledger-safe"),
+                        "evidence_dir": str(ev_safe),
+                    }
+                ),
+                encoding="utf-8",
+            )
+            f_safe = tmp_p / "602-1"
+            f_safe.mkdir()
+            subprocess.run(
+                [
+                    sys.executable,
+                    str(ROOT / "scripts/gov_runner.py"),
+                    "--batch",
+                    str(b_safe),
+                    "--folder",
+                    str(f_safe),
+                    "--session",
+                    "s-602",
+                    "--resume",
+                    "",
+                    "--cwd",
+                    str(repo_safe),
+                ],
+                env={**os.environ, "AGENT_AUTOLOOP_RUN": "602"},
+                capture_output=True,
+                text=True,
+                check=True,
+            )
+            rc_safe = json.loads((ev_safe / "run-602/receipt.json").read_text(encoding="utf-8"))
+            self.assertEqual(rc_safe["verdict"], "PASS")
+            self.assertEqual(rc_safe["risk_escalated_paths"], [])
+            argv_safe = json.loads((ev_safe / "run-602/attempt-1/cli.argv.json").read_text(encoding="utf-8"))
+            self.assertIn("gemini-4-carbon-medium", argv_safe)
+            self.assertNotIn("补充材料（高敏业务路径自动升档核查）", argv_safe[-1])
+
 
 if __name__ == "__main__":
     unittest.main()

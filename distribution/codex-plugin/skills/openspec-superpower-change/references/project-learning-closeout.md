@@ -135,6 +135,8 @@ enforcement is infeasible, record a non-blank reason and an explicit adversarial
 Review scenario. The learning diff still requires focused verification and
 Review PASS.
 
+When an item already meets the mandatory `## Triggers` threshold above and passes `references/learning-candidate-pipeline.md` scope classification, prefer the highest feasible enforcement layer: (1) architectural single-source-of-truth or dead-code removal so agents cannot copy obsolete patterns, (2) static validators or types whose error message names the canonical replacement, (3) observable behavior regression tests, and (4) prose guidance last for judgment-only boundaries. Any condensation or retirement of governed skill/workflow prose remains subject to Major Self-Evolution approval and must never remove `Non-Negotiables` or validator-locked phrases.
+
 The final completion is `BLOCKED` when a mandatory or explicitly requested
 project-local promotion lacks any of:
 

@@ -6368,6 +6368,26 @@ class SkillIterationEntryTests(unittest.TestCase):
             finally:
                 ctl_mod.AI_APP_WORKBENCH_REQ_DIR = orig_wb
 
+    def test_harness_pstack_guardrail_references_and_untouched_locks(self):
+        hunt_text = (ROOT / "references" / "autoloop-review-hunt.md").read_text(encoding="utf-8")
+        self.assertIn("# Conditional Read-Only Hunt Reference", hunt_text)
+        self.assertIn("## Five Conditional Hunt Lenses", hunt_text)
+        self.assertIn("diagnosability_context", hunt_text)
+
+        req_acc_text = (ROOT / "references" / "autoloop-req-acceptance.md").read_text(encoding="utf-8")
+        self.assertIn("failure_kind", req_acc_text)
+        self.assertIn("failure_signature", req_acc_text)
+        self.assertIn("setup_or_env_error", req_acc_text)
+        self.assertIn("Attack the Premise", req_acc_text)
+
+        closeout_text = (ROOT / "references" / "project-learning-closeout.md").read_text(encoding="utf-8")
+        self.assertIn("single-source-of-truth or dead-code removal", closeout_text)
+        self.assertIn("canonical replacement", closeout_text)
+        self.assertIn("Major Self-Evolution approval", closeout_text)
+
+        approved_wf_text = (ROOT / "references" / "approved-implementation-workflow.md").read_text(encoding="utf-8")
+        self.assertNotIn("NO_PROGRESS", approved_wf_text)
+
 
 if __name__ == "__main__":
     unittest.main()

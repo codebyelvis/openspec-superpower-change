@@ -29,6 +29,167 @@ SAFE_BATCH_ID = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$")
 MAX_PATCH_BYTES = 2_000_000
 MAX_FAST_REFLOG_COMMITS = 50
 
+POSITIVE_TEST_COUNT_RE = re.compile(
+    r"(?:\bRan\s+[1-9]\d*\s+tests?\b|\bTests\s+run:\s*[1-9]\d*\b|\b[1-9]\d*\s+passed\b)"
+)
+ZERO_TEST_EXEC_RE = re.compile(
+    r"(?:\bRan\s+0\s+tests?\s+in\b|\bcollected\s+0\s+items\b|\bTests\s+run:\s*0\s*,|"
+    r"===\s*no\s+tests\s+ran\b|\bNO\s+TESTS\s+RAN\b|\bThere\s+are\s+no\s+tests\s+to\s+run\b)",
+    re.I,
+)
+PYTEST_DESELECTED_EXIT5_RE = re.compile(r"(?:\b0\s+selected\b|\b\d+\s+deselected\b)", re.I)
+SHELL_CMD_MISSING_RE = re.compile(
+    r"(?:command\s+not\s+found|not\s+recognized\s+as\s+an\s+internal\s+or\s+external\s+command)",
+    re.I,
+)
+QUOTED_SECRET_REDACT_RE = re.compile(
+    r"(?i)(\b(?:token|secret|password|passwd|authorization|api[_-]?key)\b[\"\']?\s*[:=]\s*)([\"\'])(?:Bearer\s+)?([^\"\'\r\n]+)(\2)"
+)
+SECRET_REDACT_RE = re.compile(
+    r"(?i)(\b(?:token|secret|password|passwd|authorization|api[_-]?key)\b[\"\']?\s*[:=]\s*(?:Bearer\s+)?)([^\s\"\',;}\r\n]+)"
+)
+URL_CRED_REDACT_RE = re.compile(r"(://[^/\s:@]+:)([^\s/]+)(@[^@\s/]+)")
+FAILED_ID_PATTERNS = (
+    re.compile(r"^(?:FAIL|ERROR):\s+(\S+(?:\s+\([^)]+\))?)", re.M),
+    re.compile(r"^FAILED\s+(\S+)", re.M),
+    re.compile(r"^\[ERROR\]\s+([A-Za-z0-9_.$]+(?:#\S+|\(\S+\)|:\d+))", re.M),
+)
+SUMMARY_FOOTER_RE = re.compile(
+    r"^(?:FAILED\s+\(|=+\s+.*failed|\[ERROR\]\s+BUILD\s+FAILURE\b)", re.I
+)
+HIGH_RISK_SEGMENTS = frozenset(
+    {"migration", "migrations", "changelog", "auth", "authn", "authz", "oauth", "security", "permission", "permissions"}
+)
+# Conservative prefix trade-off: e.g. author_profile.py may also escalate to -high (safe extra compute, zero false-PASS risk).
+HIGH_RISK_STEM_PREFIXES = ("auth", "security", "permission", "migration")
+NON_BUSINESS_SEGMENTS = frozenset({"docs", "doc", "test", "tests", "__tests__", "fixtures"})
+
+FAST_HUNT_ESCALATION_ADDENDUM = (
+    "\n\n补充材料（高敏业务路径自动升档核查）：\n"
+    "5. 条件猎杀清单：`{HUNT_REF}`\n"
+    "升档附加规则：\n"
+    "- 第 2 行起除 Findings First 外，必须附带 `hunt:` 适用性摘要；严格按条件猎杀清单核查本次变更触及的路径，未触及的类别记录 `hunt: n/a`，严禁因“未加无依据防御代码”、命名/格式偏好或目标分支未触碰旧问题判 `FAIL`。\n"
+    "- 每个 `FAIL` 发现必须同时给出本次 Diff 内的准确 `path:line`，以及仓库内真实消费者或可达的重试/分页/崩溃重入/异常黑盒触发路径。"
+)
+
+
+def _redact_sensitive_text(text: str, limit: int = 1200) -> str:
+    masked = URL_CRED_REDACT_RE.sub(r"\1***\3", text or "")
+    masked = QUOTED_SECRET_REDACT_RE.sub(r"\1\2***\4", masked)
+    masked = SECRET_REDACT_RE.sub(r"\1***", masked)
+    return masked[-limit:] if len(masked) > limit else masked
+
+
+def _compute_failure_signature(failure_kind: str, v_code: int, raw_output: str) -> str:
+    failed_ids = sorted(
+        {m.strip() for pat in FAILED_ID_PATTERNS for m in pat.findall(raw_output or "")}
+    )
+    key_line = ""
+    for ln in (x.strip() for x in (raw_output or "").splitlines() if x.strip()):
+        if SUMMARY_FOOTER_RE.match(ln):
+            continue
+        if any(tok in ln for tok in ("AssertionError", "Error", "Exception", "FAILED", "ERROR", "command not found", "exit")):
+            key_line = ln
+            break
+    if not key_line and raw_output:
+        non_footer = [
+            x.strip()
+            for x in raw_output.splitlines()
+            if x.strip() and not SUMMARY_FOOTER_RE.match(x.strip())
+        ]
+        key_line = non_footer[0] if non_footer else ""
+    norm = re.sub(r"\b\d{4}-\d{2}-\d{2}[T\s]\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:?\d{2})?\b", "<ts>", key_line)
+    norm = re.sub(r"\b\d+\.\d+s\b", "<dur>", norm)
+    norm = re.sub(r"0x[0-9a-fA-F]+", "<addr>", norm)
+    norm = re.sub(r"(?:/private)?/(?:tmp|var/folders)/\S+", "<tmp>", norm)
+    joined_ids = ";".join(failed_ids)
+    return hashlib.sha256(f"{failure_kind}|{v_code}|{joined_ids}|{norm}".encode("utf-8")).hexdigest()[:16]
+
+
+def _classify_verify_failure(v_code: int, timed_out: bool, combined_output: str) -> str:
+    if timed_out or v_code == 124:
+        return "timeout"
+    if v_code in (126, 127) or SHELL_CMD_MISSING_RE.search(combined_output or ""):
+        return "setup_or_env_error"
+    if v_code == 5 and (
+        ZERO_TEST_EXEC_RE.search(combined_output or "")
+        or PYTEST_DESELECTED_EXIT5_RE.search(combined_output or "")
+    ):
+        return "empty_test_execution"
+    return "verification_failed"
+
+
+def _detect_escalated_paths_from_changed_file(changed_txt: Path) -> list[str]:
+    if not changed_txt.is_file():
+        return []
+    matched: list[str] = []
+    for raw_line in changed_txt.read_text(encoding="utf-8", errors="replace").splitlines():
+        parts = raw_line.split("\t")
+        rel = (parts[-1] if parts else "").strip()
+        if not rel or ("/" not in rel and rel.lower().endswith(".md")):
+            continue
+        norm_rel = rel.replace("\\", "/")
+        segs = [s.lower() for s in norm_rel.split("/") if s]
+        if any(s in NON_BUSINESS_SEGMENTS for s in segs):
+            continue
+        stem = Path(norm_rel).stem.lower()
+        if (
+            norm_rel.lower().endswith(".sql")
+            or any(s in HIGH_RISK_SEGMENTS for s in segs)
+            or stem.startswith(HIGH_RISK_STEM_PREFIXES)
+        ):
+            matched.append(rel)
+    return sorted(set(matched))
+
+
+def _upgrade_cmd_model_to_high(pi_cmd: list[str]) -> list[str]:
+    upgraded = list(pi_cmd)
+    for idx in range(len(upgraded) - 1):
+        flag = upgraded[idx]
+        val = upgraded[idx + 1]
+        if flag == "--model" and val.lower().endswith("-medium"):
+            upgraded[idx + 1] = val[:-7] + "-high"
+        elif flag == "--thinking" and val.lower() == "medium":
+            upgraded[idx + 1] = "high"
+    return upgraded
+
+
+def _run_verify_command(v_cmd, work_cwd: str, timeout_sec: int, verify_env_path: str, v_out, v_err) -> tuple[int, bool]:
+    env = dict(os.environ)
+    if (verify_env_path or "").strip():
+        env["PATH"] = verify_env_path.strip()
+    proc = subprocess.Popen(
+        v_cmd,
+        shell=isinstance(v_cmd, str),
+        cwd=work_cwd,
+        env=env,
+        stdout=v_out,
+        stderr=v_err,
+        text=True,
+        start_new_session=True,
+    )
+    prev_sigterm = signal.getsignal(signal.SIGTERM)
+
+    def _forward_sigterm(signum, _frame):
+        try:
+            os.killpg(proc.pid, signal.SIGKILL)
+        except ProcessLookupError:
+            pass
+        raise SystemExit(128 + signum)
+
+    signal.signal(signal.SIGTERM, _forward_sigterm)
+    try:
+        return proc.wait(timeout=timeout_sec), False
+    except subprocess.TimeoutExpired:
+        try:
+            os.killpg(proc.pid, signal.SIGKILL)
+        except ProcessLookupError:
+            pass
+        proc.wait()
+        return 124, True
+    finally:
+        signal.signal(signal.SIGTERM, prev_sigterm)
+
 
 def meta(**fields):
     print("META:" + json.dumps(fields, ensure_ascii=False), flush=True)
@@ -352,6 +513,27 @@ def evaluate_deterministic_vetoes(batch: dict, snap_meta: dict | None, raw: Path
     profile = (batch.get("review_profile") or "fast").strip() or "fast"
     commit_msg_file = (batch.get("commit_msg_file") or "").strip()
 
+    exit_file = raw / "verify.exit"
+    v_exit_code = 0
+    if exit_file.is_file():
+        try:
+            v_exit_code = int(exit_file.read_text(encoding="utf-8", errors="replace").strip() or "0")
+        except ValueError:
+            v_exit_code = 0
+
+    if v_exit_code == 0:
+        out_parts: list[str] = []
+        for fname in ("verify.stdout", "verify.stderr"):
+            fp = raw / fname
+            if fp.is_file():
+                try:
+                    out_parts.append(fp.read_text(encoding="utf-8", errors="replace"))
+                except OSError:
+                    pass
+        combined_verify = "\n".join(out_parts)
+        if combined_verify and not POSITIVE_TEST_COUNT_RE.search(combined_verify) and ZERO_TEST_EXEC_RE.search(combined_verify):
+            errors.append("固定验证命令检测到零测试执行（empty_test_execution），拒绝空跑假绿签收 PASS")
+
     if snap_meta is not None:
         bs = snap_meta.get("base_status")
         if bs == "missing_base_ref":
@@ -452,6 +634,10 @@ def _write_report_and_receipt(
     text: str,
     cli_launched: bool = True,
     veto_errors: list[str] | None = None,
+    failure_kind: str | None = None,
+    failure_signature: str | None = None,
+    verify_error_excerpt: str = "",
+    risk_escalated_paths: list[str] | None = None,
 ) -> None:
     ev_result = "pass" if passed else "fail"
     first_line = _extract_verdict_line(text)
@@ -487,6 +673,10 @@ def _write_report_and_receipt(
         "cli_launched": cli_launched,
         "verify_exit_code": v_code,
         "reviewer_readonly_verified": readonly_ok,
+        "failure_kind": failure_kind,
+        "failure_signature": failure_signature,
+        "verify_error_excerpt": verify_error_excerpt,
+        "risk_escalated_paths": risk_escalated_paths or [],
         "veto_errors": veto_errors or [],
         "first_line": first_line,
         "report_path": str(ev / "report.md"),
@@ -562,6 +752,10 @@ def launch(batch, a, run, attempt, resume, ev):
     v_code = 0
     snap_meta: dict | None = None
     veto_errors: list[str] = []
+    risk_escalated_paths: list[str] = []
+    failure_kind: str | None = None
+    failure_signature: str | None = None
+    verify_error_excerpt: str = ""
     work_cwd = batch.get("verify_cwd") or a.cwd
     if batch["mode"] == "stub":
         cmd = batch["cli_cmd"] + [batch["stub_mode"], resume or "NULL_RESUME"]
@@ -575,11 +769,18 @@ def launch(batch, a, run, attempt, resume, ev):
             print("执行中止：验证命令为空，禁止无命令验收", flush=True)
             return 0
         with open(raw / "verify.stdout", "w") as v_out, open(raw / "verify.stderr", "w") as v_err:
-            use_shell = isinstance(v_cmd, str)
-            v = subprocess.run(v_cmd, shell=use_shell, cwd=work_cwd, stdout=v_out, stderr=v_err, text=True,
-                               timeout=int(batch.get("verify_timeout", 600)))
-            v_code = v.returncode
-        (raw / "verify.exit").write_text(f"{v_code}\n")
+            v_code, timed_out = _run_verify_command(
+                v_cmd,
+                work_cwd,
+                int(batch.get("verify_timeout", 600)),
+                batch.get("verify_env_path", ""),
+                v_out,
+                v_err,
+            )
+        (raw / "verify.exit").write_text(f"{v_code}\n", encoding="utf-8")
+        v_stdout_txt = (raw / "verify.stdout").read_text(encoding="utf-8", errors="replace")
+        v_stderr_txt = (raw / "verify.stderr").read_text(encoding="utf-8", errors="replace")
+        combined_verify_out = (v_stdout_txt + "\n" + v_stderr_txt).strip()
 
         review_profile = (batch.get("review_profile") or "fast").strip() or "fast"
         if batch.get("capture_git_diff") or review_profile == "pre-mr":
@@ -590,12 +791,61 @@ def launch(batch, a, run, attempt, resume, ev):
                 review_profile=review_profile,
             )
 
+        if v_code != 0:
+            failure_kind = _classify_verify_failure(v_code, timed_out, combined_verify_out)
+            verify_error_excerpt = _redact_sensitive_text(combined_verify_out)
+            failure_signature = _compute_failure_signature(failure_kind, v_code, combined_verify_out)
+            veto_errors = [f"固定验证命令未通过（exit={v_code}, failure_kind={failure_kind}）"]
+            body_lines = [
+                "AUTOLOOP_VERDICT: FAIL",
+                "",
+                "确定性固定验证命令未通过（未启动只读审查 CLI）：",
+                f"- failure_kind: `{failure_kind}`",
+                f"- verify_exit_code: `{v_code}`",
+                f"- failure_signature: `{failure_signature}`",
+            ]
+            if verify_error_excerpt:
+                body_lines.extend(["", "```text", verify_error_excerpt, "```"])
+            text = "\n".join(body_lines)
+            _write_report_and_receipt(
+                batch=batch,
+                ev=ev,
+                raw=raw,
+                run=run,
+                attempt=attempt,
+                session=None,
+                v_code=v_code,
+                readonly_ok=True,
+                passed=False,
+                text=text,
+                cli_launched=False,
+                veto_errors=veto_errors,
+                failure_kind=failure_kind,
+                failure_signature=failure_signature,
+                verify_error_excerpt=verify_error_excerpt,
+                risk_escalated_paths=[],
+            )
+            meta(session=a.session, started=True, finished=True)
+            print("报告已交付：治理结论见 report.md（AUTOLOOP_VERDICT: FAIL）", flush=True)
+            return 0
+
         veto_errors = evaluate_deterministic_vetoes(batch, snap_meta, raw)
         if veto_errors:
+            failure_kind = (
+                "empty_test_execution"
+                if any("empty_test_execution" in err for err in veto_errors)
+                else "deterministic_veto"
+            )
+            verify_error_excerpt = _redact_sensitive_text(combined_verify_out)
+            failure_signature = _compute_failure_signature(
+                failure_kind, v_code, "\n".join(veto_errors) + "\n" + combined_verify_out
+            )
             body_lines = [
                 "AUTOLOOP_VERDICT: FAIL",
                 "",
                 "确定性前置门禁未通过（未启动只读审查 CLI）：",
+                f"- failure_kind: `{failure_kind}`",
+                f"- failure_signature: `{failure_signature}`",
                 *[f"- {err}" for err in veto_errors],
             ]
             text = "\n".join(body_lines)
@@ -612,6 +862,10 @@ def launch(batch, a, run, attempt, resume, ev):
                 text=text,
                 cli_launched=False,
                 veto_errors=veto_errors,
+                failure_kind=failure_kind,
+                failure_signature=failure_signature,
+                verify_error_excerpt=verify_error_excerpt,
+                risk_escalated_paths=[],
             )
             meta(session=a.session, started=True, finished=True)
             print("报告已交付：治理结论见 report.md（AUTOLOOP_VERDICT: FAIL）", flush=True)
@@ -619,10 +873,25 @@ def launch(batch, a, run, attempt, resume, ev):
 
         fp_before_pi = git_fingerprint(work_cwd)
         prompt = batch["pi_prompt"].replace("{RAW}", str(raw)).replace("{CWD}", str(work_cwd))
+        effective_pi_cmd = list(batch["pi_cmd"])
+        effective_read_dirs = list(batch.get("extra_read_dirs") or [])
+        if review_profile == "fast":
+            risk_escalated_paths = _detect_escalated_paths_from_changed_file(raw / "git.changed_files.txt")
+            if risk_escalated_paths:
+                if not batch.get("model_explicit", False):
+                    effective_pi_cmd = _upgrade_cmd_model_to_high(effective_pi_cmd)
+                hunt_ref_str = (batch.get("hunt_ref") or "").strip() or str(
+                    Path(__file__).resolve().parent.parent / "references" / "autoloop-review-hunt.md"
+                )
+                hunt_dir_str = (batch.get("hunt_dir") or "").strip() or str(Path(hunt_ref_str).parent)
+                if hunt_dir_str and os.path.isdir(hunt_dir_str) and hunt_dir_str not in effective_read_dirs:
+                    effective_read_dirs.append(hunt_dir_str)
+                prompt += FAST_HUNT_ESCALATION_ADDENDUM.format(HUNT_REF=hunt_ref_str)
+
         if batch.get("reviewer_driver") == "agy":
             add_dirs: list[str] = []
             work_real = os.path.realpath(work_cwd)
-            for cand_dir in [str(raw), *(batch.get("extra_read_dirs") or [])]:
+            for cand_dir in [str(raw), *effective_read_dirs]:
                 if not cand_dir:
                     continue
                 real_d = os.path.realpath(cand_dir)
@@ -632,14 +901,14 @@ def launch(batch, a, run, attempt, resume, ev):
             for d in add_dirs:
                 dir_flags.extend(["--add-dir", d])
             cmd = (
-                list(batch["pi_cmd"])
+                effective_pi_cmd
                 + dir_flags
                 + (["--conversation", resume] if resume else [])
                 + ["-p", prompt]
             )
         else:
             cmd = (
-                list(batch["pi_cmd"])
+                effective_pi_cmd
                 + ["--session-dir", str(raw / "pi-sessions")]
                 + (["--session", resume] if resume else [])
                 + [prompt]
@@ -744,6 +1013,9 @@ def launch(batch, a, run, attempt, resume, ev):
         and not veto_errors
         and ("AUTOLOOP_VERDICT: PASS" in first_line or "VERIFY: PASS" in first_line)
     )
+    if not passed:
+        failure_kind = "review_rejected"
+        failure_signature = _compute_failure_signature(failure_kind, v_code, text)
     _write_report_and_receipt(
         batch=batch,
         ev=ev,
@@ -757,6 +1029,10 @@ def launch(batch, a, run, attempt, resume, ev):
         text=text,
         cli_launched=True,
         veto_errors=veto_errors,
+        failure_kind=failure_kind,
+        failure_signature=failure_signature,
+        verify_error_excerpt=verify_error_excerpt,
+        risk_escalated_paths=risk_escalated_paths,
     )
     meta(session=session, started=True, finished=True)
     print("报告已交付：治理结论见 report.md（" + first_line + "）", flush=True)

@@ -2,6 +2,20 @@
 
 ## Unreleased
 
+- Fuse deterministic verification guardrails, diagnosability hunt lens, and
+  learning enforcement hierarchy (`fuse-harness-pstack-guardrails`): pass caller
+  `PATH` (`verify_env_path`) into `gov_runner.py`, isolate verification process
+  groups (`start_new_session=True` + `os.killpg` on timeout/SIGTERM), short-circuit
+  non-zero verification exits before launching the read-only reviewer CLI with
+  4-way `failure_kind` (`timeout` / `setup_or_env_error` / `empty_test_execution`
+  / `verification_failed`), mask URL `@`-containing passwords and quoted JSON
+  secrets in `verify_error_excerpt`, and compute test-ID-aware non-collapsing
+  `failure_signature` hashes; veto zero-test `v_code == 0` runs unless at least
+  one positive test count ran; add 5th conditional hunt lens
+  `diagnosability_context` and snapshot-sourced `fast` high-risk path/stem
+  escalation (`-high` + `autoloop-review-hunt.md`); and codify `Attack the
+  Premise` repair convergence and the 4-tier mechanical learning hierarchy.
+
 - Align `/autoloop` OpenSpec test extraction, review manifest roles, portability,
   and cold-path/overview docs: extract deterministic test/validator commands from
   `openspec/changes/<id>/{proposal,tasks,design}.md` when matching active OpenSpec
