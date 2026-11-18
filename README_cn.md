@@ -77,6 +77,30 @@ AI Coding Agent 很有用，但在生产级仓库里常见的失败模式也很�
 | Authorized Execution Continuity | 基于 canonical Plan/Status/Handoff 的轻量长任务续跑，覆盖 compaction、恢复和 Agent 切换 | `references/approved-implementation-workflow.md` |
 | openspec-superpower-change | 路由、风险分类、审批门禁、自我演进边界 | 本 Skill |
 
+## Caveman 输出压缩模式
+
+Caveman 是表述与输出压缩层，不是治理层。只有用户显式要求 `caveman`、
+`少 token`、`更短` 或 `更精简` 时才会启用。基础模式支持 `lite`、`full` 和
+`ultra`；`stop caveman` 或 `正常模式` 会停止持续压缩。
+
+在本路由 Skill 中，Caveman 可以压缩 Gate 0 摘要、路由结论、finding、风险摘要
+和验证说明；技术术语、路径、命令、错误字符串及必填字段必须保持精确。压缩不得
+删除、概括掉或改写 OpenSpec proposal、Handoff Contract、evidence manifest、
+状态转换、final verification/final Review 证据、关键命令或敏感数据警告中的必需
+内容。OpenSpec、Superpowers、Review 与完成门禁均保持不变。
+
+`caveman-commit`、`caveman-review` 和 `caveman-compress` 分别用于压缩 commit
+message、Review comment 与 memory 文件；它们不授予路由、审批、证据、生命周期
+或完成决策权。
+
+```text
+caveman
+/caveman lite
+/caveman full
+/caveman ultra
+stop caveman
+```
+
 ## 核心工作流
 
 ```text

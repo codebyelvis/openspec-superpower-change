@@ -85,6 +85,34 @@ This skill turns those risks into explicit gates, references, and validation che
 | Authorized execution continuity | Lightweight continuation of approved work from canonical Plan/Status/Handoff state across long tasks, compaction, recovery, or agent switches | `references/approved-implementation-workflow.md` |
 | openspec-superpower-change | Routing, risk classification, approval gate, self-evolution boundary | This skill |
 
+## Caveman Output Mode
+
+Caveman is a presentation and output-compression layer, not a governance
+layer. It activates only after an explicit request such as `caveman`,
+`少 token`, `更短`, or `更精简`. The base mode supports `lite`, `full`, and
+`ultra`; `stop caveman` or `正常模式` disables persistent compression.
+
+For this router, Caveman may shorten Gate 0 summaries, routing verdicts,
+findings, risk summaries, and verification explanations. Technical terms,
+paths, commands, error strings, and required fields must remain exact.
+Compression must not remove, summarize away, or rewrite required content in
+OpenSpec proposals, Handoff Contracts, evidence manifests, state transitions,
+final-verification or final-Review evidence, critical commands, or
+sensitive-data warnings. OpenSpec, Superpowers, Review, and completion gates
+remain unchanged.
+
+`caveman-commit`, `caveman-review`, and `caveman-compress` are specialized
+skills for commit messages, review comments, and memory files. They provide no
+routing, approval, evidence, lifecycle, or completion authority.
+
+```text
+caveman
+/caveman lite
+/caveman full
+/caveman ultra
+stop caveman
+```
+
 ## Core Workflow
 
 ```text
