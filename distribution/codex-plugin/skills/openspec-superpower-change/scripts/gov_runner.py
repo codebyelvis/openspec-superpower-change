@@ -39,21 +39,44 @@ ZERO_TEST_EXEC_RE = re.compile(
 )
 PYTEST_DESELECTED_EXIT5_RE = re.compile(r"(?:\b0\s+selected\b|\b\d+\s+deselected\b)", re.I)
 SHELL_CMD_MISSING_RE = re.compile(
-    r"(?:command\s+not\s+found|not\s+recognized\s+as\s+an\s+internal\s+or\s+external\s+command)",
-    re.I,
+    r"(?:^(?:(?:/bin/)?(?:ba|z|da|k|c)?sh|cmd(?:\.exe)?)\b[^\r\n]*command\s+not\s+found\b"
+    r"|:\s+command\s+not\s+found(?::\s*\S+)?\s*$"
+    r"|not\s+recognized\s+as\s+an\s+internal\s+or\s+external\s+command)",
+    re.I | re.M,
+)
+PRIVATE_KEY_BLOCK_REDACT_RE = re.compile(
+    r"-----BEGIN [A-Z0-9 ]*" + r"PRIVATE KEY-----[\s\S]*?-----END [A-Z0-9 ]*" + r"PRIVATE KEY-----"
+    r"|-----BEGIN [A-Z0-9 ]*" + r"PRIVATE KEY-----(?:(?:\r?\n)(?:(?:Proc-Type|DEK-Info):[ \t]*[^\r\n]+|(?:[A-Za-z0-9+/=]{16,}|[A-Za-z0-9+/]{2,}={1,2})(?=\r?\n|$)))*"
 )
 QUOTED_SECRET_REDACT_RE = re.compile(
-    r"(?i)(\b(?:token|secret|password|passwd|authorization|api[_-]?key)\b[\"\']?\s*[:=]\s*)([\"\'])(?:Bearer\s+)?([^\"\'\r\n]+)(\2)"
+    r"(?i)(\b[A-Za-z0-9_.-]{0,64}(?:token|secret|password|passwd|authorization|api[_-]?key)\b[\"\']?\s*[:=]\s*)"
+    r"([\"\'])(?:(?:Bearer|Basic|Token)\s+)?([^\"\'\r\n]+)(\2)"
 )
 SECRET_REDACT_RE = re.compile(
-    r"(?i)(\b(?:token|secret|password|passwd|authorization|api[_-]?key)\b[\"\']?\s*[:=]\s*(?:Bearer\s+)?)([^\s\"\',;}\r\n]+)"
+    r"(?i)(\b[A-Za-z0-9_.-]{0,64}(?:token|secret|password|passwd|authorization|api[_-]?key)\b[\"\']?\s*[:=]\s*"
+    r"(?:(?:Bearer|Basic|Token)\s+)?)([^\s\"\',;}\r\n]+)"
 )
-URL_CRED_REDACT_RE = re.compile(r"(://[^/\s:@]+:)([^\s/]+)(@[^@\s/]+)")
+URL_CRED_REDACT_RE = re.compile(r"(://[^/\s:@]*:)([^\s/?#]+)(@[^@\s/]+)")
+RAW_TOKEN_REDACT_RE = re.compile(
+    r"\b(?:"
+    + "glpat" + r"-[A-Za-z0-9_-]{10,}|"
+    + "ghp" + r"_[A-Za-z0-9]{20,}|"
+    + "github_pat" + r"_[A-Za-z0-9_]{20,}|"
+    + "sk" + r"-[A-Za-z0-9_-]{20,}|"
+    + "xox[baprs]" + r"-[A-Za-z0-9-]{10,})\b"
+)
 FAILED_ID_PATTERNS = (
     re.compile(r"^(?:FAIL|ERROR):\s+(\S+(?:\s+\([^)]+\))?)", re.M),
-    re.compile(r"^FAILED\s+(\S+)", re.M),
+    re.compile(r"^FAILED\s+(?!\()(\S+)", re.M),
     re.compile(r"^\[ERROR\]\s+([A-Za-z0-9_.$]+(?:#\S+|\(\S+\)|:\d+))", re.M),
 )
+TEST_HEADER_LINE_RE = re.compile(r"^(?:FAIL|ERROR):\s+\S+\s+\([^)]+\)\s*$")
+MODEL_HEADER_LINE_RE = re.compile(
+    r"^(?:>\s*)?(?:\*\*)?模型(?:信息|名称)?(?:\*\*)?\s*[:：]|^model\s*:", re.I
+)
+VERDICT_HEADER_LINE_RE = re.compile(r"^[`*\s]*(?:AUTOLOOP_VERDICT|VERIFY)\s*:", re.I)
+VERDICT_PASS_RE = re.compile(r"^[`*\s]*(?:AUTOLOOP_VERDICT|VERIFY)\s*:\s*PASS[`*\s]*$")
+FINDING_PATH_LINE_RE = re.compile(r"[A-Za-z0-9_./-]+\.[A-Za-z0-9]+:\d+")
 SUMMARY_FOOTER_RE = re.compile(
     r"^(?:FAILED\s+\(|=+\s+.*failed|\[ERROR\]\s+BUILD\s+FAILURE\b)", re.I
 )
@@ -74,9 +97,11 @@ FAST_HUNT_ESCALATION_ADDENDUM = (
 
 
 def _redact_sensitive_text(text: str, limit: int = 1200) -> str:
-    masked = URL_CRED_REDACT_RE.sub(r"\1***\3", text or "")
+    masked = PRIVATE_KEY_BLOCK_REDACT_RE.sub("***PRIVATE_KEY_REDACTED***", text or "")
+    masked = URL_CRED_REDACT_RE.sub(r"\1***\3", masked)
     masked = QUOTED_SECRET_REDACT_RE.sub(r"\1\2***\4", masked)
     masked = SECRET_REDACT_RE.sub(r"\1***", masked)
+    masked = RAW_TOKEN_REDACT_RE.sub("***", masked)
     return masked[-limit:] if len(masked) > limit else masked
 
 
@@ -84,22 +109,44 @@ def _compute_failure_signature(failure_kind: str, v_code: int, raw_output: str) 
     failed_ids = sorted(
         {m.strip() for pat in FAILED_ID_PATTERNS for m in pat.findall(raw_output or "")}
     )
-    key_line = ""
+    meaningful: list[str] = []
     for ln in (x.strip() for x in (raw_output or "").splitlines() if x.strip()):
-        if SUMMARY_FOOTER_RE.match(ln):
+        if (
+            SUMMARY_FOOTER_RE.match(ln)
+            or MODEL_HEADER_LINE_RE.match(ln)
+            or VERDICT_HEADER_LINE_RE.match(ln)
+            or re.fullmatch(r"[-=]{3,}", ln)
+        ):
             continue
-        if any(tok in ln for tok in ("AssertionError", "Error", "Exception", "FAILED", "ERROR", "command not found", "exit")):
-            key_line = ln
-            break
-    if not key_line and raw_output:
-        non_footer = [
-            x.strip()
-            for x in raw_output.splitlines()
-            if x.strip() and not SUMMARY_FOOTER_RE.match(x.strip())
-        ]
-        key_line = non_footer[0] if non_footer else ""
+        meaningful.append(ln)
+
+    key_line = ""
+    if failure_kind == "review_rejected":
+        for ln in meaningful:
+            if FINDING_PATH_LINE_RE.search(ln):
+                key_line = ln
+                break
+        if not key_line:
+            for ln in meaningful:
+                if ln.startswith(("-", "*", "1.", "1)")):
+                    key_line = ln
+                    break
+        if not key_line and meaningful:
+            key_line = meaningful[0]
+    else:
+        for ln in meaningful:
+            if TEST_HEADER_LINE_RE.match(ln):
+                continue
+            if any(
+                tok in ln
+                for tok in ("AssertionError", "Error", "Exception", "FAILED", "ERROR", "command not found", "exit", "<<< FAILURE!")
+            ):
+                key_line = ln
+                break
+        if not key_line and meaningful:
+            key_line = meaningful[0]
     norm = re.sub(r"\b\d{4}-\d{2}-\d{2}[T\s]\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:?\d{2})?\b", "<ts>", key_line)
-    norm = re.sub(r"\b\d+\.\d+s\b", "<dur>", norm)
+    norm = re.sub(r"\b\d+(?:\.\d+)?\s*(?:ms|s)\b", "<dur>", norm)
     norm = re.sub(r"0x[0-9a-fA-F]+", "<addr>", norm)
     norm = re.sub(r"(?:/private)?/(?:tmp|var/folders)/\S+", "<tmp>", norm)
     joined_ids = ";".join(failed_ids)
@@ -125,20 +172,22 @@ def _detect_escalated_paths_from_changed_file(changed_txt: Path) -> list[str]:
     matched: list[str] = []
     for raw_line in changed_txt.read_text(encoding="utf-8", errors="replace").splitlines():
         parts = raw_line.split("\t")
-        rel = (parts[-1] if parts else "").strip()
-        if not rel or ("/" not in rel and rel.lower().endswith(".md")):
-            continue
-        norm_rel = rel.replace("\\", "/")
-        segs = [s.lower() for s in norm_rel.split("/") if s]
-        if any(s in NON_BUSINESS_SEGMENTS for s in segs):
-            continue
-        stem = Path(norm_rel).stem.lower()
-        if (
-            norm_rel.lower().endswith(".sql")
-            or any(s in HIGH_RISK_SEGMENTS for s in segs)
-            or stem.startswith(HIGH_RISK_STEM_PREFIXES)
-        ):
-            matched.append(rel)
+        candidates = parts[1:] if len(parts) > 1 else parts
+        for raw_rel in candidates:
+            rel = raw_rel.strip()
+            if not rel or ("/" not in rel and rel.lower().endswith(".md")):
+                continue
+            norm_rel = rel.replace("\\", "/")
+            segs = [s.lower() for s in norm_rel.split("/") if s]
+            if any(s in NON_BUSINESS_SEGMENTS for s in segs):
+                continue
+            stem = Path(norm_rel).stem.lower()
+            if (
+                norm_rel.lower().endswith(".sql")
+                or any(s in HIGH_RISK_SEGMENTS for s in segs)
+                or stem.startswith(HIGH_RISK_STEM_PREFIXES)
+            ):
+                matched.append(rel)
     return sorted(set(matched))
 
 
@@ -149,42 +198,61 @@ def _upgrade_cmd_model_to_high(pi_cmd: list[str]) -> list[str]:
         val = upgraded[idx + 1]
         if flag == "--model" and val.lower().endswith("-medium"):
             upgraded[idx + 1] = val[:-7] + "-high"
-        elif flag == "--thinking" and val.lower() == "medium":
+        elif flag in ("--thinking", "--effort") and val.lower() == "medium":
             upgraded[idx + 1] = "high"
     return upgraded
+
+
+def _kill_proc_group(proc: subprocess.Popen) -> None:
+    try:
+        os.killpg(proc.pid, signal.SIGKILL)
+    except OSError:
+        try:
+            proc.kill()
+        except OSError:
+            pass
+
+
+def _safe_parse_json_line(line: str) -> dict:
+    if not line or not line.startswith("{"):
+        return {}
+    try:
+        obj = json.loads(line)
+    except json.JSONDecodeError:
+        return {}
+    return obj if isinstance(obj, dict) else {}
 
 
 def _run_verify_command(v_cmd, work_cwd: str, timeout_sec: int, verify_env_path: str, v_out, v_err) -> tuple[int, bool]:
     env = dict(os.environ)
     if (verify_env_path or "").strip():
         env["PATH"] = verify_env_path.strip()
-    proc = subprocess.Popen(
-        v_cmd,
-        shell=isinstance(v_cmd, str),
-        cwd=work_cwd,
-        env=env,
-        stdout=v_out,
-        stderr=v_err,
-        text=True,
-        start_new_session=True,
-    )
+    try:
+        proc = subprocess.Popen(
+            v_cmd,
+            shell=isinstance(v_cmd, str),
+            cwd=work_cwd,
+            env=env,
+            stdout=v_out,
+            stderr=v_err,
+            text=True,
+            start_new_session=True,
+        )
+    except OSError as exc:
+        v_err.write(f"{exc}\n")
+        v_err.flush()
+        return (127 if isinstance(exc, FileNotFoundError) else 126), False
     prev_sigterm = signal.getsignal(signal.SIGTERM)
 
     def _forward_sigterm(signum, _frame):
-        try:
-            os.killpg(proc.pid, signal.SIGKILL)
-        except ProcessLookupError:
-            pass
+        _kill_proc_group(proc)
         raise SystemExit(128 + signum)
 
     signal.signal(signal.SIGTERM, _forward_sigterm)
     try:
         return proc.wait(timeout=timeout_sec), False
     except subprocess.TimeoutExpired:
-        try:
-            os.killpg(proc.pid, signal.SIGKILL)
-        except ProcessLookupError:
-            pass
+        _kill_proc_group(proc)
         proc.wait()
         return 124, True
     finally:
@@ -602,18 +670,22 @@ def evaluate_deterministic_vetoes(batch: dict, snap_meta: dict | None, raw: Path
     return errors
 
 
+def _is_pass_verdict_line(line: str) -> bool:
+    return bool(VERDICT_PASS_RE.match((line or "").strip()))
+
+
 def _extract_verdict_line(text: str) -> str:
     lines = [ln.strip() for ln in (text or "").splitlines() if ln.strip()]
     if not lines:
         return "空"
     first = lines[0]
-    if "AUTOLOOP_VERDICT:" in first or "VERIFY:" in first:
+    if VERDICT_HEADER_LINE_RE.match(first):
         return first
     is_model_header = (
-        first.startswith(("> **模型", "**模型"))
+        bool(MODEL_HEADER_LINE_RE.match(first))
+        or first.startswith(("> **模型", "**模型"))
         or "模型信息" in first
         or "模型名称" in first
-        or first.lower().startswith("model:")
     )
     if is_model_header and len(lines) > 1:
         return lines[1]
@@ -917,29 +989,52 @@ def launch(batch, a, run, attempt, resume, ev):
     (raw / "cli.argv.json").write_text(json.dumps(cmd, ensure_ascii=False, indent=2) + "\n")
     session, started, lines = None, False, []
     with open(raw / "cli.stdout", "w") as out, open(raw / "cli.stderr", "w") as err_f:
-        proc = subprocess.Popen(cmd, cwd=work_cwd, stdout=subprocess.PIPE, stderr=err_f, text=True)
-        for line in proc.stdout:
-            out.write(line)
-            out.flush()
-            lines.append(line.rstrip("\n"))
-            if batch["mode"] == "stub":
-                if line.startswith("SESSION:"):
-                    session = line.split(":", 1)[1].strip()
-                hit = line.startswith("STARTED")
-            else:
-                event = json.loads(line) if line.startswith("{") else {}
-                if event.get("type") == "session":
-                    session = event.get("id")
-                    hit = True
-                elif event.get("event") == "init":
-                    session = event.get("conversation_id") or (event.get("init") or {}).get("conversation_id")
-                    hit = True
-                else:
-                    hit = False
-            if hit and not started:
-                started = True
-                meta(session=session or a.session, started=True)
-        code = proc.wait()
+        try:
+            proc = subprocess.Popen(
+                cmd,
+                cwd=work_cwd,
+                stdout=subprocess.PIPE,
+                stderr=err_f,
+                text=True,
+                start_new_session=True,
+            )
+        except OSError as exc:
+            err_f.write(f"{exc}\n")
+            err_f.flush()
+            code = 127 if isinstance(exc, FileNotFoundError) else 126
+        else:
+            prev_cli_sigterm = signal.getsignal(signal.SIGTERM)
+
+            def _forward_cli_sigterm(signum, _frame):
+                _kill_proc_group(proc)
+                raise SystemExit(128 + signum)
+
+            signal.signal(signal.SIGTERM, _forward_cli_sigterm)
+            try:
+                for line in proc.stdout:
+                    out.write(line)
+                    out.flush()
+                    lines.append(line.rstrip("\n"))
+                    if batch["mode"] == "stub":
+                        if line.startswith("SESSION:"):
+                            session = line.split(":", 1)[1].strip()
+                        hit = line.startswith("STARTED")
+                    else:
+                        event = _safe_parse_json_line(line)
+                        if event.get("type") == "session":
+                            session = event.get("id")
+                            hit = True
+                        elif event.get("event") == "init":
+                            session = event.get("conversation_id") or (event.get("init") or {}).get("conversation_id")
+                            hit = True
+                        else:
+                            hit = False
+                    if hit and not started:
+                        started = True
+                        meta(session=session or a.session, started=True)
+                code = proc.wait()
+            finally:
+                signal.signal(signal.SIGTERM, prev_cli_sigterm)
 
     err = (raw / "cli.stderr").read_text(errors="replace")
     (raw / "cli.exit").write_text(f"{code}\n")
@@ -956,7 +1051,7 @@ def launch(batch, a, run, attempt, resume, ev):
     if batch["mode"] == "stub":
         text = "\n".join(l for l in lines if not l.startswith(("STARTED", "SESSION:")))
     else:
-        events = [json.loads(l) for l in lines if l.startswith("{")]
+        events = [ev_obj for ev_obj in (_safe_parse_json_line(l) for l in lines) if ev_obj]
         res_events = [e for e in events if e.get("event") == "result"]
         if batch.get("reviewer_driver") == "agy" or res_events:
             res_ev = res_events[-1] if res_events else {}
@@ -1011,7 +1106,7 @@ def launch(batch, a, run, attempt, resume, ev):
     passed = (
         (v_code == 0)
         and not veto_errors
-        and ("AUTOLOOP_VERDICT: PASS" in first_line or "VERIFY: PASS" in first_line)
+        and _is_pass_verdict_line(first_line)
     )
     if not passed:
         failure_kind = "review_rejected"

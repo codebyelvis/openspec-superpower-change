@@ -265,6 +265,159 @@ Review may satisfy both Implementation Review and Final Review under
 included in that implementation/final Review by default, not mandatory
 standalone Review gates. The strict and protected paths retain separate gates.
 
+## Conditional Minimal Implementation
+
+### Proportional Implementation
+
+For the current task, use the smallest adequate design and artifact set: reuse
+existing rules, templates, validators, and tests first. Do not add a framework,
+schema, registry, runner, or ledger when direct mechanisms work. For the current
+task, TDD covers changed acceptance, changed contracts, and credible regressions.
+Do not create or run unrelated tests without an existing gate or demonstrated
+blast radius; broader relevant gates remain mandatory. If support machinery
+exceeds the change itself, simplify.
+
+Use this lightweight judgment only when a proposed implementation or Review fix
+would materially add an abstraction, component, layer, dependency, or wider
+scope. Establish the approved Need, then choose the first adequate option:
+
+```text
+Need
+-> Repository Reuse
+-> Stdlib
+-> Platform Native
+-> Existing Dependency
+-> Small Local Implementation
+-> New Abstraction
+```
+
+An earlier project-consistent option wins when it satisfies the approved need.
+This does not run for every ordinary Bugfix and creates no mandatory checklist,
+artifact, gate, or output. It does not automatically select
+`backend-architecture-review`; that Skill remains explicit-intent-only.
+
+## Review/Fix Convergence
+
+### Finding scope triage
+
+When a Review finding arrives, before reproducing or fixing it, judge it in
+this order:
+
+```text
+1. finding 是否由当前变更引入？
+2. 是否验证当前 acceptance？
+3. 是否推翻当前证据声明？
+4. 是否位于批准的 blast radius 或精确测试范围？
+5. 修复是否仍在当前授权范围？
+```
+
+Findings related to the current task enter the normal `Fix -> Verify -> Review`
+loop. A failure belonging to a frozen baseline or accepted preimage that does
+not meet the current-task conditions is recorded as
+`OUT_OF_SCOPE_PREEXISTING_DEBT` with its fact, impact, and owner. If a Reviewer
+expands the requested test or fix scope, explicitly reject that expansion; do
+not take over unrelated problems merely to make Review PASS.
+
+Do not replay every command from a Review before performing this scope triage.
+"Read or classify all test files" does not mean "execute all test files." An
+accepted upstream preimage does not approve or validate the entire upstream release.
+
+Keep the existing `Review FAIL -> Fix -> Verify -> Review` loop. Ordinary
+first-pass findings continue through the existing same-scope loop. Before
+another retry, treat the loop as non-converging when evidence shows that:
+
+- the same finding recurs after a verified fix;
+- a fix-induced regression recurs;
+- multiple Review rounds do not converge;
+- reviewers materially conflict on the core approach;
+- the root problem may be an architecture or requirements boundary;
+- fix scope keeps expanding; or
+- a small need keeps accumulating an abstraction, layer, component, or dependency.
+
+When a signal applies, stop before another widening fix and return `BLOCKED` to
+`control-plane-high` through the existing Review/control-plane mechanism. Record
+the blocker owner and resume condition, then re-evaluate the original approved
+need, boundary, and smallest adequate correction. Resume the normal same-scope
+loop only after that boundary decision resolves the blocker.
+
+Do not create an `ESCALATED` state, Finding lifecycle, Quality Gate, Task
+Contract, second state system, new multi-agent flow, or new final authority.
+
+## Inline Implementation
+
+1. Execute the plan inline with TDD/debugging as applicable.
+2. Run slice verification.
+3. For `compact`, run a focused diff/self-review.
+4. For `standard` or `strict` inline implementation, invoke
+   `superpowers:requesting-code-review` after implementation and before final
+   verification. Review PASS is required.
+5. Any finding returns to the same slice: fix, refresh verification, and Review
+   again. Do not carry unresolved findings into the next slice.
+
+## External Implementation
+
+1. Create one schema-version-6 Handoff Contract at canonical `status.md`, with
+   immutable control-plane/executor assignments and the exact immutable
+   `reviewer_assignment`, decision provenance, and a Confirmation Lease. Before
+   schema-6 deployment, active schema-4/schema-5 contracts MUST finish under
+   their old runtime; they MUST NOT be migrated, resumed after cutover, or used
+   as current transition authority.
+2. A low-risk Direct Change may use `compact`/`single`; approved public/API
+   restoration remains `strict`, and OpenSpec-backed work uses its approved
+   evidence and batch profiles.
+3. Hand Brief/Report/Review attempts to `codex-brief-antigravity-review`.
+4. The external Review is the batch code-review gate; do not duplicate it with
+   a second Superpowers review for the same batch.
+5. `FAIL` or `BLOCKED` stays on the same batch and must re-enter Review with
+   fresh attempt evidence.
+6. Non-final `PASS` advances one batch. Final `PASS` sets
+   `awaiting-final-verification` and returns ownership to this router.
+7. Brief and Report carry the same execution-revision canonical SHA-256. A
+   mismatch blocks Review and batch promotion.
+8. Every evidence-bearing transition validates its proposed status against the
+   actual prior canonical status before replacement. New schema-2 manifests bind
+   product/instance/role/profile plus result/change/batch/attempt/source
+   revision/SHA-256. Standard/strict executor and reviewer instance IDs differ,
+   even for the same product. Compact binds `reviewer_assignment` to the bound
+   control-plane identity, keeps it distinct from the executor, and requires the
+   top-level non-blank not-applicable reason. Historical schema-4/schema-5
+   contracts and their evidence are immutable.
+9. Manual copy/paste of a state-changing standard/strict Brief does not downgrade
+   governance. Validate the same Handoff and evidence chain before promotion.
+
+## Final Completion
+
+After all inline slices pass, or after external handback, stop using this
+route-specific workflow as completion authority and evaluate
+`references/completion-contract.md`. This section defines no independent
+whole-task checklist.
+
+## OpenSpec closeout
+
+OpenSpec closeout eligibility, reconciliation, archival validation, and active
+owner/resume outcomes are governed exclusively by
+`references/completion-contract.md`. This section defines no second closeout
+checklist.
+
+For OpenSpec-backed multi-step work, skip the Superpowers plan only when the
+user explicitly says to skip it. Compact Direct Change does not require a large
+plan by default. Never skip final verification or Review.
+
+## Tiered Authorization And High Review
+
+Route capability through `agent-capability-routing.md`. Platform permission,
+workflow scope, and business/production authorization are independent layers.
+Reuse an unchanged Confirmation Lease for safe checks and same-finding loops;
+request a new user decision for any invalidating production, risk, scope,
+credential, external-effect, destructive-Git, approved-evidence-assumption, or
+user-decision change. Routine evidence refresh follows `confirmation-lease.md`
+and does not itself change the bound authorization artifact.
+
+For standard/strict work, High Review inspects actual files and the complete
+diff, traces copy/transform/production wiring and every behavior claim to its
+mechanism, reruns critical evidence, and adds an independent adversarial or real
+business-chain probe. Executor PASS cannot substitute for this Review.
+
 <!-- COLD_PATH_START: Read the sections below only on session resume, compaction recovery, blocked-context amendment, or control-plane rebind/return -->
 
 ## Project Session Resume
@@ -446,156 +599,3 @@ which still requires complete external Handoff. Python `recover_project_session`
 inventories canonical status and requires selection when ambiguous. Invalid or
 missing context, stale inputs or assignments fail closed; never reconstruct
 authority or current PASS from chat.
-
-## Conditional Minimal Implementation
-
-### Proportional Implementation
-
-For the current task, use the smallest adequate design and artifact set: reuse
-existing rules, templates, validators, and tests first. Do not add a framework,
-schema, registry, runner, or ledger when direct mechanisms work. For the current
-task, TDD covers changed acceptance, changed contracts, and credible regressions.
-Do not create or run unrelated tests without an existing gate or demonstrated
-blast radius; broader relevant gates remain mandatory. If support machinery
-exceeds the change itself, simplify.
-
-Use this lightweight judgment only when a proposed implementation or Review fix
-would materially add an abstraction, component, layer, dependency, or wider
-scope. Establish the approved Need, then choose the first adequate option:
-
-```text
-Need
--> Repository Reuse
--> Stdlib
--> Platform Native
--> Existing Dependency
--> Small Local Implementation
--> New Abstraction
-```
-
-An earlier project-consistent option wins when it satisfies the approved need.
-This does not run for every ordinary Bugfix and creates no mandatory checklist,
-artifact, gate, or output. It does not automatically select
-`backend-architecture-review`; that Skill remains explicit-intent-only.
-
-## Review/Fix Convergence
-
-### Finding scope triage
-
-When a Review finding arrives, before reproducing or fixing it, judge it in
-this order:
-
-```text
-1. finding 是否由当前变更引入？
-2. 是否验证当前 acceptance？
-3. 是否推翻当前证据声明？
-4. 是否位于批准的 blast radius 或精确测试范围？
-5. 修复是否仍在当前授权范围？
-```
-
-Findings related to the current task enter the normal `Fix -> Verify -> Review`
-loop. A failure belonging to a frozen baseline or accepted preimage that does
-not meet the current-task conditions is recorded as
-`OUT_OF_SCOPE_PREEXISTING_DEBT` with its fact, impact, and owner. If a Reviewer
-expands the requested test or fix scope, explicitly reject that expansion; do
-not take over unrelated problems merely to make Review PASS.
-
-Do not replay every command from a Review before performing this scope triage.
-"Read or classify all test files" does not mean "execute all test files." An
-accepted upstream preimage does not approve or validate the entire upstream release.
-
-Keep the existing `Review FAIL -> Fix -> Verify -> Review` loop. Ordinary
-first-pass findings continue through the existing same-scope loop. Before
-another retry, treat the loop as non-converging when evidence shows that:
-
-- the same finding recurs after a verified fix;
-- a fix-induced regression recurs;
-- multiple Review rounds do not converge;
-- reviewers materially conflict on the core approach;
-- the root problem may be an architecture or requirements boundary;
-- fix scope keeps expanding; or
-- a small need keeps accumulating an abstraction, layer, component, or dependency.
-
-When a signal applies, stop before another widening fix and return `BLOCKED` to
-`control-plane-high` through the existing Review/control-plane mechanism. Record
-the blocker owner and resume condition, then re-evaluate the original approved
-need, boundary, and smallest adequate correction. Resume the normal same-scope
-loop only after that boundary decision resolves the blocker.
-
-Do not create an `ESCALATED` state, Finding lifecycle, Quality Gate, Task
-Contract, second state system, new multi-agent flow, or new final authority.
-
-## Inline Implementation
-
-1. Execute the plan inline with TDD/debugging as applicable.
-2. Run slice verification.
-3. For `compact`, run a focused diff/self-review.
-4. For `standard` or `strict` inline implementation, invoke
-   `superpowers:requesting-code-review` after implementation and before final
-   verification. Review PASS is required.
-5. Any finding returns to the same slice: fix, refresh verification, and Review
-   again. Do not carry unresolved findings into the next slice.
-
-## External Implementation
-
-1. Create one schema-version-6 Handoff Contract at canonical `status.md`, with
-   immutable control-plane/executor assignments and the exact immutable
-   `reviewer_assignment`, decision provenance, and a Confirmation Lease. Before
-   schema-6 deployment, active schema-4/schema-5 contracts MUST finish under
-   their old runtime; they MUST NOT be migrated, resumed after cutover, or used
-   as current transition authority.
-2. A low-risk Direct Change may use `compact`/`single`; approved public/API
-   restoration remains `strict`, and OpenSpec-backed work uses its approved
-   evidence and batch profiles.
-3. Hand Brief/Report/Review attempts to `codex-brief-antigravity-review`.
-4. The external Review is the batch code-review gate; do not duplicate it with
-   a second Superpowers review for the same batch.
-5. `FAIL` or `BLOCKED` stays on the same batch and must re-enter Review with
-   fresh attempt evidence.
-6. Non-final `PASS` advances one batch. Final `PASS` sets
-   `awaiting-final-verification` and returns ownership to this router.
-7. Brief and Report carry the same execution-revision canonical SHA-256. A
-   mismatch blocks Review and batch promotion.
-8. Every evidence-bearing transition validates its proposed status against the
-   actual prior canonical status before replacement. New schema-2 manifests bind
-   product/instance/role/profile plus result/change/batch/attempt/source
-   revision/SHA-256. Standard/strict executor and reviewer instance IDs differ,
-   even for the same product. Compact binds `reviewer_assignment` to the bound
-   control-plane identity, keeps it distinct from the executor, and requires the
-   top-level non-blank not-applicable reason. Historical schema-4/schema-5
-   contracts and their evidence are immutable.
-9. Manual copy/paste of a state-changing standard/strict Brief does not downgrade
-   governance. Validate the same Handoff and evidence chain before promotion.
-
-## Final Completion
-
-After all inline slices pass, or after external handback, stop using this
-route-specific workflow as completion authority and evaluate
-`references/completion-contract.md`. This section defines no independent
-whole-task checklist.
-
-## OpenSpec closeout
-
-OpenSpec closeout eligibility, reconciliation, archival validation, and active
-owner/resume outcomes are governed exclusively by
-`references/completion-contract.md`. This section defines no second closeout
-checklist.
-
-For OpenSpec-backed multi-step work, skip the Superpowers plan only when the
-user explicitly says to skip it. Compact Direct Change does not require a large
-plan by default. Never skip final verification or Review.
-
-## Tiered Authorization And High Review
-
-Route capability through `agent-capability-routing.md`. Platform permission,
-workflow scope, and business/production authorization are independent layers.
-Reuse an unchanged Confirmation Lease for safe checks and same-finding loops;
-request a new user decision for any invalidating production, risk, scope,
-credential, external-effect, destructive-Git, approved-evidence-assumption, or
-user-decision change. Routine evidence refresh follows `confirmation-lease.md`
-and does not itself change the bound authorization artifact.
-
-For standard/strict work, High Review inspects actual files and the complete
-diff, traces copy/transform/production wiring and every behavior claim to its
-mechanism, reruns critical evidence, and adds an independent adversarial or real
-business-chain probe. Executor PASS cannot substitute for this Review.

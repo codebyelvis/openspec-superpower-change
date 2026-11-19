@@ -38,18 +38,20 @@ def _count_units(text: str, count_mode: str = "chars") -> int:
     return len(no_url.replace("\n", "").strip())
 
 
-def extract_commits_from_git_log_full(log_text: str) -> list[str]:
-    """Extract raw commit messages from `git log --no-decorate --no-show-signature --format=full` output."""
-    commits: list[str] = []
+def _extract_commits_with_meta(log_text: str) -> list[tuple[str, bool]]:
+    """Extract (raw_message, is_merge) pairs from `git log --format=full` output."""
+    commits: list[tuple[str, bool]] = []
     cur_msg_lines: list[str] | None = None
+    cur_is_merge = False
     in_headers = False
     for line in (log_text or "").splitlines():
         if COMMIT_HEADER_LINE_RE.match(line):
             if cur_msg_lines is not None:
                 msg = "\n".join(cur_msg_lines).strip("\n")
                 if msg.strip():
-                    commits.append(msg)
+                    commits.append((msg, cur_is_merge))
             cur_msg_lines = []
+            cur_is_merge = False
             in_headers = True
             continue
         if cur_msg_lines is None:
@@ -57,6 +59,8 @@ def extract_commits_from_git_log_full(log_text: str) -> list[str]:
         if in_headers:
             if line == "":
                 in_headers = False
+            elif line.startswith("Merge:"):
+                cur_is_merge = True
             continue
         if line.startswith("    "):
             cur_msg_lines.append(line[4:])
@@ -67,8 +71,13 @@ def extract_commits_from_git_log_full(log_text: str) -> list[str]:
     if cur_msg_lines is not None:
         msg = "\n".join(cur_msg_lines).strip("\n")
         if msg.strip():
-            commits.append(msg)
+            commits.append((msg, cur_is_merge))
     return commits
+
+
+def extract_commits_from_git_log_full(log_text: str) -> list[str]:
+    """Extract raw commit messages from `git log --no-decorate --no-show-signature --format=full` output."""
+    return [msg for msg, _ in _extract_commits_with_meta(log_text)]
 
 
 def _added_diff_lines(diff_text: str) -> list[tuple[int, str]]:
@@ -83,6 +92,7 @@ def _validate_single_message(
     msg: str,
     profile_cfg: dict | None = None,
     label: str = "commit",
+    is_merge: bool = False,
 ) -> list[str]:
     errors: list[str] = []
     cleaned = (msg or "").replace("\r\n", "\n").strip("\n")
@@ -100,6 +110,8 @@ def _validate_single_message(
 
     lines = cleaned.split("\n")
     header = lines[0].strip()
+    if is_merge and header.startswith("Merge "):
+        return errors
     m = HEADER_RE.match(header)
     if not m or not m.group(2).strip():
         errors.append(
@@ -209,20 +221,25 @@ def validate_commit_text(
                     except re.error as exc:
                         errors.append(f"policy: invalid regex {pat!r}: {exc}")
 
-    messages: list[tuple[str, str]] = []
+    messages: list[tuple[str, str, bool]] = []
     if commit_text is not None:
-        messages.append(("commit_msg", commit_text))
+        messages.append(("commit_msg", commit_text, False))
     elif git_log_text and git_log_text.strip():
-        extracted = extract_commits_from_git_log_full(git_log_text)
-        for idx, m_txt in enumerate(extracted, start=1):
-            messages.append((f"commit[{idx}]", m_txt))
+        extracted = _extract_commits_with_meta(git_log_text)
+        for idx, (m_txt, is_merge) in enumerate(extracted, start=1):
+            messages.append((f"commit[{idx}]", m_txt, is_merge))
 
     if not messages:
         errors.append("no commit message provided for validation")
     else:
-        for idx, (label, m_txt) in enumerate(messages):
-            cfg = profile_cfg if idx == 0 else None
-            errors.extend(_validate_single_message(m_txt, profile_cfg=cfg, label=label))
+        applied_profile = False
+        for label, m_txt, is_merge in messages:
+            first_hdr = (m_txt or "").replace("\r\n", "\n").strip("\n").split("\n", 1)[0].strip()
+            skip_profile = is_merge and first_hdr.startswith("Merge ")
+            cfg = None if (applied_profile or skip_profile) else profile_cfg
+            if cfg is not None:
+                applied_profile = True
+            errors.extend(_validate_single_message(m_txt, profile_cfg=cfg, label=label, is_merge=is_merge))
 
     for line_no, content in _added_diff_lines(diff_text):
         if PRIVATE_KEY_RE.search(content) or SECRET_TOKEN_RE.search(content):

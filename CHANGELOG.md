@@ -2,6 +2,39 @@
 
 ## Unreleased
 
+- Harden `/autoloop` runtime guardrails, commit hygiene, and cold-path
+  partitioning (`2026-11-19` Minor slice):
+  - `scripts/gov_runner.py`: extend credential redaction to compound key
+    prefixes (`access_token`, `DB_PASSWORD`, `OPENAI_API_KEY`), `Basic`/`Token`
+    auth schemes, password-only URLs (`redis://:pwd@host`), raw token prefixes,
+    and full/truncated PEM private key blocks without swallowing query emails or
+    trailing error lines; fix `review_rejected` `failure_signature` collapse,
+    Maven spaced duration (`0.421 s`) normalization, `FAILED (` footer leakage,
+    and overly broad `TEST_HEADER_LINE_RE`; enforce exact-line anchored
+    `_is_pass_verdict_line` to prevent False-PASS while tolerating plain `模型：`
+    headers; isolate reviewer CLI in its own process group with `SIGTERM`
+    `killpg`, `OSError` handling (`127`/`126` for list-form `verify_command` as
+    well), and malformed JSON line tolerance; tighten `SHELL_CMD_MISSING_RE` to
+    real shell errors; and inspect rename source paths (`parts[1:]`) for fast
+    high-risk escalation.
+  - `scripts/autoloop_ctl.py`: tighten `OPENSPEC_TEST_CMD_RE` (`mvn` safe
+    charset and `[ \t]` whitespace only), ignore `README.md`/`INDEX.md`/
+    `TEMPLATE.md` and terminal statuses in `match_project_req`, support CRLF and
+    trailing `\n---` frontmatter symmetrically in `parse_req_markdown` and
+    `mark_req_passed`, lock `project-index.json` updates via `fcntl.flock`, and
+    stop in-flight `run_id` on wait timeout.
+  - `scripts/check_commit_text.py`: exempt standard `Merge:` + `Merge ` commits
+    in `git log` from Conventional Commit formatting while keeping secret/key
+    and `Co-authored-by:` checks intact and applying `profile_cfg` to the first
+    non-merge commit.
+  - `references/approved-implementation-workflow.md`: relocate
+    `<!-- COLD_PATH_START ... -->` and `## Project Session Resume` losslessly to
+    the end of the file so everyday hot-path sections precede the cold-path
+    marker as specified.
+  - `tests/test_gov_runner_git_capture.py`: remove hardcoded personal path
+    assertion, fix 14.5% SHA-256 hex collision flakiness (`123` -> `z9w8q7`),
+    and add targeted regressions covering all fixes above.
+
 - Fuse deterministic verification guardrails, diagnosability hunt lens, and
   learning enforcement hierarchy (`fuse-harness-pstack-guardrails`): pass caller
   `PATH` (`verify_env_path`) into `gov_runner.py`, isolate verification process

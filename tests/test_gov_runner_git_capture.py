@@ -431,7 +431,7 @@ class GovRunnerGitCaptureTests(unittest.TestCase):
         self.assertEqual(
             ctl.build_agy_cmd("antigravity/gemini-4-carbon:medium"),
             [
-                "/Users/elvis/.gemini/antigravity-cli/bin/agy-readonly-review",
+                str(ctl.AGY_REVIEW_BIN),
                 "--model",
                 "gemini-4-carbon-medium",
                 "--output-format",
@@ -830,7 +830,7 @@ class GovRunnerGitCaptureTests(unittest.TestCase):
                 "import sys\n"
                 "sys.stderr.write(\n"
                 "    'conn=postgres://admin:p@ss@127.0.0.1:5432/db '\n"
-                "    'headers={\"Authorization\": \"Bearer sk-abc 123\", \"api_key\":\"k1_sec\"} '\n"
+                "    'headers={\"Authorization\": \"Bearer sk-abc z9w8q7\", \"api_key\":\"k1_sec\"} '\n"
                 "    \"password: 'x y'\\n\"\n"
                 ")\n"
                 "raise ModuleNotFoundError(\"No module named 'missing_dep_q9'\")\n",
@@ -842,7 +842,7 @@ class GovRunnerGitCaptureTests(unittest.TestCase):
             self.assertEqual(rc_mod["failure_kind"], "verification_failed")
             rep_mod = (run_mod / "report.md").read_text(encoding="utf-8")
             raw_rc_mod = (run_mod / "receipt.json").read_text(encoding="utf-8")
-            for secret_sub in ("p@ss", "ss@", "sk-abc", "123", "k1_sec", "x y", " y'"):
+            for secret_sub in ("p@ss", "ss@", "sk-abc", "z9w8q7", "k1_sec", "x y", " y'"):
                 self.assertNotIn(secret_sub, rep_mod)
                 self.assertNotIn(secret_sub, raw_rc_mod)
 
@@ -1150,6 +1150,351 @@ class GovRunnerGitCaptureTests(unittest.TestCase):
             argv_safe = json.loads((ev_safe / "run-602/attempt-1/cli.argv.json").read_text(encoding="utf-8"))
             self.assertIn("gemini-4-carbon-medium", argv_safe)
             self.assertNotIn("补充材料（高敏业务路径自动升档核查）", argv_safe[-1])
+
+    def test_redaction_signature_verdict_and_subprocess_hardening(self) -> None:
+        runner = _load_module("gov_runner_harden", ROOT / "scripts/gov_runner.py")
+
+        # F1: Compound key prefixes, Basic/Token auth, password-only URLs, raw tokens, and full/truncated PEM keys must be masked
+        pem_begin = "-----BEGIN RSA " + "PRIVATE KEY-----"
+        pem_end = "-----END RSA " + "PRIVATE KEY-----"
+        fake_sk = "sk" + "-proj1234567890abcdefghij"
+        raw_secret = (
+            '{"access_token": "at_secret_99", "client_secret": "cs_secret_88"} '
+            f"DB_PASSWORD=db_pass_77 OPENAI_API_KEY={fake_sk} "
+            "Authorization: Basic dXNlcjpwYXNz "
+            "redis://:redis_pwd@127.0.0.1:6379/0 "
+            "raw=" + "glpat" + "-abcdefghij123456 "
+            "https://example.com:8443?email=ops@example.com\n"
+            f"{pem_begin}\nProc-Type: 4,ENCRYPTED\nMIIEpAIBAAKCAQEAfullbody1234567890==\n{pem_end}\n"
+            f"{pem_begin}\nMIIEpAIBAAKCAQEAtruncbody9876543210==\nRuntimeError: after key"
+        )
+        masked = runner._redact_sensitive_text(raw_secret, limit=2000)
+        for leak in (
+            "at_secret_99",
+            "cs_secret_88",
+            "db_pass_77",
+            fake_sk,
+            "dXNlcjpwYXNz",
+            "redis_pwd",
+            "abcdefghij123456",
+            "fullbody1234567890",
+            "truncbody9876543210",
+            "Proc-Type: 4,ENCRYPTED",
+        ):
+            self.assertNotIn(leak, masked, masked)
+        self.assertIn("ops@example.com", masked)
+        self.assertIn("RuntimeError: after key", masked)
+
+        # F2: Distinct review_rejected findings must not collapse; Maven spaced durations must normalize;
+        # ERROR: header must not mask distinct exception types
+        rej_a = "AUTOLOOP_VERDICT: FAIL\n- src/foo.py:12 空指针风险\n"
+        rej_b = "AUTOLOOP_VERDICT: FAIL\n- src/bar.py:88 SQL 注入风险\n"
+        self.assertNotEqual(
+            runner._compute_failure_signature("review_rejected", 0, rej_a),
+            runner._compute_failure_signature("review_rejected", 0, rej_b),
+        )
+        mvn_1 = (
+            "[ERROR] Tests run: 5, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.421 s <<< FAILURE! - in com.demo.FooTest\n"
+            "[ERROR]   FooTest.testBar:42 expected: <1> but was: <2>\n"
+        )
+        mvn_2 = (
+            "[ERROR] Tests run: 5, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 1.987 s <<< FAILURE! - in com.demo.FooTest\n"
+            "[ERROR]   FooTest.testBar:42 expected: <1> but was: <2>\n"
+        )
+        self.assertEqual(
+            runner._compute_failure_signature("verification_failed", 1, mvn_1),
+            runner._compute_failure_signature("verification_failed", 1, mvn_2),
+        )
+        err_val = "ERROR: test_x (tests.T)\nTraceback:\nValueError: bad value\nFAILED (errors=1)\n"
+        err_typ = "ERROR: test_x (tests.T)\nTraceback:\nTypeError: wrong type\nFAILED (errors=1)\n"
+        self.assertNotEqual(
+            runner._compute_failure_signature("verification_failed", 1, err_val),
+            runner._compute_failure_signature("verification_failed", 1, err_typ),
+        )
+        generic_err_a = "ERROR: failed to connect to db\nexit status 1\n"
+        generic_err_b = "ERROR: failed to parse config\nexit status 1\n"
+        self.assertNotEqual(
+            runner._compute_failure_signature("verification_failed", 1, generic_err_a),
+            runner._compute_failure_signature("verification_failed", 1, generic_err_b),
+        )
+
+        # F3: Verdict PASS must be exact-line anchored (reject FAIL mentioning PASS) and accept plain '模型：' header
+        self.assertFalse(runner._is_pass_verdict_line("AUTOLOOP_VERDICT: FAIL（未满足 AUTOLOOP_VERDICT: PASS）"))
+        self.assertTrue(runner._is_pass_verdict_line("AUTOLOOP_VERDICT: PASS"))
+        self.assertTrue(runner._is_pass_verdict_line("`AUTOLOOP_VERDICT: PASS`"))
+        self.assertEqual(
+            runner._extract_verdict_line("模型：Gemini 4 Carbon\nAUTOLOOP_VERDICT: PASS\n0 阻塞发现"),
+            "AUTOLOOP_VERDICT: PASS",
+        )
+
+        # F4: AssertionError containing 'command not found' must stay verification_failed, while shell error stays setup_or_env_error
+        self.assertEqual(
+            runner._classify_verify_failure(1, False, "AssertionError: 'command not found' not in out"),
+            "verification_failed",
+        )
+        self.assertEqual(
+            runner._classify_verify_failure(1, False, "zsh:1: command not found: nonexistent_tool"),
+            "setup_or_env_error",
+        )
+
+        # F4 (list argv missing binary + malformed JSON line tolerance) & F5 (rename away from high-risk path)
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp_p = Path(tmp)
+            repo = tmp_p / "repo"
+            base_branch = _init_repo(repo)
+            _git(repo, "checkout", "-qb", "feat/harden", base_branch)
+            (repo / "src/auth").mkdir(parents=True)
+            (repo / "src/auth/guard.py").write_text("def ok(): return True\n", encoding="utf-8")
+            _git(repo, "add", ".")
+            _git(repo, "commit", "-qm", "feat(auth): add guard\n\n- add auth guard")
+
+            # Rename away from src/auth/guard.py -> src/util/helper.py must still trigger high-risk escalation
+            _git(repo, "checkout", "-qb", "feat/rename-auth")
+            (repo / "src/util").mkdir(parents=True)
+            _git(repo, "mv", "src/auth/guard.py", "src/util/helper.py")
+            _git(repo, "commit", "-qm", "refactor(util): move guard\n\n- move auth file to util")
+            raw_rn = tmp_p / "raw-rn"
+            raw_rn.mkdir()
+            runner.capture_git_snapshot(str(repo), raw_rn, base_ref="feat/harden", review_profile="fast")
+            self.assertIn(
+                "src/auth/guard.py",
+                runner._detect_escalated_paths_from_changed_file(raw_rn / "git.changed_files.txt"),
+            )
+
+            # Missing binary passed as list verify_command must settle cleanly as setup_or_env_error (no crash)
+            ev_missing = tmp_p / "ev-missing"
+            b_missing = tmp_p / "b-missing.json"
+            b_missing.write_text(
+                json.dumps(
+                    {
+                        "batch_id": "b-list-missing",
+                        "mode": "pi-accept",
+                        "reviewer_driver": "agy",
+                        "review_profile": "fast",
+                        "base_ref": "feat/harden",
+                        "allow_rerun": False,
+                        "expected_resume": None,
+                        "verify_cwd": str(repo),
+                        "verify_command": ["nonexistent_bin_list_xyz_99", "--check"],
+                        "capture_git_diff": True,
+                        "ledger_dir": str(tmp_p / "ledger-m"),
+                        "evidence_dir": str(ev_missing),
+                        "stop_cmd": ["true"],
+                        "pi_cmd": ["true"],
+                        "pi_prompt": "check {RAW} {CWD}",
+                    }
+                ),
+                encoding="utf-8",
+            )
+            f_missing = tmp_p / "701-1"
+            f_missing.mkdir()
+            subprocess.run(
+                [
+                    sys.executable,
+                    str(ROOT / "scripts/gov_runner.py"),
+                    "--batch",
+                    str(b_missing),
+                    "--folder",
+                    str(f_missing),
+                    "--session",
+                    "s-701",
+                    "--resume",
+                    "",
+                    "--cwd",
+                    str(repo),
+                ],
+                env={**os.environ, "AGENT_AUTOLOOP_RUN": "701"},
+                capture_output=True,
+                text=True,
+                check=True,
+            )
+            rc_m = json.loads((ev_missing / "run-701/receipt.json").read_text(encoding="utf-8"))
+            self.assertEqual(rc_m["verdict"], "FAIL")
+            self.assertEqual(rc_m["verify_exit_code"], 127)
+            self.assertEqual(rc_m["failure_kind"], "setup_or_env_error")
+            self.assertFalse(rc_m["cli_launched"])
+
+            # Reviewer CLI emitting a non-JSON '{noise' line before valid stream-json result must not crash
+            noisy_agy = tmp_p / "noisy-agy.py"
+            noisy_agy.write_text(
+                "#!/usr/bin/env python3\n"
+                "import json\n"
+                "print('{not-valid-json startup noise', flush=True)\n"
+                "print(json.dumps({'event': 'init', 'conversation_id': 'conv-noisy-1'}), flush=True)\n"
+                "print(json.dumps({'event': 'result', 'result': {'conversation_id': 'conv-noisy-1', 'status': 'SUCCESS', 'response': 'AUTOLOOP_VERDICT: PASS\\n0 阻塞发现'}}), flush=True)\n",
+                encoding="utf-8",
+            )
+            noisy_agy.chmod(0o755)
+            ev_noisy = tmp_p / "ev-noisy"
+            b_noisy = tmp_p / "b-noisy.json"
+            b_noisy.write_text(
+                json.dumps(
+                    {
+                        "batch_id": "b-noisy",
+                        "mode": "pi-accept",
+                        "reviewer_driver": "agy",
+                        "review_profile": "fast",
+                        "base_ref": "feat/harden",
+                        "allow_rerun": False,
+                        "expected_resume": None,
+                        "verify_cwd": str(repo),
+                        "verify_command": "printf 'Ran 1 test in 0.01s\\n'",
+                        "capture_git_diff": True,
+                        "ledger_dir": str(tmp_p / "ledger-n"),
+                        "evidence_dir": str(ev_noisy),
+                        "stop_cmd": ["true"],
+                        "pi_cmd": [sys.executable, str(noisy_agy)],
+                        "pi_prompt": "check {RAW} {CWD}",
+                    }
+                ),
+                encoding="utf-8",
+            )
+            f_noisy = tmp_p / "702-1"
+            f_noisy.mkdir()
+            subprocess.run(
+                [
+                    sys.executable,
+                    str(ROOT / "scripts/gov_runner.py"),
+                    "--batch",
+                    str(b_noisy),
+                    "--folder",
+                    str(f_noisy),
+                    "--session",
+                    "s-702",
+                    "--resume",
+                    "",
+                    "--cwd",
+                    str(repo),
+                ],
+                env={**os.environ, "AGENT_AUTOLOOP_RUN": "702"},
+                capture_output=True,
+                text=True,
+                check=True,
+            )
+            rc_n = json.loads((ev_noisy / "run-702/receipt.json").read_text(encoding="utf-8"))
+            self.assertEqual(rc_n["verdict"], "PASS")
+            self.assertEqual(rc_n["native_session"], "conv-noisy-1")
+
+    def test_autoloop_ctl_merge_commit_req_hygiene_and_cold_path_partition(self) -> None:
+        ctl = _load_module("autoloop_ctl_harden", ROOT / "scripts/autoloop_ctl.py")
+        checker = _load_module("check_commit_text_harden", ROOT / "scripts/check_commit_text.py")
+
+        # F5.1: OPENSPEC_TEST_CMD_RE must reject shell metacharacters and embedded newlines in commands
+        self.assertIsNotNone(ctl.OPENSPEC_TEST_CMD_RE.match("mvn -Dtest=DemoTest test"))
+        for bad_mvn in (
+            "mvn test; rm -rf /",
+            "mvn -Darg=$(whoami) test",
+            "mvn test | tee out.log",
+            "mvn test\nrm -rf /",
+        ):
+            self.assertIsNone(ctl.OPENSPEC_TEST_CMD_RE.match(bad_mvn), bad_mvn)
+
+        # F5.2: match_project_req skips README.md / archived reqs, parses CRLF frontmatter,
+        # and mark_req_passed updates trailing-\n--- frontmatter in place without duplicating blocks
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp_p = Path(tmp)
+            proj = tmp_p / "proj"
+            req_dir = proj / "docs/req"
+            req_dir.mkdir(parents=True)
+            (req_dir / "2026-11-18-old.md").write_text(
+                "---\r\nreq_id: old\r\nstatus: archived\r\nverify_cmd: \"true\"\r\n---\r\n# Old\r\n",
+                encoding="utf-8",
+            )
+            (req_dir / "2026-11-19-real.md").write_bytes(
+                b"---\r\nreq_id: real\r\nstatus: ready\r\nverify_cmd: \"python3 -m unittest\"\r\n---\r\n\r\n## \xe9\xaa\x8c\xe6\x94\xb6\xe6\xa0\x87\xe5\x87\x86\r\n- ok\r\n"
+            )
+            readme = req_dir / "README.md"
+            readme.write_text("# Docs Req Index\n", encoding="utf-8")
+            os.utime(readme, (readme.stat().st_atime + 60, readme.stat().st_mtime + 60))
+
+            orig_index = ctl.INDEX_FILE
+            try:
+                ctl.INDEX_FILE = tmp_p / "state/project-index.json"
+                matched = ctl.match_project_req(proj)
+                self.assertTrue(matched["matched"])
+                self.assertEqual(matched["req_id"], "real")
+                self.assertEqual(matched["verify_cmd"], "python3 -m unittest")
+            finally:
+                ctl.INDEX_FILE = orig_index
+
+            tail_only = req_dir / "2026-11-19-tail-only.md"
+            tail_only.write_bytes(b"---\r\nreq_id: tail\r\nstatus: ready\r\nverify_cmd: \"true\"\r\n---")
+            self.assertEqual(ctl.parse_req_markdown(tail_only)["verify_cmd"], "true")
+            ctl.mark_req_passed(tail_only)
+            rewritten = tail_only.read_text(encoding="utf-8")
+            self.assertEqual(rewritten.count("---\n"), 2, rewritten)
+            self.assertEqual(ctl.parse_req_markdown(tail_only)["status"], "passed")
+            self.assertEqual(ctl.parse_req_markdown(tail_only)["verify_cmd"], "true")
+
+            # Policy check after merge commit still enforces profile_cfg on the first non-merge commit
+            policy = tmp_p / "merge-policy.json"
+            policy.write_text(json.dumps({"profiles": {"initial": {"min_body_chars": 80}}}), encoding="utf-8")
+            res_merge_policy = checker.validate_commit_text(
+                commit_text=None,
+                git_log_text=(
+                    "commit 1111111111111111111111111111111111111111\n"
+                    "Merge: aaaaaaa bbbbbbb\n"
+                    "Author: dev <dev@example.com>\n"
+                    "Commit: dev <dev@example.com>\n\n"
+                    "    Merge branch 'main' into feat/demo\n\n"
+                    "commit 2222222222222222222222222222222222222222\n"
+                    "Author: dev <dev@example.com>\n"
+                    "Commit: dev <dev@example.com>\n\n"
+                    "    feat(demo): add real feature\n\n"
+                    "    - too short\n"
+                ),
+                policy_path=policy,
+                profile="initial",
+            )
+            self.assertFalse(res_merge_policy["ok"])
+            self.assertTrue(any("min_body_chars" in e for e in res_merge_policy["errors"]))
+
+        # F5.3: Standard git merge commits in git.log.txt bypass Conventional Commit format while preserving secret checks
+        merge_log_ok = (
+            "commit 1111111111111111111111111111111111111111\n"
+            "Merge: aaaaaaa bbbbbbb\n"
+            "Author: dev <dev@example.com>\n"
+            "Commit: dev <dev@example.com>\n\n"
+            "    Merge branch 'main' into feat/demo\n\n"
+            "commit 2222222222222222222222222222222222222222\n"
+            "Author: dev <dev@example.com>\n"
+            "Commit: dev <dev@example.com>\n\n"
+            "    feat(demo): add real feature\n\n"
+            "    - keep merge history clean\n"
+        )
+        res_merge_ok = checker.validate_commit_text(commit_text=None, git_log_text=merge_log_ok)
+        self.assertTrue(res_merge_ok["ok"], res_merge_ok)
+
+        merge_log_secret = (
+            "commit 1111111111111111111111111111111111111111\n"
+            "Merge: aaaaaaa bbbbbbb\n"
+            "Author: dev <dev@example.com>\n"
+            "Commit: dev <dev@example.com>\n\n"
+            "    Merge branch 'main' with token " + "glpat" + "-1234567890abcdef\n\n"
+            "commit 2222222222222222222222222222222222222222\n"
+            "Author: dev <dev@example.com>\n"
+            "Commit: dev <dev@example.com>\n\n"
+            "    feat(demo): add real feature\n\n"
+            "    - keep merge history clean\n"
+        )
+        res_merge_sec = checker.validate_commit_text(commit_text=None, git_log_text=merge_log_secret)
+        self.assertFalse(res_merge_sec["ok"])
+
+        # F6: COLD_PATH_START must partition only cold recovery tail, never hot execution trunk sections
+        approved_text = (ROOT / "references/approved-implementation-workflow.md").read_text(encoding="utf-8")
+        cold_pos = approved_text.index("<!-- COLD_PATH_START")
+        resume_pos = approved_text.index("## Project Session Resume")
+        for hot_heading in (
+            "## Conditional Minimal Implementation",
+            "## Review/Fix Convergence",
+            "## Inline Implementation",
+            "## External Implementation",
+            "## Final Completion",
+            "## OpenSpec closeout",
+            "## Tiered Authorization And High Review",
+        ):
+            self.assertLess(approved_text.index(hot_heading), cold_pos, f"{hot_heading} must precede COLD_PATH_START")
+        self.assertLess(cold_pos, resume_pos)
 
 
 if __name__ == "__main__":

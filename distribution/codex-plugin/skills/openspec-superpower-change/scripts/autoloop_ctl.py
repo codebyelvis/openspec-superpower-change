@@ -5,7 +5,7 @@ Author: elvis
 """
 from __future__ import annotations
 
-import argparse, hashlib, json, os, re, shutil, socket, subprocess, sys, time, uuid
+import argparse, fcntl, hashlib, json, os, re, shutil, socket, subprocess, sys, time, uuid
 from pathlib import Path
 
 SCRIPTS_DIR = Path(__file__).resolve().parent
@@ -69,11 +69,13 @@ AGY_REVIEW_BIN = Path(
 LAUNCHD_LABEL = f"gui/{os.getuid()}/agent-autoloop"
 SAFE_SLUG = re.compile(r"[^a-zA-Z0-9\u4e00-\u9fff_-]+")
 SAFE_CHANGE_ID = re.compile(r"^[a-z0-9][a-z0-9-]{0,127}$")
+TERMINAL_REQ_STATUSES = frozenset({"passed", "done", "archived", "cancelled", "canceled"})
+IGNORED_REQ_FILENAMES = frozenset({"readme.md", "index.md", "template.md"})
 OPENSPEC_TEST_CMD_RE = re.compile(
-    r"^(?:PYTHONDONTWRITEBYTECODE=1\s+)?"
-    r"(?:python3?\s+(?:-m\s+(?:unittest|pytest)\b|scripts/(?:validate_[A-Za-z0-9_]+|check_[A-Za-z0-9_]+)\.py\b)"
-    r"|pytest\b|npm\s+test\b|pnpm\s+(?:test|typecheck|build)\b|cargo\s+test\b|go\s+test\b|mvn\b[^\n`]*\btest\b)"
-    r"[A-Za-z0-9_./:\s=-]*$"
+    r"^(?:PYTHONDONTWRITEBYTECODE=1[ \t]+)?"
+    r"(?:python3?[ \t]+(?:-m[ \t]+(?:unittest|pytest)\b|scripts/(?:validate_[A-Za-z0-9_]+|check_[A-Za-z0-9_]+)\.py\b)"
+    r"|pytest\b|npm[ \t]+test\b|pnpm[ \t]+(?:test|typecheck|build)\b|cargo[ \t]+test\b|go[ \t]+test\b|mvn\b[A-Za-z0-9_./: \t=-]*\btest\b)"
+    r"[A-Za-z0-9_./: \t=-]*$"
 )
 
 AGENT_TS_CODE = """// Author: elvis. Governed host-side adapter for agent-autoloop (change integrate-governed-cli-autoloop).
@@ -157,14 +159,18 @@ def default_req_dir(cwd: Path) -> Path:
 
 
 def parse_req_markdown(path: Path) -> dict:
-    text = path.read_text(encoding="utf-8")
+    text = path.read_text(encoding="utf-8").replace("\r\n", "\n")
     meta = {"status": "ready", "verify_cmd": "", "req_id": path.stem}
     body = text
     if text.startswith("---\n"):
         end = text.find("\n---\n", 4)
+        body_offset = 5
+        if end == -1 and text.endswith("\n---"):
+            end = len(text) - 4
+            body_offset = 4
         if end != -1:
             fm = text[4:end]
-            body = text[end + 5:]
+            body = text[end + body_offset:]
             for line in fm.splitlines():
                 if ":" in line:
                     k, v = line.split(":", 1)
@@ -193,16 +199,20 @@ def parse_req_markdown(path: Path) -> dict:
 def mark_req_passed(path: Path) -> None:
     if not path.is_file():
         return
-    txt = path.read_text(encoding="utf-8")
+    txt = path.read_text(encoding="utf-8").replace("\r\n", "\n")
     if txt.startswith("---\n"):
         end = txt.find("\n---\n", 4)
+        body_offset = 5
+        if end == -1 and txt.endswith("\n---"):
+            end = len(txt) - 4
+            body_offset = 4
         if end != -1:
             fm = txt[4:end]
             if re.search(r"(?m)^status:\s*.*$", fm):
                 fm = re.sub(r"(?m)^status:\s*.*$", "status: passed", fm)
             else:
                 fm = fm.rstrip("\n") + "\nstatus: passed"
-            path.write_text(f"---\n{fm}\n---\n{txt[end + 5:]}", encoding="utf-8")
+            path.write_text(f"---\n{fm}\n---\n{txt[end + body_offset:]}", encoding="utf-8")
             return
     path.write_text(f"---\nstatus: passed\n---\n\n{txt}", encoding="utf-8")
 
@@ -212,10 +222,19 @@ def load_index() -> dict:
 
 
 def save_index(idx: dict) -> None:
-    STATE_ROOT.mkdir(parents=True, exist_ok=True)
-    tmp = INDEX_FILE.with_suffix(".tmp")
+    INDEX_FILE.parent.mkdir(parents=True, exist_ok=True)
+    tmp = INDEX_FILE.with_name(f"{INDEX_FILE.name}.{os.getpid()}.tmp")
     tmp.write_text(json.dumps(idx, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     tmp.replace(INDEX_FILE)
+
+
+def _update_index_entry(cwd_key: str, entry: dict) -> None:
+    INDEX_FILE.parent.mkdir(parents=True, exist_ok=True)
+    with open(INDEX_FILE.parent / ".index.lock", "a+", encoding="utf-8") as lock:
+        fcntl.flock(lock, fcntl.LOCK_EX)
+        idx = load_index()
+        idx[cwd_key] = entry
+        save_index(idx)
 
 
 def cmd_init_req(args) -> int:
@@ -240,9 +259,10 @@ def cmd_init_req(args) -> int:
     )
     req_path.write_text(content, encoding="utf-8")
 
-    idx = load_index()
-    idx[str(cwd)] = {"active_req_path": str(req_path.resolve()), "updated_at": time.strftime("%Y-%m-%dT%H:%M:%S%z")}
-    save_index(idx)
+    _update_index_entry(
+        str(cwd),
+        {"active_req_path": str(req_path.resolve()), "updated_at": time.strftime("%Y-%m-%dT%H:%M:%S%z")},
+    )
     out = parse_req_markdown(req_path)
     out["created"] = True
     print(json.dumps(out, ensure_ascii=False, indent=2))
@@ -283,15 +303,17 @@ def match_project_req(cwd: Path) -> dict:
     pinned = idx.get("active_req_path")
     if pinned and Path(pinned).is_file():
         parsed = parse_req_markdown(Path(pinned))
-        if parsed["status"] != "passed":
+        if parsed["status"].strip().lower() not in TERMINAL_REQ_STATUSES:
             return {"matched": True, "source": "project_index", **parsed}
 
     req_dir = default_req_dir(cwd)
     if req_dir.is_dir():
         candidates = sorted(req_dir.glob("*.md"), key=lambda p: p.stat().st_mtime, reverse=True)
         for cand in candidates:
+            if cand.name.lower() in IGNORED_REQ_FILENAMES:
+                continue
             parsed = parse_req_markdown(cand)
-            if parsed["status"] != "passed":
+            if parsed["status"].strip().lower() not in TERMINAL_REQ_STATUSES:
                 return {"matched": True, "source": "docs_req_dir", **parsed}
 
     changes_dir = cwd / "openspec" / "changes"
@@ -671,7 +693,14 @@ def cmd_run(args) -> int:
             break
         time.sleep(2.0)
     else:
-        last = {"batch_id": batch_id, "verdict": "TIMEOUT", "detail": last}
+        stopped_run_id = None
+        if isinstance(last, dict) and last.get("run_id"):
+            stopped_run_id = str(last["run_id"])
+            try:
+                subprocess.run(AL_CMD + ["stop", stopped_run_id], capture_output=True, text=True, timeout=15)
+            except (OSError, subprocess.SubprocessError):
+                pass
+        last = {"batch_id": batch_id, "verdict": "TIMEOUT", "stopped_run_id": stopped_run_id, "detail": last}
 
     last["matched_req"] = str(req_path)
     last["matched_source"] = matched_source
