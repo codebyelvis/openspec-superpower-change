@@ -2,361 +2,103 @@
 
 [English](README.md) | [简体中文](README_cn.md)
 
-`openspec-superpower-change` is a Codex skill that acts as the change-control entry gate for AI-assisted engineering work. It connects project-local rules, OpenSpec change contracts, Superpowers execution practices, and evidence-based verification into one repeatable workflow.
+`openspec-superpower-change` is an explicit-entry engineering change gate shared across **Codex**, **Pi**, **Antigravity CLI**, and **Grok CLI**. It connects repository-local rules, OpenSpec change contracts, Superpowers execution discipline, built-in `/autoloop` verification & read-only review, and evidence-based completion into one proportional workflow.
 
-The goal is simple: an AI agent should not move from a request directly to implementation when the work may affect runtime behavior, public contracts, security, persistence, workflow routing, or operator-visible behavior.
-
-## Highlights
-
-- Classifies every request before state-changing work begins.
-- Separates review-only, discovery, proposal, approved implementation, direct change, and self-evolution modes.
-- Decides when OpenSpec is required and blocks implementation before approval.
-- Routes approved work into Superpowers planning, TDD, debugging, and verification flows.
-- Requires Step Evidence Gate output before progress or completion claims.
-- Requires current-revision Plan/Brief Preflight Review before execution.
-- Uses current schema-6 Handoff state plus schema-2 evidence to bind the full
-  immutable Reviewer Assignment; frozen schema 4/5 records remain read-only
-  legacy audit history and cannot authorize current work.
-- Treats Codex, Pi, Antigravity CLI, and Grok CLI as equally eligible assigned
-  executors/reviewers. Product names grant no authority; only the bound Codex
-  `control-plane` / `control-plane-high` instance and contract own routing,
-  evidence acceptance, canonical state, archive, and completion decisions.
-- Requires every Review recommendation or request to state its purpose, one
-  concrete product, role, capability profile, independence, and result authority.
-- Separates platform, workflow-scope, and business/production authorization;
-  High Review audits actual wiring, mechanisms, and an independent probe.
-- Adds a read-only `backend-architecture-review` specialist for explicit backend
-  proposal/design reviews, with bounded findings that keep Review/Fix work
-  convergent toward the smallest project-consistent correction.
-- Provides lightweight Authorized Execution Continuity for long tasks: resume
-  approved work from canonical Plan/Status/Handoff state after compaction,
-  recovery, or agent switches, and stop only at real blockers or completion.
-- Provides allowlisted Codex/Pi/Antigravity/Grok runtime synchronization with a
-  versioned managed governance block, target-local recovery, four-target
-  completion, and sensitive-category denial. Pi uses
-  `${PI_CODING_AGENT_DIR}/skills` and the managed block in
-  `${PI_CODING_AGENT_DIR}/APPEND_SYSTEM.md`.
-- Runs a conditional Domain Context Check so clear tasks stay lean while
-  ambiguous project language enters `grill-with-docs` or the portable fallback.
-- Turns costly corrections and Review findings into durable project knowledge
-  and regression enforcement before final completion.
-- Applies a Claim-to-Test Relevance Gate: each test command must map to the
-  current acceptance and demonstrated blast radius; unrelated frozen-baseline
-  failures are recorded as `OUT_OF_SCOPE_PREEXISTING_DEBT` without widening the
-  task.
-
-## Governed Caveman Lite
-
-The built-in, default-off `governed-caveman-lite` profile makes ordinary Router
-prose concise while keeping professional full sentences. Enable it for the
-current conversation with `OpenSpec 精简模式：<任务>` (or send `OpenSpec 精简模式`
-before the task), and disable it with `OpenSpec 正常模式`.
-
-The profile changes presentation only. It does not require an external Caveman
-skill, does not persist beyond the current conversation, and never compresses
-away governance fields, approvals, evidence, critical commands, or security and
-safety text.
-
-## Why It Exists
-
-AI coding agents can be effective, but in production-grade repositories they commonly fail in ways that are preventable:
-
-- implementing before reading local project rules;
-- treating a task checklist as an approved contract;
-- using test-only evidence for runtime behavior claims;
-- bypassing OpenSpec for API, persistence, security, or workflow changes;
-- weakening governance rules while editing the governance skill itself;
-- losing track of approval status across external-agent handoffs.
-
-This skill turns those risks into explicit gates, references, and validation checkpoints.
-
-## How It Fits
-
-| Capability | Responsibility | Owned By |
-|---|---|---|
-| Local project rules | Repository-specific constraints, review artifacts, handoff rules, commit conventions | Project `AGENTS.md` / local docs |
-| Project knowledge | Domain glossary, engineering invariants, decisions, learning provenance, regression enforcement | `CONTEXT.md`, project docs/ADRs, Candidate Cards, tests/validators |
-| OpenSpec | Change contract, requirements, scenarios, approval state | `openspec/` |
-| Superpowers | Implementation planning, TDD, debugging, verification discipline | Superpowers skills |
-| Step Evidence Gate | Evidence required before advancing or claiming completion | `references/step-evidence-gate.md` |
-| Completion Contract | Single Router-owned whole-task success, stop, evidence, reconciliation, sync, and authority contract | `references/completion-contract.md` |
-| Prompt / external batch review | Standalone prompt/diff review and Handoff-backed Brief/Report/Review attempts | `codex-brief-antigravity-review` |
-| Backend architecture Review | Read-only specialist evidence for explicit backend proposal/design reviews covering boundaries, contracts, call chains, transactions, performance, stability, or over-design | `backend-architecture-review` |
-| Authorized execution continuity | Lightweight continuation of approved work from canonical Plan/Status/Handoff state across long tasks, compaction, recovery, or agent switches | `references/approved-implementation-workflow.md` |
-| openspec-superpower-change | Routing, risk classification, approval gate, self-evolution boundary | This skill |
+Ordinary questions, standalone read-only reviews, and everyday unconstrained edits bypass this Router. When work is explicitly routed here—or touches runtime control flow, public contracts, security, persistence, migrations, or workflow routing—the gate scales ceremony proportionally across four lanes instead of forcing a single heavy linear process.
 
 ## Core Workflow
 
-```text
-Read local rules
--> Gate 0 request classification
--> Domain Context Check; use grill-with-docs only for unresolved language/boundaries
--> classify phase and material choices
--> select Superpowers by phase, material ambiguity, and risk (generic create/modify wording is insufficient)
--> OpenSpec proposal if contracts or high-risk behavior change
--> stop until approval
--> Superpowers plan for approved implementation
--> Plan/Brief Preflight Review; revise and repeat until PASS
--> TDD / debugging / implementation discipline
--> Step Evidence Gate on complete business slices
--> verify -> Review -> fix and repeat until Review PASS
--> Project Learning Closeout; promote and verify/Review required project knowledge
--> persist fresh final verification evidence, then final diff/scope Review
--> reconcile/archive OpenSpec and validate after archive
--> authorized Git publication
--> session archive/distillation summary that references durable project artifacts
+![openspec-superpower-change four proportional lanes terminal blueprint](docs/diagrams/workflow-lanes.png)
+
+> Interactive terminal blueprint (with animated orthogonal signal paths): [docs/diagrams/workflow-lanes.html](docs/diagrams/workflow-lanes.html)
+
+| Lane | When to use | Execution & review posture |
+|---|---|---|
+| **1. Compact Direct Change** | Low-risk local edits, typos/docs/config, or a **three-condition localized bugfix** (failing-then-passing regression test, no external contract change, bounded local diff) | One-line Gate 0, minimum edit, targeted required checks, focused inline diff/self-review; no standalone Plan, Preflight, or `status.md` |
+| **2. Daily `/autoloop` Closed-Loop** | Feature/bugfix slices backed by `docs/req/*.md` + `验收标准` (or active OpenSpec change / session-distilled contract) | `autoloop_ctl.py match` / `init-req` → minimal edit → `autoloop_ctl.py run` (host process-group verify + deterministic vetoes + isolated `agy-readonly-review`, up to 2 auto-repair rounds) |
+| **3. OpenSpec-Backed Implementation** | New capabilities, public API/schema/migration, security, persistence, routing, or workflow lifecycle changes | Domain Context Check when ambiguous → `openspec validate <id> --strict` → **stop for explicit approval** → direct **Four Hard Anchors** execution (or Plan + bounded Preflight) → cohesive slices → distinct Review → learning closeout → fresh final verify/Review & archive |
+| **4. External Handoff & Session Resume** | Multi-window recovery, compaction handoff, or explicitly delegated external-agent execution | Lazy `docs/agent-collab/<change-id>/status.md` (`local` schema-6 subset with stage-specific strict reviewer bindings, or full `external` schema-6 Handoff + schema-2 evidence manifests); read-only `scripts/next_action.py --status` |
+
+## Highlights
+
+- **Explicit-only entry & anti-drift locks**: Loads only on explicit OpenSpec/change-gate/routing requests, `迭代优化skill`, or archive/distill requests. Records Gate 0 with an explicit task lock (`VERIFY` | `DIAGNOSE` | `FIX` | `REVIEW`), enforces a two-failure circuit breaker on the same slice, and continues authorized same-scope work (including delegated reviews) without asking for repetitive confirmation.
+- **Four Hard Anchors plan-anchored execution**: When approved OpenSpec `design.md` and `tasks.md` already define allowed/forbidden scope, `path:line` targets, cohesive batches, and exact verification commands, they serve directly as the executable Plan—eliminating duplicate Superpowers plans, standalone local Preflight JSONs, and intermediate `red-green.json` / `native-green.json` sprawl in favor of inline RED-to-GREEN proof.
+- **Built-in `/autoloop` & `pre-mr` deterministic gate**: Zero-arg requirement matching (or automatic session distillation via `init-req`), isolated verification process groups (`start_new_session=True` + `os.killpg` on timeout/`SIGTERM`), pre-reviewer failure short-circuit, positive-count-exempted zero-test veto, fast-mode high-risk path escalation (`-high` + 5-lens conditional hunt checklist), credential/PEM redaction, non-collapsing `failure_signature`, portable merge-aware commit hygiene, and workspace-fingerprint-verified `agy-readonly-review`.
+- **Schema-6 role-first authority & four-CLI parity**: Treats Codex, Pi, Antigravity CLI, and Grok CLI as equally eligible assigned executors/reviewers. Product names grant no authority; only the bound Codex `control-plane` / `control-plane-high` instance and contract own routing, evidence acceptance, canonical state, archive, and completion decisions. Current external Handoffs use schema 6 plus schema-2 evidence manifests; frozen schema-4/5 records remain read-only legacy audit history.
+- **Cross-window session resume & read-only next-action query**: Lazy `docs/agent-collab/<change-id>/status.md` checkpoints bind verified source fingerprints (excluding `CHANGELOG.md`, ledgers, and historical reports), support stage-specific strict local reviewer bindings (`implementation-review` / `final-review`), isolate rare blocked-context amendments into `references/resume-context-amendments.md` behind the `COLD_PATH_START` marker, and expose `scripts/next_action.py --status` as an advisory read-only state transition query.
+- **Project document ownership & 4-tier mechanical learning ladder**: Respects existing project directory conventions before falling back to purpose subdirectories (default engineering invariant target: `docs/engineering/engineering-invariants.md`), and prioritizes durable learning by mechanical strength: **(1) SSoT / dead-code removal → (2) static validators/types naming the replacement → (3) behavior regression tests → (4) prose guidance last**.
+- **Transactional four-target runtime sync & bounded self-evolution**: Allowlisted schema-v2 scoped synchronization across Codex, Pi (`${PI_CODING_AGENT_DIR}/skills` & `APPEND_SYSTEM.md`), Antigravity CLI, and Grok CLI (with `grok inspect --json`), mode-`0600` transaction receipts, target-local rollback, managed governance block v6 (`CCG-001..CCG-016`), and a single-round `迭代优化skill` loop tracked in `docs/iteration/`.
+- **Claim-to-Test Relevance Gate & specialist Review**: Binds every test command to current acceptance and demonstrated blast radius (`OUT_OF_SCOPE_PREEXISTING_DEBT` for unrelated frozen-baseline failures), and routes explicit backend proposal/design audits to read-only `backend-architecture-review`.
+
+## Built-in `/autoloop` Closed-Loop & Pre-MR Gate
+
+![/autoloop closed-loop and pre-mr deterministic gate terminal blueprint](docs/diagrams/autoloop-flow.png)
+
+> Interactive terminal blueprint: [docs/diagrams/autoloop-flow.html](docs/diagrams/autoloop-flow.html)
+
+```bash
+# 1. Auto-match pending docs/req/*.md or active OpenSpec change (chaining its test commands)
+python3 scripts/autoloop_ctl.py match --cwd "$PWD"
+
+# 2. If unmatched, persist requirement & acceptance criteria distilled from the session
+python3 scripts/autoloop_ctl.py init-req \
+  --cwd "$PWD" --slug "<slug>" --title "<title>" \
+  --summary "<scope & non-goals>" --cmd "<verify command>" --accept "<criteria>"
+
+# 3. Run default fast closed-loop (medium reasoning; auto-escalates to -high + 5-lens hunt on .sql/auth/security/migration/rename src)
+python3 scripts/autoloop_ctl.py run --cwd "$PWD"
+
+# 4. Run strict pre-MR signoff (three-dot net diff, 2MB patch cap, merge-aware commit check, 5 conditional hunt lenses, high reasoning)
+python3 scripts/autoloop_ctl.py run \
+  --cwd "$PWD" --base-ref "origin/<target_branch>" \
+  --commit-msg-file /private/tmp/commit_msg.txt --review-profile pre-mr
 ```
 
-## Long-Task Continuity and Review Convergence
+Key runtime guardrails enforced by `scripts/gov_runner.py`, `scripts/autoloop_ctl.py`, and `scripts/check_commit_text.py` (macOS Python 3.9.6 & `launchd` compatible):
 
-- **Authorized Execution Continuity** reuses unchanged, scope-bound canonical
-  Plan/Status/Handoff or equivalent state. `continue` resumes the next approved
-  task instead of restarting completed work or inventing a second task ledger.
-- Continuity never grants new scope, credentials, production permission, or
-  material product/business/architecture decisions. A blocker, new decision,
-  scope expansion, missing resource, explicit pause/cancel, or completion stops
-  the continuation path with an owner and resume condition where applicable.
-- **Backend architecture Review** is the explicit route for proposal/design
-  judgment about service boundaries, contracts, call chains, transactions,
-  performance/stability, and over-design. It is read-only specialist evidence;
-  it does not implement fixes or decide canonical Completion.
-- Review output stays proportional: at most three material findings, each tied
-  to evidence, trigger, impact, and the smallest project-consistent adjustment.
-  Actionable findings return to `Fix -> Verify -> Review`; repeated widening or
-  non-convergence stops as `BLOCKED` instead of expanding the solution.
+- **Process-group isolation & short-circuit**: Runs `verify_command` in a dedicated session (`start_new_session=True`), kills the entire tree via `os.killpg(..., SIGKILL)` on timeout or `SIGTERM`, maps missing/non-executable commands to `127`/`126` (`setup_or_env_error`), and short-circuits before launching the reviewer CLI on any non-zero exit or deterministic veto.
+- **Deterministic pre-reviewer vetoes**: Rejects `pre-mr` without `--base-ref`, unresolvable `--base-ref`, patches exceeding `2,000,000` bytes (`truncated=true`), clean worktrees with zero net diff, zero-test `exit 0` runs (exempted when any chained module reports a positive test count), and secret/hygiene failures in `check_commit_text.py` (exempting standard `Merge:` commits from Conventional Commit syntax while retaining secret scanning and applying `profile_cfg` to the first non-merge commit).
+- **Redacted non-collapsing diagnostics & exact verdict anchoring**: Masks compound secret keys (`access_token`, `DB_PASSWORD`, `OPENAI_API_KEY`), `Bearer`/`Basic`/`Token` auth, password-only URLs (`redis://:pwd@host`), raw tokens, and full/truncated PEM private keys without swallowing trailing error lines; computes a 16-hex `failure_signature` across test IDs and normalized error/finding lines (stopping auto-repair immediately on two identical consecutive signatures); and enforces exact-line anchored `AUTOLOOP_VERDICT: PASS` plus zero workspace mutation across `agy-readonly-review`.
 
-## Detailed Decision Flow
+## Governed Caveman Lite
 
-The decisive order is:
+The built-in, default-off `governed-caveman-lite` profile makes ordinary Router prose concise while keeping professional full sentences. Enable it for the current conversation with `OpenSpec 精简模式：<任务>` (or send `OpenSpec 精简模式` before the task), and disable it with `OpenSpec 正常模式`.
 
-```text
-request facts -> Domain Context Check -> phase classification -> material-choice
-check -> risk/evidence profile -> selected Superpowers full rules -> approval or
-execution -> Project Learning Closeout -> final verification/Review -> archive ->
-authorized publication -> session distillation
-```
+The profile changes presentation only. It does not require an external Caveman skill, does not persist beyond the current conversation, and never compresses away governance fields, approvals, evidence, critical commands, or security and safety text.
 
-For governed state-changing, Git-mutating, or whole-task-completion work, the
-Router chooses zero or more Superpowers methods; users do not need to name each
-method. Naming a method explicitly grants no business, Git, workflow, or
-completion authority and cannot bypass Gate 0. On Codex, `using-superpowers` is
-explicit-only while Router-required child Skills remain eligible for implicit
-matching until native nested loading is proven. Without a supported Skill-load
-path/hash trace, actual prompt load or non-load is reported as `UNKNOWN` rather
-than inferred from visible behavior.
+## Architecture & Responsibility Map
 
-| Phase | Required behavior |
-|---|---|
-| Entry / Gate 0 | Read local instructions and the affected project knowledge, classify the current request, choose evidence/capability profiles, and state whether confirmation is still required. |
-| Domain Context Check | Inspect `CONTEXT-MAP.md`, `CONTEXT.md`, affected ADRs, docs, and code when project language may change. Clear language skips `grill-with-docs`; unresolved terms, actors, boundaries, states, or lifecycle enter it, or the complete portable Discovery First fallback. |
-| Proposal-only | Inspect repository facts and existing specs. Use only reversible, explicit bounded assumptions; strictly validate proposal/design/spec/tasks and stop for approval of the exact change-id. Do not load planning/TDD/implementation Review merely because the request says create or modify. |
-| Material choice | Security, compatibility, destructive migration, data lifecycle, scope, production authority, and testable acceptance remain user-owned choices. Delegating the choice to the agent still requires brainstorming and its full HARD-GATE. |
-| Approved implementation | Refresh Gate 0, create an executable plan, Preflight Review the current revision, then use TDD/debugging and Step Evidence Gate on complete business slices. Every finding returns to fix -> verify -> Review. |
-| External Handoff | The companion runs the complete current schema-6 Handoff lifecycle. Codex, Pi, Antigravity CLI, and Grok CLI may fill assigned executor/reviewer roles, but their evidence cannot advance canonical state until the bound Codex control plane accepts it. |
-| Project Learning Closeout | After implementation Review PASS, audit corrections and findings. Automatic thresholds or an explicit request to archive and distill require promotion of confirmed project-local knowledge and regression enforcement. |
-| Finalization | Run fresh final verification only after learning promotion, then final diff/scope/sensitive-data Review, task reconciliation, OpenSpec archive, and strict post-archive validation. |
-| Publication | Git staging/commit/push remain separately authorized. The final session summary points to durable repository knowledge; it is never the only record. |
-
-## Project Learning Layers
-
-One costly lesson may produce several small artifacts, each with one job:
-
-| Knowledge | Durable location | What must not go there |
+| Capability | Responsibility | Owned By |
 |---|---|---|
-| Domain language and semantic relationships | `CONTEXT.md` / `CONTEXT-MAP.md` | implementation causes, incident chronology, task lists |
-| Easy-to-miss implementation or agent invariant | repository policy, default `docs/engineering-invariants.md` | full chat/Review transcript |
-| Hard-to-reverse, surprising trade-off | `docs/adr/NNNN-slug.md` | ordinary or easily reversible fixes |
-| Promotion provenance | `docs/learning-candidates/YYYY-MM-DD-<slug>.md` | secrets, customer data, private prompts |
-| Mechanically enforceable behavior | deterministic regression test or validator | prose-only claims |
-| Session archive/distillation | final summary with links to the artifacts above | becoming the sole knowledge store |
+| Local project rules | Repository constraints, review artifacts, handoff rules, commit conventions | Project `AGENTS.md` / local docs |
+| Project knowledge | Domain glossary, engineering invariants, ADRs, candidate provenance, regression enforcement | `CONTEXT.md`, `docs/engineering/engineering-invariants.md` (default), `docs/adr/`, Candidate Cards, tests/validators |
+| OpenSpec | Single authoritative change contract, requirements, scenarios, approval state, Four Hard Anchors | `openspec/` |
+| Superpowers | Phase-selected planning, TDD, systematic debugging, verification discipline | Superpowers skills via `references/superpowers-adapter.md` |
+| Daily `/autoloop` gate | Zero-arg requirement match/distill, host verification, deterministic vetoes, isolated read-only AGY review | `scripts/autoloop_ctl.py`, `scripts/gov_runner.py`, `scripts/check_commit_text.py`, `references/autoloop-req-acceptance.md`, `references/autoloop-review-hunt.md` |
+| Step Evidence Gate | Business-slice evidence profiles (`compact`, `standard`, `strict`) and inline RED-to-GREEN proof | `references/step-evidence-gate.md` |
+| Completion Contract | Single Router-owned whole-task success, stop, evidence, learning, reconciliation, sync, and authority contract | `references/completion-contract.md` |
+| Continuity & Resume | Lazy `status.md` checkpoints, stage-specific strict reviews, cold-path amendments, read-only transition query | `references/approved-implementation-workflow.md`, `references/resume-context-amendments.md`, `scripts/next_action.py` |
+| Companion & Specialist Reviews | Standalone prompt/diff review & Handoff-backed batch review; explicit read-only backend architecture audits | `codex-brief-antigravity-review`; `backend-architecture-review` |
+| openspec-superpower-change | Entry gate, proportional routing, risk classification, approval/evidence boundaries, self-evolution | This skill (`SKILL.md`) |
 
-Automatic promotion is required after two independent correction/Review signals
-establish the same project invariant, or one high-severity security, integrity,
-data-loss, or false-PASS event establishes it. An explicit archive-and-distill
-request always runs the audit and promotes every confirmed project-local key
-point. Required promotion blocks completion until focused verification and
-Review PASS.
-
-## Concerns and Mechanisms
-
-| Concern | Mechanism |
-|---|---|
-| Broad metadata creates unnecessary ceremony | Phase-aware precedence (`CCG-014`) routes governed work through exactly one Router, while ordinary questions bypass the Router and Codex `using-superpowers` meta-entry. |
-| An explicit Superpowers method appears to grant authority | It chooses discipline only; Router Gate 0 still owns workflow, business, Git, and completion authority and fails closed without exactly one applicable Router. |
-| Disabling Superpowers removes safeguards | Activation is adaptive; once selected, every sub-skill keeps its complete rules. |
-| Agents silently choose auth/compatibility behavior | Material user-owned choices still require brainstorming and approval. |
-| `CONTEXT.md` exists only as a stale local file | Canonical shared context must not be intentionally ignored and must enter the change inventory. |
-| A hard-won bug lesson remains only in chat | Candidate Card + Project Learning Closeout + correct durable artifact + regression enforcement. |
-| An external PASS is mistaken for completion | Codex remains the control plane; learning, final verification, final Review, archive, and sync gates still apply. |
-
-## Workflow Optimization Decision (2026-07-30)
-
-The evaluated workflow remains on **Scheme C: keep the existing combination**.
-OpenSpec stays the single authoritative change contract, Superpowers continues
-to provide post-approval engineering discipline, and
-`codex-brief-antigravity-review` keeps its standalone and Handoff-backed Review
-responsibilities.
-
-- No Superpowers skill or runtime copy was removed.
-- No `mattpocock/skills` package was installed; the selected dependency closure
-  is empty.
-- No global skill qualified for permanent deletion.
-- Useful ideas from `mattpocock/skills` remain future candidates, including
-  `tdd`, `diagnosing-bugs`, dual-axis `code-review`, domain grilling, and
-  tracer-bullet ticket slicing.
-- Schemes A/B remain blocked by missing worktree and branch-finish equivalents,
-  unsafe `implement` Review/commit ordering, Codex compatibility gaps, and
-  incomplete evidence/lifecycle parity.
-
-### How to interpret “currently best”
-
-“Best” has an explicit boundary here: it is the risk-adjusted choice among
-Schemes A/B/C for the pinned versions, current Codex environment, and governance
-constraints evaluated in this project. It is not an absolute ranking of every
-industry workflow, future release, or development scenario. Scheme A replaces
-Superpowers completely, Scheme B retains only a minimal subset, and Scheme C
-keeps the existing combination. The primary comparison is the cross-project
-governance lifecycle, not how quickly one skill can be learned or how deeply it
-understands a particular technology stack.
-
-| Evaluation scale | Current combination | `mattpocock/skills` | Current judgment |
-|---|---|---|---|
-| Quick start for one low-risk project | More concepts and gates create a higher initial learning cost | Individual skills are concise, direct, and easier to adopt | Candidate is lighter |
-| Long-term maintenance across projects, services, and stacks | Contract, risk, evidence, Review, and completion rules are centralized; each project supplies its native build and test commands | Raw adoption still needs project-specific authorization, evidence, branch, and lifecycle adapters | Current combination is more stable |
-| Auditability and reproducibility | OpenSpec revisions, Handoff identity, evidence freshness, and final-completion ownership can be checked consistently | TDD, debugging, and Review methods are strong, but no equivalent whole lifecycle contract exists | Current combination is more complete |
-| Stack-specific depth | Does not replace a project's framework, deployment, security, or data toolchain | Also operates at the method layer and does not supply project-specific expertise automatically | Native project tooling decides |
-| Maintenance at scale | More components, but one centralized upgrade can serve many projects and amortize the fixed cost | A single skill is easy to maintain; making it own the full lifecycle can create adapter copies and project drift | Use candidates for isolated capabilities; keep current governance for the combination |
-
-The precise conclusion is therefore: **the current combination is the default
-best choice among the evaluated schemes for cross-project, cross-service, and
-cross-stack engineering governance; `mattpocock/skills` is easier to learn for
-a single low-risk project or isolated capability.** It remains a candidate
-source for TDD, debugging, dual-axis Review, domain clarification, and vertical
-slicing. Adopt or replace capabilities only when a measured gap and complete
-parity evidence justify a new Self-Evolution change.
-
-### Keeping third-party dependencies current
-
-Scheme C does not promise that every dependency is silently upgraded to the
-latest release. Blind upstream tracking would break reproducibility and could
-change triggers, authority, or completion rules without Review. The guarantee
-to pursue is **traceable provenance, detectable staleness, verified upgrades,
-and recoverable rollback**.
-
-The version ledger must record the **tested compatibility baseline, effective
-local version, latest observed upstream version, and version currently
-available through the installation channel** separately. These values can
-differ: a marketplace mirror can lag its source repository, and updating the
-Codex CLI does not update an independent Git clone, symlinked skill, or
-downloaded skill.
-
-| Installation mode | Actual update semantics | Required action |
-|---|---|---|
-| Project-maintained source → runtime copy | The Git repository is authoritative; the runtime copy does not follow it automatically | Synchronize and verify parity with `references/sync-checklist.md` |
-| Git clone + skill symlink | The symlink exposes local checkout changes only; it does not fetch official releases | Compare the upstream SHA explicitly and perform a controlled update after reconciling local commits |
-| Codex marketplace plugin | The plugin manager records an installed version; an upstream release does not by itself prove the local installation changed | Verify with `codex plugin list --json`, refresh through the supported marketplace flow, and validate in a new session |
-| Skill downloaded by `skill-installer` | Installation is a snapshot; the installer stops when the destination already exists and is not an in-place updater | Record the source ref/SHA, back up, replace or reinstall deliberately, and revalidate |
-
-A controlled dependency upgrade closes this loop:
-
-1. Record the installation mode, four version values, upstream source, symlink
-   target, and local patches.
-2. Detect upstream releases read-only and review release notes plus the actual
-   diff. Detection is not automatic approval.
-3. Create a temporary backup and reconcile local patches in an isolated copy or
-   branch.
-4. Run upstream tests plus the Router and Companion validators, unit suites,
-   required-skill inventory/discovery checks, and real-behavior forward
-   scenarios. Existing validator PASS alone does not prove third-party
-   compatibility.
-5. Synchronize to runtime only after Review PASS; start a new session and verify
-   discovery paths and the effective version.
-6. Record the new version, evidence, and rollback point. Restore the previous
-   version and stop promotion on any failure.
-
-An upgrade that changes trigger scope, OpenSpec or Superpowers boundaries,
-evidence gates, or completion rules is Major Self-Evolution and requires an
-approved OpenSpec change first. This repository does not currently claim an
-automatic dependency-freshness checker; until one is implemented, maintenance
-must run these checks explicitly and must not equate “discoverable skill” with
-“latest official version.”
-
-See the [full evaluation](docs/design/2026-07-30-workflow-skill-optimization-evaluation.md)
-and [independent Review](docs/design/reviews/2026-07-30-workflow-skill-optimization-plan-c-archive-review.md).
-Re-evaluation requires the evidence listed in section 14 of the evaluation and,
-for an A/B implementation, a separately approved Major Self-Evolution change.
-
-## Request Modes
+## Request Modes, Gate 0 & Evidence Profiles
 
 | Mode | Use When | File Changes? |
 |---|---|---:|
-| Review-only | The user asks this change gate to review architecture, authorization, risk, or completion evidence. | No |
-| Backend architecture Review | The user explicitly asks for backend architecture/design Review covering boundaries, contracts, calls, transactions, performance/stability, or over-design. | No |
-| Discovery First | Terms, actors, lifecycle, or boundaries are unclear. | Usually glossary / context only |
-| OpenSpec proposal | New capability, behavior contract, architecture, security, persistence, API, or workflow changes are needed. | Proposal artifacts only |
-| Approved implementation | An OpenSpec-backed proposal has been explicitly approved. | Yes, after plan |
-| Direct Change | Low-risk restoration, typo, formatting, docs-only, config-only, or tests for existing behavior. | Yes, scoped |
-| Self-Evolution | This skill, its references, validators, examples, or sync rules are being changed. | Yes, gated |
+| Review-only | Assess architecture, OpenSpec need, authorization, risk, or completion evidence | No |
+| Backend architecture Review | Explicit backend proposal/design audit (boundaries, contracts, transactions, performance, over-design) | No |
+| Discovery First | Domain terms, actors, lifecycle, or boundaries remain unclear after inspecting code/docs | Glossary / context only |
+| OpenSpec proposal | New capability, public behavior, API/schema/migration, security, persistence, or workflow changes | Proposal artifacts only |
+| Approved implementation | Concrete OpenSpec `change-id` is explicitly approved | Yes (Four Hard Anchors or Plan + Preflight) |
+| Direct Change | Low-risk local edits, docs/config/tests, or three-condition localized bugfix restoration | Yes, scoped |
+| `/autoloop` closed-loop | Requirement doc (`docs/req/*.md`) + acceptance criteria verification & independent read-only review | Yes, gated by `govpi` |
+| Self-Evolution | Modifying this skill, its references, scripts, validators, or sync rules (`迭代优化skill`) | Yes, Patch/Minor/Major gated |
 
-For proposal-only drafting, Gate 0 may select no Superpowers sub-skill when
-repository facts and bounded assumptions produce a reviewable contract. If
-brainstorming is selected for a material unresolved choice, its complete
-HARD-GATE remains in force; after implementation is approved, planning,
-Preflight, TDD, Review, evidence, verification, and archive gates remain
-unchanged.
+**Gate 0** (recorded before state-changing edits, commands, or proposals; compressed to one line for obvious compact local work) states: active `mode`, `task` (`VERIFY` | `DIAGNOSE` | `FIX` | `REVIEW`), references read, OpenSpec decision and reason, selected Superpowers methods (or `none`), risk/evidence profile (`compact` | `standard` | `strict`), next action, and whether user confirmation is required.
 
-Standalone task-prompt/Brief/checklist writing and ordinary read-only diff or Report review belong to `codex-brief-antigravity-review`. “Review and fix” returns here because it is implementation.
-
-## Gate 0
-
-Before editing files, running state-changing commands, creating proposal artifacts, or starting implementation, the agent must state:
-
-1. active request mode;
-2. references read and why they are sufficient;
-3. whether OpenSpec is required;
-4. required Superpowers sub-skills;
-5. risk level, next action, and whether user confirmation is required.
-
-## OpenSpec Boundary
-
-OpenSpec is required for:
-
-- new functionality or public behavior changes;
-- API, schema, data lifecycle, persistence, or migration changes;
-- security, sandbox, permissions, cross-tenant behavior, or auth changes;
-- runtime tool exposure, cache strategy, request routing, skill routing, or workflow lifecycle changes;
-- broad refactors that alter system boundaries;
-- skill workflow changes.
-
-OpenSpec may be skipped only for narrow restoration of existing intended behavior, small config changes without contract impact, typo/comment/formatting changes, docs-only updates without behavior impact, or tests for already-defined behavior.
-
-## Evidence Profiles
-
-| Profile | Typical Use |
-|---|---|
-| compact | Low-risk docs, formatting, config, or localized direct changes. |
-| standard | Default multi-step implementation, review, and verification. |
-| strict | Security, auth, public API/schema, persistence semantics, migration/write paths, deployment/rollback, deletion/recovery, cross-tenant behavior, or production authority. |
-
-## Bounded Plan Preflight
-
-The first Plan/Brief Review in a revision lineage is a complete
-`FULL_PREFLIGHT`. A correction-only revision may use `FOCUSED_RECHECK` only
-when exact reviewer identity matches the immutable parent Review and remains
-distinct from author/executor, protected boundaries remain unchanged, the
-current whole-file path/SHA and parent-anchored historical bindings are valid, and
-mechanical checks pass. Two blocked rounds, reviewer conflict, scope growth, or
-an unauthorized boundary change route to bounded
-`CONTROL_PLANE_ADJUDICATION`; this is not a third Review mode or lifecycle
-state. P0/P1, security, integrity, authority, scope/contract/risk/acceptance,
-false-evidence, and non-executable-Plan findings always block. Optional
-recommendations and accepted residual risks remain separate.
-
-Evidence remains proportional: compact work stays concise, standard work keeps
-distinct Review and critical evidence, and strict work keeps real evidence and
-human business gates. Risk follows changed effects; merely using an existing
-private read-only persistence boundary does not by itself change persistence
-semantics.
+- **Bounded Plan Preflight** (when a separate Plan/Brief is needed outside Four Hard Anchors / compact Direct Change): at most one `FULL_PREFLIGHT` plus one terminal `FOCUSED_RECHECK` by the same independent reviewer instance on unchanged protected boundaries; non-convergence routes to `CONTROL_PLANE_ADJUDICATION`.
+- **Project Learning Layers**: Two independent correction/Review signals—or one high-severity security, integrity, data-loss, or false-PASS event, or an explicit archive-and-distill request—require durable promotion before fresh final verification (`CONTEXT.md` for glossary only, project guidance defaulting to `docs/engineering/engineering-invariants.md`, `docs/adr/NNNN-slug.md` for hard-to-reverse trade-offs, `docs/learning-candidates/YYYY-MM-DD-<slug>.md` for provenance, and deterministic tests/validators following the 4-tier mechanical ladder).
+- **Workflow Baseline (2026-07-30)**: Evaluated Schemes A/B/C and retained **Scheme C** (OpenSpec + Superpowers + `codex-brief-antigravity-review`) for cross-project/cross-stack governance with traceable dependency upgrades rather than blind auto-tracking; see the [full evaluation](docs/design/2026-07-30-workflow-skill-optimization-evaluation.md) and [independent Review](docs/design/reviews/2026-07-30-workflow-skill-optimization-plan-c-archive-review.md).
 
 ## Repository Structure
 
@@ -365,118 +107,102 @@ semantics.
 ├── SKILL.md
 ├── references/
 │   ├── request-modes.md
-│   ├── local-instruction-checkpoint.md
-│   ├── learning-candidate-pipeline.md
-│   ├── project-learning-closeout.md
+│   ├── direct-change-rule.md
 │   ├── openspec-decision-rule.md
 │   ├── proposal-workflow.md
-│   ├── approved-implementation-workflow.md
-│   ├── direct-change-rule.md
+│   ├── approved-implementation-workflow.md   # hot trunk + COLD_PATH_START resume tail
+│   ├── resume-context-amendments.md          # cold-path blocked-context/rebind rules
+│   ├── autoloop-req-acceptance.md            # zero-arg /autoloop closed-loop spec
+│   ├── autoloop-review-hunt.md               # 5 conditional read-only hunt lenses
 │   ├── step-evidence-gate.md
+│   ├── completion-contract.md
 │   ├── superpowers-adapter.md
+│   ├── handoff-contract.md
+│   ├── agent-capability-routing.md
+│   ├── confirmation-lease.md
+│   ├── local-instruction-checkpoint.md
+│   ├── learning-candidate-pipeline.md
+│   ├── project-learning-closeout.md          # includes Project Document Ownership
+│   ├── response-patterns.md
 │   ├── self-evolution-rule.md
+│   ├── skill-iteration-loop.md               # bounded 迭代优化skill protocol
 │   ├── sync-checklist.md
 │   ├── cross-cli-sync.md
-│   └── cross-cli-portable-manifest.json
+│   ├── cross-cli-portable-manifest.json
+│   └── shared-global-governance.md           # managed block v6 (CCG-001..CCG-016)
 ├── scripts/
-│   ├── validate_core_gates.py
-│   └── validate_cross_cli_sync.py
-├── tests/
-│   ├── test_workflow_rules.py
-│   └── test_cross_cli_sync.py
-├── openspec/
-│   ├── project.md
-│   └── changes/
-├── examples/
-├── templates/
-│   └── learning-candidate-template.md
+│   ├── autoloop_ctl.py                       # match / init-req / run / status / ensure
+│   ├── gov_runner.py                         # host-side isolated verifier & reviewer runner
+│   ├── check_commit_text.py                  # portable commit & added-diff hygiene gate
+│   ├── next_action.py                        # read-only advisory transition query
+│   ├── validate_core_gates.py                # core governance, handoff & resume validator
+│   ├── validate_cross_cli_sync.py            # 4-CLI transactional plan/apply/verify-all
+│   ├── build_codex_plugin.py                 # Codex plugin distribution generator
+│   ├── build_skillsmp_adapter.py             # SkillsMP compatibility adapter generator
+│   └── validate_distribution.py              # package, plugin & adapter validator
+├── distribution/codex-plugin/                # generated Codex plugin distribution
+├── skills/openspec-superpower-change/        # generated SkillsMP catalog adapter
+├── templates/                                # OpenSpec, evidence, req & candidate templates
+├── tests/                                    # 500+ stdlib unit, sync, distribution & runner tests
 └── docs/
+    ├── diagrams/                             # terminal-flow-diagram HTML blueprints & 2x PNGs
+    ├── iteration/                            # BACKLOG.md, CURRENT.md, LOG.md, upstream-notes.md
+    ├── distribution.md
+    └── workflow.md
 ```
 
-## Key References
+## Installation & Distribution
 
-- `references/request-modes.md`: operating modes and constraints.
-- `references/local-instruction-checkpoint.md`: local rules and canonical context durability checks.
-- `references/learning-candidate-pipeline.md`: candidate scope, thresholds, and promotion authority.
-- `references/project-learning-closeout.md`: project knowledge targets, enforcement, and completion blocking.
-- `references/openspec-decision-rule.md`: when OpenSpec is mandatory.
-- `references/proposal-workflow.md`: proposal creation and validation flow.
-- `references/approved-implementation-workflow.md`: approved implementation workflow.
-- `references/completion-contract.md`: the only normative whole-task completion checklist.
-- `references/direct-change-rule.md`: low-risk direct change requirements.
-- `references/step-evidence-gate.md`: compact and full evidence templates.
-- `references/superpowers-adapter.md`: OpenSpec-aware Superpowers artifact, permission, and Preflight mapping.
-- `references/self-evolution-rule.md`: rules for changing this skill.
-- `references/sync-checklist.md`: local runtime and open-source copy synchronization.
-- `references/cross-cli-sync.md`: four required runtime targets, managed-rule
-  parity, discovery, target-local recovery, and completion blocking.
-
-## Installation
-
-Copy or link this skill into your Codex skills directory:
+The repository root is the canonical Agent Skill source. Copy or link into your runtime skills directory:
 
 ```bash
 mkdir -p "${CODEX_HOME:-$HOME/.codex}/skills"
 cp -R openspec-superpower-change "${CODEX_HOME:-$HOME/.codex}/skills/openspec-superpower-change"
 ```
 
-## Distribution
-
-The repository root is the canonical Agent Skill source. See
-[Distribution and installation](docs/distribution.md) for the supported
-Agent Skills/GitHub, skills.sh, SkillsMP, Pi/npm, and Codex plugin paths. The
-nested `skills/openspec-superpower-change/SKILL.md` is generated only for
-catalog compatibility; rebuild it with
-`python3 scripts/build_skillsmp_adapter.py .`. Third-party search refresh is
-asynchronous and is not guaranteed by generation, installation, or npm
-publication.
+See [Distribution and installation](docs/distribution.md) for Agent Skills/GitHub, skills.sh, SkillsMP, Pi/npm, and Codex plugin paths. Rebuild generated adapters from the canonical source with `python3 scripts/build_codex_plugin.py .` and `python3 scripts/build_skillsmp_adapter.py .`. Third-party search refresh is asynchronous and is not guaranteed by generation, installation, or npm publication.
 
 ## Validation
 
-Run validation after editing the skill:
+Run static, distribution, and test validation after editing the skill:
 
 ```bash
-"${PYTHON_BIN:-python3}" "${CODEX_HOME:-$HOME/.codex}/skills/.system/skill-creator/scripts/quick_validate.py" /path/to/openspec-superpower-change
-PYTHONDONTWRITEBYTECODE=1 python3 /path/to/openspec-superpower-change/scripts/validate_core_gates.py /path/to/openspec-superpower-change
-PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s /path/to/openspec-superpower-change/tests -v
+/usr/bin/python3 -m py_compile scripts/*.py
+"${PYTHON_BIN:-python3}" "${CODEX_HOME:-$HOME/.codex}/skills/.system/skill-creator/scripts/quick_validate.py" .
+PYTHONDONTWRITEBYTECODE=1 python3 scripts/validate_core_gates.py .
+PYTHONDONTWRITEBYTECODE=1 python3 scripts/validate_distribution.py .
+PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s tests -v
 ```
 
-Current governed status uses schema 6 with an immutable Reviewer Assignment.
-Validate its schema-2 evidence manifests with:
+Current governed status uses schema 6 with an immutable Reviewer Assignment. Validate its schema-2 evidence manifests, read-only next-action transitions, or project session resume checkpoints with:
 
 ```bash
-PYTHONDONTWRITEBYTECODE=1 python3 /path/to/openspec-superpower-change/scripts/validate_core_gates.py \
-  /path/to/openspec-superpower-change \
+# Full external Handoff status (+ --previous-status mandatory for complete)
+PYTHONDONTWRITEBYTECODE=1 python3 scripts/validate_core_gates.py . \
   --status /project/docs/agent-collab/<change-id>/status.md \
+  --artifact-root /project
+
+# Read-only advisory next-action query
+PYTHONDONTWRITEBYTECODE=1 python3 scripts/next_action.py \
+  --status /project/docs/agent-collab/<change-id>/status.md
+
+# Local/external project session resume checkpoint
+PYTHONDONTWRITEBYTECODE=1 python3 scripts/validate_core_gates.py . \
+  --resume-status /project/docs/agent-collab/<change-id>/status.md \
   --artifact-root /project
 ```
 
-Each referenced artifact embeds a schema-2 evidence manifest that binds its
-role/result/change/batch/attempt/source fingerprint plus assigned product,
-instance, role, and capability profile. Before a transition introduces new
-evidence, validate a proposed status from outside the project with
-`--previous-status /project/docs/agent-collab/<change-id>/status.md`; this is
-mandatory for `complete`. Replace the one canonical status only after PASS, and
-do not persist a second marker block in the project.
+Each referenced artifact embeds a schema-2 evidence manifest that binds its role/result/change/batch/attempt/source fingerprint plus assigned product, instance, role, and capability profile. Before a transition introduces new evidence, validate a proposed status from outside the project with `--previous-status /project/docs/agent-collab/<change-id>/status.md`; this is mandatory for `complete`. Replace the one canonical status only after PASS, and do not persist a second marker block in the project.
 
-Frozen schema-4/schema-5 records are legacy audit/drain inputs only. Inventory
-them separately; never pass them to current `--status` validation or migrate
-them into schema 6:
+Frozen schema-4/schema-5 records are legacy audit/drain inputs only. Inventory them separately; never pass them to current `--status` validation or migrate them into schema 6:
 
 ```bash
-PYTHONDONTWRITEBYTECODE=1 python3 /path/to/openspec-superpower-change/scripts/validate_core_gates.py \
-  /path/to/openspec-superpower-change \
+PYTHONDONTWRITEBYTECODE=1 python3 scripts/validate_core_gates.py . \
   --legacy-inventory-root /project \
   --legacy-inventory-output /private/tmp/legacy-drain.json
 ```
 
-`quick_validate.py` requires PyYAML; set `PYTHON_BIN` accordingly. The project validator and tests exercise the dependency-free fallback.
-
-Portable core-skill changes must additionally use
-`scripts/validate_cross_cli_sync.py` to generate a path/hash-only plan, apply and
-verify each explicitly authorized runtime target, verify discovery/parity, and
-run the path/category-only sensitive audit. Runtime/global writes remain subject
-to explicit user authorization.
+`quick_validate.py` requires PyYAML; set `PYTHON_BIN` accordingly. The project validator and test suite exercise the dependency-free fallback. Portable core-skill changes must additionally run `scripts/validate_cross_cli_sync.py` (`plan` → per-target `apply`/`verify`/`verify-discovery`/`commit-target` → `verify-all`) across Codex, Pi, Antigravity CLI, and Grok CLI (`grok inspect --json`), plus `scripts/autoloop_ctl.py ensure` when `gov_runner.py` or `check_commit_text.py` changes.
 
 ## Example Prompts
 
@@ -485,11 +211,11 @@ Use openspec-superpower-change review-only mode. Read local rules, inspect this 
 ```
 
 ```text
-Use openspec-superpower-change as the entry gate. Decide whether this requires Discovery First or an OpenSpec proposal before implementation.
+Use Direct Change mode. Confirm this is a three-condition localized bugfix, add a failing-then-passing regression test, make the smallest fix, and report evidence.
 ```
 
 ```text
-Use Direct Change mode. Confirm this restores intended behavior, make the smallest fix, run verification, and report evidence before claiming completion.
+/autoloop
 ```
 
 ```text
@@ -502,18 +228,12 @@ Continue the approved task from its canonical Plan/Status/Handoff state. Do not 
 
 ## Maintenance Notes
 
-- Update both `README.md` and `README_cn.md` for every published repository
-  change, keeping user-visible behavior, decisions, validation, and
-  compatibility notes aligned.
+- Update both `README.md` and `README_cn.md` (and any affected blueprints under `docs/diagrams/`) for every published repository change so user-visible behavior, flows, validation, and compatibility stay aligned.
 - Do not weaken approval gates, evidence gates, or completion-claim rules.
-- Do not let OpenSpec `tasks.md` replace a Superpowers implementation plan.
-- Do not let `CONTEXT.md` replace OpenSpec proposal artifacts.
-- Do not let required project learning remain only in chat, Review output, or
-  prose when deterministic enforcement is possible.
-- Do not sync runtime and open-source copies with directory-level overwrites; use the sync checklist.
-- Do not complete verified-but-unreviewed work; any Review finding restarts correction, verification, and Review.
-- Do not call OpenSpec-backed work closed with unreconciled tasks or without the
-  repository-appropriate archive and post-archive validation.
+- When OpenSpec `design.md` and `tasks.md` define the Four Hard Anchors, they serve as the executable Plan; require a separate Superpowers plan only when those execution anchors are absent, and never use Superpowers planning to bypass OpenSpec approval.
+- Do not let `CONTEXT.md` replace OpenSpec proposal artifacts, and do not let required project learning remain only in chat or prose when deterministic enforcement is practical.
+- Do not sync runtime and open-source copies with directory-level overwrites; use `references/sync-checklist.md` and `scripts/validate_cross_cli_sync.py`.
+- Do not complete verified-but-unreviewed work or claim OpenSpec closure with unreconciled tasks or missing post-archive strict validation.
 
 ## License
 

@@ -1,0 +1,196 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>/AUTOLOOP CLOSED-LOOP &amp; PRE-MR DETERMINISTIC GATE</title>
+<style>:root{--background:#0b0f14;--text:#c9d1d9;--secondary:#7d8590;--hairline:#3a4450;--blue:#79a8ff;--cyan:#5ad1e6;--green:#6fdc8c;--amber:#e8b25d;--purple:#b48cff;--error:#ff7b72;--white:#ffffff}* { box-sizing: border-box; }
+body { margin: 0; background: var(--background); color: var(--text);
+  font: 13px/1.5 "JetBrains Mono", "SF Mono", Menlo, "PingFang SC", "Hiragino Sans GB", monospace; }
+main { margin: 22px auto 26px; width: 1160px; padding: 0; }
+h1 { margin: 0; color: var(--white); font-size: 14px; font-weight: 700; letter-spacing: 0.4px; }
+.caption { margin: 4px 0 12px; color: var(--secondary); font-size: 11px; }
+fieldset { margin: 0; padding: 8px 14px 10px; border: 1px solid var(--hairline); }
+legend { padding: 0 8px; color: var(--white); font-size: 11px; font-weight: 700; }
+.legend-row { display: flex; flex-wrap: wrap; gap: 16px; font-size: 11px; }
+.legend-row + .legend-row { margin-top: 6px; }
+.legend-key { white-space: nowrap; }
+svg { display: block; font-family: inherit; font-size: 13px; margin: 12px 0; }
+.group-box { fill: none; stroke: var(--hairline); stroke-width: 1; }
+.node-box { fill: var(--background); stroke-width: 1; }
+.node-title { fill: var(--white); font-size: 13px; font-weight: 700; text-anchor: middle; }
+.node-subtitle { font-size: 11px; text-anchor: middle; }
+.dim { fill: var(--secondary); font-size: 11px; text-anchor: middle; }
+.edge-label { fill: var(--secondary); font-size: 10.5px; text-anchor: middle; }
+.group-title { fill: var(--white); font-size: 11px; font-weight: 700; }
+.badge { font-size: 10.5px; }
+.connector { fill: none; stroke-width: 1; stroke-linejoin: miter; stroke-linecap: butt; }
+.mask { fill: var(--background); }
+.running { animation: pulse 1.6s ease-in-out infinite; }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .45; } }
+.panel-note { font-size: 11px; color: var(--secondary); }
+</style></head><body><main>
+<h1>/AUTOLOOP CLOSED-LOOP &amp; PRE-MR DETERMINISTIC GATE</h1>
+<p class="caption">Zero-arg requirement match/distill -&gt; host process-group verify -&gt; deterministic vetoes -&gt; isolated agy-readonly-review</p>
+<fieldset class="top-legend"><legend>LAYERS / STATUS</legend>
+<div class="legend-row"><span class="legend-key" style="color:#79a8ff">blue / contract</span><span class="legend-key" style="color:#5ad1e6">cyan / controller &amp; review</span><span class="legend-key" style="color:#6fdc8c">green / verify &amp; pass</span><span class="legend-key" style="color:#e8b25d">amber / veto &amp; repair</span><span class="legend-key" style="color:#b48cff">purple / receipt &amp; redact</span><span class="legend-key" style="color:#ff7b72">red / fail-closed only</span></div>
+<div class="legend-row"><span class="legend-key" style="color:#6fdc8c"><span class="running">●</span> running (live only)</span><span class="legend-key" style="color:#e8b25d">▲ veto / escalation</span><span class="legend-key" style="color:#5ad1e6">◐ auto-repair &lt;=2</span><span class="legend-key" style="color:#7d8590">■ breaker stop</span><span class="legend-key" style="color:#7d8590">○ conditional</span><span class="legend-key" style="color:#6fdc8c">✓ PASS &amp; stamped</span></div></fieldset>
+<svg xmlns="http://www.w3.org/2000/svg" width="1160" height="736" viewBox="0 0 1160 736" role="img" aria-labelledby="flow-title flow-desc">
+<title id="flow-title">/AUTOLOOP CLOSED-LOOP &amp; PRE-MR DETERMINISTIC GATE</title>
+<desc id="flow-desc">Zero-arg requirement match/distill -&gt; host process-group verify -&gt; deterministic vetoes -&gt; isolated agy-readonly-review</desc><defs>
+<marker id="arrow-blue" viewBox="0 0 6 6" refX="6" refY="3" markerWidth="6" markerHeight="6" markerUnits="userSpaceOnUse" orient="auto"><polygon points="0,0 6,3 0,6" fill="#79a8ff"/></marker>
+<marker id="arrow-cyan" viewBox="0 0 6 6" refX="6" refY="3" markerWidth="6" markerHeight="6" markerUnits="userSpaceOnUse" orient="auto"><polygon points="0,0 6,3 0,6" fill="#5ad1e6"/></marker>
+<marker id="arrow-green" viewBox="0 0 6 6" refX="6" refY="3" markerWidth="6" markerHeight="6" markerUnits="userSpaceOnUse" orient="auto"><polygon points="0,0 6,3 0,6" fill="#6fdc8c"/></marker>
+<marker id="arrow-amber" viewBox="0 0 6 6" refX="6" refY="3" markerWidth="6" markerHeight="6" markerUnits="userSpaceOnUse" orient="auto"><polygon points="0,0 6,3 0,6" fill="#e8b25d"/></marker>
+<marker id="arrow-purple" viewBox="0 0 6 6" refX="6" refY="3" markerWidth="6" markerHeight="6" markerUnits="userSpaceOnUse" orient="auto"><polygon points="0,0 6,3 0,6" fill="#b48cff"/></marker>
+</defs>
+<rect class="group-box" x="52" y="204" width="1068" height="344" rx="0" ry="0"/>
+<rect class="mask" x="66" y="196" width="427.2" height="16" rx="0" ry="0"/>
+<text x="74" y="208" class="group-title">GOVPI HOST RUNNER (gov_runner.py · isolated per-event batch)</text>
+<path id="route-0" class="connector" data-edge="m_i" data-mode="sync" d="M 352 100 L 436 100" stroke="#79a8ff" marker-end="url(#arrow-blue)"/>
+<circle class="flow-dot" data-edge="m_i" r="2" fill="#79a8ff"><animateMotion dur="2.4s" begin="0s" repeatCount="indefinite" calcMode="linear"><mpath href="#route-0"/></animateMotion></circle>
+<path id="route-1" class="connector" data-edge="i_e" data-mode="sync" d="M 732 100 L 816 100" stroke="#6fdc8c" marker-end="url(#arrow-green)"/>
+<circle class="flow-dot" data-edge="i_e" r="2" fill="#6fdc8c"><animateMotion dur="2.85s" begin="-0.42s" repeatCount="indefinite" calcMode="linear"><mpath href="#route-1"/></animateMotion></circle>
+<path id="route-2" class="connector" data-edge="e_vpg" data-mode="async" d="M 968 156 L 968 184 L 214 184 L 214 240" stroke="#5ad1e6" marker-end="url(#arrow-cyan)" stroke-dasharray="5 4"/>
+<circle class="flow-dot" data-edge="e_vpg" r="2" fill="#5ad1e6"><animateMotion dur="3.3s" begin="-0.84s" repeatCount="indefinite" calcMode="linear"><mpath href="#route-2"/></animateMotion></circle>
+<circle class="junction" cx="968" cy="184" r="2" fill="#5ad1e6"/>
+<circle class="junction" cx="214" cy="184" r="2" fill="#5ad1e6"/>
+<path id="route-3" class="connector" data-edge="vpg_veto" data-mode="sync" d="M 352 296 L 444 296" stroke="#6fdc8c" marker-end="url(#arrow-green)"/>
+<circle class="flow-dot" data-edge="vpg_veto" r="2" fill="#6fdc8c"><animateMotion dur="3.75s" begin="-1.26s" repeatCount="indefinite" calcMode="linear"><mpath href="#route-3"/></animateMotion></circle>
+<path id="route-4" class="connector" data-edge="vpg_sc" data-mode="async" d="M 112 352 L 112 370 L 724 370 L 724 414" stroke="#6fdc8c" marker-end="url(#arrow-green)" stroke-dasharray="5 4"/>
+<circle class="flow-dot" data-edge="vpg_sc" r="2" fill="#6fdc8c"><animateMotion dur="2.4s" begin="-1.68s" repeatCount="indefinite" calcMode="linear"><mpath href="#route-4"/></animateMotion></circle>
+<circle class="junction" cx="112" cy="370" r="2" fill="#6fdc8c"/>
+<circle class="junction" cx="724" cy="370" r="2" fill="#6fdc8c"/>
+<path id="route-5" class="connector" data-edge="veto_esc" data-mode="async" d="M 728 296 L 820 296" stroke="#e8b25d" marker-end="url(#arrow-amber)" stroke-dasharray="5 4"/>
+<circle class="flow-dot" data-edge="veto_esc" r="2" fill="#e8b25d"><animateMotion dur="2.85s" begin="-2.1s" repeatCount="indefinite" calcMode="linear"><mpath href="#route-5"/></animateMotion></circle>
+<path id="route-6" class="connector" data-edge="veto_agy" data-mode="sync" d="M 544 352 L 544 382 L 338 382 L 338 414" stroke="#e8b25d" marker-end="url(#arrow-amber)"/>
+<circle class="flow-dot" data-edge="veto_agy" r="2" fill="#e8b25d"><animateMotion dur="3.3s" begin="-2.52s" repeatCount="indefinite" calcMode="linear"><mpath href="#route-6"/></animateMotion></circle>
+<circle class="junction" cx="544" cy="382" r="2" fill="#e8b25d"/>
+<circle class="junction" cx="338" cy="382" r="2" fill="#e8b25d"/>
+<path id="route-7" class="connector" data-edge="veto_sc" data-mode="async" d="M 674 352 L 674 384 L 828 384 L 828 414" stroke="#e8b25d" marker-end="url(#arrow-amber)" stroke-dasharray="5 4"/>
+<circle class="flow-dot" data-edge="veto_sc" r="2" fill="#e8b25d"><animateMotion dur="3.75s" begin="-2.94s" repeatCount="indefinite" calcMode="linear"><mpath href="#route-7"/></animateMotion></circle>
+<circle class="junction" cx="674" cy="384" r="2" fill="#e8b25d"/>
+<circle class="junction" cx="828" cy="384" r="2" fill="#e8b25d"/>
+<path id="route-8" class="connector" data-edge="esc_agy" data-mode="async" d="M 958 352 L 958 396 L 420 396 L 420 414" stroke="#e8b25d" marker-end="url(#arrow-amber)" stroke-dasharray="5 4"/>
+<circle class="flow-dot" data-edge="esc_agy" r="2" fill="#e8b25d"><animateMotion dur="2.4s" begin="-3.36s" repeatCount="indefinite" calcMode="linear"><mpath href="#route-8"/></animateMotion></circle>
+<circle class="junction" cx="958" cy="396" r="2" fill="#e8b25d"/>
+<circle class="junction" cx="420" cy="396" r="2" fill="#e8b25d"/>
+<path id="route-9" class="connector" data-edge="agy_rec" data-mode="sync" d="M 530 469 L 620 469" stroke="#5ad1e6" marker-end="url(#arrow-cyan)"/>
+<circle class="flow-dot" data-edge="agy_rec" r="2" fill="#5ad1e6"><animateMotion dur="2.85s" begin="-3.78s" repeatCount="indefinite" calcMode="linear"><mpath href="#route-9"/></animateMotion></circle>
+<path id="route-10" class="connector" data-edge="rec_pass" data-mode="sync" d="M 828 524 L 828 602" stroke="#b48cff" marker-end="url(#arrow-purple)"/>
+<circle class="flow-dot" data-edge="rec_pass" r="2" fill="#b48cff"><animateMotion dur="3.3s" begin="-4.2s" repeatCount="indefinite" calcMode="linear"><mpath href="#route-10"/></animateMotion></circle>
+<path id="route-11" class="connector" data-edge="rec_fail" data-mode="async" d="M 724 524 L 724 572 L 338 572 L 338 602" stroke="#b48cff" marker-end="url(#arrow-purple)" stroke-dasharray="5 4"/>
+<circle class="flow-dot" data-edge="rec_fail" r="2" fill="#b48cff"><animateMotion dur="3.75s" begin="-4.62s" repeatCount="indefinite" calcMode="linear"><mpath href="#route-11"/></animateMotion></circle>
+<circle class="junction" cx="724" cy="572" r="2" fill="#b48cff"/>
+<circle class="junction" cx="338" cy="572" r="2" fill="#b48cff"/>
+<path id="route-12" class="connector" data-edge="rep_impl" data-mode="async" d="M 146 657 L 22 657 L 22 20 L 584 20 L 584 44" stroke="#e8b25d" marker-end="url(#arrow-amber)" stroke-dasharray="5 4"/>
+<circle class="flow-dot" data-edge="rep_impl" r="2" fill="#e8b25d"><animateMotion dur="2.4s" begin="-5.04s" repeatCount="indefinite" calcMode="linear"><mpath href="#route-12"/></animateMotion></circle>
+<circle class="junction" cx="22" cy="657" r="2" fill="#e8b25d"/>
+<circle class="junction" cx="22" cy="20" r="2" fill="#e8b25d"/>
+<circle class="junction" cx="584" cy="20" r="2" fill="#e8b25d"/>
+<g class="node" data-node="match" data-layer="blue">
+<rect class="node-box" x="52" y="44" width="300" height="112" rx="0" ry="0" stroke="#79a8ff"/>
+<text x="202" y="78" class="node-title">MATCH / INIT-REQ</text>
+<text x="202" y="98" class="node-subtitle" fill="#79a8ff">autoloop_ctl.py · step 1</text>
+<text x="202" y="120" class="dim">index -&gt; docs/req -&gt; openspec cmds</text>
+<text x="202" y="138" class="dim">miss -&gt; distill session -&gt; init-req</text>
+<rect class="mask badge-mask" x="262.9" y="36" width="79.1" height="16" rx="0" ry="0"/>
+<text class="badge" x="269.9" y="47.5" fill="#79a8ff">○ zero-arg</text></g>
+<g class="node" data-node="impl" data-layer="green">
+<rect class="node-box" x="436" y="44" width="296" height="112" rx="0" ry="0" stroke="#6fdc8c"/>
+<text x="584" y="78" class="node-title">MINIMAL EDIT &amp; CHECK</text>
+<text x="584" y="98" class="node-subtitle" fill="#6fdc8c">local workspace · step 2</text>
+<text x="584" y="120" class="dim">4 anti-bloat principles</text>
+<text x="584" y="138" class="dim">run verify_cmd once locally</text>
+<rect class="mask badge-mask" x="662.43" y="36" width="59.57" height="16" rx="0" ry="0"/>
+<text class="badge" x="669.43" y="47.5" fill="#5ad1e6">◐ local</text></g>
+<g class="node" data-node="emit" data-layer="cyan">
+<rect class="node-box" x="816" y="44" width="304" height="112" rx="0" ry="0" stroke="#5ad1e6"/>
+<text x="968" y="78" class="node-title">DISPATCH TO DAEMON</text>
+<text x="968" y="98" class="node-subtitle" fill="#5ad1e6">autoloop_ctl.py run · step 3</text>
+<text x="968" y="120" class="dim">emit gov.verify.run · pass PATH</text>
+<text x="968" y="138" class="dim">per-batch JSON · timeout auto-stop</text>
+<rect class="mask badge-mask" x="1030.9" y="36" width="79.1" height="16" rx="0" ry="0"/>
+<text class="badge" x="1037.9" y="47.5" fill="#5ad1e6">◐ dispatch</text></g>
+<g class="node" data-node="vpg" data-layer="green">
+<rect class="node-box" x="76" y="240" width="276" height="112" rx="0" ry="0" stroke="#6fdc8c"/>
+<text x="214" y="274" class="node-title">VERIFY PROCESS GROUP</text>
+<text x="214" y="294" class="node-subtitle" fill="#6fdc8c">start_new_session · killpg</text>
+<text x="214" y="316" class="dim">timeout/SIGTERM -&gt; killpg SIGKILL</text>
+<text x="214" y="334" class="dim">non-zero/OSError -&gt; short-circuit</text>
+<rect class="mask badge-mask" x="262.9" y="232" width="79.1" height="16" rx="0" ry="0"/>
+<text class="badge" x="269.9" y="243.5" fill="#e8b25d">▲ isolated</text></g>
+<g class="node" data-node="veto" data-layer="amber">
+<rect class="node-box" x="444" y="240" width="284" height="112" rx="0" ry="0" stroke="#e8b25d"/>
+<text x="586" y="274" class="node-title">GIT &amp; VETO GATE</text>
+<text x="586" y="294" class="node-subtitle" fill="#e8b25d">pre-reviewer fail-closed</text>
+<text x="586" y="316" class="dim">3-dot diff · 2MB cap · zero-test</text>
+<text x="586" y="334" class="dim">pre-mr: commit check (merge-safe)</text>
+<rect class="mask badge-mask" x="664.94" y="232" width="53.06" height="16" rx="0" ry="0"/>
+<text class="badge" x="671.94" y="243.5" fill="#e8b25d">▲ veto</text></g>
+<g class="node" data-node="esc" data-layer="amber">
+<rect class="node-box" x="820" y="240" width="276" height="112" rx="0" ry="0" stroke="#e8b25d" stroke-dasharray="5 4"/>
+<text x="958" y="274" class="node-title">FAST RISK ESCALATION</text>
+<text x="958" y="294" class="node-subtitle" fill="#e8b25d">snapshot-sourced upgrade</text>
+<text x="958" y="316" class="dim">.sql / auth / security / rename src</text>
+<text x="958" y="334" class="dim">auto -high + 5-lens hunt checklist</text>
+<rect class="mask badge-mask" x="987.37" y="232" width="98.63" height="16" rx="0" ry="0"/>
+<text class="badge" x="994.37" y="243.5" fill="#7d8590">○ conditional</text></g>
+<g class="node" data-node="agy" data-layer="cyan">
+<rect class="node-box" x="146" y="414" width="384" height="110" rx="0" ry="0" stroke="#5ad1e6"/>
+<text x="338" y="448" class="node-title">AGY READONLY REVIEW</text>
+<text x="338" y="468" class="node-subtitle" fill="#5ad1e6">agy-readonly-review · stream-json</text>
+<text x="338" y="490" class="dim">--add-dir scoped · killpg · safe JSON</text>
+<text x="338" y="508" class="dim">pre/post Git fingerprint == 0 mutation</text>
+<rect class="mask badge-mask" x="440.9" y="406" width="79.1" height="16" rx="0" ry="0"/>
+<text class="badge" x="447.9" y="417.5" fill="#e8b25d">▲ readonly</text></g>
+<g class="node" data-node="receipt" data-layer="purple">
+<rect class="node-box" x="620" y="414" width="416" height="110" rx="0" ry="0" stroke="#b48cff"/>
+<text x="828" y="448" class="node-title">VERDICT &amp; RECEIPT</text>
+<text x="828" y="468" class="node-subtitle" fill="#b48cff">report.md + receipt.json</text>
+<text x="828" y="490" class="dim">exact-line PASS · PEM/URL/token redact</text>
+<text x="828" y="508" class="dim">non-collapsing 16-hex failure_signature</text>
+<rect class="mask badge-mask" x="946.9" y="406" width="79.1" height="16" rx="0" ry="0"/>
+<text class="badge" x="953.9" y="417.5" fill="#6fdc8c">✓ evidence</text></g>
+<g class="node" data-node="pass_out" data-layer="green">
+<rect class="node-box" x="620" y="602" width="416" height="110" rx="0" ry="0" stroke="#6fdc8c"/>
+<text x="828" y="636" class="node-title">PASS &amp; MARK PASSED</text>
+<text x="828" y="656" class="node-subtitle" fill="#6fdc8c">autoloop_ctl.py · done</text>
+<text x="828" y="678" class="dim">mark_req_passed (CRLF / --- safe)</text>
+<text x="828" y="696" class="dim">deliver schema-2 manifest + report path</text>
+<rect class="mask badge-mask" x="972.94" y="594" width="53.06" height="16" rx="0" ry="0"/>
+<text class="badge" x="979.94" y="605.5" fill="#6fdc8c">✓ PASS</text></g>
+<g class="node" data-node="repair" data-layer="amber">
+<rect class="node-box" x="146" y="602" width="384" height="110" rx="0" ry="0" stroke="#e8b25d"/>
+<text x="338" y="636" class="node-title">FAIL -&gt; REPAIR BREAKER</text>
+<text x="338" y="656" class="node-subtitle" fill="#e8b25d">premise-check convergence</text>
+<text x="338" y="678" class="dim">setup_or_env -&gt; fix PATH, not code</text>
+<text x="338" y="696" class="dim">same signature x2 -&gt; STOP &amp; report</text>
+<rect class="mask badge-mask" x="414.86" y="594" width="105.14" height="16" rx="0" ry="0"/>
+<text class="badge" x="421.86" y="605.5" fill="#5ad1e6">◐ max 2 rounds</text></g>
+<rect class="mask" x="359.705" y="78.5" width="68.59" height="13.5" rx="0" ry="0"/>
+<text x="394" y="89" class="edge-label">req + cmd</text>
+<rect class="mask" x="742.96" y="78.5" width="62.08" height="13.5" rx="0" ry="0"/>
+<text x="774" y="89" class="edge-label">local ok</text>
+<rect class="mask" x="573.43" y="163.5" width="101.14" height="13.5" rx="0" ry="0"/>
+<text x="624" y="174" class="edge-label">launchd worker</text>
+<rect class="mask" x="373.47" y="274.5" width="49.06" height="13.5" rx="0" ry="0"/>
+<text x="398" y="285" class="edge-label">exit=0</text>
+<rect class="mask" x="136.645" y="355.5" width="146.71" height="13.5" rx="0" ry="0"/>
+<text x="210" y="366" class="edge-label">exit!=0 short-circuit</text>
+<rect class="mask" x="736.45" y="274.5" width="75.1" height="13.5" rx="0" ry="0"/>
+<text x="774" y="285" class="edge-label">fast risk?</text>
+<rect class="mask" x="436.96" y="367.5" width="62.08" height="13.5" rx="0" ry="0"/>
+<text x="468" y="378" class="edge-label">0 vetoes</text>
+<rect class="mask" x="743.705" y="379.5" width="68.59" height="13.5" rx="0" ry="0"/>
+<text x="778" y="390" class="edge-label">veto FAIL</text>
+<rect class="mask" x="913.94" y="381.5" width="88.12" height="13.5" rx="0" ry="0"/>
+<text x="958" y="392" class="edge-label">-high + hunt</text>
+<rect class="mask" x="547.215" y="447.5" width="55.57" height="13.5" rx="0" ry="0"/>
+<text x="575" y="458" class="edge-label">verdict</text>
+<rect class="mask" x="783.94" y="555.5" width="88.12" height="13.5" rx="0" ry="0"/>
+<text x="828" y="566" class="edge-label">verdict=PASS</text>
+<rect class="mask" x="467.94" y="557.5" width="88.12" height="13.5" rx="0" ry="0"/>
+<text x="512" y="568" class="edge-label">verdict=FAIL</text>
+<rect class="mask" x="195.115" y="6.5" width="185.77" height="13.5" rx="0" ry="0"/>
+<text x="288" y="17" class="edge-label">Attack the Premise -&gt; retry</text>
+</svg><fieldset><legend>GUARDRAILS / RUNTIME CONTRACT</legend>
+<div class="panel-note">solid = sync pipeline · dashed = conditional escalation / repair loop · dashed box = conditional trigger · Python 3.9.6 + launchd compatible</div>
+</fieldset></main></body></html>
