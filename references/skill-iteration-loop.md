@@ -63,7 +63,12 @@ Git 租约仅覆盖本切片的 add、commit 和本仓库当前分支 push，一
    与受影响 unittest；路由或 description 变更跑现有 unittest 全套。
    quick_validate 使用带 PyYAML 的 Python，项目验证与测试也须通过
    dependency-free fallback。Major 须有 RED/GREEN forward-test；
-   保留原有 profile 对应的 Review 与完成条件。
+   当 Major 变更修改便携行为正文（`references/cross-cli-portable-manifest.json`
+   内的 `SKILL.md`、`references/*.md` 或 `templates/*.md`）时，须满足
+   `references/self-evolution-rule.md` 的 `Multi-Model Joint Forward Evaluation Gate`
+   （`dual-covered` 全场景全 `PASS`，或经用户显式批准的 `single-model-waived`，
+   记录于 `docs/iteration/BACKLOG.md` 的 `record_kind: sim-multi-model-eval` 块）；
+   Patch/Minor 及非行为脚本/测试改动豁免。保留原有 profile 对应的 Review 与完成条件。
 7. 便携核心或治理块变更时读取 `references/sync-checklist.md` 和
    `references/cross-cli-sync.md`，执行 plan → 审查 → 授权范围内 apply →
    verify-all。目标仍是 Codex、Pi、Antigravity、Grok；失败记 BLOCKED，

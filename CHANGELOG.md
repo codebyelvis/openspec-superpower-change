@@ -2,6 +2,36 @@
 
 ## Unreleased
 
+- Add multi-model joint forward evaluation gate for Major Self-Evolution prose
+  changes (`S12`, Major `add-multi-model-eval-gate`):
+  - `references/self-evolution-rule.md` & `references/skill-iteration-loop.md`:
+    add `## Multi-Model Joint Forward Evaluation Gate` and bind Step 6 of the
+    one-round sequence to it — scoped exclusively to Major Self-Evolution
+    changes that touch portable behavioral prose (`SKILL.md` or portable
+    `references/*.md` / `templates/*.md` in
+    `references/cross-cli-portable-manifest.json`), while keeping Patch/Minor
+    changes and script/test/docs-only changes exempt; require `dual-covered`
+    unanimous full-scenario `PASS` across >=2 distinct normalized runtimes or
+    open-world model families (reusing S11's `_normalize_runtime_name` /
+    `_normalize_model_family`), or explicit user-approved
+    `single-model-waived` (`waiver_owner: user`, never agent self-waiver),
+    persisted as `record_kind: sim-multi-model-eval` in
+    `docs/iteration/BACKLOG.md` before Implementation Review (never
+    `status: promoted`).
+  - `scripts/validate_core_gates.py` & `tests/test_workflow_rules.py`: protect
+    `"references/self-evolution-rule.md#multi-model-joint-forward-evaluation-gate"`
+    in `NON_RETIRABLE_SECTIONS`, add `validate_multi_model_eval_record`,
+    `validate_multi_model_eval_guard`, and conditional `BACKLOG.md` scanning
+    (`_validate_backlog_sim_multi_model_evals`) wired into `main(...)` with
+    canonical key-parity checks (rejecting numeric/boolean/YAML-literal keys),
+    key-presence waiver bans in `dual-covered`, and dual-YAML (`PyYAML` +
+    `simple_yaml_load`) regression tests.
+  - Dogfooded S12's own `dual-covered` evaluation sequentially across two
+    distinct model families (`gemini-4-neon-xhigh` -> `gemini` and
+    `claude-opus-5-5-medium` -> `claude`) with redacted evidence in
+    `docs/review/2026-11-20-S12-eval-agy-{gemini,claude}.md` and persisted the
+    validated `sim-multi-model-eval` block in `docs/iteration/BACKLOG.md`.
+
 - Add provenance-gated rule retirement with SIM append-only tombstones
   (`S11`, Major `add-sim-provenance-rule-retirement`):
   - `references/self-evolution-rule.md`: add `## Provenance-Gated Rule

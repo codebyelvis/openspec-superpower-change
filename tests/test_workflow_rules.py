@@ -6729,6 +6729,259 @@ class SkillIterationEntryTests(unittest.TestCase):
             (copy_root / "docs" / "iteration" / "BACKLOG.md").write_text(nested_non_retire, encoding="utf-8")
             self.assertEqual(validator.main(["validate_core_gates.py", str(copy_root)]), 0)
 
+    def test_sim_multi_model_eval_gate_validator_and_guards(self):
+        validator = load_validator()
+        self_rule = (ROOT / "references" / "self-evolution-rule.md").read_text(encoding="utf-8")
+        loop = (ROOT / "references" / "skill-iteration-loop.md").read_text(encoding="utf-8")
+
+        # 1. Owned visible section guards pass on canonical files and fail on mutations (even with decoy section).
+        validator.validate_multi_model_eval_guard(self_rule, loop)
+        with self.assertRaisesRegex(AssertionError, "Multi-Model Joint Forward Evaluation Gate"):
+            validator.validate_multi_model_eval_guard(
+                self_rule.replace("## Multi-Model Joint Forward Evaluation Gate", "## Removed"),
+                loop,
+            )
+        with self.assertRaisesRegex(AssertionError, "skill-iteration-loop.md"):
+            validator.validate_multi_model_eval_guard(
+                self_rule,
+                loop.replace("sim-multi-model-eval", "removed-marker") + "\n## Decoy\n`sim-multi-model-eval`\n",
+            )
+
+        # 2. S11 NON_RETIRABLE_SECTIONS must protect S12's new locked governance section.
+        retire_s12_section = {
+            "record_kind": "sim-retirement",
+            "slice": "S99",
+            "root_cause": "attempt to retire multi-model eval gate",
+            "target_surface": "references/self-evolution-rule.md#multi-model-joint-forward-evaluation-gate",
+            "origin_anchor": "commit-s12",
+            "retirement_basis": "mechanical-superseded",
+            "retirement_evidence": {
+                "evidence_1": {
+                    "validator_or_test": "scripts/validate_core_gates.py",
+                    "negative_case": "test_x",
+                }
+            },
+            "reopen_condition": "never",
+            "attempts": {
+                "attempt_1": {
+                    "provenance": "gemini-4-neon / agy / 2026-11-20 / S99",
+                    "change": "remove gate",
+                    "predicted": "pass",
+                    "observed": "retired - test",
+                }
+            },
+        }
+        with self.assertRaisesRegex(AssertionError, "locked governance section"):
+            validator.validate_sim_retirement_record(retire_s12_section)
+
+        # 3. Valid dual-covered (open-world model family + cross-runtime) and valid single-model-waived (dual-YAML parity).
+        dual_yaml = "\n".join([
+            "record_kind: sim-multi-model-eval",
+            "slice: S12",
+            "change_id: add-multi-model-eval-gate",
+            "coverage_status: dual-covered",
+            "scenarios:",
+            "  scenario_1:",
+            "    kind: fast-path",
+            "    summary: Minor slice exempt from multi-model gate",
+            "  scenario_2:",
+            "    kind: strict-safety",
+            "    summary: Major portable prose edit requires dual-model or user waiver",
+            "evaluations:",
+            "  eval_1:",
+            "    runtime: agy",
+            "    model_family: gemini-4-neon",
+            "    scenario_ids:",
+            "      - scenario_1",
+            "      - scenario_2",
+            "    verdict: PASS",
+            "    evidence_ref: docs/review/s12-eval-agy.md",
+            "  eval_2:",
+            "    runtime: antigravity-cli",
+            "    model_family: deepseek-v4",
+            "    scenario_ids:",
+            "      - scenario_1",
+            "      - scenario_2",
+            "    verdict: PASS",
+            "    evidence_ref: docs/review/s12-eval-deepseek.md",
+        ])
+        waived_yaml = "\n".join([
+            "record_kind: sim-multi-model-eval",
+            "slice: S12",
+            "change_id: add-multi-model-eval-gate",
+            "coverage_status: single-model-waived",
+            "waiver_owner: user",
+            "waiver_reason: second runtime unavailable due to quota outage",
+            "waiver_record_ref: docs/review/2026-11-20-S12-multi-model-eval-gate-draft.md",
+            "followup_recheck_condition: re-run scenario_1 and scenario_2 on second model once available",
+            "scenarios:",
+            "  scenario_1:",
+            "    kind: fast-path",
+            "    summary: Minor slice exempt from multi-model gate",
+            "  scenario_2:",
+            "    kind: strict-safety",
+            "    summary: Major portable prose edit requires dual-model or user waiver",
+            "evaluations:",
+            "  eval_1:",
+            "    runtime: antigravity-cli",
+            "    model_family: gemini-4-neon",
+            "    scenario_ids:",
+            "      - scenario_1",
+            "      - scenario_2",
+            "    verdict: PASS",
+            "    evidence_ref: docs/review/s12-eval-agy.md",
+        ])
+        for label, raw_yaml in (("dual_covered", dual_yaml), ("single_waived", waived_yaml)):
+            with self.subTest(valid_eval=label):
+                parsed_fb = validator.simple_yaml_load(raw_yaml)
+                parsed_act = validator.yaml_load(raw_yaml)
+                self.assertEqual(parsed_fb, parsed_act)
+                validator.validate_multi_model_eval_record(parsed_fb)
+                validator.validate_multi_model_eval_record(parsed_act)
+
+        base_dual = validator.simple_yaml_load(dual_yaml)
+        base_waived = validator.simple_yaml_load(waived_yaml)
+
+        def clone(src):
+            return json.loads(json.dumps(src))
+
+        # Cross-runtime (same model family across distinct runtimes) must also pass.
+        cross_rt = clone(base_dual)
+        cross_rt["evaluations"]["eval_1"]["runtime"] = "codex"
+        cross_rt["evaluations"]["eval_2"]["model_family"] = "gemini-4-argon"
+        validator.validate_multi_model_eval_record(cross_rt)
+
+        # 4. Fail-closed negatives for dual-covered.
+        same_rt_and_family = clone(base_dual)
+        same_rt_and_family["evaluations"]["eval_1"]["runtime"] = "agy"
+        same_rt_and_family["evaluations"]["eval_1"]["model_family"] = "gemini-4-carbon"
+        same_rt_and_family["evaluations"]["eval_2"]["runtime"] = "antigravity_-cli"
+        same_rt_and_family["evaluations"]["eval_2"]["model_family"] = "gemini-4-argon"
+        with self.assertRaisesRegex(AssertionError, "distinct"):
+            validator.validate_multi_model_eval_record(same_rt_and_family)
+
+        partial_cov = clone(base_dual)
+        partial_cov["evaluations"]["eval_2"]["scenario_ids"] = ["scenario_1"]
+        with self.assertRaises(AssertionError):
+            validator.validate_multi_model_eval_record(partial_cov)
+
+        dup_cov = clone(base_dual)
+        dup_cov["evaluations"]["eval_2"]["scenario_ids"] = ["scenario_1", "scenario_1", "scenario_2"]
+        with self.assertRaises(AssertionError):
+            validator.validate_multi_model_eval_record(dup_cov)
+
+        phantom_cov = clone(base_dual)
+        phantom_cov["evaluations"]["eval_2"]["scenario_ids"] = ["scenario_1", "scenario_2", "scenario_9"]
+        with self.assertRaises(AssertionError):
+            validator.validate_multi_model_eval_record(phantom_cov)
+
+        for bad_verdict in ("FAIL", "BLOCKED", True):
+            with self.subTest(bad_verdict=bad_verdict):
+                rec = clone(base_dual)
+                rec["evaluations"]["eval_2"]["verdict"] = bad_verdict
+                with self.assertRaises(AssertionError):
+                    validator.validate_multi_model_eval_record(rec)
+
+        # Key-presence rejection of all waiver fields in dual-covered (even empty or None).
+        for waiver_field in ("waiver_owner", "waiver_reason", "waiver_record_ref", "followup_recheck_condition"):
+            for bad_waiver_val in ("user", "", None):
+                with self.subTest(mixed_waiver_field=waiver_field, mixed_waiver_val=bad_waiver_val):
+                    rec = clone(base_dual)
+                    rec[waiver_field] = bad_waiver_val
+                    with self.assertRaisesRegex(AssertionError, "waiver"):
+                        validator.validate_multi_model_eval_record(rec)
+
+        # Canonical key parity checks (reject numeric/bool/YAML-literal keys on both scenarios and evaluations).
+        for bad_key in (1, True, "true", "null", "yes", "Scenario_1"):
+            with self.subTest(bad_scenario_key=bad_key):
+                rec = clone(base_dual)
+                rec["scenarios"] = {bad_key: {"kind": "fast-path", "summary": "x"}}
+                rec["evaluations"]["eval_1"]["scenario_ids"] = [str(bad_key)]
+                rec["evaluations"]["eval_2"]["scenario_ids"] = [str(bad_key)]
+                with self.assertRaises(AssertionError):
+                    validator.validate_multi_model_eval_record(rec)
+            with self.subTest(bad_eval_key=bad_key):
+                rec = clone(base_dual)
+                rec["evaluations"] = {
+                    bad_key: rec["evaluations"]["eval_1"],
+                    "eval_2": rec["evaluations"]["eval_2"],
+                }
+                with self.assertRaises(AssertionError):
+                    validator.validate_multi_model_eval_record(rec)
+
+        # Unconditional status: promoted ban even with decision_owner: codex.
+        promoted_eval = clone(base_dual)
+        promoted_eval["status"] = "promoted"
+        promoted_eval["decision_owner"] = "codex"
+        with self.assertRaisesRegex(AssertionError, "promoted"):
+            validator.validate_multi_model_eval_record(promoted_eval)
+
+        # Non-str scalars and unsafe evidence_ref must raise AssertionError.
+        bad_slice = clone(base_dual)
+        bad_slice["slice"] = 12
+        with self.assertRaises(AssertionError):
+            validator.validate_multi_model_eval_record(bad_slice)
+
+        bad_ref = clone(base_dual)
+        bad_ref["evaluations"]["eval_1"]["evidence_ref"] = "../escape.md"
+        with self.assertRaises(AssertionError):
+            validator.validate_multi_model_eval_record(bad_ref)
+
+        # 5. Fail-closed negatives for single-model-waived.
+        for bad_owner in ("codex", "agy", "claude", "gemini", "control-plane", "", None):
+            with self.subTest(bad_waiver_owner=bad_owner):
+                rec = clone(base_waived)
+                rec["waiver_owner"] = bad_owner
+                with self.assertRaises(AssertionError):
+                    validator.validate_multi_model_eval_record(rec)
+
+        for missing_field in ("waiver_reason", "followup_recheck_condition"):
+            for bad_val in ("", None):
+                with self.subTest(missing_waiver_field=missing_field, val=bad_val):
+                    rec = clone(base_waived)
+                    rec[missing_field] = bad_val
+                    with self.assertRaises(AssertionError):
+                        validator.validate_multi_model_eval_record(rec)
+
+        bad_wref = clone(base_waived)
+        bad_wref["waiver_record_ref"] = "/etc/passwd"
+        with self.assertRaises(AssertionError):
+            validator.validate_multi_model_eval_record(bad_wref)
+
+        # 6. Production wiring in main(...): rejects malformed/fenced/commented BACKLOG eval blocks,
+        # allows nested coverage_status in non-eval records, and works without docs/iteration/.
+        import shutil
+        with tempfile.TemporaryDirectory(prefix="sim-eval-main-") as tmp:
+            copy_root = Path(tmp) / "skill"
+            shutil.copytree(
+                ROOT,
+                copy_root,
+                ignore=shutil.ignore_patterns(".git", "__pycache__", "node_modules", "distribution"),
+            )
+            shutil.rmtree(copy_root / "docs" / "iteration")
+            self.assertEqual(validator.main(["validate_core_gates.py", str(copy_root)]), 0)
+
+            (copy_root / "docs" / "iteration").mkdir(parents=True, exist_ok=True)
+            for bad_md in (
+                "# Backlog\n\n```YAML   \nrecord_kind: sim-multi-model-eval\nslice: S99\n```\n",
+                "# Backlog\n\n```yaml\nrecord_kind: sim-multi-model-eval # draft\nslice: S99\n```\n",
+                "# Backlog\n\n```yaml\nslice: S99\ncoverage_status: dual-covered\n```\n",
+            ):
+                (copy_root / "docs" / "iteration" / "BACKLOG.md").write_text(bad_md, encoding="utf-8")
+                with self.assertRaises(AssertionError):
+                    validator.main(["validate_core_gates.py", str(copy_root)])
+
+            nested_non_eval = (
+                "# Backlog\n\n```yaml\n"
+                "record_kind: sim-slice-record\n"
+                "slice: S99\n"
+                "details:\n"
+                "  coverage_status: note-only\n"
+                "```\n"
+            )
+            (copy_root / "docs" / "iteration" / "BACKLOG.md").write_text(nested_non_eval, encoding="utf-8")
+            self.assertEqual(validator.main(["validate_core_gates.py", str(copy_root)]), 0)
+
 
 if __name__ == "__main__":
     unittest.main()

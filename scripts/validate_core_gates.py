@@ -2682,6 +2682,7 @@ NON_RETIRABLE_SECTIONS = frozenset({
     "references/self-evolution-rule.md#hard-prohibitions",
     "references/self-evolution-rule.md#change-levels",
     "references/self-evolution-rule.md#provenance-gated-rule-retirement",
+    "references/self-evolution-rule.md#multi-model-joint-forward-evaluation-gate",
     "references/skill-iteration-loop.md#authorization",
     "references/skill-iteration-loop.md#reading-budget-for-one-round",
     "references/project-learning-closeout.md#triggers",
@@ -2888,6 +2889,171 @@ def _validate_backlog_sim_retirements(root: Path) -> None:
         )
         if is_retirement or raw_looks_like_retirement:
             validate_sim_retirement_record(parsed, label)
+
+
+_EVAL_KEY_RE = re.compile(r"^[a-z][a-z0-9_-]*$")
+_YAML_RESERVED_KEYS = frozenset({"true", "false", "null", "yes", "no", "on", "off"})
+_CHANGE_ID_RE = re.compile(r"^[a-z0-9][a-z0-9-]{1,80}$")
+_SCENARIO_KINDS = frozenset({"fast-path", "strict-safety", "adversarial"})
+_WAIVER_FIELDS = ("waiver_owner", "waiver_reason", "waiver_record_ref", "followup_recheck_condition")
+
+
+def _require_canonical_eval_key(key, label: str) -> str:
+    if not isinstance(key, str) or not _EVAL_KEY_RE.match(key) or key in _YAML_RESERVED_KEYS:
+        raise AssertionError(
+            f"{label}: mapping key must be a canonical lowercase identifier (not numeric or YAML literal): {key!r}"
+        )
+    return key
+
+
+def validate_multi_model_eval_record(record: dict, label: str = "sim-multi-model-eval") -> None:
+    """Validate a dual-YAML SIM multi-model joint forward evaluation record fail-closed."""
+    if not isinstance(record, dict):
+        raise AssertionError(f"{label}: multi-model eval record must be a mapping")
+    raw_status = record.get("status")
+    if isinstance(raw_status, str) and raw_status.strip().lower() == "promoted":
+        raise AssertionError(f"{label}: multi-model eval records must never use status: promoted")
+    if record.get("record_kind") != "sim-multi-model-eval":
+        raise AssertionError(f"{label}: record_kind must be 'sim-multi-model-eval'")
+
+    slice_val = record.get("slice")
+    if not isinstance(slice_val, str) or not slice_val.strip():
+        raise AssertionError(f"{label}: missing non-empty string slice")
+    change_id = record.get("change_id")
+    if not isinstance(change_id, str) or not _CHANGE_ID_RE.match(change_id.strip()):
+        raise AssertionError(f"{label}: invalid change_id: {change_id!r}")
+    coverage_status = record.get("coverage_status")
+    if not isinstance(coverage_status, str) or coverage_status.strip() not in ("dual-covered", "single-model-waived"):
+        raise AssertionError(f"{label}: unsupported coverage_status: {coverage_status!r}")
+    coverage_status = coverage_status.strip()
+
+    scenarios = record.get("scenarios")
+    if not isinstance(scenarios, dict) or not scenarios:
+        raise AssertionError(f"{label}: scenarios must be a non-empty mapping")
+    declared_scenarios: set[str] = set()
+    for sc_key, sc_val in scenarios.items():
+        canon_key = _require_canonical_eval_key(sc_key, f"{label}.scenarios")
+        if not isinstance(sc_val, dict):
+            raise AssertionError(f"{label}.scenarios.{canon_key}: scenario entry must be a mapping")
+        sc_kind = sc_val.get("kind")
+        if not isinstance(sc_kind, str) or sc_kind.strip() not in _SCENARIO_KINDS:
+            raise AssertionError(f"{label}.scenarios.{canon_key}: invalid scenario kind: {sc_kind!r}")
+        sc_summary = sc_val.get("summary")
+        if not isinstance(sc_summary, str) or not sc_summary.strip():
+            raise AssertionError(f"{label}.scenarios.{canon_key}: missing non-empty summary")
+        declared_scenarios.add(canon_key)
+
+    evaluations = record.get("evaluations")
+    if not isinstance(evaluations, dict) or not evaluations:
+        raise AssertionError(f"{label}: evaluations must be a non-empty mapping")
+    runtimes: set[str] = set()
+    families: set[str] = set()
+    for ev_key, ev in evaluations.items():
+        canon_ev = _require_canonical_eval_key(ev_key, f"{label}.evaluations")
+        if not isinstance(ev, dict):
+            raise AssertionError(f"{label}.evaluations.{canon_ev}: evaluation entry must be a mapping")
+        runtimes.add(_normalize_runtime_name(ev.get("runtime"), f"{label}.evaluations.{canon_ev}"))
+        families.add(_normalize_model_family(ev.get("model_family"), f"{label}.evaluations.{canon_ev}"))
+        sc_ids = ev.get("scenario_ids")
+        if not isinstance(sc_ids, list) or not sc_ids or not all(isinstance(x, str) and x.strip() for x in sc_ids):
+            raise AssertionError(f"{label}.evaluations.{canon_ev}: scenario_ids must be a non-empty list of strings")
+        stripped_ids = [x.strip() for x in sc_ids]
+        if len(stripped_ids) != len(set(stripped_ids)):
+            raise AssertionError(f"{label}.evaluations.{canon_ev}: duplicate scenario_ids forbidden")
+        if set(stripped_ids) != declared_scenarios:
+            raise AssertionError(
+                f"{label}.evaluations.{canon_ev}: scenario_ids must exactly match declared scenarios"
+            )
+        verdict = ev.get("verdict")
+        if not isinstance(verdict, str) or verdict.strip() != "PASS":
+            raise AssertionError(f"{label}.evaluations.{canon_ev}: every evaluation verdict must be 'PASS'")
+        _normalize_relative_path(ev.get("evidence_ref"), f"{label}.evaluations.{canon_ev}.evidence_ref")
+
+    if coverage_status == "dual-covered":
+        present_waivers = [k for k in _WAIVER_FIELDS if k in record]
+        if present_waivers:
+            raise AssertionError(
+                f"{label}: dual-covered record must not include waiver fields: {', '.join(present_waivers)}"
+            )
+        if len(evaluations) < 2:
+            raise AssertionError(f"{label}: dual-covered requires at least 2 evaluation entries")
+        if len(runtimes) < 2 and len(families) < 2:
+            raise AssertionError(
+                f"{label}: dual-covered requires at least 2 distinct normalized runtimes or model families"
+            )
+    else:
+        waiver_owner = record.get("waiver_owner")
+        if not isinstance(waiver_owner, str) or waiver_owner.strip().lower() != "user":
+            raise AssertionError(f"{label}: single-model-waived requires waiver_owner: user")
+        waiver_reason = record.get("waiver_reason")
+        if not isinstance(waiver_reason, str) or not waiver_reason.strip():
+            raise AssertionError(f"{label}: single-model-waived requires non-empty waiver_reason")
+        _normalize_relative_path(record.get("waiver_record_ref"), f"{label}.waiver_record_ref")
+        followup = record.get("followup_recheck_condition")
+        if not isinstance(followup, str) or not followup.strip():
+            raise AssertionError(f"{label}: single-model-waived requires non-empty followup_recheck_condition")
+
+
+def validate_multi_model_eval_guard(self_rule: str, loop: str) -> None:
+    """Validate multi-model joint forward evaluation gate rules across owned visible sections."""
+    section, _, _ = _markdown_owned_section(
+        self_rule,
+        "## Multi-Model Joint Forward Evaluation Gate",
+        "self-evolution-rule.md Multi-Model Joint Forward Evaluation Gate",
+    )
+    norm_section = " ".join(_markdown_visible_content(section).split())
+    for needle in (
+        "Major Self-Evolution",
+        "cross-cli-portable-manifest.json",
+        "sim-multi-model-eval",
+        "dual-covered",
+        "single-model-waived",
+        "waiver_owner: user",
+        "verdict: PASS",
+        "status: promoted",
+    ):
+        require(norm_section, needle, "self-evolution-rule.md Multi-Model Joint Forward Evaluation Gate")
+
+    loop_section, _, _ = _markdown_owned_section(
+        loop, "## One-round sequence", "skill-iteration-loop.md multi-model eval gate"
+    )
+    norm_loop = " ".join(_markdown_visible_content(loop_section).split())
+    for needle in (
+        "Multi-Model Joint Forward Evaluation Gate",
+        "dual-covered",
+        "single-model-waived",
+        "sim-multi-model-eval",
+        "Patch/Minor",
+    ):
+        require(norm_loop, needle, "skill-iteration-loop.md multi-model eval gate")
+
+
+def _validate_backlog_sim_multi_model_evals(root: Path) -> None:
+    """Validate any SIM multi-model eval YAML records present in docs/iteration/BACKLOG.md."""
+    backlog_path = root / "docs" / "iteration" / "BACKLOG.md"
+    if not backlog_path.is_file():
+        return
+    text = backlog_path.read_text(encoding="utf-8")
+    fence_re = re.compile(r"^[ \t]*```yaml[ \t]*\r?\n(.*?)\r?\n[ \t]*```[ \t]*$", re.S | re.M | re.I)
+    for idx, match in enumerate(fence_re.finditer(text), 1):
+        block = match.group(1)
+        label = f"docs/iteration/BACKLOG.md YAML block #{idx}"
+        raw_looks_like_eval = bool(
+            re.search(r"^record_kind\s*:\s*['\"]?sim-multi-model-eval['\"]?(?:\s+#.*|\s*)$", block, re.M)
+            or re.search(r"^coverage_status\s*:", block, re.M)
+        )
+        try:
+            parsed = yaml_load(block)
+        except Exception as exc:
+            if raw_looks_like_eval:
+                raise AssertionError(f"{label}: invalid YAML in multi-model eval record: {exc}") from exc
+            continue
+        is_eval = (
+            isinstance(parsed, dict)
+            and (parsed.get("record_kind") == "sim-multi-model-eval" or "coverage_status" in parsed)
+        )
+        if is_eval or raw_looks_like_eval:
+            validate_multi_model_eval_record(parsed, label)
 
 
 RESUME_LOCAL_FIELDS = {
@@ -3516,6 +3682,8 @@ def main(argv: list[str] | None = None) -> int:
     validate_skill_iteration_entry(skill, loop, self_rule)
     validate_sim_rule_retirement_guard(self_rule, loop, learning_template)
     _validate_backlog_sim_retirements(root)
+    validate_multi_model_eval_guard(self_rule, loop)
+    _validate_backlog_sim_multi_model_evals(root)
     validate_governed_caveman_lite(
         skill,
         response_patterns,

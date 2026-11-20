@@ -196,6 +196,31 @@ Every retirement proposal must satisfy four conditions:
    entry whose `observed` starts with `retired`, and an explicit
    `reopen_condition`. Do not create a separate retirement state file.
 
+## Multi-Model Joint Forward Evaluation Gate
+
+For **Major Self-Evolution** changes that modify portable behavioral prose
+(`SKILL.md`, `references/*.md`, or `templates/*.md` declared in
+`references/cross-cli-portable-manifest.json`), forward-test evidence must guard
+against single-model overfitting across the shared multi-CLI harness. Patch and
+Minor slices, ordinary business projects, and non-behavioral script/test-only
+changes are exempt.
+
+Record the dual-YAML evaluation summary in `docs/iteration/BACKLOG.md` using
+`record_kind: sim-multi-model-eval` (never `status: promoted`, no new state
+file) under one of two fail-closed closure modes:
+
+1. **`dual-covered` (default)**: Run the full declared `scenarios` set across at
+   least two distinct normalized `runtime` values or two distinct normalized
+   `model_family` values (open-world normalization reusing `S11` rules, no
+   closed model allowlist). Every evaluation must cover every declared scenario
+   with `verdict: PASS`; a failing model cannot be averaged or outvoted.
+2. **`single-model-waived` (outage fallback)**: Permitted only when a second
+   runtime/model family is genuinely unavailable and explicitly approved by the
+   user (`waiver_owner: user`, non-empty `waiver_reason`, relative
+   `waiver_record_ref`, `followup_recheck_condition`, plus at least one
+   full-scenario `PASS` evaluation). Agents may never self-waive, and final
+   reports must disclose the waiver instead of claiming dual-model verification.
+
 ## Report format
 
 After self-evolution, report:

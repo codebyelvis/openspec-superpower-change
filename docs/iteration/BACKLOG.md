@@ -17,6 +17,7 @@
 | S9 续跑证据分阶段审查者绑定 | 8（新增候选，排在既有项之后；待用户选片） | Major | S8 独立 Preflight F1 与控制面隔离复现；见候选证据 | 后续独立提案解决 strict 续跑与分阶段 reviewer 绑定的兼容冲突，保留批准、不可变合同、身份独立及分阶段完成门禁；具体验收须经独立提案批准，不扩入 S8 | done；已批准实施、独立门禁／原生／四端／归档严格校验 PASS；主提交 605a099 及收尾元数据 62b8162 已推送，S9 自有备份／trace 已清理；S8 仍 blocked、未实现 |
 | S10 自进化尝试记忆（SIM） | 9 | Minor | `arXiv:2611.18856v1` SIM 调研与计划 `docs/superpowers/plans/2026-11-20-sim-inspired-attempt-memory.md` v2 | 候选卡模板增可选 `root_cause`/`attempts`（append-only、留失败/reverted、双 YAML 兼容）；迭代协议补 4 条 optimizer 使用准则、测前 `predicted`/实测 `observed` 及非门禁声明；回填 1 条历史示范、通过隔离 forward-test、全量双解析测试、独立只读审查与四端同步 | done；双解析全量（主仓 510/510、干净树无 PyYAML 509/509）、隔离 forward-test、独立只读审查 R2 PASS 及四端 2 文件 scoped sync / `verify-all` PASS |
 | S11 基于 SIM provenance 的规则退役 | 10 | Major | `arXiv:2611.18856v1` §4.3.2/§4.3.3 与 `docs/superpowers/plans/2026-11-20-sim-inspired-attempt-memory.md` §2 | 定义受治理正文退役的 4 道硬门槛（仓库锚定不可退役红线、SIM `origin_anchor` 溯源、结构化机械替代 >=1 条或开放世界归一化 >=2 运行时/模型家族内化举证、Major 审批与 `BACKLOG.md` append-only `retired` 墓碑 + `reopen_condition`）及 `validate_core_gates.py:main(...)` 生产接线、双解析回归与独立 Final Review；仅批准后实施 | done；已批准 `add-sim-provenance-rule-retirement` 实施，双解析全量（主仓 511/511、干净树无 PyYAML 510/510、PyYAML 222/222）、2 场景隔离 forward-test、独立 Implementation Review R2 PASS、四端 4 文件 scoped sync & `verify-all` PASS、归档合并主 spec 严格校验与独立 Final Review PASS |
+| S12 多模型联合评估门禁 | 11 | Major | `arXiv:2611.18856v1` §4.3.3 与 `docs/superpowers/plans/2026-11-20-sim-inspired-attempt-memory.md` §2 | 仅为修改便携行为正文的 Major Self-Evolution 建立多模型联合前向评估门禁（`dual-covered` 全场景全 `PASS` 或用户显式签署 `single-model-waived`，复用 `S11` 开放世界归一化与 `BACKLOG.md` `record_kind: sim-multi-model-eval` 块，并把新治理节加入 `NON_RETIRABLE_SECTIONS`），Patch/Minor 与非行为脚本/测试改动豁免，接入 `validate_core_gates.py:main(...)` 与双解析回归；仅批准后实施 | done；已批准 `add-multi-model-eval-gate` 实施，双解析全量（主仓 512/512、干净树无 PyYAML 511/511、PyYAML 223/223）、双模型家族（`gemini` / `claude`）2 场景隔离 forward-test 自举落盘、独立 Implementation Review（`559f7159`）PASS、四端 3 文件 scoped sync & `verify-all` PASS、归档合并主 spec 严格校验与独立 Final Review（`f4815960`）PASS |
 
 S2 及以后只排队；不得重开方案 C、变成 session-start always-on、合并
 mattpocock/skills 或 oso、自动发布 npm、把搜索可见性当完成条件或放宽
@@ -245,6 +246,70 @@ attempts:
     predicted: close all 2xP2 + 2xP3 findings, pass implementation FOCUSED_RECHECK, re-pass full suites, and complete 4-target 4-file scoped sync
     observed: fixed - R2 Implementation Review PASS (0 blocking), 511/511 main + 510/510 clean fallback + 222/222 PyYAML PASS, 4-target 4-file scoped sync (plan SHA-256 590e9886) and verify-all PASS, OpenSpec archived and main specs strict PASS
 ```
+
+
+## S12 多模型联合评估记录（SIM 自举）
+
+```yaml
+record_kind: sim-multi-model-eval
+slice: S12
+change_id: add-multi-model-eval-gate
+coverage_status: dual-covered
+scenarios:
+  scenario_1:
+    kind: fast-path
+    summary: Minor portable prose edit and script-only refactor remain exempt from multi-model gate while retaining standard sync
+  scenario_2:
+    kind: strict-safety
+    summary: Major portable prose edit blocks same-runtime same-family collapse and agent self-waiver, requiring dual-covered or explicit user waiver
+evaluations:
+  eval_1:
+    runtime: antigravity-cli
+    model_family: gemini-4-neon-xhigh
+    scenario_ids:
+      - scenario_1
+      - scenario_2
+    verdict: PASS
+    evidence_ref: docs/review/2026-11-20-S12-eval-agy-gemini.md
+  eval_2:
+    runtime: antigravity-cli
+    model_family: claude-opus-5-5-medium
+    scenario_ids:
+      - scenario_1
+      - scenario_2
+    verdict: PASS
+    evidence_ref: docs/review/2026-11-20-S12-eval-agy-claude.md
+```
+
+
+## S12 尝试记忆记录（SIM 自举）
+
+```yaml
+record_kind: sim-slice-record
+slice: S12
+event_kind: review-finding
+severity: high
+scope: project-local
+root_cause: major_portable_prose_self_evolution_lacked_multi_model_forward_eval_gate_and_fail_closed_validator
+target_artifacts:
+  - references/self-evolution-rule.md
+  - references/skill-iteration-loop.md
+  - scripts/validate_core_gates.py
+  - tests/test_workflow_rules.py
+attempts:
+  attempt_1:
+    provenance: gemini-4-neon / agy / 2026-11-20 / S12-proposal (R1 -> draft-v2)
+    change: drafted OpenSpec proposal/design/tasks/spec for add-multi-model-eval-gate and ran independent read-only proposal review
+    predicted: pass openspec strict validation and independent proposal review
+    observed: partial - openspec strict passed, proposal reviewer (5d64f366) surfaced draft-v1 hardening items (canonical key parity rejecting YAML literals, key-presence waiver bans, NON_RETIRABLE_SECTIONS lock on new gate section, Review-before-closeout ordering); revised to draft-v2 and passed R2 FOCUSED_RECHECK
+  attempt_2:
+    provenance: gemini-4-neon / agy / 2026-11-20 / S12-impl (Phase B)
+    change: implemented Multi-Model Joint Forward Evaluation Gate prose, NON_RETIRABLE_SECTIONS entry, validate_multi_model_eval_record/guard and main() BACKLOG scanning, dogfooded dual-covered eval sequentially with gemini-4-neon-xhigh and claude-opus-5-5-medium after codex ChatGPT quota limit blocked gpt-6-luna, and persisted sim-multi-model-eval in BACKLOG.md
+    predicted: pass RED/GREEN dual-YAML suites, 2-scenario dual-covered forward-test, independent implementation review, 4-target 3-file scoped sync, and OpenSpec archive
+    observed: fixed - Implementation Review (559f7159) PASS (0 blocking, 2xP3 addressed by aligning Eval 1 model suffix and expanding negative-test branches), 4-target 3-file scoped sync (plan SHA-256 bb59301e) and verify-all PASS, OpenSpec archived and main specs strict PASS
+```
+
+
 
 
 
