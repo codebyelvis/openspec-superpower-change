@@ -16,6 +16,7 @@
 | S8 项目文档归属治理能力 | 7（候选，排在既有项之后；待用户下一步指令） | Major | 用户补充优化项：项目文档归属治理能力 | 见下方 S8 候选详情；独立切片完成提案审批、隔离行为验证、链接检查、审查及必要同步 | done；add-project-document-ownership 已批准，源／原生／四端／独立门禁／owned归档严格校验PASS；源18923f1及元数据275c9c0已推送；三个自有备份／trace／receipt／fixture已清理，归档11任务已完成 |
 | S9 续跑证据分阶段审查者绑定 | 8（新增候选，排在既有项之后；待用户选片） | Major | S8 独立 Preflight F1 与控制面隔离复现；见候选证据 | 后续独立提案解决 strict 续跑与分阶段 reviewer 绑定的兼容冲突，保留批准、不可变合同、身份独立及分阶段完成门禁；具体验收须经独立提案批准，不扩入 S8 | done；已批准实施、独立门禁／原生／四端／归档严格校验 PASS；主提交 605a099 及收尾元数据 62b8162 已推送，S9 自有备份／trace 已清理；S8 仍 blocked、未实现 |
 | S10 自进化尝试记忆（SIM） | 9 | Minor | `arXiv:2611.18856v1` SIM 调研与计划 `docs/superpowers/plans/2026-11-20-sim-inspired-attempt-memory.md` v2 | 候选卡模板增可选 `root_cause`/`attempts`（append-only、留失败/reverted、双 YAML 兼容）；迭代协议补 4 条 optimizer 使用准则、测前 `predicted`/实测 `observed` 及非门禁声明；回填 1 条历史示范、通过隔离 forward-test、全量双解析测试、独立只读审查与四端同步 | done；双解析全量（主仓 510/510、干净树无 PyYAML 509/509）、隔离 forward-test、独立只读审查 R2 PASS 及四端 2 文件 scoped sync / `verify-all` PASS |
+| S11 基于 SIM provenance 的规则退役 | 10 | Major | `arXiv:2611.18856v1` §4.3.2/§4.3.3 与 `docs/superpowers/plans/2026-11-20-sim-inspired-attempt-memory.md` §2 | 定义受治理正文退役的 4 道硬门槛（仓库锚定不可退役红线、SIM `origin_anchor` 溯源、结构化机械替代 >=1 条或开放世界归一化 >=2 运行时/模型家族内化举证、Major 审批与 `BACKLOG.md` append-only `retired` 墓碑 + `reopen_condition`）及 `validate_core_gates.py:main(...)` 生产接线、双解析回归与独立 Final Review；仅批准后实施 | done；已批准 `add-sim-provenance-rule-retirement` 实施，双解析全量（主仓 511/511、干净树无 PyYAML 510/510、PyYAML 222/222）、2 场景隔离 forward-test、独立 Implementation Review R2 PASS、四端 4 文件 scoped sync & `verify-all` PASS、归档合并主 spec 严格校验与独立 Final Review PASS |
 
 S2 及以后只排队；不得重开方案 C、变成 session-start always-on、合并
 mattpocock/skills 或 oso、自动发布 npm、把搜索可见性当完成条件或放宽
@@ -210,5 +211,40 @@ attempts:
     predicted: resolve R1 P2 + 2xP3 findings, pass FOCUSED_RECHECK, re-pass full suites, and complete 4-target scoped sync
     observed: fixed - R2 FOCUSED_RECHECK PASS (0 blocking), 510/510 main + 509/509 clean no-PyYAML fallback PASS, 4-target scoped sync (plan SHA-256 6ba3945e) and verify-all PASS
 ```
+
+
+## S11 尝试记忆记录（SIM 自举）
+
+```yaml
+record_kind: sim-slice-record
+slice: S11
+event_kind: review-finding
+severity: high
+scope: project-local
+root_cause: governed_prose_retirement_lacked_concrete_non_retirable_anchors_structured_proof_and_production_validator
+target_artifacts:
+  - references/self-evolution-rule.md
+  - references/skill-iteration-loop.md
+  - templates/learning-candidate-template.md
+  - scripts/validate_core_gates.py
+  - tests/test_workflow_rules.py
+attempts:
+  attempt_1:
+    provenance: gemini-4-neon / agy / 2026-11-20 / S11-proposal (R1 -> draft-v2)
+    change: drafted OpenSpec proposal/design/tasks/spec for add-sim-provenance-rule-retirement with free-text retirement_evidence, conceptual NON_RETIRABLE_SURFACES, and non-existent validate_repository hook
+    predicted: pass openspec strict validation and independent proposal review
+    observed: partial - openspec strict passed, but proposal reviewer (d052835f) blocked 5xP2 + 1xP3 (structured dual-YAML evidence, repo-anchored protected files/sections, main() BACKLOG scanning, PyYAML command + Final Review, unconditional status promoted ban); revised to draft-v2 and passed R2 FOCUSED_RECHECK
+  attempt_2:
+    provenance: gemini-4-neon / agy / 2026-11-20 / S11-impl (R1)
+    change: implemented Provenance-Gated Rule Retirement prose, NON_RETIRABLE_FILES/SECTIONS, validate_sim_retirement_record, validate_sim_rule_retirement_guard, and BACKLOG scanning in validate_core_gates.py
+    predicted: pass dual-YAML tests, 2-scenario isolated forward-test, and independent implementation review
+    observed: partial - 511/511 main + 510/510 clean fallback + 222/222 PyYAML + 2-scenario forward-test passed, but implementation reviewer (e6e76ef9) flagged 2xP2 + 2xP3 (fenced YAML whitespace/case & inline-comment/nested-key edge cases, runtime mixed-separator collapse, normalized line-anchor & empty-segment checks, owned visible section guard)
+  attempt_3:
+    provenance: gemini-4-neon / agy / 2026-11-20 / S11-impl (R2)
+    change: hardened _validate_backlog_sim_retirements fence/comment/nested-key handling and AssertionError wrapping, collapsed [-_]+ in _normalize_runtime_name, tightened normalized line-anchor/empty-segment checks and owned visible section guards, refreshed codex-plugin and regressions
+    predicted: close all 2xP2 + 2xP3 findings, pass implementation FOCUSED_RECHECK, re-pass full suites, and complete 4-target 4-file scoped sync
+    observed: fixed - R2 Implementation Review PASS (0 blocking), 511/511 main + 510/510 clean fallback + 222/222 PyYAML PASS, 4-target 4-file scoped sync (plan SHA-256 590e9886) and verify-all PASS, OpenSpec archived and main specs strict PASS
+```
+
 
 

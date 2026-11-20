@@ -2,6 +2,33 @@
 
 ## Unreleased
 
+- Add provenance-gated rule retirement with SIM append-only tombstones
+  (`S11`, Major `add-sim-provenance-rule-retirement`):
+  - `references/self-evolution-rule.md`: add `## Provenance-Gated Rule
+    Retirement` codifying Major-only approval, repository-anchored
+    non-retirable files/sections (`SKILL.md`, `shared-global-governance.md`,
+    `completion-contract.md`, `step-evidence-gate.md`, `handoff-contract.md`,
+    `confirmation-lease.md`, `agent-capability-routing.md`,
+    `openspec-decision-rule.md`, locked governance sections, and
+    `Non-Negotiables`/`CCG-*`/`validator-locked` phrases), `origin_anchor`
+    provenance, structured bidirectional proof (`mechanical-superseded` >=1
+    entry or `cross-model-internalized` >=2 distinct normalized runtimes/model
+    families without a closed model allowlist), and `BACKLOG.md` append-only
+    `record_kind: sim-retirement` tombstones with `reopen_condition`.
+  - `references/skill-iteration-loop.md` &
+    `templates/learning-candidate-template.md`: add the 5th optimizer-memory
+    guideline forbidding silent resurrection of `retired` rules unless fresh
+    evidence triggers `reopen_condition`, and document `retired` alongside
+    `reverted` as non-gating attempt memory.
+  - `scripts/validate_core_gates.py` & `tests/test_workflow_rules.py`: add
+    `NON_RETIRABLE_FILES`, `NON_RETIRABLE_SECTIONS`,
+    `NON_RETIRABLE_SLUG_TOKENS`, `validate_sim_retirement_record`,
+    `validate_sim_rule_retirement_guard`, and conditional `BACKLOG.md`
+    retirement-block scanning wired into `main(...)` (compatible with
+    distribution/runtime roots without `docs/iteration/`), with dual-YAML
+    (`PyYAML` + `simple_yaml_load`) regression tests and isolated 2-scenario
+    forward-tests.
+
 - Add Self-Evolution attempt memory (`S10`, SIM-inspired Minor slice):
   - `templates/learning-candidate-template.md`: add optional, append-only
     `root_cause` and `attempts` (`provenance` / `change` / `predicted` /

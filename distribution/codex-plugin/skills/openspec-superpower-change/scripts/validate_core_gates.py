@@ -2667,6 +2667,229 @@ def validate_skill_iteration_entry(skill: str, loop: str, self_rule: str) -> Non
     validate_reference_read_budget(skill)
 
 
+NON_RETIRABLE_FILES = frozenset({
+    "skill.md",
+    "references/shared-global-governance.md",
+    "references/completion-contract.md",
+    "references/step-evidence-gate.md",
+    "references/handoff-contract.md",
+    "references/confirmation-lease.md",
+    "references/agent-capability-routing.md",
+    "references/openspec-decision-rule.md",
+})
+
+NON_RETIRABLE_SECTIONS = frozenset({
+    "references/self-evolution-rule.md#hard-prohibitions",
+    "references/self-evolution-rule.md#change-levels",
+    "references/self-evolution-rule.md#provenance-gated-rule-retirement",
+    "references/skill-iteration-loop.md#authorization",
+    "references/skill-iteration-loop.md#reading-budget-for-one-round",
+    "references/project-learning-closeout.md#triggers",
+    "references/project-learning-closeout.md#enforcement-and-review",
+})
+
+NON_RETIRABLE_SLUG_TOKENS = ("non-negotiables", "ccg-", "validator-locked")
+
+_RUNTIME_ALIASES = {
+    "agy": "antigravity-cli",
+    "antigravity": "antigravity-cli",
+    "grok": "grok-cli",
+}
+
+_MODEL_TIER_WORDS = frozenset({
+    "low", "medium", "high", "xhigh", "mini", "flash", "pro", "lite",
+    "max", "reasoning", "carbon", "argon", "neon", "opus", "sonnet", "haiku",
+})
+_MODEL_VERSION_RE = re.compile(r"^v?\d+(?:\.\d+)*$")
+_LINE_ANCHOR_RE = re.compile(r"^(?:l?\d+(?:-l?\d+)?)$", re.I)
+_MULTI_VALUE_SEP_RE = re.compile(r"[/,;|]|\s")
+
+
+def _normalize_relative_path(raw: str, label: str) -> str:
+    if not isinstance(raw, str) or not raw.strip():
+        raise AssertionError(f"{label}: path must be a non-empty string")
+    value = raw.strip()
+    if "\\" in value or value.startswith("/"):
+        raise AssertionError(f"{label}: path must be a clean project-relative path")
+    while value.startswith("./"):
+        value = value[2:]
+    parts = value.split("/")
+    if not parts or any(p in ("", ".", "..") for p in parts):
+        raise AssertionError(f"{label}: path traversal or empty segments forbidden")
+    return "/".join(parts)
+
+
+def _normalize_runtime_name(raw: str, label: str) -> str:
+    if not isinstance(raw, str) or not raw.strip():
+        raise AssertionError(f"{label}: runtime must be a non-empty string")
+    value = raw.strip()
+    if _MULTI_VALUE_SEP_RE.search(value):
+        raise AssertionError(f"{label}: runtime must be a single value without separators")
+    norm = re.sub(r"[-_]+", "-", value.lower()).strip("-")
+    if not norm:
+        raise AssertionError(f"{label}: runtime normalized to empty")
+    return _RUNTIME_ALIASES.get(norm, norm)
+
+
+def _normalize_model_family(raw: str, label: str) -> str:
+    if not isinstance(raw, str) or not raw.strip():
+        raise AssertionError(f"{label}: model_family must be a non-empty string")
+    value = raw.strip()
+    if _MULTI_VALUE_SEP_RE.search(value):
+        raise AssertionError(f"{label}: model_family must be a single value without separators")
+    tokens = [t for t in re.sub(r"_+", "-", value.lower()).split("-") if t]
+    while tokens and (tokens[-1] in _MODEL_TIER_WORDS or _MODEL_VERSION_RE.match(tokens[-1])):
+        tokens.pop()
+    if not tokens:
+        raise AssertionError(f"{label}: model_family has no family stem after stripping tier/version suffixes")
+    return "-".join(tokens)
+
+
+def validate_sim_retirement_record(record: dict, label: str = "sim-retirement") -> None:
+    """Validate a dual-YAML SIM rule-retirement tombstone record fail-closed."""
+    if not isinstance(record, dict):
+        raise AssertionError(f"{label}: retirement record must be a mapping")
+    if isinstance(record.get("status"), str) and record["status"].strip().lower() == "promoted":
+        raise AssertionError(f"{label}: retirement records must never use status: promoted")
+    if record.get("record_kind") != "sim-retirement":
+        raise AssertionError(f"{label}: record_kind must be 'sim-retirement'")
+
+    for field in ("slice", "root_cause", "target_surface", "origin_anchor", "retirement_basis", "reopen_condition"):
+        val = record.get(field)
+        if not isinstance(val, str) or not val.strip():
+            raise AssertionError(f"{label}: missing non-empty {field}")
+
+    raw_surface = record["target_surface"].strip()
+    if raw_surface.count("#") != 1:
+        raise AssertionError(f"{label}: target_surface must use <project-relative-path>#<section-slug>")
+    raw_path, raw_slug = raw_surface.split("#", 1)
+    norm_path = _normalize_relative_path(raw_path, f"{label}.target_surface").lower()
+    if not raw_slug.strip() or _LINE_ANCHOR_RE.match(raw_slug.strip()):
+        raise AssertionError(f"{label}: target_surface must use a section slug, not a line-number anchor")
+    norm_slug = re.sub(r"[^a-z0-9]+", "-", raw_slug.strip().lower()).strip("-")
+    if not norm_slug or _LINE_ANCHOR_RE.match(norm_slug):
+        raise AssertionError(f"{label}: target_surface must use a non-empty section slug, not a line-number anchor")
+
+    if norm_path in NON_RETIRABLE_FILES:
+        raise AssertionError(f"{label}: target_surface references permanently non-retirable file: {norm_path}")
+    full_surface = f"{norm_path}#{norm_slug}"
+    if full_surface in NON_RETIRABLE_SECTIONS:
+        raise AssertionError(f"{label}: target_surface references locked governance section: {full_surface}")
+    if any(tok in norm_slug for tok in NON_RETIRABLE_SLUG_TOKENS):
+        raise AssertionError(f"{label}: target_surface references protected governance token: {norm_slug}")
+
+    basis = record["retirement_basis"].strip()
+    evidence = record.get("retirement_evidence")
+    if not isinstance(evidence, dict) or not evidence:
+        raise AssertionError(f"{label}: retirement_evidence must be a non-empty mapping")
+
+    if basis == "mechanical-superseded":
+        for ev_key, ev in evidence.items():
+            if not isinstance(ev, dict):
+                raise AssertionError(f"{label}.retirement_evidence.{ev_key}: entry must be a mapping")
+            _normalize_relative_path(ev.get("validator_or_test", ""), f"{label}.retirement_evidence.{ev_key}.validator_or_test")
+            neg = ev.get("negative_case")
+            if not isinstance(neg, str) or not neg.strip():
+                raise AssertionError(f"{label}.retirement_evidence.{ev_key}: missing non-empty negative_case")
+    elif basis == "cross-model-internalized":
+        if len(evidence) < 2:
+            raise AssertionError(f"{label}: cross-model-internalized requires at least 2 evidence entries")
+        runtimes = set()
+        families = set()
+        for ev_key, ev in evidence.items():
+            if not isinstance(ev, dict):
+                raise AssertionError(f"{label}.retirement_evidence.{ev_key}: entry must be a mapping")
+            runtimes.add(_normalize_runtime_name(ev.get("runtime", ""), f"{label}.retirement_evidence.{ev_key}"))
+            families.add(_normalize_model_family(ev.get("model_family", ""), f"{label}.retirement_evidence.{ev_key}"))
+            probe = ev.get("probe_ref")
+            if not isinstance(probe, str) or not probe.strip():
+                raise AssertionError(f"{label}.retirement_evidence.{ev_key}: missing non-empty probe_ref")
+        if len(runtimes) < 2 and len(families) < 2:
+            raise AssertionError(
+                f"{label}: cross-model-internalized requires at least 2 distinct normalized runtimes or model families"
+            )
+    else:
+        raise AssertionError(f"{label}: unsupported retirement_basis: {basis}")
+
+    attempts = record.get("attempts")
+    if not isinstance(attempts, dict) or not attempts:
+        raise AssertionError(f"{label}: attempts must be a non-empty mapping")
+    has_retired_observed = False
+    for att_key, att in attempts.items():
+        if not isinstance(att, dict):
+            raise AssertionError(f"{label}.attempts.{att_key}: attempt must be a mapping")
+        for req_k in ("provenance", "change", "predicted", "observed"):
+            val = att.get(req_k)
+            if not isinstance(val, str) or not val.strip():
+                raise AssertionError(f"{label}.attempts.{att_key}: missing non-empty {req_k}")
+        obs = att["observed"].strip().lower()
+        if obs == "retired" or obs.startswith("retired ") or obs.startswith("retired-") or obs.startswith("retired:"):
+            has_retired_observed = True
+    if not has_retired_observed:
+        raise AssertionError(f"{label}: attempts must contain at least one observed entry starting with 'retired'")
+
+
+def validate_sim_rule_retirement_guard(self_rule: str, loop: str, template: str) -> None:
+    """Validate provenance-gated rule retirement prose boundaries across owned visible sections."""
+    section, _, _ = _markdown_owned_section(
+        self_rule, "## Provenance-Gated Rule Retirement", "self-evolution-rule.md Provenance-Gated Rule Retirement"
+    )
+    norm_section = " ".join(_markdown_visible_content(section).split())
+    for needle in (
+        "Major Self-Evolution",
+        "Non-Negotiables",
+        "CCG-*",
+        "origin_anchor",
+        "mechanical-superseded",
+        "cross-model-internalized",
+        "sim-retirement",
+        "reopen_condition",
+        "status: promoted",
+        "independent Final Review",
+    ):
+        require(norm_section, needle, "self-evolution-rule.md Provenance-Gated Rule Retirement")
+
+    loop_section, _, _ = _markdown_owned_section(
+        loop, "## One-round sequence", "skill-iteration-loop.md retirement boundary"
+    )
+    norm_loop = " ".join(_markdown_visible_content(loop_section).split())
+    for needle in ("`retired`", "`reopen_condition`", "Major Self-Evolution"):
+        require(norm_loop, needle, "skill-iteration-loop.md retirement boundary")
+
+    rules, _, _ = _markdown_owned_section(template, "## Rules", "learning-candidate-template.md retirement rule")
+    norm_rules = " ".join(_markdown_visible_content(rules).split())
+    for needle in ("`reverted`", "`retired`", "non-gating"):
+        require(norm_rules, needle, "learning-candidate-template.md retirement rule")
+
+
+def _validate_backlog_sim_retirements(root: Path) -> None:
+    """Validate any SIM retirement YAML tombstones present in docs/iteration/BACKLOG.md."""
+    backlog_path = root / "docs" / "iteration" / "BACKLOG.md"
+    if not backlog_path.is_file():
+        return
+    text = backlog_path.read_text(encoding="utf-8")
+    fence_re = re.compile(r"^[ \t]*```yaml[ \t]*\r?\n(.*?)\r?\n[ \t]*```[ \t]*$", re.S | re.M | re.I)
+    for idx, match in enumerate(fence_re.finditer(text), 1):
+        block = match.group(1)
+        label = f"docs/iteration/BACKLOG.md YAML block #{idx}"
+        raw_looks_like_retirement = bool(
+            re.search(r"^record_kind\s*:\s*['\"]?sim-retirement['\"]?(?:\s+#.*|\s*)$", block, re.M)
+            or re.search(r"^retirement_basis\s*:", block, re.M)
+        )
+        try:
+            parsed = yaml_load(block)
+        except Exception as exc:
+            if raw_looks_like_retirement:
+                raise AssertionError(f"{label}: invalid YAML in retirement record: {exc}") from exc
+            continue
+        is_retirement = (
+            isinstance(parsed, dict)
+            and (parsed.get("record_kind") == "sim-retirement" or "retirement_basis" in parsed)
+        )
+        if is_retirement or raw_looks_like_retirement:
+            validate_sim_retirement_record(parsed, label)
+
+
 RESUME_LOCAL_FIELDS = {
     "schema_version", "change_id", "mode", "approval_status", "risk_profile",
     "contract_revision", "lifecycle_state", "control_plane_owner", "blocked_reason",
@@ -3287,11 +3510,12 @@ def main(argv: list[str] | None = None) -> int:
     learning_template = read(root / "templates" / "learning-candidate-template.md")
     final_verification_template = read(root / "templates" / "final-verification-template.md")
 
+    loop = read(root / "references" / "skill-iteration-loop.md")
     validate_frontmatter(skill)
     validate_reference_links(root, skill)
-    validate_skill_iteration_entry(
-        skill, read(root / "references" / "skill-iteration-loop.md"), self_rule
-    )
+    validate_skill_iteration_entry(skill, loop, self_rule)
+    validate_sim_rule_retirement_guard(self_rule, loop, learning_template)
+    _validate_backlog_sim_retirements(root)
     validate_governed_caveman_lite(
         skill,
         response_patterns,

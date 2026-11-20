@@ -6464,6 +6464,271 @@ class SkillIterationEntryTests(unittest.TestCase):
             for key in ("provenance", "change", "predicted", "observed"):
                 self.assertTrue(att.get(key), f"missing {key} in backfilled attempt")
 
+    def test_sim_provenance_rule_retirement_validator_and_guards(self):
+        validator = load_validator()
+        self_rule = (ROOT / "references" / "self-evolution-rule.md").read_text(encoding="utf-8")
+        loop = (ROOT / "references" / "skill-iteration-loop.md").read_text(encoding="utf-8")
+        template = (ROOT / "templates" / "learning-candidate-template.md").read_text(encoding="utf-8")
+
+        # 1. Static prose guards must pass on canonical files and fail on mutated copies.
+        validator.validate_sim_rule_retirement_guard(self_rule, loop, template)
+        with self.assertRaisesRegex(AssertionError, "Provenance-Gated Rule Retirement"):
+            validator.validate_sim_rule_retirement_guard(
+                self_rule.replace("## Provenance-Gated Rule Retirement", "## Removed"),
+                loop,
+                template,
+            )
+        with self.assertRaisesRegex(AssertionError, "skill-iteration-loop.md"):
+            validator.validate_sim_rule_retirement_guard(
+                self_rule,
+                loop.replace("reopen_condition", "removed_condition") + "\n## Other\n`reopen_condition`\n",
+                template,
+            )
+        with self.assertRaisesRegex(AssertionError, "learning-candidate-template.md"):
+            validator.validate_sim_rule_retirement_guard(
+                self_rule,
+                loop,
+                template.replace("`retired`", "`removed`"),
+            )
+
+        # 2. Valid mechanical-superseded & cross-model-internalized records (dual-YAML parity + open-world model).
+        mech_yaml = "\n".join([
+            "record_kind: sim-retirement",
+            "slice: S12",
+            "root_cause: legacy prose workaround replaced by static validator",
+            "target_surface: references/example-guide.md#legacy-note",
+            "origin_anchor: commit-abc1234",
+            "retirement_basis: mechanical-superseded",
+            "retirement_evidence:",
+            "  evidence_1:",
+            "    validator_or_test: scripts/validate_core_gates.py",
+            "    negative_case: test_rejects_legacy_workaround_regression",
+            "reopen_condition: static validator removed or regression recurs in CI",
+            "attempts:",
+            "  attempt_1:",
+            "    provenance: gemini-4-neon / agy / 2026-11-20 / S12",
+            "    change: removed redundant prose after validator coverage landed",
+            "    predicted: core gates and regression suite remain green without prose",
+            "    observed: retired - mechanical validator rejects counterexample identically",
+        ])
+        cross_yaml = "\n".join([
+            "record_kind: sim-retirement",
+            "slice: S12",
+            "root_cause: older model forgot command framing without verbose prose hint",
+            "target_surface: references/example-guide.md#verbose-hint",
+            "origin_anchor: commit-def5678",
+            "retirement_basis: cross-model-internalized",
+            "retirement_evidence:",
+            "  evidence_1:",
+            "    runtime: agy",
+            "    model_family: gemini-4-neon",
+            "    probe_ref: docs/review/s12-probe-agy-gemini.json",
+            "  evidence_2:",
+            "    runtime: antigravity-cli",
+            "    model_family: deepseek-v4",
+            "    probe_ref: docs/review/s12-probe-agy-deepseek.json",
+            "reopen_condition: any declared CLI target reproduces original failure mode",
+            "attempts:",
+            "  attempt_1:",
+            "    provenance: gemini-4-neon / agy / 2026-11-20 / S12",
+            "    change: removed obsolete prose hint after open-world dual-family proof",
+            "    predicted: both isolated probes stay green without prose hint",
+            "    observed: retired - two distinct normalized model families passed unhinted",
+        ])
+        for label, raw_yaml in (("mechanical", mech_yaml), ("cross_model", cross_yaml)):
+            with self.subTest(valid_record=label):
+                parsed_fb = validator.simple_yaml_load(raw_yaml)
+                parsed_act = validator.yaml_load(raw_yaml)
+                self.assertEqual(parsed_fb, parsed_act)
+                validator.validate_sim_retirement_record(parsed_fb)
+                validator.validate_sim_retirement_record(parsed_act)
+
+        base_cross = validator.simple_yaml_load(cross_yaml)
+
+        def clone(src):
+            return json.loads(json.dumps(src))
+
+        # 3. Protected files (including macOS case variant), locked sections, fallback tokens, and line-number anchors.
+        for bad_surface in (
+            "SKILL.md#routing-boundary",
+            "skill.md#routing-boundary",
+            "SKILL.md#L171",
+            "references/shared-global-governance.md#managed",
+            "references/completion-contract.md#evidence",
+            "references/step-evidence-gate.md#slice-signoff",
+            "references/handoff-contract.md#schema",
+            "references/self-evolution-rule.md#hard-prohibitions",
+            "references/self-evolution-rule.md#provenance-gated-rule-retirement",
+            "references/skill-iteration-loop.md#authorization",
+            "references/skill-iteration-loop.md#reading-budget-for-one-round",
+            "references/project-learning-closeout.md#triggers",
+            "references/project-learning-closeout.md#enforcement-and-review",
+            "references/example.md#non-negotiables",
+            "references/example.md#ccg-001",
+            "references/example.md#validator-locked",
+            "references/example.md#L42",
+            "references/example.md#L10-L20",
+            "references/example.md#L10:20",
+            "references/example.md#L10..L20",
+            "references/example.md#L10 - L20",
+            "no-hash-alias",
+            "../SKILL.md#outside",
+            ".//etc/passwd#root",
+            "/etc/passwd#root",
+        ):
+            with self.subTest(bad_surface=bad_surface):
+                rec = clone(base_cross)
+                rec["target_surface"] = bad_surface
+                with self.assertRaises(AssertionError):
+                    validator.validate_sim_retirement_record(rec)
+
+        # 4. Unconditional ban on status: promoted even with decision_owner: codex.
+        promoted_rec = clone(base_cross)
+        promoted_rec["status"] = "promoted"
+        promoted_rec["decision_owner"] = "codex"
+        with self.assertRaisesRegex(AssertionError, "promoted"):
+            validator.validate_sim_retirement_record(promoted_rec)
+
+        # 5. Missing provenance / reopen_condition / invalid basis / non-retired observed.
+        for missing_key in ("origin_anchor", "reopen_condition", "root_cause", "slice"):
+            with self.subTest(missing_key=missing_key):
+                rec = clone(base_cross)
+                rec[missing_key] = ""
+                with self.assertRaises(AssertionError):
+                    validator.validate_sim_retirement_record(rec)
+
+        bad_basis = clone(base_cross)
+        bad_basis["retirement_basis"] = "anecdotal"
+        with self.assertRaises(AssertionError):
+            validator.validate_sim_retirement_record(bad_basis)
+
+        no_retired_obs = clone(base_cross)
+        no_retired_obs["attempts"]["attempt_1"]["observed"] = "fixed - done"
+        with self.assertRaisesRegex(AssertionError, "retired"):
+            validator.validate_sim_retirement_record(no_retired_obs)
+
+        # 6. Cross-model alias/tier collapse, multi-value packing, empty-after-strip, and mechanical negatives.
+        same_rt_and_family = clone(base_cross)
+        same_rt_and_family["retirement_evidence"]["evidence_1"]["runtime"] = "agy"
+        same_rt_and_family["retirement_evidence"]["evidence_1"]["model_family"] = "gemini-4-carbon"
+        same_rt_and_family["retirement_evidence"]["evidence_2"]["runtime"] = "antigravity-cli"
+        same_rt_and_family["retirement_evidence"]["evidence_2"]["model_family"] = "gemini-4-argon"
+        with self.assertRaisesRegex(AssertionError, "distinct"):
+            validator.validate_sim_retirement_record(same_rt_and_family)
+
+        mixed_sep_rt = clone(same_rt_and_family)
+        mixed_sep_rt["retirement_evidence"]["evidence_2"]["runtime"] = "antigravity_-cli"
+        with self.assertRaisesRegex(AssertionError, "distinct"):
+            validator.validate_sim_retirement_record(mixed_sep_rt)
+
+        packed_multi = clone(base_cross)
+        packed_multi["retirement_evidence"]["evidence_1"]["model_family"] = "gemini/claude"
+        with self.assertRaises(AssertionError):
+            validator.validate_sim_retirement_record(packed_multi)
+
+        empty_after_strip = clone(base_cross)
+        empty_after_strip["retirement_evidence"]["evidence_1"]["model_family"] = "v4-high"
+        with self.assertRaises(AssertionError):
+            validator.validate_sim_retirement_record(empty_after_strip)
+
+        bad_mech_path = validator.simple_yaml_load(mech_yaml)
+        bad_mech_path["retirement_evidence"]["evidence_1"]["validator_or_test"] = "../escape.py"
+        with self.assertRaises(AssertionError):
+            validator.validate_sim_retirement_record(bad_mech_path)
+
+        bad_mech_neg = validator.simple_yaml_load(mech_yaml)
+        bad_mech_neg["retirement_evidence"]["evidence_1"]["negative_case"] = ""
+        with self.assertRaises(AssertionError):
+            validator.validate_sim_retirement_record(bad_mech_neg)
+
+        # 7. End-to-end production wiring in main(...): rejects bad retirement blocks in BACKLOG.md,
+        # while passing on a distribution/runtime root that omits docs/iteration/BACKLOG.md.
+        import shutil
+        with tempfile.TemporaryDirectory(prefix="sim-retire-main-") as tmp:
+            copy_root = Path(tmp) / "skill"
+            shutil.copytree(
+                ROOT,
+                copy_root,
+                ignore=shutil.ignore_patterns(".git", "__pycache__", "node_modules", "distribution"),
+            )
+            # Runtime/distribution root without docs/iteration must still pass main(...).
+            shutil.rmtree(copy_root / "docs" / "iteration")
+            self.assertEqual(validator.main(["validate_core_gates.py", str(copy_root)]), 0)
+
+            # Injecting a forbidden retirement tombstone into docs/iteration/BACKLOG.md must fail main(...).
+            (copy_root / "docs" / "iteration").mkdir(parents=True, exist_ok=True)
+            bad_backlog = (
+                "# Backlog\n\n```yaml\n"
+                "record_kind: sim-retirement\n"
+                "slice: S99\n"
+                "status: promoted\n"
+                "decision_owner: codex\n"
+                "root_cause: test\n"
+                "target_surface: SKILL.md#non-negotiables\n"
+                "origin_anchor: commit-1\n"
+                "retirement_basis: mechanical-superseded\n"
+                "retirement_evidence:\n"
+                "  evidence_1:\n"
+                "    validator_or_test: scripts/validate_core_gates.py\n"
+                "    negative_case: test_x\n"
+                "reopen_condition: never\n"
+                "attempts:\n"
+                "  attempt_1:\n"
+                "    provenance: model / cli / 2026-11-20 / S99\n"
+                "    change: test\n"
+                "    predicted: test\n"
+                "    observed: retired - test\n"
+                "```\n"
+            )
+            (copy_root / "docs" / "iteration" / "BACKLOG.md").write_text(bad_backlog, encoding="utf-8")
+            with self.assertRaises(AssertionError):
+                validator.main(["validate_core_gates.py", str(copy_root)])
+
+            # A block containing retirement_basis without record_kind: sim-retirement must also fail main(...).
+            basis_only_backlog = (
+                "# Backlog\n\n```yaml\n"
+                "slice: S99\n"
+                "retirement_basis: cross-model-internalized\n"
+                "```\n"
+            )
+            (copy_root / "docs" / "iteration" / "BACKLOG.md").write_text(basis_only_backlog, encoding="utf-8")
+            with self.assertRaises(AssertionError):
+                validator.main(["validate_core_gates.py", str(copy_root)])
+
+            # Trailing spaces and uppercase fence (` ```YAML   `) must still be scanned and rejected.
+            spaced_fence_backlog = (
+                "# Backlog\n\n```YAML   \n"
+                "record_kind: sim-retirement\n"
+                "slice: S99\n"
+                "```\n"
+            )
+            (copy_root / "docs" / "iteration" / "BACKLOG.md").write_text(spaced_fence_backlog, encoding="utf-8")
+            with self.assertRaises(AssertionError):
+                validator.main(["validate_core_gates.py", str(copy_root)])
+
+            # Inline comment on record_kind: sim-retirement (omitting retirement_basis) must fail with AssertionError under both parsers.
+            commented_retire_backlog = (
+                "# Backlog\n\n```yaml\n"
+                "record_kind: sim-retirement # draft\n"
+                "slice: S99\n"
+                "```\n"
+            )
+            (copy_root / "docs" / "iteration" / "BACKLOG.md").write_text(commented_retire_backlog, encoding="utf-8")
+            with self.assertRaises(AssertionError):
+                validator.main(["validate_core_gates.py", str(copy_root)])
+
+            # Non-retirement record containing a nested retirement_basis key must NOT false-positive.
+            nested_non_retire = (
+                "# Backlog\n\n```yaml\n"
+                "record_kind: sim-slice-record\n"
+                "slice: S99\n"
+                "details:\n"
+                "  retirement_basis: note-only\n"
+                "```\n"
+            )
+            (copy_root / "docs" / "iteration" / "BACKLOG.md").write_text(nested_non_retire, encoding="utf-8")
+            self.assertEqual(validator.main(["validate_core_gates.py", str(copy_root)]), 0)
+
 
 if __name__ == "__main__":
     unittest.main()

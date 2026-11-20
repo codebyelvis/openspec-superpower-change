@@ -47,11 +47,12 @@ Git 租约仅覆盖本切片的 add、commit 和本仓库当前分支 push，一
    修改某条规则或脚本前，先读 `docs/iteration/BACKLOG.md` 中引用该文件或机制的既有条目 `attempts`；
    实现前在 `CURRENT` 写下测前 `predicted`（预期转绿的 RED 用例或 Review finding），验证后写实测 `observed`，
    收尾时追加到对应条目 `attempts`（独立 Review 首轮被打回后的返修也记为一次独立 attempt）。
-   使用既有尝试记忆遵循 4 条准则：
+   使用既有尝试记忆遵循 5 条准则：
    - 优先复用已有根因诊断（`root_cause`）；
    - 理由（rationale）可跨模型或跨轮次沿用，具体实现须按当前模型与环境重新评估；
    - 已测失败或标为 `reverted` 的方向仅在出现新证据时才重访；
-   - 不匹配任何已有诊断时才新建条目。
+   - 不匹配任何已有诊断时才新建条目；
+   - 已被标为 `retired` 的规则仅在新失败证据触发其 `reopen_condition` 时才重审恢复，不静默复辟；受治理正文的规则退役本身始终属 Major Self-Evolution，须先走 OpenSpec 审批与 `references/self-evolution-rule.md` 退役门禁。
    `predicted`、`observed`、`root_cause` 与 `attempts` 仅为 Self-Evolution optimizer 记忆，
    不是完成条件、不签发证据、不改变 Review 判定，也不进入日常业务热路径。
 4. 实现前创建结构化临时备份，记录恢复路径。备份不得放在 skill 发现目录。

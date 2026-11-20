@@ -162,6 +162,40 @@ protected-boundary work, retain separate Implementation Review and Final Review;
 security, recovery, integrity/data-loss, authority, and false-PASS boundaries
 never use a combined shortcut.
 
+## Provenance-Gated Rule Retirement
+
+Retiring governed skill or workflow prose remains **Major Self-Evolution**
+requiring an approved OpenSpec change (`已批准 <change-id>`), independent
+Implementation Review, required cross-CLI sync, and independent Final Review.
+Every retirement proposal must satisfy four conditions:
+
+1. **Repository-anchored non-retirable exclusion**: Express `target_surface` as
+   `<project-relative-path>#<section-slug>` (no pathless aliases or line-number
+   anchors). Never retire protected governance files (`SKILL.md`,
+   `references/shared-global-governance.md`, `references/completion-contract.md`,
+   `references/step-evidence-gate.md`, `references/handoff-contract.md`,
+   `references/confirmation-lease.md`, `references/agent-capability-routing.md`,
+   `references/openspec-decision-rule.md`), locked governance sections, or any
+   `Non-Negotiables`, `CCG-*`, or `validator-locked` phrase. Running
+   `scripts/validate_core_gates.py` remains the final mechanical check that no
+   validator-locked phrase was removed.
+2. **SIM provenance anchoring**: Cite a verifiable `origin_anchor` (BACKLOG SIM
+   entry, Git commit, archived OpenSpec change, or `CHANGELOG.md` entry) naming
+   the prior model/runtime failure mode that motivated the rule.
+3. **Structured bidirectional retirement proof (`retirement_basis`)**:
+   - `mechanical-superseded`: at least one structured evidence entry naming a
+     deterministic `validator_or_test` path and `negative_case` that rejects the
+     prior failure mode; OR
+   - `cross-model-internalized`: at least two structured evidence entries
+     (`runtime`, `model_family`, `probe_ref`) showing unhinted non-recurrence
+     across at least two distinct normalized runtimes or two distinct normalized
+     model families (open-world normalization, no closed model allowlist).
+4. **Append-only SIM tombstone**: Record approved retirement in
+   `docs/iteration/BACKLOG.md` using `record_kind: sim-retirement` (never
+   `status: promoted`, regardless of `decision_owner`), a dual-YAML `attempts`
+   entry whose `observed` starts with `retired`, and an explicit
+   `reopen_condition`. Do not create a separate retirement state file.
+
 ## Report format
 
 After self-evolution, report:

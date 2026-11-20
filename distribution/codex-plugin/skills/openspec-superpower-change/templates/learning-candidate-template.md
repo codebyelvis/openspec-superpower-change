@@ -43,7 +43,8 @@ attempts:
   explicit adversarial Review scenario.
 - Only the Codex control plane records `promoted` and accepts Review PASS.
 - `root_cause` and `attempts` are optional, append-only Self-Evolution memory
-  fields: retain failed or superseded attempts marked `reverted`, write
-  `predicted` before verification and `observed` after, and keep all entries
-  within the redaction rules above. They are non-gating optimizer memory only
-  and do not alter completion, evidence, or Review authority.
+  fields: retain failed, superseded, or retired attempts marked `reverted` or
+  `retired`, write `predicted` before verification and `observed` after, and
+  keep all entries within the redaction rules above. They are non-gating
+  optimizer memory only and do not alter completion, evidence, or Review
+  authority.
