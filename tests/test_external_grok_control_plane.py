@@ -7,6 +7,7 @@ installed skill pin are never modified by tests.
 from __future__ import annotations
 
 import hashlib
+import importlib.util
 import json
 import os
 import tempfile
@@ -16,6 +17,7 @@ from unittest import mock
 
 from scripts import validate_core_gates as gates
 from tests.test_workflow_rules import (
+    BRIEF_ROOT,
     artifact,
     render_handoff_contract,
     schema6_contract,
@@ -307,3 +309,32 @@ class ExternalGrokControlPlaneTests(unittest.TestCase):
         self.pin.symlink_to(link)
         with self.assertRaisesRegex(AssertionError, "non-symlink"):
             gates.validate_handoff_contract(before, "symlink")
+
+    def test_companion_external_section_helper_closure(self):
+        companion_script = BRIEF_ROOT / "scripts" / "validate_templates.py"
+        self.assertTrue(
+            companion_script.is_file(), f"missing companion validator: {companion_script}"
+        )
+        spec = importlib.util.spec_from_file_location("companion_validate_templates", companion_script)
+        module = importlib.util.module_from_spec(spec)
+        assert spec.loader is not None
+        spec.loader.exec_module(module)
+        _before, after, entry = self.moved()
+        self.write_pin([entry])
+        rendered = render_handoff_contract(gates, after)
+        matching = rendered + (
+            "\n## External Control Plane Rebind\n\n```json\n"
+            + json.dumps(entry, indent=2)
+            + "\n```\n"
+        )
+        drifted = rendered + (
+            "\n## External Control Plane Rebind\n\n```json\n"
+            + json.dumps(dict(entry, scope="other-scope"), indent=2)
+            + "\n```\n"
+        )
+        with mock.patch.object(module, "_external_rebind_pin_path", return_value=self.pin, create=True):
+            self.assertIsNone(
+                module.require_external_control_plane_section(matching, after, "companion-matching")
+            )
+            with self.assertRaisesRegex(AssertionError, "must equal the pin entry"):
+                module.require_external_control_plane_section(drifted, after, "companion-drifted")

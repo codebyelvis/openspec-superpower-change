@@ -536,3 +536,37 @@ adversarial checks and byte comparisons recorded in the candidate for that part.
 Loading pointer: this section complements the existing copy-boundary and
 runtime-prestate guidance; it creates no new sync bypass or publication authority.
 See `docs/learning-candidates/2026-11-05-narrow-skill-autoload.md`.
+
+## Runtime pin tests and shared-slice companion gates must preserve live snapshots and helper closure
+
+Scope: runtime file pins in governance validators (`references/*-rebinds.json`)
+and gate functions mirrored outside the shared core slice between
+`openspec-superpower-change/scripts/validate_core_gates.py` and
+`codex-brief-antigravity-review/scripts/validate_templates.py`.
+
+Invariant:
+
+- Unit tests that mock a runtime pin path into a `TemporaryDirectory` must guard
+  the repository pin path via a before/after immutability snapshot
+  (`(lstat().st_mode, read_bytes())` when present, `None` when absent), never a
+  hardcoded `assertFalse(real_pin.exists())` check that breaks full-suite
+  execution during an active pinned handoff window.
+- Copying a gate function that lives outside the byte-synced shared core slice
+  into the Companion validator requires probing the copied function directly
+  against a matching input so all out-of-slice helper dependencies (such as
+  Markdown section parsers) are closed in the target module.
+
+Counterexample: `ExternalGrokControlPlaneTests.setUp` asserted
+`self.assertFalse(self.real_pin.exists())`, causing 8 unit-test failures as soon
+as an authorized mode-`0600` external pin was materialized; separately,
+`validate_templates.py` passed layout validation while its copied
+`require_external_control_plane_section` lacked `_resume_section` outside the
+shared core slice.
+
+Mechanical enforcement: `ExternalGrokControlPlaneTests` in
+`tests/test_external_grok_control_plane.py` enforces pre/post snapshot equality
+on `real_pin` and executes `test_companion_external_section_helper_closure`
+directly against Companion `validate_templates.require_external_control_plane_section`.
+
+Loading pointer: `AGENTS.md` already loads this guidance; provenance is
+`docs/learning-candidates/2026-11-11-external-grok-control-plane-and-companion-closure.md`.
