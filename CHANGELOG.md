@@ -2,6 +2,23 @@
 
 ## Unreleased
 
+- Add Self-Evolution attempt memory (`S10`, SIM-inspired Minor slice):
+  - `templates/learning-candidate-template.md`: add optional, append-only
+    `root_cause` and `attempts` (`provenance` / `change` / `predicted` /
+    `observed`) fields compatible with both PyYAML and `simple_yaml_load`,
+    retaining failed/reverted attempts as non-gating optimizer memory under
+    existing redaction rules.
+  - `references/skill-iteration-loop.md`: instruct Self-Evolution runs to read
+    relevant BACKLOG `attempts` before modifying rules/scripts, record pre-eval
+    `predicted` and post-eval `observed` in `CURRENT` and append attempts on
+    closeout, apply four concise optimizer-memory reuse rules (from
+    `arXiv:2611.18856v1` Appendix D.2), and explicitly keep SIM memory
+    non-gating and out of everyday hot paths.
+  - `docs/iteration/BACKLOG.md` & `tests/test_workflow_rules.py`: add one
+    backfilled demonstration record (`Minor-autoloop-hardening`), track `S10`,
+    and cover template/loop/BACKLOG dual-YAML parsing and non-gating guards
+    with deterministic regression tests and an isolated forward-test.
+
 - Harden `/autoloop` runtime guardrails, commit hygiene, and cold-path
   partitioning (`2026-11-19` Minor slice):
   - `scripts/gov_runner.py`: extend credential redaction to compound key

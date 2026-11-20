@@ -6388,6 +6388,82 @@ class SkillIterationEntryTests(unittest.TestCase):
         approved_wf_text = (ROOT / "references" / "approved-implementation-workflow.md").read_text(encoding="utf-8")
         self.assertNotIn("NO_PROGRESS", approved_wf_text)
 
+    def test_sim_attempt_memory_template_loop_and_backlog_dual_yaml(self):
+        validator = load_validator()
+        template = (ROOT / "templates" / "learning-candidate-template.md").read_text(encoding="utf-8")
+        loop = (ROOT / "references" / "skill-iteration-loop.md").read_text(encoding="utf-8")
+        backlog = (ROOT / "docs" / "iteration" / "BACKLOG.md").read_text(encoding="utf-8")
+
+        for field in ("root_cause:", "attempts:", "provenance:", "change:", "predicted:", "observed:"):
+            self.assertIn(field, template)
+        self.assertIn("reverted", template)
+        self.assertIn("append-only", template)
+        self.assertIn("non-gating", template)
+
+        tmpl_yaml_blocks = re.findall(r"```yaml\n(.*?)\n```", template, re.S)
+        self.assertTrue(tmpl_yaml_blocks, "expected YAML block in learning-candidate-template.md")
+        tmpl_fb = validator.simple_yaml_load(tmpl_yaml_blocks[0])
+        tmpl_act = validator.yaml_load(tmpl_yaml_blocks[0])
+        self.assertEqual(set(tmpl_fb.keys()), set(tmpl_act.keys()))
+        self.assertEqual(
+            set(tmpl_fb["attempts"]["attempt_1"].keys()),
+            set(tmpl_act["attempts"]["attempt_1"].keys()),
+        )
+
+        sample_card_yaml = "\n".join([
+            "status: candidate",
+            "event_kind: review-finding",
+            "severity: medium",
+            "scope: project-local",
+            "root_cause: overly broad test header regex skips real failure lines",
+            "attempts:",
+            "  attempt_1:",
+            "    provenance: gemini-4-neon / agy / 2026-11-19 / Minor-autoloop-hardening",
+            "    change: skipped any line matching ERROR or FAIL prefix in gov_runner.py",
+            "    predicted: prevent unittest header lines from shadowing assertion lines",
+            "    observed: reverted - swallowed plain ERROR lines and failed R1 review",
+            "  attempt_2:",
+            "    provenance: gemini-4-neon / agy / 2026-11-19 / Minor-autoloop-hardening",
+            "    change: tightened TEST_HEADER_LINE_RE to exact unittest header format with parentheses",
+            "    predicted: preserve plain ERROR lines while skipping unittest header noise",
+            "    observed: fixed - R1 finding resolved and FOCUSED_RECHECK PASS",
+        ])
+        parsed_fallback = validator.simple_yaml_load(sample_card_yaml)
+        parsed_active = validator.yaml_load(sample_card_yaml)
+        self.assertEqual(parsed_fallback, parsed_active)
+        self.assertIn("attempt_1", parsed_fallback["attempts"])
+        self.assertIn("reverted", parsed_fallback["attempts"]["attempt_1"]["observed"])
+        self.assertIn("attempt_2", parsed_fallback["attempts"])
+
+        for phrase in (
+            "root_cause",
+            "attempts",
+            "predicted",
+            "observed",
+            "reverted",
+            "不是完成条件",
+            "不进入日常业务热路径",
+        ):
+            self.assertIn(phrase, loop)
+
+        # Validate the backfilled Minor-autoloop-hardening YAML block in BACKLOG under both parsers.
+        marker = "## Minor-autoloop-hardening 尝试记忆回填（SIM 示范）"
+        self.assertIn(marker, backlog)
+        section = backlog.split(marker, 1)[1].split("\n## ", 1)[0]
+        self.assertNotIn("status: promoted", section)
+        yaml_blocks = re.findall(r"```yaml\n(.*?)\n```", section, re.S)
+        self.assertTrue(yaml_blocks, "expected YAML block in SIM backfill section")
+        parsed_bf_fallback = validator.simple_yaml_load(yaml_blocks[0])
+        parsed_bf_active = validator.yaml_load(yaml_blocks[0])
+        self.assertEqual(parsed_bf_fallback, parsed_bf_active)
+        self.assertEqual(parsed_bf_fallback.get("record_kind"), "sim-backfill")
+        self.assertTrue(parsed_bf_fallback.get("root_cause"))
+        attempts = parsed_bf_fallback.get("attempts") or {}
+        self.assertGreaterEqual(len(attempts), 2)
+        for att in attempts.values():
+            for key in ("provenance", "change", "predicted", "observed"):
+                self.assertTrue(att.get(key), f"missing {key} in backfilled attempt")
+
 
 if __name__ == "__main__":
     unittest.main()

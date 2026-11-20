@@ -44,6 +44,16 @@ Git 租约仅覆盖本切片的 add、commit 和本仓库当前分支 push，一
 3. 声明 Self-Evolution / Gate 0，按实际影响分类；不确定按 Major。
    Major 先产出 OpenSpec change 草稿与审查计划，停在待批；只有具体
    `已批准 <change-id>` 的范围才进入实现。
+   修改某条规则或脚本前，先读 `docs/iteration/BACKLOG.md` 中引用该文件或机制的既有条目 `attempts`；
+   实现前在 `CURRENT` 写下测前 `predicted`（预期转绿的 RED 用例或 Review finding），验证后写实测 `observed`，
+   收尾时追加到对应条目 `attempts`（独立 Review 首轮被打回后的返修也记为一次独立 attempt）。
+   使用既有尝试记忆遵循 4 条准则：
+   - 优先复用已有根因诊断（`root_cause`）；
+   - 理由（rationale）可跨模型或跨轮次沿用，具体实现须按当前模型与环境重新评估；
+   - 已测失败或标为 `reverted` 的方向仅在出现新证据时才重访；
+   - 不匹配任何已有诊断时才新建条目。
+   `predicted`、`observed`、`root_cause` 与 `attempts` 仅为 Self-Evolution optimizer 记忆，
+   不是完成条件、不签发证据、不改变 Review 判定，也不进入日常业务热路径。
 4. 实现前创建结构化临时备份，记录恢复路径。备份不得放在 skill 发现目录。
 5. 只改本切片允许的文件与行为。触发范围、OpenSpec/Superpowers 边界、
    证据签发、完成权声明仍属 Major；若碰到这些边界就停在提案，不能夹带。
@@ -92,7 +102,7 @@ Git 租约仅覆盖本切片的 add、commit 和本仓库当前分支 push，一
 
 | 当前决策 | 本轮允许阅读 | 加载条件 |
 |---|---|---|
-| 起轮或恢复 | 本协议、self-evolution-rule、BACKLOG、CURRENT | 建立当前切片、类别及已有状态，不预加载其余 references |
+| 起轮或恢复 | 本协议、self-evolution-rule、BACKLOG、CURRENT | 建立当前切片、类别、已有状态及与当前切片相关的 BACKLOG 条目 `attempts`，不预加载其余 references |
 | 分类与实现 | 当前切片的合同、受影响文件及 SKILL 路由中匹配的参考行 | 仅为当前未解决决策；不是全仓库或全 references 扫描 |
 | 收录学习候选 | learning-candidate-pipeline、现有 Candidate Card 模板 | 实际出现修正信号；保留原有项目学习晋升门禁 |
 | 便携同步 | sync-checklist、cross-cli-sync、portable manifest 与本轮选中内容 | portable 或治理块变化，仍覆盖全部 required 目标的验证 |
@@ -105,12 +115,12 @@ Git 租约仅覆盖本切片的 add、commit 和本仓库当前分支 push，一
 
 ## Persistent state
 
-- BACKLOG：每项记录 id、优先级、Patch/Minor/Major、来源、完成定义与状态。
-- CURRENT：记录当前 change-id、切片 id、备份路径、验证命令与结果、
+- BACKLOG：每项记录 id、优先级、Patch/Minor/Major、来源、完成定义与状态；候选/切片详情可按需附可选 `root_cause` 与 append-only `attempts` 记忆。
+- CURRENT：记录当前 change-id、切片 id、备份路径、实现前 `predicted` 与验证后 `observed`、验证命令与结果、
   同步计划哈希、commit、阻塞原因；未完成轮次优先恢复。
-- LOG：追加式，一轮一行，字段为日期、切片、结果、commit、残留。
+- LOG：追加式，一轮一行，字段为日期、切片、结果（可附一句 `predicted/observed` 摘要）、commit、残留。
 
-状态记录不替代 OpenSpec、现有证据或 Completion Contract，不签发新的完成权。
+状态记录与 `predicted`/`observed`/`attempts` 仅为过程记忆，不替代 OpenSpec、现有证据或 Completion Contract，不签发新的完成权。
 
 ## Iteration candidate capture
 
@@ -139,7 +149,8 @@ Self-Evolution 或 Review 修正中，两个以上独立信号指向同一机制
    `event_kind`、`severity`、`scope`、`symptom`、`correction_or_evidence`、
    `generalized_invariant`、`independent_reproductions`、`independence_rationale`、
    `duplicate_or_conflict_result`、`target_artifacts`、`mechanical_enforcement`、
-   `review_result`、`decision_owner`、`decision_provenance`。
+   `review_result`、`decision_owner`、`decision_provenance`，以及可选的
+   `root_cause`、`attempts`（记录来源 `provenance`、改动与理由 `change`、测前 `predicted`、实测 `observed`）。
    只保留摘要、项目相对证据路径及已有 SHA-256，不复制对话或 Review 原文，
    不保存凭据、客户数据或私有提示词。
 4. 追加候选不覆盖 CURRENT，不插入或扩展当前切片，不自动合入 SKILL.md，

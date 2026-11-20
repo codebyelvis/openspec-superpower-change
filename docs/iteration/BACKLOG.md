@@ -15,6 +15,7 @@
 | S6 上游对照节奏，而不是自动升级 | 6（季度） | Minor | 合同 §4 S6，sync-checklist 上游边界 | 对照 Superpowers/OpenSpec/Spec Kit 入口形状，仅更新 docs/iteration/upstream-notes.md，提供笔记模板与“笔记不是升级批准”规则；可采纳项另开切片，不改依赖 | done（2026 Q4；下一对照窗口 2027 Q1） |
 | S8 项目文档归属治理能力 | 7（候选，排在既有项之后；待用户下一步指令） | Major | 用户补充优化项：项目文档归属治理能力 | 见下方 S8 候选详情；独立切片完成提案审批、隔离行为验证、链接检查、审查及必要同步 | done；add-project-document-ownership 已批准，源／原生／四端／独立门禁／owned归档严格校验PASS；源18923f1及元数据275c9c0已推送；三个自有备份／trace／receipt／fixture已清理，归档11任务已完成 |
 | S9 续跑证据分阶段审查者绑定 | 8（新增候选，排在既有项之后；待用户选片） | Major | S8 独立 Preflight F1 与控制面隔离复现；见候选证据 | 后续独立提案解决 strict 续跑与分阶段 reviewer 绑定的兼容冲突，保留批准、不可变合同、身份独立及分阶段完成门禁；具体验收须经独立提案批准，不扩入 S8 | done；已批准实施、独立门禁／原生／四端／归档严格校验 PASS；主提交 605a099 及收尾元数据 62b8162 已推送，S9 自有备份／trace 已清理；S8 仍 blocked、未实现 |
+| S10 自进化尝试记忆（SIM） | 9 | Minor | `arXiv:2611.18856v1` SIM 调研与计划 `docs/superpowers/plans/2026-11-20-sim-inspired-attempt-memory.md` v2 | 候选卡模板增可选 `root_cause`/`attempts`（append-only、留失败/reverted、双 YAML 兼容）；迭代协议补 4 条 optimizer 使用准则、测前 `predicted`/实测 `observed` 及非门禁声明；回填 1 条历史示范、通过隔离 forward-test、全量双解析测试、独立只读审查与四端同步 | done；双解析全量（主仓 510/510、干净树无 PyYAML 509/509）、隔离 forward-test、独立只读审查 R2 PASS 及四端 2 文件 scoped sync / `verify-all` PASS |
 
 S2 及以后只排队；不得重开方案 C、变成 session-start always-on、合并
 mattpocock/skills 或 oso、自动发布 npm、把搜索可见性当完成条件或放宽
@@ -151,3 +152,63 @@ S9 上方历史结果所记 S8 blocked／未实现是 S9 关闭时的快照，�
 保留 actual persisted verified16，原context/path和所有历史Review不变。
 本轮元数据275c9c0已推送并核对远端；三个自有临时根已清理，归档11任务均勾选。
 本轮结束，不开启新切片；S6下一对照窗口为2027Q1。
+
+
+## Minor-autoloop-hardening 尝试记忆回填（SIM 示范）
+
+说明：按 `S10` 计划仅回填本条近期 Minor 切片作为 SIM 格式验证样本，不批量回填历史切片。
+
+```yaml
+record_kind: sim-backfill
+slice: Minor-autoloop-hardening
+event_kind: review-finding
+severity: medium
+scope: project-local
+root_cause: autoloop runtime redaction, failure_signature normalization, and frontmatter boundary edge cases
+target_artifacts:
+  - scripts/gov_runner.py
+  - scripts/autoloop_ctl.py
+  - scripts/check_commit_text.py
+  - tests/test_gov_runner_git_capture.py
+attempts:
+  attempt_1:
+    provenance: gemini-4-neon / agy / 2026-11-19 / Minor-autoloop-hardening (R1)
+    change: widened redaction and header-skipping regexes in gov_runner.py, tightened OPENSPEC_TEST_CMD_RE and mark_req_passed in autoloop_ctl.py
+    predicted: cover compound secret redaction, review_rejected signature stability, and CRLF frontmatter pass updates
+    observed: partial - unit tests passed locally, but independent readonly-reviewer flagged 3xP2 + 2xP3 (truncated PEM body leakage, trailing --- asymmetry, overly broad TEST_HEADER_LINE_RE, list-cmd OSError handling, newline in \s) plus 14.5% SHA-256 test flakiness on literal 123
+  attempt_2:
+    provenance: gemini-4-neon / agy / 2026-11-19 / Minor-autoloop-hardening (R2)
+    change: anchored truncated PEM and exact unittest TEST_HEADER_LINE_RE, unified OSError handling, restricted mvn regex to [ \t], fixed trailing --- symmetry and flaky test literal
+    predicted: resolve all 3xP2 + 2xP3 findings and pass FOCUSED_RECHECK plus Python 3.9.6 and dual-YAML suites
+    observed: fixed - FOCUSED_RECHECK PASS (0 blocking), 509/509 main + 508/508 no-PyYAML fallback + 12/12 py3.9 PASS, committed 7e06cec
+```
+
+
+## S10 尝试记忆记录（SIM 自举）
+
+```yaml
+record_kind: sim-slice-record
+slice: S10
+event_kind: review-finding
+severity: medium
+scope: project-local
+root_cause: self_evolution_optimizer_lacks_problem_grouped_attempt_memory_and_pre_eval_predictions
+target_artifacts:
+  - templates/learning-candidate-template.md
+  - references/skill-iteration-loop.md
+  - docs/iteration/BACKLOG.md
+  - tests/test_workflow_rules.py
+attempts:
+  attempt_1:
+    provenance: gemini-4-neon / agy / 2026-11-20 / S10 (R1)
+    change: added dual-YAML root_cause and nested attempts mapping to learning-candidate-template.md, added 4 optimizer reuse rules and non-gating boundary to skill-iteration-loop.md, backfilled Minor-autoloop-hardening in BACKLOG.md with status promoted
+    predicted: pass dual-YAML regression, isolated forward-test, full test suites, and independent readonly review
+    observed: partial - tests (510/510 main, 509/509 clean fallback) and isolated forward-test passed, but readonly-reviewer blocked P2 because non-Codex backfill borrowed Codex-only status promoted, plus 2xP3 test-section scoping and changelog citation clarity
+  attempt_2:
+    provenance: gemini-4-neon / agy / 2026-11-20 / S10 (R2)
+    change: replaced status promoted with record_kind sim-backfill and slice in BACKLOG.md, scoped test section with negative status promoted regression and template non-gating check, cited arXiv 2611.18856v1 in CHANGELOG.md
+    predicted: resolve R1 P2 + 2xP3 findings, pass FOCUSED_RECHECK, re-pass full suites, and complete 4-target scoped sync
+    observed: fixed - R2 FOCUSED_RECHECK PASS (0 blocking), 510/510 main + 509/509 clean no-PyYAML fallback PASS, 4-target scoped sync (plan SHA-256 6ba3945e) and verify-all PASS
+```
+
+
